@@ -1,0 +1,364 @@
+*{
+    box-sizing: border-box;  
+    -moz-box-sizing: border-box;    
+}
+body{    
+    margin:0;    
+    background-color: floralwhite;
+}
+.racineSite{
+    display: -webkit-flex; 
+    display: flex;
+    width: 100%;
+    margin: auto;
+}
+.racineSite > div{
+    display: flex; 
+    display: -webkit-flex;
+    flex-wrap: wrap; /* Permet de mettre les div enfants en en dessous de l'autre mais pas 100%*/     
+    -webkit-flex-wrap: wrap;
+    /* Permettre de complète le fixage les uns en dessous des autres parfaitement */
+    -webkit-flex-direction:column; 
+    flex-direction:column; 
+}
+.racineSite .left , .racineSite .right{
+    width: 25%;  
+}
+.racineSite .middle{
+    width: 50%;
+}
+.left > div{    
+    width: 100%;    
+}
+.left .logo img, .unePassionPhoto a img{
+    width: 100%;
+    height: auto;
+}
+#hautPageDesktop, #hautPageCellulaire{
+    margin:0;
+}
+.left > div .liste{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.left > div .liste li{
+    font-weight: bold;
+    background-color: darkgrey;    
+    line-height: 35px;
+    margin-bottom: 20px;
+    font-size:18px;
+    text-align:center;
+}
+.left > div .liste li:hover{
+    background-color: black;      
+    cursor:pointer;
+}
+.left > div .liste li a:hover{
+    color: red;
+}
+.liste li a, .liste_nav li a{
+    color: white; 
+    display: block;
+    text-decoration: none;
+    /* Pour centrer le texte */
+    margin-left: 25px;
+    margin-right: 25px;
+}
+.left #hidden{
+    display: none;
+}
+.left #hidden #enum_Language li{
+    font-weight: bold;
+    padding-left:15px;
+    height: 15px;
+    line-height: 15px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
+.left .sectionMeteo{
+    display: flex; 
+    display: -webkit-flex;
+    -webkit-flex-direction:column; 
+    flex-direction:column; 
+}
+#enum_Language li:hover{
+    color: darkgoldenrod;
+}
+.middle > div{    
+    width: 100%;
+    /* Les div doivent resté display:block */
+}
+.middle #hautPage{
+    margin:0;
+}
+.middle .header{
+    display: flex; 
+    display: -webkit-flex;
+    flex-direction: row;
+    width: 100%;
+}
+.middle .header > div, .middle .center .header .unePassionPhoto{
+    width: 20%;
+    text-align: center;
+    background-color: darkgrey;    
+    line-height: 50px;
+    font-size:18px;
+}
+.middle .center .header .unePassionPhoto{
+    background-color:darkolivegreen;
+    font-size:16px;
+    line-height: 40px;
+}
+.middle .header div a{
+    padding-left: 25px;
+    padding-right: 25px; 
+    font-weight: bold;
+    color: white;
+    display: block;
+    text-decoration: none;
+}
+.middle .header > div:hover,
+.middle .header div a:hover{
+    background-color: black;
+    color: red;  
+    cursor:pointer;
+}
+.middle .header div a:hover,
+.middle .header div a:hover{
+    color: red;  
+    cursor:pointer;
+}
+
+.middle .center, .middle .photo{
+    background-color:azure;
+    font-size:18px;
+}
+.middle .center h3, .middle .photo h3{
+    margin:0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.middle .center .projet{
+    margin-bottom: 25px;
+}
+.middle .center p, .right .field1 p{
+    margin: 0;
+    font-size:18px;
+    margin-left: 25px;
+    margin-right: 25px;
+    line-height: 1.5;
+    text-align: justify;
+}
+.middle .center ul{
+    margin-left: 25px; 
+}
+.middle .center p a{
+    color: white; 
+    text-decoration: none;
+    background-color: darkgrey;
+    font-size:18px;
+    font-weight: bold;
+    padding: 2px;
+    text-align:center;    
+}
+.middle .center p a:hover{
+    background-color: black;   
+    cursor:pointer;
+    color: red;   
+}
+/* Les div à intérieur de la sélection seront misent sur une ligne */
+.middle .center div{
+    display: flex;
+    display: -webkit-flex;    
+    width: 100%;     
+}
+.middle .center > div .passion{
+    width: 50%;
+}
+.middle .center .cheminement{
+    width: 100%;
+    text-align: center;    
+    border-collapse: collapse;
+    border: 2px solid black;
+}
+.middle .center .cheminement td, .middle .cheminement th {
+    border: 1px solid black;
+    padding: 5px;
+}
+.middle .center .cheminement tbody tr:nth-child(odd){ /*impaire*/
+    background-color:aqua
+}
+.middle .center .cheminement tbody tr:nth-child(even){/* paire */
+    background-color:azure
+}
+.middle .center .cheminement .vieuxCertificat:hover, 
+.middle .center .cheminement .newCertificat:hover{
+    background-color:darkturquoise;
+    color: black;
+}
+.middle .photo{
+    position: relative;
+}
+.middle .photo > .sous_photo{
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap:wrap; /* permet de mettre les images sur plusieurs lignes*/    
+    width: 100%;    
+}
+.middle .photo .sous_photo .unePassionPhoto{
+    width: 50%;
+    align-content: center;
+    background-color:azure;
+    padding: 25px;
+}
+.middle .photo .sous_photo .unePassionPhoto:hover{
+    background-color: black;    
+}
+.middle .center ul li{
+    margin-bottom: 5px;
+} 
+.middle .center ul li:hover{
+    color:cornflowerblue;
+} 
+.middle .center .cheminement .newCertificat{
+    color:cadetblue;
+}
+.middle .center .cheminement .vieuxCertificat{
+    color:coral;
+}
+.middle .separation{
+    margin-bottom: 15px;    
+}
+.middle .separation{   
+    background-color: black;
+    height: 4px;  
+}
+.middle .return a{
+    color: white; 
+    display: block;
+    text-decoration: none;
+    background-color: darkgrey;
+    font-size:18px;
+    font-weight: bold;
+    padding-top: 10px;       
+    padding-bottom: 10px;
+    text-align:center;    
+}
+.middle .return .cellulaire, .cellulaire{
+    display:none;
+}
+.middle .return a:hover{
+    background-color: black;  
+    color: red;
+    cursor:pointer;
+}
+.right > div{    
+    width: 100%;    
+}
+.right .logoRight img{
+    width: 100%;
+}
+.racineSite > div > div > .pageAccueuil,
+.racineSite .middle .center .projet .pageAccueuil{
+    width: 100%;
+    margin:0;
+    padding:0;
+    margin-bottom: 20px;    
+}
+.racineSite > div > div > .pageAccueuil legend,
+.racineSite .middle .center .projet .pageAccueuil legend{
+    font-weight: bold;
+    color:green;
+    font-size:18px;
+}
+.racineSite .right > div > .pageAccueuil{
+    padding-left:20px;
+    padding-right: 20px;
+}
+.racineSite > .right > .media,
+.racineSite > .right > .media .sous_Media{
+    width: 100%;
+}
+.racineSite > .right > .media .sous_Media{
+    display: flex; 
+    display: -webkit-flex;
+}
+.racineSite > .right > .media .sous_Media .lienSocial{
+    width: 25%;
+}
+.racineSite .right > .media > .pageAccueuil{
+    padding:0;
+}
+.racineSite .right > .media .sous_Media > .lienSocial > a img{
+    width: 100%;
+    height: auto;
+} 
+.racineSite .left .sectionMeteo .pageAccueuil{
+    padding-top:15px;
+    padding-bottom: 15px;
+}
+.right .info a{
+    color: white; 
+    text-decoration: none;
+    background-color: darkgrey;
+    font-size:18px;
+    font-weight: bold;
+    padding: 5px;
+    text-align:center;
+    font-family: "Times New Roman"
+}
+.right .info a:hover{
+    background-color: black;   
+    cursor:pointer;
+    color: red;   
+}
+.right #photoCell{
+    display: none;
+}
+input[type="submit"]{
+    color: white;
+    background-color: darkgrey;
+    font-size:18px;
+    font-weight: bold;
+    padding: 5px;
+    font-family: "Times New Roman";
+    margin: 0 auto;
+}
+input[type="submit"]:hover{
+    color: red;
+    background-color: black; 
+    cursor:pointer;
+}
+.msgErr > li{
+    color: red;
+    font-size:16px;
+    font-weight: bold;
+}
+.courrielSend{
+    color: green;
+    font-weight: bold;
+    font-size:18px;
+}
+.formulaire{
+    width: 100%;
+    display: flex;    
+    display: -webkit-flex;     
+    flex-direction: column; /* Les div enfants de formulaire seront l'un en dessous de l'autre*/
+    -webkit-flex-direction:column;
+}
+.formulaire > .droite{    
+    display: flex;    
+    display: -webkit-flex;
+    align-items:flex-start;
+    /* flex-direction est par default à row */ 
+    margin-bottom: 15px;
+}
+#msg, input[type="text"], input[type="email"]{
+    width: 60%;     
+}
+label{
+    text-align: right;
+    margin-right: 10px;
+    width: 40%;
+}

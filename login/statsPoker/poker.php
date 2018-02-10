@@ -12,7 +12,7 @@ function traduction($typeLangue, $user){
         $method4 = "Le sommaire de tous les joueurs";
         $method5 = "Affichage d'un tournois par son numéro.";
         $method6 = "Affichage d'un tournois par la date.";
-        $method7 = "Le sommaire des prix citrons et des killers.";
+        $method7 = "<span class='infoImportant'>À partir du 101e tournois</span>, le sommaire des prix citrons et des killers.";
         $h3 = "Le numéro du bouton sera la méthode sélectionnée";
         $legend2 = "Veuillez sélectionner votre méthode :";
         $label1 = "Pour les méthodes 2 et 3, veuillez sélectionner un joueur :"; 
@@ -45,7 +45,7 @@ function traduction($typeLangue, $user){
         $method4 = "The summary about all players";
         $method5 = "Display a tournament by number.";
         $method6 = "Display a tournament by date.";
-        $method7 = "The summary about lemons price and killers.";
+        $method7 = "<span class='infoImportant'>From the 101st tournaments</span>, the summary about lemons price and killers.";
         $h3 = "The number on the button will match with the number of the method";
         $legend2 = "Please choose your method";
         $label1 = "About the method 2 and 3, please select one player"; 

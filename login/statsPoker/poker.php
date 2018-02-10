@@ -478,19 +478,17 @@ function redirection($typeLangue){
 }
 
 /* Fonction pour ouvrir une connexion à la BD */
-function connexionBD(){ 
-    /*
+function connexionBD(){     
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    $connMYSQL = new mysqli($host, $user, $password, $bd); 
-    */
-
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
+    */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd); 
 
     return $connMYSQL;
@@ -513,7 +511,8 @@ function verificationUser($connMYSQL){
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $user = "";
-    $typeLangue = "";  
+    $typeLangue = "";
+    $tableauResult = "";
     $verificationUser = false;
     session_start();
     if (isset($_SESSION['user']) && isset($_SESSION['password']) && 

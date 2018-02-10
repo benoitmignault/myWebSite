@@ -61,7 +61,9 @@ h2{
 }
 .container > form > .formulaire_joueur > .gain,
 .container > form > .formulaire_joueur > .numero,
-.container > form > .formulaire_joueur > .date{
+.container > form > .formulaire_joueur > .date,
+.container > form > .formulaire_joueur > .killer,
+.container > form > .formulaire_joueur > .citron{    
     width: 33%;
     margin-bottom: 15px;
 }
@@ -190,7 +192,9 @@ label:hover{
     }
     .container > form > .formulaire_joueur > .gain,
     .container > form > .formulaire_joueur > .numero,
-    .container > form > .formulaire_joueur > .date{
+    .container > form > .formulaire_joueur > .date,
+    .container > form > .formulaire_joueur > .killer,
+    .container > form > .formulaire_joueur > .citron{
         width: 100%;
         margin-bottom: 5px;
     }

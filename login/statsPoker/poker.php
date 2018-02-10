@@ -12,6 +12,7 @@ function traduction($typeLangue, $user){
         $method4 = "Le sommaire de tous les joueurs";
         $method5 = "Affichage d'un tournois par son numéro.";
         $method6 = "Affichage d'un tournois par la date.";
+        $method7 = "Le sommaire des prix citrons et des killers.";
         $h3 = "Le numéro du bouton sera la méthode sélectionnée";
         $legend2 = "Veuillez sélectionner votre méthode :";
         $label1 = "Pour les méthodes 2 et 3, veuillez sélectionner un joueur :"; 
@@ -22,10 +23,12 @@ function traduction($typeLangue, $user){
         $joueur = "Joueur";
         $gain = "Gain";    
         $victoire = "Fini 1er";
+        $citron = "Prix Citron";
         $fini2 = "Fini 2e";  
         $noTournois = "No. partie";
         $nbTournois = "Nb parties";
         $date = "Date";
+        $killer = "Killer";
         $msgErreur_joueur = "Veuillez sélectionner un joueur !";
         $msgErreur_ID = "Veuillez sélectionner un numéro de tournois !";
         $msgErreur_Date = "Veuillez sélectionner une date d'un tournois !";
@@ -34,7 +37,7 @@ function traduction($typeLangue, $user){
         $returnUp = "Retour au choix d'affichage";
     } elseif ($typeLangue === 'english') {
         $titre = "Statistics page";
-        $h1 = "<h1>Welcome to you &rarr; {$user} &larr; on the statictics page about the friday nights poker between somes friends.</h1>";
+        $h1 = "<h1>Welcome to you &rarr; <span class='userDisplay'>{$user}</span> &larr; on the statictics page about the friday nights poker between somes friends.</h1>";
         $legend1 = "Here are the differents methods of displaying poker statistics";
         $method1 = "Display all information with no modification.";
         $method2 = "Display all information about one player.";
@@ -42,12 +45,15 @@ function traduction($typeLangue, $user){
         $method4 = "The summary about all players";
         $method5 = "Display a tournament by number.";
         $method6 = "Display a tournament by date.";
+        $method7 = "The summary about lemons price and killers.";
         $h3 = "The number on the button will match with the number of the method";
         $legend2 = "Please choose your method";
         $label1 = "About the method 2 and 3, please select one player"; 
         $label2 = "About the method 5, please select a tournament number:"; 
         $label3 = "About the method 6, please select a date from a tournament:"; 
         $option = "Select";
+        $citron = "Lemon price";
+        $killer = "Killer";
         $legend3 = "This is the result of the selected method";
         $joueur = "Player";
         $gain = "Profit";    
@@ -64,7 +70,7 @@ function traduction($typeLangue, $user){
         $returnUp = "Back to the method of displaying";        
     }
 
-    $arrayMots = ['titre'=>$titre, 'h1'=>$h1, 'legend1'=>$legend1, 'method1'=>$method1,       'method2'=>$method2,'method3'=>$method3,'method4'=>$method4,'method5'=>$method5,'method6'=>$method6,'h3'=>$h3,'legend2'=>$legend2,'label1'=>$label1,'label2'=>$label2,'label3'=>$label3,'option'=>$option,'legend3'=>$legend3,'joueur'=>$joueur,'gain'=>$gain,'victoire'=>$victoire,'fini2'=>$fini2,'noTournois'=>$noTournois,'nbTournois'=>$nbTournois,'date'=>$date,'msgErreur_joueur'=>$msgErreur_joueur,'msgErreur_ID'=>$msgErreur_ID,'msgErreur_Date'=>$msgErreur_Date,'btnLogin'=>$btnLogin,'btnReturn'=>$btnReturn,'returnUp'=>$returnUp];
+    $arrayMots = ['titre'=>$titre, 'h1'=>$h1, 'legend1'=>$legend1, 'method1'=>$method1,       'method2'=>$method2,'method3'=>$method3,'method4'=>$method4,'method5'=>$method5,'method6'=>$method6,'method7'=>$method7,'h3'=>$h3,'legend2'=>$legend2,'label1'=>$label1,'label2'=>$label2,'label3'=>$label3,'option'=>$option,'legend3'=>$legend3,'joueur'=>$joueur,'gain'=>$gain,'killer'=>$killer,'victoire'=>$victoire,'fini2'=>$fini2,'noTournois'=>$noTournois,'nbTournois'=>$nbTournois,'date'=>$date,'citron'=>$citron,'msgErreur_joueur'=>$msgErreur_joueur,'msgErreur_ID'=>$msgErreur_ID,'msgErreur_Date'=>$msgErreur_Date,'btnLogin'=>$btnLogin,'btnReturn'=>$btnReturn,'returnUp'=>$returnUp];
 
     return $arrayMots;
 }
@@ -77,7 +83,7 @@ function creationListe($nameSelected, $connMYSQL, $arrayMots){
     //https://pixabay.com/fr/m%C3%A9daille-bronze-conception-2163351/
     $sql = "select joueur from benoitmignault_ca_mywebsite.joueur order by joueur";
     $result = $connMYSQL->query($sql);
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] == 1 || $_POST['method'] == 4 || $_POST['method'] == 5 || $_POST['method'] == 6){
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] == 1 || $_POST['method'] == 4 || $_POST['method'] == 5 || $_POST['method'] == 6 || $_POST['method'] == 7){
         $liste_Joueur = "<option value='' selected>{$arrayMots['option']}</option>";
         foreach($result as $row){        
             $liste_Joueur .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>"; 
@@ -406,6 +412,46 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots){
     return $tableau;
 }
 
+/* Fonction pour faire afficher de nouvelles statistiques avancées */
+function affichageKillerCitron($connMYSQL, $arrayMots){
+    $sql = "SELECT
+                joueur,
+                SUM(killer) as prixKiller,
+                SUM(prixCitron) as citronPrice,
+                count(case victoire when 'X' then 1 else null end) as nb_victoire,
+                count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
+                count(joueur) as nb_presence
+            FROM
+                benoitmignault_ca_mywebsite.poker
+            where 
+                id_tournoi > 100
+            GROUP BY joueur
+            order by prixKiller desc, citronPrice, nb_victoire desc, nb_fini2e desc, nb_presence";
+    $result = $connMYSQL->query($sql);
+    $tableau = "<table> 
+                        <thead> 
+                            <tr> <th colspan='6'>{$arrayMots['method7']}</th></tr>
+                            <tr> <th>{$arrayMots['joueur']}</th> <th>{$arrayMots['killer']}</th> <th>{$arrayMots['citron']}</th> 
+                                 <th>{$arrayMots['victoire']}</th> <th>{$arrayMots['fini2']}</th> 
+                                 <th>{$arrayMots['nbTournois']}</th> </tr>            
+                        </thead>
+                        <tbody>";
+
+    foreach($result as $row){        
+        $icone = lesGrandsGagnants_100e($row['joueur']);
+        $tableau .= "<tr>
+                        <td>{$row['joueur']}{$icone}</td>        
+                        <td>{$row['prixKiller']}</td>
+                        <td>{$row['citronPrice']}</td>
+                        <td>{$row['nb_victoire']}</td>
+                        <td>{$row['nb_fini2e']}</td>
+                        <td>{$row['nb_presence']}</td>
+                    </tr>";   
+    } 
+    $tableau .= "</tbody></table>";
+    return $tableau;
+}
+
 function redirection($typeLangue){
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         session_destroy();
@@ -432,24 +478,26 @@ function redirection($typeLangue){
 }
 
 /* Fonction pour ouvrir une connexion à la BD */
-function connexionBD(){    
+function connexionBD(){ 
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
     $connMYSQL = new mysqli($host, $user, $password, $bd); 
-    /*
+    */
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
-    $bd = "benoitmignault";
+    $bd = "benoitmignault_ca_mywebsite";
     $connMYSQL = mysqli_connect($host, $user, $password, $bd); 
-    */
+
     return $connMYSQL;
 }
 /* Fonction pour valider si le user et son mdp dans les variables sessions sont bonnes */
 function verificationUser($connMYSQL){
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login";
+    $sql = "select user, password from benoitmignault_ca_mywebsite.login";    
     $result = $connMYSQL->query($sql);
 
     foreach($result as $row){
@@ -534,6 +582,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     case 4 : $tableauResult = sommaireTousJoueurs($connMYSQL, $arrayMots); break;
                     case 5 : $tableauResult = affichageParNumero($numeroID, $connMYSQL, $arrayMots); break;
                     case 6 : $tableauResult = affichageParDate($tournoiDate, $connMYSQL, $arrayMots); break;
+                    case 7 : $tableauResult = affichageKillerCitron($connMYSQL, $arrayMots); break;    
                 }            
             } else {
                 redirection($typeLangue);
@@ -583,6 +632,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <li><?php echo $arrayMots['method4']; ?></li>
                         <li><?php echo $arrayMots['method5']; ?></li>
                         <li><?php echo $arrayMots['method6']; ?></li>
+                        <li><?php echo $arrayMots['method7']; ?></li>
                     </ol>
                     <h3><?php echo $arrayMots['h3']; ?></h3>
                 </fieldset>
@@ -605,6 +655,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input class='bouton' type='submit' name='method' value=4>
                                 <input class='bouton' type='submit' name='method' value=5>
                                 <input class='bouton' type='submit' name='method' value=6>
+                                <input class='bouton' type='submit' name='method' value=7>
                             </div>                            
                             <div class="listeJoueur">
                                 <label for="joueur"><?php echo $arrayMots['label1']; ?></label>

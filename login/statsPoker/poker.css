@@ -30,6 +30,9 @@
     background-color: #F0FFF0;
     padding: 2px;
 }
+.infoImportant{
+    font-weight: bold;
+}
 .mainPage > div > fieldset > legend{
     background-color: #F0FFF0;
     border: 4px outset;

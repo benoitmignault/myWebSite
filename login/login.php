@@ -163,8 +163,7 @@ function encryptementPassword(string $password){
 * Fonction qui permet au user de se connection à la page poker.php 
 * si et seulement si son user existe avec le bon password
 */
-function connexionUser($champInitial, $connMYSQL){
-    //$sql = "select user, password from benoitmignault_ca_mywebsite.login";
+function connexionUser($champInitial, $connMYSQL){    
     $sql = "select user, password from benoitmignault_ca_mywebsite.login";
     $result = $connMYSQL->query($sql);
 
@@ -216,19 +215,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {        
         $champInitial["user"] = strtolower($_POST['user']);
         $champInitial["password"] = $_POST['password'];        
-        /*
+        
         $host = "benoitmignault.ca.mysql";
         $user = "benoitmignault_ca_mywebsite";
         $password = "d-&47mK!9hjGC4L-";
-        $bd = "benoitmignault_ca_mywebsite";
-        $connMYSQL = new mysqli($host, $user, $password, $bd);             
-        */
+        $bd = "benoitmignault_ca_mywebsite";              
         
+        /*
         $host = "localhost";
         $user = "zmignaub";
         $password = "Banane11";
         $bd = "benoitmignault_ca_mywebsite";
-        
+        */
         $connMYSQL = mysqli_connect($host, $user, $password, $bd);
 
         // si le bouton se connecter est pesé...        

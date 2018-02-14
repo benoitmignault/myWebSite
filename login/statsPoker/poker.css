@@ -64,6 +64,9 @@
 }
 .mainPage .method .formulaire .listeJoueur{
     margin-bottom: 5px;
+    display: -webkit-flex; 
+    display: flex;
+    justify-content:flex-end;
 }
 .mainPage .method .formulaire #joueur:hover,
 .mainPage .method .formulaire #idTournois:hover,

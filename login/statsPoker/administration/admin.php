@@ -166,7 +166,7 @@ function validation($champs, $valid_Champ, $connMYSQL){
         if ($longueurid > 4){
             $valid_Champ['longueur_inval_Id'] = true;
         }
-        if ($longueurKiller > 1){
+        if ($longueurKiller > 3){
             $valid_Champ['longueur_inval_Killer'] = true;
         }
         if ($longueurCitron > 1){
@@ -578,6 +578,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } elseif ($champs["position"] === "fini2e"){
                     $fini2e = "X";
                 } 
+                $killerFloat = floatval($champs["killer"]);
                 $insert = "INSERT INTO benoitmignault_ca_mywebsite.poker (joueur,gain,victoire,fini_2e,id_tournoi,date,id,killer,prixCitron) VALUES ";
                 $insert .= "('".$champs["listeJoueur"]."',
                              '".$champs["gain"]."',
@@ -586,7 +587,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                              '".$champs["numTournoi"]."',
                              '".$champs["date"]."',
                              NULL,
-                             '".$champs["killer"]."',
+                             '".$killerFloat."',
                              '".$champs["citron"]."')";
                 $connMYSQL->query($insert);
                 if ($champs['typeLangue'] === "francais"){

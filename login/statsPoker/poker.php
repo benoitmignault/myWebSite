@@ -557,8 +557,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {   
             $arrayMots = traduction($typeLangue, $user);
 
-            if (isset($_POST['listeJoueur'])){
-                $nom = $_POST['listeJoueur'];
+            if (isset($_POST['joueur'])){
+                $nom = $_POST['joueur'];
             } else {
                 $nom = "";
             }
@@ -658,7 +658,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>                            
                             <div class="listeJoueur">
                                 <label for="joueur"><?php echo $arrayMots['label1']; ?></label>
-                                <select id="joueur" name="listeJoueur">
+                                <select id="joueur" name="joueur">
                                     <?php echo $liste_Joueur; ?>
                                 </select>
                             </div> 

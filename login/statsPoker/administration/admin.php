@@ -182,7 +182,7 @@ function validation($champs, $valid_Champ, $connMYSQL){
     $patternGain = "#^[-]{0,1}([0-9]{1,3})$#";
     $patternID = "#^[0-9]{1,4}$#"; 
     $patternDate = "#^([0-9]{4})[-]([0-9]{2})[-]([0-9]{2})$#";
-    $patternKillerCitron = "#^[0-9]$#"; 
+    $patternKillerCitron = "#^([0-9]{1})([.][5]){0,1}$#"; 
 
     if (isset($_POST['ajouter'])){
         if (!preg_match($patternGain, $champs['gain'])){
@@ -689,7 +689,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="killer <?php if (verifChampKiller($valid_Champ)){ echo "erreur";} ?>">
                         <label for="killer"><?php echo $arrayMots['killer']; ?></label>
-                        <input maxlength="1" type="text" id="killer" name="killer" value="<?php echo $champs['killer']?>"> 
+                        <input maxlength="3" type="text" id="killer" name="killer" value="<?php echo $champs['killer']?>"> 
                     </div>  
                     <div class="citron <?php if (verifChampCitron($valid_Champ)){ echo "erreur";} ?>">
                         <label for="citron"><?php echo $arrayMots['citron']; ?></label>

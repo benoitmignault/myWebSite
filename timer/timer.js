@@ -136,8 +136,11 @@ function timer15Min(){
 }
 
 function starting15(){
-    if (sec === 0){
+    if (sec === 0){  
         if (min === 0){ 
+
+            // Ici je devrais devoir mettre une validation que la case à cocher ne soit pas active
+
             doublerMontant(); // Au moment d'avoir épuisé le temps, on double les mises et le compte à rebourse se relance tous seul            
             darker();
             resetValeur.setAttribute("class", "");
@@ -199,6 +202,9 @@ function timer30Min(){
 function starting30(){
     if (sec === 0){
         if (min === 0){ 
+            
+            // Ici je devrais devoir mettre une validation que la case à cocher ne soit pas active
+            
             doublerMontant(); // Au moment d'avoir épuisé le temps, on double les mises et le compte à rebourse se relance tous seul            
             darker();
             resetValeur.setAttribute("class", "");

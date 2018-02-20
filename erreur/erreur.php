@@ -1,8 +1,8 @@
-<?php 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
-    if (isset($_POST['returnFR'])){             
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['returnFR'])) {
         header("Location: /index.html");
-    } elseif (isset($_POST['returnEN'])){             
+    } elseif (isset($_POST['returnEN'])) {
         header("Location: /english/english.html");
     }
     exit;

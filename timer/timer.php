@@ -83,6 +83,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="valeurBig">
                     <p id="valeurBig">50</p>
                 </div>
+                <?php // Informatino ajouter à la demande de Philippe M ?>
+                <div class="new">
+                    <label for="newSmall">Modification de la petite mise</label>
+                    <input name="newSmall" type="text" id="newSmall">
+                </div>
+                <div class="new">
+                    <label for="newBig">Modification de la grosse mise</label>
+                    <input name="newBig" type="text" id="newBig">
+                </div> 
+                <?php // fin des ajouts ?>
             </div>
             <div class="lesBoutonsMises">
                 <div class="double">
@@ -91,6 +101,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="resetMise">
                     <button class="disabled" disabled id="reset"><?php echo $tableauLinguiste['reset'] ?></button>
                 </div>
+                <?php // Informatino ajouter à la demande de Philippe M ?>
+                <div class="new">
+                    <div>
+                        <label for="newAuto">Auto</label>
+                        <input checked type="radio" name="new" id="newAuto" value="auto">
+                    </div>
+                    <div>
+                        <label for="newManuelle">Manuelle</label>
+                        <input type="radio" name="new" id="newManuelle" value="manuelle">
+                    </div>
+                </div>
+                <div class="new">
+                    <button id="changeType">Changer manuellement</button>
+                </div>
+                 <?php // fin des ajouts ?>
             </div>
         </div>
 
@@ -112,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="chiffreSec">
                     <p>00</p>
-                </div>            
+                </div>                 
             </div>   
             <div class="lesBoutonsActions">
                 <div class="min15">

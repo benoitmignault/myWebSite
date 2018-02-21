@@ -39,6 +39,21 @@ h2{
 .lesMises .small, .lesMises .big, .lesMises .valeurSmall, .lesMises .valeurBig{
     width: 50%;
 }
+.lesMises .new{
+    width: 50%;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.lesMises > .new > label{
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.lesMises .new input{
+    width: 100%;
+}
 .lesBoutonsMises{
     width: 35%;
 }
@@ -47,6 +62,14 @@ h2{
     display: flex;
     width: 100%;
 }
+
+.lesBoutonsMises > .new > div{
+    width: 50%;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;       
+}
 .tableauDesMises p{
     text-align: center;
     color: white;
@@ -54,6 +77,15 @@ h2{
     font-size: 40px;
     font-weight: bold;
     padding: 20px;
+}
+.lesMises > .new > label,
+.lesBoutonsMises > .new > div > label{
+    color: white;
+    font-size: 20px;
+}
+.lesMises > .new > label:hover,
+.lesBoutonsMises > .new > div > label:hover{
+    cursor: pointer;
 }
 .valeurSmall p, .valeurBig p{
     font-size: 64px;
@@ -217,4 +249,11 @@ h2{
     .lesBoutonsMises .resetMise button{
         font-size:32px;  
     }
+    .lesBoutonsMises > .new > div{
+        margin-top: 10px;  
+        margin-bottom: 10px;       
+    }
+    .tableauDesMises button {
+        font-size: 30px;
+    }    
 }

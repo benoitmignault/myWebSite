@@ -1,4 +1,5 @@
 const doubleValeur = document.querySelector('#double');
+const doubleValeurManuel = document.querySelector('#changeType');
 const resetValeur = document.querySelector('#reset');
 const typeLangue = document.querySelector('#typeLanguage');
 const temps15min = document.querySelector('#timer15');
@@ -12,15 +13,14 @@ const minutes = document.querySelector('.chiffreMin p');
 const secondes = document.querySelector('.chiffreSec p');
 const periode = document.querySelector('.periode p');
 const alertSound = document.querySelector('#alertSound');
-
+const changeSmall = document.querySelector('#newSmall');
+const changeBig = document.querySelector('#newBig');
 
 // Les différentes variables qui seront utilisées pour le temps et les valeurs des mises
 var coloration = [255,255,255];
 var comptage = 0; // la variable un genre de compteur de temps 
 var min = 0;
 var sec = 0;
-var small = parseInt(valeurSmall.innerHTML);
-var big = parseInt(valeurBig.innerHTML);
 var chrono = 0; // pour savoir quel compteur est déclanché...
 
 function double(){      
@@ -29,9 +29,7 @@ function double(){
         if (resetValeur.getAttribute("class") === "disabled"){
             resetValeur.setAttribute("class", ""); 
             resetValeur.removeAttribute("disabled");
-            coloration = [255,255,255];
-            small = parseInt(valeurSmall.innerHTML);
-            big = parseInt(valeurBig.innerHTML);
+            coloration = [255,255,255];            
         }         
         doublerMontant(); // une fct pour doubler les mises small et big blinds
         darker(); // une fct pour rendre les valeurs des mises plus foncées        
@@ -40,6 +38,8 @@ function double(){
 
 function doublerMontant(){
     // Vérification si le small et big sont d'une certaine valeur car règle maison pour simplifier le comptage des jetons.
+    var small = parseInt(valeurSmall.innerHTML);
+    var big = parseInt(valeurBig.innerHTML);
     if (small === 200 && big === 400){
         small = 500;
         big = 1000;
@@ -47,7 +47,13 @@ function doublerMontant(){
         small = small * 2;
         big = big * 2; 
     }
+    modificationSizeValeurs(small,big);
+    // nouvelle valeur des mises à afficher
+    valeurSmall.innerHTML = small.toString();
+    valeurBig.innerHTML = big.toString();
+}
 
+function modificationSizeValeurs(small, big){
     var largeur = window.innerWidth;
     if (largeur < 768){
         if (small === 500 && big === 1000){        
@@ -59,13 +65,92 @@ function doublerMontant(){
             valeurBig.style.fontSize = "42px";
         }        
     }
-    if (small === 32000 && big === 64000){
+    if (small >= 32000 || big >= 64000){
         doubleValeur.setAttribute("class", "disabled");
         doubleValeur.setAttribute("disabled", "disabled");
     }
-    // nouvelle valeur des mises à afficher
-    valeurSmall.innerHTML = small.toString();
-    valeurBig.innerHTML = big.toString();
+}
+
+function augmentManuellement(){
+    doubleValeurManuel.addEventListener('click', function (evt){
+        var champVide = false;
+        var champInval = false;
+        var small;
+        var big;
+        
+        // validation sur la champ de la petite mise
+        if (changeSmall.value === ""){
+            champVide = true;
+            if (typeLangue.value === "francais"){
+                alert("Attention ! La valeur de la petite mise ne doit pas être vide.");
+            } else if (typeLangue.value === "english"){
+                alert("Warning ! The value of the small bet must not be empty.");
+            }            
+        } else {  
+            small = parseInt(changeSmall.value);
+            if (Number.isInteger(small)){  
+                if (small < 0){
+                    champInval = true;
+                    if (typeLangue.value === "francais"){
+                        alert("Attention ! La valeur de la petite mise doit être positive.");
+                    } else if (typeLangue.value === "english"){
+                        alert("Warning ! The value of the small bet must be positive.");
+                    }
+                }                 
+            } else {
+                champInval = true;
+                if (typeLangue.value === "francais"){
+                    alert("Attention ! La valeur de la petite mise doit être numérique.");
+                } else if (typeLangue.value === "english"){
+                    alert("Warning ! The value of the small bet must be numeric.");
+                }
+            }            
+        }          
+
+        // validation sur le champ de la grosse mise
+        if (changeBig.value === ""){
+            champVide = true;
+            if (typeLangue.value === "francais"){
+                alert("Attention ! La valeur de la grosse mise ne doit pas être vide.");
+            } else if (typeLangue.value === "english"){
+                alert("Warning ! The value of the big bet must not be empty.");
+            }            
+        } else {
+            big = parseInt(changeBig.value);  
+            if (Number.isInteger(big)){               
+                if (big < 0){
+                    champInval = true;
+                    if (typeLangue.value === "francais"){
+                        alert("Attention ! La valeur de la grosse mise doit être positive.");
+                    } else if (typeLangue.value === "english"){
+                        alert("Warning ! The value of the big bet must be positive.");
+                    }
+                } 
+            } else {
+                champInval = true;
+                if (typeLangue.value === "francais"){
+                    alert("Attention ! La valeur de la grosse mise doit être numérique.");
+                } else if (typeLangue.value === "english"){
+                    alert("Warning ! The value of the big bet must be positive.");
+                }
+            }
+        }        
+        // Si nous avons les deux indicateurs à false, on procède
+        if (!champVide && !champInval){
+            if (resetValeur.getAttribute("class") === "disabled"){
+                resetValeur.setAttribute("class", ""); 
+                resetValeur.removeAttribute("disabled");
+                coloration = [255,255,255];
+            }
+            darker();
+            valeurSmall.innerHTML = small.toString();
+            valeurBig.innerHTML = big.toString();
+            modificationSizeValeurs(small,big);
+            document.getElementById('newManuelle').checked = true;
+        }
+        changeSmall.value = "";
+        changeBig.value = "";
+    });
 }
 
 function darker(){
@@ -99,6 +184,7 @@ function reset(){
         valeurBig.style.color = "rgb(255,255,255)"; 
         valeurSmall.style.fontSize = "64px";
         valeurBig.style.fontSize = "64px";
+        document.getElementById('newAuto').checked = true;
     }); 
 }
 
@@ -110,7 +196,7 @@ function playMusique(){
 
 function timer15Min(){
     // La partie de la fct qui sera exécuter avec le cliquage du bouton
-    temps15min.addEventListener('click', function (evt){
+    temps15min.addEventListener('click', function (evt){            
         clearTimeout(comptage);
         if (stopTimer.getAttribute("class") === "disabled"){
             stopTimer.setAttribute("class", "");
@@ -135,13 +221,19 @@ function timer15Min(){
     });    
 }
 
-function starting15(){
-    if (sec === 0){
-        if (min === 0){ 
-            doublerMontant(); // Au moment d'avoir épuisé le temps, on double les mises et le compte à rebourse se relance tous seul            
-            darker();
-            resetValeur.setAttribute("class", "");
-            resetValeur.removeAttribute("disabled");
+function starting15(){       
+    if (sec === 0){  
+        if (min === 0){
+            var typeAction = document.querySelector('input[name="new"]:checked').value;
+            if (typeAction === "auto"){
+                doublerMontant(); // Au moment d'avoir épuisé le temps, on double les mises et le compte à rebourse se relance tous seul            
+                darker();
+                resetValeur.setAttribute("class", "");
+                resetValeur.removeAttribute("disabled");
+            } else if (typeAction === "manuelle"){
+                // Ce return permet de briser la chaine du temps
+                return;
+            }            
             min = 15;
         } else {
             min--;
@@ -162,10 +254,9 @@ function starting15(){
         minutes.style.color = "red";
         secondes.style.color = "red";
     }
-
     // On affiche la nouvelle valeur du temps à l'écran avec la couleur en fonction des minutes
     minutes.innerHTML = min.toString();
-    secondes.innerHTML = sec.toString();
+    secondes.innerHTML = sec.toString();        
     comptage = setTimeout(starting15, 1000);
 } 
 
@@ -199,10 +290,16 @@ function timer30Min(){
 function starting30(){
     if (sec === 0){
         if (min === 0){ 
-            doublerMontant(); // Au moment d'avoir épuisé le temps, on double les mises et le compte à rebourse se relance tous seul            
-            darker();
-            resetValeur.setAttribute("class", "");
-            resetValeur.removeAttribute("disabled");
+            var typeAction = document.querySelector('input[name="new"]:checked').value;
+            if (typeAction === "auto"){
+                doublerMontant(); // Au moment d'avoir épuisé le temps, on double les mises et le compte à rebourse se relance tous seul            
+                darker();
+                resetValeur.setAttribute("class", "");
+                resetValeur.removeAttribute("disabled");
+            } else if (typeAction === "manuelle"){
+                // Ce return permet de briser la chaine du temps
+                return;
+            }
             min = 30;            
         } else {
             min--;
@@ -290,10 +387,11 @@ function resetTemp(){
 // Au moment du loading de la page, là on fait appel au fonction nécessaire au bon fonctionnement de la page....
 document.addEventListener('DOMContentLoaded', function(event) {      
     double();
+    augmentManuellement();
     reset();    
     timer15Min();
     timer30Min();
     stop();
     reprendreTemps();
-    resetTemp();
+    resetTemp();    
 });

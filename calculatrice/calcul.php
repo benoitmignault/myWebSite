@@ -1,8 +1,9 @@
 <?php
+
 // Cette fonction sera appellée lors de la création des deux nombres.
 // Elle ne fait pas la distinction entre nombre 1 et nombre 2 
-function constructionNombre(float $nombre, float $unChiffre){
-    if (empty($nombre)){ 
+function constructionNombre(float $nombre, float $unChiffre) {
+    if (empty($nombre)) {
         $nombre = (float) $unChiffre;
     } else {
         // Exemple : on avait 5 et on appuy sur 4 donc on aura 54....etc
@@ -13,13 +14,13 @@ function constructionNombre(float $nombre, float $unChiffre){
 
 // Cette fonction assurera la traduction du français vers l'anglais et le retour au français...
 // Chaque variable globale aura un nom significatif
-function traduction(string $typeLangue){
+function traduction(string $typeLangue) {
     global $title, $h1, $legend1, $legend2;
     global $label1, $label2, $label3;
     global $boutonReset, $procedure, $valeurReturn;
     global $information, $messageNombre1, $messageNombre2;
     global $messageFinal, $messageType, $messageError;
-    if ($typeLangue === 'francais') {         
+    if ($typeLangue === 'francais') {
         $title = "Calculatrice";
         $h1 = "Voici ma calculatrice version Web";
         $legend1 = "Procédure d'utilisation";
@@ -43,15 +44,14 @@ function traduction(string $typeLangue){
         $messageFinal = "Type opérateur manquant";
         $messageType = "Mauvais type opérateur";
         $messageError = "Résultat invalide";
-
-    } elseif ($typeLangue === 'english') {         
-        $title = "Calculator";   
+    } elseif ($typeLangue === 'english') {
+        $title = "Calculator";
         $h1 = "This is the web version of my calculator";
         $legend1 = "How to use";
         $legend2 = "Arithmetic operation on two inputs";
         $label1 = "Input one:";
         $label2 = "Input two:";
-        $label3 = "Result of the operation:";          
+        $label3 = "Result of the operation:";
         $boutonReset = "Erase";
         $procedure = "<li>We need to choose a first input</li>
                         <li>Once we have our first input, we need to choose an operator type</li>
@@ -68,23 +68,23 @@ function traduction(string $typeLangue){
         $messageFinal = "Operator missing";
         $messageType = "Bad operator type";
         $messageError = "Invalid result";
-    }   
+    }
 }
 
 // À la première entrée sur la calculatrice avec la request GET, 
 // je dois initialiser les variables à vide
-if ($_SERVER['REQUEST_METHOD'] == 'GET') { 
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $afficher = "hidden";
-    $nombre1 = 0;// le nombre en construction 
-    $nombre2 = 0;// le nombre en construction 
+    $nombre1 = 0; // le nombre en construction 
+    $nombre2 = 0; // le nombre en construction 
     $nombreFinal = 0; // un nombre prêt à être utiliser 
     $typeOpe = ""; // le type opération    
     $typeLangue = $_GET['langue'];
-    if ($typeLangue !== "francais" && $typeLangue !== "english"){
+    if ($typeLangue !== "francais" && $typeLangue !== "english") {
         header("Location: /erreur/erreur.php");
         exit;
     } else {
-        traduction($typeLangue); 
+        traduction($typeLangue);
     }
 }
 
@@ -97,40 +97,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombreFinal = $_POST['nombreFinal']; // le résultat de l'opération
     $typeOpe = $_POST['typeOpe']; // le type opération
     $typeLangue = $_POST['typeLangue']; // le type de page pour revenir en français ou en anglais       
-
     // Pour retourner à la page principale
-    if (isset($_POST['return'])){             
-        if ($typeLangue == 'english'){
-            header("Location: /english/english.html"); 
+    if (isset($_POST['return'])) {
+        if ($typeLangue == 'english') {
+            header("Location: /english/english.html");
             exit;
-        } elseif ($typeLangue == 'francais'){
+        } elseif ($typeLangue == 'francais') {
             header("Location: /index.html");
             exit;
-        } 
+        }
     } else {
         traduction($typeLangue);
     }
 
     // Cette condition est pour créer le nombre composé de un à plusieurs chiffres        
-    if (isset($_POST['un']) || isset($_POST['deux']) || isset($_POST['trois']) || 
-        isset($_POST['quatre']) || isset($_POST['cinq']) || isset($_POST['six']) ||
-        isset($_POST['sept']) || isset($_POST['huit']) || isset($_POST['neuf']) || 
-        isset($_POST['zero'])){
+    if (isset($_POST['un']) || isset($_POST['deux']) || isset($_POST['trois']) ||
+            isset($_POST['quatre']) || isset($_POST['cinq']) || isset($_POST['six']) ||
+            isset($_POST['sept']) || isset($_POST['huit']) || isset($_POST['neuf']) ||
+            isset($_POST['zero'])) {
 
         // On stocke la valeur du chiffre qu'on vient de peser
-        foreach($_POST as $key => $info){
+        foreach ($_POST as $key => $info) {
             // Cette condition exclu les autres objets non nécessaire pour le moment
-            if (($key != "nombreFinal") && ($key != "nombre1") && 
-                ($key != "nombre2") && ($key !="typeOpe") && ($key !="typeLangue")){
+            if (($key != "nombreFinal") && ($key != "nombre1") &&
+                    ($key != "nombre2") && ($key != "typeOpe") && ($key != "typeLangue")) {
                 $unChiffre = (float) $info;
-            } 
-        } 
+            }
+        }
         // Si il y a des valeurs non numériques dans les nombres 1 et 2 , 
         // on les remet à zéro...
-        if (!(is_numeric($nombre1))){
+        if (!(is_numeric($nombre1))) {
             $nombre1 = 0;
         }
-        if (!(is_numeric($nombre2))){
+        if (!(is_numeric($nombre2))) {
             $nombre2 = 0;
         }
 
@@ -138,74 +137,73 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Sinon, nous sommes dans le nombre2
         // Important de ne pas avori de caractères null ou non numérique 
         // car sinon on revient à la valeur 0...
-        switch ($typeOpe){
+        switch ($typeOpe) {
             case "" : $nombre1 = constructionNombre($nombre1, $unChiffre);
                 break;
             default : $nombre2 = constructionNombre($nombre2, $unChiffre);
-                break;            
-        }         
+                break;
+        }
     }
 
     // Lorsqu'on pèse sur l'une des opérations arithmétiques on commence à préparer l'opération futur
     if (isset($_POST['add']) || isset($_POST['sous']) ||
-        isset($_POST['multi']) || isset($_POST['div'])){    
+            isset($_POST['multi']) || isset($_POST['div'])) {
         // On ne peut pas faire une opération si le nombre 1 est vide
-        if (!(is_numeric($nombre1)) || !(is_numeric($nombre2)) ){
+        if (!(is_numeric($nombre1)) || !(is_numeric($nombre2))) {
             $nombre1 = $messageNombre1;
             $nombre2 = $messageNombre2;
-        } else {              
-            foreach($_POST as $key => $info){ 
+        } else {
+            foreach ($_POST as $key => $info) {
                 // En fonction de la confition du if, il peut avoir seulement le type opérateur 
                 // qui sera utiliser plutard dans un switch/case pour déterminer de quel genre opération qu'on a à faire
-                if (($key != "nombre1") && ($key != "nombreFinal") && 
-                    ($key != "nombre2") && ($key !="typeOpe") && ($key !="typeLangue")){                    
-                    $typeOpe = $info;                     
+                if (($key != "nombre1") && ($key != "nombreFinal") &&
+                        ($key != "nombre2") && ($key != "typeOpe") && ($key != "typeLangue")) {
+                    $typeOpe = $info;
                 }
             }
-        }            
+        }
     }
 
     // Lorsqu'on appui sur «=» on fait l'opération demandé via «$typeOpe» avec les deux nombres
-    if (isset($_POST['resultFinal'])){
+    if (isset($_POST['resultFinal'])) {
         // On ne peut pas faire une opération si on ne sait pas cette dernière
-        if (empty($typeOpe)){
+        if (empty($typeOpe)) {
             $nombreFinal = $messageFinal;
             // Sinon si, un des deux chiffres n'est pas numérique ce n'est pas permit
-        } elseif ($typeOpe != "+" && $typeOpe != "/" && 
-                  $typeOpe != "*" && $typeOpe != "-"){
+        } elseif ($typeOpe != "+" && $typeOpe != "/" &&
+                $typeOpe != "*" && $typeOpe != "-") {
             $nombreFinal = $messageType;
-        } elseif (!(is_numeric($nombre1)) || !(is_numeric($nombre2)) ){
+        } elseif (!(is_numeric($nombre1)) || !(is_numeric($nombre2))) {
             $nombre1 = $messageNombre1;
             $nombre2 = $messageNombre2;
             $nombreFinal = $messageError;
         } else {
             // on va utiliser le charactère qui correspondra au type opération
-            switch ($typeOpe){
-                case "+" : $nombreFinal = $nombre1 + $nombre2;                    
+            switch ($typeOpe) {
+                case "+" : $nombreFinal = $nombre1 + $nombre2;
                     break;
                 case "-" : $nombreFinal = $nombre1 - $nombre2;
                     break;
-                case "/" : if ($nombre2 == 0){
-                    $nombreFinal = "Impossible !!!";
-                } else {
-                    $nombreFinal = $nombre1 / $nombre2;                                
-                }                    
+                case "/" : if ($nombre2 == 0) {
+                        $nombreFinal = "Impossible !!!";
+                    } else {
+                        $nombreFinal = $nombre1 / $nombre2;
+                    }
                     break;
                 case "*" : $nombreFinal = $nombre1 * $nombre2;
-                    break;                
+                    break;
             }
         }
-    }           
+    }
 
     // Si on appui sur le bouton «reset» alors on remet les deux champs à 0...
-    if (isset($_POST['reset'])){
+    if (isset($_POST['reset'])) {
         $nombre1 = 0;
         $nombre2 = 0;
         $nombreFinal = 0;
-        $typeOpe = ""; 
-    }    
-}   
-
+        $typeOpe = "";
+    }
+}
 ?>
 <!-- Le début de l'écriture de la page html de la calculatrice -->
 <!DOCTYPE html>
@@ -264,7 +262,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label id="label1"> <?php echo $label1 ?> </label>
                 <input type="text" name="nombre1" value="<?php echo $nombre1 ?>">                
                 <br>
-                <input type="text" style="width:10px;" name="typeOpe" value="<?php echo $typeOpe?>">
+                <input type="text" style="width:10px;" name="typeOpe" value="<?php echo $typeOpe ?>">
                 <br>
                 <label id="label2"> <?php echo $label2 ?> </label>
                 <input type="text" name="nombre2" value="<?php echo $nombre2 ?>">                

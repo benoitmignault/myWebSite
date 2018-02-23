@@ -6,7 +6,11 @@ function tranduction($typeLangage){
                              'h2-1' => 'Voici la section des valeurs en jeton possible !', 
                              'h2-2' => 'Voici la section des périodes de temps possible !', 
                              'typeMise' => 'Les mises possible', 
-                             'small' => 'La petite mise', 
+                             'small' => 'La petite mise', 'radioAuto' => 'Auto',
+                             'radioManuel' => 'Manuel',
+                             'btnChangerManuel' => 'Changer manuellement',
+                             'champPetite' => 'Modification de la petite mise',
+                             'champGrosse' => 'Modification de la grosse mise',
                              'big' => 'La grosse mise', 'retour' => 'Retour à l\'acceuil',
                              'foisDeux' => 'Doubler', 'btnReset' => 'Reset du Temps',
                              'reset' => 'Reset des mises', 
@@ -14,6 +18,11 @@ function tranduction($typeLangage){
                              'btnReprendre' => 'POURSUIVRE'];
     } elseif ($typeLangage === "english") {
         $tableauLinguiste = ['title' => 'Timer', 
+                             'radioAuto' => 'Auto',
+                             'radioManuel' => 'Manual',
+                             'champPetite' => 'Changing the small bet',
+                             'champGrosse' => 'Changing the big bet',
+                             'btnChangerManuel' => 'Change manually',
                              'h2-1' => 'This is the section of values the ships !', 
                              'h2-2' => 'This is the section of period of time !', 
                              'typeMise' => 'Bets availables', 
@@ -85,11 +94,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <?php // Informatino ajouter à la demande de Philippe M ?>
                 <div class="new">
-                    <label for="newSmall">Modification de la petite mise</label>
+                    <label for="newSmall"><?php echo $tableauLinguiste['champPetite'] ?></label>
                     <input name="newSmall" type="text" id="newSmall">
                 </div>
                 <div class="new">
-                    <label for="newBig">Modification de la grosse mise</label>
+                    <label for="newBig"><?php echo $tableauLinguiste['champGrosse'] ?></label>
                     <input name="newBig" type="text" id="newBig">
                 </div> 
                 <?php // fin des ajouts ?>
@@ -104,18 +113,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php // Informatino ajouter à la demande de Philippe M ?>
                 <div class="new">
                     <div>
-                        <label for="newAuto">Auto</label>
+                        <label for="newAuto"><?php echo $tableauLinguiste['radioAuto'] ?></label>
                         <input checked type="radio" name="new" id="newAuto" value="auto">
                     </div>
                     <div>
-                        <label for="newManuelle">Manuelle</label>
+                        <label for="newManuelle"><?php echo $tableauLinguiste['radioManuel'] ?></label>
                         <input type="radio" name="new" id="newManuelle" value="manuelle">
                     </div>
                 </div>
                 <div class="new">
-                    <button id="changeType">Changer manuellement</button>
+                    <button id="changeType"><?php echo $tableauLinguiste['btnChangerManuel'] ?></button>
                 </div>
-                 <?php // fin des ajouts ?>
+                <?php // fin des ajouts ?>
             </div>
         </div>
 

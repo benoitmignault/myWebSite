@@ -56,16 +56,16 @@ function doublerMontant(){
 function modificationSizeValeurs(small, big){
     var largeur = window.innerWidth;
     if (largeur < 768){
-        if (small === 500 && big === 1000){        
+        if (big >= 1000 && big < 16000){        
             valeurSmall.style.fontSize = "52px";
             valeurBig.style.fontSize = "52px";
         }    
-        if (small === 8000 && big === 16000){
+        if (big >= 16000 && big < 64000){
             valeurSmall.style.fontSize = "42px";
             valeurBig.style.fontSize = "42px";
         }        
     }
-    if (small >= 32000 || big >= 64000){
+    if (big >= 64000){
         doubleValeur.setAttribute("class", "disabled");
         doubleValeur.setAttribute("disabled", "disabled");
     }

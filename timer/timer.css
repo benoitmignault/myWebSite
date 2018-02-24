@@ -76,7 +76,7 @@ h2{
     margin: 5px;    
     font-size: 40px;
     font-weight: bold;
-    padding: 20px;
+    padding: 5px;
 }
 .lesMises > .new > label,
 .lesBoutonsMises > .new > div > label{
@@ -134,10 +134,11 @@ h2{
 .tableauDuTemps p{
     text-align: center;
     color: white;
-    margin: 5px;    
+    margin-top: 5px;
+    margin-bottom: 5px;    
     font-size: 40px;
     font-weight: bold;
-    padding: 10px;
+    padding: 5px;
 }
 .chiffreMin p, .chiffreSec p{
     font-size: 64px;

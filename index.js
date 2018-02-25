@@ -22,7 +22,7 @@ function activation_Liste(){
             liste.innerHTML += "<li>SQL</li>";
             liste.innerHTML += "<li>JAVASCRIPT</li>";
             liste.innerHTML += "<li>CSS</li>"; 
-            liste.innerHTML += "<li>GIT/GitHub</li>"; 
+            liste.innerHTML += "<li>GIT & GitHub</li>"; 
             liste.innerHTML += "<li>JQUERY</li>";              
             liste.innerHTML += "<li>HTML</li>";
             liste.innerHTML += "<li>JAVA</li>"; 

@@ -74,11 +74,7 @@ function traduction(string $typeLangue) {
 // À la première entrée sur la calculatrice avec la request GET, 
 // je dois initialiser les variables à vide
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $afficher = "hidden";
-    $nombre1 = 0; // le nombre en construction 
-    $nombre2 = 0; // le nombre en construction 
-    $nombreFinal = 0; // un nombre prêt à être utiliser 
-    $typeOpe = ""; // le type opération    
+    $afficher = "hidden";    
     $typeLangue = $_GET['langue'];
     if ($typeLangue !== "francais" && $typeLangue !== "english") {
         header("Location: /erreur/erreur.php");
@@ -88,14 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 }
 
-// À chaque post envoyer au serveur, je ré-initialise 
-// mes quatres variables et que je stock l'information pour utilisation futur
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $afficher = $_POST['visible_Info']; // l'information à savoir si les instructions sont affichées ou pas 
-    $nombre1 = $_POST['nombre1']; // le nombre 1 en construction 
-    $nombre2 = $_POST['nombre2']; // le nombre 2 en construction
-    $nombreFinal = $_POST['nombreFinal']; // le résultat de l'opération
-    $typeOpe = $_POST['typeOpe']; // le type opération
+    $afficher = $_POST['visible_Info']; // l'information à savoir si les instructions sont affichées ou pas     
     $typeLangue = $_POST['typeLangue']; // le type de page pour revenir en français ou en anglais       
     // Pour retourner à la page principale
     if (isset($_POST['return'])) {
@@ -109,100 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         traduction($typeLangue);
     }
-
-    // Cette condition est pour créer le nombre composé de un à plusieurs chiffres        
-    if (isset($_POST['un']) || isset($_POST['deux']) || isset($_POST['trois']) ||
-            isset($_POST['quatre']) || isset($_POST['cinq']) || isset($_POST['six']) ||
-            isset($_POST['sept']) || isset($_POST['huit']) || isset($_POST['neuf']) ||
-            isset($_POST['zero'])) {
-
-        // On stocke la valeur du chiffre qu'on vient de peser
-        foreach ($_POST as $key => $info) {
-            // Cette condition exclu les autres objets non nécessaire pour le moment
-            if (($key != "nombreFinal") && ($key != "nombre1") &&
-                    ($key != "nombre2") && ($key != "typeOpe") && ($key != "typeLangue")) {
-                $unChiffre = (float) $info;
-            }
-        }
-        // Si il y a des valeurs non numériques dans les nombres 1 et 2 , 
-        // on les remet à zéro...
-        if (!(is_numeric($nombre1))) {
-            $nombre1 = 0;
-        }
-        if (!(is_numeric($nombre2))) {
-            $nombre2 = 0;
-        }
-
-        // Si la variable «$typeOpe» est vide, alors nous sommes dans le nombre1
-        // Sinon, nous sommes dans le nombre2
-        // Important de ne pas avori de caractères null ou non numérique 
-        // car sinon on revient à la valeur 0...
-        switch ($typeOpe) {
-            case "" : $nombre1 = constructionNombre($nombre1, $unChiffre);
-                break;
-            default : $nombre2 = constructionNombre($nombre2, $unChiffre);
-                break;
-        }
-    }
-
-    // Lorsqu'on pèse sur l'une des opérations arithmétiques on commence à préparer l'opération futur
-    if (isset($_POST['add']) || isset($_POST['sous']) ||
-            isset($_POST['multi']) || isset($_POST['div'])) {
-        // On ne peut pas faire une opération si le nombre 1 est vide
-        if (!(is_numeric($nombre1)) || !(is_numeric($nombre2))) {
-            $nombre1 = $messageNombre1;
-            $nombre2 = $messageNombre2;
-        } else {
-            foreach ($_POST as $key => $info) {
-                // En fonction de la confition du if, il peut avoir seulement le type opérateur 
-                // qui sera utiliser plutard dans un switch/case pour déterminer de quel genre opération qu'on a à faire
-                if (($key != "nombre1") && ($key != "nombreFinal") &&
-                        ($key != "nombre2") && ($key != "typeOpe") && ($key != "typeLangue")) {
-                    $typeOpe = $info;
-                }
-            }
-        }
-    }
-
-    // Lorsqu'on appui sur «=» on fait l'opération demandé via «$typeOpe» avec les deux nombres
-    if (isset($_POST['resultFinal'])) {
-        // On ne peut pas faire une opération si on ne sait pas cette dernière
-        if (empty($typeOpe)) {
-            $nombreFinal = $messageFinal;
-            // Sinon si, un des deux chiffres n'est pas numérique ce n'est pas permit
-        } elseif ($typeOpe != "+" && $typeOpe != "/" &&
-                $typeOpe != "*" && $typeOpe != "-") {
-            $nombreFinal = $messageType;
-        } elseif (!(is_numeric($nombre1)) || !(is_numeric($nombre2))) {
-            $nombre1 = $messageNombre1;
-            $nombre2 = $messageNombre2;
-            $nombreFinal = $messageError;
-        } else {
-            // on va utiliser le charactère qui correspondra au type opération
-            switch ($typeOpe) {
-                case "+" : $nombreFinal = $nombre1 + $nombre2;
-                    break;
-                case "-" : $nombreFinal = $nombre1 - $nombre2;
-                    break;
-                case "/" : if ($nombre2 == 0) {
-                        $nombreFinal = "Impossible !!!";
-                    } else {
-                        $nombreFinal = $nombre1 / $nombre2;
-                    }
-                    break;
-                case "*" : $nombreFinal = $nombre1 * $nombre2;
-                    break;
-            }
-        }
-    }
-
-    // Si on appui sur le bouton «reset» alors on remet les deux champs à 0...
-    if (isset($_POST['reset'])) {
-        $nombre1 = 0;
-        $nombre2 = 0;
-        $nombreFinal = 0;
-        $typeOpe = "";
-    }
 }
 ?>
 <!-- Le début de l'écriture de la page html de la calculatrice -->
@@ -210,16 +106,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
     <head>
         <title> <?php echo $title ?> </title>
-        <link rel="stylesheet" href="calcul.css"/>        
+        <link rel="stylesheet" href="calculJavaScript.css"/>        
         <!-- Le fichier calcul.png est la propriété du site https://pixabay.com/fr/calculatrice-les-math%C3%A9matiques-t%C3%A2che-1019743/ mais en utilisation libre-->
-        <link rel="shortcut icon" href="calcul.png">	
+        <link rel="shortcut icon" href="calculJavaScript.png">	
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body{
                 margin:0;                
                 /*Le fichier pageCalculatrice.jpg est la propriété du site https://pixabay.com/fr/calculatrice-compte-calculette-2359760/ mais en utilisation libre-->*/
-                background-image: url("pageCalculatrice.jpg");                
+                background-image: url("calculJavaScript.jpg");                
                 background-position: center;
                 background-attachment:fixed;
                 background-size:auto;
@@ -236,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <ol class="lesInstruction"> <?php echo $procedure ?> </ol> 
         </fieldset>            
         <p id="info"> <?php echo $information ?> </p>
-        <form method="post" action="./calcul.php">            
+        <form method="post" action="./calculJavaScript.php">            
             <fieldset class="calcul">
                 <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $afficher ?>">
                 <legend align="center" id="legend2"> <?php echo $legend2 ?></legend>                 
@@ -279,7 +175,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input class="buttonReturn" type="submit" name="return" value="<?php echo $valeurReturn ?>">
             </fieldset>
             <input class="typeLanguage" type="hidden" name="typeLangue" value="<?php echo $typeLangue ?>">
-        </form>  
+        </form> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>    
         <script type="text/javascript" src="calcul.js"></script>
     </body>
 </html>

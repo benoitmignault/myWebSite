@@ -1,5 +1,4 @@
 <?php
-
 function traduction($champs) {
     if ($champs["typeLangue"] === 'francais') {
         $btn_new = "Ajouter le nouveau joueur";
@@ -114,8 +113,8 @@ function creationListe($connMYSQL, $arrayMots, $champ) {
 function validation($champs, $valid_Champ, $connMYSQL) {
     if (isset($_POST['ajouter'])) {
         if (empty($champs['listeJoueur']) || empty($champs['gain']) || empty($champs['citron']) ||
-                empty($champs['killer']) || empty($champs['position']) || empty($champs['numTournoi']) ||
-                empty($champs['date'])) {
+            empty($champs['killer']) || empty($champs['position']) || empty($champs['numTournoi']) ||
+            empty($champs['date'])) {
             // sous condition propre à chaque champ
             if (empty($champs['listeJoueur'])) {
                 $valid_Champ['vide_Joueur'] = true;
@@ -131,7 +130,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
             }
             // Les champs killer, citron et gain peuvent être de zéro, docn je ne peux pas les évoluer individuellement...            
             if ($valid_Champ['vide_Joueur'] && $valid_Champ['vide_Killer'] && $valid_Champ['vide_Citron'] &&
-                    $valid_Champ['vide_Gain'] && $valid_Champ['vide_position'] && $valid_Champ['vide_Id'] && $valid_Champ['vide_Date']) {
+                $valid_Champ['vide_Gain'] && $valid_Champ['vide_position'] && $valid_Champ['vide_Id'] && $valid_Champ['vide_Date']) {
                 $valid_Champ['tous_champs_Vide'] = true;
             }
         }
@@ -536,7 +535,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     session_start();
     $champs["typeLangue"] = "francais";
     if (isset($_SESSION['user']) && isset($_SESSION['password']) &&
-            isset($_SESSION['typeLangue'])) {
+        isset($_SESSION['typeLangue'])) {
         $connMYSQL = connexionBD();
         $verificationUser = verificationUser($connMYSQL);
         $champs = initialisation_Champs();
@@ -562,7 +561,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_start();
     $champs["typeLangue"] = "francais";
     if (isset($_SESSION['user']) && isset($_SESSION['password']) &&
-            isset($_SESSION['typeLangue'])) {
+        isset($_SESSION['typeLangue'])) {
         $connMYSQL = connexionBD();
         $verificationUser = verificationUser($connMYSQL);
         $champs = initialisation_Champs();
@@ -649,7 +648,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <head>
         <meta charset="utf-8">
         <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
-        <link rel="shortcut icon" href="admin.png">		
+        <link rel="shortcut icon" href="admin.png">	        
         <link rel="stylesheet" type="text/css" href="admin.css"> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><?php echo $arrayMots['title']; ?></title> 
@@ -676,7 +675,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } ?>">
                         <label for="joueur"><?php echo $arrayMots['joueur']; ?></label>
                         <select id="joueur" name="listeJoueur">
-<?php echo $listeJoueurs; ?>
+                            <?php echo $listeJoueurs; ?>
                         </select>
                     </div>   
                     <div class="position">
@@ -685,21 +684,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="radio" <?php if ($champs['position'] === "victoire") {
     echo "checked";
 }
-?> name="position" id="victoire" value="victoire">
+                                   ?> name="position" id="victoire" value="victoire">
                             <label for="victoire"><?php echo $arrayMots['victoire']; ?></label>
                         </div>
                         <div>
                             <input type="radio" <?php if ($champs['position'] === "fini2e") {
     echo "checked";
 }
-?> name="position" id="fini2e" value="fini2e">
+                                   ?> name="position" id="fini2e" value="fini2e">
                             <label for="fini2e"><?php echo $arrayMots['fini2e']; ?></label>
                         </div>
                         <div>
                             <input type="radio" <?php if ($champs['position'] === "autre") {
     echo "checked";
 }
-?> name="position" id="autre" value="autre">
+                                   ?> name="position" id="autre" value="autre">
                             <label for="autre"><?php echo $arrayMots['autre']; ?></label>  
                         </div>
                     </div>

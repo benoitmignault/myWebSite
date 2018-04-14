@@ -109,7 +109,7 @@ function creationListe($nameSelected, $connMYSQL, $arrayMots) {
  */
 
 function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
-    $sql = "SELECT distinct id_tournoi FROM benoitmignault_ca_mywebsite.poker order by id_tournoi";
+    $sql = "SELECT distinct id_tournoi FROM benoitmignault_ca_mywebsite.poker order by id_tournoi desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 5) {
@@ -135,7 +135,7 @@ function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
  */
 
 function creationListeDate($tournoiDate, $connMYSQL, $arrayMots) {
-    $sql = "SELECT distinct date FROM benoitmignault_ca_mywebsite.poker order by date";
+    $sql = "SELECT distinct date FROM benoitmignault_ca_mywebsite.poker order by date desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 6) {
@@ -178,7 +178,7 @@ function lesGrandsGagnants_100e($nom_Champion) {
  */
 
 function affichageBrute($connMYSQL, $arrayMots) {
-    $sql = "select joueur, gain, victoire, fini_2e, id_tournoi, date from benoitmignault_ca_mywebsite.poker order by id_tournoi, gain desc";
+    $sql = "select joueur, gain, victoire, fini_2e, id_tournoi, date from benoitmignault_ca_mywebsite.poker order by id_tournoi desc, gain desc";
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
             <thead> 
@@ -218,7 +218,7 @@ function affichageUnjoueur($nom, $connMYSQL, $arrayMots) {
     if ($nom === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_joueur']}</h3>";
     } else {
-        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where joueur = '{$nom}' order by id_tournoi";
+        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where joueur = '{$nom}' order by id_tournoi desc";
         $result = $connMYSQL->query($sql);
         $tableau = "
                     <table> <thead>

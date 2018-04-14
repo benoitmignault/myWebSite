@@ -1,25 +1,7 @@
 <?php
-
-// Cette fonction sera appellée lors de la création des deux nombres.
-// Elle ne fait pas la distinction entre nombre 1 et nombre 2 
-function constructionNombre(float $nombre, float $unChiffre) {
-    if (empty($nombre)) {
-        $nombre = (float) $unChiffre;
-    } else {
-        // Exemple : on avait 5 et on appuy sur 4 donc on aura 54....etc
-        $nombre = (float) ($nombre * 10) + $unChiffre;
-    }
-    return $nombre;
-}
-
 // Cette fonction assurera la traduction du français vers l'anglais et le retour au français...
 // Chaque variable globale aura un nom significatif
-function traduction(string $typeLangue) {
-    global $title, $h1, $legend1, $legend2;
-    global $label1, $label2, $label3;
-    global $boutonReset, $procedure, $valeurReturn;
-    global $information, $messageNombre1, $messageNombre2;
-    global $messageFinal, $messageType, $messageError;
+function traduction($typeLangue) {
     if ($typeLangue === 'francais') {
         $title = "Calculatrice";
         $h1 = "Voici ma calculatrice version Web";
@@ -38,12 +20,7 @@ function traduction(string $typeLangue) {
                         <li>Tant qu'on n'utilisera pas le bouton effacer, le type d'opération pourra être changer</li>
                         <li>Lors d'une manipulation invalide, entraînera un message d'avertissement dans le champ concerné</li>";
         $valeurReturn = "Retour à la page d'accueil";
-        $information = "À tout moment, vous pouvez utiliser le bouton <strong>«Effacer»</strong> pour recommencer du début";
-        $messageNombre1 = "Nombre 1 invalide";
-        $messageNombre2 = "Nombre 2 invalide";
-        $messageFinal = "Type opérateur manquant";
-        $messageType = "Mauvais type opérateur";
-        $messageError = "Résultat invalide";
+        $information = "À tout moment, vous pouvez utiliser le bouton <strong>«Effacer»</strong> pour recommencer du début";        
     } elseif ($typeLangue === 'english') {
         $title = "Calculator";
         $h1 = "This is the web version of my calculator";
@@ -63,12 +40,11 @@ function traduction(string $typeLangue) {
                         <li>During an invalid usage, a warning will be displayed in the textfield appropriate</li>";
         $valeurReturn = "Return to the home page";
         $information = "At any moment, you can use the button <strong>«Erase»</strong> to restart from the beginning";
-        $messageNombre1 = "Invalid first input";
-        $messageNombre2 = "Invalid second input";
-        $messageFinal = "Operator missing";
-        $messageType = "Bad operator type";
-        $messageError = "Invalid result";
     }
+    $arrayMots = ['title' => $title, 'h1' => $h1, 'legend1' => $legend1, 'legend2' => $legend2,
+                  'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'boutonReset' => $boutonReset,
+                  'procedure' => $procedure,'valeurReturn' => $valeurReturn,'information' => $information];
+    return $arrayMots;
 }
 
 // À la première entrée sur la calculatrice avec la request GET, 
@@ -80,13 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         header("Location: /erreur/erreur.php");
         exit;
     } else {
-        traduction($typeLangue);
+        $arrayMots = traduction($typeLangue);
     }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $afficher = $_POST['visible_Info']; // l'information à savoir si les instructions sont affichées ou pas     
-    $typeLangue = $_POST['typeLangue']; // le type de page pour revenir en français ou en anglais       
+    $typeLangue = $_POST['typeLangue']; // le type de page pour revenir en français ou en anglais    
+    var_dump($typeLangue);
     // Pour retourner à la page principale
     if (isset($_POST['return'])) {
         if ($typeLangue == 'english') {
@@ -97,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
     } else {
-        traduction($typeLangue);
+        $arrayMots = traduction($typeLangue);
     }
 }
 ?>
@@ -105,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html>
     <head>
-        <title> <?php echo $title ?> </title>
+        <title> <?php echo $arrayMots['title'] ?> </title>
         <link rel="stylesheet" href="calculJavaScript.css"/>        
         <!-- Le fichier calcul.png est la propriété du site https://pixabay.com/fr/calculatrice-les-math%C3%A9matiques-t%C3%A2che-1019743/ mais en utilisation libre-->
         <link rel="shortcut icon" href="calculJavaScript.png">	
@@ -124,18 +101,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </style>
     </head>
     <body>
-        <h1 class="H1titre"> <?php echo $h1 ?> </h1>
+        <h1 class="H1titre"> <?php echo $arrayMots['h1'] ?> </h1>
         <fieldset class="procedure">            
             <legend align="center" id="legend1">
-                <a class="faireAfficher" href=""> <?php echo $legend1 ?> </a>
+                <a class="faireAfficher" href=""> <?php echo $arrayMots['legend1'] ?> </a>
             </legend>
-            <ol class="lesInstruction"> <?php echo $procedure ?> </ol> 
+            <ol class="lesInstruction"> <?php echo $arrayMots['procedure'] ?> </ol> 
         </fieldset>            
-        <p id="info"> <?php echo $information ?> </p>
+        <p id="info"> <?php echo $arrayMots['information'] ?> </p>
         <form method="post" action="./calculJavaScript.php">            
             <fieldset class="calcul">
                 <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $afficher ?>">
-                <legend align="center" id="legend2"> <?php echo $legend2 ?></legend>                 
+                <legend align="center" id="legend2"> <?php echo $arrayMots['legend2'] ?></legend>                 
                 <input class="button" type="submit" value=1 name="un"> 
                 <input class="button" type="submit" value=2 name="deux"> 
                 <input class="button" type="submit" value=3 name="trois">
@@ -155,29 +132,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input class="buttonOpe" type="submit" name="multi" value="*">
                 <input class="buttonOpe" type="submit" name="div" value="/">                    
                 <br><br>
-                <label id="label1"> <?php echo $label1 ?> </label>
-                <input type="text" name="nombre1" value="<?php echo $nombre1 ?>">                
+                <label id="label1"> <?php echo $arrayMots['label1'] ?> </label>
+                <input type="text" name="nombre1" value="">                
                 <br>
-                <input type="text" style="width:10px;" name="typeOpe" value="<?php echo $typeOpe ?>">
+                <input type="text" style="width:10px;" name="typeOpe" value="">
                 <br>
-                <label id="label2"> <?php echo $label2 ?> </label>
-                <input type="text" name="nombre2" value="<?php echo $nombre2 ?>">                
+                <label id="label2"> <?php echo $arrayMots['label2'] ?> </label>
+                <input type="text" name="nombre2" value="">                
                 <br><br>
                 <input class="buttonegal" type="submit" name="resultFinal" value="=">
                 <br><br>                   
-                <label id="label3"> <?php echo $label3 ?> </label>
-                <input type="text" name="nombreFinal" value="<?php echo $nombreFinal ?>">
+                <label id="label3"> <?php echo $arrayMots['label3'] ?> </label>
+                <input type="text" name="nombreFinal" value="">
                 <br><br>
-                <input class="buttonReset" type="submit" name="reset" value="<?php echo $boutonReset ?>">
+                <input class="buttonReset" type="submit" name="reset" value="<?php echo $arrayMots['boutonReset'] ?>">
             </fieldset>
             <br>
             <fieldset class="footer">
-                <input class="buttonReturn" type="submit" name="return" value="<?php echo $valeurReturn ?>">
+                <input class="buttonReturn" type="submit" name="return" value="<?php echo $arrayMots['valeurReturn'] ?>">
             </fieldset>
             <input class="typeLanguage" type="hidden" name="typeLangue" value="<?php echo $typeLangue ?>">
         </form> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>    
-        <script type="text/javascript" src="calcul.js"></script>
+        <script type="text/javascript" src="calculJavaScript.js"></script>
     </body>
 </html>

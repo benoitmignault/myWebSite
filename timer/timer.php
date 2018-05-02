@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="resetMise">
                     <button class="disabled" disabled id="reset"><?php echo $tableauLinguiste['reset'] ?></button>
                 </div>
-                <?php // Informatino ajouter à la demande de Philippe M ?>
+                <?php // Information ajouter à la demande de Philippe M ?>
                 <div class="new">
                     <div>
                         <label for="newAuto"><?php echo $tableauLinguiste['radioAuto'] ?></label>

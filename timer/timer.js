@@ -77,7 +77,7 @@ function augmentManuellement(){
         var champInval = false;
         var small;
         var big;
-        
+
         // validation sur la champ de la petite mise
         if (changeSmall.value === ""){
             champVide = true;
@@ -188,12 +188,6 @@ function reset(){
     }); 
 }
 
-function playMusique(){    
-    if (min === 0 && sec < 7 ){        
-        alertSound.play();
-    }
-}
-
 function timer15Min(){
     // La partie de la fct qui sera exécuter avec le cliquage du bouton
     temps15min.addEventListener('click', function (evt){            
@@ -221,7 +215,8 @@ function timer15Min(){
     });    
 }
 
-function starting15(){       
+function starting15(){     
+    // refaire la mécanique avec les minutes avant les secondes pour le 15 et 30 minutes
     if (sec === 0){  
         if (min === 0){
             var typeAction = document.querySelector('input[name="new"]:checked').value;
@@ -260,6 +255,13 @@ function starting15(){
     comptage = setTimeout(starting15, 1000);
 } 
 
+function playMusique(){    
+    if (min === 0 && sec < 7 ){        
+        alertSound.play();
+    }
+}
+
+
 function timer30Min(){
     // La partie de la fct qui sera exécuter avec le cliquage du bouton
     temps30min.addEventListener('click', function (evt){
@@ -288,6 +290,7 @@ function timer30Min(){
 }
 
 function starting30(){
+    // refaire la mécanique avec les minutes avant les secondes pour le 15 et 30 minutes
     if (sec === 0){
         if (min === 0){ 
             var typeAction = document.querySelector('input[name="new"]:checked').value;

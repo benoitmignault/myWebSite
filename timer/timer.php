@@ -36,6 +36,9 @@ function tranduction($typeLangage){
     return $tableauLinguiste;
 }
 
+// https://www.w3schools.com/php/php_ajax_database.asp
+// Exemple comment aller chercher l'information
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $typeLanguage = $_GET['langue'];
     if ($typeLanguage !== "francais" && $typeLanguage !== "english"){
@@ -44,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     } else {
         $tableauLinguiste = tranduction($typeLanguage);    
     }
+    
+    
+    
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {    

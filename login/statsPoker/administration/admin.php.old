@@ -481,7 +481,6 @@ function connexionBD() {
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
     $connMYSQL = new mysqli($host, $user, $password, $bd);
-    $connMYSQL->query("set names 'utf8'");
     /*
       $host = "localhost";
       $user = "zmignaub";
@@ -671,7 +670,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2><?php echo $arrayMots['h3']; ?></h2>                   
             <form method="post" action="admin.php">
                 <div class='formulaire_joueur'>         
-                    <div class="joueur <?php if (verifChampJoueur($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="joueur <?php if (verifChampJoueur($valid_Champ)) {
+    echo "erreur";
+} ?>">
                         <label for="joueur"><?php echo $arrayMots['joueur']; ?></label>
                         <select id="joueur" name="listeJoueur">
                             <?php echo $listeJoueurs; ?>
@@ -680,35 +681,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="position">
                         <label for="position"><?php echo $arrayMots['resultat']; ?></label>
                         <div>
-                            <input type="radio" <?php if ($champs['position'] === "victoire") { echo "checked"; } ?> name="position" id="victoire" value="victoire">
+                            <input type="radio" <?php if ($champs['position'] === "victoire") {
+    echo "checked";
+}
+                                   ?> name="position" id="victoire" value="victoire">
                             <label for="victoire"><?php echo $arrayMots['victoire']; ?></label>
                         </div>
                         <div>
-                            <input type="radio" <?php if ($champs['position'] === "fini2e") { echo "checked"; } ?> name="position" id="fini2e" value="fini2e">
+                            <input type="radio" <?php if ($champs['position'] === "fini2e") {
+    echo "checked";
+}
+                                   ?> name="position" id="fini2e" value="fini2e">
                             <label for="fini2e"><?php echo $arrayMots['fini2e']; ?></label>
                         </div>
                         <div>
-                            <input type="radio" <?php if ($champs['position'] === "autre") { echo "checked"; } ?> name="position" id="autre" value="autre">
+                            <input type="radio" <?php if ($champs['position'] === "autre") {
+    echo "checked";
+}
+                                   ?> name="position" id="autre" value="autre">
                             <label for="autre"><?php echo $arrayMots['autre']; ?></label>  
                         </div>
                     </div>
-                    <div class="gain <?php if (verifChampGain($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="gain <?php if (verifChampGain($valid_Champ)) {
+    echo "erreur";
+} ?>">
                         <label for="gain"><?php echo $arrayMots['gain']; ?></label>
                         <input maxlength="4" type="text" id="gain" name="gain" value="<?php echo $champs['gain'] ?>">
                     </div>
-                    <div class="numero <?php if (verifChampId($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="numero <?php if (verifChampId($valid_Champ)) {
+    echo "erreur";
+} ?>">
                         <label for="numTournoi"><?php echo $arrayMots['noId']; ?></label>
                         <input maxlength="4" type="text" id="numTournoi" name="numTournoi" value="<?php echo $champs['numTournoi'] ?>">
                     </div>
-                    <div class="date <?php if (verifChampDate($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="date <?php if (verifChampDate($valid_Champ)) {
+    echo "erreur";
+} ?>">
                         <label for="date">Date</label>
                         <input maxlength="10" type="text" id="date" name="date" value="<?php echo $champs['date'] ?>">
                     </div>
-                    <div class="killer <?php if (verifChampKiller($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="killer <?php if (verifChampKiller($valid_Champ)) {
+    echo "erreur";
+} ?>">
                         <label for="killer"><?php echo $arrayMots['killer']; ?></label>
                         <input maxlength="3" type="text" id="killer" name="killer" value="<?php echo $champs['killer'] ?>"> 
                     </div>  
-                    <div class="citron <?php if (verifChampCitron($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="citron <?php if (verifChampCitron($valid_Champ)) {
+    echo "erreur";
+} ?>">
                         <label for="citron"><?php echo $arrayMots['citron']; ?></label>
                         <input maxlength="1" type="text" id="citron" name="citron" value="<?php echo $champs['citron'] ?>">
                     </div> 
@@ -717,14 +737,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input class="bouton" type="submit" name="effacer" value="<?php echo $arrayMots['btn_erase']; ?>">
                     </div>
                     <div class="bas_formulaire">
-                        <p class="<?php if (( isset($_POST['effacer']) || isset($_POST['ajouter']) || isset($_POST['ajouterNouveau']) ) && $verif_tous_flag == true) { echo "avert"; } else {
-    echo "erreur"; } ?>"> <?php echo $champs['message']; ?> </p>
+                        <p class="<?php if (( isset($_POST['effacer']) || isset($_POST['ajouter']) || isset($_POST['ajouterNouveau']) ) && $verif_tous_flag == true) {
+    echo "avert";
+} else {
+    echo "erreur";
+} ?>"> <?php echo $champs['message']; ?> </p>
                     </div>
                 </div>
             </form>            
             <form method="post" action="admin.php">
                 <div class="formulaire_Nouveau">
-                    <div class="<?php if (verifChampNouveau($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="<?php if (verifChampNouveau($valid_Champ)) {
+    echo "erreur";
+} ?>">
                         <label for="newJoueur"><?php echo $arrayMots['newJoueur']; ?></label>
                         <input maxlength="25" type="text" id="newJoueur" name="newJoueur" value="<?php echo $champs['newJoueur'] ?>">
                     </div>

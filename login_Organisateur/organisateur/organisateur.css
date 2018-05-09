@@ -10,27 +10,48 @@ body{
 h1{
     color:white; 
 }
+.userDisplay{
+    color:red;
+    background-color: #F0FFF0;
+    padding: 2px;
+}
 h2, h1{
     text-align: center;     
 }
-h2{
-    margin-top:5px;
+h2,h3{
+    width: 100%;
+    margin: auto;
     margin-bottom:15px;
+    text-align: center;
+}
+form{
+    width: 48%;
+    margin:auto;
+}
+.container > .retour > form{
+    width: 100%;
 }
 .container {    
     display: -webkit-flex; 
     display: flex;
     -webkit-flex-direction:column; 
     flex-direction:column;
-    width: 40%;
+    width: 55%;
     border-radius: 10px;
     background-color: #f2f2f2;
     padding: 15px;
     margin:auto;  
 }
-.container > form > .formulaire_joueur,
-.container > form > .formulaire_Nouveau,
-.container > form > .footer{    
+.container > div{
+    width: 100%;
+    display: -webkit-flex; 
+    display: flex;
+    flex-wrap: wrap;
+}
+.form_ajout_combinaison,
+.form_affiche_combinaison,
+.form_retirer_combinaison,
+.form_retour{    
     width: 100%;
     background-color: #c8c8c8;
     display: -webkit-flex; 
@@ -40,6 +61,26 @@ h2{
     padding: 10px;
     border-radius: 10px;
 }
+.form_ajout_combinaison > input[type=text],
+.form_ajout_combinaison > select{
+    padding:5px;
+    width: 48%;
+    border-radius: 10px;
+    margin:auto;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .container > form > .formulaire_joueur .joueur,
 .container > form > .formulaire_joueur .erreur{    
     width: 30%;
@@ -93,7 +134,7 @@ h2{
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 20px;
-    color: green;    
+    color: darkred;
     font-weight: bold;
     width: 100%;
     text-align: center;
@@ -144,9 +185,9 @@ h2{
     font-family: Georgia;
     color: #ffffff;
     font-size: 18px;
-    padding: 10px 10px 10px 10px;
+    padding: 5px;
     border: solid #8c711f 3px;
-    margin-right: 10px;
+    margin: auto;
 }
 .bouton:hover{
     background: #c7dced;

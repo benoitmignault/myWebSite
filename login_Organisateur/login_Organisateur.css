@@ -81,13 +81,6 @@
     -webkit-flex-wrap: wrap;
     justify-content:center;
 }
-.content > .footer{
-    display: -webkit-flex; 
-    display: flex;
-    width:100%;
-    -webkit-flex-direction:column; 
-    flex-direction:column;    
-}
 .content > .footer div{
     width: 100%;
 }
@@ -139,6 +132,12 @@
 .erreur input[type="password"] {
     border-color: red;
     background-color: #FCDEDE;
+}
+p {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 .avert > p{
     font-size:20px;

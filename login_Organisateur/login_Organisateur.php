@@ -231,21 +231,12 @@ function connexionUser($champInitial, $connMYSQL) {
     foreach ($result as $row) {
         if ($row['user'] === $champInitial['user']) {
             if (password_verify($champInitial['password'], $row['password'])) {
-
-                /*
                 session_start();
                 $_SESSION['user'] = $champInitial['user'];
                 $_SESSION['password'] = $champInitial['password'];
                 $_SESSION['typeLangue'] = $champInitial["typeLangue"];
-
-                if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/admin.php");
-                } else {
-                    header("Location: ./statsPoker/poker.php");
-                }                
-                exit;
-                */
-                return $champInitial;
+                header("Location: ./organisateur/organisateur.php");
+                exit;   
             } else {
                 $champInitial['badPassword'] = true;
                 return $champInitial;
@@ -268,6 +259,7 @@ function connexionBD() {
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
+    $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
 }
 
@@ -355,31 +347,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
                     <form method="post" action="./login_Organisateur.php">
                         <div class="connexion"> 
-
-
                             <div class="information <?php if ($champInitial['champVideUser'] || $champInitial['invalidUser'] || $champInitial['duplicatUser'] || $champInitial['badUser'] || $champInitial['champUserTropLong'] || $champInitial['sameUserPassword']) { echo 'erreur'; } ?>">
                                 <label for="user"><?php echo $arrayMots['usager']; ?></label>
                                 <input id="user" type="text" name="user" maxlength="15" value="<?php echo $champInitial['user']; ?>" />
                             </div>
-
-
-
                             <div class="information <?php if ($champInitial['champVidePassword'] || $champInitial['badUser'] || $champInitial['invalidPassword'] || $champInitial['badPassword'] || $champInitial['champPasswordTropLong'] || $champInitial['sameUserPassword']) { echo 'erreur'; } ?>">
                                 <label for="password"><?php echo $arrayMots['mdp']; ?></label>
                                 <input id="password" type='password' maxlength="25" name="password" value="<?php echo $champInitial['password']; ?>"/>
                             </div> 
-
-
-
                             <div class="information <?php if ($champInitial['champVideName'] || $champInitial['invalidName'] || $champInitial['champNameTropLong']) { echo 'erreur'; } ?>">
                                 <label for="name"><?php echo $arrayMots['name']; ?></label>
                                 <input id="name" type="text" name="name" maxlength="15" value="<?php echo $champInitial['name']; ?>" />
                             </div>
-
-
-
-
-
                         </div>
                         <div class="troisBTN">                         
                             <input class="bouton" type='submit' name='login' value="<?php echo $arrayMots['btn_login']; ?>">

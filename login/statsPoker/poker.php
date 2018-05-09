@@ -506,7 +506,7 @@ function connexionBD() {
       $bd = "benoitmignault_ca_mywebsite";
      */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
-
+    $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
 }
 
@@ -534,7 +534,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $verificationUser = false;
     session_start();
     if (isset($_SESSION['user']) && isset($_SESSION['password']) &&
-            isset($_SESSION['typeLangue'])) {
+        isset($_SESSION['typeLangue'])) {
         $connMYSQL = connexionBD();
         $verificationUser = verificationUser($connMYSQL);
         $typeLangue = $_SESSION['typeLangue'];
@@ -684,20 +684,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="listeJoueur">
                                 <label for="joueur"><?php echo $arrayMots['label1']; ?></label>
                                 <select id="joueur" name="joueur">
-<?php echo $liste_Joueur; ?>
+                                    <?php echo $liste_Joueur; ?>
                                 </select>
                             </div> 
                             <div class="listeJoueur">
                                 <label for="idTournois"><?php echo $arrayMots['label2']; ?></label>
                                 <select id="idTournois" name="listeId">
-<?php echo $liste_Id_tournois; ?>
+                                    <?php echo $liste_Id_tournois; ?>
                                 </select>
                             </div>
 
                             <div class="listeJoueur">
                                 <label for="tournois_date"><?php echo $arrayMots['label3']; ?></label>
                                 <select id="tournois_date" name="listeDate">
-<?php echo $liste_Date_tournois; ?>
+                                    <?php echo $liste_Date_tournois; ?>
                                 </select>
                             </div>                            
                         </div>
@@ -707,7 +707,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="affichage">
                 <fieldset>
                     <legend align="center"><?php echo $arrayMots['legend3']; ?></legend>
-<?php echo $tableauResult; ?>
+                    <?php echo $tableauResult; ?>
                 </fieldset>                
             </div>
             <div class="return">

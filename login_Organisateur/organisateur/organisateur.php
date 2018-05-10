@@ -91,9 +91,9 @@ function tableau_valeur_couleur($connMYSQL, $champs){
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         if ($champs["typeLangue"] == "francais"){
-            $tableau .= "<table><thead><tr><th>Id</th><th>Valeur</th><th>Couleur</th></tr></thead>";
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Id</th><th>Valeur</th><th>Couleur</th></tr></thead>";
         } elseif ($champs["typeLangue"] == "english") {
-            $tableau .= "<table><thead><tr><th>Id</th><th>Value</th><th>Color</th></tr></thead>";
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Id</th><th>Value</th><th>Color</th></tr></thead>";
         }    
         $tableau .= "<tbody>";
         foreach ($result as $row) {
@@ -101,7 +101,25 @@ function tableau_valeur_couleur($connMYSQL, $champs){
         }
         $tableau .= "</tbody></table>";
     }
+    return $tableau;
+}
 
+function tableau_petite_grosse($connMYSQL, $champs){
+    $tableau = "";
+    $sql = "SELECT * FROM mise_small_big where user = '{$champs['user']}' ORDER BY small, big";
+    $result = $connMYSQL->query($sql);    
+    if ($result->num_rows > 0){
+        if ($champs["typeLangue"] == "francais"){
+            $tableau .= "<table class=\"tblMisesSB\"><thead><tr><th>Id</th><th>Petite</th><th>Grosse</th></tr></thead>";
+        } elseif ($champs["typeLangue"] == "english") {
+            $tableau .= "<table class=\"tblMisesSB\"><thead><tr><th>Id</th><th>Small</th><th>Big</th></tr></thead>";
+        } 
+        $tableau .= "<tbody>";
+        foreach ($result as $row) {
+            $tableau .= "<tr> <td>{$row['id_valeur']}</td> <td>{$row['small']}</td> <td>{$row['big']}</td> </tr>";
+        }
+        $tableau .= "</tbody></table>";
+    }
     return $tableau;
 }
 
@@ -208,6 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $valid_Champ = initialisation_indicateur();
         $choix_couleur_restant = choix_couleur_restant($connMYSQL, $champs);
         $tableau_valeur_couleur = tableau_valeur_couleur($connMYSQL, $champs);
+        $tableau_petite_grosse = tableau_petite_grosse($connMYSQL, $champs);
         $arrayMots = traduction($champs);        
     }
     $connMYSQL->close();
@@ -231,7 +250,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $valid_Champ = initialisation_indicateur();
         $champs = remplissageChamps($champs);        
         $choix_couleur_restant = choix_couleur_restant($connMYSQL);
-
+        $tableau_valeur_couleur = tableau_valeur_couleur($connMYSQL, $champs);
+        $tableau_petite_grosse = tableau_petite_grosse($connMYSQL, $champs);
 
 
 
@@ -305,7 +325,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="post" action="organisateur.php">
                     <div class="form_affiche_combinaison">
                         <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                        <div> <!-- Tableau pour afficher les valeurs dans la BD --> </div>                                                        
+                        <div><?php echo $tableau_petite_grosse; ?></div>                                                        
                     </div>
                 </form>
             </div>

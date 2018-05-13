@@ -117,7 +117,7 @@ function remplissageChamps($champs) {
             $champs["small"] = $_POST['small'];
             $champs["big"] = $_POST['big'];
         } elseif (isset($_POST['btn_delValeurCouleur'])){
-            $champs["idCouleur"] = $_POST['idValeurCouleur'];
+            $champs["idCouleur"] = intval($_POST['idValeurCouleur']);
         } elseif (isset($_POST['btn_delSmallBig'])){
             $champs["idPetiteGrosse"] = $_POST['idCoupleMise'];
         }
@@ -127,6 +127,7 @@ function remplissageChamps($champs) {
 
 function validation($champs, $valid_Champ, $connMYSQL) {
     $valeurNumerique = "#^[0-9]{1}([0-9]{0,3})[0-9]{0,1}$#";
+    $user = "\"" . $champs['user'] . "\"";
     if (isset($_POST['btn_delValeurCouleur'])){
         if ($champs["idCouleur"] === ""){
             $valid_Champ["id_couleur_vide"] = true;        
@@ -151,7 +152,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if ($longueurValeur > 5){
             $valid_Champ['valeur_long_inval'] = true;
         }        
-        $valid_Champ['doublon_valeur'] = verification_doublon("amount_color", "amount", intval($champs["valeur"]), $connMYSQL);
+        $valid_Champ['doublon_valeur'] = verification_doublon("benoitmignault_ca_mywebsite.amount_color", "amount", intval($champs["valeur"]), $user, $connMYSQL);
         // fin de la vérification avec le bouton des Valeur / Couleur
     } elseif (isset($_POST['btn_addSmallBig'])){
         $small = intval($champs["small"]);
@@ -182,8 +183,9 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if (!preg_match($valeurNumerique, $champs['big'])) {
             $valid_Champ['big_invalide'] = true;
         }
-        $valid_Champ['doublon_small'] = verification_doublon("mise_small_big", "small", $small, $connMYSQL);
-        $valid_Champ['doublon_big'] = verification_doublon("mise_small_big", "big", $big, $connMYSQL);
+        
+        $valid_Champ['doublon_small'] = verification_doublon("benoitmignault_ca_mywebsite.mise_small_big", "small", $small, $user, $connMYSQL);
+        $valid_Champ['doublon_big'] = verification_doublon("benoitmignault_ca_mywebsite.mise_small_big", "big", $big, $user, $connMYSQL);
         // fin de la vérification avec le bouton des petites / grosses mises        
     } 
     return $valid_Champ;
@@ -242,9 +244,11 @@ function situation($champs, $valid_Champ) {
     return $situation;
 }
 
-function verification_doublon($table, $champ, $valeur, $connMYSQL){
-    $sql = "SELECT * FROM $table WHERE $champ = $valeur ";    
+function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
+    $sql = "SELECT * FROM $table WHERE $champ = $valeur and user = $user"; 
+    var_dump($sql);
     $result = $connMYSQL->query($sql); 
+    var_dump($result->num_rows);
     if ($result->num_rows > 0){
         return true;
     } else {
@@ -253,7 +257,7 @@ function verification_doublon($table, $champ, $valeur, $connMYSQL){
 }
 
 function nb_couleur_restant($connMYSQL, $champs){
-    $sql = "SELECT * FROM color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
+    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         $champs["nbCouleurRestant"] = $result->num_rows;
@@ -263,7 +267,7 @@ function nb_couleur_restant($connMYSQL, $champs){
 
 function choix_couleur_restant($connMYSQL, $champs){
     $choixDesOption = "";    
-    $sql = "SELECT * FROM color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
+    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         foreach ($result as $row) {
@@ -289,7 +293,7 @@ function choix_couleur_restant($connMYSQL, $champs){
 
 function tableau_valeur_couleur($connMYSQL, $champs){
     $tableau = "";
-    $sql = "SELECT * FROM amount_color where user = '{$champs['user']}' ORDER BY amount";
+    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.amount_color where user = '{$champs['user']}' ORDER BY amount";
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         if ($champs["typeLangue"] == "francais"){
@@ -308,7 +312,7 @@ function tableau_valeur_couleur($connMYSQL, $champs){
 
 function tableau_petite_grosse($connMYSQL, $champs){
     $tableau = "";
-    $sql = "SELECT * FROM mise_small_big where user = '{$champs['user']}' ORDER BY small, big";
+    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.mise_small_big where user = '{$champs['user']}' ORDER BY small, big";
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         if ($champs["typeLangue"] == "francais"){
@@ -327,7 +331,7 @@ function tableau_petite_grosse($connMYSQL, $champs){
 
 function id_couleur_choisis($connMYSQL, $champs){
     $choixDesOption = "";    
-    $sql = "SELECT id_couleur FROM amount_color WHERE user = '{$champs['user']}' order by id_couleur";
+    $sql = "SELECT id_couleur FROM benoitmignault_ca_mywebsite.amount_color WHERE user = '{$champs['user']}' order by id_couleur";
     $result = $connMYSQL->query($sql);   
     if ($result->num_rows > 0){
         foreach ($result as $row) {
@@ -339,7 +343,7 @@ function id_couleur_choisis($connMYSQL, $champs){
 
 function id_mises_choisis($connMYSQL, $champs){
     $choixDesOption = "";    
-    $sql = "SELECT id_valeur FROM mise_small_big WHERE user = '{$champs['user']}' order by id_valeur";
+    $sql = "SELECT id_valeur FROM benoitmignault_ca_mywebsite.mise_small_big WHERE user = '{$champs['user']}' order by id_valeur";
     $result = $connMYSQL->query($sql);   
     if ($result->num_rows > 0){
         foreach ($result as $row) {
@@ -347,6 +351,29 @@ function id_mises_choisis($connMYSQL, $champs){
         }
     }
     return $choixDesOption;
+}
+
+function insert_BD_valeur_couleur($connMYSQL, $champs){
+    $valeur = intval($champs["valeur"]);  
+    $insert = "INSERT INTO benoitmignault_ca_mywebsite.amount_color (user, amount, color_english, id_couleur) VALUES ";
+    $insert .= "('" . $champs["user"] . "','" . $valeur . "','" . $champs["couleur"] . "', NULL)";
+    $connMYSQL->query($insert);    
+}
+
+function insert_BD_petite_grosse_mise($connMYSQL, $champs){
+    
+}
+
+function delete_BD_valeur_couleur($connMYSQL, $champs){
+    $user = "\"" . $champs['user'] . "\"";
+    $id = $champs["idCouleur"];
+    $delete = "DELETE FROM benoitmignault_ca_mywebsite.amount_color WHERE user = $user and id_couleur = $id";
+    var_dump($delete);
+    $connMYSQL->query($delete);  
+}
+
+function delete_BD_petite_grosse_mise($connMYSQL, $champs){
+
 }
 
 function reset_champs($champs){
@@ -457,29 +484,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Si les boutons liens externe sont active aller là
         // Sinon faire le reste
-
         $champs = initialisation_Champs();
         $valid_Champ = initialisation_indicateur();
-        $champs = remplissageChamps($champs); 
-        $champs = nb_couleur_restant($connMYSQL, $champs);
-        $choix_couleur_restant = choix_couleur_restant($connMYSQL, $champs);
-        $tableau_valeur_couleur = tableau_valeur_couleur($connMYSQL, $champs);
-        $tableau_petite_grosse = tableau_petite_grosse($connMYSQL, $champs);
-        $id_couleur_choisis = id_couleur_choisis($connMYSQL, $champs);
-        $id_mises_choisis = id_mises_choisis($connMYSQL, $champs);
+        $champs = remplissageChamps($champs);        
         $valid_Champ = validation($champs, $valid_Champ, $connMYSQL);
         $champs['situation'] = situation($champs, $valid_Champ); // On met ajout au final juste la variable
 
         switch ($champs['situation']){
-            case 1 : break;  
+            case 1 : insert_BD_valeur_couleur($connMYSQL, $champs); break;  
             case 7 : break;  
-            case 16 : break;  
+            case 16 : delete_BD_valeur_couleur($connMYSQL, $champs);break;  
             case 18 : break;  
         }
         $champs = reset_champs($champs);
         $arrayMots = traduction($champs);
         // À revoir ! À la fin....
         echo "<script>alert('".$arrayMots['message']."')</script>";
+        
+        $choix_couleur_restant = choix_couleur_restant($connMYSQL, $champs);         
+        $tableau_valeur_couleur = tableau_valeur_couleur($connMYSQL, $champs);
+        $tableau_petite_grosse = tableau_petite_grosse($connMYSQL, $champs);
+        $id_couleur_choisis = id_couleur_choisis($connMYSQL, $champs);
+        $id_mises_choisis = id_mises_choisis($connMYSQL, $champs);
+        $champs = nb_couleur_restant($connMYSQL, $champs);        
     }
     $connMYSQL->close();
 }
@@ -487,11 +514,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
         <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
-        <link rel="shortcut icon" href="organisateur.png">	        
+        <link rel="shortcut icon" href="organisateur.png">	       
         <link rel="stylesheet" type="text/css" href="organisateur.css"> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><?php echo $arrayMots['title']; ?></title> 
@@ -500,7 +525,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 margin:0;    
                 /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ 
                 sous licence libre */
-                background-image: url("organisateur.jpg");
+                /*background-image: url("organisateur.jpg");*/
                 background-position: center;
                 background-attachment: fixed;
                 background-size: 100%;

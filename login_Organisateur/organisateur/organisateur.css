@@ -24,12 +24,20 @@ h2,h3{
     margin-bottom:15px;
     text-align: center;
 }
-form{
+.container > .retirer_combinaison > form > .form_retirer_combinaison > label{
+    margin: auto;
+    margin-bottom: 10px;    
+    text-align: center;
+}
+.container > .ajout_combinaison > form,
+.container > .affiche_combinaison > form,
+.container > .retirer_combinaison > form{
     width: 48%;
     margin:auto;
+    margin-top: 0;
 }
 .container > .retour > form{
-    width: 100%;
+    margin:auto;
 }
 .container {    
     display: -webkit-flex; 
@@ -40,6 +48,7 @@ form{
     border-radius: 10px;
     background-color: #f2f2f2;
     padding: 15px;
+    padding-bottom: 0;
     margin:auto;  
 }
 .container > div{
@@ -62,115 +71,30 @@ form{
     border-radius: 10px;
 }
 .form_ajout_combinaison > input[type=text],
-.form_ajout_combinaison > select{
+.form_ajout_combinaison > select,
+.form_retirer_combinaison > select{
     padding:5px;
     width: 48%;
     border-radius: 10px;
     margin:auto;
     margin-bottom: 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-.container > form > .formulaire_joueur .joueur,
-.container > form > .formulaire_joueur .erreur{    
-    width: 30%;
-    margin-bottom: 15px;
+.container > .retour > form > .form_retour > .btn_footer:last-of-type{
+    margin-left: 15px;
 }
-.container > form > .formulaire_joueur .joueur > select{
-    padding:5px;
-    width: 75%;
-    border-radius: 10px;
-}
-.container > form > .formulaire_joueur .erreur > select{    
-    border: 2px solid red;
-    background: #FCDEDE; 
-    border-radius: 10px;
-}
-.container > form > .formulaire_joueur > .position{
-    width: 70%;
-    margin-bottom: 15px;
-}
-.container > form > .formulaire_joueur > .gain,
-.container > form > .formulaire_joueur > .numero,
-.container > form > .formulaire_joueur > .date,
-.container > form > .formulaire_joueur > .killer,
-.container > form > .formulaire_joueur > .citron{    
-    width: 33%;
-    margin-bottom: 15px;
-}
-.container > form > .formulaire_joueur > div > input[type=text],
-.container > form > .formulaire_Nouveau > div > input[type=text]{
+.container > .affiche_combinaison > form > .form_affiche_combinaison > div,
+.container > .affiche_combinaison > form > .form_affiche_combinaison > div > .tblValeurCouleur{
     width: 100%;
-    border-radius: 10px;
+}
+.tblValeurCouleur{
+    text-align: center;    
+    border-collapse: collapse;
+    border: 2px solid black;
+}
+.tblValeurCouleur td, 
+.tblValeurCouleur th {
+    border: 1px solid black;
     padding: 5px;
-    border: 1px solid #ccc;    
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize: vertical;
-}
-.container > form > .formulaire_joueur > .erreur > input[type=text],
-.container > form > .formulaire_Nouveau > .erreur > input[type=text]{
-    border: 2px solid red;
-    background: #FCDEDE;
-}
-.container > form > .formulaire_joueur > .bas_formulaire{
-    width: 100%;
-}
-.container > form > .formulaire_joueur > .bas_formulaire > input{
-    width: 20%;
-}
-.container > form > .formulaire_joueur > div > .avert{
-    margin: 0;    
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 20px;
-    color: darkred;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-}
-.container > form > .formulaire_joueur > div > .erreur{  
-    margin: 0;    
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 20px;
-    color: red;    
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-}
-.container > form > .formulaire_Nouveau > div{
-    width: 100%;
-    margin-bottom: 10px;
-}
-.container > form > .formulaire_Nouveau > div > input[type=text]{
-    width: 30%;
-}
-.container > form > .formulaire_Nouveau > div > input[type=submit]{
-    width: 40%;
-}
-.container > form > .footer{
-    margin-bottom: 0;    
-}
-.container > form > .footer > .btn_footer{
-    width: 100%;
-    margin-bottom: 10px;
-}
-.container > form > .footer > .btn_footer > input{
-    width: 40%;
-}
-.container > form > .footer > .btn_footer:last-of-type{
-    margin-bottom: 0px;
 }
 .bouton{
     background: #507d99;
@@ -202,81 +126,38 @@ label:hover{
     cursor: pointer;
 }
 @media screen and (max-width:768px) {
-    h2, h1{
-        font-size: 22px;
-        text-align: justify;
-    }
     h1{
-        margin-left: 10px;
-        margin-right: 10px;
+        font-size: 1.5em;
     }
     h2{
-        margin-bottom: 15px;
+        font-size: 1.1em;
     }
     .container{
+        width: 100%
+    }
+    .container > .ajout_combinaison > form,
+    .container > .affiche_combinaison > form,
+    .container > .retirer_combinaison > form,
+    .container > .retour > form{
         width: 100%;
-        padding: 5px;
     }
-    .container > form > .formulaire_joueur,
-    .container > form > .formulaire_Nouveau,
-    .container > form > .footer{ 
-        -webkit-flex-direction:column; 
-        flex-direction:column;
-    }
-    .container > form > .formulaire_joueur > .position > div{
-        margin-top: 5px;
-    }
-    .container > form > .formulaire_joueur > .joueur,
-    .container > form > .formulaire_joueur > .erreur{    
-        width: 100%;
-        margin-bottom: 5px;
-    }
-    .container > form > .formulaire_joueur > .gain,
-    .container > form > .formulaire_joueur > .numero,
-    .container > form > .formulaire_joueur > .date,
-    .container > form > .formulaire_joueur > .killer,
-    .container > form > .formulaire_joueur > .citron{
-        width: 100%;
-        margin-bottom: 5px;
-    }
-    .container > form > .formulaire_joueur > div > input[type=text],
-    .container > form > .formulaire_Nouveau > div > input[type=text]{
-        margin-bottom: 5px;
-    }
-    .container > form > .formulaire_joueur > .bas_formulaire > input {        
+    .form_ajout_combinaison > input[type=text],
+    .form_ajout_combinaison > select,
+    .form_retirer_combinaison > select{
         width: 100%;
     }
     .bouton{
-        font-size: 22px;
-        padding: 0px;
-    }
-    .container > form > .formulaire_joueur > .bas_formulaire > .bouton:first-of-type{
-        margin-bottom: 10px;
-    }
-    .container > form > .formulaire_joueur > div > .avert,
-    .container > form > .formulaire_joueur > div > .erreur{
-        text-align: justify;
-        font-size: 18px;
-    }
-    .container > form > .formulaire_Nouveau > div > input[type=text],
-    .container > form > .formulaire_Nouveau > div > input[type=submit],
-    .container > form > .footer > .btn_footer > input{
         width: 100%;
     }
-    .container > form > .formulaire_Nouveau > div > input[type=submit],
-    .container > form > .footer > .btn_footer > input{
-        font-size: 19px;
-        padding-top: 5px;
-        padding-bottom: 5px;
+    .container > .retour > form > .form_retour > .btn_footer{
+        width: 100%;
+        margin: 0;
     }
-
-
-
-
-
-
-
-
-
-
+    .container > .retour > form > .form_retour > .btn_footer:last-of-type{
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    .container > .retour > form > .form_retour > .btn_footer > input[name=home]{
+        font-size: 14px;
+    }
 }

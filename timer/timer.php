@@ -46,10 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         exit;
     } else {
         $tableauLinguiste = tranduction($typeLanguage);    
-    }
-    
-    
-    
+    }  
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {    

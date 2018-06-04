@@ -16,6 +16,7 @@ function traduction($champs) {
         $id_couleur = "ID correspondant à celui du tableau valeurs et couleurs.";
         $id_mises = "ID correspondant à celui du tableau petites et grosses mises.";
         $message = message_Situation($champs);
+        $message_Erreur_BD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
     } elseif ($champs["typeLangue"] === 'english') {
         $titre = "Management of a tournament";
         $h1 = "welcome to you &rarr; <span class='userDisplay'>{$_SESSION['user']}</span> &larr; on the management page of an organizer.";
@@ -32,8 +33,9 @@ function traduction($champs) {
         $id_couleur = "ID corresponding to that of the values and colors table.";
         $id_mises = "ID corresponding to that of the table small and large bets.";
         $message = message_Situation($champs);
+        $message_Erreur_BD = "There was a problem with insert your values into the DB. Please try again !";
     }
-    $arrayMots = ['message' => $message, 'title' => $titre, 'msg_welcome' => $h1, 'h3_Ajouter' => $h3_Ajouter, 'h3_Affichage' => $h3_Affichage, 'h3_Retirer'=> $h3_Retirer, 'valeur_couleur'=>$valeur_couleur,'petit_grosse_mise'=> $petit_grosse_mise, 'btn_timer'=>$btn_timer, 'btn_return'=>$btn_return, 'btn_ajout'=>$btn_ajout,'btn_delete'=>$btn_delete, 'id_couleur'=>$id_couleur, 'option'=>$option, 'id_mises'=>$id_mises];
+    $arrayMots = ['message_Erreur_BD' => $message_Erreur_BD, 'message' => $message, 'title' => $titre, 'msg_welcome' => $h1, 'h3_Ajouter' => $h3_Ajouter, 'h3_Affichage' => $h3_Affichage, 'h3_Retirer'=> $h3_Retirer, 'valeur_couleur'=>$valeur_couleur,'petit_grosse_mise'=> $petit_grosse_mise, 'btn_timer'=>$btn_timer, 'btn_return'=>$btn_return, 'btn_ajout'=>$btn_ajout,'btn_delete'=>$btn_delete, 'id_couleur'=>$id_couleur, 'option'=>$option, 'id_mises'=>$id_mises];
     return $arrayMots;
 }
 
@@ -183,7 +185,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if (!preg_match($valeurNumerique, $champs['big'])) {
             $valid_Champ['big_invalide'] = true;
         }
-        
+
         $valid_Champ['doublon_small'] = verification_doublon("benoitmignault_ca_mywebsite.mise_small_big", "small", $small, $user, $connMYSQL);
         $valid_Champ['doublon_big'] = verification_doublon("benoitmignault_ca_mywebsite.mise_small_big", "big", $big, $user, $connMYSQL);
         // fin de la vérification avec le bouton des petites / grosses mises        
@@ -245,10 +247,8 @@ function situation($champs, $valid_Champ) {
 }
 
 function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
-    $sql = "SELECT * FROM $table WHERE $champ = $valeur and user = $user"; 
-    var_dump($sql);
-    $result = $connMYSQL->query($sql); 
-    var_dump($result->num_rows);
+    $sql = "SELECT * FROM $table WHERE $champ = $valeur and user = $user";
+    $result = $connMYSQL->query($sql);
     if ($result->num_rows > 0){
         return true;
     } else {
@@ -316,9 +316,9 @@ function tableau_petite_grosse($connMYSQL, $champs){
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         if ($champs["typeLangue"] == "francais"){
-            $tableau .= "<table class=\"tblMisesSB\"><thead><tr><th>Id</th><th>Petite</th><th>Grosse</th></tr></thead>";
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Id</th><th>Petite</th><th>Grosse</th></tr></thead>";
         } elseif ($champs["typeLangue"] == "english") {
-            $tableau .= "<table class=\"tblMisesSB\"><thead><tr><th>Id</th><th>Small</th><th>Big</th></tr></thead>";
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Id</th><th>Small</th><th>Big</th></tr></thead>";
         } 
         $tableau .= "<tbody>";
         foreach ($result as $row) {
@@ -331,7 +331,7 @@ function tableau_petite_grosse($connMYSQL, $champs){
 
 function id_couleur_choisis($connMYSQL, $champs){
     $choixDesOption = "";    
-    $sql = "SELECT id_couleur FROM benoitmignault_ca_mywebsite.amount_color WHERE user = '{$champs['user']}' order by id_couleur";
+    $sql = "SELECT id_couleur FROM benoitmignault_ca_mywebsite.amount_color WHERE user = '{$champs['user']}' order by amount";
     $result = $connMYSQL->query($sql);   
     if ($result->num_rows > 0){
         foreach ($result as $row) {
@@ -343,7 +343,7 @@ function id_couleur_choisis($connMYSQL, $champs){
 
 function id_mises_choisis($connMYSQL, $champs){
     $choixDesOption = "";    
-    $sql = "SELECT id_valeur FROM benoitmignault_ca_mywebsite.mise_small_big WHERE user = '{$champs['user']}' order by id_valeur";
+    $sql = "SELECT id_valeur FROM benoitmignault_ca_mywebsite.mise_small_big WHERE user = '{$champs['user']}' order by small";
     $result = $connMYSQL->query($sql);   
     if ($result->num_rows > 0){
         foreach ($result as $row) {
@@ -357,23 +357,33 @@ function insert_BD_valeur_couleur($connMYSQL, $champs){
     $valeur = intval($champs["valeur"]);  
     $insert = "INSERT INTO benoitmignault_ca_mywebsite.amount_color (user, amount, color_english, id_couleur) VALUES ";
     $insert .= "('" . $champs["user"] . "','" . $valeur . "','" . $champs["couleur"] . "', NULL)";
-    $connMYSQL->query($insert);    
+    $result = $connMYSQL->query($insert);  
+    return $result;
 }
 
 function insert_BD_petite_grosse_mise($connMYSQL, $champs){
-    
+    $small = intval($champs["small"]);  
+    $big = intval($champs["big"]);  
+    $insert = "INSERT INTO benoitmignault_ca_mywebsite.mise_small_big (user, small, big, id_valeur) VALUES ";
+    $insert .= "('" . $champs["user"] . "','" . $small . "','" . $big . "', NULL)";
+    $result = $connMYSQL->query($insert); 
+    return $result;
 }
 
 function delete_BD_valeur_couleur($connMYSQL, $champs){
     $user = "\"" . $champs['user'] . "\"";
     $id = $champs["idCouleur"];
     $delete = "DELETE FROM benoitmignault_ca_mywebsite.amount_color WHERE user = $user and id_couleur = $id";
-    var_dump($delete);
-    $connMYSQL->query($delete);  
+    $result = $connMYSQL->query($delete);  
+    return $result;
 }
 
 function delete_BD_petite_grosse_mise($connMYSQL, $champs){
-
+    $user = "\"" . $champs['user'] . "\"";
+    $id = $champs["idPetiteGrosse"];
+    $delete = "DELETE FROM benoitmignault_ca_mywebsite.mise_small_big WHERE user = $user and id_valeur = $id";
+    $result = $connMYSQL->query($delete);
+    return $result;
 }
 
 function reset_champs($champs){
@@ -417,27 +427,18 @@ function verificationUser($connMYSQL) {
     }
 }
 
-function redirection($champs) {
-    // La redirection il y aura vers le timer direct
-    // Ou simplement un retour à la page acceuil
-
+function redirection($champs) {  
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         session_destroy();
         header("Location: /erreur/erreur.php");
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-        if (isset($_POST['stats'])) {
-            header("Location: /login/statsPoker/poker.php");
-        } elseif (isset($_POST['login'])) {
-            session_destroy();
-            header("Location: /login/login.php?langue={$champs["typeLangue"]}");
-        } elseif (isset($_POST['accueuil'])) {
-            session_destroy();
-            if ($typeLangue == 'english') {
-                header("Location: /english/english.html");
-            } else {
-                header("Location: /index.html");
-            }
+        session_destroy();
+        if (isset($_POST['timer'])) {
+            header("Location: /timer/timer.php?langue={$champs["typeLangue"]}");
+        } elseif (isset($_POST['home']) && $champs["typeLangue"] == "francais") {
+            header("Location: /index.html");
+        } elseif (isset($_POST['home']) && $champs["typeLangue"] == "english") {
+            header("Location: /english/english.html");            
         }
     }
     exit; // pour arrêter l'éxecution du code php
@@ -482,31 +483,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$verificationUser) {
         redirection($champs);
     } else {
-        // Si les boutons liens externe sont active aller là
-        // Sinon faire le reste
         $champs = initialisation_Champs();
         $valid_Champ = initialisation_indicateur();
         $champs = remplissageChamps($champs);        
         $valid_Champ = validation($champs, $valid_Champ, $connMYSQL);
-        $champs['situation'] = situation($champs, $valid_Champ); // On met ajout au final juste la variable
+        $champs['situation'] = situation($champs, $valid_Champ); // On met ajout au final juste la variable 
+        $result = false;
+        $operation_sur_BD = true;
 
-        switch ($champs['situation']){
-            case 1 : insert_BD_valeur_couleur($connMYSQL, $champs); break;  
-            case 7 : break;  
-            case 16 : delete_BD_valeur_couleur($connMYSQL, $champs);break;  
-            case 18 : break;  
+        if (isset($_POST['timer']) || isset($_POST['home']) ){
+            redirection($champs);
+        } else {
+            if ($champs['situation'] === 1 || $champs['situation'] === 7 || $champs['situation'] === 16 || $champs['situation'] === 18){
+                switch ($champs['situation']){            
+                    case 1 : $result = insert_BD_valeur_couleur($connMYSQL, $champs); break;  
+                    case 7 : $result = insert_BD_petite_grosse_mise($connMYSQL, $champs); break;  
+                    case 16 : $result = delete_BD_valeur_couleur($connMYSQL, $champs); break;  
+                    case 18 : $result = delete_BD_petite_grosse_mise($connMYSQL, $champs); break;  
+                } 
+                if ($result){
+                    $operation_sur_BD = false; 
+                }
+            }
+
+            $champs = reset_champs($champs);
+            $arrayMots = traduction($champs);
+            if ($result && !$operation_sur_BD || !$result && $operation_sur_BD){
+                echo "<script>alert('".$arrayMots['message']."')</script>";
+            } elseif (!$result && !$operation_sur_BD) {
+                echo "<script>alert('".$arrayMots['message_Erreur_BD']."')</script>";
+            }
+
+            $choix_couleur_restant = choix_couleur_restant($connMYSQL, $champs);         
+            $tableau_valeur_couleur = tableau_valeur_couleur($connMYSQL, $champs);
+            $tableau_petite_grosse = tableau_petite_grosse($connMYSQL, $champs);
+            $id_couleur_choisis = id_couleur_choisis($connMYSQL, $champs);
+            $id_mises_choisis = id_mises_choisis($connMYSQL, $champs);
+            $champs = nb_couleur_restant($connMYSQL, $champs);    
         }
-        $champs = reset_champs($champs);
-        $arrayMots = traduction($champs);
-        // À revoir ! À la fin....
-        echo "<script>alert('".$arrayMots['message']."')</script>";
-        
-        $choix_couleur_restant = choix_couleur_restant($connMYSQL, $champs);         
-        $tableau_valeur_couleur = tableau_valeur_couleur($connMYSQL, $champs);
-        $tableau_petite_grosse = tableau_petite_grosse($connMYSQL, $champs);
-        $id_couleur_choisis = id_couleur_choisis($connMYSQL, $champs);
-        $id_mises_choisis = id_mises_choisis($connMYSQL, $champs);
-        $champs = nb_couleur_restant($connMYSQL, $champs);        
     }
     $connMYSQL->close();
 }
@@ -525,7 +539,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 margin:0;    
                 /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ 
                 sous licence libre */
-                /*background-image: url("organisateur.jpg");*/
+                background-image: url("organisateur.jpg");
                 background-position: center;
                 background-attachment: fixed;
                 background-size: 100%;
@@ -606,10 +620,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="post" action="organisateur.php">
                     <div class="form_retour">
                         <div class="btn_footer">
-                            <input class="bouton" type="submit" name="stats" value="<?php echo $arrayMots['btn_timer']; ?>">
+                            <input class="bouton" type="submit" name="timer" value="<?php echo $arrayMots['btn_timer']; ?>">
                         </div>
                         <div class="btn_footer">
-                            <input class="bouton" type="submit" name="login" value="<?php echo $arrayMots['btn_return']; ?>">
+                            <input class="bouton" type="submit" name="home" value="<?php echo $arrayMots['btn_return']; ?>">
                         </div>                        
                     </div>
                 </form> 

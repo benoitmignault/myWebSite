@@ -1,8 +1,17 @@
 <?php
-function traduction($champs) {
+function traduction($champs, $connMYSQL) {
+    $prenom = "";
+    $sql = "SELECT name FROM benoitmignault_ca_mywebsite.login_organisateur where user = '{$champs['user']}'";
+    $result = $connMYSQL->query($sql);   
+    if ($result->num_rows > 0){
+        foreach ($result as $row) {
+            $prenom = $row['name'];
+        }
+    } 
+    
     if ($champs["typeLangue"] === 'francais') {
         $titre = "Gestion d'un tournoi";
-        $h1 = "Bienvenue à vous &rarr; <span class='userDisplay'>{$_SESSION['user']}</span> &larr; sur la page de gestion d'un organisateur.";
+        $h1 = "Bienvenue à vous &rarr; <span class='userDisplay'>{$prenom}</span> &larr; sur la page de gestion d'un organisateur.";
         $h3_Ajouter = "Ajouter une combinaison.";
         $h3_Affichage = "Afficher les combinaisons.";
         $h3_Retirer = "Retirer une combinaison.";
@@ -19,7 +28,7 @@ function traduction($champs) {
         $message_Erreur_BD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
     } elseif ($champs["typeLangue"] === 'english') {
         $titre = "Management of a tournament";
-        $h1 = "welcome to you &rarr; <span class='userDisplay'>{$_SESSION['user']}</span> &larr; on the management page of an organizer.";
+        $h1 = "welcome to you &rarr; <span class='userDisplay'>{$prenom}</span> &larr; on the management page of an organizer.";
         $h3_Ajouter = "Add combination.";
         $h3_Affichage = "Show combinations.";
         $h3_Retirer = "Remove combination.";
@@ -465,7 +474,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $tableau_petite_grosse = tableau_petite_grosse($connMYSQL, $champs);
         $id_couleur_choisis = id_couleur_choisis($connMYSQL, $champs);
         $id_mises_choisis = id_mises_choisis($connMYSQL, $champs);
-        $arrayMots = traduction($champs);        
+        $arrayMots = traduction($champs, $connMYSQL);        
     }
     $connMYSQL->close();
 }
@@ -507,7 +516,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $champs = reset_champs($champs);
-            $arrayMots = traduction($champs);
+            $arrayMots = traduction($champs, $connMYSQL);
             if ($result && !$operation_sur_BD || !$result && $operation_sur_BD){
                 echo "<script>alert('".$arrayMots['message']."')</script>";
             } elseif (!$result && !$operation_sur_BD) {

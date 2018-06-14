@@ -1,66 +1,325 @@
-<?php 
-function tranduction($typeLangage){
-    $tableauLinguiste = [];
-    if ($typeLangage === "francais"){
-        $tableauLinguiste = ['title' => 'Minuteur', 
-                             'h2-1' => 'Voici la section des valeurs en jeton possible !', 
-                             'h2-2' => 'Voici la section des périodes de temps possible !', 
-                             'typeMise' => 'Les mises possible', 
-                             'small' => 'La petite mise', 'radioAuto' => 'Auto',
-                             'radioManuel' => 'Manuel',
-                             'btnChangerManuel' => 'Changer manuellement',
-                             'champPetite' => 'Modification de la petite mise',
-                             'champGrosse' => 'Modification de la grosse mise',
-                             'big' => 'La grosse mise', 'retour' => 'Retour à l\'acceuil',
-                             'foisDeux' => 'Doubler', 'btnReset' => 'Reset du Temps',
-                             'reset' => 'Reset des mises', 
-                             'periode' => 'En attente d\'une période de temps...', 
-                             'btnReprendre' => 'POURSUIVRE'];
-    } elseif ($typeLangage === "english") {
-        $tableauLinguiste = ['title' => 'Timer', 
-                             'radioAuto' => 'Auto',
-                             'radioManuel' => 'Manual',
-                             'champPetite' => 'Changing the small bet',
-                             'champGrosse' => 'Changing the big bet',
-                             'btnChangerManuel' => 'Change manually',
-                             'h2-1' => 'This is the section of values the ships !', 
-                             'h2-2' => 'This is the section of period of time !', 
-                             'typeMise' => 'Bets availables', 
-                             'small' => 'The small blind', 
-                             'big' => 'The big blind', 
-                             'foisDeux' => 'Double', 'btnReset' => 'Reset of time',
-                             'reset' => 'Reset of bets', 'retour' => 'Return to home page',
-                             'periode' => 'Waiting for a period of time...', 
-                             'btnReprendre' => 'CONTINUE'];
+<?php
+function traduction($champs){
+    if ($champs['typeLangue'] === "francais"){
+        $title = 'Minuteur';
+        $h2tableau = 'Section de l\'Organisateur';
+        $h2timer = 'Section des valeurs en jeton possible !';
+        $h2temps = 'Section des périodes de temps possible !';
+        $typeMise = 'Les mises possible';
+        $small = 'La petite mise';
+        $big = 'La grosse mise';
+        $retour = 'Retour à l\'acceuil';
+        $changer = 'Changer mise';
+        $btnReset = 'Reset du Temps';
+        $reset = 'Reset des mises';
+        $periode = 'En attente d\'une période de temps...';
+        $btnReprendre = 'POURSUIVRE';
+        $choixOrganisateur = 'Veuillez choisir votre organisateur &rarr;';
+        $option = "À sélectionner";
+        $btn_choix = 'Choisir';
+        $message = message_Situation($champs);
+        $message_Erreur_BD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
+    } elseif ($champs['typeLangue'] === "english") {
+        $title = 'Timer';
+        $choixOrganisateur = 'Please choose an organizer &rarr;';
+        $h2tableau = 'Section of the Organizer';
+        $h2timer = 'Section of values the ships !';
+        $h2temps = 'Section of period of time !';
+        $typeMise = 'Bets availables';
+        $small = 'The small blind';
+        $big = 'The big blind';
+        $retour = 'HOME';
+        $changer = 'Change bet';
+        $btnReset = 'Time Reset';
+        $reset = 'Bets Reset';
+        $periode = 'Waiting for a period of time...';
+        $btnReprendre = 'GO ON';
+        $option = "Select";
+        $btn_choix = 'PICK OUT';
+        $message = message_Situation($champs);
+        $message_Erreur_BD = "There was a problem with insert your values into the DB. Please try again !";
     }
+    $tableauLinguiste = ['title' => $title, 'h2Timer' => $h2timer, 'h2Temps' => $h2temps, 'typeMise' => $typeMise, 'changerMise' => $changer, 'h2tableau' => $h2tableau, 'choixOrganisateur' => $choixOrganisateur, 'option' => $option, 'btn_choix' => $btn_choix, 'message' => $message, 'message_Erreur_BD' => $message_Erreur_BD, 'small' => $small, 'big' => $big, 'retour' => $retour, 'btnReset' => $btnReset, 'reset' => $reset, 'periode' => $periode, 'btnReprendre' => $btnReprendre];
     return $tableauLinguiste;
 }
 
-// https://www.w3schools.com/php/php_ajax_database.asp
-// Exemple comment aller chercher l'information
+function message_Situation($champs){
+    $message = "";
+    if ($champs["typeLangue"] === 'francais') {
+        switch ($champs['situation']){
+            case 1 : $message = "Votre choix organisateur ne peut être null !"; break;
+        }
+    } elseif ($champs["typeLangue"] === 'english') {
+        switch ($champs['situation']){
+            case 1 : $message = "Your organizer choice can not be null !"; break;
+        }
+    }
+    return $message;
+}
+
+function initialisation_Champs() {
+    $champs = ["typeLangue" => "", "user" => "", "nom_organisateur" => "", "situation" => 0, "combinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucune_valeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255];
+    return $champs;
+}
+
+function initialisation_indicateur() {
+    $valid_champs = ["user_vide" => false, "changement_mise" => false, "reset_mise" => false, "choix_user" => false];
+    return $valid_champs;
+}
+
+function remplissageChamps($champs) {
+    if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+        if (isset($_GET['langue'])){
+            $champs['typeLangue'] = $_GET['langue'];
+        }
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if (isset($_POST['typeLangue'])){
+            $champs['typeLangue'] = $_POST['typeLangue'];
+        }
+        if (isset($_POST['choixOrganisateur'])){
+            $champs['user'] = $_POST['choixOrganisateur'];
+        }
+        if (isset($_POST['btn_changerMise'])){
+            $champs['combinaison'] = intval($_POST['combinaison']);
+            $champs['combinaison']++;
+            if (isset($_POST['number_Red'])){
+                $champs['number_Red'] = intval($_POST['number_Red']);
+            }
+            if (isset($_POST['number_Green'])){
+                $champs['number_Green'] = intval($_POST['number_Green']);
+            }
+            if (isset($_POST['number_Blue'])){
+                $champs['number_Blue'] = intval($_POST['number_Blue']);
+            }
+            $value_Red_temp = $champs['number_Red'] - 25;
+            $value_Green_temp = $champs['number_Green'] - 25;
+            // Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
+            if ($value_Green_temp > 0){
+                $champs['number_Green'] = $value_Green_temp;
+                $champs['number_Blue'] = $value_Green_temp;
+                // Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
+            } elseif ($value_Red_temp > 0){
+                $champs['number_Red'] = $value_Red_temp;
+                $champs['number_Green'] = 0;
+                $champs['number_Blue'] = 0;
+            } else {
+                $champs['number_Red'] = 0;
+                $champs['number_Green'] = 0;
+                $champs['number_Blue'] = 0;
+            }
+
+        }
+        if (isset($_POST['btn_resetMise'])){
+            $champs['combinaison'] = 0;
+            $champs['number_Red'] = 255;
+            $champs['number_Green'] = 255;
+            $champs['number_Blue'] = 255;
+        }
+    }
+    return $champs;
+}
+
+function coloriage($champs) {
+    return "rgb({$champs['number_Red']},{$champs['number_Green']},{$champs['number_Blue']})";
+}
+
+function validation($champs, $valid_champs){
+    if ($champs['user'] === ""){
+        $valid_champs["user_vide"] = true;     
+    }
+    if (isset($_POST['btn_changerMise'])){        
+        $valid_champs["changement_mise"] = true; 
+    } elseif (isset($_POST['btn_resetMise'])){
+        $valid_champs["reset_mise"] = true; 
+    } elseif (isset($_POST['btn_choixOrganisateur'])){
+        $valid_champs["choix_user"] = true; 
+    }
+    return $valid_champs;
+}
+
+function situation($champs, $valid_champs) {
+    $situation = 0;
+    if ($valid_champs['user_vide']){
+        $situation = 1; // Le user ne peut être vide
+    } elseif ($valid_champs['changement_mise']){
+        $situation = 2; // Un changement de mise a été demandé
+    } elseif ($valid_champs['reset_mise']){
+        $situation = 3; // Un reset des mises a été demandé
+    } elseif ($valid_champs['choix_user']){
+        $situation = 4; // Un choix de uzser est fait
+    }
+    return $situation;   
+}
+
+function liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste){
+    $liste_Organisateurs = "";
+    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.login_organisateur order by name";
+    $result = $connMYSQL->query($sql);   
+    if ($result->num_rows > 0){
+        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+            $liste_Organisateurs .= "<option value=\"\" selected>{$tableauLinguiste['option']}</option>";
+            foreach ($result as $row) {
+                $liste_Organisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
+            }
+        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $liste_Organisateurs .= "<option value=\"\">{$tableauLinguiste['option']}</option>";
+            foreach ($result as $row) {
+                if ($champs['user'] === $row['user']){
+                    $liste_Organisateurs .= "<option value=\"{$row['user']}\" selected>{$row['name']}</option>";
+                } else {
+                    $liste_Organisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
+                }
+            }
+        }
+    }
+    return $liste_Organisateurs;
+}
+
+function affichage_nom_organisateur($connMYSQL, $champs){
+    $prenom = "";
+    $sql = "SELECT name FROM benoitmignault_ca_mywebsite.login_organisateur where user = '{$champs['user']}'";
+    $result = $connMYSQL->query($sql);   
+    if ($result->num_rows > 0){
+        foreach ($result as $row) {
+            $prenom = $row['name'];
+        }
+    }
+    return $prenom;
+}
+
+function creation_tableau($connMYSQL, $champs){
+    $tableau = "";
+    $sql = "SELECT amount, color_english FROM benoitmignault_ca_mywebsite.amount_color where user = '{$champs['user']}' order by amount";
+    $result = $connMYSQL->query($sql);   
+    if ($result->num_rows > 0){
+        if ($champs["typeLangue"] == "francais"){
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Valeur</th><th>Couleur</th></tr></thead>";
+        } elseif ($champs["typeLangue"] == "english") {
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Value</th><th>Color</th></tr></thead>";
+        }    
+        $tableau .= "<tbody>";
+        foreach ($result as $row) {
+            $tableau .= "<tr><td>{$row['amount']}</td> <td bgcolor=\"{$row['color_english']}\"></td> </tr>";
+        }
+        $tableau .= "</tbody></table>";
+    }
+    return $tableau;
+}
+
+function selection_small_big_blind($connMYSQL, $champs){
+    $result_double_dimention = [];
+    $sql = "SELECT small, big FROM benoitmignault_ca_mywebsite.mise_small_big where user = '{$champs['user']}' order by small";
+    $result = $connMYSQL->query($sql);  
+
+    if ($result->num_rows > 0){ 
+        foreach ($result as $row) {
+            $couple = ["small" => $row['small'], "big" => $row['big']];  
+            $result_double_dimention[] = $couple;
+        }
+        $nbLignes = $result->num_rows;
+        if ($champs['combinaison'] <= $nbLignes){
+            foreach ($result_double_dimention as $couple => $value){
+                if ($champs['combinaison'] == $couple){
+                    $champs['valeurSmall'] = $value['small'];        
+                    $champs['valeurBig'] = $value['big'];        
+                }
+            }
+            $nbLignes--;
+            //$champs['combinaison']++ ne jamais faire ca en validation d'une condition
+            if ($champs['combinaison'] == $nbLignes){
+                $champs['trop_valeur'] = true;
+            }
+        } 
+    } elseif ($result->num_rows == 0){ 
+        $champs['aucune_valeur'] = true;
+    } 
+
+    return $champs;
+}
+
+function redirection($champs) {  
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        header("Location: /erreur/erreur.php");
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        header("Location: /erreur/erreur.php");
+    }
+    exit; // pour arrêter l'éxecution du code php
+}
+
+function connexionBD() {
+    /*
+    $host = "benoitmignault.ca.mysql";
+    $user = "benoitmignault_ca_mywebsite";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmignault_ca_mywebsite";
+    $connMYSQL = new mysqli($host, $user, $password, $bd);
+    */
+    $host = "localhost";
+    $user = "zmignaub";
+    $password = "Banane11";
+    $bd = "benoitmignault_ca_mywebsite";
+    $connMYSQL = mysqli_connect($host, $user, $password, $bd);
+    $connMYSQL->query("set names 'utf8'"); // ceci permet d'avoir des accents affiché sur la page web !
+    return $connMYSQL;
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $typeLanguage = $_GET['langue'];
-    if ($typeLanguage !== "francais" && $typeLanguage !== "english"){
-        header("Location: /erreur/erreur.php");
-        exit;
+    $champs = initialisation_Champs();
+    $champs = remplissageChamps($champs);    
+    if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english"){
+        redirection($champs);
     } else {
-        $tableauLinguiste = tranduction($typeLanguage);    
-    }  
+        $connMYSQL = connexionBD();
+        $tableauLinguiste = traduction($champs);
+        $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste);
+    }
+    $connMYSQL->close();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {    
-    $typeLanguage = $_POST['typeLanguage'];
-    if ($typeLanguage === 'english'){
-        header("Location: /english/english.html"); 
-        exit;
-    } elseif ($typeLanguage === 'francais'){
-        header("Location: /index.html");
-        exit;
+    $champs = initialisation_Champs();
+    $valid_champs = initialisation_indicateur();
+    $champs = remplissageChamps($champs);
+    if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english"){
+        redirection($champs);
     } else {
-        header("Location: /erreur/erreur.php");
-        exit;
-    } 
+        $connMYSQL = connexionBD();        
+        $valid_champs = validation($champs, $valid_champs);
+        $champs['situation'] = situation($champs, $valid_champs);
+        $tableauLinguiste = traduction($champs);
+
+        if ($champs['situation'] === 1){
+            echo "<script>alert('".$tableauLinguiste['message']."')</script>";
+        } else {
+            $champs['nom_organisateur'] = affichage_nom_organisateur($connMYSQL, $champs);
+            $tableau_valeur_couleur = creation_tableau($connMYSQL, $champs);
+            if ($tableau_valeur_couleur === ""){ 
+                $msgErr = "";                
+                if ($champs["typeLangue"] == "francais"){
+                    $msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées à ses jetons.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles valeur couleur de jetons.";
+                } elseif ($champs["typeLangue"] == "english") {
+                    $msgErr = "Warning ! Your organizer did not choose his values associated with his chips.\\nPlease contact him to ask him to create his value color sets of tokens.";
+                }
+                echo "<script>alert(\"$msgErr\")</script>";
+            } else {
+                $champs = selection_small_big_blind($connMYSQL, $champs);
+                if ($champs['aucune_valeur']){
+                    $msgErr = "";                
+                    if ($champs["typeLangue"] == "francais"){
+                        $msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées aux mises petites et grosses mises.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles petite mise et grosse mise.";
+                    } elseif ($champs["typeLangue"] == "english") {
+                        $msgErr = "Warning ! Your organizer has not chosen his values associated with small and large bets.\\nPlease contact him to ask him to create his sets small bet and big bet.";
+                    }
+                    echo "<script>alert(\"$msgErr\")</script>";
+                } else {
+                    // Rien de spécial pour l'instant
+                }
+            }
+
+        }
+        $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste);
+    }  
+    $connMYSQL->close();
 }
 ?>
 <!DOCTYPE html>
@@ -71,110 +330,117 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Fichier favicon.ico est une propriété du site web : https://pixabay.com/fr/radio-r%C3%A9veil-alarme-temps-horloge-295228/ -->
         <link rel="shortcut icon" href="favicon.ico">
-        <link rel="stylesheet" type="text/css" href="timer.css">      
+        <link rel="stylesheet" type="text/css" href="timer.css">
+        <style>
+            .container > .timer > .tableauDesMises > .lesMises > div > .blind{
+                color :<?php echo coloriage($champs); ?>
+            }
+        </style>
         <title><?php echo $tableauLinguiste['title'] ?></title>        
     </head>
     <body>        
         <!-- Fichier alert.wav est une propriété du site web : https://www.memoclic.com/sons-wav/766-sonneries-et-alarmes/page-1.html -->
         <audio  id="alertSound"><source src="alert.wav" type="audio/wav"></audio>
-        <h2><?php echo $tableauLinguiste['h2-1'] ?></h2>
-        <div class="tableauDesMises">
-            <div class="lesMises">
-                <div class="titre">
-                    <p><?php echo $tableauLinguiste['typeMise'] ?></p>
+        <div class="container">
+            <div class="tableau_bord">
+                <h2><?php echo $tableauLinguiste['h2tableau'] ?></h2>
+                <form method="post" action="timer.php" id="formulaire">
+                    <div class="choix">
+                        <input type="hidden" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
+                        <input type="hidden" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
+                        <input type="hidden" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
+                        <input id="typeLangue" type="hidden" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                        <input type="hidden" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                        <label for="choixOrganisateur"><?php echo $tableauLinguiste['choixOrganisateur']; ?></label>   
+                        <select id="choixOrganisateur" name="choixOrganisateur"> 
+                            <?php echo $liste_Organisateurs; ?>
+                        </select>
+                        <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php echo $tableauLinguiste['btn_choix']; ?>"> 
+                    </div>
+                </form>
+                <div class="affichage_choix">
+                    <p><?php echo $champs['nom_organisateur']; ?></p>                    
+                    <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) { 
+    echo $tableau_valeur_couleur;
+}
+                    ?>
                 </div>
-                <div class="small">
-                    <p><?php echo $tableauLinguiste['small'] ?></p>
-                </div>
-                <div class="big">
-                    <p><?php echo $tableauLinguiste['big'] ?></p>
-                </div>            
-                <div class="valeurSmall">
-                    <p id="valeurSmall">25</p>
-                </div>
-                <div class="valeurBig">
-                    <p id="valeurBig">50</p>
-                </div>
-                <?php // Informatino ajouter à la demande de Philippe M ?>
-                <div class="new">
-                    <label for="newSmall"><?php echo $tableauLinguiste['champPetite'] ?></label>
-                    <input name="newSmall" type="text" id="newSmall">
-                </div>
-                <div class="new">
-                    <label for="newBig"><?php echo $tableauLinguiste['champGrosse'] ?></label>
-                    <input name="newBig" type="text" id="newBig">
-                </div> 
-                <?php // fin des ajouts ?>
             </div>
-            <div class="lesBoutonsMises">
-                <div class="double">
-                    <button id="double"><?php echo $tableauLinguiste['foisDeux'] ?></button>
-                </div>
-                <div class="resetMise">
-                    <button class="disabled" disabled id="reset"><?php echo $tableauLinguiste['reset'] ?></button>
-                </div>
-                <?php // Information ajouter à la demande de Philippe M ?>
-                <div class="new">
-                    <div>
-                        <label for="newAuto"><?php echo $tableauLinguiste['radioAuto'] ?></label>
-                        <input checked type="radio" name="new" id="newAuto" value="auto">
+            <div class="timer">
+                <h2><?php echo $tableauLinguiste['h2Timer'] ?></h2>
+                <div class="tableauDesMises">
+                    <div class="lesMises">
+                        <div class="titre">
+                            <p><?php echo $tableauLinguiste['typeMise'] ?></p>
+                        </div>
+                        <div class="small">
+                            <p><?php echo $tableauLinguiste['small'] ?></p>
+                        </div>
+                        <div class="big">
+                            <p><?php echo $tableauLinguiste['big'] ?></p>
+                        </div>            
+                        <div class="valeurSmall">
+                            <p class="blind" id="valeurSmall"><?php echo $champs['valeurSmall'] ?></p>
+                        </div>
+                        <div class="valeurBig">
+                            <p class="blind" id="valeurBig"><?php echo $champs['valeurBig'] ?></p>
+                        </div>                
                     </div>
-                    <div>
-                        <label for="newManuelle"><?php echo $tableauLinguiste['radioManuel'] ?></label>
-                        <input type="radio" name="new" id="newManuelle" value="manuelle">
+                    <div class="lesBoutonsMises">
+                        <div class="double">
+                            <button name="btn_changerMise"<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur']) { ?> class="disabled" disabled <?php } ?> id="double" form="formulaire"><?php echo $tableauLinguiste['changerMise'] ?></button>
+                        </div>
+                        <div class="resetMise">
+                            <button name="btn_resetMise"<?php if ($champs['combinaison'] < 1) { ?> class="disabled" disabled <?php } ?> form="formulaire" id="reset"><?php echo $tableauLinguiste['reset'] ?></button>
+                        </div>                
                     </div>
                 </div>
-                <div class="new">
-                    <button id="changeType"><?php echo $tableauLinguiste['btnChangerManuel'] ?></button>
-                </div>
-                <?php // fin des ajouts ?>
+
+                <h2><?php echo $tableauLinguiste['h2Temps'] ?></h2>
+
+                <div class="tableauDuTemps">
+                    <div class="temps">
+                        <div class="periode">
+                            <p><?php echo $tableauLinguiste['periode'] ?></p>
+                        </div>
+                        <div class="minutes">
+                            <p>Minutes</p>
+                        </div>
+                        <div class="secondes">
+                            <p>Secondes</p>
+                        </div>
+                        <div class="chiffreMin">
+                            <p>00</p>
+                        </div>
+                        <div class="chiffreSec">
+                            <p>00</p>
+                        </div>                 
+                    </div>   
+                    <div class="lesBoutonsActions">
+                        <div class="min15">
+                            <button id="timer15">15</button>
+                        </div>
+                        <div class="min30">
+                            <button id="timer30">30</button>
+                        </div>                
+                        <div class="stop">
+                            <button class="disabled" disabled id="timerStop">STOP</button>
+                        </div>
+                        <div class="reprend">
+                            <button class="disabled" disabled id="timerReprend"><?php echo $tableauLinguiste['btnReprendre'] ?></button>
+                        </div>
+                        <div class="resetTemps">
+                            <button id="ResetTemps"><?php echo $tableauLinguiste['btnReset'] ?></button>
+                        </div>                
+                    </div> 
+                </div> 
             </div>
         </div>
-
-        <h2><?php echo $tableauLinguiste['h2-2'] ?></h2>
-
-        <div class="tableauDuTemps">
-            <div class="timer">
-                <div class="periode">
-                    <p><?php echo $tableauLinguiste['periode'] ?></p>
-                </div>
-                <div class="minutes">
-                    <p>Minutes</p>
-                </div>
-                <div class="secondes">
-                    <p>Secondes</p>
-                </div>
-                <div class="chiffreMin">
-                    <p>00</p>
-                </div>
-                <div class="chiffreSec">
-                    <p>00</p>
-                </div>                 
-            </div>   
-            <div class="lesBoutonsActions">
-                <div class="min15">
-                    <button id="timer15">15</button>
-                </div>
-                <div class="min30">
-                    <button id="timer30">30</button>
-                </div>                
-                <div class="stop">
-                    <button class="disabled" disabled id="timerStop">STOP</button>
-                </div>
-                <div class="reprend">
-                    <button class="disabled" disabled id="timerReprend"><?php echo $tableauLinguiste['btnReprendre'] ?></button>
-                </div>
-                <div class="resetTemps">
-                    <button id="ResetTemps"><?php echo $tableauLinguiste['btnReset'] ?></button>
-                </div>                
-            </div> 
-        </div>  
         <hr>
         <div class="boutonRetour">
             <div class="retour">
                 <form method="post" action="./timer.php">
                     <input type="submit" name="btnReturn" value="<?php echo $tableauLinguiste['retour'];?>">
-                    <input class="disabled" type="hidden" name="typeLanguage" id="typeLanguage" value="<?php echo $typeLanguage ?>">
                 </form>
             </div>
         </div>

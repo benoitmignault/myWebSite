@@ -149,7 +149,7 @@ function verifChamp($champInitial) {
         $champInitial['invalidPassword'] = true;
     }
 
-    $patternName = "#^[A-Za-z]([a-z]{0,13})[a-z]$#";
+    $patternName = "#^[A-Za-z]([a-zA-Z- ]{0,13})[a-z]$#";
     if (!preg_match($patternName, $champInitial['name']) && isset($_POST['signUp']) ) {
         $champInitial['invalidName'] = true;
     }    

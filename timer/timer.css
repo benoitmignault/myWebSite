@@ -7,141 +7,133 @@ body{
     margin: 0;
     background-color:beige;
 }
-h2{
-    text-align: center;
-    margin-top: 25px;
-    margin-bottom: 25px;
+.container{
+    display: -webkit-flex; 
+    display: flex;
+    width: 100%;
+    flex-direction: row;
 }
-.tableauDesMises{ /*on détermine le parent comme un flex*/
+.container > div{
+    display: -webkit-flex; 
+    display: flex;
+    flex-direction: column;
+}
+.container > .tableau_bord{
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.container > .tableau_bord > form > .choix > label{
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.container > .tableau_bord > form > .choix > #choixOrganisateur{
+    padding:5px;
+    width: 25%;
+    border-radius: 10px;
+    margin:auto;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+.container > .timer{
+    width: 60%;
+    margin: auto;
+}
+.container > .timer > h2, 
+.container > .tableau_bord > h2{
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.container > .timer > .tableauDesMises,
+.container > .timer > .tableauDuTemps{ 
     display: -webkit-flex; 
     display: flex;
     background-color: black;
-    width: 65%;
-    margin: auto;
-    /* Je n'ai pas besoin de wrap comme mes deux sous div font 70/30 */
+    width: 100%;
 } 
-.tableauDesMises > div {
-    display: flex; /* lesMises et lesBoutonsMises */
-    flex-wrap: wrap; /* les enfants de lesMises et lesBoutonsMises seront sur plusieurs lignes  */
+.container > .timer .tableauDesMises > div,
+.container > .timer .tableauDuTemps > div{
+    display: flex; 
     display: -webkit-flex; 
-    -webkit-flex-wrap: wrap; 
+    flex-wrap: wrap; 
+    -webkit-flex-wrap: wrap;
 }
-.tableauDesMises > div > div{    
+.container > .timer .tableauDesMises > div > div{    
     border: 3px outset #b3d9ff;
     vertical-align: middle;    
 }
-.lesMises{
+.container > .timer > .tableauDesMises > .lesMises{
     width: 65%;
 }
-.lesMises .titre{
-    width: 100%;
-}
-.lesMises .small, .lesMises .big, .lesMises .valeurSmall, .lesMises .valeurBig{
-    width: 50%;
-}
-.lesMises .new{
-    width: 50%;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.lesMises > .new > label{
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.lesMises .new input{
-    width: 100%;
-}
-.lesBoutonsMises{
+.container > .timer > .tableauDesMises > .lesBoutonsMises{
     width: 35%;
 }
-.lesBoutonsMises > div{
-    display: -webkit-flex;
-    display: flex;
+.container > .timer > .tableauDesMises > .lesMises > .titre{
     width: 100%;
 }
-
-.lesBoutonsMises > .new > div{
+.container > .timer > .tableauDesMises > .lesMises > .small, 
+.container > .timer > .tableauDesMises > .lesMises > .big, 
+.container > .timer > .tableauDesMises > .lesMises > .valeurSmall, 
+.container > .timer > .tableauDesMises > .lesMises > .valeurBig{
     width: 50%;
-    display: -webkit-flex;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;       
 }
-.tableauDesMises p{
+.container > .timer > .tableauDesMises > .lesMises > div > p,
+.container > .timer > .tableauDuTemps > .temps > div > p{
     text-align: center;
     color: white;
-    margin: 5px;    
-    font-size: 40px;
+    margin: 5px;
     font-weight: bold;
     padding: 5px;
+    font-size: 48px;
 }
-.lesMises > .new > label,
-.lesBoutonsMises > .new > div > label{
-    color: white;
-    font-size: 20px;
-}
-.lesMises > .new > label:hover,
-.lesBoutonsMises > .new > div > label:hover{
-    cursor: pointer;
-}
-.valeurSmall p, .valeurBig p{
+.container > .timer > .tableauDesMises > .lesMises > .valeurSmall p, 
+.container > .timer > .tableauDesMises > .lesMises > .valeurBig p,
+.container > .timer > .tableauDuTemps > .temps > .chiffreMin p,
+.container > .timer > .tableauDuTemps > .temps > .chiffreSec p{
     font-size: 64px;
 }
-/* Pour le deuxième tableau !!! */
-.tableauDuTemps{ /*on détermine le parent comme un flex*/
-    display: -webkit-flex; 
+.container > .timer > .tableauDesMises > .lesBoutonsMises > div{
+    display: -webkit-flex;
     display: flex;
-    background-color: black;
-    width: 65%;
-    margin: auto;
-    /* Je n'ai pas besoin de wrap comme mes deux sous div font 70/30 */
-} 
-.tableauDuTemps > div{
-    display: -webkit-flex; 
-    display: flex;
-    flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-}
-.tableauDuTemps > div > div{    
-    border: 3px outset MediumSeaGreen;
-
-}
-.timer{
-    width: 65%;
-}
-.timer .periode{
     width: 100%;
 }
-.timer .minutes, .timer .secondes, .timer .chiffreMin, .timer .chiffreSec{
+.container > .timer > .tableauDuTemps > div > div{    
+    border: 3px outset MediumSeaGreen;
+}
+.container > .timer > .tableauDuTemps > .temps{
+    width: 65%;
+}
+.container > .timer > .tableauDuTemps > .temps .periode{
+    width: 100%;
+}
+.container > .timer > .tableauDuTemps > .temps .minutes, 
+.container > .timer > .tableauDuTemps > .temps .secondes, 
+.container > .timer > .tableauDuTemps > .temps .chiffreMin, 
+.container > .timer > .tableauDuTemps > .temps .chiffreSec{
     width: 50%;
 }
-.lesBoutonsActions{
+.container > .timer > .tableauDuTemps > .lesBoutonsActions{
     width: 35%;
 }
-.lesBoutonsActions .min15, .lesBoutonsActions .min30{
+.container > .timer > .tableauDuTemps > .lesBoutonsActions .min15, 
+.container > .timer > .tableauDuTemps > .lesBoutonsActions .min30{
     width: 50%;
 }
-.lesBoutonsActions .stop, .lesBoutonsActions .reprend, .lesBoutonsActions .resetTemps{
+.container > .timer > .tableauDuTemps > .lesBoutonsActions .stop, 
+.container > .timer > .tableauDuTemps > .lesBoutonsActions .reprend, 
+.container > .timer > .tableauDuTemps > .lesBoutonsActions .resetTemps{
     width: 100%;
 }
-.lesBoutonsActions > div{
+.container > .timer > .tableauDuTemps > .lesBoutonsActions > div{
     display: -webkit-flex;
     display: flex;   
-}
-.tableauDuTemps p{
-    text-align: center;
-    color: white;
-    margin-top: 5px;
-    margin-bottom: 5px;    
-    font-size: 40px;
-    font-weight: bold;
-    padding: 5px;
-}
-.chiffreMin p, .chiffreSec p{
-    font-size: 64px;
 }
 .disabled {
     opacity: 0.5;
@@ -158,12 +150,18 @@ h2{
     margin: auto;
     border: 3px outset #3385ff;
 } 
-.boutonRetour .retour{    
+.boutonRetour .retour,
+.boutonRetour .retour > form{    
     width: 100%;
 }
+.boutonRetour .retour > form{
+    margin: 0;
+}
+
 .boutonRetour input, 
 .tableauDuTemps button, 
-.tableauDesMises button {   
+.tableauDesMises button,
+.container > .tableau_bord .choix .bouton{   
     width: 100%;
     color: white;
     font-weight: bold;
@@ -183,9 +181,13 @@ h2{
     font-family: Georgia;
     border: solid #8c601f 2px
 }
+.container > .tableau_bord .choix .bouton{
+    width: 40%;
+}
 .boutonRetour input:hover, 
 .tableauDuTemps button:hover, 
-.tableauDesMises button:hover{
+.tableauDesMises button:hover,
+.container > .tableau_bord .choix .bouton:hover{
     cursor: pointer; 
     background-image: -webkit-linear-gradient(top, #56b064, #6679b3);
     background-image: -moz-linear-gradient(top, #56b064, #6679b3);

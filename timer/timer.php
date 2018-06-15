@@ -14,14 +14,14 @@ function traduction($champs){
         $reset = 'Reset des mises';
         $periode = 'En attente d\'une période de temps...';
         $btnReprendre = 'POURSUIVRE';
-        $choixOrganisateur = 'Veuillez choisir votre organisateur &rarr;';
+        $choixOrganisateur = 'Veuillez choisir votre organisateur';
         $option = "À sélectionner";
         $btn_choix = 'Choisir';
         $message = message_Situation($champs);
         $message_Erreur_BD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
     } elseif ($champs['typeLangue'] === "english") {
         $title = 'Timer';
-        $choixOrganisateur = 'Please choose an organizer &rarr;';
+        $choixOrganisateur = 'Please choose an organizer';
         $h2tableau = 'Section of the Organizer';
         $h2timer = 'Section of values the ships !';
         $h2temps = 'Section of period of time !';

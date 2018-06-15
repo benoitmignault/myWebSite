@@ -13,7 +13,9 @@ body{
     width: 100%;
     flex-direction: row;
 }
-.container > div{
+.container > div, 
+.container > .tableau_bord > form > .choix,
+.container > .tableau_bord > .affichage_choix{
     display: -webkit-flex; 
     display: flex;
     flex-direction: column;
@@ -29,16 +31,40 @@ body{
 }
 .container > .tableau_bord > form > .choix > #choixOrganisateur{
     padding:5px;
-    width: 25%;
+    width: 50%;
     border-radius: 10px;
     margin:auto;
     margin-bottom: 10px;
 }
-
-
-
-
-
+.container > .tableau_bord > form > .choix > label{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+}
+.container > .tableau_bord > form > .choix > .bouton{
+    margin: auto;
+    width: 50%;
+}
+.container > .tableau_bord > .affichage_choix > p{
+    margin:auto;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.container > .tableau_bord > .affichage_choix > .tblValeurCouleur{
+    width: 100%;
+    text-align: center;
+    font-size: 48px;   
+    border-collapse: collapse;
+    border: 2px solid black;
+}
+.container > .tableau_bord > .affichage_choix > .tblValeurCouleur td, 
+.container > .tableau_bord > .affichage_choix > .tblValeurCouleur th {
+    border: 1px solid black;
+    padding: 5px;
+}
 .container > .timer{
     width: 60%;
     margin: auto;
@@ -93,8 +119,6 @@ body{
     padding: 5px;
     font-size: 48px;
 }
-.container > .timer > .tableauDesMises > .lesMises > .valeurSmall p, 
-.container > .timer > .tableauDesMises > .lesMises > .valeurBig p,
 .container > .timer > .tableauDuTemps > .temps > .chiffreMin p,
 .container > .timer > .tableauDuTemps > .temps > .chiffreSec p{
     font-size: 64px;
@@ -157,7 +181,6 @@ body{
 .boutonRetour .retour > form{
     margin: 0;
 }
-
 .boutonRetour input, 
 .tableauDuTemps button, 
 .tableauDesMises button,
@@ -196,67 +219,65 @@ body{
     background-image: linear-gradient(to bottom, #56b064, #6679b3);
 }
 @media screen and (max-width:768px) {
-    .tableauDesMises {
+    .container{
+        flex-direction: column;
+    }
+    .container > .tableau_bord{
+        width: 100%;
+    }
+    .container > .tableau_bord > form > .choix > #choixOrganisateur{        
+        width: 50%;
+    }
+    .container > .tableau_bord > form > .choix > .bouton{
+        width: 50%;
+    }
+    .container > .timer{
+        width: 100%;
+    }
+
+    .container > .timer > h2{
+        width: 100%;
+    }
+    .container > .timer > .tableauDesMises,
+    .container > .timer > .tableauDuTemps{ 
+        width: 100%;
+    } 
+    .container > .timer > .tableauDesMises,
+    .container > .timer > .tableauDuTemps{
         width: 100%;
         -webkit-flex-direction:column; 
         flex-direction:column; 
     }
-    .lesMises, .lesBoutonsMises {
+    .container > .timer > .tableauDesMises > .lesMises, 
+    .container > .timer > .tableauDesMises > .lesBoutonsMises {
         width: 100%;
     }    
-    .lesBoutonsMises > div {
+    .container > .timer > .tableauDesMises > .lesBoutonsMises > div {
         width: 100%;
     }
-    .tableauDuTemps {
-        width: 100%;
-        -webkit-flex-direction:column; 
-        flex-direction:column; 
-    }
-    .timer, .lesBoutonsActions {
+    .container > .timer > .tableauDuTemps > .temps{
         width: 100%;
     }
-    .timer .chiffreMin p, .timer .chiffreSec p{
-        font-size:48px;
-    }    
-    .lesBoutonsActions > div > button{
+    .container > .timer > .tableauDuTemps > .temps > div > p {
+        font-size: 38px;
+    }
+
+
+    .container > .timer > .tableauDuTemps .lesBoutonsActions {
+        width: 100%;
+    }   
+    .container > .timer > .tableauDuTemps > .lesBoutonsActions > div > button{
         font-size:xx-large;
     }
-    .lesBoutonsActions .reprend #timerReprend{
+    .container > .timer > .tableauDuTemps > .lesBoutonsActions .reprend #timerReprend{
         font-size:x-large;
     }    
     .boutonRetour{
         width: 100%;
         -webkit-flex-direction:column; 
         flex-direction:column; 
-    }  
-    .tableauDuTemps p{ 
-        font-size:x-large;
-        padding: 5px;
-    }    
+    }
     .boutonRetour .retour input{
         font-size:large;
     }  
-    .lesMises > div > p{
-        margin:0;
-        padding:5px;
-    }
-    .lesMises .titre p{
-        font-size:48px;        
-    }
-    .lesMises .small p, .lesMises .big p{
-        font-size:32px;       
-    }
-    .lesBoutonsMises .double button{
-        font-size:32px;  
-    }
-    .lesBoutonsMises .resetMise button{
-        font-size:32px;  
-    }
-    .lesBoutonsMises > .new > div{
-        margin-top: 10px;  
-        margin-bottom: 10px;       
-    }
-    .tableauDesMises button {
-        font-size: 30px;
-    }    
 }

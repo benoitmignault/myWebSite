@@ -109,7 +109,7 @@ function creationListe($nameSelected, $connMYSQL, $arrayMots) {
  */
 
 function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
-    $sql = "SELECT distinct id_tournoi FROM benoitmignault_ca_mywebsite.poker order by id_tournoi";
+    $sql = "SELECT distinct id_tournoi FROM benoitmignault_ca_mywebsite.poker order by id_tournoi desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 5) {
@@ -135,7 +135,7 @@ function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
  */
 
 function creationListeDate($tournoiDate, $connMYSQL, $arrayMots) {
-    $sql = "SELECT distinct date FROM benoitmignault_ca_mywebsite.poker order by date";
+    $sql = "SELECT distinct date FROM benoitmignault_ca_mywebsite.poker order by date desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 6) {
@@ -178,7 +178,7 @@ function lesGrandsGagnants_100e($nom_Champion) {
  */
 
 function affichageBrute($connMYSQL, $arrayMots) {
-    $sql = "select joueur, gain, victoire, fini_2e, id_tournoi, date from benoitmignault_ca_mywebsite.poker order by id_tournoi, gain desc";
+    $sql = "select joueur, gain, victoire, fini_2e, id_tournoi, date from benoitmignault_ca_mywebsite.poker order by id_tournoi desc, gain desc";
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
             <thead> 
@@ -218,7 +218,7 @@ function affichageUnjoueur($nom, $connMYSQL, $arrayMots) {
     if ($nom === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_joueur']}</h3>";
     } else {
-        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where joueur = '{$nom}' order by id_tournoi";
+        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where joueur = '{$nom}' order by id_tournoi desc";
         $result = $connMYSQL->query($sql);
         $tableau = "
                     <table> <thead>
@@ -506,7 +506,7 @@ function connexionBD() {
       $bd = "benoitmignault_ca_mywebsite";
      */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
-
+    $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
 }
 
@@ -534,7 +534,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $verificationUser = false;
     session_start();
     if (isset($_SESSION['user']) && isset($_SESSION['password']) &&
-            isset($_SESSION['typeLangue'])) {
+        isset($_SESSION['typeLangue'])) {
         $connMYSQL = connexionBD();
         $verificationUser = verificationUser($connMYSQL);
         $typeLangue = $_SESSION['typeLangue'];
@@ -684,20 +684,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="listeJoueur">
                                 <label for="joueur"><?php echo $arrayMots['label1']; ?></label>
                                 <select id="joueur" name="joueur">
-<?php echo $liste_Joueur; ?>
+                                    <?php echo $liste_Joueur; ?>
                                 </select>
                             </div> 
                             <div class="listeJoueur">
                                 <label for="idTournois"><?php echo $arrayMots['label2']; ?></label>
                                 <select id="idTournois" name="listeId">
-<?php echo $liste_Id_tournois; ?>
+                                    <?php echo $liste_Id_tournois; ?>
                                 </select>
                             </div>
 
                             <div class="listeJoueur">
                                 <label for="tournois_date"><?php echo $arrayMots['label3']; ?></label>
                                 <select id="tournois_date" name="listeDate">
-<?php echo $liste_Date_tournois; ?>
+                                    <?php echo $liste_Date_tournois; ?>
                                 </select>
                             </div>                            
                         </div>
@@ -707,7 +707,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="affichage">
                 <fieldset>
                     <legend align="center"><?php echo $arrayMots['legend3']; ?></legend>
-<?php echo $tableauResult; ?>
+                    <?php echo $tableauResult; ?>
                 </fieldset>                
             </div>
             <div class="return">

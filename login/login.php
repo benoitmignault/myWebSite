@@ -20,8 +20,7 @@ function traduction($champInitial) {
         $title = "Connexion";
         $p1 = "Bienvenue à la page de connexion des statistiques du poker entre amis !";
         $li1 = "Vous devez vous authentifiez, pour faire afficher les statistiques désirées";
-        $li2 = "Si vous n'avez pas de nom d'utilisateur, veuillez vous en créez un auparavant.";
-        $li3 = "Si vous avez besoin de créer un nom d'utilisateur, ce dernier doit être unique.";
+        $li2 = "Si vous n'avez pas de nom d'utilisateur, veuillez vous en créez un auparavant et ce dernier doit être unique.";
         $legend = "Connexion !";
         $usager = "Nom d'utilisateur : ";
         $mdp = "Mot de passe : ";
@@ -309,7 +308,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <ul>
                     <li class='info'><?php echo $arrayMots['li1']; ?></li>
                     <li class='info'><?php echo $arrayMots['li2']; ?></li>
-                    <li class='info'><?php echo $arrayMots['li3']; ?></li>
                 </ul>
                 <fieldset>
                     <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
@@ -319,7 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo 'erreur';
 } ?>">
                                 <label for="user"><?php echo $arrayMots['usager']; ?></label>
-                                <input id="user" type="text" name="user" maxlength="20" value="<?php echo $champInitial['user']; ?>" />
+                                <input id="user" type="text" name="user" maxlength="15" value="<?php echo $champInitial['user']; ?>" />
                             </div>
                             <div class="information <?php if ($champInitial['badPassword'] || $champInitial['champVide'] || $champInitial['champInvalid'] || $champInitial['champTropLong']) {
     echo 'erreur';

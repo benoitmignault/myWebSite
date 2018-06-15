@@ -1,0 +1,163 @@
+*{
+    box-sizing: border-box;  
+    -moz-box-sizing: border-box;    
+    -webkit-box-sizing: border-box;    
+    -ms-box-sizing: border-box;
+}
+body{
+    margin: 0;
+}
+h1{
+    color:white; 
+}
+.userDisplay{
+    color:red;
+    background-color: #F0FFF0;
+    padding: 2px;
+}
+h2, h1{
+    text-align: center;     
+}
+h2,h3{
+    width: 100%;
+    margin: auto;
+    margin-bottom:15px;
+    text-align: center;
+}
+.container > .retirer_combinaison > form > .form_retirer_combinaison > label{
+    margin: auto;
+    margin-bottom: 10px;    
+    text-align: center;
+}
+.container > .ajout_combinaison > form,
+.container > .affiche_combinaison > form,
+.container > .retirer_combinaison > form{
+    width: 48%;
+    margin:auto;
+    margin-top: 0;
+}
+.container > .retour > form{
+    margin:auto;
+}
+.container {    
+    display: -webkit-flex; 
+    display: flex;
+    -webkit-flex-direction:column; 
+    flex-direction:column;
+    width: 55%;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    padding: 15px;
+    padding-bottom: 0;
+    margin:auto;  
+}
+.container > div{
+    width: 100%;
+    display: -webkit-flex; 
+    display: flex;
+    flex-wrap: wrap;
+}
+.form_ajout_combinaison,
+.form_affiche_combinaison,
+.form_retirer_combinaison,
+.form_retour{    
+    width: 100%;
+    background-color: #c8c8c8;
+    display: -webkit-flex; 
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.form_ajout_combinaison > input[type=text],
+.form_ajout_combinaison > select,
+.form_retirer_combinaison > select{
+    padding:5px;
+    width: 48%;
+    border-radius: 10px;
+    margin:auto;
+    margin-bottom: 10px;
+}
+.container > .retour > form > .form_retour > .btn_footer:last-of-type{
+    margin-left: 15px;
+}
+.container > .affiche_combinaison > form > .form_affiche_combinaison > div,
+.container > .affiche_combinaison > form > .form_affiche_combinaison > div > .tblValeurCouleur{
+    width: 100%;
+}
+.tblValeurCouleur{
+    text-align: center;    
+    border-collapse: collapse;
+    border: 2px solid black;
+}
+.tblValeurCouleur td, 
+.tblValeurCouleur th {
+    border: 1px solid black;
+    padding: 5px;
+}
+.bouton{
+    background: #507d99;
+    background-image: -webkit-linear-gradient(top, #507d99, #96cceb);
+    background-image: -moz-linear-gradient(top, #507d99, #96cceb);
+    background-image: -ms-linear-gradient(top, #507d99, #96cceb);
+    background-image: -o-linear-gradient(top, #507d99, #96cceb);
+    background-image: linear-gradient(to bottom, #507d99, #96cceb);
+    -webkit-border-radius: 28;
+    -moz-border-radius: 28;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 5px;
+    border: solid #8c711f 3px;
+    margin: auto;
+}
+.bouton:hover{
+    background: #c7dced;
+    background-image: -webkit-linear-gradient(top, #c7dced, #6f8491);
+    background-image: -moz-linear-gradient(top, #c7dced, #6f8491);
+    background-image: -ms-linear-gradient(top, #c7dced, #6f8491);
+    background-image: -o-linear-gradient(top, #c7dced, #6f8491);
+    background-image: linear-gradient(to bottom, #c7dced, #6f8491);
+    cursor: pointer;
+}
+label:hover{
+    cursor: pointer;
+}
+@media screen and (max-width:768px) {
+    h1{
+        font-size: 1.5em;
+    }
+    h2{
+        font-size: 1.1em;
+    }
+    .container{
+        width: 100%
+    }
+    .container > .ajout_combinaison > form,
+    .container > .affiche_combinaison > form,
+    .container > .retirer_combinaison > form,
+    .container > .retour > form{
+        width: 100%;
+    }
+    .form_ajout_combinaison > input[type=text],
+    .form_ajout_combinaison > select,
+    .form_retirer_combinaison > select{
+        width: 100%;
+    }
+    .bouton{
+        width: 100%;
+    }
+    .container > .retour > form > .form_retour > .btn_footer{
+        width: 100%;
+        margin: 0;
+    }
+    .container > .retour > form > .form_retour > .btn_footer:last-of-type{
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    .container > .retour > form > .form_retour > .btn_footer > input[name=home]{
+        font-size: 14px;
+    }
+}

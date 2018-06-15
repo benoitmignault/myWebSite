@@ -1,19 +1,10 @@
 <?php
-/*
-  Cette fonction aura pour but d'initialiser les champs et les flag de validations du programme de connexion à la page des statistiques de poker
- */
-
 function initialChamp() {
     $champInitial = ["champVide" => false, "duplicatUser" => false, "champInvalid" => false,
-        "badUser" => false, "champTropLong" => false, "badPassword" => false,
-        "password" => "", "situation" => 0, "user" => "", "typeLangue" => ""];
+                     "badUser" => false, "champTropLong" => false, "badPassword" => false,
+                     "password" => "", "situation" => 0, "user" => "", "typeLangue" => "", "sameUserPWD" => false];
     return $champInitial;
 }
-
-/*
- * Cette fonction sera utilisée pour faire l'affichage en français ou en anglais selon de quelle pages nous devons
- */
-
 function traduction($champInitial) {
     $message = "";
     if ($champInitial["typeLangue"] === 'francais') {
@@ -50,14 +41,15 @@ function traduction($champInitial) {
                     break;
                 case 9 : $message = "Attention les champs peuvent contenir seulement des caractères alphanumériques !";
                     break;
+                case 10 : $message = "Attention votre nom utilisateur et votre mot de passe ne peuvent être identique !";
+                    break;
             }
         }
     } elseif ($champInitial["typeLangue"] === 'english') {
         $title = "Connection";
         $p1 = "Welcome to the login page to see the statistic of poker between friends !";
         $li1 = "You must login if you want to see the poker statistic.";
-        $li2 = "If you don't have any username and password, you must create one.";
-        $li3 = "If you need a username, this one must be unique.";
+        $li2 = "If you do not have a username, please create one before and it must be unique.";
         $legend = "Connection !";
         $usager = "Username : ";
         $mdp = "Password : ";
@@ -86,17 +78,14 @@ function traduction($champInitial) {
                     break;
                 case 9 : $message = "Warning ! The username must be fill by only alphanumeric characters !";
                     break;
+                case 10 : $message = "Warning your username and password can not be the same !";
+                    break;
             }
         }
     }
-    $arrayMots = ['title' => $title, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'li3' => $li3,
-        'legend' => $legend, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_Erase' => $btn_Erase, 'btn_return' => $btn_return, 'message' => $message];
+    $arrayMots = ['title' => $title, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_Erase' => $btn_Erase, 'btn_return' => $btn_return, 'message' => $message];
     return $arrayMots;
 }
-
-/*
- * Fonction qui va afficher un message d'information en fonction du comportement de l'usagé sur la page de connexion
- */
 
 function situation($champInitial) {
     $typeSituation = 0;
@@ -104,6 +93,8 @@ function situation($champInitial) {
         $typeSituation = 1;
     } elseif ($champInitial['badUser'] && $champInitial['user'] !== "") {
         $typeSituation = 2;
+    } elseif ($champInitial['sameUserPWD']) {
+        $typeSituation = 10;
     } elseif (!$champInitial['badUser'] && $champInitial['badPassword']) {
         $typeSituation = 3;
     } elseif ($champInitial['duplicatUser']) {
@@ -121,10 +112,6 @@ function situation($champInitial) {
     }
     return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
 }
-
-/*
- * fonction pour vérifier si les champs sont vide ou pas
- */
 
 function verifChamp($champInitial) {
     if ((empty($champInitial['user'])) || (empty($champInitial['password']))) {
@@ -145,14 +132,11 @@ function verifChamp($champInitial) {
     if (!preg_match($patternPass, $champInitial['password'])) {
         $champInitial['champInvalid'] = true;
     }
-
+    if (!$champInitial['champVide'] && $champInitial['user'] == $champInitial['password']){
+        $champInitial['sameUserPWD'] = true;
+    }
     return $champInitial;
 }
-
-/*
- * Fonction qui sert à ajouter un user et ainsi que son password encrypter solidement.
-  Si le user qu'on veut ajouter est déjà présent, nous levons le flag correspondant
- */
 
 function creationUser($champInitial, $connMYSQL) {
     $sql = "select user from benoitmignault_ca_mywebsite.login";
@@ -175,21 +159,11 @@ function creationUser($champInitial, $connMYSQL) {
     }
 }
 
-/*
- * Cette fonction aura pour but d'encrypter le password et de retourner ce dernier
- * Depuis php 7, on nous demande d'utiliser random_byte mais on doit avoir une longueur de 22 bytes
- */
-
 function encryptementPassword(string $password) {
     $options = ['cost' => 11, 'salt' => random_bytes(22)];
     $passwordCrypter = password_hash($password, PASSWORD_BCRYPT, $options);
     return $passwordCrypter;
 }
-
-/*
- * Fonction qui permet au user de se connection à la page poker.php 
- * si et seulement si son user existe avec le bon password
- */
 
 function connexionUser($champInitial, $connMYSQL) {
     $sql = "select user, password from benoitmignault_ca_mywebsite.login";
@@ -219,6 +193,22 @@ function connexionUser($champInitial, $connMYSQL) {
     return $champInitial;
 }
 
+function connexionBD() {
+    $host = "benoitmignault.ca.mysql";
+    $user = "benoitmignault_ca_mywebsite";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmignault_ca_mywebsite";
+    /*
+    $host = "localhost";
+    $user = "zmignaub";
+    $password = "Banane11";
+    $bd = "benoitmignault_ca_mywebsite";
+    */
+    $connMYSQL = mysqli_connect($host, $user, $password, $bd);
+    $connMYSQL->query("set names 'utf8'");
+    return $connMYSQL;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $champInitial = initialChamp(); // est un tableau avec tous les flag erreurs possibles et les infos du user, pwd et le type de situation    
     $champInitial["typeLangue"] = $_GET['langue'];
@@ -244,29 +234,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $champInitial["user"] = strtolower($_POST['user']);
         $champInitial["password"] = $_POST['password'];
 
-        $host = "benoitmignault.ca.mysql";
-        $user = "benoitmignault_ca_mywebsite";
-        $password = "d-&47mK!9hjGC4L-";
-        $bd = "benoitmignault_ca_mywebsite";
-
-        /*
-          $host = "localhost";
-          $user = "zmignaub";
-          $password = "Banane11";
-          $bd = "benoitmignault_ca_mywebsite";
-         */
-        $connMYSQL = mysqli_connect($host, $user, $password, $bd);
+        $connMYSQL = connexionBD();
 
         // si le bouton se connecter est pesé...        
         if (isset($_POST['login'])) {
             $champInitial = verifChamp($champInitial);
-            if (!$champInitial["champVide"] && !$champInitial["champTropLong"] && !$champInitial["champInvalid"]) {
+            if (!$champInitial["champVide"] && !$champInitial["champTropLong"] && !$champInitial["champInvalid"] ) {
                 $champInitial = connexionUser($champInitial, $connMYSQL);
             }
             // si le bouton s'inscrire est pesé...
         } elseif (isset($_POST['signUp'])) {
             $champInitial = verifChamp($champInitial);
-            if (!$champInitial["champVide"] && !$champInitial["champTropLong"] && !$champInitial["champInvalid"]) {
+            if (!$champInitial["champVide"] && !$champInitial["champTropLong"] && !$champInitial["champInvalid"] && !$champInitial['sameUserPWD']) {
                 $champInitial = creationUser($champInitial, $connMYSQL);
             }
             // si le bouton éffacer est pesé...
@@ -313,13 +292,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
                     <form method="post" action="./login.php">
                         <div class="connexion">                    
-                            <div class="information <?php if ($champInitial['champVide'] || $champInitial['champInvalid'] || $champInitial['duplicatUser'] || $champInitial['badUser'] || $champInitial['champTropLong']) {
+                            <div class="information <?php if ($champInitial['sameUserPWD'] || $champInitial['champVide'] || $champInitial['champInvalid'] || $champInitial['duplicatUser'] || $champInitial['badUser'] || $champInitial['champTropLong']) {
     echo 'erreur';
 } ?>">
                                 <label for="user"><?php echo $arrayMots['usager']; ?></label>
                                 <input id="user" type="text" name="user" maxlength="15" value="<?php echo $champInitial['user']; ?>" />
                             </div>
-                            <div class="information <?php if ($champInitial['badPassword'] || $champInitial['champVide'] || $champInitial['champInvalid'] || $champInitial['champTropLong']) {
+                            <div class="information <?php if ($champInitial['sameUserPWD'] || $champInitial['badPassword'] || $champInitial['champVide'] || $champInitial['champInvalid'] || $champInitial['champTropLong']) {
     echo 'erreur';
 } ?>">
                                 <label for="password"><?php echo $arrayMots['mdp']; ?></label>
@@ -337,7 +316,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>            
             <div class="footer">
                 <div class='avert                    		
-<?php if ($champInitial['champVide'] || $champInitial['champInvalid'] || $champInitial['duplicatUser'] || $champInitial['badUser'] || $champInitial['champTropLong'] || $champInitial['badPassword']) {
+                            <?php if ($champInitial['sameUserPWD'] || $champInitial['champVide'] || $champInitial['champInvalid'] || $champInitial['duplicatUser'] || $champInitial['badUser'] || $champInitial['champTropLong'] || $champInitial['badPassword']) {
     echo 'erreur';
 } ?>'>
                     <p> <?php echo $arrayMots['message']; ?> </p>

@@ -405,7 +405,7 @@ function connexionBD() {
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmignault_ca_mywebsite";*/
+    $bd = "benoitmignault_ca_mywebsite";
     /*
     $host = "localhost";
     $user = "zmignaub";

@@ -240,13 +240,20 @@ function selection_small_big_blind($connMYSQL, $champs){
 function redirection($champs) {  
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         header("Location: /erreur/erreur.php");
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    } elseif (isset($_POST['btnReturn'])) {        
+        if ($champs["typeLangue"] == 'english') {
+            header("Location: /english/english.html");
+        } elseif ($champs["typeLangue"] == 'francais') {
+            header("Location: /index.html");
+        }
+    } else {
         header("Location: /erreur/erreur.php");
     }
     exit; // pour arrêter l'éxecution du code php
 }
 
-function connexionBD() {    
+function connexionBD() {  
+
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
@@ -258,7 +265,7 @@ function connexionBD() {
     $bd = "benoitmignault_ca_mywebsite";
     */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
-    
+
     $connMYSQL->query("set names 'utf8'"); // ceci permet d'avoir des accents affiché sur la page web !
     return $connMYSQL;
 }
@@ -276,50 +283,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $connMYSQL->close();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {    
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $champs = initialisation_Champs();
     $valid_champs = initialisation_indicateur();
     $champs = remplissageChamps($champs);
     if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english"){
         redirection($champs);
     } else {
-        $connMYSQL = connexionBD();        
-        $valid_champs = validation($champs, $valid_champs);
-        $champs['situation'] = situation($champs, $valid_champs);
-        $tableauLinguiste = traduction($champs);
+        if (isset($_POST['btnReturn'])){
+            redirection($champs);
+        } else { 
+            $connMYSQL = connexionBD();        
+            $valid_champs = validation($champs, $valid_champs);
+            $champs['situation'] = situation($champs, $valid_champs);
+            $tableauLinguiste = traduction($champs);
 
-        if ($champs['situation'] === 1){
-            echo "<script>alert('".$tableauLinguiste['message']."')</script>";
-        } else {
-            $champs['nom_organisateur'] = affichage_nom_organisateur($connMYSQL, $champs);
-            $tableau_valeur_couleur = creation_tableau($connMYSQL, $champs);
-            if ($tableau_valeur_couleur === ""){ 
-                $msgErr = "";                
-                if ($champs["typeLangue"] == "francais"){
-                    $msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées à ses jetons.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles valeur couleur de jetons.";
-                } elseif ($champs["typeLangue"] == "english") {
-                    $msgErr = "Warning ! Your organizer did not choose his values associated with his chips.\\nPlease contact him to ask him to create his value color sets of tokens.";
-                }
-                echo "<script>alert(\"$msgErr\")</script>";
+            if ($champs['situation'] === 1){
+                echo "<script>alert('".$tableauLinguiste['message']."')</script>";
             } else {
-                $champs = selection_small_big_blind($connMYSQL, $champs);
-                if ($champs['aucune_valeur']){
+                $champs['nom_organisateur'] = affichage_nom_organisateur($connMYSQL, $champs);
+                $tableau_valeur_couleur = creation_tableau($connMYSQL, $champs);
+                if ($tableau_valeur_couleur === ""){ 
                     $msgErr = "";                
                     if ($champs["typeLangue"] == "francais"){
-                        $msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées aux mises petites et grosses mises.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles petite mise et grosse mise.";
+                        $msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées à ses jetons.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles valeur couleur de jetons.";
                     } elseif ($champs["typeLangue"] == "english") {
-                        $msgErr = "Warning ! Your organizer has not chosen his values associated with small and large bets.\\nPlease contact him to ask him to create his sets small bet and big bet.";
+                        $msgErr = "Warning ! Your organizer did not choose his values associated with his chips.\\nPlease contact him to ask him to create his value color sets of tokens.";
                     }
                     echo "<script>alert(\"$msgErr\")</script>";
                 } else {
-                    // Rien de spécial pour l'instant
+                    $champs = selection_small_big_blind($connMYSQL, $champs);
+                    if ($champs['aucune_valeur']){
+                        $msgErr = "";                
+                        if ($champs["typeLangue"] == "francais"){
+                            $msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées aux mises petites et grosses mises.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles petite mise et grosse mise.";
+                        } elseif ($champs["typeLangue"] == "english") {
+                            $msgErr = "Warning ! Your organizer has not chosen his values associated with small and large bets.\\nPlease contact him to ask him to create his sets small bet and big bet.";
+                        }
+                        echo "<script>alert(\"$msgErr\")</script>";
+                    } else {
+                        // Rien de spécial pour l'instant
+                    }
                 }
-            }
 
-        }
-        $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste);
-    }  
-    $connMYSQL->close();
+            }
+            $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste);
+            $connMYSQL->close();
+        }        
+    }    
 }
 ?>
 <!DOCTYPE html>
@@ -349,7 +360,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="hidden" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
                         <input type="hidden" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
                         <input type="hidden" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
-                        <input id="typeLangue" type="hidden" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                        <input form="formulaire2" id="typeLangue" type="hidden" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
                         <input type="hidden" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
                         <label for="choixOrganisateur"><?php echo $tableauLinguiste['choixOrganisateur']; ?></label>   
                         <select id="choixOrganisateur" name="choixOrganisateur"> 
@@ -439,7 +450,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <hr>
         <div class="boutonRetour">
             <div class="retour">
-                <form method="post" action="./timer.php">
+                <form id="formulaire2" method="post" action="./timer.php">
                     <input type="submit" name="btnReturn" value="<?php echo $tableauLinguiste['retour'];?>">
                 </form>
             </div>

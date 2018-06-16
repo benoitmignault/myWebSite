@@ -211,10 +211,9 @@ function creationUser($champInitial, $connMYSQL) {
     }
     $nameFormate = ucfirst($champInitial['name']); 
     $passwordCrypter = encryptementPassword($champInitial['password']);
-    $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_organisateur (user, password, name, id) VALUES ";
+    $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_organisateur (user, password, name, idUser) VALUES ";
     $insert .= "('".$champInitial['user']."', '".$passwordCrypter."', '".$nameFormate."', NULL)";
     $connMYSQL->query($insert);
-
     return $champInitial;
 }
 

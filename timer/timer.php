@@ -72,14 +72,22 @@ function remplissageChamps($champs) {
         if (isset($_GET['langue'])){
             $champs['typeLangue'] = $_GET['langue'];
         }
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
-        if (isset($_POST['typeLangue'])){
-            $champs['typeLangue'] = $_POST['typeLangue'];
-        }
-        if (isset($_POST['choixOrganisateur'])){
-            $champs['user'] = $_POST['choixOrganisateur'];
-        }
-        if (isset($_POST['btn_changerMise'])){
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){        
+        if (isset($_POST['btn_choixOrganisateur'])){
+            if (isset($_POST['typeLangue'])){     
+                $champs['typeLangue'] = $_POST['typeLangue'];
+            }
+            if (isset($_POST['choixOrganisateur'])){
+                $champs['user'] = $_POST['choixOrganisateur'];
+            }
+        } elseif (isset($_POST['btnReturn'])){
+            if (isset($_POST['typeLangueReturn'])){     
+                $champs['typeLangue'] = $_POST['typeLangueReturn'];
+            }
+        } elseif (isset($_POST['btn_changerMise'])){
+            if (isset($_POST['typeLangue'])){     
+                $champs['typeLangue'] = $_POST['typeLangue'];
+            }
             $champs['combinaison'] = intval($_POST['combinaison']);
             $champs['combinaison']++;
             if (isset($_POST['number_Red'])){
@@ -108,8 +116,10 @@ function remplissageChamps($champs) {
                 $champs['number_Blue'] = 0;
             }
 
-        }
-        if (isset($_POST['btn_resetMise'])){
+        } elseif (isset($_POST['btn_resetMise'])){
+            if (isset($_POST['typeLangue'])){     
+                $champs['typeLangue'] = $_POST['typeLangue'];
+            }
             $champs['combinaison'] = 0;
             $champs['number_Red'] = 255;
             $champs['number_Green'] = 255;
@@ -321,9 +331,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             $msgErr = "Warning ! Your organizer has not chosen his values associated with small and large bets.\\nPlease contact him to ask him to create his sets small bet and big bet.";
                         }
                         echo "<script>alert(\"$msgErr\")</script>";
-                    } else {
-                        // Rien de spécial pour l'instant
-                    }
+                    } 
                 }
 
             }
@@ -355,12 +363,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="container">
             <div class="tableau_bord">
                 <h2><?php echo $tableauLinguiste['h2tableau'] ?></h2>
-                <form method="post" action="timer.php" id="formulaire">
+                <form method="post" action="./timer.php">
                     <div class="choix">
                         <input type="hidden" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
                         <input type="hidden" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
                         <input type="hidden" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
-                        <input form="formulaire2" id="typeLangue" type="hidden" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                        <input id="typeLangue" type="hidden" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
                         <input type="hidden" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
                         <label for="choixOrganisateur"><?php echo $tableauLinguiste['choixOrganisateur']; ?></label>   
                         <select id="choixOrganisateur" name="choixOrganisateur"> 
@@ -450,8 +458,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <hr>
         <div class="boutonRetour">
             <div class="retour">
-                <form id="formulaire2" method="post" action="./timer.php">
-                    <input type="submit" name="btnReturn" value="<?php echo $tableauLinguiste['retour'];?>">
+                <form method="post" action="./timer.php">
+                    <input type="submit" name="btnReturn" value="<?php echo $tableauLinguiste['retour'];?>">   
+                    <input type="hidden" name="typeLangueReturn" value="<?php echo $champs['typeLangue']; ?>">
                 </form>
             </div>
         </div>

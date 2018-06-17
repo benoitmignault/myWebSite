@@ -88,6 +88,9 @@ function remplissageChamps($champs) {
             if (isset($_POST['typeLangue'])){     
                 $champs['typeLangue'] = $_POST['typeLangue'];
             }
+            if (isset($_POST['choixOrganisateur'])){
+                $champs['user'] = $_POST['choixOrganisateur'];
+            }
             $champs['combinaison'] = intval($_POST['combinaison']);
             $champs['combinaison']++;
             if (isset($_POST['number_Red'])){
@@ -119,6 +122,9 @@ function remplissageChamps($champs) {
         } elseif (isset($_POST['btn_resetMise'])){
             if (isset($_POST['typeLangue'])){     
                 $champs['typeLangue'] = $_POST['typeLangue'];
+            }
+            if (isset($_POST['choixOrganisateur'])){
+                $champs['user'] = $_POST['choixOrganisateur'];
             }
             $champs['combinaison'] = 0;
             $champs['number_Red'] = 255;
@@ -363,7 +369,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="container">
             <div class="tableau_bord">
                 <h2><?php echo $tableauLinguiste['h2tableau'] ?></h2>
-                <form method="post" action="./timer.php">
+                <form method="post" action="./timer.php" id="formulaire">
                     <div class="choix">
                         <input type="hidden" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
                         <input type="hidden" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
@@ -410,7 +416,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <button name="btn_changerMise"<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur']) { ?> class="disabled" disabled <?php } ?> id="double" form="formulaire"><?php echo $tableauLinguiste['changerMise'] ?></button>
                         </div>
                         <div class="resetMise">
-                            <button name="btn_resetMise"<?php if ($champs['combinaison'] < 1) { ?> class="disabled" disabled <?php } ?> form="formulaire" id="reset"><?php echo $tableauLinguiste['reset'] ?></button>
+                            <button form="formulaire" name="btn_resetMise"<?php if ($champs['combinaison'] < 1) { ?> class="disabled" disabled <?php } ?> form="formulaire" id="reset"><?php echo $tableauLinguiste['reset'] ?></button>
                         </div>                
                     </div>
                 </div>

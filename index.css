@@ -276,21 +276,24 @@ body{
     padding-left:20px;
     padding-right: 20px;
 }
-.racineSite > .right > .media,
-.racineSite > .right > .media .sous_Media{
+.racineSite .right > div > .pageAccueuil > p{
+    text-align: justify;
+}
+.racineSite > .left > .media,
+.racineSite > .left > .media .sous_Media{
     width: 100%;
 }
-.racineSite > .right > .media .sous_Media{
+.racineSite > .left > .media .sous_Media{
     display: flex; 
     display: -webkit-flex;
 }
-.racineSite > .right > .media .sous_Media .lienSocial{
+.racineSite > .left > .media .sous_Media .lienSocial{
     width: 25%;
 }
-.racineSite .right > .media > .pageAccueuil{
+.racineSite .left > .media > .pageAccueuil{
     padding:0;
 }
-.racineSite .right > .media .sous_Media > .lienSocial > a img{
+.racineSite .left > .media .sous_Media > .lienSocial > a img{
     width: 100%;
     height: auto;
 } 

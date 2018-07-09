@@ -92,13 +92,18 @@ body{
 .middle #hautPage{
     margin:0;
 }
-.middle .header{
+.middle .header,
+.middle .headerPhotoMoi{
     display: flex; 
     display: -webkit-flex;
     flex-direction: row;
     width: 100%;
 }
-.middle .header > div, .middle .center .header .unePassionPhoto{
+.middle .PhotoMoi{
+    align-items: center;
+}
+.middle .header > div, 
+.middle .center .header .unePassionPhoto{
     width: 20%;
     text-align: center;
     background-color: darkgrey;    

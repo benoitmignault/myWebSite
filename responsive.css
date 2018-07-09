@@ -42,6 +42,16 @@
         flex-direction:column;
         width: 100%;    
     }
+    .middle .cheminement > tbody > tr > .nomcours{
+        font-size: 0.775em;        
+    }
+    .middle .center > .passionResize,
+    .middle .center > .passionResize > .passion{
+        display: flex; 
+        display: -webkit-flex;
+        flex-direction: column;
+        width: 100%;
+    }
     .middle .photo .sous_photo .unePassionPhoto{
         width: 100%;       
         padding-left: 25px;

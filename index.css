@@ -211,6 +211,21 @@ body{
     flex-wrap:wrap; /* permet de mettre les images sur plusieurs lignes*/    
     width: 100%;    
 }
+.middle .center > .passionResize{
+    display: flex; 
+    display: -webkit-flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.middle .center > .passionResize > .passion{
+    display: flex; 
+    display: -webkit-flex;
+    flex-direction: column;
+    width: 50%;
+    flex-wrap: wrap;
+}
+
 .middle .photo .sous_photo .unePassionPhoto{
     width: 50%;
     align-content: center;

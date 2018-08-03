@@ -1,4 +1,4 @@
-const typeLangue = document.querySelector('#typeLangue');
+const langue = document.querySelector('#typeLangue');
 const div_Photo = document.querySelector('.photo');
 const div_Center = document.querySelector('.center');
 const listeSections = document.querySelectorAll('.header div a');
@@ -12,7 +12,8 @@ const sujet = document.querySelector('#sujet');
 const msgErr = document.querySelector('.msgErr');
 const form = document.querySelector('#formContact');
 const msgSucces = document.querySelector('.courrielSend');
-const langue = typeLangue.value;
+//const langue = typeLangue.value;
+const ind_Sect_Photo = document.querySelector('#sect_Photo');
 
 function activation_Liste(){
     lien.addEventListener('click', function(evt){
@@ -41,37 +42,76 @@ function activation_Liste(){
 
 // Au moment de loader la page, on fait afficher par défault cette section
 function affichageAccueuil(){
-    if (langue === "fr"){        
-        $(div_Center).load("http://benoitmignault.ca/pageAccueuil/partie_accueuil.html");
-    } else if (langue === "en"){        
-        $(div_Center).load("http://benoitmignault.ca/pageAccueuil/partie_accueuil_EN.html");
+    if (langue.value === "fr"){        
+        $(div_Center).load("http://localhost:8080/pageAccueuil/partie_accueuil.html");
+    } else if (langue.value === "en"){        
+        $(div_Center).load("http://localhost:8080/pageAccueuil/partie_accueuil_EN.html");
     }    
 }
 /* Affichage de la section du menu centrale du haut dans la section center */
 function affichageSection(){
-    $(listeSections).each(function(){
-        $(this).on('click', function(evt){            
-            evt.preventDefault();            
-            if (evt.target.href === "http://benoitmignault.ca/english/english.html"){
-                window.location.assign("/english/english.html");
-            } else if (evt.target.href === "http://benoitmignault.ca/index.html"){
-                window.location.assign("/index.html");
-            } else if (evt.target.href === "http://benoitmignault.ca/pageAccueuil/partie_photos.html" || evt.target.href === "http://benoitmignault.ca/pageAccueuil/partie_photos_EN.html"){
-                $(div_Center).load(evt.target.href, function() {
-                    affichageSectionPhoto();
-                });
-            } else {
-                $(div_Center).load(evt.target.href, function() {
-                    div_Photo.innerHTML = "";
-                });               
+    var tagSection = $(listeSections).filter("[href='"+location.hash+"']");
+    if (tagSection.length){
+        if (tagSection.attr('href') == '#english'){
+            window.location.replace("http://localhost:8080/english/english.html")
+        } else if (tagSection.attr('href') == '#french'){
+            window.location.replace("http://localhost:8080/index.html")
+        } else {
+            var lien_page = tagSection.data('href');
+            if (ind_Sect_Photo.value === "non_actif" || tagSection.attr('href') != '#photos' ){
+                if (tagSection.attr('href') != '#photos'){
+                    ind_Sect_Photo.value = "non_actif";
+                    $(div_Center).load(lien_page, function(){
+                        div_Photo.innerHTML = "";
+                    }); 
 
-            }  
-        });
-    });
+                } else if (tagSection.attr('href') == '#photos'){ 
+                    ind_Sect_Photo.value = "actif";
+                    console.log(ind_Sect_Photo.value);     
+                    $(div_Center).load(lien_page, function(){
+                        affichageSectionPhoto();
+                    });
+                }
+            } else if (ind_Sect_Photo.value === "actif"){
+                console.log("sous secteur des photos");
+                affichageSectionPhoto();
+            }
+        } 
+    } else {
+        affichageAccueuil();
+    }
 }
+
+/* Au momment de clique sur uens ectino de photo, ca ne marche pas*/
 
 function affichageSectionPhoto(){
     const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
+    console.log(listePassions);
+    var tagSousSection = $(listePassions).filter("[href='"+location.hash+"']");
+    console.log(tagSousSection);
+    var sousHref = tagSousSection.data('href');
+    console.log(sousHref);
+    /*
+    $(div_Photo).load(sousHref, function() {
+        const h3 = document.querySelector('.photo h3');
+        if (langue === "en"){
+            switch (lien){
+                case "http://localhost:8080/pageAccueuil/photos/photo_golf/photo_golf.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the golf :";break;
+                case "http://localhost:8080/pageAccueuil/photos/photo_hiver/photo_hiver.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the winter :";break;
+                case "http://localhost:8080/pageAccueuil/photos/photo_poker/photo_poker.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the poker :";break;
+                case "http://localhost:8080/pageAccueuil/photos/photo_ski/photo_ski.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the skiing :";break;
+                case "http://localhost:8080/pageAccueuil/photos/photo_velo/photo_velo.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the bike :";break;
+            }
+        }
+    });
+    */
+/*
+    
     $(listePassions).each(function(){  
         $(this).on('click', function(e){
             e.preventDefault();
@@ -79,23 +119,24 @@ function affichageSectionPhoto(){
             const lien = this.href;            
             $(div_Photo).load(lien, function() {
                 const h3 = document.querySelector('.photo h3');
-                if (langue === "en"){
+                if (langue.value == "en"){
                     switch (lien){
-                        case "http://benoitmignault.ca/pageAccueuil/photos/photo_golf/photo_golf.html" : 
+                        case "http://localhost:8080/pageAccueuil/photos/photo_golf/photo_golf.html" : 
                             h3.innerHTML = "Here is the sub section of the pictures on the golf :";break;
-                        case "http://benoitmignault.ca/pageAccueuil/photos/photo_hiver/photo_hiver.html" : 
+                        case "http://localhost:8080/pageAccueuil/photos/photo_hiver/photo_hiver.html" : 
                             h3.innerHTML = "Here is the sub section of the pictures on the winter :";break;
-                        case "http://benoitmignault.ca/pageAccueuil/photos/photo_poker/photo_poker.html" : 
+                        case "http://localhost:8080/pageAccueuil/photos/photo_poker/photo_poker.html" : 
                             h3.innerHTML = "Here is the sub section of the pictures on the poker :";break;
-                        case "http://benoitmignault.ca/pageAccueuil/photos/photo_ski/photo_ski.html" : 
+                        case "http://localhost:8080/pageAccueuil/photos/photo_ski/photo_ski.html" : 
                             h3.innerHTML = "Here is the sub section of the pictures on the skiing :";break;
-                        case "http://benoitmignault.ca/pageAccueuil/photos/photo_velo/photo_velo.html" : 
+                        case "http://localhost:8080/pageAccueuil/photos/photo_velo/photo_velo.html" : 
                             h3.innerHTML = "Here is the sub section of the pictures on the bike :";break;
                     }
                 }
             });  
         });
     });
+*/
 }
 
 function envoyerCourriel(){
@@ -209,7 +250,7 @@ function envoyerCourriel(){
             var serializedData = $form.serialize();
 
             request = $.ajax({
-                url: "http://benoitmignault.ca/contact/contact.php",
+                url: "http://localhost:8080/contact/contact.php",
                 type: "post",
                 data: serializedData
             });
@@ -235,9 +276,17 @@ function envoyerCourriel(){
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() { 
-    activation_Liste();
-    affichageAccueuil();
-    affichageSection();    
+document.addEventListener('DOMContentLoaded', function() {  
+
+    $(window).on('hashchange', function(event) {
+        affichageSection();
+    });
+
+    if (location.hash != ""){
+        affichageSection();
+    } else {
+        affichageAccueuil();
+    }
+    activation_Liste();     
     envoyerCourriel();
 });

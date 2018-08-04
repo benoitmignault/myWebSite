@@ -58,6 +58,10 @@ function affichageSection(){
             window.location.replace("http://localhost:8080/index.html")
         } else {
             var lien_page = tagSection.data('href');
+            
+            console.log(lien_page);     
+            
+            /*
             if (ind_Sect_Photo.value === "non_actif" || tagSection.attr('href') != '#photos' ){
                 if (tagSection.attr('href') != '#photos'){
                     ind_Sect_Photo.value = "non_actif";
@@ -76,6 +80,9 @@ function affichageSection(){
                 console.log("sous secteur des photos");
                 affichageSectionPhoto();
             }
+            */
+            
+            
         } 
     } else {
         affichageAccueuil();
@@ -278,15 +285,18 @@ function envoyerCourriel(){
 
 document.addEventListener('DOMContentLoaded', function() {  
 
+    
     $(window).on('hashchange', function(event) {
         affichageSection();
     });
 
+    
     if (location.hash != ""){
         affichageSection();
     } else {
         affichageAccueuil();
     }
+    
     activation_Liste();     
     envoyerCourriel();
 });

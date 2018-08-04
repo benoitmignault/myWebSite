@@ -16,8 +16,8 @@ function traduction($champs, $connMYSQL) {
         $h3_Affichage = "Afficher les combinaisons.";
         $h3_Retirer = "Retirer une combinaison.";
         $option = "À sélectionner";
-        $btn_timer = "Page du TIMER";
-        $btn_return = "Retour à l'accueuil";
+        $btn_timer = "Page du Timer";
+        $btn_return = "Page d'Accueil";
         $valeur_couleur = "Valeur / Couleur";
         $petit_grosse_mise = "Petite mise / Grosse mise";
         $btn_ajout = "Ajouter";

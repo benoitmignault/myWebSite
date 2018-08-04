@@ -33,8 +33,8 @@ function traduction($typeLangue, $user) {
         $msgErreur_joueur = "Veuillez sélectionner un joueur !";
         $msgErreur_ID = "Veuillez sélectionner un numéro de tournois !";
         $msgErreur_Date = "Veuillez sélectionner une date d'un tournois !";
-        $btnLogin = "Retour à la page connexion";
-        $btnReturn = "Retour à la page Accueil";
+        $btnLogin = "Page de connexion";
+        $btnReturn = "Page d'Accueil";
         $returnUp = "Retour au choix d'affichage";
     } elseif ($typeLangue === 'english') {
         $titre = "Statistics page";
@@ -66,8 +66,8 @@ function traduction($typeLangue, $user) {
         $msgErreur_joueur = "Please select one player";
         $msgErreur_ID = "Please select a tournament number !";
         $msgErreur_Date = "Please select a date from a tournament !";
-        $btnLogin = "Return login page";
-        $btnReturn = "Return Home page";
+        $btnLogin = "Login page";
+        $btnReturn = "Home page";
         $returnUp = "Back to the method of displaying";
     }
 

@@ -8,7 +8,7 @@ function traduction($champs){
         $typeMise = 'Les mises possible';
         $small = 'La petite mise';
         $big = 'La grosse mise';
-        $retour = 'Retour à l\'acceuil';
+        $retour = 'Page d\'Accueil';
         $changer = 'Changer mise';
         $btnReset = 'Reset du Temps';
         $reset = 'Reset des mises';

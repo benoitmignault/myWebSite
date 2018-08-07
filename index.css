@@ -279,24 +279,24 @@ body{
 .right .logoRight img{
     width: 100%;
 }
-.racineSite > div > div > .pageAccueuil,
-.racineSite .middle .center .projet .pageAccueuil{
+.racineSite > div > div > .pageAccueil,
+.racineSite .middle .center .projet .pageAccueil{
     width: 100%;
     margin:0;
     padding:0;
     margin-bottom: 20px;    
 }
-.racineSite > div > div > .pageAccueuil legend,
-.racineSite .middle .center .projet .pageAccueuil legend{
+.racineSite > div > div > .pageAccueil legend,
+.racineSite .middle .center .projet .pageAccueil legend{
     font-weight: bold;
     color:green;
     font-size:18px;
 }
-.racineSite .right > div > .pageAccueuil{
+.racineSite .right > div > .pageAccueil{
     padding-left:20px;
     padding-right: 20px;
 }
-.racineSite .right > div > .pageAccueuil > p{
+.racineSite .right > div > .pageAccueil > p{
     text-align: justify;
 }
 .racineSite > .left > .media,
@@ -310,14 +310,14 @@ body{
 .racineSite > .left > .media .sous_Media .lienSocial{
     width: 25%;
 }
-.racineSite .left > .media > .pageAccueuil{
+.racineSite .left > .media > .pageAccueil{
     padding:0;
 }
 .racineSite .left > .media .sous_Media > .lienSocial > a img{
     width: 100%;
     height: auto;
 } 
-.racineSite .left .sectionMeteo .pageAccueuil{
+.racineSite .left .sectionMeteo .pageAccueil{
     padding-top:15px;
     padding-bottom: 15px;
 }

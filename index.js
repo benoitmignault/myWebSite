@@ -2,6 +2,7 @@ const langue = document.querySelector('#typeLangue');
 const div_Photo = document.querySelector('.photo');
 const div_Center = document.querySelector('.center');
 const listeSections = document.querySelectorAll('.header div a');
+const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
 const lien = document.querySelector('#liste_language');
 const div_liste = document.querySelector('#hidden');
 const liste = document.querySelector('#enum_Language');
@@ -12,8 +13,7 @@ const sujet = document.querySelector('#sujet');
 const msgErr = document.querySelector('.msgErr');
 const form = document.querySelector('#formContact');
 const msgSucces = document.querySelector('.courrielSend');
-//const langue = typeLangue.value;
-const ind_Sect_Photo = document.querySelector('#sect_Photo');
+const hashTag = document.querySelector('#hashTag');
 
 function activation_Liste(){
     lien.addEventListener('click', function(evt){
@@ -41,109 +41,59 @@ function activation_Liste(){
 }
 
 // Au moment de loader la page, on fait afficher par défault cette section
-function affichageAccueuil(){
+function affichageAccueil(){
     if (langue.value === "fr"){        
-        $(div_Center).load("http://localhost:8080/pageAccueuil/partie_accueuil.html");
+        $(div_Center).load("http://localhost:8080/pageAccueil/partie_accueil.html");
     } else if (langue.value === "en"){        
-        $(div_Center).load("http://localhost:8080/pageAccueuil/partie_accueuil_EN.html");
-    }    
+        $(div_Center).load("http://localhost:8080/pageAccueil/partie_accueil_EN.html");
+    }
+    hashTag.value = "";
+    div_Photo.innerHTML = "";
 }
 /* Affichage de la section du menu centrale du haut dans la section center */
 function affichageSection(){
     var tagSection = $(listeSections).filter("[href='"+location.hash+"']");
     if (tagSection.length){
+        hashTag.value = tagSection.attr('href');
         if (tagSection.attr('href') == '#english'){
             window.location.replace("http://localhost:8080/english/english.html")
         } else if (tagSection.attr('href') == '#french'){
             window.location.replace("http://localhost:8080/index.html")
         } else {
             var lien_page = tagSection.data('href');
-            
-            console.log(lien_page);     
-            
-            /*
-            if (ind_Sect_Photo.value === "non_actif" || tagSection.attr('href') != '#photos' ){
-                if (tagSection.attr('href') != '#photos'){
-                    ind_Sect_Photo.value = "non_actif";
-                    $(div_Center).load(lien_page, function(){
-                        div_Photo.innerHTML = "";
-                    }); 
-
-                } else if (tagSection.attr('href') == '#photos'){ 
-                    ind_Sect_Photo.value = "actif";
-                    console.log(ind_Sect_Photo.value);     
-                    $(div_Center).load(lien_page, function(){
-                        affichageSectionPhoto();
-                    });
-                }
-            } else if (ind_Sect_Photo.value === "actif"){
-                console.log("sous secteur des photos");
-                affichageSectionPhoto();
-            }
-            */
-            
-            
+            $(div_Center).load(lien_page, function(){
+                div_Photo.innerHTML = "";
+            });
         } 
+    } else if (hashTag.value == '#photos'){
+        affichageSectionPhoto();
     } else {
-        affichageAccueuil();
+        affichageAccueil();
     }
 }
 
-/* Au momment de clique sur uens ectino de photo, ca ne marche pas*/
-
 function affichageSectionPhoto(){
     const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
-    console.log(listePassions);
     var tagSousSection = $(listePassions).filter("[href='"+location.hash+"']");
-    console.log(tagSousSection);
-    var sousHref = tagSousSection.data('href');
-    console.log(sousHref);
-    /*
+    var sousHref = tagSousSection.data('href');  
     $(div_Photo).load(sousHref, function() {
         const h3 = document.querySelector('.photo h3');
-        if (langue === "en"){
-            switch (lien){
-                case "http://localhost:8080/pageAccueuil/photos/photo_golf/photo_golf.html" : 
-                    h3.innerHTML = "Here is the sub section of the pictures on the golf :";break;
-                case "http://localhost:8080/pageAccueuil/photos/photo_hiver/photo_hiver.html" : 
-                    h3.innerHTML = "Here is the sub section of the pictures on the winter :";break;
-                case "http://localhost:8080/pageAccueuil/photos/photo_poker/photo_poker.html" : 
-                    h3.innerHTML = "Here is the sub section of the pictures on the poker :";break;
-                case "http://localhost:8080/pageAccueuil/photos/photo_ski/photo_ski.html" : 
-                    h3.innerHTML = "Here is the sub section of the pictures on the skiing :";break;
-                case "http://localhost:8080/pageAccueuil/photos/photo_velo/photo_velo.html" : 
-                    h3.innerHTML = "Here is the sub section of the pictures on the bike :";break;
+        console.log(h3.innerHTML);
+        if (langue.value == "en"){
+            switch (sousHref){
+                case "http://localhost:8080/pageAccueil/photos/photo_golf/photo_golf.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the golf :"; break;
+                case "http://localhost:8080/pageAccueil/photos/photo_hiver/photo_hiver.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the winter :"; break;
+                case "http://localhost:8080/pageAccueil/photos/photo_poker/photo_poker.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the poker :"; break;
+                case "http://localhost:8080/pageAccueil/photos/photo_ski/photo_ski.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the skiing :"; break;
+                case "http://localhost:8080/pageAccueil/photos/photo_velo/photo_velo.html" : 
+                    h3.innerHTML = "Here is the sub section of the pictures on the bike :"; break;
             }
         }
-    });
-    */
-/*
-    
-    $(listePassions).each(function(){  
-        $(this).on('click', function(e){
-            e.preventDefault();
-            // ça garde en mémoire le lien qui sera utilisé pour change rle titre du h3 en conséquence
-            const lien = this.href;            
-            $(div_Photo).load(lien, function() {
-                const h3 = document.querySelector('.photo h3');
-                if (langue.value == "en"){
-                    switch (lien){
-                        case "http://localhost:8080/pageAccueuil/photos/photo_golf/photo_golf.html" : 
-                            h3.innerHTML = "Here is the sub section of the pictures on the golf :";break;
-                        case "http://localhost:8080/pageAccueuil/photos/photo_hiver/photo_hiver.html" : 
-                            h3.innerHTML = "Here is the sub section of the pictures on the winter :";break;
-                        case "http://localhost:8080/pageAccueuil/photos/photo_poker/photo_poker.html" : 
-                            h3.innerHTML = "Here is the sub section of the pictures on the poker :";break;
-                        case "http://localhost:8080/pageAccueuil/photos/photo_ski/photo_ski.html" : 
-                            h3.innerHTML = "Here is the sub section of the pictures on the skiing :";break;
-                        case "http://localhost:8080/pageAccueuil/photos/photo_velo/photo_velo.html" : 
-                            h3.innerHTML = "Here is the sub section of the pictures on the bike :";break;
-                    }
-                }
-            });  
-        });
-    });
-*/
+    }); 
 }
 
 function envoyerCourriel(){
@@ -285,18 +235,17 @@ function envoyerCourriel(){
 
 document.addEventListener('DOMContentLoaded', function() {  
 
-    
     $(window).on('hashchange', function(event) {
         affichageSection();
     });
 
-    
+
     if (location.hash != ""){
         affichageSection();
     } else {
-        affichageAccueuil();
+        affichageAccueil();
     }
-    
+
     activation_Liste();     
     envoyerCourriel();
 });

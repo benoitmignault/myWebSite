@@ -43,9 +43,9 @@ function activation_Liste(){
 // Au moment de loader la page, on fait afficher par défault cette section
 function affichageAccueil(){
     if (langue.value === "fr"){        
-        $(div_Center).load("http://localhost:8080/pageAccueil/partie_accueil.html");
+        $(div_Center).load("http://benoitmignault.ca/pageAccueil/partie_accueil.html");
     } else if (langue.value === "en"){        
-        $(div_Center).load("http://localhost:8080/pageAccueil/partie_accueil_EN.html");
+        $(div_Center).load("http://benoitmignault.ca/pageAccueil/partie_accueil_EN.html");
     }
     hashTag.value = "";
     div_Photo.innerHTML = "";
@@ -56,9 +56,9 @@ function affichageSection(){
     if (tagSection.length){
         hashTag.value = tagSection.attr('href');
         if (tagSection.attr('href') == '#english'){
-            window.location.replace("http://localhost:8080/english/english.html")
+            window.location.replace("http://benoitmignault.ca/english/english.html")
         } else if (tagSection.attr('href') == '#french'){
-            window.location.replace("http://localhost:8080/index.html")
+            window.location.replace("http://benoitmignault.ca/index.html")
         } else {
             var lien_page = tagSection.data('href');
             $(div_Center).load(lien_page, function(){
@@ -81,15 +81,15 @@ function affichageSectionPhoto(){
         console.log(h3.innerHTML);
         if (langue.value == "en"){
             switch (sousHref){
-                case "http://localhost:8080/pageAccueil/photos/photo_golf/photo_golf.html" : 
+                case "http://benoitmignault.ca/pageAccueil/photos/photo_golf/photo_golf.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the golf :"; break;
-                case "http://localhost:8080/pageAccueil/photos/photo_hiver/photo_hiver.html" : 
+                case "http://benoitmignault.ca/pageAccueil/photos/photo_hiver/photo_hiver.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the winter :"; break;
-                case "http://localhost:8080/pageAccueil/photos/photo_poker/photo_poker.html" : 
+                case "http://benoitmignault.ca/pageAccueil/photos/photo_poker/photo_poker.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the poker :"; break;
-                case "http://localhost:8080/pageAccueil/photos/photo_ski/photo_ski.html" : 
+                case "http://benoitmignault.ca/pageAccueil/photos/photo_ski/photo_ski.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the skiing :"; break;
-                case "http://localhost:8080/pageAccueil/photos/photo_velo/photo_velo.html" : 
+                case "http://benoitmignault.ca/pageAccueil/photos/photo_velo/photo_velo.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the bike :"; break;
             }
         }
@@ -207,7 +207,7 @@ function envoyerCourriel(){
             var serializedData = $form.serialize();
 
             request = $.ajax({
-                url: "http://localhost:8080/contact/contact.php",
+                url: "http://benoitmignault.ca/contact/contact.php",
                 type: "post",
                 data: serializedData
             });
@@ -238,7 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
     $(window).on('hashchange', function(event) {
         affichageSection();
     });
-
 
     if (location.hash != ""){
         affichageSection();

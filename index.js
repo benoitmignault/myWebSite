@@ -65,7 +65,7 @@ function affichageSection(){
                 div_Photo.innerHTML = "";
             });
         } 
-    } else if (hashTag.value == '#photos'){
+    } else if (hashTag.value == '#photos' || hashTag.value == '#pictures'){
         affichageSectionPhoto();
     } else {
         affichageAccueil();

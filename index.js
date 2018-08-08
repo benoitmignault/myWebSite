@@ -41,9 +41,9 @@ function activation_Liste(){
 }
 
 function affichageAccueil(){
-    if (langue.value === "fr"){        
+    if (langue.value == "fr"){        
         $(div_Center).load("pageAccueil/partie_accueil.html");
-    } else if (langue.value === "en"){        
+    } else if (langue.value == "en"){        
         $(div_Center).load("../pageAccueil/partie_accueil_EN.html");
     }
     hashTag.value = "";
@@ -66,7 +66,7 @@ function affichageSection(){
         } 
     } else if (hashTag.value == '#photos' || hashTag.value == '#pictures'){
         affichageSectionPhoto();
-    } else {
+    } else if (location.hash != "#hautPageDesktop" && location.hash != "#hautPageCellulaire" ){
         affichageAccueil();
     }
 }
@@ -77,7 +77,6 @@ function affichageSectionPhoto(){
     var sousHref = tagSousSection.data('href');  
     $(div_Photo).load(sousHref, function() {
         const h3 = document.querySelector('.photo h3');
-        console.log(h3.innerHTML);
         if (langue.value == "en"){
             switch (sousHref){
                 case "http://benoitmignault.ca/pageAccueil/photos/photo_golf/photo_golf.html" : 
@@ -107,12 +106,11 @@ function envoyerCourriel(){
         var msg = message.value;
         var longueurMsg = msg.length;        
         var objet = sujet.value;
-        var longueurSujet = objet.length;        
-
-        // si le prénom et ou nom est vide
+        var longueurSujet = objet.length; 
+        
         if (nomComplet.value === ""){
             nomComplet.style.border = "2px solid red";
-            if (langue === "fr"){
+            if (langue.value === "fr"){
                 msgErr.innerHTML += "<li>Champ nom et prénom est vide</li>";
             } else {
                 msgErr.innerHTML += "<li>Surname and first name field is empty</li>";
@@ -120,7 +118,7 @@ function envoyerCourriel(){
             erreur = true;
         } else if (longueurNom > 30){
             nomComplet.style.border = "2px solid red";
-            if (langue === "fr"){
+            if (langue.value === "fr"){
                 msgErr.innerHTML += "<li>L'information dans le champ nom et prénom est trop long</li>";
             } else {
                 msgErr.innerHTML += "<li>The information in the first and last name field is too long</li>";
@@ -133,7 +131,7 @@ function envoyerCourriel(){
         // si le courriel est vide
         if (courriel.value === ""){
             courriel.style.border = "2px solid red";
-            if (langue === "fr"){
+            if (langue.value === "fr"){
                 msgErr.innerHTML += "<li>Champ du courriel est vide</li>";
             } else {
                 msgErr.innerHTML += "<li>Email field is empty</li>";
@@ -141,7 +139,7 @@ function envoyerCourriel(){
             erreur = true;
         } else if (longueurEmail > 30){
             courriel.style.border = "2px solid red";
-            if (langue === "fr"){
+            if (langue.value === "fr"){
                 msgErr.innerHTML += "<li>L'information dans le champ email est trop long</li>";
             } else {
                 msgErr.innerHTML += "<li>The information in the email field is too long</li>";
@@ -154,7 +152,7 @@ function envoyerCourriel(){
         // si le sujet est vide
         if (sujet.value === ""){
             sujet.style.border = "2px solid red";
-            if (langue === "fr"){
+            if (langue.value === "fr"){
                 msgErr.innerHTML += "<li>Champ du sujet est vide</li>";
             } else {
                 msgErr.innerHTML += "<li>Subject field is empty</li>";
@@ -162,7 +160,7 @@ function envoyerCourriel(){
             erreur = true;
         } else if (longueurSujet > 30){
             sujet.style.border = "2px solid red";
-            if (langue === "fr"){
+            if (langue.value === "fr"){
                 msgErr.innerHTML += "<li>L'information dans le champ sujet est trop long</li>";
             } else {
                 msgErr.innerHTML += "<li>The information in the subject field is too long</li>";
@@ -175,7 +173,7 @@ function envoyerCourriel(){
         // si le message est vide
         if (message.value === ""){
             message.style.border = "2px solid red";
-            if (langue === "fr"){
+            if (langue.value === "fr"){
                 msgErr.innerHTML += "<li>Champ du message est vide</li>";
             } else {
                 msgErr.innerHTML += "<li>Message field is empty</li>";
@@ -183,7 +181,7 @@ function envoyerCourriel(){
             erreur = true;
         } else if (longueurMsg > 250){
             message.style.border = "2px solid red";
-            if (langue === "fr"){
+            if (langue.value === "fr"){
                 msgErr.innerHTML += "<li>L'information dans le champ message est trop long</li>";
             } else {
                 msgErr.innerHTML += "<li>The information in the message field is too long</li>";
@@ -206,25 +204,25 @@ function envoyerCourriel(){
             var serializedData = $form.serialize();
 
             request = $.ajax({
-                url: "http://benoitmignault.ca/contact/contact.php",
+                url: "contact/contact.php",
                 type: "post",
                 data: serializedData
             });
-
+            
             // Callback handler that will be called on success
             request.done(function (response, textStatus, jqXHR){
-                if (langue === "fr"){
+                if (langue.value === "fr"){                    
                     msgSucces.innerHTML = "Votre message a été envoyé";
-                } else if (langue === "en"){
+                } else if (langue.value === "en"){
                     msgSucces.innerHTML = "Your message has been sent";
                 }
             });
 
             // Callback handler that will be called on failure
             request.fail(function (jqXHR, textStatus, errorThrown){
-                if (langue === "fr"){
+                if (langue.value === "fr"){
                     msgErr.innerHTML += "<li>Un problème avec l'envoi du courriel a été rencontré</li>";
-                } else if (langue === "en"){
+                } else if (langue.value === "en"){
                     msgErr.innerHTML += "<li>A problem with sending the email was encountered</li>";
                 } 
             });
@@ -240,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /* Si on inscrit manuellement un hasgTag, on call la fct sinon on call la fct de base */
-    if (location.hash != ""){
+    if (location.hash != ""){        
         affichageSection();
     } else {
         affichageAccueil();

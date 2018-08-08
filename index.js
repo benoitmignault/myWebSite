@@ -63,7 +63,7 @@ function affichageSection(){
             $(div_Center).load(lien_page, function(){
                 div_Photo.innerHTML = "";
             });
-        } 
+        } // si je pese sur hautPageDesktop apres avec peser sur la section photo, erreur js
     } else if (hashTag.value == '#photos' || hashTag.value == '#pictures'){
         affichageSectionPhoto();
     } else if (location.hash != "#hautPageDesktop" && location.hash != "#hautPageCellulaire" ){

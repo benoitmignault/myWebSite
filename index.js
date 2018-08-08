@@ -40,25 +40,24 @@ function activation_Liste(){
     });
 }
 
-// Au moment de loader la page, on fait afficher par défault cette section
 function affichageAccueil(){
     if (langue.value === "fr"){        
-        $(div_Center).load("http://benoitmignault.ca/pageAccueil/partie_accueil.html");
+        $(div_Center).load("pageAccueil/partie_accueil.html");
     } else if (langue.value === "en"){        
-        $(div_Center).load("http://benoitmignault.ca/pageAccueil/partie_accueil_EN.html");
+        $(div_Center).load("../pageAccueil/partie_accueil_EN.html");
     }
     hashTag.value = "";
     div_Photo.innerHTML = "";
 }
-/* Affichage de la section du menu centrale du haut dans la section center */
+
 function affichageSection(){
     var tagSection = $(listeSections).filter("[href='"+location.hash+"']");
     if (tagSection.length){
         hashTag.value = tagSection.attr('href');
         if (tagSection.attr('href') == '#english'){
-            window.location.replace("http://benoitmignault.ca/english/english.html")
+            window.location.replace("english/english.html")
         } else if (tagSection.attr('href') == '#french'){
-            window.location.replace("http://benoitmignault.ca/index.html")
+            window.location.replace("../index.html")
         } else {
             var lien_page = tagSection.data('href');
             $(div_Center).load(lien_page, function(){
@@ -235,10 +234,12 @@ function envoyerCourriel(){
 
 document.addEventListener('DOMContentLoaded', function() {  
 
+    /* À chaque fois que le hashTag change on appel cet évenement */
     $(window).on('hashchange', function(event) {
         affichageSection();
     });
 
+    /* Si on inscrit manuellement un hasgTag, on call la fct sinon on call la fct de base */
     if (location.hash != ""){
         affichageSection();
     } else {

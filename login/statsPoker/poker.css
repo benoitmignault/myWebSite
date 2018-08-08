@@ -5,7 +5,7 @@
 .mainPage{
     display: -webkit-flex; 
     display: flex;
-    width: 40%;
+    width: 50%;
     margin: auto;
     -webkit-flex-direction:column; 
     flex-direction:column; 
@@ -66,7 +66,7 @@
     margin-bottom: 5px;
     display: -webkit-flex; 
     display: flex;
-    justify-content:flex-end;
+    justify-content:flex-start;
 }
 .mainPage .method .formulaire #joueur:hover,
 .mainPage .method .formulaire #idTournois:hover,

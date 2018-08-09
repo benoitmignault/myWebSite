@@ -16,9 +16,9 @@ function traduction($typeLangue, $user) {
         $method7 = "<span class='infoImportant'>À partir du 101e tournois</span>, le sommaire des prix citrons et des killers.";
         $h3 = "Le numéro du bouton sera la méthode sélectionnée";
         $legend2 = "Veuillez sélectionner votre méthode :";
-        $label1 = "Pour les méthodes 2 et 3, veuillez sélectionner un joueur :";
-        $label2 = "Pour les méthodes 5, veuillez sélectionner un numéro tournois :";
-        $label3 = "Pour les méthodes 6, veuillez sélectionner une date d'un tournois :";
+        $label1 = "Pour les méthodes 2 et 3, veuillez sélectionner un joueur : ";
+        $label2 = "Pour les méthodes 5, veuillez sélectionner un numéro tournois : ";
+        $label3 = "Pour les méthodes 6, veuillez sélectionner une date d'un tournois : ";
         $option = "À sélectionner";
         $legend3 = "Voici le résultat de la méthode d'affichage choisie :";
         $joueur = "Joueur";
@@ -33,8 +33,8 @@ function traduction($typeLangue, $user) {
         $msgErreur_joueur = "Veuillez sélectionner un joueur !";
         $msgErreur_ID = "Veuillez sélectionner un numéro de tournois !";
         $msgErreur_Date = "Veuillez sélectionner une date d'un tournois !";
-        $btnLogin = "Retour à la page connexion";
-        $btnReturn = "Retour à la page Accueil";
+        $btnLogin = "Page de connexion";
+        $btnReturn = "Page d'Accueil";
         $returnUp = "Retour au choix d'affichage";
     } elseif ($typeLangue === 'english') {
         $titre = "Statistics page";
@@ -66,8 +66,8 @@ function traduction($typeLangue, $user) {
         $msgErreur_joueur = "Please select one player";
         $msgErreur_ID = "Please select a tournament number !";
         $msgErreur_Date = "Please select a date from a tournament !";
-        $btnLogin = "Return login page";
-        $btnReturn = "Return Home page";
+        $btnLogin = "Login page";
+        $btnReturn = "Home page";
         $returnUp = "Back to the method of displaying";
     }
 
@@ -75,10 +75,6 @@ function traduction($typeLangue, $user) {
 
     return $arrayMots;
 }
-
-/*
- * Cette fonction aura pour but de créer une liste des joueurs qui sera envoyée dans un menu pour en sélectionner un si nécessaire
- */
 
 function creationListe($nameSelected, $connMYSQL, $arrayMots) {
     //https://pixabay.com/fr/médaille-or-conception-2163347/
@@ -104,10 +100,6 @@ function creationListe($nameSelected, $connMYSQL, $arrayMots) {
     return $liste_Joueur;
 }
 
-/*
- * Cette fonction aura pour but de créer une liste des numéros de tournois en ordre croissant
- */
-
 function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
     $sql = "SELECT distinct id_tournoi FROM benoitmignault_ca_mywebsite.poker order by id_tournoi desc";
     $result = $connMYSQL->query($sql);
@@ -129,10 +121,6 @@ function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
     }
     return $liste_Id_tournois;
 }
-
-/*
- * Cette fonction aura pour but de créer une liste des dates des différents tournois qui a eu lieu
- */
 
 function creationListeDate($tournoiDate, $connMYSQL, $arrayMots) {
     $sql = "SELECT distinct date FROM benoitmignault_ca_mywebsite.poker order by date desc";
@@ -156,10 +144,6 @@ function creationListeDate($tournoiDate, $connMYSQL, $arrayMots) {
     return $liste_Date_tournois;
 }
 
-/*
-  Comme je n'ai pas de statistiques du 100e, j'ai mis des îcones de médailes à côté de leur nom à Frédéric V, Frédéric et à Marc-andré
- */
-
 function lesGrandsGagnants_100e($nom_Champion) {
     if ($nom_Champion === "Frederic V") {
         $icone = "<img src=\"./photo/medaile_or.jpg\" alt=\"or\" title=\"or\">";
@@ -172,10 +156,6 @@ function lesGrandsGagnants_100e($nom_Champion) {
     }
     return $icone;
 }
-
-/*
- * Fonction qui affiche tous les joueurs à chaque tournois
- */
 
 function affichageBrute($connMYSQL, $arrayMots) {
     $sql = "select joueur, gain, victoire, fini_2e, id_tournoi, date from benoitmignault_ca_mywebsite.poker order by id_tournoi desc, gain desc";
@@ -207,12 +187,6 @@ function affichageBrute($connMYSQL, $arrayMots) {
     $tableau .= "</tbody></table>";
     return $tableau;
 }
-
-/*
- * Cette fonction est presque pareil à la précédente «affichageBrute()» avec le nom du joueur en variable 
- * qui sera utilisé pour créer un tableau avec uniquement le joueur sélectionné
- *  
- */
 
 function affichageUnjoueur($nom, $connMYSQL, $arrayMots) {
     if ($nom === "") {
@@ -249,10 +223,6 @@ function affichageUnjoueur($nom, $connMYSQL, $arrayMots) {
     }
     return $tableau;
 }
-
-/*
-  Affichage le sommaire d'un joueur sélectionné comme pour la 4e méthode mais seulement un joueur !
- */
 
 function sommaireUnjoueur($nom, $connMYSQL, $arrayMots) {
     if ($nom === "") {
@@ -299,11 +269,6 @@ function sommaireUnjoueur($nom, $connMYSQL, $arrayMots) {
     return $tableau;
 }
 
-/*
-  Affichage d'un tableau contenant chacun des joueurs avec la somme de leur gain net, le nombre de présences, le nombre de victoires et le nombre de fini 2e.
-  le tableau est automatiquement trié grâce à ma requête SQL pré-trié
- */
-
 function sommaireTousJoueurs($connMYSQL, $arrayMots) {
     $sql = "SELECT
                 joueur,
@@ -346,8 +311,6 @@ function sommaireTousJoueurs($connMYSQL, $arrayMots) {
     return $tableau;
 }
 
-/* Fonction pour afficher par un numéro de tournois sélectionner */
-
 function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
     if ($numeroID === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_ID']}</h3>";
@@ -386,8 +349,6 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
     return $tableau;
 }
 
-/* Fonction pour afficher par uune date d'un tournois sélectionner */
-
 function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
     if ($tournoiDate === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_Date']}</h3>";
@@ -425,8 +386,6 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
     }
     return $tableau;
 }
-
-/* Fonction pour faire afficher de nouvelles statistiques avancées */
 
 function affichageKillerCitron($connMYSQL, $arrayMots) {
     $sql = "SELECT
@@ -492,8 +451,6 @@ function redirection($typeLangue) {
     exit; // pour arrêter l'éxecution du code php
 }
 
-/* Fonction pour ouvrir une connexion à la BD */
-
 function connexionBD() {
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
@@ -509,8 +466,6 @@ function connexionBD() {
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
 }
-
-/* Fonction pour valider si le user et son mdp dans les variables sessions sont bonnes */
 
 function verificationUser($connMYSQL) {
     $sql = "select user, password from benoitmignault_ca_mywebsite.login";

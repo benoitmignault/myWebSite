@@ -18,7 +18,7 @@ function traduction($champInitial) {
         $btn_login = "Se Connecter";
         $btn_signUp = "S'inscrire";
         $btn_Erase = "Effacer";
-        $btn_return = "Retour à l'acceuil";
+        $btn_return = "Retour à l'accueil";
         // Si la valeur de la situation est différent de zéro, nous attribuons le message correspondance et nous affichons à son endroit prévu
         if ($champInitial['situation'] !== 0) {
             switch ($champInitial['situation']) {

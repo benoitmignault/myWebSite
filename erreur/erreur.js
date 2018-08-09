@@ -10,16 +10,16 @@ document.addEventListener('DOMContentLoaded', function (event) {
         explain.innerHTML += "<p>Exemple de hyperlien : http://benoitmignault.ca/login_Organisateur/login_Organisateur.php?langue=francais</p>";
         explain.innerHTML += "<p>Exemple de hyperlien : http://benoitmignault.ca/timer/timer.php?langue=francais</p>";
         explain.innerHTML += "<p>Par contre, pour avoir accès à la page poker.php, nous devons passer par la page login.php?langue=francais</p>";
-        explain.innerHTML += "<form method=\"post\" action=\"./erreur.php\"><input class=\"btnErreur\" type=\"submit\" name=\"returnFR\" value=\"Retour à la page d'acceuil\"></form>";
+        explain.innerHTML += "<form method=\"post\" action=\"./erreur.php\"><input class=\"btnErreur\" type=\"submit\" name=\"returnFR\" value=\"Page d'Accueil\"></form>";
     });
 
-    btnEn.addEventListener('click', function (evt) {
+    btnEn.addaccueilEventListener('click', function (evt) {
         explain.innerHTML = "<p>It's necessary to put a value at the end of the hyperlink for the variable «?langue»</p>";
         explain.innerHTML += "<p>Exemple of hyperlink : http://benoitmignault.ca/login/login.php?langue=english</p>";
         explain.innerHTML += "<p>Exemple of hyperlink : http://benoitmignault.ca/calculatrice/calcul.php?langue=english</p>";
         explain.innerHTML += "<p>Exemple de hyperlien : http://benoitmignault.ca/login_Organisateur/login_Organisateur.php?langue=english</p>";
         explain.innerHTML += "<p>Exemple of hyperlink : http://benoitmignault.ca/timer/timer.php?langue=english</p>";
         explain.innerHTML += "<p>However, for have acces at the page poker.php, you must use the page login.php?langue=english</p>";
-        explain.innerHTML += "<form method=\"post\" action=\"./erreur.php\"><input class=\"btnErreur\" type=\"submit\" name=\"returnEN\" value=\"Return at home page\"></form>";
+        explain.innerHTML += "<form method=\"post\" action=\"./erreur.php\"><input class=\"btnErreur\" type=\"submit\" name=\"returnEN\" value=\"Home page\"></form>";
     });
 });

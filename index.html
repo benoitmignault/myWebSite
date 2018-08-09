@@ -15,10 +15,10 @@
             <div class="left">
                 <p class="cellulaire" id="hautPageCellulaire"></p>
                 <div class="logo">
-                    <img src="pageAccueuil/photos/logo.jpg" alt="mon logo" title="l'image de mon site" />
+                    <img src="pageAccueil/photos/logo.jpg" alt="mon logo" title="l'image de mon site" />
                 </div>                
                 <div class="liste_skill">
-                    <fieldset class="pageAccueuil">
+                    <fieldset class="pageAccueil">
                         <ul class="liste">
                             <li>
                                 <a id="liste_language">Mes languages de programmations<br>et mes outils</a>
@@ -30,7 +30,7 @@
                     </fieldset>   
                 </div>
                 <div class="liste_projet">
-                    <fieldset class="pageAccueuil">
+                    <fieldset class="pageAccueil">
                         <legend align="center">Lien rapide de mes projets</legend>
                         <ul class="liste">
                             <li><a href="calculatrice/calcul.php?langue=francais">Calculatrice</a></li>
@@ -39,16 +39,16 @@
                             <li><a href="timer/timer.php?langue=francais">Tableau de bord de poker</a></li>                            
                         </ul>
                     </fieldset>  
-                    <input type="hidden" disabled id="typeLangue" value="fr" size="2">
+                    <input type="hidden" id="typeLangue" value="fr" size="2">
                 </div>
                 <div class="sectionMeteo">
-                    <fieldset class="pageAccueuil">
+                    <fieldset class="pageAccueil">
                         <legend align="center">Section Météo</legend>
                         <div id="plemx-root"></div>                        
                     </fieldset> 
                 </div>  
                 <div class="media">
-                    <fieldset class='pageAccueuil'>
+                    <fieldset class='pageAccueil'>
                         <legend align="center">Section Média</legend>
                         <!-- Voici les liens gratuit des photos des médias 
 https://www.justchecking.co.uk/?attachment_id=16703
@@ -58,19 +58,19 @@ https://pixabay.com/fr/facebook-plat-ic%C3%B4ne-plate-social-2429746/
 -->
                         <div class="sous_Media">
                             <div class="lienSocial">
-                                <a target="_blank" href="https://www.facebook.com/Benoit0007"><img src="/pageAccueuil/photos/photo_media/facebook.jpg" alt="facebook" title="lien vers facebook">
+                                <a target="_blank" href="https://www.facebook.com/Benoit0007"><img src="pageAccueil/photos/photo_media/facebook.jpg" alt="facebook" title="lien vers facebook">
                                 </a>
                             </div>
                             <div class="lienSocial">
-                                <a target="_blank" href="https://plus.google.com/+BenoitMignault"><img src="/pageAccueuil/photos/photo_media/google+.jpg" alt="google" title="lien vers google+">
+                                <a target="_blank" href="https://plus.google.com/+BenoitMignault"><img src="pageAccueil/photos/photo_media/google+.jpg" alt="google" title="lien vers google+">
                                 </a>
                             </div>
                             <div class="lienSocial">
-                                <a target="_blank" href="https://ca.linkedin.com/in/beno%C3%AEt-mignault-413819100"><img src="/pageAccueuil/photos/photo_media/linkedin.jpg" alt="linkedin" title="lien vers linkedin">
+                                <a target="_blank" href="https://ca.linkedin.com/in/beno%C3%AEt-mignault-413819100"><img src="pageAccueil/photos/photo_media/linkedin.jpg" alt="linkedin" title="lien vers linkedin">
                                 </a>
                             </div>
                             <div class="lienSocial">
-                                <a target="_blank" href="https://twitter.com/frantz256255"><img src="/pageAccueuil/photos/photo_media/twitter.jpg" alt="twitter" title="lien vers twitter">
+                                <a target="_blank" href="https://twitter.com/frantz256255"><img src="pageAccueil/photos/photo_media/twitter.jpg" alt="twitter" title="lien vers twitter">
                                 </a>
                             </div>
                         </div>
@@ -80,11 +80,12 @@ https://pixabay.com/fr/facebook-plat-ic%C3%B4ne-plate-social-2429746/
             <div class="middle">  
                 <p class="desktop" id="hautPageDesktop"></p>
                 <div class="header">
-                    <div><a href="/pageAccueuil/partie_accueuil.html">Accueil</a></div>
-                    <div><a href="/pageAccueuil/partie_projets.html">Projets</a></div>
-                    <div><a href="/pageAccueuil/partie_photos.html">Photos</a></div>
-                    <div><a href="/pageAccueuil/partie_aPropos.html">À propos</a></div>
-                    <div><a href="/english/english.html">English</a></div>
+                    <div><a href="#accueil" data-href="pageAccueil/partie_accueil.html">Accueil</a></div>
+                    <div><a href="#projets" data-href="pageAccueil/partie_projets.html">Projets</a></div>
+                    <div><a href="#photos" data-href="pageAccueil/partie_photos.html">Photos</a></div>
+                    <div><a href="#aPropos" data-href="pageAccueil/partie_aPropos.html">À propos</a></div>
+                    <div><a href="#english" data-href="/english/english.html">English</a></div>
+                    <input id="hashTag" type="hidden" value="">
                 </div>
                 <div class="center"></div>  
                 <div class="photo"></div>
@@ -95,10 +96,10 @@ https://pixabay.com/fr/facebook-plat-ic%C3%B4ne-plate-social-2429746/
             </div>
             <div class="right">
                 <div class="logoRight">
-                    <img src="pageAccueuil/photos/logo.jpg" alt="mon logo" title="l'image de mon site" />
+                    <img src="pageAccueil/photos/logo.jpg" alt="mon logo" title="l'image de mon site" />
                 </div>
                 <div class="info">
-                    <fieldset class='pageAccueuil'>
+                    <fieldset class='pageAccueil'>
                         <legend align="center">Les talents de mon amis Alfredo Cardenas</legend>
                         <p>
                             Ici ce trouve la page facebook de mon ami chilien Alfredo. Il a de formidables talents de peintures de toutes sortes de styles. Je vous offre sa page facebook qui va vous permettre de découvrir son talent et d'acheter ses chef d'oeuvres.
@@ -108,7 +109,7 @@ https://pixabay.com/fr/facebook-plat-ic%C3%B4ne-plate-social-2429746/
                     </fieldset> 
                 </div>
                 <div class="info">
-                    <fieldset class='pageAccueuil'>
+                    <fieldset class='pageAccueil'>
                         <legend align="center">La boutique de Maude Desrosiers Lanctôt et sa mère</legend>
                         <p>
                             Nous sommes une entreprise québécoise fondée en 2016 et située à Candiac sur la Rive-Sud de Montréal.
@@ -119,7 +120,7 @@ https://pixabay.com/fr/facebook-plat-ic%C3%B4ne-plate-social-2429746/
                     </fieldset>
                 </div>
                 <div class="contact">
-                    <fieldset class='pageAccueuil'>
+                    <fieldset class='pageAccueil'>
                         <legend align="center">Nous joindre</legend>
                         <form id="formContact" action="contact/contact.php" method="post">
                             <div class="formulaire">
@@ -143,14 +144,15 @@ https://pixabay.com/fr/facebook-plat-ic%C3%B4ne-plate-social-2429746/
                                     <ul class="msgErr"></ul>
                                 </div>
                                 <div class="btnSend">
-                                    <input id="btn" type="submit" name="send" value="Envoyer votre commentaire"><p class="courrielSend"></p>
+                                    <input id="btn" type="submit" name="send" value="Envoyer votre commentaire">
+                                    <p class="courrielSend"></p>
                                 </div>
                             </div>
                         </form>
                     </fieldset> 
                 </div>
                 <div id="photoCell" class="logoRight">
-                    <img src="pageAccueuil/photos/logo.jpg" alt="mon logo" title="l'image de mon site" />
+                    <img src="pageAccueil/photos/logo.jpg" alt="mon logo" title="l'image de mon site" />
                 </div>
             </div>
         </div>

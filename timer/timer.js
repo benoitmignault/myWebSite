@@ -31,10 +31,6 @@ function modificationSizeValeurs(small, big){
             valeurBig.style.fontSize = "42px";
         }        
     }
-    if (big >= 64000){
-        doubleValeur.setAttribute("class", "disabled");
-        doubleValeur.setAttribute("disabled", "disabled");
-    }
 }
 
 function reset(){    

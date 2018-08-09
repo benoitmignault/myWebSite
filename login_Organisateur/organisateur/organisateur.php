@@ -16,8 +16,8 @@ function traduction($champs, $connMYSQL) {
         $h3_Affichage = "Afficher les combinaisons.";
         $h3_Retirer = "Retirer une combinaison.";
         $option = "À sélectionner";
-        $btn_timer = "Page du TIMER";
-        $btn_return = "Retour à l'accueuil";
+        $btn_timer = "Page du Timer";
+        $btn_return = "Page d'Accueil";
         $valeur_couleur = "Valeur / Couleur";
         $petit_grosse_mise = "Petite mise / Grosse mise";
         $btn_ajout = "Ajouter";
@@ -137,7 +137,7 @@ function remplissageChamps($champs) {
 }
 
 function validation($champs, $valid_Champ, $connMYSQL) {
-    $valeurNumerique = "#^[0-9]{1}([0-9]{0,3})[0-9]{0,1}$#";
+    $valeurNumerique = "#^[0-9]{1}([0-9]{0,4})[0-9]{0,1}$#";
     $user = "\"" . $champs['user'] . "\"";
     if (isset($_POST['btn_delValeurCouleur'])){
         if ($champs["idCouleur"] === ""){
@@ -160,7 +160,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if (!preg_match($valeurNumerique, $champs['valeur'])) {
             $valid_Champ['valeur_invalide'] = true;
         }
-        if ($longueurValeur > 5){
+        if ($longueurValeur > 6){
             $valid_Champ['valeur_long_inval'] = true;
         }        
         $valid_Champ['doublon_valeur'] = verification_doublon("benoitmignault_ca_mywebsite.amount_color", "amount", intval($champs["valeur"]), $user, $connMYSQL);
@@ -182,10 +182,10 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if ($big < $small && $small !== 0 && $big !== 0){
             $valid_Champ["big_trop_petit"] = true;    
         }
-        if ($longueurSmall > 5){
+        if ($longueurSmall > 6){
             $valid_Champ['small_long_inval'] = true;
         }
-        if ($longueurBig > 5){
+        if ($longueurBig > 6){
             $valid_Champ['big_long_inval'] = true;
         }
         if (!preg_match($valeurNumerique, $champs['small'])) {
@@ -572,8 +572,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="post" action="organisateur.php">
                     <div class='form_ajout_combinaison'>
                         <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                        <input maxlength="5" type="text" name="small" value="<?php echo $champs['small'] ?>"> 
-                        <input maxlength="5" type="text" name="big" value="<?php echo $champs['big'] ?>">
+                        <input maxlength="6" type="text" name="small" value="<?php echo $champs['small'] ?>"> 
+                        <input maxlength="6" type="text" name="big" value="<?php echo $champs['big'] ?>">
                         <input class="bouton" type="submit" name="btn_addSmallBig" value="<?php echo $arrayMots['btn_ajout']; ?>">
 
                     </div>

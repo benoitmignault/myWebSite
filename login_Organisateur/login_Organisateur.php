@@ -21,7 +21,7 @@ function traduction($champInitial) {
         $btn_login = "Se Connecter";
         $btn_signUp = "S'inscrire";
         $btn_Erase = "Effacer";
-        $btn_return = "Retour à l'acceuil";
+        $btn_return = "Page d'Accueil";
         // Si la valeur de la situation est différent de zéro, nous attribuons le message correspondance et nous affichons à son endroit prévu
         if ($champInitial['situation'] !== 0) {
             switch ($champInitial['situation']) {
@@ -67,7 +67,7 @@ function traduction($champInitial) {
         $btn_login = "Login";
         $btn_signUp = "Sign Up";
         $btn_Erase = "Erase";
-        $btn_return = "Return to home page";
+        $btn_return = "Home page";
         if ($champInitial['situation'] !== 0) {
             switch ($champInitial['situation']) {
                 case 1 : $message = "All fields have been reset !";

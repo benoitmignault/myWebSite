@@ -74,7 +74,7 @@ function affichageSection(){
 function affichageSectionPhoto(){
     const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
     var tagSousSection = $(listePassions).filter("[href='"+location.hash+"']");
-    var sousHref = tagSousSection.data('href');  
+    var sousHref = tagSousSection.data('href');
     $(div_Photo).load(sousHref, function() {
         const h3 = document.querySelector('.photo h3');
         if (langue.value == "en"){

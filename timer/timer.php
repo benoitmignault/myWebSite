@@ -58,7 +58,7 @@ function message_Situation($champs){
 }
 
 function initialisation_Champs() {
-    $champs = ["typeLangue" => "", "user" => "", "nom_organisateur" => "", "situation" => 0, "combinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucune_valeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255];
+    $champs = ["typeLangue" => "", "user" => "", "nom_organisateur" => "", "situation" => 0, "combinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucune_valeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255]; 
     return $champs;
 }
 
@@ -223,29 +223,35 @@ function creation_tableau($connMYSQL, $champs){
 }
 
 function selection_small_big_blind($connMYSQL, $champs){
+    // Au moment arriver ici, la combinaison est aumenter précédament dans l'autre fonction
     $result_double_dimention = [];
     $sql = "SELECT small, big FROM benoitmignault_ca_mywebsite.mise_small_big where user = '{$champs['user']}' order by small";
     $result = $connMYSQL->query($sql);  
 
     if ($result->num_rows > 0){ 
         foreach ($result as $row) {
+            // On insère tous les couples small et big dans le tableau double dimensions
             $couple = ["small" => $row['small'], "big" => $row['big']];  
             $result_double_dimention[] = $couple;
         }
+        // le nombre de la ligne est toujours pareil
         $nbLignes = $result->num_rows;
         if ($champs['combinaison'] <= $nbLignes){
             foreach ($result_double_dimention as $couple => $value){
+                // On passe en revue toutes les combinaisons et lorsque nous arrivons à celle que nous voulons afficher on stock les données dans les deux variables
                 if ($champs['combinaison'] == $couple){
                     $champs['valeurSmall'] = $value['small'];        
                     $champs['valeurBig'] = $value['big'];        
                 }
             }
             $nbLignes--;
-            //$champs['combinaison']++ ne jamais faire ca en validation d'une condition
+            // $champs['combinaison']++ ne jamais faire ca en validation d'une condition
+            // Ici, nous avons atteint la derniere combinaison small et big
             if ($champs['combinaison'] == $nbLignes){
                 $champs['trop_valeur'] = true;
             }
         } 
+        // Le retour de fonction n'a trouvé aucun valeur
     } elseif ($result->num_rows == 0){ 
         $champs['aucune_valeur'] = true;
     } 
@@ -269,7 +275,7 @@ function redirection($champs) {
 }
 
 function connexionBD() {  
-
+    
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
@@ -302,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $champs = initialisation_Champs();
     $valid_champs = initialisation_indicateur();
-    $champs = remplissageChamps($champs);
+    $champs = remplissageChamps($champs);    
     if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english"){
         redirection($champs);
     } else {
@@ -342,9 +348,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             }
             $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste);
-            $connMYSQL->close();
+            $connMYSQL->close();            
         }        
-    }    
+    } 
 }
 ?>
 <!DOCTYPE html>
@@ -371,11 +377,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <h2><?php echo $tableauLinguiste['h2tableau'] ?></h2>
                 <form method="post" action="./timer.php" id="formulaire">
                     <div class="choix">
-                        <input type="hidden" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
-                        <input type="hidden" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
-                        <input type="hidden" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
-                        <input id="typeLangue" type="hidden" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
-                        <input type="hidden" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                        <input type="hidden" id="number_Red"  name="number_Red" value="<?php echo $champs['number_Red']; ?>">
+                        <input type="hidden" id="number_Green" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
+                        <input type="hidden" id="number_Blue" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
+                        <input type="hidden" id="trop_valeur" name="trop_valeur" value="<?php if ($champs['trop_valeur']) { echo "true"; } else { echo "false"; } ?>">
+                        <input type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                        <input type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
                         <label for="choixOrganisateur"><?php echo $tableauLinguiste['choixOrganisateur']; ?></label>   
                         <select id="choixOrganisateur" name="choixOrganisateur"> 
                             <?php echo $liste_Organisateurs; ?>
@@ -413,10 +420,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="lesBoutonsMises">
                         <div class="double">
-                            <button name="btn_changerMise"<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur']) { ?> class="disabled" disabled <?php } ?> id="double" form="formulaire"><?php echo $tableauLinguiste['changerMise'] ?></button>
+                            <button name="btn_changerMise"<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur'] || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="double" form="formulaire"><?php echo $tableauLinguiste['changerMise'] ?></button>
                         </div>
                         <div class="resetMise">
-                            <button form="formulaire" name="btn_resetMise"<?php if ($champs['combinaison'] < 1) { ?> class="disabled" disabled <?php } ?> form="formulaire" id="reset"><?php echo $tableauLinguiste['reset'] ?></button>
+                            <button form="formulaire" name="btn_resetMise"<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> form="formulaire" id="reset"><?php echo $tableauLinguiste['reset'] ?></button>
                         </div>                
                     </div>
                 </div>
@@ -443,19 +450,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>   
                     <div class="lesBoutonsActions">
                         <div class="min15">
-                            <button id="timer15">15</button>
+                            <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
                         </div>
                         <div class="min30">
-                            <button id="timer30">30</button>
+                            <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
                         </div>                
-                        <div class="stop">
+                        <div class="stop">                            
                             <button class="disabled" disabled id="timerStop">STOP</button>
                         </div>
                         <div class="reprend">
                             <button class="disabled" disabled id="timerReprend"><?php echo $tableauLinguiste['btnReprendre'] ?></button>
                         </div>
                         <div class="resetTemps">
-                            <button id="ResetTemps"><?php echo $tableauLinguiste['btnReset'] ?></button>
+                            <button <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['aucune_valeur'] || $champs['user'] == "") { ?> class="disabled" disabled <?php } ?> id="ResetTemps"><?php echo $tableauLinguiste['btnReset'] ?></button>
                         </div>                
                     </div> 
                 </div> 
@@ -470,6 +477,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </form>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>   
         <script type="text/javascript" src="timer.js"></script>
     </body>
 </html>

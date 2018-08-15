@@ -12,8 +12,14 @@ const minutes = document.querySelector('.chiffreMin p');
 const secondes = document.querySelector('.chiffreSec p');
 const periode = document.querySelector('.periode p');
 const alertSound = document.querySelector('#alertSound');
-const changeSmall = document.querySelector('#newSmall');
-const changeBig = document.querySelector('#newBig');
+const combinaison = document.querySelector('.combinaison');
+const organisateur = document.querySelector('#choixOrganisateur');
+const color_red = document.querySelector('#number_Red');
+const color_green = document.querySelector('#number_Green');
+const color_blue = document.querySelector('#number_Blue');
+const user = document.querySelector('#choixOrganisateur');
+const trop_valeur = document.querySelector('#trop_valeur');
+
 
 var comptage = 0; // la variable un genre de compteur de temps 
 var min = 0;
@@ -45,13 +51,14 @@ function reset(){
 }
 
 function timer15Min(){
-    // La partie de la fct qui sera exécuter avec le cliquage du bouton
     temps15min.addEventListener('click', function (evt){            
         clearTimeout(comptage);
+        reprendTimer.setAttribute("class", "disabled");
+        reprendTimer.setAttribute("disabled", "disabled");         
         stopTimer.setAttribute("class", "");
         stopTimer.removeAttribute("disabled");
-        reprendTimer.setAttribute("class", "disabled");
-        reprendTimer.setAttribute("disabled", "disabled");
+        resetTemps.setAttribute("class", "");
+        resetTemps.removeAttribute("disabled");
         doubleValeur.setAttribute("class", "disabled");
         doubleValeur.setAttribute("disabled", "disabled");
         min = 15;
@@ -74,8 +81,7 @@ function timer15Min(){
 function starting15(){  
     if (sec === 0){  
         if (min === 0){ 
-            doubleValeur.setAttribute("class", "");
-            doubleValeur.removeAttribute("disabled");
+            callAjax(); 
             return;
         } else {
             min--;
@@ -103,13 +109,14 @@ function starting15(){
 } 
 
 function timer30Min(){
-    // La partie de la fct qui sera exécuter avec le cliquage du bouton
     temps30min.addEventListener('click', function (evt){
         clearTimeout(comptage); 
         reprendTimer.setAttribute("class", "disabled");
         reprendTimer.setAttribute("disabled", "disabled");         
         stopTimer.setAttribute("class", "");
         stopTimer.removeAttribute("disabled");
+        resetTemps.setAttribute("class", "");
+        resetTemps.removeAttribute("disabled");
         doubleValeur.setAttribute("class", "disabled");
         doubleValeur.setAttribute("disabled", "disabled");
         min = 30;
@@ -129,11 +136,10 @@ function timer30Min(){
     });    
 }
 
-function starting30(){
+function starting30(){    
     if (sec === 0){
         if (min === 0){
-            doubleValeur.setAttribute("class", "");
-            doubleValeur.removeAttribute("disabled");
+            callAjax(); 
             return; 
         } else {
             min--;
@@ -157,6 +163,74 @@ function starting30(){
     minutes.innerHTML = min.toString();
     secondes.innerHTML = sec.toString();
     comptage = setTimeout(starting30, 1000);
+}
+
+function callAjax(){
+    stopTimer.setAttribute("class", "disabled");
+    stopTimer.setAttribute("disabled", "disabled"); 
+    if (user.value != ""){
+        if (trop_valeur.value == "true"){
+            doubleValeur.setAttribute("class", "disabled");
+            doubleValeur.setAttribute("disabled", "disabled");
+            temps30min.setAttribute("class", "disabled");
+            temps30min.setAttribute("disabled", "disabled");  
+            temps15min.setAttribute("class", "disabled");  
+            temps15min.setAttribute("disabled", "disabled");
+            resetTemps.setAttribute("class", "disabled");  
+            resetTemps.setAttribute("disabled", "disabled");  
+        } else if (trop_valeur.value == "false") {
+            doubleValeur.setAttribute("class", "");
+            doubleValeur.removeAttribute("disabled");
+            resetValeur.setAttribute("class", ""); 
+            resetValeur.removeAttribute("disabled");
+            var data = {
+                "niveau_combinaison": combinaison.value, "nom_orginateur": organisateur.value, 
+                "color_red": color_red.value, "color_green": color_green.value, "color_blue": color_blue.value  
+            };
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "changerMise/changer.php", 
+                data: data,
+                success: function(dataReturn) { 
+                    // sécurisation du retour d'information
+                    if (dataReturn["data"]){
+                        var dataObj = JSON.parse(dataReturn["data"]);   
+                        trop_valeur.value = dataObj.trop_valeur;
+                        combinaison.value = dataObj.combinaison;
+                        color_red.value = dataObj.color_red; 
+                        color_green.value = dataObj.color_green; 
+                        color_blue.value = dataObj.color_blue; 
+                        valeurSmall.innerHTML = dataObj.valeurSmall;
+                        valeurBig.innerHTML = dataObj.valeurBig;
+                        valeurSmall.style.color = "rgb("+color_red.value+","+color_green.value+","+color_blue.value+")";
+                        valeurBig.style.color = "rgb("+color_red.value+","+color_green.value+","+color_blue.value+")";
+
+                    } else if (dataReturn["erreur"]){
+                        var dataErr = JSON.parse(dataReturn["erreur"]);  
+                        if (typeLangue.value == "english"){
+                            if (dataErr.situation1){
+                                alert("Can not access the BD. Please try again later !");
+                            } else if (dataErr.situation2){
+                                alert("Missing important information. Validate your information !");
+                            } else if (dataErr.situation3){
+                                alert("This file must be called via an AJAX call !");
+                            }
+                        } else if (typeLangue.value == "francais"){
+                            if (dataErr.situation1){
+                                alert(dataErr.situation1);
+                            } else if (dataErr.situation2){
+                                alert(dataErr.situation2);
+                            } else if (dataErr.situation3){
+                                alert(dataErr.situation3);
+                            }
+                        }
+                    }
+                }
+            });  
+        } // Si la derniere valeur est atteinte
+    } // Si le user est vide
 }
 
 function playMusique(){    
@@ -202,8 +276,8 @@ function resetTemp(){
     resetTemps.addEventListener('click', function (evt){ 
         clearTimeout(comptage); // arrête le coulage du temps
         chrono = 0;
-        min = 0;
-        sec = 0;
+        min = "00";
+        sec = "00";
         minutes.style.color = "white";
         secondes.style.color = "white";
         minutes.innerHTML = min.toString();
@@ -221,10 +295,14 @@ function resetTemp(){
         reprendTimer.setAttribute("disabled", "disabled");
         stopTimer.setAttribute("class", "disabled");
         stopTimer.setAttribute("disabled", "disabled");
-        doubleValeur.setAttribute("class", ""); 
-        doubleValeur.removeAttribute("disabled");
+        if (user.value != ""){  
+            doubleValeur.setAttribute("class", ""); 
+            doubleValeur.removeAttribute("disabled");
+        }
+
     });
 }
+
 document.addEventListener('DOMContentLoaded', function(event) {     
     timer15Min();
     timer30Min();

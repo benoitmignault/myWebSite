@@ -120,7 +120,9 @@ body{
     font-size: 48px;
 }
 .container > .timer > .tableauDuTemps > .temps > .chiffreMin p,
-.container > .timer > .tableauDuTemps > .temps > .chiffreSec p{
+.container > .timer > .tableauDuTemps > .temps > .chiffreSec p,
+.container > .timer > .tableauDesMises > .lesMises > .valeurSmall > .blind, 
+.container > .timer > .tableauDesMises > .lesMises > .valeurBig > .blind{
     font-size: 64px;
 }
 .container > .timer > .tableauDesMises > .lesBoutonsMises > div{

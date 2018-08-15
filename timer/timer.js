@@ -61,8 +61,8 @@ function timer15Min(){
         resetTemps.removeAttribute("disabled");
         doubleValeur.setAttribute("class", "disabled");
         doubleValeur.setAttribute("disabled", "disabled");
-        min = 15;
-        sec = 0;
+        min = 0;
+        sec = 5;
         chrono = 15;
         minutes.style.color = "green";
         secondes.style.color = "green";

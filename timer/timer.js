@@ -20,22 +20,27 @@ const color_blue = document.querySelector('#number_Blue');
 const user = document.querySelector('#choixOrganisateur');
 const trop_valeur = document.querySelector('#trop_valeur');
 
-
 var comptage = 0; // la variable un genre de compteur de temps 
 var min = 0;
 var sec = 0;
 var chrono = 0; // pour savoir quel compteur est déclanché...
-function modificationSizeValeurs(small, big){
+function modificationSizeValeurs(big){
+    var bigNumber = parseInt(big);
     var largeur = window.innerWidth;
     if (largeur < 768){
-        if (big >= 1000 && big < 16000){        
-            valeurSmall.style.fontSize = "52px";
-            valeurBig.style.fontSize = "52px";
-        }    
-        if (big >= 16000 && big < 64000){
-            valeurSmall.style.fontSize = "42px";
-            valeurBig.style.fontSize = "42px";
-        }        
+        if (bigNumber < 1000){
+            valeurSmall.style.fontSize = "64px";
+            valeurBig.style.fontSize = "64px";
+        } else if (bigNumber >= 1000 && bigNumber < 10000){        
+            valeurSmall.style.fontSize = "56px";
+            valeurBig.style.fontSize = "56px";
+        } else if (bigNumber >= 10000 && bigNumber < 100000){
+            valeurSmall.style.fontSize = "48px";
+            valeurBig.style.fontSize = "48px";
+        } else if (bigNumber >= 100000){
+            valeurSmall.style.fontSize = "40px";
+            valeurBig.style.fontSize = "40px";
+        }         
     }
 }
 
@@ -303,7 +308,8 @@ function resetTemp(){
     });
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {     
+document.addEventListener('DOMContentLoaded', function(event) {   
+    modificationSizeValeurs(valeurBig.innerHTML);
     timer15Min();
     timer30Min();
     stop();

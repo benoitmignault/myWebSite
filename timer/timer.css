@@ -3,10 +3,6 @@
     -moz-box-sizing: border-box;    
     padding: 0;
 }
-body{
-    margin: 0;
-    background-color:beige;
-}
 .container{
     display: -webkit-flex; 
     display: flex;
@@ -28,6 +24,7 @@ body{
 .container > .tableau_bord > form > .choix > label{
     font-weight: bold;
     font-size: 1.1em;
+    color:whitesmoke;
 }
 .container > .tableau_bord > form > .choix > #choixOrganisateur{
     padding:5px;
@@ -46,6 +43,7 @@ body{
     width: 50%;
 }
 .container > .tableau_bord > .affichage_choix > p{
+    color: whitesmoke;
     margin:auto;
     width: 100%;
     text-align: center;
@@ -76,6 +74,7 @@ body{
     margin: auto;
     margin-top: 15px;
     margin-bottom: 15px;
+    color:whitesmoke;
 }
 .container > .timer > .tableauDesMises,
 .container > .timer > .tableauDuTemps{ 
@@ -227,6 +226,9 @@ body{
     .container > .tableau_bord{
         width: 100%;
     }
+    .container > .tableau_bord > .affichage_choix > .tblValeurCouleur{
+        font-size: 38px;  
+    }
     .container > .tableau_bord > form > .choix > #choixOrganisateur{        
         width: 50%;
     }
@@ -261,7 +263,7 @@ body{
         width: 100%;
     }
     .container > .timer > .tableauDuTemps > .temps > div > p {
-        font-size: 38px;
+        font-size: 32px;
     }
 
 

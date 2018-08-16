@@ -363,10 +363,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <link rel="shortcut icon" href="favicon.ico">
         <link rel="stylesheet" type="text/css" href="timer.css">
         <style>
+            body{
+                margin:0;   
+                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/mongolie-d%C3%A9sert-ciel-nuages-1041542/ sous licence libre */
+                background-image: url("timer.jpg");
+                background-position: center;
+                background-attachment: fixed;
+                background-size: 100%;
+            }
             .container > .timer > .tableauDesMises > .lesMises > div > .blind{
                 color :<?php echo coloriage($champs); ?>
-            }
-        </style>
+            }            
+        </style>       
         <title><?php echo $tableauLinguiste['title'] ?></title>        
     </head>
     <body>        

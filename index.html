@@ -1,186 +1,136 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
     <head>
-        <meta charset="utf-8"/>
-        <meta name="description" content="Mes talents progressifs du HTML, CSS, PHP et JavaScript pour le site Benoit Mignault" />
-        <!-- Fichier favicon.ico est une propriété du site web : https://www.pexels.com/photo/code-html-simple-288165/ -->
-        <link rel="shortcut icon" href="favicon.ico">
-        <link rel="stylesheet" type="text/css" href="index.css">      
-        <link rel="stylesheet" type="text/css" href="responsive.css">      
-        <title>Site web Benoit Mignault</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>    
-    <body>               
-        <div class="racineSite">
-            <div class="left">
-                <p class="cellulaire" id="hautPageCellulaire"></p>
-                <div class="logo">
-                    <img src="pageAccueil/photos/logo.jpg" alt="mon logo" title="l'image de mon site" />
-                </div>                
-                <div class="liste_skill">
-                    <fieldset class="pageAccueil">
-                        <ul class="liste">
-                            <li>
-                                <a id="liste_language">Mes languages de programmations<br>et mes outils</a>
-                            </li>
-                        </ul>
-                        <div id="hidden">                            
-                            <ol id="enum_Language"></ol>
-                        </div>
-                    </fieldset>   
-                </div>
-                <div class="liste_projet">
-                    <fieldset class="pageAccueil">
-                        <legend align="center">Lien rapide de mes projets</legend>
-                        <ul class="liste">
-                            <li><a href="calculatrice/calcul.php?langue=francais">Calculatrice</a></li>
-                            <li><a href="login/login.php?langue=francais">Connexion aux statistiques de poker</a></li>
-                            <li><a href="login_Organisateur/login_Organisateur.php?langue=francais">Connexion à la gestion d'un tournoi de poker</a></li>
-                            <li><a href="timer/timer.php?langue=francais">Tableau de bord de poker</a></li>                            
-                        </ul>
-                    </fieldset>  
-                    <input type="hidden" id="typeLangue" value="fr" size="2">
-                </div>
-                <div class="sectionMeteo">
-                    <fieldset class="pageAccueil">
-                        <legend align="center">Section Météo</legend>
-                        <div id="plemx-root"></div>                        
-                    </fieldset> 
-                </div>  
-                <div class="media">
-                    <fieldset class='pageAccueil'>
-                        <legend align="center">Section Média</legend>
-                        <!-- Voici les liens gratuit des photos des médias 
-https://www.justchecking.co.uk/?attachment_id=16703
-https://pixabay.com/fr/google-plus-social-des-m%C3%A9dias-plus-2431022/
-https://pixabay.com/fr/twitter-m%C3%A9dias-sociaux-ic%C3%B4ne-social-2430933/
-https://pixabay.com/fr/facebook-plat-ic%C3%B4ne-plate-social-2429746/
--->
-                        <div class="sous_Media">
-                            <div class="lienSocial">
-                                <a target="_blank" href="https://www.facebook.com/Benoit0007"><img src="pageAccueil/photos/photo_media/facebook.jpg" alt="facebook" title="lien vers facebook">
-                                </a>
-                            </div>
-                            <div class="lienSocial">
-                                <a target="_blank" href="https://plus.google.com/+BenoitMignault"><img src="pageAccueil/photos/photo_media/google+.jpg" alt="google" title="lien vers google+">
-                                </a>
-                            </div>
-                            <div class="lienSocial">
-                                <a target="_blank" href="https://ca.linkedin.com/in/beno%C3%AEt-mignault-413819100"><img src="pageAccueil/photos/photo_media/linkedin.jpg" alt="linkedin" title="lien vers linkedin">
-                                </a>
-                            </div>
-                            <div class="lienSocial">
-                                <a target="_blank" href="https://twitter.com/frantz256255"><img src="pageAccueil/photos/photo_media/twitter.jpg" alt="twitter" title="lien vers twitter">
-                                </a>
-                            </div>
-                        </div>
-                    </fieldset> 
-                </div>                
-            </div>            
-            <div class="middle">  
-                <p class="desktop" id="hautPageDesktop"></p>
-                <div class="header">
-                    <div><a href="#accueil" data-href="pageAccueil/partie_accueil.html">Accueil</a></div>
-                    <div><a href="#projets" data-href="pageAccueil/partie_projets.html">Projets</a></div>
-                    <div><a href="#photos" data-href="pageAccueil/partie_photos.html">Photos</a></div>
-                    <div><a href="#aPropos" data-href="pageAccueil/partie_aPropos.html">À propos</a></div>
-                    <div><a href="#english" data-href="/english/english.html">English</a></div>
-                    <input id="hashTag" type="hidden" value="">
-                </div>
-                <div class="center"></div>  
-                <div class="photo"></div>
-                <div class="return">
-                    <a class="desktop" href="#hautPageDesktop">Haut de la page</a>
-                    <a class="cellulaire" href="#hautPageCellulaire">Haut de la page</a>
-                </div>
-            </div>
-            <div class="right">
-                <div class="logoRight">
-                    <img src="pageAccueil/photos/logo.jpg" alt="mon logo" title="l'image de mon site" />
-                </div>
-                <div class="info">
-                    <fieldset class='pageAccueil'>
-                        <legend align="center">Les talents de mon amis Alfredo Cardenas</legend>
-                        <p>
-                            Ici ce trouve la page facebook de mon ami chilien Alfredo. Il a de formidables talents de peintures de toutes sortes de styles. Je vous offre sa page facebook qui va vous permettre de découvrir son talent et d'acheter ses chef d'oeuvres.
-                        </p>		
-                        <h4>Aller, encouragez le !</h4>
-                        <h3><a target="_blank" href="https://www.facebook.com/alfredocardenasart">La page FaceBook de Alfredo</a></h3>            
-                    </fieldset> 
-                </div>
-                <div class="info">
-                    <fieldset class='pageAccueil'>
-                        <legend align="center">La boutique de Maude Desrosiers Lanctôt et sa mère</legend>
-                        <p>
-                            Nous sommes une entreprise québécoise fondée en 2016 et située à Candiac sur la Rive-Sud de Montréal.
-                            Nous vendons une vaste gamme de meubles et d'accessoires en bois pour l'intérieur et l'extérieur. Nos produits sont uniques et faits à la main par des artisans québécois. Nous utilisons seulement des produits de qualité pour la fabrication. Nous vendons également des cèdres à haie cultivés en pot qui sont idéaux pour vos projets d'aménagement extérieur.
-                        </p>
-                        <h4>Aller, voici le lien de la boutique !</h4>
-                        <h3><a target="_blank" href="https://rosezackdeco.ca">La boutique de Maude et sa mère</a></h3>
-                    </fieldset>
-                </div>
-                <div class="contact">
-                    <fieldset class='pageAccueil'>
-                        <legend align="center">Nous joindre</legend>
-                        <form id="formContact" action="contact/contact.php" method="post">
-                            <div class="formulaire">
-                                <div class="droite">
-                                    <label for="nom">Votre prénom et nom :</label>
-                                    <input id="nom" type="text" name="nom">   
-                                </div>
-                                <div class="droite">
-                                    <label for="email">Votre E-Mail :</label>
-                                    <input id="email" type="email" name="email">
-                                </div>
-                                <div class="droite">
-                                    <label for="sujet">Sujet :</label>
-                                    <input id="sujet" type="text" name="sujet">   
-                                </div>
-                                <div class="droite">
-                                    <label for="msg">Votre message :</label>
-                                    <textarea id="msg" name="msg" rows="10" cols="50"></textarea>
-                                </div>
-                                <div>
-                                    <ul class="msgErr"></ul>
-                                </div>
-                                <div class="btnSend">
-                                    <input id="btn" type="submit" name="send" value="Envoyer votre commentaire">
-                                    <p class="courrielSend"></p>
-                                </div>
-                            </div>
-                        </form>
-                    </fieldset> 
-                </div>
-                <div id="photoCell" class="logoRight">
-                    <img src="pageAccueil/photos/logo.jpg" alt="mon logo" title="l'image de mon site" />
-                </div>
-            </div>
-        </div>
+        <title></title>
+        <style>
+            .calendrier{
+                border-spacing: 1px;            
+                width: 250px;
+                background-color: #FFFFFF;
+            }
+            .ligne_mois_actuel{
+                background-color: #3A1A99;                
+            }
+            .ligne_jour_lettre{
+                background-color: #C3C3C3;
+            }
+            th{
+                /* le texte est automatique en gras pour un titre de tableau */
+                text-align: center;
+                font-size: 16px;
+            }            
+            .contenu_ligne_mois{
+                color: #FFFFFF;
+            }
+            .contenu_ligne_jour_lettre{
+                color: #676767;
+            }
+            .ligne_jour_chiffre{
+                background-color: #ECECEC;
+            }
+            td{
+                text-align: center;
+                font-size: 16px;
+                color: #8A8A8A;
+            }
+            .contenu_ligne_jour_actuel{
+                font-size: 18px;
+                color: #737373;
+                font-weight: bold;
+            }
+            .ligne_heure_actuel{
+                background-color: #ECECEC;
+            }
+            .contenu_ligne_heure_actuel{
+                font-size: 24px;
+                color: #737373;
+                font-weight: bold;
+            }    
+        </style>
+    </head>
+    <body>
+        <input type="hidden" id="typeLangue" value="fr" size="2">
+        <div id="tableauAJAX"></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>        
-        <script type="text/javascript" src="index.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>  
         <script type="text/javascript">
-            var _plm = _plm || [];
-            _plm.push(['_btn', 71448]);
-            _plm.push(['_loc', 'caqc0363']);
-            _plm.push(['location', document.location.host]);
-            (function (d, e, i) {
-                if (d.getElementById(i))
-                    return;
-                var px = d.createElement(e);
-                px.type = 'text/javascript';
-                px.async = true;
-                px.id = i;
-                px.src = ('https:' == d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/js/btn/pelm.js?orig=fr_ca';
-                var s = d.getElementsByTagName('script')[0];
+            const langue = document.querySelector('#typeLangue');
+            const calendrierAJAX = document.querySelector('#tableauAJAX');
 
-                var py = d.createElement('link');
-                py.rel = 'stylesheet'
-                py.href = ('https:' == d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/styles/btn/styles.css'
+            function callAjax(){
+                var data = { "type_langue": langue.value };
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "calendrier/calendrier.php", 
+                    data: data,
+                    success: function(dataReturn) { 
+                        // sécurisation du retour d'information
+                        if (dataReturn["data"]){
+                            var dataObj = JSON.parse(dataReturn["data"]);   
+                            calendrierAJAX.innerHTML = dataObj.tableau_calendrier;
+                            // Après l'affichage du calendrier, on call le temps du timer et voilà
+                            start_timer(); 
+                        } else if (dataReturn["erreur"]){
+                            var dataErr = JSON.parse(dataReturn["erreur"]);
+                            if (langue.value == "en"){
+                                if (dataErr.situation1){
+                                    calendrierAJAX.innerHTML = "Warning ! It is missing the value of the language for the display of the web page !";
+                                } else if (dataErr.situation2){
+                                    calendrierAJAX.innerHTML = "Warning ! This file must be caller via an AJAX call !";
+                                }
+                            } else {
+                                if (dataErr.situation1){
+                                    calendrierAJAX.innerHTML = dataErr.situation1;
+                                } else if (dataErr.situation2){
+                                    calendrierAJAX.innerHTML = dataErr.situation2;
+                                }
+                            }
+                            
+                        }
+                    }
+                });
+            }
 
-                s.parentNode.insertBefore(px, s);
-                s.parentNode.insertBefore(py, s);
-            })(document, 'script', 'plmxbtn');
+
+            function formatAMPM(date) {
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var secondes = date.getSeconds();
+                var am_Or_pm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                secondes = secondes < 10 ? '0' + secondes : secondes;
+                var heure_english = hours + ':' + minutes + ':' + secondes + ' ' + am_Or_pm;
+                return heure_english;
+            }
+
+            function start_timer(){ 
+                const insertion_time = document.querySelector('.contenu_ligne_heure_actuel');
+                var date_live = new Date();
+                if (langue.value == "fr"){
+                    var date_affiche = remplissageZeroFilled(date_live.getHours()) + ":" + remplissageZeroFilled(date_live.getMinutes()) + ":" + remplissageZeroFilled(date_live.getSeconds());
+                    insertion_time.innerHTML = date_affiche;
+                    setTimeout("start_timer()",1000);
+                } else if (langue.value == "en"){
+                    var date_affiche = formatAMPM(date_live);
+                    insertion_time.innerHTML = date_affiche;
+                    setTimeout("start_timer()",1000);
+                }
+            }
+
+            function remplissageZeroFilled(valeur){ 
+                return (valeur > 9) ? "" + valeur : "0" + valeur; 
+            }
+
+
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                callAjax();
+            });            
         </script>
+
     </body>
 </html>

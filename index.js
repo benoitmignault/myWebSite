@@ -243,6 +243,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         affichageAccueil();
     }
+    
+    
 
     activation_Liste();     
     envoyerCourriel();

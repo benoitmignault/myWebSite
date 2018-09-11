@@ -75,6 +75,8 @@ function convertir_mois($id_mois, $champs){
 }
 
 function generer_calendrier($champs){
+    // Je dois setter le time zone de montreal pour éviter de sauter à la journée suivante avant le temps.
+    date_default_timezone_set('America/New_York');
     $tableau_calendrier = "";
     $mois = date('m');
     $annee = date('Y');

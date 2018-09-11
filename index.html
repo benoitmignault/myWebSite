@@ -92,7 +92,6 @@
                 });
             }
 
-
             function formatAMPM(date) {
                 var hours = date.getHours();
                 var minutes = date.getMinutes();
@@ -123,9 +122,6 @@
             function remplissageZeroFilled(valeur){ 
                 return (valeur > 9) ? "" + valeur : "0" + valeur; 
             }
-
-
-
 
             document.addEventListener('DOMContentLoaded', function() {
                 callAjax();

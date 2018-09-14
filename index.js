@@ -14,6 +14,7 @@ const msgErr = document.querySelector('.msgErr');
 const form = document.querySelector('#formContact');
 const msgSucces = document.querySelector('.courrielSend');
 const hashTag = document.querySelector('#hashTag');
+const calendrierAJAX = document.querySelector('#tableauAJAX');
 
 function activation_Liste(){
     lien.addEventListener('click', function(evt){
@@ -71,6 +72,78 @@ function affichageSection(){
     }
 }
 
+function callAjax(){
+    var data = { "type_langue": langue.value };
+    var url = "";
+    if (langue.value == "en"){
+        url = "../calendrier/calendrier.php"
+    } else if (langue.value == "fr"){
+        url = "calendrier/calendrier.php"
+    }
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: url, 
+        data: data,
+        success: function(dataReturn) { 
+            // sécurisation du retour d'information
+            if (dataReturn["data"]){
+                var dataObj = JSON.parse(dataReturn["data"]);   
+                calendrierAJAX.innerHTML = dataObj.tableau_calendrier;
+                // Après l'affichage du calendrier, on call le temps du timer et voilà
+                start_timer(); 
+            } else if (dataReturn["erreur"]){
+                var dataErr = JSON.parse(dataReturn["erreur"]);
+                if (langue.value == "en"){
+                    if (dataErr.situation1){
+                        calendrierAJAX.innerHTML = "Warning ! It is missing the value of the language for the display of the web page !";
+                    } else if (dataErr.situation2){
+                        calendrierAJAX.innerHTML = "Warning ! This file must be caller via an AJAX call !";
+                    }
+                } else {
+                    if (dataErr.situation1){
+                        calendrierAJAX.innerHTML = dataErr.situation1;
+                    } else if (dataErr.situation2){
+                        calendrierAJAX.innerHTML = dataErr.situation2;
+                    }
+                }
+
+            }
+        }
+    });
+}
+
+function start_timer(){ 
+    const insertion_time = document.querySelector('.contenu_ligne_heure_actuel');
+    var date_live = new Date();
+    if (langue.value == "fr"){
+        var date_affiche = remplissageZeroFilled(date_live.getHours()) + ":" + remplissageZeroFilled(date_live.getMinutes()) + ":" + remplissageZeroFilled(date_live.getSeconds());
+        insertion_time.innerHTML = date_affiche;
+        setTimeout("start_timer()",1000);
+    } else if (langue.value == "en"){
+        var date_affiche = formatAMPM(date_live);
+        insertion_time.innerHTML = date_affiche;
+        setTimeout("start_timer()",1000);
+    }
+}
+
+function remplissageZeroFilled(valeur){ 
+    return (valeur > 9) ? "" + valeur : "0" + valeur; 
+}
+
+function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var secondes = date.getSeconds();
+    var am_Or_pm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    secondes = secondes < 10 ? '0' + secondes : secondes;
+    var heure_english = hours + ':' + minutes + ':' + secondes + ' ' + am_Or_pm;
+    return heure_english;
+}
+
 function affichageSectionPhoto(){
     const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
     var tagSousSection = $(listePassions).filter("[href='"+location.hash+"']");
@@ -107,7 +180,7 @@ function envoyerCourriel(){
         var longueurMsg = msg.length;        
         var objet = sujet.value;
         var longueurSujet = objet.length; 
-        
+
         if (nomComplet.value === ""){
             nomComplet.style.border = "2px solid red";
             if (langue.value === "fr"){
@@ -202,13 +275,13 @@ function envoyerCourriel(){
 
             // Serialize the data in the form
             var serializedData = $form.serialize();
-            
+
             request = $.ajax({
                 //url: "contact/contact.php",
                 type: "post",
                 data: serializedData
             });
-            
+
             // Callback handler that will be called on success
             request.done(function (response, textStatus, jqXHR){
                 if (langue.value === "fr"){                    
@@ -243,9 +316,10 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         affichageAccueil();
     }
-    
-    
 
+
+    callAjax();
+    setTimeout("callAjax()", 1000);
     activation_Liste();     
     envoyerCourriel();
 });

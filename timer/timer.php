@@ -364,7 +364,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <link rel="stylesheet" type="text/css" href="timer.css">
         <style>
             body{
-                margin:0;   
+                margin:0; 
                 /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/mongolie-d%C3%A9sert-ciel-nuages-1041542/ sous licence libre */
                 background-image: url("timer.jpg");
                 background-position: center;

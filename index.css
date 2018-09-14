@@ -78,8 +78,9 @@ body{
 }
 
 /* Nouvelle section sur le calendrier */
-
-
+#tableauAJAX{
+    width: 100%;
+}
 .calendrier{
     border-spacing: 1px;            
     width: 100%;

@@ -204,18 +204,16 @@ function connexionUser($champInitial, $connMYSQL) {
 }
 
 function connexionBD() {
-    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    */
-
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-
+    */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -252,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = $result_SQL->fetch_row(); // C'est mon array de résultat
         $champInitial["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 
 
-        
+
 
         // si le bouton se connecter est pesé...        
         if (isset($_POST['login'])) {

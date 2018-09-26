@@ -518,11 +518,18 @@ function redirection($champs, $connMYSQL) {
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (isset($_POST['stats'])) {
-            // Ici, on va saisir une entree dans la BD pour l'admin comme il s,en va vers les statistiques 
-            $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login) VALUES ";
+            // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
+            $sql = "select id from benoitmignault_ca_mywebsite.login where user = '{$_SESSION['user']}' ";                
+            $result_SQL = $connMYSQL->query($sql);
+            $row = $result_SQL->fetch_row(); // C'est mon array de résultat
+            $id = (int) $row[0];	// Assignation de la valeur 
+
+            // Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques 
+            $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
             $insert .= "('" . $_SESSION['user'] . "',
                          '" . $_SESSION['dateLoggin'] . "',
-                                 NULL)";
+                            NULL,
+                         '" . $id . "')";
             $connMYSQL->query($insert);            
             header("Location: /login/statsPoker/poker.php");
         } elseif (isset($_POST['login'])) {

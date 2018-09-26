@@ -548,7 +548,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (isset($_POST['method'])) {
-                $sql = "select id_login from login_stat_poker where date = '{$_SESSION['dateLoggin']}' and user = '{$_SESSION['user']}' ";                
+                $sql = "select id_login from benoitmignault_ca_mywebsite.login_stat_poker where date = '{$_SESSION['dateLoggin']}' and user = '{$_SESSION['user']}' ";                
                 $result_SQL = $connMYSQL->query($sql);
                 $row = $result_SQL->fetch_row(); // C'est mon array de résultat
                 $idConnexion = (int) $row[0];	// Assignation de la valeur
@@ -606,7 +606,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             body{
                 margin:0;   
                 /* Fichier photoPoker.jpg est une propriété du site https://www.flickr.com/photos/nostri-imago/7497137910 sous licence libre */
-                /*background-image: url("./photo/photoPoker.jpg");*/
+                background-image: url("./photo/photoPoker.jpg");
                 background-position: center;
                 background-attachment: fixed;
                 background-size: 100%;

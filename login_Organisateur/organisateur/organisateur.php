@@ -8,7 +8,7 @@ function traduction($champs, $connMYSQL) {
             $prenom = $row['name'];
         }
     } 
-    
+
     if ($champs["typeLangue"] === 'francais') {
         $titre = "Gestion d'un tournoi";
         $h1 = "Bienvenue à vous &rarr; <span class='userDisplay'>{$prenom}</span> &larr; sur la page de gestion d'un organisateur.";
@@ -100,7 +100,7 @@ function message_Situation($champs){
 
 function initialisation_Champs() {
     $champs = ["typeLangue" => "", "user" => "", "situation" => 0, "valeur" => "", "small" => "", 
-               "big" => "", "couleur" => "","idCouleur" => 0, "idPetiteGrosse" => 0, "nbCouleurRestant" => 0];
+               "big" => "", "couleur" => "","idCouleur" => 0, "idPetiteGrosse" => 0, "nbCouleurRestant" => 0, "idUser" => 0];
     return $champs;
 }
 
@@ -112,12 +112,17 @@ function initialisation_indicateur() {
     return $valid_Champ;
 }
 
-function remplissageChamps($champs) {
+function remplissageChamps($champs, $connMYSQL) {
     if (isset($_SESSION['typeLangue'])){
         $champs["typeLangue"] = $_SESSION['typeLangue'];
     }
     if (isset($_SESSION['user'])){
         $champs["user"] = $_SESSION['user'];
+        // Comme j'ai instauré une foreign key entre la table mise_small_big vers login_organisateur je dois aller récupérer Iduser pour l'insérer avec la nouvelle combinaison
+        $sql = "select idUser from benoitmignault_ca_mywebsite.login_organisateur where user = '{$champs["user"]}' ";                
+        $result_SQL = $connMYSQL->query($sql);
+        $row = $result_SQL->fetch_row(); // C'est mon array de résultat
+        $champs["idUser"] = (int) $row[0];	// Assignation de la valeur 
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -364,17 +369,17 @@ function id_mises_choisis($connMYSQL, $champs){
 
 function insert_BD_valeur_couleur($connMYSQL, $champs){
     $valeur = intval($champs["valeur"]);  
-    $insert = "INSERT INTO benoitmignault_ca_mywebsite.amount_color (user, amount, color_english, id_couleur) VALUES ";
-    $insert .= "('" . $champs["user"] . "','" . $valeur . "','" . $champs["couleur"] . "', NULL)";
+    $insert = "INSERT INTO benoitmignault_ca_mywebsite.amount_color (user, amount, color_english, id_couleur, id_user) VALUES ";
+    $insert .= "('" . $champs["user"] . "','" . $valeur . "','" . $champs["couleur"] . "', NULL , '" . $champs["idUser"] . "')";
     $result = $connMYSQL->query($insert);  
     return $result;
 }
 
-function insert_BD_petite_grosse_mise($connMYSQL, $champs){
+function insert_BD_petite_grosse_mise($connMYSQL, $champs){  
     $small = intval($champs["small"]);  
     $big = intval($champs["big"]);  
-    $insert = "INSERT INTO benoitmignault_ca_mywebsite.mise_small_big (user, small, big, id_valeur) VALUES ";
-    $insert .= "('" . $champs["user"] . "','" . $small . "','" . $big . "', NULL)";
+    $insert = "INSERT INTO benoitmignault_ca_mywebsite.mise_small_big (user, small, big, id_valeur, id_user) VALUES ";
+    $insert .= "('" . $champs["user"] . "','" . $small . "','" . $big . "', NULL , '" . $champs["idUser"] . "')";
     $result = $connMYSQL->query($insert); 
     return $result;
 }
@@ -401,17 +406,20 @@ function reset_champs($champs){
     $champs["big"] = "";
     return $champs;
 }
-function connexionBD() {        
+
+function connexionBD() {  
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    /*
+    */
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'"); // ceci permet d,avoir des accents affiché sur la page web ! 
 
@@ -463,9 +471,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if (!$verificationUser) {
         redirection($champs);
-    } else {        
+    } else {
         $champs = initialisation_Champs();
-        $champs = remplissageChamps($champs);
+        $champs = remplissageChamps($champs, $connMYSQL);
         $champs = nb_couleur_restant($connMYSQL, $champs);
         $choix_couleur_restant = choix_couleur_restant($connMYSQL, $champs);
         $tableau_valeur_couleur = tableau_valeur_couleur($connMYSQL, $champs);
@@ -492,11 +500,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $champs = initialisation_Champs();
         $valid_Champ = initialisation_indicateur();
-        $champs = remplissageChamps($champs);        
+        $champs = remplissageChamps($champs, $connMYSQL);        
         $valid_Champ = validation($champs, $valid_Champ, $connMYSQL);
         $champs['situation'] = situation($champs, $valid_Champ); // On met ajout au final juste la variable 
         $result = false;
-        $operation_sur_BD = true;
+        $operation_sur_BD = true;   
 
         if (isset($_POST['timer']) || isset($_POST['home']) ){
             redirection($champs);

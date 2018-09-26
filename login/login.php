@@ -2,9 +2,10 @@
 function initialChamp() {
     $champInitial = ["champVide" => false, "duplicatUser" => false, "champInvalid" => false,
                      "badUser" => false, "champTropLong" => false, "badPassword" => false,
-                     "password" => "", "situation" => 0, "user" => "", "typeLangue" => "", "sameUserPWD" => false];
+                     "password" => "", "situation" => 0, "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
     return $champInitial;
 }
+
 function traduction($champInitial) {
     $message = "";
     if ($champInitial["typeLangue"] === 'francais') {
@@ -183,10 +184,11 @@ function connexionUser($champInitial, $connMYSQL) {
                     header("Location: ./statsPoker/administration/admin.php");
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
-                    $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login) VALUES ";
+                    $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
                     $insert .= "('" . $champInitial['user'] . "',
                                  '" . $_SESSION['dateLoggin'] . "',
-                                 NULL)";
+                                 NULL,
+                                 '" . $champInitial['idCreationUser'] . "')";
                     $connMYSQL->query($insert);
                     header("Location: ./statsPoker/poker.php");
                 }
@@ -242,9 +244,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     } else {
         $champInitial["user"] = strtolower($_POST['user']);
-        $champInitial["password"] = $_POST['password'];
-
+        $champInitial["password"] = $_POST['password']; 
         $connMYSQL = connexionBD();
+        // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
+        $sql = "select id from benoitmignault_ca_mywebsite.login where user = '{$champInitial["user"]}' ";                
+        $result_SQL = $connMYSQL->query($sql);
+        $row = $result_SQL->fetch_row(); // C'est mon array de résultat
+        $champInitial["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 
+
+        
 
         // si le bouton se connecter est pesé...        
         if (isset($_POST['login'])) {

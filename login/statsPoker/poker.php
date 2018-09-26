@@ -548,6 +548,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (isset($_POST['method'])) {
+                $sql = "select id_login from login_stat_poker where date = '{$_SESSION['dateLoggin']}' and user = '{$_SESSION['user']}' ";                
+                $result_SQL = $connMYSQL->query($sql);
+                $row = $result_SQL->fetch_row(); // C'est mon array de résultat
+                $idConnexion = (int) $row[0];	// Assignation de la valeur
+                date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
+                $date_method = date("Y-m-d H:i:s");
+                
+                // Ajouter la methode choisie par le user dans la table affichage_stat_poker en lien avec mon login sur la page
+                $insert = "INSERT INTO benoitmignault_ca_mywebsite.affichage_stat_poker (user,methode,id_login,id_affichage,date) VALUES ";
+                $insert .= "('" . $user . "',
+                             '" . $_POST['method'] . "',
+                             '" . $idConnexion . "',
+                                                NULL,
+                             '" . $date_method . "')";
+                $connMYSQL->query($insert);
+                
                 switch ($_POST['method']) {
                     case 1 : $tableauResult = affichageBrute($connMYSQL, $arrayMots);
                         break;
@@ -590,7 +606,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             body{
                 margin:0;   
                 /* Fichier photoPoker.jpg est une propriété du site https://www.flickr.com/photos/nostri-imago/7497137910 sous licence libre */
-                background-image: url("./photo/photoPoker.jpg");
+                /*background-image: url("./photo/photoPoker.jpg");*/
                 background-position: center;
                 background-attachment: fixed;
                 background-size: 100%;

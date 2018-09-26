@@ -511,13 +511,19 @@ function verificationUser($connMYSQL) {
     return false;
 }
 
-function redirection($champs) {
+function redirection($champs, $connMYSQL) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         session_destroy();
         header("Location: /erreur/erreur.php");
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (isset($_POST['stats'])) {
+            // Ici, on va saisir une entree dans la BD pour l'admin comme il s,en va vers les statistiques 
+            $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login) VALUES ";
+            $insert .= "('" . $_SESSION['user'] . "',
+                         '" . $_SESSION['dateLoggin'] . "',
+                                 NULL)";
+            $connMYSQL->query($insert);            
             header("Location: /login/statsPoker/poker.php");
         } elseif (isset($_POST['login'])) {
             session_destroy();
@@ -543,14 +549,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $verificationUser = verificationUser($connMYSQL);
         $champs = initialisation_Champs();
     } else {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     }
 
     // on vérifier si notre user existe en bonne éduforme
     if (!$verificationUser) {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     } elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     } else {
         $champs = initialisation_Champs();
         $valid_Champ = initialisation();
@@ -569,17 +575,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $verificationUser = verificationUser($connMYSQL);
         $champs = initialisation_Champs();
     } else {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     }
 
     // on vérifier si notre user existe en bonne éduforme
     if (!$verificationUser) {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     } elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     } else {
         if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueuil'])) {
-            redirection($champs);
+            redirection($champs, $connMYSQL);
         } elseif (isset($_POST['effacer'])) {
             $champs = initialisation_Champs();
             $valid_Champ = initialisation();

@@ -451,17 +451,17 @@ function redirection($typeLangue) {
     exit; // pour arrêter l'éxecution du code php
 }
 
-function connexionBD() {
+function connexionBD() {    
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
     /*
-      $host = "localhost";
-      $user = "zmignaub";
-      $password = "Banane11";
-      $bd = "benoitmignault_ca_mywebsite";
-     */
+    $host = "localhost";
+    $user = "zmignaub";
+    $password = "Banane11";
+    $bd = "benoitmignault_ca_mywebsite";
+    */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -547,6 +547,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (isset($_POST['method'])) {
+                // C'est la méthode que j'ai trouvé trouver la valeur max comme cette valeur va en augmentant
+                $sql = "select max(id_login) from benoitmignault_ca_mywebsite.login_stat_poker where user = '{$_SESSION['user']}' ";                    
+                $result_SQL = $connMYSQL->query($sql);
+                $row = $result_SQL->fetch_row(); // C'est mon array de résultat
+                $idConnexion = (int) $row[0];	// Assignation de la valeur
+                date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
+                $date_method = date("Y-m-d H:i:s");
+                
+                // Ajouter la methode choisie par le user dans la table affichage_stat_poker en lien avec mon login sur la page
+                $insert = "INSERT INTO benoitmignault_ca_mywebsite.affichage_stat_poker (user,methode,id_login,id_affichage,date) VALUES ";
+                $insert .= "('" . $user . "',
+                             '" . $_POST['method'] . "',
+                             '" . $idConnexion . "',
+                                                NULL,
+                             '" . $date_method . "')";
+                $connMYSQL->query($insert);
+                
                 switch ($_POST['method']) {
                     case 1 : $tableauResult = affichageBrute($connMYSQL, $arrayMots);
                         break;

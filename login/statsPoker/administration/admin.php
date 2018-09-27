@@ -475,20 +475,20 @@ function verifChampPosition($valid_Champ) {
 
 /* Fonction pour ouvrir une connexion à la BD */
 
-function connexionBD() {
+function connexionBD() {    
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    $connMYSQL = new mysqli($host, $user, $password, $bd);
-    $connMYSQL->query("set names 'utf8'");
     /*
-      $host = "localhost";
-      $user = "zmignaub";
-      $password = "Banane11";
-      $bd = "benoitmignault_ca_mywebsite";
-      $connMYSQL = mysqli_connect($host, $user, $password, $bd);
-     */
+    $host = "localhost";
+    $user = "zmignaub";
+    $password = "Banane11";
+    $bd = "benoitmignault_ca_mywebsite";
+    */
+    $connMYSQL = mysqli_connect($host, $user, $password, $bd);
+    $connMYSQL->query("set names 'utf8'");
+
     return $connMYSQL;
 }
 
@@ -509,13 +509,28 @@ function verificationUser($connMYSQL) {
     return false;
 }
 
-function redirection($champs) {
+function redirection($champs, $connMYSQL) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         session_destroy();
         header("Location: /erreur/erreur.php");
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (isset($_POST['stats'])) {
+            // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
+            $sql = "select id from benoitmignault_ca_mywebsite.login where user = '{$_SESSION['user']}' ";                
+            $result_SQL = $connMYSQL->query($sql);
+            $row = $result_SQL->fetch_row(); // C'est mon array de résultat
+            $id = (int) $row[0];	// Assignation de la valeur 
+            date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
+            $date = date("Y-m-d H:i:s");
+            
+            // Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques 
+            $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
+            $insert .= "('" . $_SESSION['user'] . "',
+                         '" . $date . "',
+                            NULL,
+                         '" . $id . "')";
+            $connMYSQL->query($insert);            
             header("Location: /login/statsPoker/poker.php");
         } elseif (isset($_POST['login'])) {
             session_destroy();
@@ -541,14 +556,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $verificationUser = verificationUser($connMYSQL);
         $champs = initialisation_Champs();
     } else {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     }
 
     // on vérifier si notre user existe en bonne éduforme
     if (!$verificationUser) {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     } elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     } else {
         $champs = initialisation_Champs();
         $valid_Champ = initialisation();
@@ -567,17 +582,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $verificationUser = verificationUser($connMYSQL);
         $champs = initialisation_Champs();
     } else {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     }
 
     // on vérifier si notre user existe en bonne éduforme
     if (!$verificationUser) {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     } elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
-        redirection($champs);
+        redirection($champs, $connMYSQL);
     } else {
         if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueuil'])) {
-            redirection($champs);
+            redirection($champs, $connMYSQL);
         } elseif (isset($_POST['effacer'])) {
             $champs = initialisation_Champs();
             $valid_Champ = initialisation();

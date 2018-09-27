@@ -178,7 +178,7 @@ function connexionUser($champInitial, $connMYSQL) {
                 $_SESSION['password'] = $champInitial['password'];
                 $_SESSION['typeLangue'] = $champInitial["typeLangue"];
                 date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
-                $_SESSION['dateLoggin'] = date("Y-m-d H:i:s");
+                $date = date("Y-m-d H:i:s");
 
                 if ($row['user'] === "admin") {
                     header("Location: ./statsPoker/administration/admin.php");
@@ -186,7 +186,7 @@ function connexionUser($champInitial, $connMYSQL) {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
                     $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
                     $insert .= "('" . $champInitial['user'] . "',
-                                 '" . $_SESSION['dateLoggin'] . "',
+                                 '" . $date . "',
                                  NULL,
                                  '" . $champInitial['idCreationUser'] . "')";
                     $connMYSQL->query($insert);

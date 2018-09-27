@@ -547,7 +547,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (isset($_POST['method'])) {
-                $sql = "select id_login from benoitmignault_ca_mywebsite.login_stat_poker where date = '{$_SESSION['dateLoggin']}' and user = '{$_SESSION['user']}' ";                
+                // C'est la méthode que j'ai trouvé trouver la valeur max comme cette valeur va en augmentant
+                $sql = "select max(id_login) from benoitmignault_ca_mywebsite.login_stat_poker where user = '{$_SESSION['user']}' ";                    
                 $result_SQL = $connMYSQL->query($sql);
                 $row = $result_SQL->fetch_row(); // C'est mon array de résultat
                 $idConnexion = (int) $row[0];	// Assignation de la valeur

@@ -521,11 +521,13 @@ function redirection($champs, $connMYSQL) {
             $result_SQL = $connMYSQL->query($sql);
             $row = $result_SQL->fetch_row(); // C'est mon array de résultat
             $id = (int) $row[0];	// Assignation de la valeur 
-
+            date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
+            $date = date("Y-m-d H:i:s");
+            
             // Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques 
             $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
             $insert .= "('" . $_SESSION['user'] . "',
-                         '" . $_SESSION['dateLoggin'] . "',
+                         '" . $date . "',
                             NULL,
                          '" . $id . "')";
             $connMYSQL->query($insert);            

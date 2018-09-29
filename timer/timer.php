@@ -412,10 +412,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <p class="resizeText"><?php echo $tableauLinguiste['typeMise'] ?></p>
                         </div>
                         <div class="small">
-                            <p><?php echo $tableauLinguiste['small'] ?></p>
+                            <p class="resizeText"><?php echo $tableauLinguiste['small'] ?></p>
                         </div>
                         <div class="big">
-                            <p><?php echo $tableauLinguiste['big'] ?></p>
+                            <p class="resizeText"><?php echo $tableauLinguiste['big'] ?></p>
                         </div>            
                         <div class="valeurSmall">
                             <p class="blind" id="valeurSmall"><?php echo $champs['valeurSmall'] ?></p>
@@ -442,10 +442,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <p class="resizeText"><?php echo $tableauLinguiste['periode'] ?></p>
                         </div>
                         <div class="minutes">
-                            <p>Minutes</p>
+                            <p class="resizeText">Minutes</p>
                         </div>
                         <div class="secondes">
-                            <p>Secondes</p>
+                            <p class="resizeText">Secondes</p>
                         </div>
                         <div class="chiffreMin">
                             <p>00</p>

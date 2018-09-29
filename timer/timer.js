@@ -1,10 +1,8 @@
 const doubleValeur = document.querySelector('#double');
 const timerReprend = document.querySelector('.resizeText');
-const temps_periode = document.querySelector('.timer .tableauDuTemps .temps div .resizeText');
+const temps_periode = document.querySelector('.container .timer .tableauDuTemps .temps div .resizeText');
 const type_mises = document.querySelector('.container .timer .tableauDesMises .lesMises div .resizeText');
 const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
-
-
 const resetValeur = document.querySelector('#reset');
 const typeLangue = document.querySelector('#typeLangue');
 const temps15min = document.querySelector('#timer15');
@@ -321,11 +319,16 @@ function resizeText(){
         temps_periode.style.fontSize = "30px";
         type_mises.style.fontSize = "30px";
         btn_return.style.fontSize = "20px";
-    } else if (device > 1.2){
+    } else if (device > 1.3){
         reprendTimer.style.fontSize = "30px";
-        temps_periode.style.fontSize = "30px";
-        type_mises.style.fontSize = "30px";
+        temps_periode.style.fontSize = "35px";
+        type_mises.style.fontSize = "35px";
         btn_return.style.fontSize = "30px";
+    } else if (device > 1.1){
+        reprendTimer.style.fontSize = "35px";
+        temps_periode.style.fontSize = "40px";
+        type_mises.style.fontSize = "40px";
+        btn_return.style.fontSize = "35px";
     }
     // 1.1041666269302368 -> 100%
     // 1.2145832777023315 -> 110%

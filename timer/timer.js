@@ -1,4 +1,10 @@
 const doubleValeur = document.querySelector('#double');
+const timerReprend = document.querySelector('.resizeText');
+const temps_periode = document.querySelector('.timer .tableauDuTemps .temps div .resizeText');
+const type_mises = document.querySelector('.container .timer .tableauDesMises .lesMises div .resizeText');
+const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
+
+
 const resetValeur = document.querySelector('#reset');
 const typeLangue = document.querySelector('#typeLangue');
 const temps15min = document.querySelector('#timer15');
@@ -308,11 +314,31 @@ function resetTemp(){
     });
 }
 
+function resizeText(){
+    var device = detectZoom.device();
+    if (device > 1.6){
+        reprendTimer.style.fontSize = "20px";
+        temps_periode.style.fontSize = "30px";
+        type_mises.style.fontSize = "30px";
+        btn_return.style.fontSize = "20px";
+    } else if (device > 1.2){
+        reprendTimer.style.fontSize = "30px";
+        temps_periode.style.fontSize = "30px";
+        type_mises.style.fontSize = "30px";
+        btn_return.style.fontSize = "30px";
+    }
+    // 1.1041666269302368 -> 100%
+    // 1.2145832777023315 -> 110%
+    // 1.3802082538604736 -> 125%
+    console.log(device);
+} 
+
 document.addEventListener('DOMContentLoaded', function(event) {   
     modificationSizeValeurs(valeurBig.innerHTML);
+    resizeText();
     timer15Min();
     timer30Min();
     stop();
     reprendreTemps();
-    resetTemp();    
+    resetTemp();       
 });

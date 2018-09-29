@@ -274,8 +274,7 @@ function redirection($champs) {
     exit; // pour arrêter l'éxecution du code php
 }
 
-function connexionBD() {  
-    
+function connexionBD() { 
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
@@ -287,7 +286,6 @@ function connexionBD() {
     $bd = "benoitmignault_ca_mywebsite";
     */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
-
     $connMYSQL->query("set names 'utf8'"); // ceci permet d'avoir des accents affiché sur la page web !
     return $connMYSQL;
 }
@@ -411,7 +409,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="tableauDesMises">
                     <div class="lesMises">
                         <div class="titre">
-                            <p><?php echo $tableauLinguiste['typeMise'] ?></p>
+                            <p class="resizeText"><?php echo $tableauLinguiste['typeMise'] ?></p>
                         </div>
                         <div class="small">
                             <p><?php echo $tableauLinguiste['small'] ?></p>
@@ -441,7 +439,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="tableauDuTemps">
                     <div class="temps">
                         <div class="periode">
-                            <p><?php echo $tableauLinguiste['periode'] ?></p>
+                            <p class="resizeText"><?php echo $tableauLinguiste['periode'] ?></p>
                         </div>
                         <div class="minutes">
                             <p>Minutes</p>
@@ -467,7 +465,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <button class="disabled" disabled id="timerStop">STOP</button>
                         </div>
                         <div class="reprend">
-                            <button class="disabled" disabled id="timerReprend"><?php echo $tableauLinguiste['btnReprendre'] ?></button>
+                            <button class="disabled resizeText" disabled id="timerReprend"><?php echo $tableauLinguiste['btnReprendre'] ?></button>
                         </div>
                         <div class="resetTemps">
                             <button <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['aucune_valeur'] || $champs['user'] == "") { ?> class="disabled" disabled <?php } ?> id="ResetTemps"><?php echo $tableauLinguiste['btnReset'] ?></button>
@@ -480,13 +478,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="boutonRetour">
             <div class="retour">
                 <form method="post" action="./timer.php">
-                    <input type="submit" name="btnReturn" value="<?php echo $tableauLinguiste['retour'];?>">   
+                    <input class="resizeText" type="submit" name="btnReturn" value="<?php echo $tableauLinguiste['retour'];?>">   
                     <input type="hidden" name="typeLangueReturn" value="<?php echo $champs['typeLangue']; ?>">
                 </form>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>   
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script> 
+        <script src="detect-zoom.js"></script>
+        <script src="detect-zoom.min.js"></script>
         <script type="text/javascript" src="timer.js"></script>
+        
     </body>
 </html>

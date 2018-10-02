@@ -168,31 +168,46 @@ function verifChamp($champInitial) {
 function situation($champInitial) {
     $typeSituation = 0;
     if (isset($_POST['reset'])) {
+        echo 1;
         $typeSituation = 1;   
     } elseif ($champInitial['badUser']) {
         $typeSituation = 2;
+        echo 2;
     } elseif ($champInitial['badPassword'] && !$champInitial['champVidePassword']) {
         $typeSituation = 3;
+        echo 3;
     } elseif ($champInitial['duplicatUser']) {
         $typeSituation = 4;
-    } elseif ($champInitial['user'] !== "" && !$champInitial['duplicatUser'] && !$champInitial['champVide'] && !$champInitial['invalidInformation'] && !$champInitial['champVideName']) {
+        echo 4;
+        // La situatino 5 a été corrigé le 2018-10-03 , j'avais oublié d'ajouter la condition «sameUserPassword» 
+    } elseif ($champInitial['user'] !== "" && !$champInitial['duplicatUser'] && !$champInitial['champVide'] && 
+              !$champInitial['invalidInformation'] && !$champInitial['champVideName'] && !$champInitial['sameUserPassword']) {
         $typeSituation = 5;
+        echo 5;
     } elseif (!$champInitial['champVideUser'] && $champInitial['champVidePassword'] && !$champInitial['badUser'] && isset($_POST['login'])) {
         $typeSituation = 6;
+        echo 6;
     } elseif ($champInitial['champVideName'] && !$champInitial['champVidePassword'] && isset($_POST['signUp']) ) {
         $typeSituation = 7;
+        echo 7;
     } elseif ($champInitial['champTropLong']) {
         $typeSituation = 8;
+        echo 8;
     } elseif ($champInitial['invalidInformation'] && !$champInitial['champVideName'] && !$champInitial['champVide'] ) {
         $typeSituation = 9;
+        echo 9;
     } elseif ($champInitial['sameUserPassword'] && isset($_POST['signUp']) && !$champInitial['champVideName'] && !$champInitial['champVide']) {
         $typeSituation = 10;
+        echo 10;
     } elseif ($champInitial['champVideName'] && $champInitial['champVide'] && isset($_POST['signUp']) ){
         $typeSituation = 11;
+        echo 11;
     } elseif ($champInitial['champVide'] && isset($_POST['login'])){
         $typeSituation = 12;
+        echo 12;
     } elseif (!$champInitial['champVideUser'] && $champInitial['champVideName'] && $champInitial['champVideName'] && isset($_POST['signUp'])){
         $typeSituation = 13;
+        echo 13;
     }
 
 

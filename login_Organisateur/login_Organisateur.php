@@ -135,7 +135,7 @@ function verifChamp($champInitial) {
         $champInitial['champPasswordTropLong'] = true;
     }
 
-    if ($longueurName > 15){
+    if ($longueurName > 30){
         $champInitial['champNameTropLong'] = true;
     }
 
@@ -357,7 +357,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div> 
                             <div class="information <?php if ($champInitial['champVideName'] || $champInitial['invalidName'] || $champInitial['champNameTropLong']) { echo 'erreur'; } ?>">
                                 <label for="name"><?php echo $arrayMots['name']; ?></label>
-                                <input id="name" type="text" name="name" maxlength="15" value="<?php echo $champInitial['name']; ?>" />
+                                <input id="name" type="text" name="name" maxlength="30" value="<?php echo $champInitial['name']; ?>" />
                             </div>
                         </div>
                         <div class="troisBTN">                         

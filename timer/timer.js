@@ -343,7 +343,7 @@ function resizeText(){
             type_mises.style.fontSize = "30px";
             btn_return.style.fontSize = "20px";
             btn_choisir.style.fontSize = "20px";
-        } else if (device > 1.3){
+        } else if (device > 1.2){
             reprendTimer.style.fontSize = "30px";
             temps_periode.style.fontSize = "35px";
             type_mises.style.fontSize = "35px";

@@ -135,7 +135,7 @@ function verifChamp($champInitial) {
         $champInitial['champPasswordTropLong'] = true;
     }
 
-    if ($longueurName > 15){
+    if ($longueurName > 30){
         $champInitial['champNameTropLong'] = true;
     }
 
@@ -168,31 +168,46 @@ function verifChamp($champInitial) {
 function situation($champInitial) {
     $typeSituation = 0;
     if (isset($_POST['reset'])) {
+        echo 1;
         $typeSituation = 1;   
     } elseif ($champInitial['badUser']) {
         $typeSituation = 2;
+        echo 2;
     } elseif ($champInitial['badPassword'] && !$champInitial['champVidePassword']) {
         $typeSituation = 3;
+        echo 3;
     } elseif ($champInitial['duplicatUser']) {
         $typeSituation = 4;
-    } elseif ($champInitial['user'] !== "" && !$champInitial['duplicatUser'] && !$champInitial['champVide'] && !$champInitial['invalidInformation'] && !$champInitial['champVideName']) {
+        echo 4;
+        // La situatino 5 a été corrigé le 2018-10-03 , j'avais oublié d'ajouter la condition «sameUserPassword» 
+    } elseif ($champInitial['user'] !== "" && !$champInitial['duplicatUser'] && !$champInitial['champVide'] && 
+              !$champInitial['invalidInformation'] && !$champInitial['champVideName'] && !$champInitial['sameUserPassword']) {
         $typeSituation = 5;
+        echo 5;
     } elseif (!$champInitial['champVideUser'] && $champInitial['champVidePassword'] && !$champInitial['badUser'] && isset($_POST['login'])) {
         $typeSituation = 6;
+        echo 6;
     } elseif ($champInitial['champVideName'] && !$champInitial['champVidePassword'] && isset($_POST['signUp']) ) {
         $typeSituation = 7;
+        echo 7;
     } elseif ($champInitial['champTropLong']) {
         $typeSituation = 8;
+        echo 8;
     } elseif ($champInitial['invalidInformation'] && !$champInitial['champVideName'] && !$champInitial['champVide'] ) {
         $typeSituation = 9;
+        echo 9;
     } elseif ($champInitial['sameUserPassword'] && isset($_POST['signUp']) && !$champInitial['champVideName'] && !$champInitial['champVide']) {
         $typeSituation = 10;
+        echo 10;
     } elseif ($champInitial['champVideName'] && $champInitial['champVide'] && isset($_POST['signUp']) ){
         $typeSituation = 11;
+        echo 11;
     } elseif ($champInitial['champVide'] && isset($_POST['login'])){
         $typeSituation = 12;
+        echo 12;
     } elseif (!$champInitial['champVideUser'] && $champInitial['champVideName'] && $champInitial['champVideName'] && isset($_POST['signUp'])){
         $typeSituation = 13;
+        echo 13;
     }
 
 
@@ -247,16 +262,17 @@ function connexionUser($champInitial, $connMYSQL) {
 }
 
 function connexionBD() {
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    /*    
+    */   
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+    
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -356,7 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div> 
                             <div class="information <?php if ($champInitial['champVideName'] || $champInitial['invalidName'] || $champInitial['champNameTropLong']) { echo 'erreur'; } ?>">
                                 <label for="name"><?php echo $arrayMots['name']; ?></label>
-                                <input id="name" type="text" name="name" maxlength="15" value="<?php echo $champInitial['name']; ?>" />
+                                <input id="name" type="text" name="name" maxlength="30" value="<?php echo $champInitial['name']; ?>" />
                             </div>
                         </div>
                         <div class="troisBTN">                         

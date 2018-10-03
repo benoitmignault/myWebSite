@@ -24,14 +24,8 @@ h2,h3{
     margin-bottom:15px;
     text-align: center;
 }
-.container > .retirer_combinaison > form > .form_retirer_combinaison > label{
-    margin: auto;
-    margin-bottom: 10px;    
-    text-align: center;
-}
 .container > .ajout_combinaison > form,
-.container > .affiche_combinaison > form,
-.container > .retirer_combinaison > form{
+.container > .affiche_combinaison > .form_affiche_combinaison{
     width: 48%;
     margin:auto;
     margin-top: 0;
@@ -59,7 +53,6 @@ h2,h3{
 }
 .form_ajout_combinaison,
 .form_affiche_combinaison,
-.form_retirer_combinaison,
 .form_retour{    
     width: 100%;
     background-color: #c8c8c8;
@@ -71,8 +64,7 @@ h2,h3{
     border-radius: 10px;
 }
 .form_ajout_combinaison > input[type=text],
-.form_ajout_combinaison > select,
-.form_retirer_combinaison > select{
+.form_ajout_combinaison > select{
     padding:5px;
     width: 48%;
     border-radius: 10px;
@@ -82,8 +74,8 @@ h2,h3{
 .container > .retour > form > .form_retour > .btn_footer:last-of-type{
     margin-left: 15px;
 }
-.container > .affiche_combinaison > form > .form_affiche_combinaison > div,
-.container > .affiche_combinaison > form > .form_affiche_combinaison > div > .tblValeurCouleur{
+.container > .affiche_combinaison > .form_affiche_combinaison > div,
+.container > .affiche_combinaison > .form_affiche_combinaison > div > .tblValeurCouleur{
     width: 100%;
 }
 .tblValeurCouleur{
@@ -125,6 +117,36 @@ h2,h3{
 label:hover{
     cursor: pointer;
 }
+.delete{
+    width: 30px;
+}
+.delete > form{
+    margin:0;
+}
+.img{
+    display: block; 
+    width: 25px; 
+    height: 25px; 
+}
+.btnimg {
+    padding: 0;
+    background-image: url(delete.png);
+    border: 0;
+    background-color: #c8c8c8;
+    display: block;
+    width: 25px; 
+    height: 25px;
+    background-size: 100%;
+}
+.btnimg:hover {
+    cursor: pointer;
+}
+td{
+    font-size: 20px;
+}
+.affiche_combinaison{
+    margin-bottom: 25px;
+}
 @media screen and (max-width:768px) {
     h1{
         font-size: 1.5em;
@@ -137,13 +159,11 @@ label:hover{
     }
     .container > .ajout_combinaison > form,
     .container > .affiche_combinaison > form,
-    .container > .retirer_combinaison > form,
     .container > .retour > form{
         width: 100%;
     }
     .form_ajout_combinaison > input[type=text],
-    .form_ajout_combinaison > select,
-    .form_retirer_combinaison > select{
+    .form_ajout_combinaison > select{
         width: 100%;
     }
     .bouton{
@@ -159,5 +179,11 @@ label:hover{
     }
     .container > .retour > form > .form_retour > .btn_footer > input[name=home]{
         font-size: 14px;
+    }
+    .container > .affiche_combinaison > .form_affiche_combinaison{
+        width: 100%;
+    }
+    .container > .affiche_combinaison > .form_affiche_combinaison:last-of-type{
+        margin-top: 15px;
     }
 }

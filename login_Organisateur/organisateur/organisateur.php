@@ -14,16 +14,12 @@ function traduction($champs, $connMYSQL) {
         $h1 = "Bienvenue à vous &rarr; <span class='userDisplay'>{$prenom}</span> &larr; sur la page de gestion d'un organisateur.";
         $h3_Ajouter = "Ajouter une combinaison.";
         $h3_Affichage = "Afficher les combinaisons.";
-        $h3_Retirer = "Retirer une combinaison.";
         $option = "À sélectionner";
         $btn_timer = "Page du Timer";
         $btn_return = "Page d'Accueil";
         $valeur_couleur = "Valeur / Couleur";
         $petit_grosse_mise = "Petite mise / Grosse mise";
         $btn_ajout = "Ajouter";
-        $btn_delete = "Détruire";
-        $id_couleur = "ID correspondant à celui du tableau valeurs et couleurs.";
-        $id_mises = "ID correspondant à celui du tableau petites et grosses mises.";
         $message = message_Situation($champs);
         $message_Erreur_BD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
     } elseif ($champs["typeLangue"] === 'english') {
@@ -31,20 +27,16 @@ function traduction($champs, $connMYSQL) {
         $h1 = "welcome to you &rarr; <span class='userDisplay'>{$prenom}</span> &larr; on the management page of an organizer.";
         $h3_Ajouter = "Add combination.";
         $h3_Affichage = "Show combinations.";
-        $h3_Retirer = "Remove combination.";
         $option = "Select";
         $btn_timer = "TIMER page";
         $btn_return = "Back to Home";
         $valeur_couleur = "Value / Color";
         $petit_grosse_mise = "Small blind / Big blind";
         $btn_ajout = "Add";
-        $btn_delete = "Remove";
-        $id_couleur = "ID corresponding to that of the values and colors table.";
-        $id_mises = "ID corresponding to that of the table small and large bets.";
         $message = message_Situation($champs);
         $message_Erreur_BD = "There was a problem with insert your values into the DB. Please try again !";
     }
-    $arrayMots = ['message_Erreur_BD' => $message_Erreur_BD, 'message' => $message, 'title' => $titre, 'msg_welcome' => $h1, 'h3_Ajouter' => $h3_Ajouter, 'h3_Affichage' => $h3_Affichage, 'h3_Retirer'=> $h3_Retirer, 'valeur_couleur'=>$valeur_couleur,'petit_grosse_mise'=> $petit_grosse_mise, 'btn_timer'=>$btn_timer, 'btn_return'=>$btn_return, 'btn_ajout'=>$btn_ajout,'btn_delete'=>$btn_delete, 'id_couleur'=>$id_couleur, 'option'=>$option, 'id_mises'=>$id_mises];
+    $arrayMots = ['message_Erreur_BD' => $message_Erreur_BD, 'message' => $message, 'title' => $titre, 'msg_welcome' => $h1, 'h3_Ajouter' => $h3_Ajouter, 'h3_Affichage' => $h3_Affichage, 'valeur_couleur'=>$valeur_couleur,'petit_grosse_mise'=> $petit_grosse_mise, 'btn_timer'=>$btn_timer, 'btn_return'=>$btn_return, 'btn_ajout'=>$btn_ajout, 'option'=>$option];
     return $arrayMots;
 }
 
@@ -67,10 +59,8 @@ function message_Situation($champs){
             case 13 : $message = "Votre petite mise existe déjà dans votre sélection des petites mises !"; break;  
             case 14 : $message = "Votre grosse mise existe déjà dans votre sélection des grosse mises !"; break;  
             case 15 : $message = "Votre mise doit être un chiffre valide de 1 à 99999 !"; break;  
-            case 16 : $message = "La combinaison valeur / couleur du jeton ont été supprimé de la sélection !"; break;  
-            case 17 : $message = "La combinaison valeur / couleur du jeton ne peut être null !"; break;  
-            case 18 : $message = "La combinaison petite et grosse mise ont été supprimé de la sélection !"; break;  
-            case 19 : $message = "La combinaison petite et grosse mise ne peut être null !"; break; 
+            case 16 : $message = "La combinaison valeur / couleur du jeton ont été supprimé de la sélection !"; break;
+            case 18 : $message = "La combinaison petite et grosse mise ont été supprimé de la sélection !"; break; 
         }
     } elseif ($champs["typeLangue"] === 'english') {
         switch ($champs['situation']){
@@ -89,10 +79,8 @@ function message_Situation($champs){
             case 13 : $message = "Your little bet already exists in your selection of small bets !"; break;  
             case 14 : $message = "Your big bet already exists in your selection of big bets !"; break;  
             case 15 : $message = "Your bet must be a valid number from 1 to 99999 !"; break;  
-            case 16 : $message = "The combination value / color of the token have been removed from the selection !"; break;  
-            case 17 : $message = "The value / color combination of the token can not be null !"; break;  
-            case 18 : $message = "The big and small bet combination have been removed from the selection !"; break;  
-            case 19 : $message = "The combination big and small bet can not be null !"; break;  
+            case 16 : $message = "The combination value / color of the token have been removed from the selection !"; break;
+            case 18 : $message = "The big and small bet combination have been removed from the selection !"; break; 
         }
     }
     return $message;
@@ -105,7 +93,7 @@ function initialisation_Champs() {
 }
 
 function initialisation_indicateur() {
-    $valid_Champ = ["id_couleur_vide" => false, "idPetiteGrosse_vide" => false, "valeur_vide" => false, "couleur_vide" => false, "doublon_valeur" => false, 
+    $valid_Champ = ["valeur_vide" => false, "couleur_vide" => false, "doublon_valeur" => false, 
                     "doublon_small" => false, "doublon_big" => false, "small_vide" => false, "big_vide" => false, "small_big_egal" => false, 
                     "big_trop_petit" => false, "valeur_long_inval" => false, "valeur_invalide" => false, "small_long_inval" => false, 
                     "small_invalide" => false, "big_long_inval" => false, "big_invalide" => false];
@@ -144,17 +132,8 @@ function remplissageChamps($champs, $connMYSQL) {
 function validation($champs, $valid_Champ, $connMYSQL) {
     $valeurNumerique = "#^[0-9]{1}([0-9]{0,4})[0-9]{0,1}$#";
     $user = "\"" . $champs['user'] . "\"";
-    if (isset($_POST['btn_delValeurCouleur'])){
-        if ($champs["idCouleur"] === ""){
-            $valid_Champ["id_couleur_vide"] = true;        
-        } 
-        // fin de la vérification avec le bouton pour retirer une combinaison des petites / grosses mises
-    } elseif (isset($_POST['btn_delSmallBig'])){
-        if ($champs["idPetiteGrosse"] === ""){
-            $valid_Champ["idPetiteGrosse_vide"] = true;        
-        }
-        // fin de la vérification avec le bouton pour retirer une combinaison des Valeur / Couleur
-    } elseif (isset($_POST['btn_addValeurCouleur'])){
+    
+    if (isset($_POST['btn_addValeurCouleur'])){
         $longueurValeur = strlen($champs['valeur']);             
         if ($champs["valeur"] === ""){
             $valid_Champ["valeur_vide"] = true;        
@@ -245,17 +224,9 @@ function situation($champs, $valid_Champ) {
             $situation = 15; 
         }
     } elseif (isset($_POST['btn_delValeurCouleur'])){
-        if (!$valid_Champ["id_couleur_vide"]){
-            $situation = 16;
-        } elseif ($valid_Champ["id_couleur_vide"]){
-            $situation = 17; 
-        }
+        $situation = 16;
     } elseif (isset($_POST['btn_delSmallBig'])){
-        if (!$valid_Champ["idPetiteGrosse_vide"]){
-            $situation = 18; 
-        } elseif ($valid_Champ["idPetiteGrosse_vide"]){
-            $situation = 19;
-        }
+        $situation = 18;
     } 
     return $situation;
 }
@@ -311,13 +282,22 @@ function tableau_valeur_couleur($connMYSQL, $champs){
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         if ($champs["typeLangue"] == "francais"){
-            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Id</th><th>Valeur</th><th>Couleur</th></tr></thead>";
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr> <th>Valeur</th> <th>Couleur</th> <th></th> </tr> </thead>";
         } elseif ($champs["typeLangue"] == "english") {
-            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Id</th><th>Value</th><th>Color</th></tr></thead>";
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr> <th>Value</th> <th>Color</th> <th></th> </tr> </thead>";
         }    
         $tableau .= "<tbody>";
         foreach ($result as $row) {
-            $tableau .= "<tr> <td>{$row['id_couleur']}</td> <td>{$row['amount']}</td> <td bgcolor=\"{$row['color_english']}\"></td> </tr>";
+            $tableau .= "
+            <tr> <td>{$row['amount']}</td> <td bgcolor=\"{$row['color_english']}\"> </td> 
+                <td class=\"delete\"> 
+                    <form method=\"post\" action=\"organisateur.php\"> 
+                        <input class=\"btnimg\" type=\"submit\" name=\"btn_delValeurCouleur\" value=\"\">
+                        <input type=\"hidden\" name=\"idValeurCouleur\" value=\"{$row['id_couleur']}\">
+                    </form> 
+                </td> 
+            </tr>";
+            // Pour la 3e partie de la ligne, nous insérons un tableau, dans l'éventualité qu'on devra détruire la ligne du tableau
         }
         $tableau .= "</tbody></table>";
     }
@@ -330,41 +310,26 @@ function tableau_petite_grosse($connMYSQL, $champs){
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         if ($champs["typeLangue"] == "francais"){
-            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Id</th><th>Petite</th><th>Grosse</th></tr></thead>";
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead> <tr> <th>Petite</th> <th>Grosse</th> <th></th> </tr> </thead>";
         } elseif ($champs["typeLangue"] == "english") {
-            $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Id</th><th>Small</th><th>Big</th></tr></thead>";
+            $tableau .= "<table class=\"tblValeurCouleur\"><thead> <tr> <th>Small</th> <th>Big</th> <th></th> </tr> </thead>";
         } 
         $tableau .= "<tbody>";
         foreach ($result as $row) {
-            $tableau .= "<tr> <td>{$row['id_valeur']}</td> <td>{$row['small']}</td> <td>{$row['big']}</td> </tr>";
+            $tableau .= "
+            <tr> <td>{$row['small']}</td> <td>{$row['big']}</td> 
+                <td class=\"delete\"> 
+                    <form method=\"post\" action=\"organisateur.php\"> 
+                        <input class=\"btnimg\" type=\"submit\" name=\"btn_delSmallBig\" value=\"\">
+                        <input type=\"hidden\" name=\"idCoupleMise\" value=\"{$row['id_valeur']}\">
+                    </form> 
+                </td> 
+            </tr>";
+            // Pour la 3e partie de la ligne, nous insérons un tableau, dans l'éventualité qu'on devra détruire la ligne du tableau
         }
         $tableau .= "</tbody></table>";
     }
     return $tableau;
-}
-
-function id_couleur_choisis($connMYSQL, $champs){
-    $choixDesOption = "";    
-    $sql = "SELECT id_couleur FROM benoitmignault_ca_mywebsite.amount_color WHERE user = '{$champs['user']}' order by amount";
-    $result = $connMYSQL->query($sql);   
-    if ($result->num_rows > 0){
-        foreach ($result as $row) {
-            $choixDesOption .= "<option value=\"{$row['id_couleur']}\">{$row['id_couleur']}</option>";
-        }
-    }
-    return $choixDesOption;
-}
-
-function id_mises_choisis($connMYSQL, $champs){
-    $choixDesOption = "";    
-    $sql = "SELECT id_valeur FROM benoitmignault_ca_mywebsite.mise_small_big WHERE user = '{$champs['user']}' order by small";
-    $result = $connMYSQL->query($sql);   
-    if ($result->num_rows > 0){
-        foreach ($result as $row) {
-            $choixDesOption .= "<option value=\"{$row['id_valeur']}\">{$row['id_valeur']}</option>";
-        }
-    }
-    return $choixDesOption;
 }
 
 function insert_BD_valeur_couleur($connMYSQL, $champs){
@@ -418,7 +383,7 @@ function connexionBD() {
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'"); // ceci permet d,avoir des accents affiché sur la page web ! 
 
@@ -477,8 +442,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $choix_couleur_restant = choix_couleur_restant($connMYSQL, $champs);
         $tableau_valeur_couleur = tableau_valeur_couleur($connMYSQL, $champs);
         $tableau_petite_grosse = tableau_petite_grosse($connMYSQL, $champs);
-        $id_couleur_choisis = id_couleur_choisis($connMYSQL, $champs);
-        $id_mises_choisis = id_mises_choisis($connMYSQL, $champs);
         $arrayMots = traduction($champs, $connMYSQL);        
     }
     $connMYSQL->close();
@@ -531,8 +494,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $choix_couleur_restant = choix_couleur_restant($connMYSQL, $champs);         
             $tableau_valeur_couleur = tableau_valeur_couleur($connMYSQL, $champs);
             $tableau_petite_grosse = tableau_petite_grosse($connMYSQL, $champs);
-            $id_couleur_choisis = id_couleur_choisis($connMYSQL, $champs);
-            $id_mises_choisis = id_mises_choisis($connMYSQL, $champs);
             $champs = nb_couleur_restant($connMYSQL, $champs);    
         }
     }
@@ -557,7 +518,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 background-position: center;
                 background-attachment: fixed;
                 background-size: 100%;
-            }   
+            } 
         </style>
     </head>
     <body>
@@ -582,52 +543,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input maxlength="6" type="text" name="small" value="<?php echo $champs['small'] ?>"> 
                         <input maxlength="6" type="text" name="big" value="<?php echo $champs['big'] ?>">
                         <input class="bouton" type="submit" name="btn_addSmallBig" value="<?php echo $arrayMots['btn_ajout']; ?>">
-
                     </div>
-                </form>  
-
+                </form> 
             </div>
 
+            <!-- Utilisation nouvelle d'un bouton X : https://fr.pngtree.com/element/down?id=Mjc3NDkzMA==&type=1 -->
             <div class="affiche_combinaison">
-                <h2><?php echo $arrayMots['h3_Affichage']; ?></h2>  
-                <form method="post" action="organisateur.php">
-                    <div class="form_affiche_combinaison">
-                        <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
-                        <div><?php echo $tableau_valeur_couleur; ?></div>                                                      
-                    </div>
-                </form>
-                <form method="post" action="organisateur.php">
-                    <div class="form_affiche_combinaison">
-                        <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                        <div><?php echo $tableau_petite_grosse; ?></div>                                                        
-                    </div>
-                </form>
-            </div>
-
-            <div class="retirer_combinaison">
-                <h2><?php echo $arrayMots['h3_Retirer']; ?></h2>      
-                <form method="post" action="organisateur.php">
-                    <div class="form_retirer_combinaison">
-                        <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
-                        <label for="idValeurCouleur"><?php echo $arrayMots['id_couleur']; ?></label>   
-                        <select id="idValeurCouleur" name="idValeurCouleur">
-                            <option value="" selected><?php echo $arrayMots['option']; ?></option>
-                            <?php echo $id_couleur_choisis; ?>
-                        </select>
-                        <input class="bouton" type="submit" name="btn_delValeurCouleur" value="<?php echo $arrayMots['btn_delete']; ?>"> 
-                    </div>
-                </form>
-                <form method="post" action="organisateur.php">
-                    <div class="form_retirer_combinaison">
-                        <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                        <label for="idCoupleMise"><?php echo $arrayMots['id_mises']; ?></label>
-                        <select id="idCoupleMise" name="idCoupleMise">
-                            <option value="" selected><?php echo $arrayMots['option']; ?></option>
-                            <?php echo $id_mises_choisis; ?>
-                        </select>
-                        <input class="bouton" type="submit" name="btn_delSmallBig" value="<?php echo $arrayMots['btn_delete']; ?>">
-                    </div>
-                </form>
+                <h2><?php echo $arrayMots['h3_Affichage']; ?></h2> 
+                <div class="form_affiche_combinaison">
+                    <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
+                    <div><?php echo $tableau_valeur_couleur; ?></div> 
+                </div>
+                <div class="form_affiche_combinaison">
+                    <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
+                    <div><?php echo $tableau_petite_grosse; ?></div>                                                        
+                </div>
             </div>
 
             <div class="retour">
@@ -642,7 +572,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </form> 
             </div>
-
         </div>        
     </body>
 </html>

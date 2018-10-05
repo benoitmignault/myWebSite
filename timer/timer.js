@@ -77,7 +77,7 @@ function timer15Min(){
         minutes.style.color = "green";
         secondes.style.color = "green";
         minutes.innerHTML = min.toString();
-        secondes.innerHTML = sec.toString();
+        secondes.innerHTML = "0" + sec.toString();
         // modifier la valeur en fonction de la langue choisie par l'usagé de la page
         if (typeLangue.value === "francais"){
             periode.innerHTML = "Vous avez choisi la période : 15 minutes !";
@@ -102,6 +102,7 @@ function starting15(){
         playMusique();
     }
 
+    // On affiche la nouvelle valeur du temps à l'écran avec la couleur en fonction des minutes
     if (min >= 10){
         minutes.style.color = "green";
         secondes.style.color = "green";
@@ -112,9 +113,13 @@ function starting15(){
         minutes.style.color = "red";
         secondes.style.color = "red";
     }
-    // On affiche la nouvelle valeur du temps à l'écran avec la couleur en fonction des minutes
-    minutes.innerHTML = min.toString();
-    secondes.innerHTML = sec.toString();        
+
+    if (min < 10 || sec < 10){
+        addZero(); // On vérifi Si les minutes ou secondes sont en bas de 10, on ajoute un 0 devant
+    } else {
+        minutes.innerHTML = min.toString();
+        secondes.innerHTML = sec.toString();  
+    }    
     comptage = setTimeout(starting15, 1000);
 } 
 
@@ -135,7 +140,7 @@ function timer30Min(){
         minutes.style.color = "green";
         secondes.style.color = "green";
         minutes.innerHTML = min.toString();
-        secondes.innerHTML = sec.toString();
+        secondes.innerHTML = "0" + sec.toString();
         // modifier la valeur en fonction de la langue choisie par l'usagé de la page
         if (typeLangue.value === "francais"){
             periode.innerHTML = "Vous avez choisi la période : 30 minutes !";
@@ -169,10 +174,28 @@ function starting30(){
         minutes.style.color = "red";
         secondes.style.color = "red";
     }
-    // On affiche la nouvelle valeur du temps à l'écran avec la couleur en fonction des minutes
-    minutes.innerHTML = min.toString();
-    secondes.innerHTML = sec.toString();
+    
+    if (min < 10 || sec < 10){
+        addZero(); // On vérifi Si les minutes ou secondes sont en bas de 10, on ajoute un 0 devant
+    } else {
+        minutes.innerHTML = min.toString();
+        secondes.innerHTML = sec.toString();  
+    } 
     comptage = setTimeout(starting30, 1000);
+}
+
+function addZero(){
+    if (min < 10){
+        minutes.innerHTML = "0" + min.toString();
+    } else {
+        minutes.innerHTML = min.toString();
+    }
+
+    if (sec < 10){
+        secondes.innerHTML = "0" + sec.toString();      
+    } else {
+        secondes.innerHTML = sec.toString();      
+    }     
 }
 
 function callAjax(){
@@ -316,6 +339,7 @@ function resetTemp(){
 function resizeText(){
     var device = detectZoom.device();
     var largeur = window.innerWidth;
+    
     if (largeur < 1300){ 
         if (device > 1.2){
             reprendTimer.style.fontSize = "20px";
@@ -336,8 +360,8 @@ function resizeText(){
             btn_return.style.fontSize = "30px";
             btn_choisir.style.fontSize = "30px";
         }
-    } else if (largeur > 1600){ 
-        if (device > 1.6){
+    } else if (largeur > 1300){ 
+        if (device > 1.4){
             reprendTimer.style.fontSize = "20px";
             temps_periode.style.fontSize = "30px";
             type_mises.style.fontSize = "30px";

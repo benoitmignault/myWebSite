@@ -358,7 +358,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <style>
             body{
                 margin:0; 
-                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/mongolie-d%C3%A9sert-ciel-nuages-1041542/ sous licence libre */
                 /* https://pxhere.com/fr/photo/1280141 */
                 background-image: url("timer.jpg");
                 background-position: center;

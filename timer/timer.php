@@ -2,9 +2,6 @@
 function traduction($champs){
     if ($champs['typeLangue'] === "francais"){
         $title = 'Minuteur';
-        $h2tableau = 'Section de l\'Organisateur';
-        $h2timer = 'Section des valeurs en jeton possible !';
-        $h2temps = 'Section des périodes de temps possible !';
         $typeMise = 'Les mises possible';
         $small = 'La petite mise';
         $big = 'La grosse mise';
@@ -22,9 +19,6 @@ function traduction($champs){
     } elseif ($champs['typeLangue'] === "english") {
         $title = 'Timer';
         $choixOrganisateur = 'Please choose an organizer';
-        $h2tableau = 'Section of the Organizer';
-        $h2timer = 'Section of values the ships !';
-        $h2temps = 'Section of period of time !';
         $typeMise = 'Bets availables';
         $small = 'The small blind';
         $big = 'The big blind';
@@ -39,7 +33,7 @@ function traduction($champs){
         $message = message_Situation($champs);
         $message_Erreur_BD = "There was a problem with insert your values into the DB. Please try again !";
     }
-    $tableauLinguiste = ['title' => $title, 'h2Timer' => $h2timer, 'h2Temps' => $h2temps, 'typeMise' => $typeMise, 'changerMise' => $changer, 'h2tableau' => $h2tableau, 'choixOrganisateur' => $choixOrganisateur, 'option' => $option, 'btn_choix' => $btn_choix, 'message' => $message, 'message_Erreur_BD' => $message_Erreur_BD, 'small' => $small, 'big' => $big, 'retour' => $retour, 'btnReset' => $btnReset, 'reset' => $reset, 'periode' => $periode, 'btnReprendre' => $btnReprendre];
+    $tableauLinguiste = ['title' => $title, 'typeMise' => $typeMise, 'changerMise' => $changer, 'choixOrganisateur' => $choixOrganisateur, 'option' => $option, 'btn_choix' => $btn_choix, 'message' => $message, 'message_Erreur_BD' => $message_Erreur_BD, 'small' => $small, 'big' => $big, 'retour' => $retour, 'btnReset' => $btnReset, 'reset' => $reset, 'periode' => $periode, 'btnReprendre' => $btnReprendre];
     return $tableauLinguiste;
 }
 
@@ -215,7 +209,7 @@ function creation_tableau($connMYSQL, $champs){
         }    
         $tableau .= "<tbody>";
         foreach ($result as $row) {
-            $tableau .= "<tr><td>{$row['amount']}</td> <td bgcolor=\"{$row['color_english']}\"></td> </tr>";
+            $tableau .= "<tr><td class=\"colorModifie\">{$row['amount']}</td> <td bgcolor=\"{$row['color_english']}\"></td> </tr>";
         }
         $tableau .= "</tbody></table>";
     }
@@ -274,7 +268,7 @@ function redirection($champs) {
     exit; // pour arrêter l'éxecution du code php
 }
 
-function connexionBD() { 
+function connexionBD() {
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
@@ -363,7 +357,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <style>
             body{
                 margin:0; 
-                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/mongolie-d%C3%A9sert-ciel-nuages-1041542/ sous licence libre */
+                /* https://pxhere.com/fr/photo/1280141 */
                 background-image: url("timer.jpg");
                 background-position: center;
                 background-attachment: fixed;
@@ -380,7 +374,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <audio  id="alertSound"><source src="alert.wav" type="audio/wav"></audio>
         <div class="container">
             <div class="tableau_bord">
-                <h2><?php echo $tableauLinguiste['h2tableau'] ?></h2>
                 <form method="post" action="./timer.php" id="formulaire">
                     <div class="choix">
                         <input type="hidden" id="number_Red"  name="number_Red" value="<?php echo $champs['number_Red']; ?>">
@@ -389,15 +382,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="hidden" id="trop_valeur" name="trop_valeur" value="<?php if ($champs['trop_valeur']) { echo "true"; } else { echo "false"; } ?>">
                         <input type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
                         <input type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
-                        <label for="choixOrganisateur"><?php echo $tableauLinguiste['choixOrganisateur']; ?></label>   
+                        <label class="modificationColor" for="choixOrganisateur"><?php echo $tableauLinguiste['choixOrganisateur']; ?></label>   
                         <select id="choixOrganisateur" name="choixOrganisateur"> 
                             <?php echo $liste_Organisateurs; ?>
                         </select>
                         <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php echo $tableauLinguiste['btn_choix']; ?>"> 
                     </div>
                 </form>
-                <div class="affichage_choix">
-                    <p><?php echo $champs['nom_organisateur']; ?></p>                    
+                <div class="affichage_choix">               
                     <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) { 
     echo $tableau_valeur_couleur;
 }
@@ -405,7 +397,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
             <div class="timer">
-                <h2><?php echo $tableauLinguiste['h2Timer'] ?></h2>
                 <div class="tableauDesMises">
                     <div class="lesMises">
                         <div class="titre">
@@ -433,8 +424,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>                
                     </div>
                 </div>
-
-                <h2><?php echo $tableauLinguiste['h2Temps'] ?></h2>
 
                 <div class="tableauDuTemps">
                     <div class="temps">
@@ -488,6 +477,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <script src="detect-zoom.js"></script>
         <script src="detect-zoom.min.js"></script>
         <script type="text/javascript" src="timer.js"></script>
-        
+
     </body>
 </html>

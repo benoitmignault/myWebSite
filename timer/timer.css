@@ -21,6 +21,13 @@
     margin-left: auto;
     margin-right: auto;
 }
+.container > .tableau_bord > form,
+.container > .timer > .tableauDesMises,
+.container > .timer > .tableauDuTemps,
+.container > .tableau_bord > .affichage_choix {
+    margin-top: 30px;
+}
+
 .container > .tableau_bord > form > .choix > label{
     font-weight: bold;
     font-size: 1.1em;
@@ -61,8 +68,13 @@
 .container > .tableau_bord > .affichage_choix > .tblValeurCouleur td, 
 .container > .tableau_bord > .affichage_choix > .tblValeurCouleur th {
     border: 1px solid black;
-    padding: 5px;
+    padding: 5px;    
 }
+.container > .tableau_bord > .affichage_choix > .tblValeurCouleur .colorModifie{
+    color: black;
+    background-color: white;
+}
+
 .container > .timer{
     width: 60%;
     margin: auto;

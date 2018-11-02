@@ -81,6 +81,10 @@
     -webkit-flex-wrap: wrap;
     justify-content:center;
 }
+input::placeholder{
+    font-style: oblique;
+    font-size: 13px;
+}
 .content > .footer{
     display: -webkit-flex; 
     display: flex;
@@ -120,7 +124,7 @@
     margin-bottom: 5px;
     color: #ffffff;
     font-size: 21px;
-    padding: 6px 15px 10px 20px;
+    padding: 6px 10px 7px 10px;
     border: solid #9bbed4 1px;
 }
 .bouton:hover{    
@@ -137,6 +141,10 @@
     background-color: #FCDEDE;
 }
 .erreur input[type="password"] {
+    border-color: red;
+    background-color: #FCDEDE;
+}
+.erreur input[type="email"] {
     border-color: red;
     background-color: #FCDEDE;
 }

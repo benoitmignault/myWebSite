@@ -161,7 +161,7 @@ function verifChamp($champInitial) {
     if (!preg_match($patternEmail, $champInitial['email'])) {
         $champInitial['champInvalidEmail'] = true; 
     }  
-    
+
     // Simplification des champs invalides pour plutard...
     if ($champInitial['champInvalidUser'] || $champInitial['champInvalidPassword'] || $champInitial['champInvalidEmail']){
         $champInitial['champInvalid'] = true;
@@ -343,7 +343,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }            
             // si le bouton éffacer est pesé...
         } elseif (isset($_POST['reset'])) {
-            // À créer lorsque je serai rendu à envoyer le reset par courriel
+            if ($champInitial["typeLangue"] === 'english') {
+                header("Location: createLinkSendMail.php?langue=english");
+            } elseif ($champInitial["typeLangue"] === 'francais') {
+                header("Location: createLinkSendMail.php?langue=francais");
+            }
+            exit;
         }
         $champInitial["situation"] = situation($champInitial); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
         $arrayMots = traduction($champInitial);  // Affichage des mots en français ou en anglais selon le paramètre du get de départ et suivi dans le post par la suite
@@ -396,7 +401,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label for="email"><?php echo $arrayMots['email']; ?></label>
                                 <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champInitial['email']; ?>"/>
                             </div>
-
                         </div>
                         <div class="troisBTN">                         
                             <input class="bouton" type='submit' name='login' value="<?php echo $arrayMots['btn_login']; ?>">
@@ -407,10 +411,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </form> 
                 </fieldset>
             </div>            
-            <div class="footer">
-                <!-- 
-if ($champInitial['sameUserPWD'] || $champInitial['champVide'] || $champInitial['champInvalid'] || $champInitial['duplicatUser'] || $champInitial['badUser'] || $champInitial['champTropLong'] || $champInitial['badPassword']) 
--->
+            <div class="footer">                
                 <div class='avert <?php if ($champInitial["situation"] != 16) { echo 'erreur'; } ?>'>
                     <p> <?php echo $arrayMots['message']; ?> </p>
                 </div>                

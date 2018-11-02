@@ -73,7 +73,8 @@ function traductionSituationFR($champInitial){
         case 14 : $messageFrench = "Attention les longueurs permises en nombre de caractères pour les champs suivants sont :<br>
         «nom d'utilisateur» &rarr; 15<br> «mot de passe» &rarr; 25<br> «courriel» &rarr; 50 !"; break;
         case 15 : $messageFrench = "Attention les champs peuvent contenir seulement des caractères alphanumériques !"; break;
-        case 16 : $messageFrench = "Félicitation ! Votre compte a été crée avec succès !";
+        case 16 : $messageFrench = "Félicitation ! Votre compte a été crée avec succès !"; break;
+        case 17 : $messageFrench = "Attention le courriel ne respecte la forme standard soit : exemple@courriel.com !"; break;
     }
     return $messageFrench;
 }
@@ -99,6 +100,7 @@ function traductionSituationEN($champInitial){
         «Username» &rarr; 15<br> «Password» &rarr; 25<br> «Email» &rarr; 50 !"; break;
         case 15 : $messageEnglish = "Warning, the fields can only contain alphanumeric characters !"; break;
         case 16 : $messageEnglish = "Congratulations ! Your account has been successfully created !"; break;
+        case 17 : $messageEnglish = "Warning, the email does not respect the standard form : example@courriel.com !"; break;
     }
     return $messageEnglish;
 }
@@ -155,14 +157,11 @@ function verifChamp($champInitial) {
         $champInitial['champInvalidPassword'] = true;
     }
 
-    // à revoir..............................................
-    if (!filter_var($champInitial['email'], FILTER_VALIDATE_EMAIL) && isset($_POST['signUp'])) {
+    $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
+    if (!preg_match($patternPass, $champInitial['password'])) {
         $champInitial['champInvalidEmail'] = true; 
-    }
-    
-    
-    
-    
+    }  
+
     // Simplification des champs invalides pour plutard...
     if ($champInitial['champInvalidUser'] || $champInitial['champInvalidPassword'] || $champInitial['champInvalidEmail']){
         $champInitial['champInvalid'] = true;
@@ -204,6 +203,8 @@ function situation($champInitial) {
         $typeSituation = 12; 
     } elseif ($champInitial['champVide']) {     
         $typeSituation = 13; 
+    } elseif ($champInitial['champInvalidEmail']) {     
+        $typeSituation = 17; 
     } elseif ($champInitial['champTropLong']) {
         $typeSituation = 14; 
     } elseif ($champInitial['champInvalid']) {

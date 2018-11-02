@@ -158,10 +158,10 @@ function verifChamp($champInitial) {
     }
 
     $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-    if (!preg_match($patternPass, $champInitial['email'])) {
+    if (!preg_match($patternEmail, $champInitial['email'])) {
         $champInitial['champInvalidEmail'] = true; 
     }  
-
+    
     // Simplification des champs invalides pour plutard...
     if ($champInitial['champInvalidUser'] || $champInitial['champInvalidPassword'] || $champInitial['champInvalidEmail']){
         $champInitial['champInvalid'] = true;

@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($champsVide === false && $champsTroplong === false) {
         $reply_email = $emailPersonne;
-        $entetedate = date("D, j M Y H:i:s"); // Offset horaire 
+        date_default_timezone_set('America/New_York');
+        $entetedate = date("Y-m-d H:i:s");
         $entetemail = "From: $emailPersonne \n"; // Adresse expéditeur 
         $entetemail .= "Reply-To: $reply_email \n"; // Adresse de retour 
         $entetemail .= "X-Mailer: PHP/" . phpversion() . "\n";

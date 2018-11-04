@@ -1,6 +1,6 @@
 <?php
 function initialChamp() {
-    $champInitial = ["champTropLong" => false, "champVide" => false, "champInvalidUser" => false, "champTropLongUser" => false, "champVideUser" => false, "combinaison_User_Email" => false, "userExistant" => false, "champVideEmail" => false, "champInvalidEmail" => false, "champInvalid" => false, "champTropLongEmail" => false, "situation" => 0, "user" => "", "email" => "", "typeLangue" => "", "erreurManipulationBD" => false];
+    $champInitial = ["champTropLong" => false, "champVide" => false, "champInvalidUser" => false, "champTropLongUser" => false, "champVideUser" => false, "combinaison_User_Email" => false, "userExistant" => false, "champVideEmail" => false, "champInvalidEmail" => false, "champInvalid" => false, "champTropLongEmail" => false, "situation" => 0, "user" => "", "email" => "", "typeLangue" => "", "erreurManipulationBD" => false, "password_Temp" => "", "combinaison_User_Email" => false, "erreurManipulationBD" => false, "lien_Reset_PWD" => "", "envoiCourrielSucces" => false];
     return $champInitial;
 }
 
@@ -135,9 +135,13 @@ function creationLink($champs, $connMYSQL){
                 $champs["password_Temp"] = $password_Temp; 
                 $champs["lien_Reset_PWD"] = "<a href='Http://benoitmignault.ca/login/reset.php?key=" . $lien_Reset_PWD; 
                 $elementCourriel = preparationEmail($champs);
-                //mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"])
+                $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);
+                
+                if ($succes) {
+                    $champs["envoiCourrielSucces"] = true; 
+                } 
+                
             }
-
         }
 
     } else {
@@ -169,42 +173,46 @@ function preparationEmail($champs){
         $elementCourriel["message"] = corpMessageFR($champs);
         $elementCourriel["to"] = $champs["email"];
         $elementCourriel["subject"] = "Changement de mot de passe !";
-        $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "Reply-To: home@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "Mail: PHP/" . phpversion() . "\r\n";
-        $elementCourriel["headers"] .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        $elementCourriel["headers"] = "From: nepasrepondreaucourriel@benoitmignault.ca \r\n";
+        $elementCourriel["headers"] .= "'X-Mailer' => 'PHP/'" . phpversion() . "\r\n";
+        $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
     } elseif ($champs["typeLangue"] == "english"){
         $elementCourriel["message"] = corpMessageEN($champs);
         $elementCourriel["to"] = $champs["email"];
         $elementCourriel["subject"] = "Password change !";
-        $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "Reply-To: home@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "Mail: PHP/" . phpversion() . "\r\n";
-        $elementCourriel["headers"] .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        $elementCourriel["headers"] = "From: donotreplyemail@benoitmignault.ca \r\n";
+        $elementCourriel["headers"] .= "'X-Mailer' => 'PHP/'" . phpversion() . "\r\n";
+        $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
     }
     return $elementCourriel;
 }
 
 function corpMessageFR($champs){    
     $messageFR = '<html><body>';
+    $messageFR .= "<p>Bonjour !</p>";
     $messageFR .= "<p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe pour faire de nouvelles consultation des statistiques de poker.</p>";
     $messageFR .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
     $messageFR .= "<tr><td><strong>Lien Web :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
     $messageFR .= "<tr><td><strong>Mot de Passe (Temporaire) :</strong> </td><td>" . $champs["password_Temp"] . "</td></tr>";
     $messageFR .= "<tr><td><strong>Temps accordé pour le changement :</strong> </td><td>1 heure</td></tr>";    
     $messageFR .= "</table>";
+    $messageFR .= "<p align=\"left\">Bonne journée</p>";
+    $messageFR .= "<p align=\"right\">La Direction</p>";
     $messageFR .= "</body></html>";
     return $messageFR;
 }
 
 function corpMessageEN($champs){
     $messageEN = '<html><body>';
+    $messageEN .= "<p>Hello !</p>";
     $messageEN .= "<p>This is a courtesy email to allow you to change your password to make further viewing of poker statistics.</p>";
     $messageEN .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
     $messageEN .= "<tr><td><strong>Web Link :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
     $messageEN .= "<tr><td><strong>Password (Temporary) :</strong> </td><td>" . $champs["password_Temp"] . "</td></tr>";
     $messageEN .= "<tr><td><strong>Time allowed for change :</strong> </td><td>1 hour</td></tr>";    
     $messageEN .= "</table>";
+    $messageEN .= "<p align=\"left\">Have a nice day</p>";
+    $messageEN .= "<p align=\"right\">The Direction</p>";
     $messageEN .= "</body></html>";
     return $messageEN;
 }
@@ -262,22 +270,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $champs = verifChamp($champs, $connMYSQL);            
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"]){
                 $champs = creationLink($champs, $connMYSQL);
-            } 
-
+            }
         }
-
-
-
-
-
-
         $champs["situation"] = situation($champs);
         $arrayMots = traduction($champs);
     }
     $connMYSQL->close();
 }
-
-
 ?>
 <!DOCTYPE html>
 <html>

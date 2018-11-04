@@ -277,7 +277,7 @@ function envoyerCourriel(){
             var serializedData = $form.serialize();
 
             request = $.ajax({
-                //url: "contact/contact.php",
+                url: "contact/contact.php",
                 type: "post",
                 data: serializedData
             });

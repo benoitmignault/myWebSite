@@ -236,10 +236,11 @@ function creationUser($champInitial, $connMYSQL) {
         return $champInitial;
     }
 }
-
+// Selon une recommandation :
+// https://stackoverflow.com/questions/30279321/how-to-use-password-hash
+// On ne doit pas jouer avec le salt....
 function encryptementPassword(string $password) {
-    $options = ['cost' => 11, 'salt' => random_bytes(22)];
-    $passwordCrypter = password_hash($password, PASSWORD_BCRYPT, $options);
+    $passwordCrypter = password_hash($password, PASSWORD_BCRYPT);
     return $passwordCrypter;
 }
 

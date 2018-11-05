@@ -20,13 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($champsVide === false && $champsTroplong === false) {
         $reply_email = $emailPersonne;
         date_default_timezone_set('America/New_York');
-        $entetedate = date("Y-m-d H:i:s");
-        $entetemail = "From: $emailPersonne \n"; // Adresse expéditeur 
-        $entetemail .= "Reply-To: $reply_email \n"; // Adresse de retour 
-        $entetemail .= "X-Mailer: PHP/" . phpversion() . "\n";
-        $entetemail .= "Date: $entetedate";
+        $current_time = date("Y-m-d H:i:s");
+        $entetemail = "From: " . $emailPersonne . "\r\n"; // Adresse expéditeur 
+        $entetemail .= "Reply-To: " . $reply_email . "\r\n"; // Adresse de retour 
+        $entetemail .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+        $entetemail .= "Date: " . $current_time . "\r\n";
 
-        $succes = mail("$emailServeur", "$sujet", "$message", $entetemail);
+        $succes = mail($emailServeur, $sujet, $message, $entetemail);
         if ($succes) {
             return http_response_code(200);
             exit;

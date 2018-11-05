@@ -9,6 +9,7 @@ function traduction($champs) {
         $title = "Demande de Réinitialisation";
         $p1 = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
         $li1 = "Veuillez saisir votre nom d'utilisateur et courriel.";
+        $li2 = "En raison d'une limitation de mon hébergeur Web,<br>le courriel avec les informations temporaires vous seront envoyer par l'administrateur du site...";
         $legend = "Réinitialisation !";
         $usager = "Nom d'utilisateur :";
         $email = "Courriel :";
@@ -18,6 +19,7 @@ function traduction($champs) {
         $title = "Reset Request";
         $p1 = "You forgot your password, no problem, we take care of it !";
         $li1 = "Please enter your username and email.";
+        $li2 = "Due to a limitation of my web host,<br>the email with temporary information will be sent to you by the administrator...";
         $legend = "Reseting !";
         $usager = "Username :";
         $email = "Email :";
@@ -26,18 +28,32 @@ function traduction($champs) {
     }
 
     $messageFinal = traductionSituation($champs);
-    $arrayMots = ['message' => $messageFinal, 'title' => $title, 'p1' => $p1, 'li1' => $li1, 'legend' => $legend, 'usager' => $usager, 'email' => $email, 'btn_send_Link' => $btn_send_Link, 'btn_return' => $btn_return];
+    $arrayMots = ['message' => $messageFinal, 'title' => $title, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'usager' => $usager, 'email' => $email, 'btn_send_Link' => $btn_send_Link, 'btn_return' => $btn_return];
     return $arrayMots;
 }
 
 function traductionSituation($champs){
-    $messageEnPreparation = "";
+    $message = "";
     if ($champs["typeLangue"] === 'francais') {
-
+        switch ($champs['situation']) {
+            case 1 : $message = "Les champs «Nom d'utilisateur» et «Courriel» sont vide présentement !"; break; 
+            case 2 : $message = "Le champ «Courriel» est vide !"; break; 
+            case 3 : $message = "Le champ «Nom d'utilisateur» est vide !"; break; 
+            case 4 : $message = "La combinaison du nom d'utilisateur et du courriel n'existe pas dans nos informations !"; break; 
+            case 5 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break; 
+            case 6 : $message = "Le courriel de réinitialisation du mot de passe a été envoyé avec succès. L'administrateur du site actuel vous fera suivre vos informations temporaires !"; break; 
+        }
     } elseif ($champs["typeLangue"] === 'english') {
-
+        switch ($champs['situation']) {
+            case 1 : $message = "The fields «Username» and «Email» are empty now !"; break; 
+            case 2 : $message = "The «Email» field is empty !"; break; 
+            case 3 : $message = "The «Username» field is empty !"; break; 
+            case 4 : $message = "The combination of username and email does not exist in our information !"; break; 
+            case 5 : $message = "A communication / manipulation error occurred when sending you the email ! Please try again !"; break; 
+            case 6 : $message = "The password reset email was sent successfully. The administrator of the current site will follow you with your temporary information !"; break; 
+        }
     }
-    return $messageEnPreparation;
+    return $message;
 }
 
 function verifChamp($champs, $connMYSQL) {
@@ -92,23 +108,33 @@ function verifChamp($champs, $connMYSQL) {
 }
 
 function situation($champs){
-
-    return $champs;
+    $typeSituation = 0;
+    if ($champs['champVideUser'] && $champs['champVideEmail']) {
+        $typeSituation = 1; 
+    } elseif (!$champs['champVideUser'] && $champs['champVideEmail'] ){
+        $typeSituation = 2; 
+    } elseif ($champs['champVideUser'] && !$champs['champVideEmail'] ){
+        $typeSituation = 3; 
+    } elseif (!$champs['combinaison_User_Email']){
+        $typeSituation = 4; 
+    } elseif ($champs['erreurManipulationBD']){
+        $typeSituation = 5; 
+    } elseif ($champs['envoiCourrielSucces']){
+        $typeSituation = 6; 
+    }  
+    return $typeSituation;
 }
 
 function creationLink($champs, $connMYSQL){  
-    // $connMYSQL->affected_rows donne le nombre de lignes affectées par la dernière requête
     $sql = "select user, password from benoitmignault_ca_mywebsite.login where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
     $connMYSQL->query($sql);
     // Si le résultat est inférieur à 1, 
-    // nous avons une erreur de communication ou un échec lors de la requête SQL   
-
+    // nous avons une erreur de communication ou un échec lors de la requête SQL 
     // Ici, on s'assure que le résultat nous retourne seulement 1, car nous avons à faire à un seul user normalement
     if (mysqli_affected_rows($connMYSQL) == 1){
         date_default_timezone_set('America/New_York');
         $champs["combinaison_User_Email"] = true;
-        // MYSQLI_ASSOC permet de remplacer les chiffre par les nom de colonnes
-        //$row = $result->fetch_array(MYSQLI_ASSOC);
+        
         $lien_Reset_PWD = $champs["user"] . "/*-+!/$%?&*()" . $champs["email"];
         $lien_Reset_PWD = encryptementPassword($lien_Reset_PWD);
         $password_Temp = generateRandomString(10);
@@ -124,10 +150,11 @@ function creationLink($champs, $connMYSQL){
             $current_time = date("Y-m-d H:i:s");
             // On converti tout ça dans un gros entier
             $current_timestamp = strtotime($current_time);
-            // On ajoute une heure pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
-            $temps_Autorisé = strtotime("+1 hour", strtotime($current_time));
+            // On ajoute 24 heures pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
+            $temps_Autorisé = strtotime("+24 hour", strtotime($current_time));
             $sql_update = "update benoitmignault_ca_mywebsite.login set temps_Valide_link = '{$temps_Autorisé}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
             $connMYSQL->query($sql_update);
+            
             // On valide ici que l'ajout du temps autorisé au changement de PWD a bien marché
             if (!mysqli_affected_rows($connMYSQL) == 1){
                 $champs["erreurManipulationBD"] = true; 
@@ -135,12 +162,12 @@ function creationLink($champs, $connMYSQL){
                 $champs["password_Temp"] = $password_Temp; 
                 $champs["lien_Reset_PWD"] = "<a href='Http://benoitmignault.ca/login/reset.php?key=" . $lien_Reset_PWD; 
                 $elementCourriel = preparationEmail($champs);
-                $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);
                 
+                // Je dois rempalcer le $to par home@benoitmignault.ca, en raison d'une limitation de one.com
+                $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                
                 if ($succes) {
                     $champs["envoiCourrielSucces"] = true; 
-                } 
-                
+                }
             }
         }
 
@@ -150,7 +177,7 @@ function creationLink($champs, $connMYSQL){
     return $champs;
 }
 
-// Une fonction que j,ai pris sur StackOverFlow
+// Une fonction que j'ai pris sur StackOverFlow
 // https://stackoverflow.com/questions/4356289/php-random-string-generator
 function generateRandomString($length){
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -171,17 +198,19 @@ function preparationEmail($champs){
     $elementCourriel = ['message' => "", "to" => "", "subject" => "", "headers" => ""];
     if ($champs["typeLangue"] == "francais"){
         $elementCourriel["message"] = corpMessageFR($champs);
-        $elementCourriel["to"] = $champs["email"];
+        $elementCourriel["to"] = "home@benoitmignault.ca"; 
         $elementCourriel["subject"] = "Changement de mot de passe !";
-        $elementCourriel["headers"] = "From: nepasrepondreaucourriel@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "'X-Mailer' => 'PHP/'" . phpversion() . "\r\n";
+        $elementCourriel["headers"] = "From: " . $champs["email"] . "\r\n";
+        $elementCourriel["headers"] .= "Reply-To: " . $champs["email"] . "\r\n";
+        $elementCourriel["headers"] .= "MIME-Version: 1.0 \r\n";
         $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
     } elseif ($champs["typeLangue"] == "english"){
         $elementCourriel["message"] = corpMessageEN($champs);
-        $elementCourriel["to"] = $champs["email"];
+        $elementCourriel["to"] = "home@benoitmignault.ca"; 
         $elementCourriel["subject"] = "Password change !";
-        $elementCourriel["headers"] = "From: donotreplyemail@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "'X-Mailer' => 'PHP/'" . phpversion() . "\r\n";
+        $elementCourriel["headers"] = "From: " . $champs["email"] . "\r\n";
+        $elementCourriel["headers"] .= "Reply-To: " . $champs["email"] . "\r\n";
+        $elementCourriel["headers"] .= "MIME-Version: 1.0 \r\n";
         $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
     }
     return $elementCourriel;
@@ -305,6 +334,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <p class='titre'><?php echo $arrayMots['p1']; ?></p>
                 <ul>
                     <li class='info'><?php echo $arrayMots['li1']; ?></li>
+                    <li class='info'><?php echo $arrayMots['li2']; ?></li>
                 </ul>
                 <fieldset>
                     <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
@@ -329,7 +359,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             <div class="footer">
                 <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
-                <div class='avert <?php if ($champs["situation"] != 16) { echo 'erreur'; } ?>'>
+                <div class='avert <?php if ($champs["situation"] != 6) { echo 'erreur'; } ?>'>
                     <p> <?php echo $arrayMots['message']; ?> </p>
                 </div> 
                 <div class="btnRetour">

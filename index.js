@@ -12,6 +12,7 @@ const message = document.querySelector('#msg');
 const sujet = document.querySelector('#sujet');
 const msgErr = document.querySelector('.msgErr');
 const form = document.querySelector('#formContact');
+console.log(form);
 const msgSucces = document.querySelector('.courrielSend');
 const hashTag = document.querySelector('#hashTag');
 const calendrierAJAX = document.querySelector('#tableauAJAX');

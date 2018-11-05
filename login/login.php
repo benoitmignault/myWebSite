@@ -73,7 +73,8 @@ function traductionSituationFR($champInitial){
         case 14 : $messageFrench = "Attention les longueurs permises en nombre de caractères pour les champs suivants sont :<br>
         «nom d'utilisateur» &rarr; 15<br> «mot de passe» &rarr; 25<br> «courriel» &rarr; 50 !"; break;
         case 15 : $messageFrench = "Attention les champs peuvent contenir seulement des caractères alphanumériques !"; break;
-        case 16 : $messageFrench = "Félicitation ! Votre compte a été crée avec succès !";
+        case 16 : $messageFrench = "Félicitation ! Votre compte a été crée avec succès !"; break;
+        case 17 : $messageFrench = "Attention le courriel ne respecte la forme standard soit : exemple@courriel.com !"; break;
     }
     return $messageFrench;
 }
@@ -99,6 +100,7 @@ function traductionSituationEN($champInitial){
         «Username» &rarr; 15<br> «Password» &rarr; 25<br> «Email» &rarr; 50 !"; break;
         case 15 : $messageEnglish = "Warning, the fields can only contain alphanumeric characters !"; break;
         case 16 : $messageEnglish = "Congratulations ! Your account has been successfully created !"; break;
+        case 17 : $messageEnglish = "Warning, the email does not respect the standard form : example@courriel.com !"; break;
     }
     return $messageEnglish;
 }
@@ -155,14 +157,11 @@ function verifChamp($champInitial) {
         $champInitial['champInvalidPassword'] = true;
     }
 
-    // à revoir..............................................
-    if (!filter_var($champInitial['email'], FILTER_VALIDATE_EMAIL) && isset($_POST['signUp'])) {
+    $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
+    if (!preg_match($patternEmail, $champInitial['email'])) {
         $champInitial['champInvalidEmail'] = true; 
-    }
-    
-    
-    
-    
+    }  
+
     // Simplification des champs invalides pour plutard...
     if ($champInitial['champInvalidUser'] || $champInitial['champInvalidPassword'] || $champInitial['champInvalidEmail']){
         $champInitial['champInvalid'] = true;
@@ -204,6 +203,8 @@ function situation($champInitial) {
         $typeSituation = 12; 
     } elseif ($champInitial['champVide']) {     
         $typeSituation = 13; 
+    } elseif ($champInitial['champInvalidEmail']) {     
+        $typeSituation = 17; 
     } elseif ($champInitial['champTropLong']) {
         $typeSituation = 14; 
     } elseif ($champInitial['champInvalid']) {
@@ -235,10 +236,11 @@ function creationUser($champInitial, $connMYSQL) {
         return $champInitial;
     }
 }
-
+// Selon une recommandation :
+// https://stackoverflow.com/questions/30279321/how-to-use-password-hash
+// On ne doit pas jouer avec le salt....
 function encryptementPassword(string $password) {
-    $options = ['cost' => 11, 'salt' => random_bytes(22)];
-    $passwordCrypter = password_hash($password, PASSWORD_BCRYPT, $options);
+    $passwordCrypter = password_hash($password, PASSWORD_BCRYPT);
     return $passwordCrypter;
 }
 
@@ -280,17 +282,16 @@ function connexionUser($champInitial, $connMYSQL) {
 }
 
 function connexionBD() {
-    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-
+    */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -342,7 +343,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }            
             // si le bouton éffacer est pesé...
         } elseif (isset($_POST['reset'])) {
-            // À créer lorsque je serai rendu à envoyer le reset par courriel
+            if ($champInitial["typeLangue"] === 'english') {
+                header("Location: createLinkSendMail.php?langue=english");
+            } elseif ($champInitial["typeLangue"] === 'francais') {
+                header("Location: createLinkSendMail.php?langue=francais");
+            }
+            exit;
         }
         $champInitial["situation"] = situation($champInitial); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
         $arrayMots = traduction($champInitial);  // Affichage des mots en français ou en anglais selon le paramètre du get de départ et suivi dans le post par la suite
@@ -395,7 +401,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label for="email"><?php echo $arrayMots['email']; ?></label>
                                 <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champInitial['email']; ?>"/>
                             </div>
-
                         </div>
                         <div class="troisBTN">                         
                             <input class="bouton" type='submit' name='login' value="<?php echo $arrayMots['btn_login']; ?>">
@@ -406,10 +411,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </form> 
                 </fieldset>
             </div>            
-            <div class="footer">
-                <!-- 
-if ($champInitial['sameUserPWD'] || $champInitial['champVide'] || $champInitial['champInvalid'] || $champInitial['duplicatUser'] || $champInitial['badUser'] || $champInitial['champTropLong'] || $champInitial['badPassword']) 
--->
+            <div class="footer">                
                 <div class='avert <?php if ($champInitial["situation"] != 16) { echo 'erreur'; } ?>'>
                     <p> <?php echo $arrayMots['message']; ?> </p>
                 </div>                

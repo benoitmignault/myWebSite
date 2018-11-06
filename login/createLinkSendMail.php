@@ -9,7 +9,7 @@ function traduction($champs) {
         $title = "Demande de Réinitialisation";
         $p1 = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
         $li1 = "Veuillez saisir votre nom d'utilisateur et courriel.";
-        $li2 = "En raison d'une limitation de mon hébergeur Web,<br>le courriel avec les informations temporaires vous seront envoyer par l'administrateur du site...";
+        $li2 = "En raison d'une limitation de mon hébergeur Web, le courriel avec vos informations temporaires<br>vous seront transférer l'administrateur du site après réception de votre courriel...";
         $legend = "Réinitialisation !";
         $usager = "Nom d'utilisateur :";
         $email = "Courriel :";
@@ -19,7 +19,7 @@ function traduction($champs) {
         $title = "Reset Request";
         $p1 = "You forgot your password, no problem, we take care of it !";
         $li1 = "Please enter your username and email.";
-        $li2 = "Due to a limitation of my web host,<br>the email with temporary information will be sent to you by the administrator...";
+        $li2 = "Due to a limitation of my web host, the email with your temporary information will be transferred<br>to you from the administrator of the site after reception of your email...";
         $legend = "Reseting !";
         $usager = "Username :";
         $email = "Email :";
@@ -160,14 +160,23 @@ function creationLink($champs, $connMYSQL){
                 $champs["erreurManipulationBD"] = true; 
             } else {
                 $champs["password_Temp"] = $password_Temp; 
-                $champs["lien_Reset_PWD"] = "<a href='Http://benoitmignault.ca/login/reset.php?key=" . $lien_Reset_PWD; 
+                if ($champs["typeLangue"] === 'francais') {
+                    $lien = "Lien pour changer votre mot de passe";
+                } elseif ($champs["typeLangue"] === 'english') {
+                    $lien = "Link to change your password";
+                }
+                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"http://localhost:8080/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>"; 
+                var_dump($champs["lien_Reset_PWD"]);
+                
                 $elementCourriel = preparationEmail($champs);
                 
+                /*
                 // Je dois rempalcer le $to par home@benoitmignault.ca, en raison d'une limitation de one.com
                 $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                
                 if ($succes) {
                     $champs["envoiCourrielSucces"] = true; 
                 }
+                */
             }
         }
 
@@ -260,16 +269,17 @@ function redirection($champs) {
 }
 
 function connexionBD() {
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    /*
+    */
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+    
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;

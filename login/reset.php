@@ -1,6 +1,6 @@
 <?php 
 function initialChamp() {
-    $champInitial = ["champsPWD_New_NonEgal" => false, "champTropLongPWD_2" => false, "champTropLongPWD_1" => false, "champTropLongPWD_Temp" => false, "champInvalidPWD" => false, "champInvalidPWD_Temp" => false, "champInvalidPWD_2" => false, "champInvalidPWD_1" => false, "champPWD_Temp_NonEgal" => false, "champsPWD_NonEgal" => false, "champsVidePWD" => false, "champVidePWD_1" => false, "champVidePWD_2" => false, "champVidePWD_Temp" => false, "invalid_Language" => false, "token_Time_Used" => 0, "token_Time_Expired" => false, "champTropLong" => false, "champVide" => false, "lien_Crypte_Good" => false, "lien_Crypte" => "", "situation" => 0, "typeLangue" => "", "password_Temp" => "", "new_Password_1" => "", "new_Password_2" => ""];
+    $champInitial = ["creationUserSuccess" => false, "champsPWD_New_NonEgal" => false, "champTropLongPWD_2" => false, "champTropLongPWD_1" => false, "champTropLongPWD_Temp" => false, "champInvalidPWD" => false, "champInvalidPWD_Temp" => false, "champInvalidPWD_2" => false, "champInvalidPWD_1" => false, "champPWD_Temp_NonEgal" => false, "champsPWD_NonEgal" => false, "champsVidePWD" => false, "champVidePWD_1" => false, "champVidePWD_2" => false, "champVidePWD_Temp" => false, "invalid_Language" => false, "token_Time_Used" => 0, "token_Time_Expired" => false, "champTropLong" => false, "champVide" => false, "lien_Crypte_Good" => false, "lien_Crypte" => "", "situation" => 0, "typeLangue" => "", "password_Temp" => "", "new_Password_1" => "", "new_Password_2" => ""];
     return $champInitial;
 }
 
@@ -125,7 +125,7 @@ function verifChamp($champs, $connMYSQL) {
     if (strcmp($champs["new_Password_1"],$champs["new_Password_2"]) != 0){
         $champs["champsPWD_New_NonEgal"] = true;   
     }
-    
+
     if ($champs['champPWD_Temp_NonEgal'] || $champs["champsPWD_New_NonEgal"]){
         $champs["champsPWD_NonEgal"] = true;  
     }  
@@ -151,7 +151,7 @@ function verifChamp($champs, $connMYSQL) {
     }
     // Section pour valider si il y a des caractères invalides dans les champs password
     $patternPass = "#^[0-9a-zA-Z]([0-9a-zA-Z]{0,23})[0-9a-zA-Z]$#";
-    
+
     if (!preg_match($patternPass, $champs['password_Temp'])) {
         $champs['champInvalidPWD_Temp'] = true;
     }
@@ -162,7 +162,7 @@ function verifChamp($champs, $connMYSQL) {
     if (!preg_match($patternPass, $champs['new_Password_1'])) {
         $champs['champInvalidPWD_2'] = true;
     }
-    
+
     if ($champs['champInvalidPWD_Temp'] || $champs['champInvalidPWD_1'] || $champs['champInvalidPWD_2']){
         $champs['champInvalidPWD'] = true;
     }
@@ -190,8 +190,10 @@ function changementPassword($champs, $connMYSQL){
     // Remise à NULL pour les 
     $newPWDencrypt = encryptementPassword($champs["new_Password_1"]); 
     $updateSQL = "update benoitmignault_ca_mywebsite.login set password = '{$newPWDencrypt}', reset_link = NULL, passwordTemp = NULL, temps_Valide_link = 0 where reset_link = '{$champs["lien_Crypte"]}'";
-    $connMYSQL->query($updateSQL);
-
+    $connMYSQL->query($updateSQL);    
+    if (mysqli_affected_rows($connMYSQL) == 1){
+        $champs['creationUserSuccess'] = true;
+    }
     return $champs;
 }
 

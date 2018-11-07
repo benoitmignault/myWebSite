@@ -55,7 +55,7 @@ function traductionSituationFR($champs){
         case 5 : $messageFrench = "Votre mot de passe temporaire est vide mais votre nouveau mot de passe serait bon !"; break;   
         case 6 : $messageFrench = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des champs pour le nouveau mot de passe seraient vides !"; break;     
         case 7 : $messageFrench = "Votre nouveau et temporaire mot de passe seraient bon,<br>mais vous avez dépassé le temps limite autorisé à changer de mot de passe."; break; 
-        case 8 : $messageFrench = "Votre nouveau mot de passe a été enregistré !"; break; 
+        case 8 : $messageFrench = "Votre nouveau mot de passe a été enregistré avec succès !<br>Nous vous invitons à vous diriger vers la page de connexion ou retourner à la page d'accueil."; break; 
         case 9 : $messageFrench = "Votre mot de passe temporaire ne concorde pas avec nos informations et la confirmation du nouveau mot de passe n'est pas égal !"; break; 
         case 10 : $messageFrench = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des deux champs du nouveau mot de passe est invalide !"; break;
         case 11 : $messageFrench = "Votre mot de passe temporaire ne concorde pas avec nos informations et un des deux champs du nouveau mot de passe est invalide !"; break;        
@@ -73,7 +73,7 @@ function traductionSituationEN($champs){
         case 5 : $messageEnglish = "Your temporary password is empty but your new password would be good !"; break;   
         case 6 : $messageEnglish = "Your temporary password matches our information, <br> but one of the fields for the new password would be empty !"; break;     
         case 7 : $messageEnglish = "Your new and temporary password would be good,<br>but you have exceeded the time allowed to change your password."; break; 
-        case 8 : $messageEnglish = "Your new password has been saved !"; break; 
+        case 8 : $messageEnglish = "Your new password has been successfully registered !<br>We invite you to go to the login page or return to the home page."; break; 
         case 9 : $messageEnglish = "Your temporary password does not match our information and the confirmation of the new password is not equal !"; break; 
         case 10 : $messageEnglish = "Your temporary password matches our information, but one of the two fields of the new password is invalid !"; break;
         case 11 : $messageEnglish = "Your temporary password does not match our information and one of the two fields of the new password is invalid !"; break;     
@@ -243,11 +243,17 @@ function changementPassword($champs, $connMYSQL){
     // Remise à NULL pour les 
     $newPWDencrypt = encryptementPassword($champs["new_Password_1"]); 
     $updateSQL = "update benoitmignault_ca_mywebsite.login set password = '{$newPWDencrypt}', reset_link = NULL, passwordTemp = NULL, temps_Valide_link = 0 where reset_link = '{$champs["lien_Crypte"]}'";
-    
+
     $connMYSQL->query($updateSQL);    
     if (mysqli_affected_rows($connMYSQL) == 1){
         $champs['creationUserSuccess'] = true;
-    }  
+    } 
+    // Remise à leur valeur initial, car le changement de mot d epasse est terminé et le lien n'est plus valide
+    $champs['password_Temp'] = "";
+    $champs['new_Password_1'] = "";
+    $champs['new_Password_2'] = "";
+    $champs['lien_Crypte'] = "";
+    $champs['token_Time_Used'] = 0;
     return $champs;
 }
 
@@ -361,34 +367,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                     <li class='info'><?php echo $arrayMots['li1']; ?></li>
                     <li class='info'><?php echo $arrayMots['li2']; ?></li>
                 </ul>                
-                <fieldset>
+                <fieldset class="<?php if ($champs['creationUserSuccess']) { echo "changerAvecSucces"; } ?>">
                     <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
                     <form method="post" action="./reset.php">
                         <div class="connexion">
                             <div class="information <?php if ($champs['champInvalidPWD_Temp'] || $champs['champTropLongPWD_Temp'] || $champs["champVidePWD_Temp"] || $champs['champPWD_Temp_NonEgal']) { echo 'erreur';} ?>">
                                 <label for="password_Temp"><?php echo $arrayMots['mdp_Temp']; ?></label>
                                 <div>
-                                    <input id="password_Temp" type='password' maxlength="25" name="password_Temp" value="<?php echo $champs['password_Temp']; ?>"/>
+                                    <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> id="password_Temp" type='password' maxlength="25" name="password_Temp" value="<?php echo $champs['password_Temp']; ?>"/>
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div> 
                             <div class="information <?php if ($champs['champInvalidPWD_1'] || $champs['champTropLongPWD_1'] || $champs["champVidePWD_1"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
                                 <label for="new_Password_1"><?php echo $arrayMots['mdp_1']; ?></label>
                                 <div>
-                                    <input id="new_Password_1" type='password' maxlength="25" name="new_Password_1" value="<?php echo $champs['new_Password_1']; ?>"/>
+                                    <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_1" type='password' maxlength="25" name="new_Password_1" value="<?php echo $champs['new_Password_1']; ?>"/>
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div> 
                             <div class="information <?php if ($champs['champInvalidPWD_2'] || $champs['champTropLongPWD_2'] || $champs["champVidePWD_2"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
                                 <label for="new_Password_2"><?php echo $arrayMots['mdp_2']; ?></label>
                                 <div>
-                                    <input id="new_Password_2" type='password' maxlength="25" name="new_Password_2" value="<?php echo $champs['new_Password_2']; ?>"/>
+                                    <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_2" type='password' maxlength="25" name="new_Password_2" value="<?php echo $champs['new_Password_2']; ?>"/>
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div> 
                         </div>
                         <div class="troisBTN"> 
-                            <input class="bouton" type='submit' name='create_New_PWD' value="<?php echo $arrayMots['btn_create_New_PWD']; ?>">
+                            <input <?php if ($champs['creationUserSuccess']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> 
+                                   type='submit' name='create_New_PWD' value="<?php echo $arrayMots['btn_create_New_PWD']; ?>">
                             <input type='hidden' name='typeLangue' value="<?php echo $champs['typeLangue']; ?>">
                             <input type='hidden' name='lien_Crypte' value="<?php echo $champs['lien_Crypte']; ?>">
                         </div>

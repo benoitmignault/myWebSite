@@ -121,13 +121,13 @@ input::placeholder{
     -webkit-flex-wrap: wrap;
     margin-bottom: 0;
 }
-
+.content > .center > .changerAvecSucces{
+    display: none;
+}
 .content > .center > fieldset > form > .troisBTN > input{
     width: auto;
 }
 .content > .footer > .btnRetour > form > input{
-    /*margin: auto;
-    width: auto;*/
     margin-bottom: 10px;
 }
 

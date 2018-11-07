@@ -305,7 +305,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         redirection($champs);
     } else {        
         $connMYSQL = connexionBD();
-
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['send_Link'])) {
             $champs = verifChamp($champs, $connMYSQL);            

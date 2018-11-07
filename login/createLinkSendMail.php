@@ -179,7 +179,7 @@ function creationLink($champs, $connMYSQL){
                 if ($succes) {
                     $champs["envoiCourrielSucces"] = true; 
                 }
-                */
+                */                
             }
         }
 

@@ -1,6 +1,6 @@
 <?php 
 function initialChamp() {
-    $champInitial = ["champTropLongPWD_2" => false, "champTropLongPWD_1" => false, "champTropLongPWD_Temp" => false, "champInvalidPWD_2" => false, "champInvalidPWD_1" => false, "champPWD_Temp_NonEgal" => false, "champsPWD_NonEgal" => false, "champInvalidPWD_Temp" => false, "champsVidePWD" => false, "champVidePWD_1" => false, "champVidePWD_2" => false, "champVidePWD_Temp" => false, "invalid_Language" => false, "token_Time_Used" => 0, "token_Time_Expired" => false, "champInvalid" => false, "champTropLong" => false, "champVide" => false, "lien_Crypte_Good" => false, "lien_Crypte" => "", "situation" => 0, "typeLangue" => "", "password_Temp" => "", "new_Password_1" => "", "new_Password_2" => ""];
+    $champInitial = ["champTropLongPWD_2" => false, "champTropLongPWD_1" => false, "champTropLongPWD_Temp" => false, "champInvalidPWD" => false, "champInvalidPWD_Temp" => false, "champInvalidPWD_2" => false, "champInvalidPWD_1" => false, "champPWD_Temp_NonEgal" => false, "champsPWD_NonEgal" => false, "champsVidePWD" => false, "champVidePWD_1" => false, "champVidePWD_2" => false, "champVidePWD_Temp" => false, "invalid_Language" => false, "token_Time_Used" => 0, "token_Time_Expired" => false, "champTropLong" => false, "champVide" => false, "lien_Crypte_Good" => false, "lien_Crypte" => "", "situation" => 0, "typeLangue" => "", "password_Temp" => "", "new_Password_1" => "", "new_Password_2" => ""];
     return $champInitial;
 }
 
@@ -18,7 +18,17 @@ function traduction($champs) {
         $page_Login = "Se Connecter";
         $return = "Retour à l'accueil";
     } elseif ($champs["typeLangue"] === 'english') {
-
+        $title = "Password is changing !";
+        $p1 = "You can now change your password !";
+        $li1 = "Please enter your temporary password.";
+        $li2 = "Please choose a new password and confirm it in the 3rd field.";
+        $legend = "Write something new !";
+        $mdp_Temp = "Temporary password :";
+        $mdp_1 = "New Password :";
+        $mdp_2 = "Confirm your password :";
+        $btn_create_New_PWD = "Reset password...";
+        $page_Login = "Sign in";
+        $return = "Home Page";
     }
     $messageFinal = traductionSituation($champs);
     $arrayMots = ["title" => $title, "p1" => $p1, "li1" => $li1, "li2" => $li2, "legend" => $legend, "mdp_Temp" => $mdp_Temp, "mdp_1" => $mdp_1, "mdp_2" => $mdp_2, "btn_create_New_PWD" => $btn_create_New_PWD, "btn_login" => $page_Login, "btn_return" => $return];
@@ -138,17 +148,19 @@ function verifChamp($champs, $connMYSQL) {
     // Section pour valider si il y a des caractères invalides dans les champs password
     $patternPass = "#^[0-9a-zA-Z]([0-9a-zA-Z]{0,23})[0-9a-zA-Z]$#";
     if (!preg_match($patternPass, $champs['password_Temp'])) {
-        $champInitial['champInvalidPassword'] = true;
+        $champs['champInvalidPWD_Temp'] = true;
     }
 
     if (!preg_match($patternPass, $champs['new_Password_1'])) {
-        $champInitial['champInvalidPassword'] = true;
+        $champs['champInvalidPWD_1'] = true;
     }
     if (!preg_match($patternPass, $champs['new_Password_1'])) {
-        $champInitial['champInvalidPassword'] = true;
+        $champs['champInvalidPWD_2'] = true;
     }
-
-
+    
+    if ($champs['champInvalidPWD_Temp'] || $champs['champInvalidPWD_1'] || $champs['champInvalidPWD_2']){
+        $champs['champInvalidPWD'] = true;
+    }
     return $champs;
 }
 
@@ -287,7 +299,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             body{
                 margin:0;    
                 /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
-                /*background-image: url("photologin.jpg");*/
+                background-image: url("photologin.jpg");
                 background-position: center;
                 background-attachment: fixed;
                 background-size: 100%;

@@ -1,6 +1,6 @@
 <?php 
 function initialChamp() {
-    $champInitial = ["champTropLongPWD_2" => false, "champTropLongPWD_1" => false, "champTropLongPWD_Temp" => false, "champInvalidPWD" => false, "champInvalidPWD_Temp" => false, "champInvalidPWD_2" => false, "champInvalidPWD_1" => false, "champPWD_Temp_NonEgal" => false, "champsPWD_NonEgal" => false, "champsVidePWD" => false, "champVidePWD_1" => false, "champVidePWD_2" => false, "champVidePWD_Temp" => false, "invalid_Language" => false, "token_Time_Used" => 0, "token_Time_Expired" => false, "champTropLong" => false, "champVide" => false, "lien_Crypte_Good" => false, "lien_Crypte" => "", "situation" => 0, "typeLangue" => "", "password_Temp" => "", "new_Password_1" => "", "new_Password_2" => ""];
+    $champInitial = ["champsPWD_New_NonEgal" => false, "champTropLongPWD_2" => false, "champTropLongPWD_1" => false, "champTropLongPWD_Temp" => false, "champInvalidPWD" => false, "champInvalidPWD_Temp" => false, "champInvalidPWD_2" => false, "champInvalidPWD_1" => false, "champPWD_Temp_NonEgal" => false, "champsPWD_NonEgal" => false, "champsVidePWD" => false, "champVidePWD_1" => false, "champVidePWD_2" => false, "champVidePWD_Temp" => false, "invalid_Language" => false, "token_Time_Used" => 0, "token_Time_Expired" => false, "champTropLong" => false, "champVide" => false, "lien_Crypte_Good" => false, "lien_Crypte" => "", "situation" => 0, "typeLangue" => "", "password_Temp" => "", "new_Password_1" => "", "new_Password_2" => ""];
     return $champInitial;
 }
 
@@ -90,7 +90,6 @@ function remplissageChamps($champs){
     return $champs;
 }
 
-
 function verifChamp($champs, $connMYSQL) {
     // Section de vérification des champs vide
     if (empty($champs['password_Temp'])){
@@ -113,6 +112,7 @@ function verifChamp($champs, $connMYSQL) {
     $result = $connMYSQL->query($sql);
     // J'ai déjà valider si le lien est valide donc j'ai un résultat obligatoire
     foreach ($result as $row) {
+        // Vérification si le password temporaire saisie est égal à celui de la BD
         if (!password_verify($champs['password_Temp'], $row['passwordTemp'])){            
             $champs['champPWD_Temp_NonEgal'] = true;            
         }
@@ -123,8 +123,12 @@ function verifChamp($champs, $connMYSQL) {
     }    
     // Vérification que les deux mots de passes sont pareils
     if (strcmp($champs["new_Password_1"],$champs["new_Password_2"]) != 0){
-        $champs["champsPWD_NonEgal"] = true;   
+        $champs["champsPWD_New_NonEgal"] = true;   
     }
+    
+    if ($champs['champPWD_Temp_NonEgal'] || $champs["champsPWD_New_NonEgal"]){
+        $champs["champsPWD_NonEgal"] = true;  
+    }  
     // Section pour vérifier la validité de la longueur des champs passwords
     $longueurPWDTemp = strlen($champs['password_Temp']);
     $longueurPWD1 = strlen($champs['new_Password_1']);
@@ -147,6 +151,7 @@ function verifChamp($champs, $connMYSQL) {
     }
     // Section pour valider si il y a des caractères invalides dans les champs password
     $patternPass = "#^[0-9a-zA-Z]([0-9a-zA-Z]{0,23})[0-9a-zA-Z]$#";
+    
     if (!preg_match($patternPass, $champs['password_Temp'])) {
         $champs['champInvalidPWD_Temp'] = true;
     }
@@ -182,7 +187,10 @@ function verif_link_BD($champs, $connMYSQL){
 }
 
 function changementPassword($champs, $connMYSQL){
-    // Je dois vérifier que le 
+    // Remise à NULL pour les 
+    $newPWDencrypt = encryptementPassword($champs["new_Password_1"]); 
+    $updateSQL = "update benoitmignault_ca_mywebsite.login set password = '{$newPWDencrypt}', reset_link = NULL, passwordTemp = NULL, temps_Valide_link = 0 where reset_link = '{$champs["lien_Crypte"]}'";
+    $connMYSQL->query($updateSQL);
 
     return $champs;
 }
@@ -265,24 +273,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             redirection($champs);
         } else {
             $champs = verifChamp($champs, $connMYSQL);  
-
-
-
-
-
-
+            if (!$champs["champsVidePWD"] && !$champs["champsPWD_NonEgal"] && !$champs["token_Time_Expired"] && !$champs["champTropLong"] && !$champs["champInvalidPWD"]){
+                $champs = changementPassword($champs, $connMYSQL);
+            }
         }
         $champs["situation"] = situation($champs);
         $arrayMots = traduction($champs);
-    }   
-
-
-
-
-
-
-
-    // Ici on valide que le link est bon et que nous sommes dans les temps
+    }       
     $connMYSQL->close();
 }
 ?>

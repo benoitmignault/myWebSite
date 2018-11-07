@@ -120,7 +120,7 @@ function verifChamp($champInitial) {
     } 
 
     // Simplification des champs vide pour plutard...
-    if ($champInitial['champVideUser'] || $champInitial['champVidePassword'] || $champInitial['champVideEmail']){
+    if (($champInitial['champVideUser'] || $champInitial['champVidePassword'] || $champInitial['champVideEmail']) && !isset($_POST['login'])){
         $champInitial['champVide'] = true;
     }
 
@@ -158,12 +158,12 @@ function verifChamp($champInitial) {
     }
 
     $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-    if (!preg_match($patternEmail, $champInitial['email'])) {
+    if (!preg_match($patternEmail, $champInitial['email']) && !isset($_POST['login'])) {
         $champInitial['champInvalidEmail'] = true; 
     }  
 
     // Simplification des champs invalides pour plutard...
-    if ($champInitial['champInvalidUser'] || $champInitial['champInvalidPassword'] || $champInitial['champInvalidEmail']){
+    if (($champInitial['champInvalidUser'] || $champInitial['champInvalidPassword'] || $champInitial['champInvalidEmail']) && !isset($_POST['login'])){
         $champInitial['champInvalid'] = true;
     }     
 

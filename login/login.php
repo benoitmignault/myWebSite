@@ -1,8 +1,8 @@
 <?php
 function initialChamp() {
     $champs = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideEmail" => false, "duplicatUser" => false, "champInvalid" => false,
-                     "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false,
-                     "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
+               "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false, "creationUserSuccess" => false,
+               "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
     return $champs;
 }
 
@@ -209,7 +209,7 @@ function situation($champs) {
         $typeSituation = 14; 
     } elseif ($champs['champInvalid']) {
         $typeSituation = 15; 
-    } elseif (!$champs['duplicatUser'] && isset($_POST['signUp']) ) {
+    } elseif ($champs['creationUserSuccess'] && isset($_POST['signUp']) ) {
         $typeSituation = 16; 
     }        
     return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
@@ -233,7 +233,9 @@ function creationUser($champs, $connMYSQL) {
         $insert = "INSERT INTO benoitmignault_ca_mywebsite.login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
         $insert .= "('" . $champs['user'] . "','" . $passwordCrypter . "', NULL, '" . $champs['email'] . "', NULL, NULL, 0)";
         $connMYSQL->query($insert);
-        
+        if (mysqli_affected_rows($connMYSQL) == 1){
+            $champs['creationUserSuccess'] = true;
+        }
         return $champs;
     }
 }
@@ -293,7 +295,7 @@ function connexionBD() {
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -394,22 +396,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="information <?php if ($champs['sameUserPWD'] || $champs['champVideUser'] || $champs['champInvalidUser'] || $champs['duplicatUser'] || $champs['badUser'] || $champs['champTropLongUser']) { echo 'erreur'; } ?>">
                                 <label for="user"><?php echo $arrayMots['usager']; ?></label> 
                                 <div>                                
-                                <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champs['user']; ?>" />                                
-                                 <span class="obligatoire">&nbsp;*</span>
+                                    <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champs['user']; ?>" />                                
+                                    <span class="obligatoire">&nbsp;*</span>
                                 </div>                                
                             </div>
                             <div class="information <?php if ($champs['sameUserPWD'] || $champs['badPassword'] || $champs['champVidePassword'] || $champs['champInvalidPassword'] || $champs['champTropLongPassword']) { echo 'erreur';} ?>">
                                 <label for="password"><?php echo $arrayMots['mdp']; ?></label>
                                 <div>                                
-                                <input id="password" type='password' maxlength="25" name="password" value="<?php echo $champs['password']; ?>"/>
-                                 <span class="obligatoire">&nbsp;*</span>
+                                    <input id="password" type='password' maxlength="25" name="password" value="<?php echo $champs['password']; ?>"/>
+                                    <span class="obligatoire">&nbsp;*</span>
                                 </div> 
                             </div>                             
                             <div class="information <?php if (!isset($_POST['login']) && ($champs['champVideEmail'] || $champs['champInvalidEmail'] || $champs['champTropLongEmail'])) { echo 'erreur';} ?>">
                                 <label for="email"><?php echo $arrayMots['email']; ?></label>
                                 <div>
-                                <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champs['email']; ?>"/>
-                                <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
+                                    <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champs['email']; ?>"/>
+                                    <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
                                 </div>                                 
                             </div>
                         </div>

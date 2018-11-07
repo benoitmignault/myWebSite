@@ -134,7 +134,7 @@ function creationLink($champs, $connMYSQL){
     if (mysqli_affected_rows($connMYSQL) == 1){
         date_default_timezone_set('America/New_York');
         $champs["combinaison_User_Email"] = true;
-        
+
         $lien_Reset_PWD = $champs["user"] . "/*-+!/$%?&*()" . $champs["email"];
         $lien_Reset_PWD = encryptementPassword($lien_Reset_PWD);
         $password_Temp = generateRandomString(10);
@@ -151,10 +151,10 @@ function creationLink($champs, $connMYSQL){
             // On converti tout ça dans un gros entier
             $current_timestamp = strtotime($current_time);
             // On ajoute 24 heures pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
-            $temps_Autorisé = strtotime("+24 hour", strtotime($current_time));
+            $temps_Autorisé = strtotime("+48 hour", strtotime($current_time));
             $sql_update = "update benoitmignault_ca_mywebsite.login set temps_Valide_link = '{$temps_Autorisé}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
             $connMYSQL->query($sql_update);
-            
+
             // On valide ici que l'ajout du temps autorisé au changement de PWD a bien marché
             if (!mysqli_affected_rows($connMYSQL) == 1){
                 $champs["erreurManipulationBD"] = true; 
@@ -166,10 +166,13 @@ function creationLink($champs, $connMYSQL){
                     $lien = "Link to change your password";
                 }
                 $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"http://localhost:8080/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>"; 
+
+                // temporaire le temps des tests en Dev
                 var_dump($champs["lien_Reset_PWD"]);
-                
+
                 $elementCourriel = preparationEmail($champs);
-                
+
+                var_dump($password_Temp);
                 /*
                 // Je dois rempalcer le $to par home@benoitmignault.ca, en raison d'une limitation de one.com
                 $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                
@@ -232,7 +235,7 @@ function corpMessageFR($champs){
     $messageFR .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
     $messageFR .= "<tr><td><strong>Lien Web :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
     $messageFR .= "<tr><td><strong>Mot de Passe (Temporaire) :</strong> </td><td>" . $champs["password_Temp"] . "</td></tr>";
-    $messageFR .= "<tr><td><strong>Temps accordé pour le changement :</strong> </td><td>1 heure</td></tr>";    
+    $messageFR .= "<tr><td><strong>Temps accordé pour le changement :</strong> </td><td>48 heures</td></tr>";    
     $messageFR .= "</table>";
     $messageFR .= "<p align=\"left\">Bonne journée</p>";
     $messageFR .= "<p align=\"right\">La Direction</p>";
@@ -247,7 +250,7 @@ function corpMessageEN($champs){
     $messageEN .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
     $messageEN .= "<tr><td><strong>Web Link :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
     $messageEN .= "<tr><td><strong>Password (Temporary) :</strong> </td><td>" . $champs["password_Temp"] . "</td></tr>";
-    $messageEN .= "<tr><td><strong>Time allowed for change :</strong> </td><td>1 hour</td></tr>";    
+    $messageEN .= "<tr><td><strong>Time allowed for change :</strong> </td><td>48 hours</td></tr>";    
     $messageEN .= "</table>";
     $messageEN .= "<p align=\"left\">Have a nice day</p>";
     $messageEN .= "<p align=\"right\">The Direction</p>";
@@ -279,7 +282,7 @@ function connexionBD() {
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -351,11 +354,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                         <div class="connexion">
                             <div class="information <?php if ($champs['champVideUser'] || $champs['champInvalidUser'] || $champs['champTropLongUser']) { echo 'erreur'; } ?>">
                                 <label for="user"><?php echo $arrayMots['usager']; ?></label>
-                                <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champs['user']; ?>" />
+                                <div>
+                                    <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champs['user']; ?>" />
+                                    <span class="obligatoire">&nbsp;*</span>
+                                </div>
                             </div>
                             <div class="information <?php if ($champs['champVideEmail'] || $champs['champTropLongEmail'] || $champs['champInvalidEmail'] ) { echo 'erreur'; } ?>">
                                 <label for="email"><?php echo $arrayMots['email']; ?></label>
-                                <input id="email" type="email" name="email" maxlength="50" value="<?php echo $champs['email']; ?>" />
+                                <div>
+                                    <input id="email" type="email" name="email" maxlength="50" value="<?php echo $champs['email']; ?>" />
+                                    <span class="obligatoire">&nbsp;*</span>
+                                </div>
                             </div>
                         </div>
                         <div class="troisBTN"> 
@@ -365,14 +374,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                     </form> 
                 </fieldset>
             </div>
-
             <div class="footer">
                 <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
                 <div class='avert <?php if ($champs["situation"] != 6) { echo 'erreur'; } ?>'>
                     <p> <?php echo $arrayMots['message']; ?> </p>
                 </div> 
                 <div class="btnRetour">
-                    <form method="post" action="./createLinkSendMail.php">                        
+                    <form method="post" action="./createLinkSendMail.php">                       
                         <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">  
                         <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
                     </form>

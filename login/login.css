@@ -45,12 +45,12 @@
 .content > .center > fieldset > form > div{
     display: flex; 
     display: -webkit-flex;
-    -webkit-flex-direction:column; 
-    flex-direction:column;
+    -webkit-flex-direction: column; 
+    flex-direction: column;
     width:100%;
 }
 .content > .center > fieldset > form > .connexion{
-    width:55%;
+    width: 55%;
     margin: auto;
     display: flex;    
     display: -webkit-flex;
@@ -58,13 +58,28 @@
     flex-direction:column;
 }
 .content > .center > fieldset > form > .connexion > .information{
-    width:100%;
+    width: 100%;
     margin-top: 10px;
     display: flex;    
     display: -webkit-flex;
     -webkit-flex-direction:column; 
     flex-direction:column;
 }
+.content > .center > fieldset > form > .connexion > .information > div{
+    width: 100%;
+    display: flex;    
+    display: -webkit-flex;
+    -webkit-flex-direction: row; 
+    flex-direction: row;
+}
+.content > .center > fieldset > form > .connexion > .information > div > input {
+    width: 100%;
+}
+
+.content > .center > fieldset > form > .connexion > .information > div > .obligatoire{
+    color: #FF0000;
+}
+
 .content > .center > fieldset > form > .connexion > .information > label{
     text-align: left;
     font-size: 18px;
@@ -75,11 +90,11 @@
     margin-top: 15px;
     margin-bottom: 15px;
     width:100%;
-    -webkit-flex-direction:row; 
-    flex-direction:row;
+    -webkit-flex-direction: row; 
+    flex-direction: row;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    justify-content:center;
+    justify-content: center;
 }
 input::placeholder{
     font-style: oblique;

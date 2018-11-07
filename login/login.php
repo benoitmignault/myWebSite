@@ -391,16 +391,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form method="post" action="./login.php">
                         <div class="connexion">                    
                             <div class="information <?php if ($champInitial['sameUserPWD'] || $champInitial['champVideUser'] || $champInitial['champInvalidUser'] || $champInitial['duplicatUser'] || $champInitial['badUser'] || $champInitial['champTropLongUser']) { echo 'erreur'; } ?>">
-                                <label for="user"><?php echo $arrayMots['usager']; ?></label>
-                                <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champInitial['user']; ?>" />
+                                <label for="user"><?php echo $arrayMots['usager']; ?></label> 
+                                <div>                                
+                                <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champInitial['user']; ?>" />                                
+                                 <span class="obligatoire">&nbsp;*</span>
+                                </div>                                
                             </div>
                             <div class="information <?php if ($champInitial['sameUserPWD'] || $champInitial['badPassword'] || $champInitial['champVidePassword'] || $champInitial['champInvalidPassword'] || $champInitial['champTropLongPassword']) { echo 'erreur';} ?>">
                                 <label for="password"><?php echo $arrayMots['mdp']; ?></label>
+                                <div>                                
                                 <input id="password" type='password' maxlength="25" name="password" value="<?php echo $champInitial['password']; ?>"/>
+                                 <span class="obligatoire">&nbsp;*</span>
+                                </div> 
                             </div>                             
                             <div class="information <?php if (!isset($_POST['login']) && ($champInitial['champVideEmail'] || $champInitial['champInvalidEmail'] || $champInitial['champTropLongEmail'])) { echo 'erreur';} ?>">
                                 <label for="email"><?php echo $arrayMots['email']; ?></label>
+                                <div>
                                 <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champInitial['email']; ?>"/>
+                                <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
+                                </div>                                 
                             </div>
                         </div>
                         <div class="troisBTN">                         

@@ -230,8 +230,8 @@ function creationUser($champInitial, $connMYSQL) {
     } else {
         $passwordCrypter = encryptementPassword($champInitial['password']);
         // Ajout de l'information du email dans la création du user
-        $insert = "INSERT INTO benoitmignault_ca_mywebsite.login (user, password, id, email) VALUES ";
-        $insert .= "('" . $champInitial['user'] . "','" . $passwordCrypter . "', NULL, '" . $champInitial['email'] . "')";
+        $insert = "INSERT INTO benoitmignault_ca_mywebsite.login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
+        $insert .= "('" . $champInitial['user'] . "','" . $passwordCrypter . "', NULL, '" . $champInitial['email'] . "', NULL, NULL, 0)";
         $connMYSQL->query($insert);
         return $champInitial;
     }

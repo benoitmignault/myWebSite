@@ -165,24 +165,15 @@ function creationLink($champs, $connMYSQL){
                 } elseif ($champs["typeLangue"] === 'english') {
                     $lien = "Link to change your password";
                 }
-                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"http://localhost:8080/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>"; 
-
-                // temporaire le temps des tests en Dev
-                var_dump($champs["lien_Reset_PWD"]);
-
-                $elementCourriel = preparationEmail($champs);
-
-                var_dump($password_Temp);
-                /*
+                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"http://localhost:8080/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";
+                $elementCourriel = preparationEmail($champs);                
                 // Je dois rempalcer le $to par home@benoitmignault.ca, en raison d'une limitation de one.com
                 $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                
                 if ($succes) {
                     $champs["envoiCourrielSucces"] = true; 
-                }
-                */                
+                }                             
             }
         }
-
     } else {
         $champs["erreurManipulationBD"] = true;
     }

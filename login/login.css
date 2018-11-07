@@ -45,12 +45,12 @@
 .content > .center > fieldset > form > div{
     display: flex; 
     display: -webkit-flex;
-    -webkit-flex-direction:column; 
-    flex-direction:column;
+    -webkit-flex-direction: column; 
+    flex-direction: column;
     width:100%;
 }
 .content > .center > fieldset > form > .connexion{
-    width:55%;
+    width: 55%;
     margin: auto;
     display: flex;    
     display: -webkit-flex;
@@ -58,13 +58,28 @@
     flex-direction:column;
 }
 .content > .center > fieldset > form > .connexion > .information{
-    width:100%;
+    width: 100%;
     margin-top: 10px;
     display: flex;    
     display: -webkit-flex;
     -webkit-flex-direction:column; 
     flex-direction:column;
 }
+.content > .center > fieldset > form > .connexion > .information > div{
+    width: 100%;
+    display: flex;    
+    display: -webkit-flex;
+    -webkit-flex-direction: row; 
+    flex-direction: row;
+}
+.content > .center > fieldset > form > .connexion > .information > div > input {
+    width: 100%;
+}
+
+.content > .center > fieldset > form > .connexion > .information > div > .obligatoire{
+    color: #FF0000;
+}
+
 .content > .center > fieldset > form > .connexion > .information > label{
     text-align: left;
     font-size: 18px;
@@ -75,11 +90,11 @@
     margin-top: 15px;
     margin-bottom: 15px;
     width:100%;
-    -webkit-flex-direction:row; 
-    flex-direction:row;
+    -webkit-flex-direction: row; 
+    flex-direction: row;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    justify-content:center;
+    justify-content: center;
 }
 input::placeholder{
     font-style: oblique;
@@ -95,15 +110,25 @@ input::placeholder{
 .content > .footer div{
     width: 100%;
 }
-.content > .footer .btnRetour{
+.content > .footer > .btnRetour > form{
+    width: 100%;
     display: -webkit-flex; 
     display: flex;
     justify-content:center;
+    -webkit-flex-direction:row; 
+    flex-direction:row; 
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    margin-bottom: 0;
 }
-
-.content > .center > fieldset > form > .troisBTN > input,
-.content > .footer > form > .btnRetour > input{
+.content > .center > .changerAvecSucces{
+    display: none;
+}
+.content > .center > fieldset > form > .troisBTN > input{
     width: auto;
+}
+.content > .footer > .btnRetour > form > input{
+    margin-bottom: 10px;
 }
 
 .bouton{
@@ -191,18 +216,19 @@ input::placeholder{
         -webkit-flex-direction:column; 
         flex-direction:column;   
     }
-    .connexion .information > input[type="text"], 
-    .connexion .information > input[type="password"]{
+    .content > .center > fieldset > form > .connexion > .information > div > input{
         width: 70%;
         margin: auto;
+    }
+    input::placeholder{
+        font-size: 11px;
     }
     .content > .center > fieldset > form > .connexion > .information > label{
         width: 100%;
         text-align: center;
     }
-    .content > .center > fieldset > form > .troisBTN > input,
-    .content > .footer > .btnRetour > form > input{
-        width: 70%;
+    .content > .center > fieldset > form > .troisBTN > input[type="submit"]:nth-child(3){
+        font-size: 17px;
     }
     .content > .center > fieldset > form > .troisBTN{
         margin-bottom: 0;
@@ -210,10 +236,24 @@ input::placeholder{
     .content > .center > fieldset > form > .troisBTN > input{
         margin-bottom: 10px;
     }
-    .content > .footer > .btnRetour > form > input{        
+    .content > .footer > .btnRetour > form > input,
+    .content > .footer > .btnRetour > form{        
         width: 100%;
+    }    
+    .content > .center > fieldset > form > .troisBTN > input,
+    .content > .footer > .btnRetour > form > input{
+        width: 70%;
+        margin: auto;
+        margin-bottom: 10px;
+    }
+    .content > .footer > .btnRetour > form{
+        display: -webkit-flex; 
+        display: flex;
+        justify-content:center;
+         -webkit-flex-direction:column; 
+        flex-direction:column;  
     }
     .erreur p{
         margin:10px;
-    }
+    } 
 }

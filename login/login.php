@@ -1,13 +1,13 @@
 <?php
 function initialChamp() {
-    $champInitial = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideEmail" => false, "duplicatUser" => false, "champInvalid" => false,
-                     "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false,
-                     "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
-    return $champInitial;
+    $champs = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideEmail" => false, "duplicatUser" => false, "champInvalid" => false,
+               "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false, "creationUserSuccess" => false,
+               "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
+    return $champs;
 }
 
-function traduction($champInitial) {    
-    if ($champInitial["typeLangue"] === 'francais') {
+function traduction($champs) {    
+    if ($champs["typeLangue"] === 'francais') {
         $title = "Connexion";
         $p1 = "Bienvenue à la page de connexion des statistiques du poker entre amis !";
         $li1 = "Vous devez vous authentifiez, pour faire afficher les statistiques désirées";
@@ -22,7 +22,7 @@ function traduction($champInitial) {
         $btn_reset = "Mot de passe oublié ?";
         $btn_return = "Retour à l'accueil";
 
-    } elseif ($champInitial["typeLangue"] === 'english') {
+    } elseif ($champs["typeLangue"] === 'english') {
         $title = "Connection";
         $p1 = "Welcome to the login page to see the statistic of poker between friends !";
         $li1 = "You must login if you want to see the poker statistic.";
@@ -38,24 +38,24 @@ function traduction($champInitial) {
         $btn_return = "Return to home page";        
     }
 
-    $messageFinal = traductionSituation($champInitial);
+    $messageFinal = traductionSituation($champs);
     $arrayMots = ['emailInfo' => $emailInfo, 'title' => $title, 'email' => $email, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_reset' => $btn_reset, 'btn_return' => $btn_return, 'message' => $messageFinal];
     return $arrayMots;
 }
 
-function traductionSituation($champInitial){
+function traductionSituation($champs){
     $messageEnPreparation = "";
-    if ($champInitial["typeLangue"] === 'francais') {
-        $messageEnPreparation = traductionSituationFR($champInitial);
-    } elseif ($champInitial["typeLangue"] === 'english') {
-        $messageEnPreparation = traductionSituationEN($champInitial);
+    if ($champs["typeLangue"] === 'francais') {
+        $messageEnPreparation = traductionSituationFR($champs);
+    } elseif ($champs["typeLangue"] === 'english') {
+        $messageEnPreparation = traductionSituationEN($champs);
     }
     return $messageEnPreparation;
 }
 
-function traductionSituationFR($champInitial){
+function traductionSituationFR($champs){
     $messageFrench = "";
-    switch ($champInitial['situation']) {
+    switch ($champs['situation']) {
         case 1 : $messageFrench = "Au moment de créer votre compte, vous n'avez rien saisie dans les champs «Mot de passe» et «Courriel» !"; break; 
         case 2 : $messageFrench = "Au moment de créer votre compte, vous n'avez rien saisie dans le champs «courriel» !"; break; 
         case 3 : $messageFrench = "Au moment de créer votre compte, vous n'avez rien saisie dans le champs «nom d'utilisateur» !"; break;
@@ -79,9 +79,9 @@ function traductionSituationFR($champInitial){
     return $messageFrench;
 }
 
-function traductionSituationEN($champInitial){
+function traductionSituationEN($champs){
     $messageEnglish = "";
-    switch ($champInitial['situation']) {
+    switch ($champs['situation']) {
         case 1 : $messageEnglish = "At the time of creating your account, you have not entered anything in the fields «Password» and «Email» !"; break; 
         case 2 : $messageEnglish = "At the time of creating your account, you have not entered anything in the «Email» field !"; break; 
         case 3 : $messageEnglish = "At the time of creating your account, you have not entered anything in the «Username» field !"; break;
@@ -105,135 +105,138 @@ function traductionSituationEN($champInitial){
     return $messageEnglish;
 }
 
-function verifChamp($champInitial) {
-    if (empty($champInitial['user'])){
-        $champInitial['champVideUser'] = true;
+function verifChamp($champs) {
+    if (empty($champs['user'])){
+        $champs['champVideUser'] = true;
     }
 
-    if (empty($champInitial['password'])){
-        $champInitial['champVidePassword'] = true;
+    if (empty($champs['password'])){
+        $champs['champVidePassword'] = true;
     }
 
     // Cette validation doit exclure si on pèse sur le bouton login
-    if (empty($champInitial['email']) && !isset($_POST['login'])){
-        $champInitial['champVideEmail'] = true;
+    if (empty($champs['email']) && !isset($_POST['login'])){
+        $champs['champVideEmail'] = true;
     } 
 
     // Simplification des champs vide pour plutard...
-    if ($champInitial['champVideUser'] || $champInitial['champVidePassword'] || $champInitial['champVideEmail']){
-        $champInitial['champVide'] = true;
+    if (($champs['champVideUser'] || $champs['champVidePassword'] || $champs['champVideEmail']) && !isset($_POST['login'])){
+        $champs['champVide'] = true;
     }
 
-    $longueurUser = strlen($champInitial['user']);
-    $longueurPassword = strlen($champInitial['password']);
-    $longueurEmail = strlen($champInitial['email']);
+    $longueurUser = strlen($champs['user']);
+    $longueurPassword = strlen($champs['password']);
+    $longueurEmail = strlen($champs['email']);
 
     if ($longueurUser > 15) {
-        $champInitial['champTropLongUser'] = true;
+        $champs['champTropLongUser'] = true;
     }
 
     if ($longueurPassword > 25){
-        $champInitial['champTropLongPassword'] = true;
+        $champs['champTropLongPassword'] = true;
     }
 
     if ($longueurEmail > 50){
-        $champInitial['champTropLongEmail'] = true;
+        $champs['champTropLongEmail'] = true;
     }
 
     // Simplification des champs trop long pour plutard...
-    if ($champInitial['champTropLongUser'] || $champInitial['champTropLongPassword'] || $champInitial['champTropLongEmail']){
-        $champInitial['champTropLong'] = true;
+    if ($champs['champTropLongUser'] || $champs['champTropLongPassword'] || $champs['champTropLongEmail']){
+        $champs['champTropLong'] = true;
     }    
 
     // On ne doit pas avoir de caractères spéciaux dans l'username
     $patternUser = "#^[0-9a-z]([0-9a-z]{0,13})[0-9a-z]$#";
-    if (!preg_match($patternUser, $champInitial['user'])) {
-        $champInitial['champInvalidUser'] = true;
+    if (!preg_match($patternUser, $champs['user'])) {
+        $champs['champInvalidUser'] = true;
     }
 
     // On ne doit pas avoir de caractères spéciaux dans le mot de passe
     $patternPass = "#^[0-9a-zA-Z]([0-9a-zA-Z]{0,23})[0-9a-zA-Z]$#";
-    if (!preg_match($patternPass, $champInitial['password'])) {
-        $champInitial['champInvalidPassword'] = true;
+    if (!preg_match($patternPass, $champs['password'])) {
+        $champs['champInvalidPassword'] = true;
     }
 
     $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-    if (!preg_match($patternEmail, $champInitial['email'])) {
-        $champInitial['champInvalidEmail'] = true; 
+    if (!preg_match($patternEmail, $champs['email']) && !isset($_POST['login'])) {
+        $champs['champInvalidEmail'] = true; 
     }  
 
     // Simplification des champs invalides pour plutard...
-    if ($champInitial['champInvalidUser'] || $champInitial['champInvalidPassword'] || $champInitial['champInvalidEmail']){
-        $champInitial['champInvalid'] = true;
+    if (($champs['champInvalidUser'] || $champs['champInvalidPassword'] || $champs['champInvalidEmail']) && !isset($_POST['login'])){
+        $champs['champInvalid'] = true;
     }     
 
-    if (!$champInitial['champVideUser'] && !$champInitial['champVidePassword'] && $champInitial['user'] == $champInitial['password'] && !isset($_POST['login'])){
-        $champInitial['sameUserPWD'] = true;
+    if (!$champs['champVideUser'] && !$champs['champVidePassword'] && $champs['user'] == $champs['password'] && !isset($_POST['login'])){
+        $champs['sameUserPWD'] = true;
     }
-    return $champInitial;
+    return $champs;
 }
 
-function situation($champInitial) {
+function situation($champs) {
     $typeSituation = 0;   
     // Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexionUser
-    if (!$champInitial['champVideUser'] && $champInitial['champVidePassword'] && $champInitial['champVideEmail'] && isset($_POST['signUp'])) {
+    if (!$champs['champVideUser'] && $champs['champVidePassword'] && $champs['champVideEmail'] && isset($_POST['signUp'])) {
         $typeSituation = 1; 
-    } elseif (!$champInitial['champVideUser'] && !$champInitial['champVidePassword'] && $champInitial['champVideEmail'] && isset($_POST['signUp'])){
+    } elseif (!$champs['champVideUser'] && !$champs['champVidePassword'] && $champs['champVideEmail'] && isset($_POST['signUp'])){
         $typeSituation = 2; 
-    } elseif ($champInitial['champVideUser'] && !$champInitial['champVidePassword'] && !$champInitial['champVideEmail'] && isset($_POST['signUp'])){
+    } elseif ($champs['champVideUser'] && !$champs['champVidePassword'] && !$champs['champVideEmail'] && isset($_POST['signUp'])){
         $typeSituation = 3;
-    } elseif (!$champInitial['champVideUser'] && $champInitial['champVidePassword'] && !$champInitial['champVideEmail'] && isset($_POST['signUp'])){
+    } elseif (!$champs['champVideUser'] && $champs['champVidePassword'] && !$champs['champVideEmail'] && isset($_POST['signUp'])){
         $typeSituation = 4; 
-    } elseif ($champInitial['champVideUser'] && $champInitial['champVidePassword'] && !$champInitial['champVideEmail'] && isset($_POST['signUp'])){
+    } elseif ($champs['champVideUser'] && $champs['champVidePassword'] && !$champs['champVideEmail'] && isset($_POST['signUp'])){
         $typeSituation = 5; 
-    } elseif ($champInitial['champVideUser'] && !$champInitial['champVidePassword'] && $champInitial['champVideEmail'] && isset($_POST['signUp'])){
+    } elseif ($champs['champVideUser'] && !$champs['champVidePassword'] && $champs['champVideEmail'] && isset($_POST['signUp'])){
         $typeSituation = 6; 
-    } elseif (!$champInitial['champVideUser'] && $champInitial['champVidePassword'] && isset($_POST['login'])){
+    } elseif (!$champs['champVideUser'] && $champs['champVidePassword'] && isset($_POST['login'])){
         $typeSituation = 7; 
-    } elseif ($champInitial['champVideUser'] && !$champInitial['champVidePassword'] && isset($_POST['login'])){
+    } elseif ($champs['champVideUser'] && !$champs['champVidePassword'] && isset($_POST['login'])){
         $typeSituation = 8; 
         // Fin : Section où nous n'avons pas entré dans les fonctions creationUser et connexionUser           
-    } elseif ($champInitial['badUser'] && isset($_POST['login'])) { 
+    } elseif ($champs['badUser'] && isset($_POST['login'])) { 
         $typeSituation = 9; 
-    } elseif ($champInitial['badPassword'] && isset($_POST['login'])) {
+    } elseif ($champs['badPassword'] && isset($_POST['login'])) {
         $typeSituation = 10;
-    } elseif ($champInitial['sameUserPWD'] && isset($_POST['signUp'])) {
+    } elseif ($champs['sameUserPWD'] && isset($_POST['signUp'])) {
         $typeSituation = 11; 
-    } elseif ($champInitial['duplicatUser'] && isset($_POST['signUp'])) {
+    } elseif ($champs['duplicatUser'] && isset($_POST['signUp'])) {
         $typeSituation = 12; 
-    } elseif ($champInitial['champVide']) {     
+    } elseif ($champs['champVide']) {     
         $typeSituation = 13; 
-    } elseif ($champInitial['champInvalidEmail']) {     
+    } elseif ($champs['champInvalidEmail']) {     
         $typeSituation = 17; 
-    } elseif ($champInitial['champTropLong']) {
+    } elseif ($champs['champTropLong']) {
         $typeSituation = 14; 
-    } elseif ($champInitial['champInvalid']) {
+    } elseif ($champs['champInvalid']) {
         $typeSituation = 15; 
-    } elseif (!$champInitial['duplicatUser'] && isset($_POST['signUp']) ) {
+    } elseif ($champs['creationUserSuccess'] && isset($_POST['signUp']) ) {
         $typeSituation = 16; 
     }        
     return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
 }
 
-function creationUser($champInitial, $connMYSQL) {
+function creationUser($champs, $connMYSQL) {
     $sql = "select user from benoitmignault_ca_mywebsite.login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
-        if ($row['user'] === $champInitial['user']) {
-            $champInitial['duplicatUser'] = true;
+        if ($row['user'] === $champs['user']) {
+            $champs['duplicatUser'] = true;
         }
     }
 
-    if ($champInitial['duplicatUser']) {
-        return $champInitial;
+    if ($champs['duplicatUser']) {
+        return $champs;
     } else {
-        $passwordCrypter = encryptementPassword($champInitial['password']);
+        $passwordCrypter = encryptementPassword($champs['password']);
         // Ajout de l'information du email dans la création du user
-        $insert = "INSERT INTO benoitmignault_ca_mywebsite.login (user, password, id, email) VALUES ";
-        $insert .= "('" . $champInitial['user'] . "','" . $passwordCrypter . "', NULL, '" . $champInitial['email'] . "')";
+        $insert = "INSERT INTO benoitmignault_ca_mywebsite.login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
+        $insert .= "('" . $champs['user'] . "','" . $passwordCrypter . "', NULL, '" . $champs['email'] . "', NULL, NULL, 0)";
         $connMYSQL->query($insert);
-        return $champInitial;
+        if (mysqli_affected_rows($connMYSQL) == 1){
+            $champs['creationUserSuccess'] = true;
+        }
+        return $champs;
     }
 }
 // Selon une recommandation :
@@ -244,17 +247,17 @@ function encryptementPassword(string $password) {
     return $passwordCrypter;
 }
 
-function connexionUser($champInitial, $connMYSQL) {
+function connexionUser($champs, $connMYSQL) {
     $sql = "select user, password from benoitmignault_ca_mywebsite.login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
-        if ($row['user'] === $champInitial['user']) {
-            if (password_verify($champInitial['password'], $row['password'])) {
+        if ($row['user'] === $champs['user']) {
+            if (password_verify($champs['password'], $row['password'])) {
                 session_start();
-                $_SESSION['user'] = $champInitial['user'];
-                $_SESSION['password'] = $champInitial['password'];
-                $_SESSION['typeLangue'] = $champInitial["typeLangue"];
+                $_SESSION['user'] = $champs['user'];
+                $_SESSION['password'] = $champs['password'];
+                $_SESSION['typeLangue'] = $champs["typeLangue"];
                 date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
                 $date = date("Y-m-d H:i:s");
 
@@ -263,95 +266,96 @@ function connexionUser($champInitial, $connMYSQL) {
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
                     $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
-                    $insert .= "('" . $champInitial['user'] . "',
+                    $insert .= "('" . $champs['user'] . "',
                                  '" . $date . "',
                                  NULL,
-                                 '" . $champInitial['idCreationUser'] . "')";
+                                 '" . $champs['idCreationUser'] . "')";
                     $connMYSQL->query($insert);
                     header("Location: ./statsPoker/poker.php");
                 }
                 exit;
             } else {
-                $champInitial['badPassword'] = true;
-                return $champInitial;
+                $champs['badPassword'] = true;
+                return $champs;
             }
         }
     }
-    $champInitial['badUser'] = true;
-    return $champInitial;
+    $champs['badUser'] = true;
+    return $champs;
 }
 
 function connexionBD() {
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    /*
+    */
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $champInitial = initialChamp(); // est un tableau avec tous les flag erreurs possibles et les infos du user, pwd et le type de situation    
-    $champInitial["typeLangue"] = $_GET['langue'];
+    $champs = initialChamp(); // est un tableau avec tous les flag erreurs possibles et les infos du user, pwd et le type de situation    
+    $champs["typeLangue"] = $_GET['langue'];
 
-    if ($champInitial["typeLangue"] != "francais" && $champInitial["typeLangue"] != "english") {
+    if ($champs["typeLangue"] != "francais" && $champs["typeLangue"] != "english") {
         header("Location: /erreur/erreur.php");
         exit;
     } else {
-        $arrayMots = traduction($champInitial);
+        $arrayMots = traduction($champs);
     }
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $champInitial = initialChamp();
-    $champInitial["typeLangue"] = $_POST['langue'];
+    $champs = initialChamp();
+    $champs["typeLangue"] = $_POST['langue'];
     if (isset($_POST['return'])) {
-        if ($champInitial["typeLangue"] === 'english') {
+        if ($champs["typeLangue"] === 'english') {
             header("Location: /english/english.html");
-        } elseif ($champInitial["typeLangue"] === 'francais') {
+        } elseif ($champs["typeLangue"] === 'francais') {
             header("Location: /index.html");
         }
         exit;
     } else {
-        $champInitial["user"] = strtolower($_POST['user']);
-        $champInitial["password"] = $_POST['password'];
-        $champInitial["email"] = $_POST['email'];
+        $champs["user"] = strtolower($_POST['user']);
+        $champs["password"] = $_POST['password'];
+        $champs["email"] = $_POST['email'];
         $connMYSQL = connexionBD();
         // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-        $sql = "select id from benoitmignault_ca_mywebsite.login where user = '{$champInitial["user"]}' ";                
+        $sql = "select id from benoitmignault_ca_mywebsite.login where user = '{$champs["user"]}' ";                
         $result_SQL = $connMYSQL->query($sql);
         $row = $result_SQL->fetch_row(); // C'est mon array de résultat
-        $champInitial["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 
+        $champs["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 
 
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['login'])) {
-            $champInitial = verifChamp($champInitial);
-            if (!$champInitial["champVide"] && !$champInitial["champTropLong"] && !$champInitial["champInvalid"] ) {
-                $champInitial = connexionUser($champInitial, $connMYSQL);
+            $champs = verifChamp($champs);
+            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] ) {
+                $champs = connexionUser($champs, $connMYSQL);
             }
             // si le bouton s'inscrire est pesé...
         } elseif (isset($_POST['signUp'])) {
-            $champInitial = verifChamp($champInitial);
-            if (!$champInitial["champVide"] && !$champInitial["champTropLong"] && !$champInitial["champInvalid"] && !$champInitial['sameUserPWD']) {
-                $champInitial = creationUser($champInitial, $connMYSQL);
+            $champs = verifChamp($champs);
+            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs['sameUserPWD']) {
+                $champs = creationUser($champs, $connMYSQL);
             }            
             // si le bouton éffacer est pesé...
         } elseif (isset($_POST['reset'])) {
-            if ($champInitial["typeLangue"] === 'english') {
-                header("Location: createLinkSendMail.php?langue=english");
-            } elseif ($champInitial["typeLangue"] === 'francais') {
-                header("Location: createLinkSendMail.php?langue=francais");
+            if ($champs["typeLangue"] === 'english') {
+                header("Location: /login/createLinkSendMail.php?langue=english");
+            } elseif ($champs["typeLangue"] === 'francais') {
+                header("Location: /login/createLinkSendMail.php?langue=francais");
             }
             exit;
         }
-        $champInitial["situation"] = situation($champInitial); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
-        $arrayMots = traduction($champInitial);  // Affichage des mots en français ou en anglais selon le paramètre du get de départ et suivi dans le post par la suite
+        $champs["situation"] = situation($champs); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
+        $arrayMots = traduction($champs);  // Affichage des mots en français ou en anglais selon le paramètre du get de départ et suivi dans le post par la suite
     }
     $connMYSQL->close();
 }
@@ -389,36 +393,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
                     <form method="post" action="./login.php">
                         <div class="connexion">                    
-                            <div class="information <?php if ($champInitial['sameUserPWD'] || $champInitial['champVideUser'] || $champInitial['champInvalidUser'] || $champInitial['duplicatUser'] || $champInitial['badUser'] || $champInitial['champTropLongUser']) { echo 'erreur'; } ?>">
-                                <label for="user"><?php echo $arrayMots['usager']; ?></label>
-                                <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champInitial['user']; ?>" />
+                            <div class="information <?php if ($champs['sameUserPWD'] || $champs['champVideUser'] || $champs['champInvalidUser'] || $champs['duplicatUser'] || $champs['badUser'] || $champs['champTropLongUser']) { echo 'erreur'; } ?>">
+                                <label for="user"><?php echo $arrayMots['usager']; ?></label> 
+                                <div>                                
+                                    <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champs['user']; ?>" />                                
+                                    <span class="obligatoire">&nbsp;*</span>
+                                </div>                                
                             </div>
-                            <div class="information <?php if ($champInitial['sameUserPWD'] || $champInitial['badPassword'] || $champInitial['champVidePassword'] || $champInitial['champInvalidPassword'] || $champInitial['champTropLongPassword']) { echo 'erreur';} ?>">
+                            <div class="information <?php if ($champs['sameUserPWD'] || $champs['badPassword'] || $champs['champVidePassword'] || $champs['champInvalidPassword'] || $champs['champTropLongPassword']) { echo 'erreur';} ?>">
                                 <label for="password"><?php echo $arrayMots['mdp']; ?></label>
-                                <input id="password" type='password' maxlength="25" name="password" value="<?php echo $champInitial['password']; ?>"/>
+                                <div>                                
+                                    <input id="password" type='password' maxlength="25" name="password" value="<?php echo $champs['password']; ?>"/>
+                                    <span class="obligatoire">&nbsp;*</span>
+                                </div> 
                             </div>                             
-                            <div class="information <?php if (!isset($_POST['login']) && ($champInitial['champVideEmail'] || $champInitial['champInvalidEmail'] || $champInitial['champTropLongEmail'])) { echo 'erreur';} ?>">
+                            <div class="information <?php if (!isset($_POST['login']) && ($champs['champVideEmail'] || $champs['champInvalidEmail'] || $champs['champTropLongEmail'])) { echo 'erreur';} ?>">
                                 <label for="email"><?php echo $arrayMots['email']; ?></label>
-                                <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champInitial['email']; ?>"/>
+                                <div>
+                                    <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champs['email']; ?>"/>
+                                    <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
+                                </div>                                 
                             </div>
                         </div>
                         <div class="troisBTN">                         
                             <input class="bouton" type='submit' name='login' value="<?php echo $arrayMots['btn_login']; ?>">
                             <input class="bouton" type='submit' name='signUp' value="<?php echo $arrayMots['btn_signUp']; ?>">
                             <input class="bouton" type='submit' name='reset' value="<?php echo $arrayMots['btn_reset']; ?>">
-                            <input type='hidden' name='langue' value="<?php echo $champInitial['typeLangue']; ?>">
+                            <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
                         </div>
                     </form> 
                 </fieldset>
             </div>            
             <div class="footer">                
-                <div class='avert <?php if ($champInitial["situation"] != 16) { echo 'erreur'; } ?>'>
+                <div class='avert <?php if ($champs["situation"] != 16) { echo 'erreur'; } ?>'>
                     <p> <?php echo $arrayMots['message']; ?> </p>
                 </div>                
                 <div class="btnRetour">
                     <form method="post" action="./login.php">
                         <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>"> 
-                        <input type='hidden' name='langue' value="<?php echo $champInitial['typeLangue']; ?>">
+                        <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
                     </form>
                 </div>
             </div>

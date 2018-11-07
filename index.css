@@ -123,11 +123,7 @@ td{
     font-size: 24px;
     color: #737373;
     font-weight: bold;
-}    
-
-
-
-
+} 
 .left .sectionMeteo{
     display: flex; 
     display: -webkit-flex;

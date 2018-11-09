@@ -165,7 +165,7 @@ function creationLink($champs, $connMYSQL){
                 } elseif ($champs["typeLangue"] === 'english') {
                     $lien = "Link to change your password";
                 }
-                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"http://localhost:8080/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";
+                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"http://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";
                 $elementCourriel = preparationEmail($champs);                
                 // Je dois rempalcer le $to par home@benoitmignault.ca, en raison d'une limitation de one.com
                 $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                

@@ -20,7 +20,7 @@ function traduction($champs) {
         $btn_erase = "Effacer";
         $btn_loginPoker = "Voir les statistique";
         $btn_login = "Retour à page de connexion";
-        $btn_return = "Retour à l'accueuil";
+        $btn_return = "Retour à l'accueil";
     } elseif ($champs["typeLangue"] === 'english') {
         $btn_new = "Add the new player";
         $newJoueur = "New player";

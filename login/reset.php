@@ -263,10 +263,10 @@ function encryptementPassword($password_Temp) {
 }
 
 function redirection($champs) { 
-    // Nous avons deux possibilités d'erreurs
-    if ($champs["invalid_Language"] || !$champs["lien_Crypte_Good"]) {
-        header("Location: /erreur/erreur.php");
-
+    if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+        if ($champs["invalid_Language"] || !$champs["lien_Crypte_Good"]) {
+            header("Location: /erreur/erreur.php");
+        }
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
         // Les deux premiers IF sont pour la page d'acceuil
         // Les deux derniers IF sont pour la page login    
@@ -278,7 +278,9 @@ function redirection($champs) {
             header("Location: /login/login.php?langue=francais");            
         } elseif (isset($_POST['page_Login']) && $champs["typeLangue"] == "english") {
             header("Location: /login/login.php?langue=english");            
-        } 
+        } elseif (!$champs["lien_Crypte_Good"] || $champs["invalid_Language"]){
+            header("Location: /erreur/erreur.php");
+        }
     }
     exit; // pour arrêter l'éxecution du code php
 }
@@ -303,7 +305,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     $champs = initialChamp();
     $champs = remplissageChamps($champs);
     $connMYSQL = connexionBD();
-    $champs = verif_link_BD($champs, $connMYSQL);
+    $champs = verif_link_BD($champs, $connMYSQL);    
     if ($champs["invalid_Language"]){
         redirection($champs);
     } elseif (!$champs["lien_Crypte_Good"]){
@@ -407,7 +409,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                     <p> <?php echo $arrayMots['message']; ?> </p>
                 </div>
                 <div class="btnRetour">
-                    <form method="post" action="./createLinkSendMail.php"> 
+                    <form method="post" action="./reset.php"> 
                         <input class="bouton" type="submit" name="page_Login" value="<?php echo $arrayMots['btn_login']; ?>"> 
                         <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">  
                         <input type='hidden' name='typeLangue' value="<?php echo $champs['typeLangue']; ?>">

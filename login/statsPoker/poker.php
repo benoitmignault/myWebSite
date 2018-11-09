@@ -451,7 +451,7 @@ function redirection($typeLangue) {
     exit; // pour arrêter l'éxecution du code php
 }
 
-function connexionBD() {    
+function connexionBD() { 
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";

@@ -123,11 +123,7 @@ td{
     font-size: 24px;
     color: #737373;
     font-weight: bold;
-}    
-
-
-
-
+} 
 .left .sectionMeteo{
     display: flex; 
     display: -webkit-flex;
@@ -207,19 +203,27 @@ td{
     line-height: 1.5;
     text-align: justify;
 }
+.middle .center p{
+    margin-bottom: 10px;
+}
 .middle .center ul{
     margin-left: 25px; 
 }
-.middle .center p a{
+.middle > .center > .projet > .pageAccueil > center{
+    margin-bottom: 5px;
+}
+.middle > .center > .projet > .pageAccueil > center > a,
+.middle > .center > p > a{
     color: white; 
     text-decoration: none;
     background-color: darkgrey;
     font-size:18px;
     font-weight: bold;
     padding: 2px;
-    text-align:center;    
+    text-align:center; 
 }
-.middle .center p a:hover{
+.middle > .center > .projet > .pageAccueil > center > a:hover,
+.middle > .center > p > a:hover{
     background-color: black;   
     cursor:pointer;
     color: red;   
@@ -335,8 +339,10 @@ td{
 .racineSite .middle .center .projet .pageAccueil{
     width: 100%;
     margin:0;
-    padding:0;
-    margin-bottom: 20px;    
+    padding:0;    
+}
+.racineSite > div > div > .pageAccueil{
+    margin-bottom: 20px;
 }
 .racineSite > div > div > .pageAccueil legend,
 .racineSite .middle .center .projet .pageAccueil legend{

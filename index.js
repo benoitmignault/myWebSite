@@ -31,9 +31,9 @@ function activation_Liste(){
             liste.innerHTML += "<li>JAVA</li>"; 
             liste.innerHTML += "<li>C</li>";
             if (langue === "en"){
-                liste.innerHTML += "<li>ASSEMBLER IN (Pep8)</li>"; 
+                liste.innerHTML += "<li>ASSEMBLY IN (Pep8)</li>"; 
             } else {
-                liste.innerHTML += "<li>ASSEMPLEUR en (Pep8)</li>"; 
+                liste.innerHTML += "<li>ASSEMBLEUR EN (Pep8)</li>"; 
             } 
         } else if (div_liste.style.display === 'block'){
             liste.innerHTML = "";

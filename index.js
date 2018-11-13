@@ -22,13 +22,15 @@ function activation_Liste(){
         if (div_liste.style.display === ""){
             div_liste.style.display = 'block';
             liste.innerHTML  = "<li>PHP</li>";
-            liste.innerHTML += "<li>SQL</li>";
-            liste.innerHTML += "<li>JAVASCRIPT</li>";
-            liste.innerHTML += "<li>CSS</li>"; 
-            liste.innerHTML += "<li>GIT & GitHub</li>"; 
-            liste.innerHTML += "<li>JQUERY</li>";              
             liste.innerHTML += "<li>HTML</li>";
-            liste.innerHTML += "<li>JAVA</li>"; 
+            liste.innerHTML += "<li>JAVASCRIPT</li>";
+            liste.innerHTML += "<li>JQUERY & AJAX</li>";
+            liste.innerHTML += "<li>CSS</li>";
+            liste.innerHTML += "<li>SQL & MYSQL</li>";
+            liste.innerHTML += "<li>ORACLE XE</li>";
+            liste.innerHTML += "<li>JAVA</li>";
+            liste.innerHTML += "<li>NETBEANS IDE 8.2</li>";
+            liste.innerHTML += "<li>GIT & GITHUB & GITLAB</li>";
             liste.innerHTML += "<li>C</li>";
             if (langue === "en"){
                 liste.innerHTML += "<li>ASSEMBLY IN (Pep8)</li>"; 

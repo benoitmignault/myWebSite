@@ -146,7 +146,8 @@ function verifChamp($champs) {
     }    
 
     // On ne doit pas avoir de caractères spéciaux dans l'username
-    $patternUser = "#^[0-9a-z]([0-9a-z]{0,13})[0-9a-z]$#";
+    // ajout du underscore pour le user name
+    $patternUser = "#^[0-9a-z]([0-9a-z_]{0,13})[0-9a-z]$#";
     if (!preg_match($patternUser, $champs['user'])) {
         $champs['champInvalidUser'] = true;
     }

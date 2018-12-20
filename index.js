@@ -75,6 +75,7 @@ function affichageSection(){
 }
 
 function callAjax(){
+    
     var data = { "type_langue": langue.value };
     var url = "";
     if (langue.value == "en"){

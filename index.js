@@ -75,9 +75,8 @@ function affichageSection(){
 }
 
 function callAjax(){
-
     var data = { "type_langue": langue.value };
-    var url = "http://localhost:8080/calendrier/calendrier.php";
+    var url = "http://benoitmignault.ca/calendrier/calendrier.php";
 
     $.ajax({
         type: "POST",
@@ -87,13 +86,11 @@ function callAjax(){
         success: function(dataReturn) { 
             // sécurisation du retour d'information
             if (dataReturn["data"]){
-                console.log("Succes");
                 var dataObj = JSON.parse(dataReturn["data"]);   
                 calendrierAJAX.innerHTML = dataObj.tableau_calendrier;
                 // Après l'affichage du calendrier, on call le temps du timer et voilà
                 start_timer(); 
             } else if (dataReturn["erreur"]){
-                console.log("Erreur");
                 var dataErr = JSON.parse(dataReturn["erreur"]);
                 if (langue.value == "english"){
                     if (dataErr.situation1){
@@ -108,7 +105,6 @@ function callAjax(){
                         calendrierAJAX.innerHTML = dataErr.situation2;
                     }
                 }
-
             }
         }
     });

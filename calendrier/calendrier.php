@@ -1,6 +1,4 @@
 <?php 
-header("Content-type: application/json; charset=utf-8");
-
 function is_ajax() {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 }
@@ -41,17 +39,17 @@ function get_Name_Month($id_month, $champs){
     if ($champs['type_langue'] == "fr"){
         switch ($id_month){
             case 1 : $month = "Janvier"; break;
-            case 2 : $month = "Février"; break;
+            case 2 : $month = "FÃ©vrier"; break;
             case 3 : $month = "Mars"; break;
             case 4 : $month = "Avril"; break;
             case 5 : $month = "Mai"; break;
             case 6 : $month = "Juin"; break;
             case 7 : $month = "Juillet"; break;
-            case 8 : $month = "Août"; break;
+            case 8 : $month = "AoÃ»t"; break;
             case 9 : $month = "Septembre"; break;
             case 10 : $month = "Octobre"; break;
             case 11 : $month = "Novembre"; break;
-            case 12 : $month = "Décembre"; break;
+            case 12 : $month = "DÃ©cembre"; break;
         }
 
     } elseif ($champs['type_langue'] == "en"){
@@ -166,7 +164,7 @@ function returnOfAJAX($champs){
 }
 
 if (is_ajax()) {
-    // À titre exemple de 2e niveau de sécurité 
+    // Ã€ titre exemple de 2e niveau de sÃ©curitÃ© 
     if ($_POST["type_langue"] && $_POST["type_langue"] != ""){
         $champs = initial_Champs();
         $champs = fillingChamps($champs);
@@ -179,7 +177,7 @@ if (is_ajax()) {
     }
 
 } else {
-    $champs["situation2"] = "Attention ! Ce fichier doit être caller via un appel AJAX !";
+    $champs["situation2"] = "Attention ! Ce fichier doit Ãªtre caller via un appel AJAX !";
     $return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
     echo json_encode($return, JSON_FORCE_OBJECT);
 }

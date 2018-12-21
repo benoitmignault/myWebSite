@@ -1,16 +1,14 @@
 <?php 
-header("Content-type: application/json; charset=utf-8");
-
 function is_ajax() {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 }
 
-function initialisation_Champs() {
+function initial_Champs() {
     $champs = ["type_langue" => "", "tableau_calendrier" => ""];
     return $champs;
 }
 
-function remplissageChamps($champs){
+function fillingChamps($champs){
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         if (isset($_POST['type_langue'])){
             $champs['type_langue'] = $_POST['type_langue'];
@@ -19,146 +17,144 @@ function remplissageChamps($champs){
     return $champs;
 }
 
-function nombre_jours_mois($id_mois, $annee){
-    $nbr_jour = 0;
-    switch ($id_mois) {
-        case 1 : case 3 : case 5 : case 7 : case 8 : case 10 : case 12 : $nbr_jour = 31; break;
-        case 4 : case 6 : case 9 : case 11 : $nbr_jour = 30; break;
+function amont_Days_for_this_Month($id_month, $years){
+    $amontOdDays = 0;
+    switch ($id_month) {
+        case 1 : case 3 : case 5 : case 7 : case 8 : case 10 : case 12 : $amontOdDays = 31; break;
+        case 4 : case 6 : case 9 : case 11 : $amontOdDays = 30; break;
         case 2 : 
-            $reste = $annee % 4;
+            $reste = $years % 4;
             if ($reste == 0){
-                $nbr_jour = 29;
+                $amontOdDays = 29;
             } else {
-                $nbr_jour = 28;
+                $amontOdDays = 28;
             }
             break;
     }
-    return $nbr_jour;
+    return $amontOdDays;
 }
 
-function convertir_mois($id_mois, $champs){
-    $mois = "";
+function get_Name_Month($id_month, $champs){
+    $month = "";
     if ($champs['type_langue'] == "fr"){
-        switch ($id_mois){
-            case 1 : $mois = "Janvier"; break;
-            case 2 : $mois = "Février"; break;
-            case 3 : $mois = "Mars"; break;
-            case 4 : $mois = "Avril"; break;
-            case 5 : $mois = "Mai"; break;
-            case 6 : $mois = "Juin"; break;
-            case 7 : $mois = "Juillet"; break;
-            case 8 : $mois = "Août"; break;
-            case 9 : $mois = "Septembre"; break;
-            case 10 : $mois = "Octobre"; break;
-            case 11 : $mois = "Novembre"; break;
-            case 12 : $mois = "Décembre"; break;
+        switch ($id_month){
+            case 1 : $month = "Janvier"; break;
+            case 2 : $month = "FÃ©vrier"; break;
+            case 3 : $month = "Mars"; break;
+            case 4 : $month = "Avril"; break;
+            case 5 : $month = "Mai"; break;
+            case 6 : $month = "Juin"; break;
+            case 7 : $month = "Juillet"; break;
+            case 8 : $month = "AoÃ»t"; break;
+            case 9 : $month = "Septembre"; break;
+            case 10 : $month = "Octobre"; break;
+            case 11 : $month = "Novembre"; break;
+            case 12 : $month = "DÃ©cembre"; break;
         }
 
     } elseif ($champs['type_langue'] == "en"){
-        switch ($id_mois){
-            case 1 : $mois = "January"; break;
-            case 2 : $mois = "February"; break;
-            case 3 : $mois = "March"; break;
-            case 4 : $mois = "April"; break;
-            case 5 : $mois = "May"; break;
-            case 6 : $mois = "June"; break;
-            case 7 : $mois = "July"; break;
-            case 8 : $mois = "August"; break;
-            case 9 : $mois = "September"; break;
-            case 10 : $mois = "October"; break;
-            case 11 : $mois = "November"; break;
-            case 12 : $mois = "December"; break;
+        switch ($id_month){
+            case 1 : $month = "January"; break;
+            case 2 : $month = "February"; break;
+            case 3 : $month = "March"; break;
+            case 4 : $month = "April"; break;
+            case 5 : $month = "May"; break;
+            case 6 : $month = "June"; break;
+            case 7 : $month = "July"; break;
+            case 8 : $month = "August"; break;
+            case 9 : $month = "September"; break;
+            case 10 : $month = "October"; break;
+            case 11 : $month = "November"; break;
+            case 12 : $month = "December"; break;
         }
     }
 
-    return $mois;
+    return $month;
 }
 
-function generer_calendrier($champs){
-    // Je dois setter le time zone de montreal pour éviter de sauter à la journée suivante avant le temps.
+function create_calendar($champs){    
     date_default_timezone_set('America/New_York');
-    $tableau_calendrier = "";
-    $mois = date('m');
-    $annee = date('Y');
-    $jour = date('j');
+    $table_calendar = "";
+    $month = date('m');
+    $years = date('Y');
+    $day = date('j');
 
-    $date_mois = mktime(0,0,0,$mois,'01',$annee);
-    $def_jour = date('w',$date_mois);
-    $nom_mois = convertir_mois($mois, $champs);
+    $date_month = mktime(0,0,0,$month,'01',$years);
+    $def_day = date('w',$date_month);
+    $name_month = get_Name_Month($month, $champs);
 
+    //We find the max of amount days in this month
+    $nbr_jour = amont_Days_for_this_Month($month,$years);
 
-    //On trouve le nombre maximun de jour dans le mois
-    $nbr_jour = nombre_jours_mois($mois,$annee);
-
-    $compteur_jour = 0;
-    $suivi_jour = $def_jour;
+    $counterOfDays = 0;
+    $follow_day = $def_day;
     $x = 1;
 
-    $tableau_calendrier .= "<table class=\"calendrier\">";
-    $tableau_calendrier .= "<thead>";
-    $tableau_calendrier .= "<tr class=\"ligne_mois_actuel\"><th class=\"contenu_ligne_mois\" colspan=\"7\">$nom_mois $annee</th></tr>";
-    $tableau_calendrier .= "<tr class=\"ligne_jour_lettre\">";
-    $tableau_calendrier .= "<th class=\"contenu_ligne_jour_lettre\">D</th>";
-    $tableau_calendrier .= "<th class=\"contenu_ligne_jour_lettre\">L</th>";
-    $tableau_calendrier .= "<th class=\"contenu_ligne_jour_lettre\">M</th>";
-    $tableau_calendrier .= "<th class=\"contenu_ligne_jour_lettre\">M</th>";
-    $tableau_calendrier .= "<th class=\"contenu_ligne_jour_lettre\">J</th>";
-    $tableau_calendrier .= "<th class=\"contenu_ligne_jour_lettre\">V</th>";
-    $tableau_calendrier .= "<th class=\"contenu_ligne_jour_lettre\">S</th>";
-    $tableau_calendrier .= "</tr>";
-    $tableau_calendrier .= "</thead>";
+    $table_calendar .= "<table class=\"calendrier\">";
+    $table_calendar .= "<thead>";
+    $table_calendar .= "<tr class=\"ligne_mois_actuel\"><th class=\"contenu_ligne_mois\" colspan=\"7\">$name_month $years</th></tr>";
+    $table_calendar .= "<tr class=\"ligne_jour_lettre\">";
+    $table_calendar .= "<th class=\"contenu_ligne_jour_lettre\">D</th>";
+    $table_calendar .= "<th class=\"contenu_ligne_jour_lettre\">L</th>";
+    $table_calendar .= "<th class=\"contenu_ligne_jour_lettre\">M</th>";
+    $table_calendar .= "<th class=\"contenu_ligne_jour_lettre\">M</th>";
+    $table_calendar .= "<th class=\"contenu_ligne_jour_lettre\">J</th>";
+    $table_calendar .= "<th class=\"contenu_ligne_jour_lettre\">V</th>";
+    $table_calendar .= "<th class=\"contenu_ligne_jour_lettre\">S</th>";
+    $table_calendar .= "</tr>";
+    $table_calendar .= "</thead>";
 
-    $tableau_calendrier .= "<tbody>";
+    $table_calendar .= "<tbody>";
 
     while($x <= $nbr_jour){
-        if ($compteur_jour == $suivi_jour){
+        if ($counterOfDays == $follow_day){
             $aff = $x;
             $x += 1;
-            if ($suivi_jour == 6){
-                $suivi_jour = 0;
+            if ($follow_day == 6){
+                $follow_day = 0;
             } else {
-                $suivi_jour += 1;
+                $follow_day += 1;
             }
         } else {
             $aff = "";
         }
 
-        if ($compteur_jour == 0){
-            $tableau_calendrier .= "<tr class=\"ligne_jour_chiffre\">";
+        if ($counterOfDays == 0){
+            $table_calendar .= "<tr class=\"ligne_jour_chiffre\">";
         }
 
-        //On affiche la journée        
-        if ($aff == $jour) {
-            // Comme c'est le jour du mois d'aujourd'hui, il prend les attributs spéciaux
-            $tableau_calendrier .= "<td class=\"contenu_ligne_jour_actuel\">";
-            $tableau_calendrier .= $aff;
+        // We display the day
+        if ($aff == $day) {
+            // As it is the day of the month today, it takes the special attributes
+            $table_calendar .= "<td class=\"contenu_ligne_jour_actuel\">";
+            $table_calendar .= $aff;
         } else {
-            // Comme ce nest pas le jour du mois d'aujourd'hui, il prend les attributs standard
-            $tableau_calendrier .= "<td>";
-            $tableau_calendrier .= $aff;
+            // Since this is not the day of the month today, it takes the standard attributes
+            $table_calendar .= "<td>";
+            $table_calendar .= $aff;
         }
-        $tableau_calendrier .= "</td>";
+        $table_calendar .= "</td>";
 
-        if ($compteur_jour == 6){
-            $compteur_jour = 0;
+        if ($counterOfDays == 6){
+            $counterOfDays = 0;
         } else {
-            $compteur_jour += 1;
+            $counterOfDays += 1;
         }
     }
 
-    if (($compteur_jour <> 6) && ($compteur_jour <> 0)){
-        for ($i = $compteur_jour; $i <= 6; $i++){
-            $tableau_calendrier .= "<td></td>";
-            if ($compteur_jour == 6){
-                $tableau_calendrier .= "</tr>";
+    if (($counterOfDays <> 6) && ($counterOfDays <> 0)){
+        for ($i = $counterOfDays; $i <= 6; $i++){
+            $table_calendar .= "<td></td>";
+            if ($counterOfDays == 6){
+                $table_calendar .= "</tr>";
             }
         }
     }
-    $tableau_calendrier .= "<tr class=\"ligne_jour_chiffre\"><td class=\"contenu_ligne_heure_actuel\" colspan=\"7\"></td></tr>";
-    $tableau_calendrier .= "</tbody>";
-    $tableau_calendrier .= "</table>";
+    $table_calendar .= "<tr class=\"ligne_jour_chiffre\"><td class=\"contenu_ligne_heure_actuel\" colspan=\"7\"></td></tr>";
+    $table_calendar .= "</tbody>";
+    $table_calendar .= "</table>";
 
-    return $tableau_calendrier;
+    return $table_calendar;
 }
 
 function returnOfAJAX($champs){    
@@ -168,11 +164,11 @@ function returnOfAJAX($champs){
 }
 
 if (is_ajax()) {
-    // À titre exemple de 2e niveau de sécurité 
+    // Ã€ titre exemple de 2e niveau de sÃ©curitÃ© 
     if ($_POST["type_langue"] && $_POST["type_langue"] != ""){
-        $champs = initialisation_Champs();
-        $champs = remplissageChamps($champs);
-        $champs['tableau_calendrier'] = generer_calendrier($champs);
+        $champs = initial_Champs();
+        $champs = fillingChamps($champs);
+        $champs['tableau_calendrier'] = create_calendar($champs);
         returnOfAJAX($champs);
     } else {
         $champs["situation1"] = "Attention ! Il manque la valeur de la langue pour l'affichage de la page web !";
@@ -181,7 +177,7 @@ if (is_ajax()) {
     }
 
 } else {
-    $champs["situation2"] = "Attention ! Ce fichier doit être caller via un appel AJAX !";
+    $champs["situation2"] = "Attention ! Ce fichier doit Ãªtre caller via un appel AJAX !";
     $return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
     echo json_encode($return, JSON_FORCE_OBJECT);
 }

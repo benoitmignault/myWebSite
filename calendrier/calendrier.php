@@ -31,7 +31,7 @@ function amont_Days_for_this_Month($id_month, $years){
             }
             break;
     }
-    return $amontOdDays;
+    return $amontOdDays;    
 }
 
 function get_Name_Month($id_month, $champs){
@@ -164,7 +164,7 @@ function returnOfAJAX($champs){
 }
 
 if (is_ajax()) {
-    // À titre exemple de 2e niveau de sécurité 
+    // Ã titre exemple de 2e niveau de sÃ©curitÃ© 
     if ($_POST["type_langue"] && $_POST["type_langue"] != ""){
         $champs = initial_Champs();
         $champs = fillingChamps($champs);
@@ -177,7 +177,7 @@ if (is_ajax()) {
     }
 
 } else {
-    $champs["situation2"] = "Attention ! Ce fichier doit être caller via un appel AJAX !";
+    $champs["situation2"] = "Attention ! Ce fichier doit Ãªtre caller via un appel AJAX !";
     $return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
     echo json_encode($return, JSON_FORCE_OBJECT);
 }

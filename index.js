@@ -76,8 +76,9 @@ function affichageSection(){
 
 function callAjax(){
     var data = { "type_langue": langue.value };
-    var url = "http://benoitmignault.ca/calendrier/calendrier.php";
-
+    //var url = "http://benoitmignault.ca/calendrier/calendrier.php";
+    var url = "http://localhost:8080/calendrier/calendrier.php";
+    
     $.ajax({
         type: "POST",
         dataType: "json",

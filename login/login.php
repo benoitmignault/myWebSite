@@ -258,10 +258,10 @@ function connexionUser($champs, $connMYSQL) {
                 session_start();
                 $_SESSION['user'] = $champs['user'];
                 $_SESSION['password'] = $champs['password'];
-                $_SESSION['typeLangue'] = $champs["typeLangue"];
-                // Je set un cookie pour améliorer la sécurité pour vérifier que l'user est bien là...2018-12-28
-                setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
+                $_SESSION['typeLangue'] = $champs["typeLangue"];                
                 date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
+                // Je set un cookie pour améliorer la sécurité pour vérifier que l'user est bien là...2018-12-28
+                setcookie("POKER", $_SESSION['user'], time() + 3600, "/");                
                 $date = date("Y-m-d H:i:s");
 
                 if ($row['user'] === "admin") {
@@ -298,7 +298,7 @@ function connexionBD() {
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;

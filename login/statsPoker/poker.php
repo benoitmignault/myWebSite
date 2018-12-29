@@ -5,6 +5,7 @@ function traduction($typeLangue, $user) {
 
     if ($typeLangue === 'francais') {
         $titre = "Page des statistiques";
+        $rang = "Rang";
         $h1 = "<h1>Bienvenue à vous &rarr; <span class='userDisplay'>{$user}</span> &larr; sur la page des statistiques du poker des vendredis entre amis.</h1>";
         $legend1 = "Voici les différentes méthodes affichages des stats du poker :";
         $method1 = "Affichage brute sans aucune modification.";
@@ -38,6 +39,7 @@ function traduction($typeLangue, $user) {
         $returnUp = "Retour au choix d'affichage";
     } elseif ($typeLangue === 'english') {
         $titre = "Statistics page";
+        $rang = "Rank";
         $h1 = "<h1>Welcome to you &rarr; <span class='userDisplay'>{$user}</span> &larr; on the statictics page about the friday nights poker between somes friends.</h1>";
         $legend1 = "Here are the differents methods of displaying poker statistics";
         $method1 = "Display all information with no modification.";
@@ -71,7 +73,7 @@ function traduction($typeLangue, $user) {
         $returnUp = "Back to the method of displaying";
     }
 
-    $arrayMots = ['titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
+    $arrayMots = ['rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
 
     return $arrayMots;
 }
@@ -285,16 +287,19 @@ function sommaireTousJoueurs($connMYSQL, $arrayMots) {
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
                     <thead> 
-                        <tr> <th colspan='5'>{$arrayMots['method4']}</th> </tr>
-                        <tr> <th>{$arrayMots['joueur']}</th> <th>{$arrayMots['gain']}</th> <th>{$arrayMots['victoire']}</th> 
+                        <tr> <th colspan='6'>{$arrayMots['method4']}</th> </tr>
+                        <tr> <th>{$arrayMots['rang']}</th><th>{$arrayMots['joueur']}</th> <th>{$arrayMots['gain']}</th> <th>{$arrayMots['victoire']}</th> 
                                 <th>{$arrayMots['fini2']}</th> <th>{$arrayMots['nbTournois']}</th> </tr>            
                     </thead> <tbody>";
 
+    // Ajout d'un compteur pour afficher simplement le joueur avec ses stats et savoir où se trouve
+    $position = 1;
     foreach ($result as $row) {
         $nombreGain = intval($row['gainTotaux']);
         $icone = lesGrandsGagnants_100e($row['joueur']);
-        $tableau .= "<tr>
-                        <td>{$row['joueur']}{$icone}</td>";
+        $tableau .= "<tr>";
+        $tableau .= "<td>{$position}</td>";
+        $tableau .= "<td>{$row['joueur']}{$icone}</td>";
         if ($nombreGain > 0) {
             $tableau .= "<td class='positif'>{$nombreGain}</td>";
         } elseif ($nombreGain < 0) {
@@ -304,8 +309,9 @@ function sommaireTousJoueurs($connMYSQL, $arrayMots) {
         }
         $tableau .= "<td>{$row['nb_victoire']}</td>
                         <td>{$row['nb_fini2e']}</td>
-                        <td>{$row['nb_presence']}</td>
-                     </tr>";
+                        <td>{$row['nb_presence']}</td>";
+        $tableau .= "</tr>";
+        $position++; // On augmente de 1 la position pour le prochain joueur et ses statistiques pour l'affichage
     }
     $tableau .= "</tbody></table>";
     return $tableau;
@@ -437,7 +443,7 @@ function redirection($typeLangue) {
 
         //header("Location: /erreur/erreur.php");
         header("Location: http://localhost:8080/erreur/erreur.php");
-        
+
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
@@ -458,11 +464,11 @@ function redirection($typeLangue) {
             if ($typeLangue == 'english') {
                 //header("Location: /english/english.html");
                 header("Location: http://localhost:8080/english/english.html");
-                
+
             } else {
                 //header("Location: /index.html");
                 header("Location: http://localhost:8080/index.html");
-                
+
             }
         } else {
             //header("Location: /erreur/erreur.php");

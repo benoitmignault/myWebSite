@@ -410,16 +410,18 @@ function affichageKillerCitron($connMYSQL, $arrayMots) {
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
                         <thead> 
-                            <tr> <th colspan='6'>{$arrayMots['method7']}</th></tr>
-                            <tr> <th>{$arrayMots['joueur']}</th> <th>{$arrayMots['killer']}</th> <th>{$arrayMots['citron']}</th> 
+                            <tr> <th colspan='7'>{$arrayMots['method7']}</th></tr>
+                            <tr> <th>{$arrayMots['rang']}</th> <th>{$arrayMots['joueur']}</th> <th>{$arrayMots['killer']}</th> <th>{$arrayMots['citron']}</th> 
                                  <th>{$arrayMots['victoire']}</th> <th>{$arrayMots['fini2']}</th> 
                                  <th>{$arrayMots['nbTournois']}</th> </tr>            
                         </thead>
                         <tbody>";
 
+    $position = 1;
     foreach ($result as $row) {
         $icone = lesGrandsGagnants_100e($row['joueur']);
         $tableau .= "<tr>
+                        <td>{$position}</td>
                         <td>{$row['joueur']}{$icone}</td>        
                         <td>{$row['prixKiller']}</td>
                         <td>{$row['citronPrice']}</td>
@@ -427,6 +429,7 @@ function affichageKillerCitron($connMYSQL, $arrayMots) {
                         <td>{$row['nb_fini2e']}</td>
                         <td>{$row['nb_presence']}</td>
                     </tr>";
+        $position++;
     }
     $tableau .= "</tbody></table>";
     return $tableau;

@@ -428,24 +428,45 @@ function affichageKillerCitron($connMYSQL, $arrayMots) {
 
 function redirection($typeLangue) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+        // Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
+        session_unset(); // détruire toutes les variables SESSION
+        setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
         session_destroy();
-        header("Location: /erreur/erreur.php");
+        session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
+
+        //header("Location: /erreur/erreur.php");
+        header("Location: http://localhost:8080/erreur/erreur.php");
+        
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        // Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
+        session_unset(); // détruire toutes les variables SESSION
+        setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
         session_destroy();
+        session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
+
         if (isset($_POST['return'])) {
             if ($typeLangue == 'english') {
-                header("Location: /login/login.php?langue=english");
+                //header("Location: /login/login.php?langue=english");
+                header("Location: http://localhost:8080/login/login.php?langue=english");
             } else {
-                header("Location: /login/login.php?langue=francais");
+                //header("Location: /login/login.php?langue=francais");
+                header("Location: http://localhost:8080/login/login.php?langue=francais");
             }
         } elseif (isset($_POST['home'])) {
             if ($typeLangue == 'english') {
-                header("Location: /english/english.html");
+                //header("Location: /english/english.html");
+                header("Location: http://localhost:8080/english/english.html");
+                
             } else {
-                header("Location: /index.html");
+                //header("Location: /index.html");
+                header("Location: http://localhost:8080/index.html");
+                
             }
         } else {
-            header("Location: /erreur/erreur.php");
+            //header("Location: /erreur/erreur.php");
+            header("Location: http://localhost:8080/erreur/erreur.php");
         }
     }
     exit; // pour arrêter l'éxecution du code php
@@ -462,7 +483,7 @@ function connexionBD() {
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -474,8 +495,11 @@ function verificationUser($connMYSQL) {
 
     foreach ($result as $row) {
         if ($row['user'] === $_SESSION['user']) {
-            if (password_verify($_SESSION['password'], $row['password'])) {
-                return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
+            // On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
+            if ($_COOKIE['POKER'] == $row['user']){
+                if (password_verify($_SESSION['password'], $row['password'])) {
+                    return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
+                }
             }
         }
         // la fin de la vérification pour trouver notre user dans la BD et ainsi que la vérification de son mdp  
@@ -489,8 +513,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $tableauResult = "";
     $verificationUser = false;
     session_start();
-    if (isset($_SESSION['user']) && isset($_SESSION['password']) &&
-        isset($_SESSION['typeLangue'])) {
+    if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue']) && isset($_COOKIE['POKER'])) {
         $connMYSQL = connexionBD();
         $verificationUser = verificationUser($connMYSQL);
         $typeLangue = $_SESSION['typeLangue'];
@@ -555,7 +578,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $idConnexion = (int) $row[0];	// Assignation de la valeur
                 date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
                 $date_method = date("Y-m-d H:i:s");
-                
+
                 // Ajouter la methode choisie par le user dans la table affichage_stat_poker en lien avec mon login sur la page
                 $insert = "INSERT INTO benoitmignault_ca_mywebsite.affichage_stat_poker (user,methode,id_login,id_affichage,date) VALUES ";
                 $insert .= "('" . $user . "',
@@ -564,7 +587,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 NULL,
                              '" . $date_method . "')";
                 $connMYSQL->query($insert);
-                
+
                 switch ($_POST['method']) {
                     case 1 : $tableauResult = affichageBrute($connMYSQL, $arrayMots);
                         break;

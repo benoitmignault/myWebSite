@@ -294,6 +294,7 @@ function connexionBD() {
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
     */
+    
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";

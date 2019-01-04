@@ -444,8 +444,7 @@ function redirection($typeLangue) {
         session_destroy();
         session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
 
-        //header("Location: /erreur/erreur.php");
-        header("Location: http://localhost:8080/erreur/erreur.php");
+        header("Location: /erreur/erreur.php");
 
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -457,25 +456,20 @@ function redirection($typeLangue) {
 
         if (isset($_POST['return'])) {
             if ($typeLangue == 'english') {
-                //header("Location: /login/login.php?langue=english");
-                header("Location: http://localhost:8080/login/login.php?langue=english");
+                header("Location: /login/login.php?langue=english");
             } else {
-                //header("Location: /login/login.php?langue=francais");
-                header("Location: http://localhost:8080/login/login.php?langue=francais");
+                header("Location: /login/login.php?langue=francais");
             }
         } elseif (isset($_POST['home'])) {
             if ($typeLangue == 'english') {
-                //header("Location: /english/english.html");
-                header("Location: http://localhost:8080/english/english.html");
+                header("Location: /english/english.html");
 
             } else {
-                //header("Location: /index.html");
-                header("Location: http://localhost:8080/index.html");
-
+                header("Location: /index.html");
             }
+            
         } else {
-            //header("Location: /erreur/erreur.php");
-            header("Location: http://localhost:8080/erreur/erreur.php");
+            header("Location: /erreur/erreur.php");
         }
     }
     exit; // pour arrêter l'éxecution du code php
@@ -491,19 +485,20 @@ function connexionBD() {
     */
     
     // Ma connexion sur Studio OL    
-    /*
+    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
-    */
+    
     
     // Ma connexion en local sur mon ordinateur
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-
+    */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;

@@ -107,7 +107,7 @@ function remplissageChamps($champs, $connMYSQL) {
     if (isset($_SESSION['user'])){
         $champs["user"] = $_SESSION['user'];
         // Comme j'ai instauré une foreign key entre la table mise_small_big vers login_organisateur je dois aller récupérer Iduser pour l'insérer avec la nouvelle combinaison
-        $sql = "select idUser from benoitmignault_ca_mywebsite.login_organisateur where user = '{$champs["user"]}' ";                
+        $sql = "select idUser from login_organisateur where user = '{$champs["user"]}' ";                
         $result_SQL = $connMYSQL->query($sql);
         $row = $result_SQL->fetch_row(); // C'est mon array de résultat
         $champs["idUser"] = (int) $row[0];	// Assignation de la valeur 
@@ -147,7 +147,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if ($longueurValeur > 6){
             $valid_Champ['valeur_long_inval'] = true;
         }        
-        $valid_Champ['doublon_valeur'] = verification_doublon("benoitmignault_ca_mywebsite.amount_color", "amount", intval($champs["valeur"]), $user, $connMYSQL);
+        $valid_Champ['doublon_valeur'] = verification_doublon("amount_color", "amount", intval($champs["valeur"]), $user, $connMYSQL);
         // fin de la vérification avec le bouton des Valeur / Couleur
     } elseif (isset($_POST['btn_addSmallBig'])){
         $small = intval($champs["small"]);
@@ -179,8 +179,8 @@ function validation($champs, $valid_Champ, $connMYSQL) {
             $valid_Champ['big_invalide'] = true;
         }
 
-        $valid_Champ['doublon_small'] = verification_doublon("benoitmignault_ca_mywebsite.mise_small_big", "small", $small, $user, $connMYSQL);
-        $valid_Champ['doublon_big'] = verification_doublon("benoitmignault_ca_mywebsite.mise_small_big", "big", $big, $user, $connMYSQL);
+        $valid_Champ['doublon_small'] = verification_doublon("mise_small_big", "small", $small, $user, $connMYSQL);
+        $valid_Champ['doublon_big'] = verification_doublon("mise_small_big", "big", $big, $user, $connMYSQL);
         // fin de la vérification avec le bouton des petites / grosses mises        
     } 
     return $valid_Champ;
@@ -242,7 +242,7 @@ function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
 }
 
 function nb_couleur_restant($connMYSQL, $champs){
-    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
+    $sql = "SELECT * FROM color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         $champs["nbCouleurRestant"] = $result->num_rows;
@@ -252,7 +252,7 @@ function nb_couleur_restant($connMYSQL, $champs){
 
 function choix_couleur_restant($connMYSQL, $champs){
     $choixDesOption = "";    
-    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
+    $sql = "SELECT * FROM color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         foreach ($result as $row) {
@@ -278,7 +278,7 @@ function choix_couleur_restant($connMYSQL, $champs){
 
 function tableau_valeur_couleur($connMYSQL, $champs){
     $tableau = "";
-    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.amount_color where user = '{$champs['user']}' ORDER BY amount";
+    $sql = "SELECT * FROM amount_color where user = '{$champs['user']}' ORDER BY amount";
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         if ($champs["typeLangue"] == "francais"){
@@ -306,7 +306,7 @@ function tableau_valeur_couleur($connMYSQL, $champs){
 
 function tableau_petite_grosse($connMYSQL, $champs){
     $tableau = "";
-    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.mise_small_big where user = '{$champs['user']}' ORDER BY small, big";
+    $sql = "SELECT * FROM mise_small_big where user = '{$champs['user']}' ORDER BY small, big";
     $result = $connMYSQL->query($sql);    
     if ($result->num_rows > 0){
         if ($champs["typeLangue"] == "francais"){
@@ -334,7 +334,7 @@ function tableau_petite_grosse($connMYSQL, $champs){
 
 function insert_BD_valeur_couleur($connMYSQL, $champs){
     $valeur = intval($champs["valeur"]);  
-    $insert = "INSERT INTO benoitmignault_ca_mywebsite.amount_color (user, amount, color_english, id_couleur, id_user) VALUES ";
+    $insert = "INSERT INTO amount_color (user, amount, color_english, id_couleur, id_user) VALUES ";
     $insert .= "('" . $champs["user"] . "','" . $valeur . "','" . $champs["couleur"] . "', NULL , '" . $champs["idUser"] . "')";
     $result = $connMYSQL->query($insert);  
     return $result;
@@ -343,7 +343,7 @@ function insert_BD_valeur_couleur($connMYSQL, $champs){
 function insert_BD_petite_grosse_mise($connMYSQL, $champs){  
     $small = intval($champs["small"]);  
     $big = intval($champs["big"]);  
-    $insert = "INSERT INTO benoitmignault_ca_mywebsite.mise_small_big (user, small, big, id_valeur, id_user) VALUES ";
+    $insert = "INSERT INTO mise_small_big (user, small, big, id_valeur, id_user) VALUES ";
     $insert .= "('" . $champs["user"] . "','" . $small . "','" . $big . "', NULL , '" . $champs["idUser"] . "')";
     $result = $connMYSQL->query($insert); 
     return $result;
@@ -352,7 +352,7 @@ function insert_BD_petite_grosse_mise($connMYSQL, $champs){
 function delete_BD_valeur_couleur($connMYSQL, $champs){
     $user = "\"" . $champs['user'] . "\"";
     $id = $champs["idCouleur"];
-    $delete = "DELETE FROM benoitmignault_ca_mywebsite.amount_color WHERE user = $user and id_couleur = $id";
+    $delete = "DELETE FROM amount_color WHERE user = $user and id_couleur = $id";
     $result = $connMYSQL->query($delete);  
     return $result;
 }
@@ -360,7 +360,7 @@ function delete_BD_valeur_couleur($connMYSQL, $champs){
 function delete_BD_petite_grosse_mise($connMYSQL, $champs){
     $user = "\"" . $champs['user'] . "\"";
     $id = $champs["idPetiteGrosse"];
-    $delete = "DELETE FROM benoitmignault_ca_mywebsite.mise_small_big WHERE user = $user and id_valeur = $id";
+    $delete = "DELETE FROM mise_small_big WHERE user = $user and id_valeur = $id";
     $result = $connMYSQL->query($delete);
     return $result;
 }
@@ -373,10 +373,22 @@ function reset_champs($champs){
 }
 
 function connexionBD() {  
+    // Ma connexion via one.com qui ne sera plus utilisée
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
+    */
+    
+    // Ma connexion sur Studio OL    
+    
+    $host = "localhost";
+    $user = "benoitmi_benoit";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+    
+    // Ma connexion en local sur mon ordinateur
     /*
     $host = "localhost";
     $user = "zmignaub";

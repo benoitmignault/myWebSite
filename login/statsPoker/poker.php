@@ -80,7 +80,7 @@ function traduction($typeLangue, $user) {
 
 function creationListe($nameSelected, $connMYSQL, $arrayMots) {    
     $liste_Joueur = "";
-    $sql = "select joueur from benoitmignault_ca_mywebsite.joueur order by joueur";
+    $sql = "select joueur from joueur order by joueur";
     $result = $connMYSQL->query($sql);
     if ($_POST['method'] == 2){
         $liste_Joueur = "<option value=''>{$arrayMots['option']}</option>";
@@ -100,44 +100,19 @@ function creationListe($nameSelected, $connMYSQL, $arrayMots) {
             } else {
                 $liste_Joueur .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
             }
-        }
-        
+        }        
         
     } else {
         $liste_Joueur = "<option value='' selected>{$arrayMots['option']}</option>";
         foreach ($result as $row) {
             $liste_Joueur .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
         }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] == 1 || $_POST['method'] == 4 || $_POST['method'] == 5 || $_POST['method'] == 6 || $_POST['method'] == 7) {
-        $liste_Joueur = "<option value='' selected>{$arrayMots['option']}</option>";
-        foreach ($result as $row) {
-            $liste_Joueur .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
-        }
-    } elseif ($_POST['method'] == 2 || $_POST['method'] == 3) {
-        $liste_Joueur = "<option value=''>{$arrayMots['option']}</option>";
-        foreach ($result as $row) {
-            if ($nameSelected === $row['joueur']) {
-                $liste_Joueur .= "<option value=\"{$row['joueur']}\" selected>{$row['joueur']}</option>";
-            } else {
-                $liste_Joueur .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
-            }
-        }
-    }*/
+    }    
     return $liste_Joueur;
 }
 
 function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
-    $sql = "SELECT distinct id_tournoi FROM benoitmignault_ca_mywebsite.poker order by id_tournoi desc";
+    $sql = "SELECT distinct id_tournoi FROM poker order by id_tournoi desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 5) {
@@ -159,7 +134,7 @@ function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
 }
 
 function creationListeDate($tournoiDate, $connMYSQL, $arrayMots) {
-    $sql = "SELECT distinct date FROM benoitmignault_ca_mywebsite.poker order by date desc";
+    $sql = "SELECT distinct date FROM poker order by date desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 6) {
@@ -197,7 +172,7 @@ function lesGrandsGagnants_100e($nom_Champion) {
 }
 
 function affichageBrute($connMYSQL, $arrayMots) {
-    $sql = "select joueur, gain, victoire, fini_2e, id_tournoi, date from benoitmignault_ca_mywebsite.poker order by id_tournoi desc, gain desc";
+    $sql = "select joueur, gain, victoire, fini_2e, id_tournoi, date from poker order by id_tournoi desc, gain desc";
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
             <thead> 
@@ -231,7 +206,7 @@ function affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots) {
     if ($informationJoueur === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_joueur']}</h3>";
     } else {
-        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where joueur = '{$informationJoueur}' order by id_tournoi desc";
+        $sql = "SELECT * FROM poker where joueur = '{$informationJoueur}' order by id_tournoi desc";
         $result = $connMYSQL->query($sql);
         $tableau = "
                     <table> <thead>
@@ -274,7 +249,7 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
                     count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
                     count(joueur) as nb_presence
                 FROM
-                    benoitmignault_ca_mywebsite.poker
+                    poker
                 where 
                     joueur = '{$sommaireJoueur}'";
         $result = $connMYSQL->query($sql);
@@ -316,7 +291,7 @@ function sommaireTousJoueurs($connMYSQL, $arrayMots) {
                 count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
                 count(joueur) as nb_presence
             FROM
-                benoitmignault_ca_mywebsite.poker
+                poker
             GROUP BY 
                 joueur
             order by 
@@ -358,7 +333,7 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
     if ($numeroID === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_ID']}</h3>";
     } else {
-        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where id_tournoi = '{$numeroID}' order by gain desc";
+        $sql = "SELECT * FROM poker where id_tournoi = '{$numeroID}' order by gain desc";
         $result = $connMYSQL->query($sql);
         $tableau = "<table> 
                         <thead> 
@@ -396,7 +371,7 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
     if ($tournoiDate === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_Date']}</h3>";
     } else {
-        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where date = '{$tournoiDate}' order by gain desc";
+        $sql = "SELECT * FROM poker where date = '{$tournoiDate}' order by gain desc";
         $result = $connMYSQL->query($sql);
         $tableau = "<table> 
                         <thead> 
@@ -439,7 +414,7 @@ function affichageKillerCitron($connMYSQL, $arrayMots) {
                 count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
                 count(joueur) as nb_presence
             FROM
-                benoitmignault_ca_mywebsite.poker
+                poker
             where 
                 id_tournoi > 100
             GROUP BY joueur
@@ -519,12 +494,23 @@ function redirection($typeLangue) {
 }
 
 function connexionBD() { 
+    // Ma connexion via one.com qui ne sera plus utilisée
     /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
     */
+    
+    // Ma connexion sur Studio OL    
+    /*
+    $host = "localhost";
+    $user = "benoitmi_benoit";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+    */
+    
+    // Ma connexion en local sur mon ordinateur
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
@@ -536,7 +522,7 @@ function connexionBD() {
 }
 
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login";
+    $sql = "select user, password from login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
@@ -626,7 +612,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (isset($_POST['method'])) {
                 // C'est la méthode que j'ai trouvé trouver la valeur max comme cette valeur va en augmentant
-                $sql = "select max(id_login) from benoitmignault_ca_mywebsite.login_stat_poker where user = '{$_SESSION['user']}' ";                    
+                $sql = "select max(id_login) from login_stat_poker where user = '{$_SESSION['user']}' ";                    
                 $result_SQL = $connMYSQL->query($sql);
                 $row = $result_SQL->fetch_row(); // C'est mon array de résultat
                 $idConnexion = (int) $row[0];	// Assignation de la valeur
@@ -634,7 +620,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $date_method = date("Y-m-d H:i:s");
 
                 // Ajouter la methode choisie par le user dans la table affichage_stat_poker en lien avec mon login sur la page
-                $insert = "INSERT INTO benoitmignault_ca_mywebsite.affichage_stat_poker (user,methode,id_login,id_affichage,date) VALUES ";
+                $insert = "INSERT INTO affichage_stat_poker (user,methode,id_login,id_affichage,date) VALUES ";
                 $insert .= "('" . $user . "','" . $_POST['method'] . "','" . $idConnexion . "',NULL,'" . $date_method . "')";
                 $connMYSQL->query($insert);
 

@@ -304,6 +304,7 @@ function connexionBD() {
     $bd = "benoitmi_benoitmignault.ca.mysql";
     */
     
+    // Ma connexion en local sur mon ordinateur
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";

@@ -243,7 +243,7 @@ function creationUser($champs, $connMYSQL) {
 // Selon une recommandation :
 // https://stackoverflow.com/questions/30279321/how-to-use-password-hash
 // On ne doit pas jouer avec le salt....
-function encryptementPassword(string $password) {
+function encryptementPassword($password) {
     $passwordCrypter = password_hash($password, PASSWORD_BCRYPT);
     return $passwordCrypter;
 }

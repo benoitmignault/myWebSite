@@ -2,10 +2,22 @@
 header("Content-type: application/json; charset=utf-8");
 
 function connexionBD() {
+    // Ma connexion via one.com qui ne sera plus utilisée
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
+    */
+    
+    // Ma connexion sur Studio OL    
+    
+    $host = "localhost";
+    $user = "benoitmi_benoit";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+    
+    // Ma connexion en local sur mon ordinateur
     /*
     $host = "localhost";
     $user = "zmignaub";
@@ -77,7 +89,7 @@ function remplissageChamps($champs){
 function selection_small_big_blind($connMYSQL, $champs){
     // Au moment arriver ici, la combinaison est aumenter précédament dans l'autre fonction
     $result_double_dimention = [];
-    $sql = "SELECT small, big FROM benoitmignault_ca_mywebsite.mise_small_big where user = '{$champs['user']}' order by small";
+    $sql = "SELECT small, big FROM mise_small_big where user = '{$champs['user']}' order by small";
     $result = $connMYSQL->query($sql);  
 
     if ($result->num_rows > 0){ 

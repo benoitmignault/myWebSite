@@ -88,7 +88,7 @@ function remplissageChamps($champs) {
 }
 
 function creationListe($connMYSQL, $arrayMots, $champ) {
-    $sql = "select joueur from benoitmignault_ca_mywebsite.joueur order by joueur";
+    $sql = "select joueur from joueur order by joueur";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || empty($champ['listeJoueur'])) {
@@ -139,7 +139,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
             $valid_Champ['vide_NewJoueur'] = true;
             $valid_Champ['tous_champs_Vide'] = true;
         } else {
-            $sql = "select joueur from benoitmignault_ca_mywebsite.joueur order by joueur";
+            $sql = "select joueur from joueur order by joueur";
             $result = $connMYSQL->query($sql);
             foreach ($result as $row) {
                 if ($row['joueur'] === $champs['newJoueur']) {
@@ -476,10 +476,22 @@ function verifChampPosition($valid_Champ) {
 /* Fonction pour ouvrir une connexion à la BD */
 
 function connexionBD() {    
+    // Ma connexion via one.com qui ne sera plus utilisée
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
+    */
+    
+    // Ma connexion sur Studio OL    
+    
+    $host = "localhost";
+    $user = "benoitmi_benoit";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+    
+    // Ma connexion en local sur mon ordinateur
     /*
     $host = "localhost";
     $user = "zmignaub";
@@ -495,7 +507,7 @@ function connexionBD() {
 /* Fonction pour valider si le user et son mdp dans les variables sessions sont bonnes */
 
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login";
+    $sql = "select user, password from login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
@@ -517,7 +529,7 @@ function redirection($champs, $connMYSQL) {
 
         if (isset($_POST['stats'])) {
             // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-            $sql = "select id from benoitmignault_ca_mywebsite.login where user = '{$_SESSION['user']}' ";                
+            $sql = "select id from login where user = '{$_SESSION['user']}' ";                
             $result_SQL = $connMYSQL->query($sql);
             $row = $result_SQL->fetch_row(); // C'est mon array de résultat
             $id = (int) $row[0];	// Assignation de la valeur 
@@ -525,7 +537,7 @@ function redirection($champs, $connMYSQL) {
             $date = date("Y-m-d H:i:s");
             
             // Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques 
-            $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
+            $insert = "INSERT INTO login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
             $insert .= "('" . $_SESSION['user'] . "',
                          '" . $date . "',
                             NULL,
@@ -613,7 +625,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $fini2e = "X";
                 }
                 $killerFloat = floatval($champs["killer"]);
-                $insert = "INSERT INTO benoitmignault_ca_mywebsite.poker (joueur,gain,victoire,fini_2e,id_tournoi,date,id,killer,prixCitron) VALUES ";
+                $insert = "INSERT INTO poker (joueur,gain,victoire,fini_2e,id_tournoi,date,id,killer,prixCitron) VALUES ";
                 $insert .= "('" . $champs["listeJoueur"] . "',
                              '" . $champs["gain"] . "',
                              '" . $victoire . "',
@@ -640,7 +652,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $valid_Champ = validation($champs, $valid_Champ, $connMYSQL);
             $champs = situation($champs, $valid_Champ);
             if ($champs['message'] === "") {
-                $insert = "INSERT INTO benoitmignault_ca_mywebsite.joueur (joueur,id) VALUES ";
+                $insert = "INSERT INTO joueur (joueur,id) VALUES ";
                 $insert .= "('" . $champs["newJoueur"] . "', NULL)";
                 $connMYSQL->query($insert);
                 if ($champs['typeLangue'] === "francais") {

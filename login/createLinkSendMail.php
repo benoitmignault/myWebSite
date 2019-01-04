@@ -126,7 +126,7 @@ function situation($champs){
 }
 
 function creationLink($champs, $connMYSQL){  
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
+    $sql = "select user, password from login where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
     $connMYSQL->query($sql);
     // Si le résultat est inférieur à 1, 
     // nous avons une erreur de communication ou un échec lors de la requête SQL 
@@ -139,7 +139,7 @@ function creationLink($champs, $connMYSQL){
         $lien_Reset_PWD = encryptementPassword($lien_Reset_PWD);
         $password_Temp = generateRandomString(10);
         $password_Encrypted = encryptementPassword($password_Temp);
-        $sql_update = "update benoitmignault_ca_mywebsite.login set reset_link = '{$lien_Reset_PWD}', passwordTemp = '{$password_Encrypted}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
+        $sql_update = "update login set reset_link = '{$lien_Reset_PWD}', passwordTemp = '{$password_Encrypted}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
         $connMYSQL->query($sql_update);
 
         // On valide que l'insertion des password temporaire et link encryptés s'est bien passé
@@ -152,7 +152,7 @@ function creationLink($champs, $connMYSQL){
             $current_timestamp = strtotime($current_time);
             // On ajoute 24 heures pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
             $temps_Autorisé = strtotime("+48 hour", strtotime($current_time));
-            $sql_update = "update benoitmignault_ca_mywebsite.login set temps_Valide_link = '{$temps_Autorisé}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
+            $sql_update = "update login set temps_Valide_link = '{$temps_Autorisé}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
             $connMYSQL->query($sql_update);
 
             // On valide ici que l'ajout du temps autorisé au changement de PWD a bien marché
@@ -264,10 +264,22 @@ function redirection($champs) {
 }
 
 function connexionBD(){
+    // Ma connexion via one.com qui ne sera plus utilisée
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
+    */
+    
+    // Ma connexion sur Studio OL    
+    
+    $host = "localhost";
+    $user = "benoitmi_benoit";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+    
+    // Ma connexion en local sur mon ordinateur
     /*
     $host = "localhost";
     $user = "zmignaub";

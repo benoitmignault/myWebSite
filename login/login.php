@@ -217,7 +217,7 @@ function situation($champs) {
 }
 
 function creationUser($champs, $connMYSQL) {
-    $sql = "select user from benoitmignault_ca_mywebsite.login";
+    $sql = "select user from login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
@@ -342,7 +342,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $champs["email"] = $_POST['email'];
         $connMYSQL = connexionBD();
         // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-        $sql = "select id from benoitmignault_ca_mywebsite.login where user = '{$champs["user"]}' ";                
+        $sql = "select id from login where user = '{$champs["user"]}' ";                
         $result_SQL = $connMYSQL->query($sql);
         $row = $result_SQL->fetch_row(); // C'est mon array de résultat
         $champs["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 

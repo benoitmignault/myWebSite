@@ -1,7 +1,7 @@
 <?php
 function traduction($champs, $connMYSQL) {
     $prenom = "";
-    $sql = "SELECT name FROM benoitmignault_ca_mywebsite.login_organisateur where user = '{$champs['user']}'";
+    $sql = "SELECT name FROM login_organisateur where user = '{$champs['user']}'";
     $result = $connMYSQL->query($sql);   
     if ($result->num_rows > 0){
         foreach ($result as $row) {
@@ -402,7 +402,7 @@ function connexionBD() {
 }
 
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login_organisateur WHERE user = '{$_SESSION['user']}'";
+    $sql = "select user, password from login_organisateur WHERE user = '{$_SESSION['user']}'";
     $result = $connMYSQL->query($sql);
     if ($result->num_rows > 0){
         foreach ($result as $row) {

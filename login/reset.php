@@ -140,7 +140,7 @@ function verifChamp($champs, $connMYSQL) {
         $champs['champsVidePWD'] = true;
     }
     // Section de vérification si le password temporaire est valide avec la BD
-    $sql = "select passwordTemp, temps_Valide_link from benoitmignault_ca_mywebsite.login where reset_link = '{$champs["lien_Crypte"]}'";
+    $sql = "select passwordTemp, temps_Valide_link from login where reset_link = '{$champs["lien_Crypte"]}'";
     $result = $connMYSQL->query($sql);
     // J'ai déjà valider si le lien est valide donc j'ai un résultat obligatoire
     foreach ($result as $row) {
@@ -230,7 +230,7 @@ function situation($champs){
 }
 
 function verif_link_BD($champs, $connMYSQL){
-    $sql = "select reset_link from benoitmignault_ca_mywebsite.login where reset_link = '{$champs["lien_Crypte"]}'";
+    $sql = "select reset_link from login where reset_link = '{$champs["lien_Crypte"]}'";
     $connMYSQL->query($sql);
     // Ici , le résultat doit etre absolument de 1 car sinon le link n'est pas valide
     if (mysqli_affected_rows($connMYSQL) == 1){
@@ -242,7 +242,7 @@ function verif_link_BD($champs, $connMYSQL){
 function changementPassword($champs, $connMYSQL){
     // Remise à NULL pour les 
     $newPWDencrypt = encryptementPassword($champs["new_Password_1"]); 
-    $updateSQL = "update benoitmignault_ca_mywebsite.login set password = '{$newPWDencrypt}', reset_link = NULL, passwordTemp = NULL, temps_Valide_link = 0 where reset_link = '{$champs["lien_Crypte"]}'";
+    $updateSQL = "update login set password = '{$newPWDencrypt}', reset_link = NULL, passwordTemp = NULL, temps_Valide_link = 0 where reset_link = '{$champs["lien_Crypte"]}'";
 
     $connMYSQL->query($updateSQL);    
     if (mysqli_affected_rows($connMYSQL) == 1){
@@ -286,10 +286,22 @@ function redirection($champs) {
 }
 
 function connexionBD() {
+    // Ma connexion via one.com qui ne sera plus utilisée
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
+    */
+    
+    // Ma connexion sur Studio OL    
+    
+    $host = "localhost";
+    $user = "benoitmi_benoit";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+    
+    // Ma connexion en local sur mon ordinateur
     /*
     $host = "localhost";
     $user = "zmignaub";

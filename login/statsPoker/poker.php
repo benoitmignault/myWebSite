@@ -82,7 +82,7 @@ function creationListe($nameSelected, $connMYSQL, $arrayMots) {
     //https://pixabay.com/fr/médaille-or-conception-2163347/
     //https://pixabay.com/fr/m%C3%A9daille-argent-conception-2163349/
     //https://pixabay.com/fr/m%C3%A9daille-bronze-conception-2163351/
-    $sql = "select joueur from benoitmignault_ca_mywebsite.joueur order by joueur";
+    $sql = "select joueur from joueur order by joueur";
     $result = $connMYSQL->query($sql);
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] == 1 || $_POST['method'] == 4 || $_POST['method'] == 5 || $_POST['method'] == 6 || $_POST['method'] == 7) {
         $liste_Joueur = "<option value='' selected>{$arrayMots['option']}</option>";
@@ -103,7 +103,7 @@ function creationListe($nameSelected, $connMYSQL, $arrayMots) {
 }
 
 function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
-    $sql = "SELECT distinct id_tournoi FROM benoitmignault_ca_mywebsite.poker order by id_tournoi desc";
+    $sql = "SELECT distinct id_tournoi FROM poker order by id_tournoi desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 5) {
@@ -125,7 +125,7 @@ function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
 }
 
 function creationListeDate($tournoiDate, $connMYSQL, $arrayMots) {
-    $sql = "SELECT distinct date FROM benoitmignault_ca_mywebsite.poker order by date desc";
+    $sql = "SELECT distinct date FROM poker order by date desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 6) {
@@ -160,7 +160,7 @@ function lesGrandsGagnants_100e($nom_Champion) {
 }
 
 function affichageBrute($connMYSQL, $arrayMots) {
-    $sql = "select joueur, gain, victoire, fini_2e, id_tournoi, date from benoitmignault_ca_mywebsite.poker order by id_tournoi desc, gain desc";
+    $sql = "select joueur, gain, victoire, fini_2e, id_tournoi, date from poker order by id_tournoi desc, gain desc";
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
             <thead> 
@@ -194,7 +194,7 @@ function affichageUnjoueur($nom, $connMYSQL, $arrayMots) {
     if ($nom === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_joueur']}</h3>";
     } else {
-        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where joueur = '{$nom}' order by id_tournoi desc";
+        $sql = "SELECT * FROM poker where joueur = '{$nom}' order by id_tournoi desc";
         $result = $connMYSQL->query($sql);
         $tableau = "
                     <table> <thead>
@@ -237,7 +237,7 @@ function sommaireUnjoueur($nom, $connMYSQL, $arrayMots) {
                     count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
                     count(joueur) as nb_presence
                 FROM
-                    benoitmignault_ca_mywebsite.poker
+                    poker
                 where 
                     joueur = '{$nom}'";
         $result = $connMYSQL->query($sql);
@@ -279,7 +279,7 @@ function sommaireTousJoueurs($connMYSQL, $arrayMots) {
                 count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
                 count(joueur) as nb_presence
             FROM
-                benoitmignault_ca_mywebsite.poker
+                poker
             GROUP BY 
                 joueur
             order by 
@@ -321,7 +321,7 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
     if ($numeroID === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_ID']}</h3>";
     } else {
-        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where id_tournoi = '{$numeroID}' order by gain desc";
+        $sql = "SELECT * FROM poker where id_tournoi = '{$numeroID}' order by gain desc";
         $result = $connMYSQL->query($sql);
         $tableau = "<table> 
                         <thead> 
@@ -359,7 +359,7 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
     if ($tournoiDate === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_Date']}</h3>";
     } else {
-        $sql = "SELECT * FROM benoitmignault_ca_mywebsite.poker where date = '{$tournoiDate}' order by gain desc";
+        $sql = "SELECT * FROM poker where date = '{$tournoiDate}' order by gain desc";
         $result = $connMYSQL->query($sql);
         $tableau = "<table> 
                         <thead> 
@@ -402,7 +402,7 @@ function affichageKillerCitron($connMYSQL, $arrayMots) {
                 count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
                 count(joueur) as nb_presence
             FROM
-                benoitmignault_ca_mywebsite.poker
+                poker
             where 
                 id_tournoi > 100
             GROUP BY joueur
@@ -482,12 +482,22 @@ function redirection($typeLangue) {
 }
 
 function connexionBD() { 
+    // Ma connexion via one.com qui ne sera plus utilisée
     /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
     */
+    
+    // Ma connexion sur Studio OL    
+    /*
+    $host = "localhost";
+    $user = "benoitmi_benoit";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+    */
+    
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
@@ -499,7 +509,7 @@ function connexionBD() {
 }
 
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login";
+    $sql = "select user, password from login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {

@@ -231,7 +231,7 @@ function creationUser($champs, $connMYSQL) {
     } else {
         $passwordCrypter = encryptementPassword($champs['password']);
         // Ajout de l'information du email dans la création du user
-        $insert = "INSERT INTO benoitmignault_ca_mywebsite.login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
+        $insert = "INSERT INTO login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
         $insert .= "('" . $champs['user'] . "','" . $passwordCrypter . "', NULL, '" . $champs['email'] . "', NULL, NULL, 0)";
         $connMYSQL->query($insert);
         if (mysqli_affected_rows($connMYSQL) == 1){
@@ -249,7 +249,7 @@ function encryptementPassword(string $password) {
 }
 
 function connexionUser($champs, $connMYSQL) {
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login";
+    $sql = "select user, password from login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
@@ -268,7 +268,7 @@ function connexionUser($champs, $connMYSQL) {
                     header("Location: ./statsPoker/administration/admin.php");
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
-                    $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
+                    $insert = "INSERT INTO login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
                     $insert .= "('" . $champs['user'] . "',
                                  '" . $date . "',
                                  NULL,
@@ -288,11 +288,20 @@ function connexionUser($champs, $connMYSQL) {
 }
 
 function connexionBD() { 
+    // Ma connexion via one.com qui ne sera plus utilisée
     /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
+    */
+    
+    // Ma connexion sur Studio OL    
+    /*
+    $host = "localhost";
+    $user = "benoitmi_benoit";
+    $password = "d-&47mK!9hjGC4L-";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
     */
     
     $host = "localhost";

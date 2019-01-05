@@ -9,7 +9,7 @@ function traduction($champs) {
         $title = "Demande de Réinitialisation";
         $p1 = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
         $li1 = "Veuillez saisir votre nom d'utilisateur et courriel.";
-        $li2 = "En raison d'une limitation de mon hébergeur Web, le courriel avec vos informations temporaires<br>vous seront transférer l'administrateur du site après réception de votre courriel...";
+        $li2 = "En raison d'une limitation de mon hébergeur Web, le courriel avec vos informations temporaires<br>vous sera transférer par l'administrateur du domaine après réception de votre courriel...";
         $legend = "Réinitialisation !";
         $usager = "Nom d'utilisateur :";
         $email = "Courriel :";
@@ -19,7 +19,7 @@ function traduction($champs) {
         $title = "Reset Request";
         $p1 = "You forgot your password, no problem, we take care of it !";
         $li1 = "Please enter your username and email.";
-        $li2 = "Due to a limitation of my web host, the email with your temporary information will be transferred<br>to you from the administrator of the site after reception of your email...";
+        $li2 = "Due to a limitation of my web host, the email with your temporary information will be transferred<br>to you by the domain administrator after receiving your email ...";
         $legend = "Reseting !";
         $usager = "Username :";
         $email = "Email :";

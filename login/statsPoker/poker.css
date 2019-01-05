@@ -184,6 +184,9 @@
     .mainPage .method .formulaire .bouton{
         margin-right:15px;
     }
+    .mainPage .info_method .methode{
+        font-size:14px;
+    }
     .mainPage .btnRetour{
         padding-bottom: 5px;
     }

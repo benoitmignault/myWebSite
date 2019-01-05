@@ -683,37 +683,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><?php echo $arrayMots['method1']; ?></td>
+                                    <td class="methode"><?php echo $arrayMots['method1']; ?></td>
                                     <td></td>
                                     <td><input class='bouton' type='submit' name='method' value=1></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $arrayMots['method2']; ?></td>
+                                    <td class="methode"><?php echo $arrayMots['method2']; ?></td>
                                     <td><select id="joueur" name="informationJoueur"><?php echo $liste_Joueur_method2; ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value=2></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $arrayMots['method3']; ?></td>
+                                    <td class="methode"><?php echo $arrayMots['method3']; ?></td>
                                     <td><select id="joueur" name="sommaireJoueur"><?php echo $liste_Joueur_method3; ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value=3></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $arrayMots['method4']; ?></td>
+                                    <td class="methode"><?php echo $arrayMots['method4']; ?></td>
                                     <td></td>
                                     <td><input class='bouton' type='submit' name='method' value=4></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $arrayMots['method5']; ?></td>
+                                    <td class="methode"><?php echo $arrayMots['method5']; ?></td>
                                     <td><select id="idTournois" name="listeId"><?php echo $liste_Id_tournois; ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value=5></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $arrayMots['method6']; ?></td>
+                                    <td class="methode"><?php echo $arrayMots['method6']; ?></td>
                                     <td><select id="tournois_date" name="listeDate"><?php echo $liste_Date_tournois; ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value=6></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $arrayMots['method7']; ?></td>
+                                    <td class="methode"><?php echo $arrayMots['method7']; ?></td>
                                     <td></td>
                                     <td><input class='bouton' type='submit' name='method' value=7></td>
                                 </tr>

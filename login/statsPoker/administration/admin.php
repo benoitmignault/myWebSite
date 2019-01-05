@@ -456,19 +456,19 @@ function verifChampPosition($valid_Champ) {
 }
 
 function connexionBD() {  
-    /*
+
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    */
 
 
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-
+*/
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
 
@@ -619,11 +619,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $valid_Champ = initialisation();
         if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueuil'])) {
             redirection($champs, $connMYSQL);
-            
+
         } elseif (isset($_POST['effacer'])) {
             $champs = situation($champs, $valid_Champ);
             $verif_tous_flag = verificationTout_Champs($valid_Champ);
-            
+
         } elseif (isset($_POST['ajouter'])) {
             $champs = remplissageChamps($champs);
             $valid_Champ = validation($champs, $valid_Champ, $connMYSQL);
@@ -632,7 +632,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $champs = ajout_Stat_Joueur($champs,$connMYSQL);               
             }
             $verif_tous_flag = verificationTout_Champs($valid_Champ);
-            
+
         } elseif (isset($_POST['ajouterNouveau'])) {
             $champs = remplissageChamps($champs);
             $valid_Champ = validation($champs, $valid_Champ, $connMYSQL);

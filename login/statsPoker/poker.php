@@ -450,32 +450,25 @@ function affichageKillerCitron($connMYSQL, $arrayMots) {
 function redirection($typeLangue) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         delete_Session();
-        //header("Location: /erreur/erreur.php");
-        header("Location: http://localhost:8080/erreur/erreur.php");
+        header("Location: /erreur/erreur.php");
 
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
         delete_Session();
         if (isset($_POST['return'])) {
             if ($typeLangue == 'english') {
-                //header("Location: /login/login.php?langue=english");
-                header("Location: http://localhost:8080/login/login.php?langue=english");
+                header("Location: /login/login.php?langue=english");
             } else {
-                //header("Location: /login/login.php?langue=francais");
-                header("Location: http://localhost:8080/login/login.php?langue=francais");
+                header("Location: /login/login.php?langue=francais");
             }
         } elseif (isset($_POST['home'])) {
             if ($typeLangue == 'english') {
-                //header("Location: /english/english.html");
-                header("Location: http://localhost:8080/english/english.html");
+                header("Location: /english/english.html");
 
             } else {
-                //header("Location: /index.html");
-                header("Location: http://localhost:8080/index.html");
-
+                header("Location: /index.html");
             }
         } else {
-            //header("Location: /erreur/erreur.php");
-            header("Location: http://localhost:8080/erreur/erreur.php");
+            header("Location: /erreur/erreur.php");
         }
     }
     exit; // pour arrêter l'éxecution du code php
@@ -490,12 +483,12 @@ function delete_Session(){
 
 function connexionBD() { 
     // Ma connexion via one.com qui ne sera plus utilisée
-    /*
+    
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+    
     
     // Ma connexion sur Studio OL    
     /*
@@ -506,11 +499,12 @@ function connexionBD() {
     */
     
     // Ma connexion en local sur mon ordinateur
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-
+    */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;

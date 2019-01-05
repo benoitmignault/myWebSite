@@ -187,14 +187,16 @@
     .mainPage .btnRetour{
         padding-bottom: 5px;
     }
-    .mainPage .affichage fieldset{
+    .mainPage .affichage fieldset,
+    .mainPage .info_method fieldset{
         padding: 0px;
     }
     .mainPage > div > fieldset > legend{
         width: 75%;
         font-weight: bold;
     }
-    .mainPage .affichage > fieldset > legend:last-of-type{
+    .mainPage .affichage > fieldset > legend,
+    .mainPage .info_method > fieldset > legend{
         margin-bottom: 10px;
     }
 }

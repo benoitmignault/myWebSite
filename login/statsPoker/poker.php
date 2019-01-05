@@ -449,24 +449,12 @@ function affichageKillerCitron($connMYSQL, $arrayMots) {
 
 function redirection($typeLangue) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-
-        // Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
-        session_unset(); // détruire toutes les variables SESSION
-        setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
-        session_destroy();
-        session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
-
+        delete_Session();
         //header("Location: /erreur/erreur.php");
         header("Location: http://localhost:8080/erreur/erreur.php");
 
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-        // Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
-        session_unset(); // détruire toutes les variables SESSION
-        setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
-        session_destroy();
-        session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
-
+        delete_Session();
         if (isset($_POST['return'])) {
             if ($typeLangue == 'english') {
                 //header("Location: /login/login.php?langue=english");
@@ -491,6 +479,13 @@ function redirection($typeLangue) {
         }
     }
     exit; // pour arrêter l'éxecution du code php
+}
+
+function delete_Session(){
+    session_unset(); // détruire toutes les variables SESSION
+    setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
+    session_destroy();
+    session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
 }
 
 function connexionBD() { 
@@ -561,7 +556,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         redirection($typeLangue);
     } else {
         $arrayMots = traduction($typeLangue, $user);
-        $liste_Joueur = creationListe("", $connMYSQL, $arrayMots);
+        $liste_Joueur_method2 = creationListe("", $connMYSQL, $arrayMots);
+        $liste_Joueur_method3 = creationListe("", $connMYSQL, $arrayMots);
         $liste_Id_tournois = creationListeId("", $connMYSQL, $arrayMots);
         $liste_Date_tournois = creationListeDate("", $connMYSQL, $arrayMots);
     }
@@ -674,7 +670,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 background-size: 100%;
             }
         </style>
-
     </head>
     <body>
         <p id="hautPage"></p>

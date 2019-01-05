@@ -475,17 +475,20 @@ function verifChampPosition($valid_Champ) {
 
 /* Fonction pour ouvrir une connexion à la BD */
 
-function connexionBD() {    
+function connexionBD() {  
+    /*
     $host = "benoitmignault.ca.mysql";
     $user = "benoitmignault_ca_mywebsite";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmignault_ca_mywebsite";
-    /*
+    */
+
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
 
@@ -511,7 +514,8 @@ function verificationUser($connMYSQL) {
 
 function redirection($champs, $connMYSQL) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        session_destroy();
+        // Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
+        delete_Session();
         header("Location: /erreur/erreur.php");
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -523,7 +527,7 @@ function redirection($champs, $connMYSQL) {
             $id = (int) $row[0];	// Assignation de la valeur 
             date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
             $date = date("Y-m-d H:i:s");
-            
+
             // Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques 
             $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
             $insert .= "('" . $_SESSION['user'] . "',
@@ -532,11 +536,12 @@ function redirection($champs, $connMYSQL) {
                          '" . $id . "')";
             $connMYSQL->query($insert);            
             header("Location: /login/statsPoker/poker.php");
-        } elseif (isset($_POST['login'])) {
-            session_destroy();
+        } elseif (isset($_POST['login'])) {            
+            // Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
+            delete_Session();
             header("Location: /login/login.php?langue={$champs["typeLangue"]}");
         } elseif (isset($_POST['accueuil'])) {
-            session_destroy();
+            delete_Session();
             if ($typeLangue == 'english') {
                 header("Location: /english/english.html");
             } else {
@@ -545,6 +550,13 @@ function redirection($champs, $connMYSQL) {
         }
     }
     exit; // pour arrêter l'éxecution du code php
+}
+
+function delete_Session(){
+    session_unset(); // détruire toutes les variables SESSION
+    setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
+    session_destroy();
+    session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {

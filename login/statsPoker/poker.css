@@ -25,22 +25,22 @@
     margin-right: 30px;
     line-height: 1.5;
 }
+.mainPage .info_method{
+    margin-bottom: 20px;
+}
 .userDisplay{
     color:red;
     background-color: #F0FFF0;
     padding: 2px;
-}
-.infoImportant{
-    font-weight: bold;
 }
 .mainPage > div > fieldset > legend{
     background-color: #F0FFF0;
     border: 4px outset;
     padding: 2px;
 }
-.mainPage .info_method .liste li{
-    line-height: 1.3;
-    font-size: 20px;
+.mainPage .info_method form table tr td select{
+    padding:5px;
+    border-radius: 10px;
 }
 .mainPage .btnRetour{
     text-align: center;
@@ -90,8 +90,8 @@
     border-radius: 38px;
     font-family: Georgia;
     color: #ffffff;
-    font-size: 20px;
-    padding: 9px 20px 10px 20px;
+    font-size: 16px;
+    padding: 8px 15px 8px 15px;
     border: solid #738c1f 2px;
     margin-right: 15px;
 }
@@ -104,14 +104,16 @@
     background-image: linear-gradient(to bottom, #8bccf5, #6da36d);
     cursor:pointer;
 }
-.mainPage .affichage table{
+.mainPage .affichage table,
+.mainPage .info_method table{
     border-spacing: 0; /* pour enlever les espace entre les td*/
     width: 100%;
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-top: 1px solid black;    
 }
-.mainPage .affichage table th{ 
+.mainPage .affichage table th,
+.mainPage .info_method table th{ 
     background-color: lightgray;
     text-align: center;
     border-bottom: 1px solid black;
@@ -119,7 +121,8 @@
     padding-top:5px;  
     padding-bottom: 5px;
 }
-.mainPage .affichage table td{    
+.mainPage .affichage table td,
+.mainPage .info_method table td{    
     text-align: center;
     border-bottom: 1px solid black;
     padding-top:3px;  

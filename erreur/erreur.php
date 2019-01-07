@@ -20,16 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </head>
     <body> 
         <div class="erreur404">
-            <div id="explication">
+            <div id="explication">                
                 <button class="btnErreur" id="francais" type="button">Explication en français</button>
                 <button class="btnErreur" id="english" type="button">Explanation in english</button>
             </div>        
             <!-- Fichier 404-notfound.jpg est une propriété du site http://maxpixel.freegreatpicture.com/File-Not-Found-Not-Found-404-Error-2384304 sous licence libre -->
             <div class="photoErreur">
                 <img src="./404-notfound.jpg" alt="Erreur 404" title="Erreur 404">
-            </div>
+            </div>            
         </div>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>        
         <script type="text/javascript" src="erreur.js"></script>
     </body>
 </html>

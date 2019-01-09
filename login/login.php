@@ -217,7 +217,7 @@ function situation($champs) {
 }
 
 function creationUser($champs, $connMYSQL) {
-    $sql = "select user from benoitmignault_ca_mywebsite.login";
+    $sql = "select user from login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
@@ -231,7 +231,7 @@ function creationUser($champs, $connMYSQL) {
     } else {
         $passwordCrypter = encryptementPassword($champs['password']);
         // Ajout de l'information du email dans la création du user
-        $insert = "INSERT INTO benoitmignault_ca_mywebsite.login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
+        $insert = "INSERT INTO login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
         $insert .= "('" . $champs['user'] . "','" . $passwordCrypter . "', NULL, '" . $champs['email'] . "', NULL, NULL, 0)";
         $connMYSQL->query($insert);
         if (mysqli_affected_rows($connMYSQL) == 1){
@@ -249,7 +249,7 @@ function encryptementPassword(string $password) {
 }
 
 function connexionUser($champs, $connMYSQL) {
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login";
+    $sql = "select user, password from login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
@@ -258,15 +258,17 @@ function connexionUser($champs, $connMYSQL) {
                 session_start();
                 $_SESSION['user'] = $champs['user'];
                 $_SESSION['password'] = $champs['password'];
-                $_SESSION['typeLangue'] = $champs["typeLangue"];
+                $_SESSION['typeLangue'] = $champs["typeLangue"];                
                 date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
+                // Je set un cookie pour améliorer la sécurité pour vérifier que l'user est bien là...2018-12-28
+                setcookie("POKER", $_SESSION['user'], time() + 3600, "/");                
                 $date = date("Y-m-d H:i:s");
 
                 if ($row['user'] === "admin") {
                     header("Location: ./statsPoker/administration/admin.php");
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
-                    $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
+                    $insert = "INSERT INTO login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
                     $insert .= "('" . $champs['user'] . "',
                                  '" . $date . "',
                                  NULL,
@@ -285,11 +287,13 @@ function connexionUser($champs, $connMYSQL) {
     return $champs;
 }
 
-function connexionBD() {    
-    $host = "benoitmignault.ca.mysql";
-    $user = "benoitmignault_ca_mywebsite";
+function connexionBD() { 
+    // Nouvelle connexion sur hébergement du Studio OL
+    $host = "localhost";
+    $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmignault_ca_mywebsite";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+
     /*
     $host = "localhost";
     $user = "zmignaub";
@@ -328,7 +332,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $champs["email"] = $_POST['email'];
         $connMYSQL = connexionBD();
         // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-        $sql = "select id from benoitmignault_ca_mywebsite.login where user = '{$champs["user"]}' ";                
+        $sql = "select id from login where user = '{$champs["user"]}' ";                
         $result_SQL = $connMYSQL->query($sql);
         $row = $result_SQL->fetch_row(); // C'est mon array de résultat
         $champs["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 

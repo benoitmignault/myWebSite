@@ -163,7 +163,7 @@ function situation($champs, $valid_champs) {
 
 function liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste){
     $liste_Organisateurs = "";
-    $sql = "SELECT * FROM benoitmignault_ca_mywebsite.login_organisateur order by name";
+    $sql = "SELECT * FROM login_organisateur order by name";
     $result = $connMYSQL->query($sql);   
     if ($result->num_rows > 0){
         if ($_SERVER['REQUEST_METHOD'] == 'GET'){
@@ -187,7 +187,7 @@ function liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste){
 
 function affichage_nom_organisateur($connMYSQL, $champs){
     $prenom = "";
-    $sql = "SELECT name FROM benoitmignault_ca_mywebsite.login_organisateur where user = '{$champs['user']}'";
+    $sql = "SELECT name FROM login_organisateur where user = '{$champs['user']}'";
     $result = $connMYSQL->query($sql);   
     if ($result->num_rows > 0){
         foreach ($result as $row) {
@@ -199,7 +199,7 @@ function affichage_nom_organisateur($connMYSQL, $champs){
 
 function creation_tableau($connMYSQL, $champs){
     $tableau = "";
-    $sql = "SELECT amount, color_english FROM benoitmignault_ca_mywebsite.amount_color where user = '{$champs['user']}' order by amount";
+    $sql = "SELECT amount, color_english FROM amount_color where user = '{$champs['user']}' order by amount";
     $result = $connMYSQL->query($sql);   
     if ($result->num_rows > 0){
         if ($champs["typeLangue"] == "francais"){
@@ -219,7 +219,7 @@ function creation_tableau($connMYSQL, $champs){
 function selection_small_big_blind($connMYSQL, $champs){
     // Au moment arriver ici, la combinaison est aumenter précédament dans l'autre fonction
     $result_double_dimention = [];
-    $sql = "SELECT small, big FROM benoitmignault_ca_mywebsite.mise_small_big where user = '{$champs['user']}' order by small";
+    $sql = "SELECT small, big FROM mise_small_big where user = '{$champs['user']}' order by small";
     $result = $connMYSQL->query($sql);  
 
     if ($result->num_rows > 0){ 
@@ -269,10 +269,12 @@ function redirection($champs) {
 }
 
 function connexionBD() {
-    $host = "benoitmignault.ca.mysql";
-    $user = "benoitmignault_ca_mywebsite";
+    // Nouvelle connexion sur hébergement du Studio OL
+    $host = "localhost";
+    $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmignault_ca_mywebsite";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+
     /*
     $host = "localhost";
     $user = "zmignaub";

@@ -88,7 +88,7 @@ function remplissageChamps($champs) {
 }
 
 function creationListe($connMYSQL, $arrayMots, $champ) {
-    $sql = "select joueur from benoitmignault_ca_mywebsite.joueur order by joueur";
+    $sql = "select joueur from joueur order by joueur";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || empty($champ['listeJoueur'])) {
@@ -139,7 +139,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
             $valid_Champ['vide_NewJoueur'] = true;
             $valid_Champ['tous_champs_Vide'] = true;
         } else {
-            $sql = "select joueur from benoitmignault_ca_mywebsite.joueur order by joueur";
+            $sql = "select joueur from joueur order by joueur";
             $result = $connMYSQL->query($sql);
             foreach ($result as $row) {
                 if ($row['joueur'] === $champs['newJoueur']) {
@@ -389,8 +389,6 @@ function situation($champs, $valid_Champ) {
     return $champs;
 }
 
-/* Fonction pour vérifier si on affiche le message en vert ou en rouge */
-
 function verificationTout_Champs($valid_Champ) {
     $autorisation = true;
     foreach ($valid_Champ as $eachFlag => $info) {
@@ -401,16 +399,12 @@ function verificationTout_Champs($valid_Champ) {
     return $autorisation;
 }
 
-/* Fonction pour vérifier si le champ Gain est invalide et le résultat va mettre la bordure et l'intérieur rouge */
-
 function verifChampGain($valid_Champ) {
     if ($valid_Champ['invalid_Gain'] || $valid_Champ['longueur_inval_Gain'] || $valid_Champ['vide_Gain']) {
         return true;
     }
     return false;
 }
-
-/* Fonction pour vérifier si le champ ID est invalide et le résultat va mettre la bordure et l'intérieur rouge */
 
 function verifChampId($valid_Champ) {
     if ($valid_Champ['invalid_Id'] || $valid_Champ['longueur_inval_Id'] || $valid_Champ['vide_Id']) {
@@ -419,16 +413,12 @@ function verifChampId($valid_Champ) {
     return false;
 }
 
-/* Fonction pour vérifier si le champ ID est invalide et le résultat va mettre la bordure et l'intérieur rouge */
-
 function verifChampDate($valid_Champ) {
     if ($valid_Champ['invalid_Date'] || $valid_Champ['longueur_inval_Date'] || $valid_Champ['vide_Date']) {
         return true;
     }
     return false;
 }
-
-/* Fonction pour vérifier si le champ DATE est invalide et le résultat va mettre la bordure et l'intérieur rouge */
 
 function verifChampJoueur($valid_Champ) {
     if ($valid_Champ['vide_Joueur']) {
@@ -437,16 +427,12 @@ function verifChampJoueur($valid_Champ) {
     return false;
 }
 
-/* Fonction pour vérifier si le champ Killer est invalide et le résultat va mettre la bordure et l'intérieur rouge */
-
 function verifChampKiller($valid_Champ) {
     if ($valid_Champ['invalid_Killer'] || $valid_Champ['longueur_inval_Killer'] || $valid_Champ['vide_Killer']) {
         return true;
     }
     return false;
 }
-
-/* Fonction pour vérifier si le champ Killer est invalide et le résultat va mettre la bordure et l'intérieur rouge */
 
 function verifChampCitron($valid_Champ) {
     if ($valid_Champ['invalid_Citron'] || $valid_Champ['longueur_inval_Citron'] || $valid_Champ['vide_Citron']) {
@@ -455,16 +441,12 @@ function verifChampCitron($valid_Champ) {
     return false;
 }
 
-/* Fonction pour vérifier si le champ nouveau joueur est invalide et le résultat va mettre la bordure et l'intérieur rouge */
-
 function verifChampNouveau($valid_Champ) {
     if ($valid_Champ['invalid_New'] || $valid_Champ['longueur_inval_New'] || $valid_Champ['vide_NewJoueur']) {
         return true;
     }
     return false;
 }
-
-/* Fonction pour vérifier si le champ position est invalide et le résultat va mettre la bordure et l'intérieur rouge */
 
 function verifChampPosition($valid_Champ) {
     if ($valid_Champ['vide_position']) {
@@ -473,13 +455,13 @@ function verifChampPosition($valid_Champ) {
     return false;
 }
 
-/* Fonction pour ouvrir une connexion à la BD */
-
-function connexionBD() {    
-    $host = "benoitmignault.ca.mysql";
-    $user = "benoitmignault_ca_mywebsite";
+function connexionBD() {  
+    // Nouvelle connexion sur hébergement du Studio OL
+    $host = "localhost";
+    $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmignault_ca_mywebsite";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+
     /*
     $host = "localhost";
     $user = "zmignaub";
@@ -492,10 +474,8 @@ function connexionBD() {
     return $connMYSQL;
 }
 
-/* Fonction pour valider si le user et son mdp dans les variables sessions sont bonnes */
-
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login";
+    $sql = "select user, password from login";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
@@ -510,22 +490,22 @@ function verificationUser($connMYSQL) {
 }
 
 function redirection($champs, $connMYSQL) {
-    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        session_destroy();
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {        
+        delete_Session();
         header("Location: /erreur/erreur.php");
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (isset($_POST['stats'])) {
             // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-            $sql = "select id from benoitmignault_ca_mywebsite.login where user = '{$_SESSION['user']}' ";                
+            $sql = "select id from login where user = '{$_SESSION['user']}' ";                
             $result_SQL = $connMYSQL->query($sql);
             $row = $result_SQL->fetch_row(); // C'est mon array de résultat
             $id = (int) $row[0];	// Assignation de la valeur 
             date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
             $date = date("Y-m-d H:i:s");
-            
+
             // Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques 
-            $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
+            $insert = "INSERT INTO login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
             $insert .= "('" . $_SESSION['user'] . "',
                          '" . $date . "',
                             NULL,
@@ -533,10 +513,10 @@ function redirection($champs, $connMYSQL) {
             $connMYSQL->query($insert);            
             header("Location: /login/statsPoker/poker.php");
         } elseif (isset($_POST['login'])) {
-            session_destroy();
+            delete_Session();
             header("Location: /login/login.php?langue={$champs["typeLangue"]}");
         } elseif (isset($_POST['accueuil'])) {
-            session_destroy();
+            delete_Session();
             if ($typeLangue == 'english') {
                 header("Location: /english/english.html");
             } else {
@@ -547,6 +527,51 @@ function redirection($champs, $connMYSQL) {
     exit; // pour arrêter l'éxecution du code php
 }
 
+function delete_Session(){
+    // Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
+    session_unset(); // détruire toutes les variables SESSION
+    setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
+    session_destroy();
+    session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
+}
+
+function ajout_Stat_Joueur($champs,$connMYSQL){
+    $victoire = "";
+    $fini2e = "";
+    if ($champs["position"] === "victoire") {
+        $victoire = "X";
+    } elseif ($champs["position"] === "fini2e") {
+        $fini2e = "X";
+    }
+    $killerFloat = floatval($champs["killer"]);
+    $insert = "INSERT INTO poker (joueur,gain,victoire,fini_2e,id_tournoi,date,id,killer,prixCitron) VALUES ";
+    $insert .= "('". $champs["listeJoueur"] ."','". $champs["gain"] ."','". $victoire ."','". $fini2e ."','". $champs["numTournoi"] ."',
+                 '". $champs["date"] ."',NULL,'". $killerFloat ."','". $champs["citron"] ."')";
+    $connMYSQL->query($insert);
+    if ($champs['typeLangue'] === "francais") {
+        $messageAjout = "Les informations du joueur {$champs["listeJoueur"]} a été ajouté à la BD.";
+    } elseif ($champs['typeLangue'] === "english") {
+        $messageAjout = "The player information {$champs["listeJoueur"]} has been added to the BD.";
+    }
+    $champs = initialisation_Champs();
+    $champs['message'] = $messageAjout;
+    return $champs;
+}
+
+function ajouter_Nouveau_Joueur($champs,$connMYSQL){
+    $insert = "INSERT INTO joueur (joueur,id) VALUES ";
+    $insert .= "('" . $champs["newJoueur"] . "', NULL)";
+    $connMYSQL->query($insert);
+    if ($champs['typeLangue'] === "francais") {
+        $messageAjout = "Le nouveau joueur {$champs["listeJoueur"]} a été ajouté à la BD.";
+    } elseif ($champs['typeLangue'] === "english") {
+        $messageAjout = "The player information {$champs["listeJoueur"]} has been added to the BD.";
+    }
+    $champs = initialisation_Champs();
+    $champs['message'] = $messageAjout;
+    return $champs;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     session_start();
     $champs["typeLangue"] = "francais";
@@ -554,7 +579,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         isset($_SESSION['typeLangue'])) {
         $connMYSQL = connexionBD();
         $verificationUser = verificationUser($connMYSQL);
-        $champs = initialisation_Champs();
     } else {
         redirection($champs, $connMYSQL);
     }
@@ -579,8 +603,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_SESSION['user']) && isset($_SESSION['password']) &&
         isset($_SESSION['typeLangue'])) {
         $connMYSQL = connexionBD();
-        $verificationUser = verificationUser($connMYSQL);
-        $champs = initialisation_Champs();
+        $verificationUser = verificationUser($connMYSQL);              
     } else {
         redirection($champs, $connMYSQL);
     }
@@ -591,65 +614,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
         redirection($champs, $connMYSQL);
     } else {
+        $champs = initialisation_Champs();  
+        $valid_Champ = initialisation();
         if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueuil'])) {
             redirection($champs, $connMYSQL);
+
         } elseif (isset($_POST['effacer'])) {
-            $champs = initialisation_Champs();
-            $valid_Champ = initialisation();
             $champs = situation($champs, $valid_Champ);
             $verif_tous_flag = verificationTout_Champs($valid_Champ);
+
         } elseif (isset($_POST['ajouter'])) {
-            $champs = initialisation_Champs();
-            $valid_Champ = initialisation();
             $champs = remplissageChamps($champs);
             $valid_Champ = validation($champs, $valid_Champ, $connMYSQL);
             $champs = situation($champs, $valid_Champ);
             if ($champs['message'] === "") {
-                $victoire = "";
-                $fini2e = "";
-                if ($champs["position"] === "victoire") {
-                    $victoire = "X";
-                } elseif ($champs["position"] === "fini2e") {
-                    $fini2e = "X";
-                }
-                $killerFloat = floatval($champs["killer"]);
-                $insert = "INSERT INTO benoitmignault_ca_mywebsite.poker (joueur,gain,victoire,fini_2e,id_tournoi,date,id,killer,prixCitron) VALUES ";
-                $insert .= "('" . $champs["listeJoueur"] . "',
-                             '" . $champs["gain"] . "',
-                             '" . $victoire . "',
-                             '" . $fini2e . "',
-                             '" . $champs["numTournoi"] . "',
-                             '" . $champs["date"] . "',
-                             NULL,
-                             '" . $killerFloat . "',
-                             '" . $champs["citron"] . "')";
-                $connMYSQL->query($insert);
-                if ($champs['typeLangue'] === "francais") {
-                    $messageAjout = "Les informations du joueur {$champs["listeJoueur"]} a été ajouté à la BD.";
-                } elseif ($champs['typeLangue'] === "english") {
-                    $messageAjout = "The player information {$champs["listeJoueur"]} has been added to the BD.";
-                }
-                $champs = initialisation_Champs();
-                $champs['message'] = $messageAjout;
+                $champs = ajout_Stat_Joueur($champs,$connMYSQL);               
             }
             $verif_tous_flag = verificationTout_Champs($valid_Champ);
+
         } elseif (isset($_POST['ajouterNouveau'])) {
-            $champs = initialisation_Champs();
-            $valid_Champ = initialisation();
             $champs = remplissageChamps($champs);
             $valid_Champ = validation($champs, $valid_Champ, $connMYSQL);
             $champs = situation($champs, $valid_Champ);
             if ($champs['message'] === "") {
-                $insert = "INSERT INTO benoitmignault_ca_mywebsite.joueur (joueur,id) VALUES ";
-                $insert .= "('" . $champs["newJoueur"] . "', NULL)";
-                $connMYSQL->query($insert);
-                if ($champs['typeLangue'] === "francais") {
-                    $messageAjout = "Le nouveau joueur {$champs["listeJoueur"]} a été ajouté à la BD.";
-                } elseif ($champs['typeLangue'] === "english") {
-                    $messageAjout = "The player information {$champs["listeJoueur"]} has been added to the BD.";
-                }
-                $champs = initialisation_Champs();
-                $champs['message'] = $messageAjout;
+                $champs = ajouter_Nouveau_Joueur($champs,$connMYSQL);                
             }
             $verif_tous_flag = verificationTout_Champs($valid_Champ);
         }

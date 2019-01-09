@@ -217,7 +217,7 @@ function situation($champInitial) {
 }
 
 function creationUser($champInitial, $connMYSQL) {
-    $sql = "select user from benoitmignault_ca_mywebsite.login_organisateur";
+    $sql = "select user from login_organisateur";
     $result = $connMYSQL->query($sql);
     foreach ($result as $row) {
         if ($row['user'] === $champInitial['user']) {
@@ -227,7 +227,7 @@ function creationUser($champInitial, $connMYSQL) {
     }
     $nameFormate = ucfirst($champInitial['name']); 
     $passwordCrypter = encryptementPassword($champInitial['password']);
-    $insert = "INSERT INTO benoitmignault_ca_mywebsite.login_organisateur (user, password, name, idUser) VALUES ";
+    $insert = "INSERT INTO login_organisateur (user, password, name, idUser) VALUES ";
     $insert .= "('".$champInitial['user']."', '".$passwordCrypter."', '".$nameFormate."', NULL)";
     $connMYSQL->query($insert);
     return $champInitial;
@@ -240,7 +240,7 @@ function encryptementPassword(string $password) {
 }
 
 function connexionUser($champInitial, $connMYSQL) {
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login_organisateur";
+    $sql = "select user, password from login_organisateur";
     $result = $connMYSQL->query($sql);
 
     foreach ($result as $row) {
@@ -263,11 +263,13 @@ function connexionUser($champInitial, $connMYSQL) {
 }
 
 function connexionBD() {
-    $host = "benoitmignault.ca.mysql";
-    $user = "benoitmignault_ca_mywebsite";
+    // Nouvelle connexion sur hébergement du Studio OL
+    $host = "localhost";
+    $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmignault_ca_mywebsite";
-    /*   
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";

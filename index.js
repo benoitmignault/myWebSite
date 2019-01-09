@@ -76,9 +76,13 @@ function affichageSection(){
 
 function callAjax(){
     var data = { "type_langue": langue.value };
-    //var url = "http://benoitmignault.ca/calendrier/calendrier.php";
-    var url = "http://localhost:8080/calendrier/calendrier.php";
-    
+    var url = ""; 
+    if (langue.value == "fr"){
+        url = "/calendrier/calendrier.php";   
+    } else if (langue.value == "en"){
+        url = "../calendrier/calendrier.php";   
+    }
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -93,7 +97,7 @@ function callAjax(){
                 start_timer(); 
             } else if (dataReturn["erreur"]){
                 var dataErr = JSON.parse(dataReturn["erreur"]);
-                if (langue.value == "english"){
+                if (langue.value == "en"){
                     if (dataErr.situation1){
                         calendrierAJAX.innerHTML = "Warning ! It is missing the value of the language for the display of the web page !";
                     } else if (dataErr.situation2){
@@ -273,9 +277,15 @@ function envoyerCourriel(){
 
             // Serialize the data in the form
             var serializedData = $form.serialize();
-
+            var url = "";
+            if (langue.value === "fr"){
+                url = "/contact/contact.php";
+            } else if (langue.value === "en"){
+                url = "../contact/contact.php";
+            }
+            
             request = $.ajax({
-                url: "http://benoitmignault.ca/contact/contact.php",
+                url: url,
                 type: "post",
                 data: serializedData
             });

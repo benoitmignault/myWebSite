@@ -1,5 +1,4 @@
 <?php
-
 function traduction($typeLangue, $user) {
     $user = strtoupper($user);
 
@@ -482,23 +481,12 @@ function delete_Session(){
 }
 
 function connexionBD() { 
-    // Ma connexion via one.com qui ne sera plus utilisée
-    
-    $host = "benoitmignault.ca.mysql";
-    $user = "benoitmignault_ca_mywebsite";
-    $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmignault_ca_mywebsite";
-    
-    
-    // Ma connexion sur Studio OL    
-    /*
+    // Nouvelle connexion sur hébergement du Studio OL
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
-    */
-    
-    // Ma connexion en local sur mon ordinateur
+
     /*
     $host = "localhost";
     $user = "zmignaub";

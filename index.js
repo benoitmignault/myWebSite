@@ -277,9 +277,15 @@ function envoyerCourriel(){
 
             // Serialize the data in the form
             var serializedData = $form.serialize();
-
+            var url = "";
+            if (langue.value === "fr"){
+                url = "/contact/contact.php";
+            } else if (langue.value === "en"){
+                url = "../contact/contact.php";
+            }
+            
             request = $.ajax({
-                url: "http://benoitmignault.ca/contact/contact.php",
+                url: url,
                 type: "post",
                 data: serializedData
             });

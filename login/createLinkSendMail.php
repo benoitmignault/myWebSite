@@ -9,7 +9,7 @@ function traduction($champs) {
         $title = "Demande de Réinitialisation";
         $p1 = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
         $li1 = "Veuillez saisir votre nom d'utilisateur et courriel.";
-        $li2 = "En raison d'une limitation de mon hébergeur Web, le courriel avec vos informations temporaires<br>vous sera transférer par l'administrateur du domaine après réception de votre courriel...";
+        $li2 = "Ensuite, un courriel vous sera envoyer avec toute les informations relier à votre changement de mot de passe";
         $legend = "Réinitialisation !";
         $usager = "Nom d'utilisateur :";
         $email = "Courriel :";
@@ -19,7 +19,7 @@ function traduction($champs) {
         $title = "Reset Request";
         $p1 = "You forgot your password, no problem, we take care of it !";
         $li1 = "Please enter your username and email.";
-        $li2 = "Due to a limitation of my web host, the email with your temporary information will be transferred<br>to you by the domain administrator after receiving your email ...";
+        $li2 = "Then an email will be sent to you with all the information related to your password change";
         $legend = "Reseting !";
         $usager = "Username :";
         $email = "Email :";
@@ -126,7 +126,7 @@ function situation($champs){
 }
 
 function creationLink($champs, $connMYSQL){  
-    $sql = "select user, password from benoitmignault_ca_mywebsite.login where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
+    $sql = "select user, password from login where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
     $connMYSQL->query($sql);
     // Si le résultat est inférieur à 1, 
     // nous avons une erreur de communication ou un échec lors de la requête SQL 
@@ -139,7 +139,7 @@ function creationLink($champs, $connMYSQL){
         $lien_Reset_PWD = encryptementPassword($lien_Reset_PWD);
         $password_Temp = generateRandomString(10);
         $password_Encrypted = encryptementPassword($password_Temp);
-        $sql_update = "update benoitmignault_ca_mywebsite.login set reset_link = '{$lien_Reset_PWD}', passwordTemp = '{$password_Encrypted}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
+        $sql_update = "update login set reset_link = '{$lien_Reset_PWD}', passwordTemp = '{$password_Encrypted}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
         $connMYSQL->query($sql_update);
 
         // On valide que l'insertion des password temporaire et link encryptés s'est bien passé
@@ -150,9 +150,9 @@ function creationLink($champs, $connMYSQL){
             $current_time = date("Y-m-d H:i:s");
             // On converti tout ça dans un gros entier
             $current_timestamp = strtotime($current_time);
-            // On ajoute 24 heures pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
-            $temps_Autorisé = strtotime("+48 hour", strtotime($current_time));
-            $sql_update = "update benoitmignault_ca_mywebsite.login set temps_Valide_link = '{$temps_Autorisé}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
+            // On ajoute 12 heures pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
+            $temps_Autorisé = strtotime("+12 hour", strtotime($current_time));
+            $sql_update = "update login set temps_Valide_link = '{$temps_Autorisé}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
             $connMYSQL->query($sql_update);
 
             // On valide ici que l'ajout du temps autorisé au changement de PWD a bien marché
@@ -165,9 +165,8 @@ function creationLink($champs, $connMYSQL){
                 } elseif ($champs["typeLangue"] === 'english') {
                     $lien = "Link to change your password";
                 }
-                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"http://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";
-                $elementCourriel = preparationEmail($champs);                
-                // Je dois rempalcer le $to par home@benoitmignault.ca, en raison d'une limitation de one.com
+                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";
+                $elementCourriel = preparationEmail($champs);
                 $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                
                 if ($succes) {
                     $champs["envoiCourrielSucces"] = true; 
@@ -201,20 +200,18 @@ function encryptementPassword($password_Temp) {
 function preparationEmail($champs){
     $elementCourriel = ['message' => "", "to" => "", "subject" => "", "headers" => ""];
     if ($champs["typeLangue"] == "francais"){
-        $elementCourriel["message"] = corpMessageFR($champs);
-        $elementCourriel["to"] = "home@benoitmignault.ca"; 
+        $elementCourriel["message"] = corpMessageFR($champs);        
+        $elementCourriel["to"] = "{$champs["email"]}"; 
         $elementCourriel["subject"] = "Changement de mot de passe !";
-        $elementCourriel["headers"] = "From: " . $champs["email"] . "\r\n";
-        $elementCourriel["headers"] .= "Reply-To: " . $champs["email"] . "\r\n";
-        $elementCourriel["headers"] .= "MIME-Version: 1.0 \r\n";
+        $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
+        $elementCourriel["headers"] .= "X-Mailer: PHP/" . phpversion() . "\r\n";
         $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
     } elseif ($champs["typeLangue"] == "english"){
         $elementCourriel["message"] = corpMessageEN($champs);
-        $elementCourriel["to"] = "home@benoitmignault.ca"; 
+        $elementCourriel["to"] = "{$champs["email"]}"; 
         $elementCourriel["subject"] = "Password change !";
-        $elementCourriel["headers"] = "From: " . $champs["email"] . "\r\n";
-        $elementCourriel["headers"] .= "Reply-To: " . $champs["email"] . "\r\n";
-        $elementCourriel["headers"] .= "MIME-Version: 1.0 \r\n";
+        $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
+        $elementCourriel["headers"] .= "X-Mailer: PHP/" . phpversion() . "\r\n";
         $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
     }
     return $elementCourriel;
@@ -227,7 +224,7 @@ function corpMessageFR($champs){
     $messageFR .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
     $messageFR .= "<tr><td><strong>Lien Web :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
     $messageFR .= "<tr><td><strong>Mot de Passe (Temporaire) :</strong> </td><td>" . $champs["password_Temp"] . "</td></tr>";
-    $messageFR .= "<tr><td><strong>Temps accordé pour le changement :</strong> </td><td>48 heures</td></tr>";    
+    $messageFR .= "<tr><td><strong>Temps accordé pour le changement :</strong> </td><td>12 heures</td></tr>";    
     $messageFR .= "</table>";
     $messageFR .= "<p align=\"left\">Bonne journée</p>";
     $messageFR .= "<p align=\"right\">La Direction</p>";
@@ -242,7 +239,7 @@ function corpMessageEN($champs){
     $messageEN .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
     $messageEN .= "<tr><td><strong>Web Link :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
     $messageEN .= "<tr><td><strong>Password (Temporary) :</strong> </td><td>" . $champs["password_Temp"] . "</td></tr>";
-    $messageEN .= "<tr><td><strong>Time allowed for change :</strong> </td><td>48 hours</td></tr>";    
+    $messageEN .= "<tr><td><strong>Time allowed for change :</strong> </td><td>12 hours</td></tr>";    
     $messageEN .= "</table>";
     $messageEN .= "<p align=\"left\">Have a nice day</p>";
     $messageEN .= "<p align=\"right\">The Direction</p>";
@@ -264,10 +261,12 @@ function redirection($champs) {
 }
 
 function connexionBD(){
-    $host = "benoitmignault.ca.mysql";
-    $user = "benoitmignault_ca_mywebsite";
+    // Nouvelle connexion sur hébergement du Studio OL
+    $host = "localhost";
+    $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmignault_ca_mywebsite";
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+
     /*
     $host = "localhost";
     $user = "zmignaub";

@@ -1,0 +1,54 @@
+.wrapper {
+    margin: 10px auto;
+    padding: 5px 10px;
+    max-width: 600px;
+    min-width: 300px;
+    width: 90%;
+}
+.form-row {
+    padding: 10px;
+}
+label {
+    display: block;
+    margin: 3px 0;
+}
+.form-row input {
+    width: 150px;
+    padding: 3px 1px;
+}
+.date-time input[type="date"] {
+    width: 130px;
+}
+.date-time input[type="time"] {
+    width: 85px;
+}
+.currency-style input {
+    text-align: right;
+}
+[class*="animate-"] .ws-popover {
+    overflow: visible;
+}
+[class*="animate-"] .ws-popover.ws-po-visible .ws-po-outerbox {
+    opacity: 1;
+    -webkit-transform: translate(0, 0) scale(1);
+    transform: translate(0, 0) scale(1);
+}
+.animate-2 .ws-popover {
+    overflow: visible;
+    -webkit-perspective: 600px;
+    -webkit-transform-style: preserve-3d;
+    perspective: 600px;
+    transform-style: preserve-3d;
+}
+.animate-2 .ws-po-outerbox {
+    -webkit-transform: rotateX(-60deg);
+    -webkit-transform-origin: 50% 0 0;
+    transform: rotateX(-60deg);
+    transform-origin: 50% 0 0;
+}
+.animate-2 [data-vertical="bottom"] .ws-po-outerbox {
+    -webkit-transform: rotateX(60deg);
+    -webkit-transform-origin: -50% 100% 0;
+    transform-origin: -50% 100% 0;
+    transform: rotateX(60deg);
+}

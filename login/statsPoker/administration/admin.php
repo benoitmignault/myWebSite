@@ -654,6 +654,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
         <link rel="shortcut icon" href="admin.png">	        
         <link rel="stylesheet" type="text/css" href="admin.css"> 
+        <link href="date.css" rel="stylesheet" type="text/css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><?php echo $arrayMots['title']; ?></title> 
         <style>
@@ -750,5 +751,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </form> 
         </div>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+        <script type="text/javascript" src="date.js"></script>
     </body>
 </html>

@@ -654,6 +654,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
         <link rel="shortcut icon" href="admin.png">	        
         <link rel="stylesheet" type="text/css" href="admin.css"> 
+        <link href="date.css" rel="stylesheet" type="text/css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><?php echo $arrayMots['title']; ?></title> 
         <style>
@@ -704,8 +705,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input maxlength="4" type="text" id="numTournoi" name="numTournoi" value="<?php echo $champs['numTournoi'] ?>">
                     </div>
                     <div class="date <?php if (verifChampDate($valid_Champ)) { echo "erreur"; } ?>">
-                        <label for="date">Date</label>
-                        <input maxlength="10" type="text" id="date" name="date" value="<?php echo $champs['date'] ?>">
+                        <div class="form-row animate-2">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" value="<?php echo $champs['date'] ?>" name="date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' placeholder="AAAA-MM-DD" />
+                        </div>
                     </div>
                     <div class="killer <?php if (verifChampKiller($valid_Champ)) { echo "erreur"; } ?>">
                         <label for="killer"><?php echo $arrayMots['killer']; ?></label>
@@ -750,5 +753,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </form> 
         </div>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+        <script type="text/javascript" src="date.js"></script>
     </body>
 </html>

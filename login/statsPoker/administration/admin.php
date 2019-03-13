@@ -705,8 +705,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input maxlength="4" type="text" id="numTournoi" name="numTournoi" value="<?php echo $champs['numTournoi'] ?>">
                     </div>
                     <div class="date <?php if (verifChampDate($valid_Champ)) { echo "erreur"; } ?>">
-                        <label for="date">Date</label>
-                        <input maxlength="10" type="text" id="date" name="date" value="<?php echo $champs['date'] ?>">
+                        <div class="form-row animate-2">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" value="<?php echo $champs['date'] ?>" name="date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' placeholder="AAAA-MM-DD" />
+                        </div>
                     </div>
                     <div class="killer <?php if (verifChampKiller($valid_Champ)) { echo "erreur"; } ?>">
                         <label for="killer"><?php echo $arrayMots['killer']; ?></label>

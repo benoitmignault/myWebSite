@@ -5,9 +5,6 @@
     min-width: 300px;
     width: 90%;
 }
-.form-row {
-    padding: 10px;
-}
 label {
     display: block;
     margin: 3px 0;
@@ -51,4 +48,17 @@ label {
     -webkit-transform-origin: -50% 100% 0;
     transform-origin: -50% 100% 0;
     transform: rotateX(60deg);
+}
+.ws-date{
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+.input-buttons{
+    margin-top: -9px;
+}
+
+@media screen and (max-width:768px) {
+    .ws-date{
+        width: 100% !important;
+    }
 }

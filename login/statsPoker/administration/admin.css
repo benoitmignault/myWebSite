@@ -61,9 +61,8 @@ h2{
 }
 .container > form > .formulaire_joueur > .gain,
 .container > form > .formulaire_joueur > .numero,
-.container > form > .formulaire_joueur > .date,
 .container > form > .formulaire_joueur > .killer,
-.container > form > .formulaire_joueur > .citron{    
+.container > form > .formulaire_joueur > .citron{   
     width: 33%;
     margin-bottom: 15px;
 }

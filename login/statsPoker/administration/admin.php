@@ -753,7 +753,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </form> 
         </div>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
         <script type="text/javascript" src="date.js"></script>
     </body>

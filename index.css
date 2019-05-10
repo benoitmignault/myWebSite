@@ -253,7 +253,13 @@ td{
 .middle .center .cheminement tbody tr:nth-child(even){/* paire */
     background-color:azure
 }
-.middle .center .cheminement .vieuxCertificat:hover, 
+span{
+    font-weight: bold;
+    color:red;
+}
+.gauche{
+    width: 20%;
+}
 .middle .center .cheminement .newCertificat:hover{
     background-color:darkturquoise;
     color: black;
@@ -299,9 +305,6 @@ td{
 } 
 .middle .center .cheminement .newCertificat{
     color:cadetblue;
-}
-.middle .center .cheminement .vieuxCertificat{
-    color:coral;
 }
 .middle .separation{
     margin-bottom: 15px;    

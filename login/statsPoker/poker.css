@@ -139,6 +139,7 @@
 .mainPage .affichage table .negatif{
     color:red;
 }
+/* Ne sera pas utiliser pour l'instant */
 .mainPage .affichage table .droit{    
     text-align: right;
 }

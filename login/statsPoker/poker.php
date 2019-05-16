@@ -305,8 +305,8 @@ function sommaireTousJoueurs($connMYSQL, $arrayMots) {
     $tableau = "<table> 
                     <thead> 
                         <tr> <th colspan='7'>{$arrayMots['method4']}</th> </tr>
-                        <tr> <th class=\"nomPetit\">{$arrayMots['rang']}</th><th class=\"nomPetit\">{$arrayMots['joueur']}</th> <th class=\"nomPetit droit\">{$arrayMots['gain']}</th> <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
-                                <th class=\"nomPetit\">{$arrayMots['fini2']}</th> <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> <th class=\"nomPetit droit\">{$arrayMots['gainPresence']}</th> </tr>            
+                        <tr> <th class=\"nomPetit\">{$arrayMots['rang']}</th><th class=\"nomPetit\">{$arrayMots['joueur']}</th> <th class=\"nomPetit \">{$arrayMots['gain']}</th> <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
+                                <th class=\"nomPetit\">{$arrayMots['fini2']}</th> <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> <th class=\"nomPetit \">{$arrayMots['gainPresence']}</th> </tr>            
                     </thead> <tbody>";
 
     // Ajout d'un compteur pour afficher simplement le joueur avec ses stats et savoir où se trouve
@@ -318,16 +318,16 @@ function sommaireTousJoueurs($connMYSQL, $arrayMots) {
         $tableau .= "<td>{$position}</td>";
         $tableau .= "<td>{$row['joueur']}{$icone}</td>";
         if ($nombreGain > 0) {
-            $tableau .= "<td class='positif droit'>{$nombreGain}</td>";
+            $tableau .= "<td class='positif'>{$nombreGain}</td>";
         } elseif ($nombreGain < 0) {
-            $tableau .= "<td class='negatif droit'>{$nombreGain}</td>";
+            $tableau .= "<td class='negatif'>{$nombreGain}</td>";
         } else {
-            $tableau .= "<td class=\"droit\">{$nombreGain}</td>";
+            $tableau .= "<td class=\"\">{$nombreGain}</td>";
         }
         $tableau .= "<td>{$row['nb_victoire']}</td>
                         <td>{$row['nb_fini2e']}</td>
                         <td>{$row['nb_presence']}</td>
-                        <td class=\"droit\">{$row['gainPresence']}</td>";
+                        <td class=\"\">{$row['gainPresence']}</td>";
         $tableau .= "</tr>";
         $position++; // On augmente de 1 la position pour le prochain joueur et ses statistiques pour l'affichage
     }
@@ -412,26 +412,28 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
 }
 
 function affichageKillerCitron($connMYSQL, $arrayMots) {
-    $sql = "SELECT
-                joueur,
-                SUM(killer) as prixKiller,
-                SUM(prixCitron) as citronPrice,
-                count(case victoire when 'X' then 1 else null end) as nb_victoire,
-                count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
-                count(joueur) as nb_presence
-            FROM
-                poker
-            where 
-                id_tournoi > 100
-            GROUP BY joueur
-            order by prixKiller desc, citronPrice, nb_victoire desc, nb_fini2e desc, nb_presence";
+    $sql = "select res.*, round(res.prixKiller / res.nb_presence,2) as killerPresence
+            from
+            (
+                SELECT
+                    joueur,
+                    SUM(killer) as prixKiller,
+                    SUM(prixCitron) as citronPrice,
+                    count(case victoire when 'X' then 1 else null end) as nb_victoire,
+                    count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
+                    count(joueur) as nb_presence
+                FROM
+                    poker
+                where 
+                    id_tournoi > 100
+                GROUP BY joueur
+                order by prixKiller desc, citronPrice, nb_victoire desc, nb_fini2e desc, nb_presence
+            ) res";
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
                         <thead> 
-                            <tr> <th colspan='7'>{$arrayMots['method7']}</th></tr>
-                            <tr> <th>{$arrayMots['rang']}</th> <th>{$arrayMots['joueur']}</th> <th>{$arrayMots['killer']}</th> <th>{$arrayMots['citron']}</th> 
-                                 <th>{$arrayMots['victoire']}</th> <th>{$arrayMots['fini2']}</th> 
-                                 <th>{$arrayMots['nbTournois']}</th> </tr>            
+                            <tr> <th colspan='6'>{$arrayMots['method7']}</th></tr>
+                            <tr> <th class=\"nomPetit\">{$arrayMots['rang']}</th> <th class=\"nomPetit\">{$arrayMots['joueur']}</th> <th class=\"nomPetit\">{$arrayMots['killer']}</th> <th class=\"nomPetit\">{$arrayMots['citron']}</th> <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> <th class=\"nomPetit\">{$arrayMots['gainPresence']}</th> </tr>            
                         </thead>
                         <tbody>";
 
@@ -443,9 +445,8 @@ function affichageKillerCitron($connMYSQL, $arrayMots) {
                         <td>{$row['joueur']}{$icone}</td>        
                         <td>{$row['prixKiller']}</td>
                         <td>{$row['citronPrice']}</td>
-                        <td>{$row['nb_victoire']}</td>
-                        <td>{$row['nb_fini2e']}</td>
                         <td>{$row['nb_presence']}</td>
+                        <td>{$row['killerPresence']}</td>
                     </tr>";
         $position++;
     }

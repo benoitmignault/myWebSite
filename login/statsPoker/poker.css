@@ -120,6 +120,9 @@
     padding-top:5px;  
     padding-bottom: 5px;
 }
+.mainPage .affichage table .retourLigne{
+    display: none;
+}
 .mainPage .affichage table td,
 .mainPage .info_method table td{    
     text-align: center;
@@ -192,6 +195,9 @@
     }
     .mainPage .btnRetour{
         padding-bottom: 5px;
+    }    
+    .mainPage .affichage table .retourLigne{
+        display: block;
     }
     .mainPage .affichage fieldset,
     .mainPage .info_method fieldset{

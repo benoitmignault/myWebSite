@@ -10,10 +10,12 @@ function traduction($typeLangue, $user) {
         $method1 = "Affichage brute sans aucune modification.";
         $method2 = "Affichage de toutes les visites d'un joueur.";
         $method3 = "Le sommaire d'un joueur en particulier.";
-        $method4 = "Le sommaire de tous les joueurs";
+        $method4 = "Le sommaire de tous les joueurs. ";
+        $method4ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Gain / Présence)";
         $method5 = "Affichage d'un tournois par son numéro.";
         $method6 = "Affichage d'un tournois par la date.";
-        $method7 = "Le sommaire de tous les joueurs avec leurs prix citrons et killers.";
+        $method7 = "Le sommaire de tous les joueurs avec leurs prix citrons et killers. ";
+        $method7ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Killer / Présence)";
         $h3 = "Le numéro du bouton sera la méthode sélectionnée";
         $legend2 = "Veuillez sélectionner votre méthode :";
         $label1 = "Pour les méthodes 2 et 3, veuillez sélectionner un joueur : ";
@@ -45,10 +47,12 @@ function traduction($typeLangue, $user) {
         $method1 = "Display all information with no modification.";
         $method2 = "Display all information about one player.";
         $method3 = "The summary about one player.";
-        $method4 = "The summary about all players";
+        $method4 = "The summary about all player. ";
+        $method4ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Profit / Amount Games)";
         $method5 = "Display a tournament by number.";
         $method6 = "Display a tournament by date.";
-        $method7 = "The summary of all players with their prices lemons and killers.";
+        $method7 = "The summary of all players with their prices lemons and killers. ";
+        $method7ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Killer / Amount Games)";
         $h3 = "The number on the button will match with the number of the method";
         $legend2 = "Please choose your method";
         $label1 = "About the method 2 and 3, please select one player";
@@ -64,7 +68,7 @@ function traduction($typeLangue, $user) {
         $fini2 = "2nd";
         $noTournois = "Game Num";
         $nbTournois = "Amount Games";
-        $gainPresence = "Profit/Amount Games";
+        $gainPresence = "Ratio";
         $date = "Date";
         $msgErreur_joueur = "Please select one player";
         $msgErreur_ID = "Please select a tournament number !";
@@ -74,7 +78,7 @@ function traduction($typeLangue, $user) {
         $returnUp = "Back to the method of displaying";
     }
 
-    $arrayMots = ['gainPresence' => $gainPresence, 'rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
+    $arrayMots = ['method4ratio' => $method4ratio, 'method7ratio' => $method7ratio, 'gainPresence' => $gainPresence, 'rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
 
     return $arrayMots;
 }
@@ -304,7 +308,7 @@ function sommaireTousJoueurs($connMYSQL, $arrayMots) {
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
                     <thead> 
-                        <tr> <th colspan='7'>{$arrayMots['method4']}</th> </tr>
+                        <tr> <th colspan='7'>{$arrayMots['method4']}{$arrayMots['method4ratio']}</th> </tr>
                         <tr> <th class=\"nomPetit\">{$arrayMots['rang']}</th><th class=\"nomPetit\">{$arrayMots['joueur']}</th> <th class=\"nomPetit \">{$arrayMots['gain']}</th> <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
                                 <th class=\"nomPetit\">{$arrayMots['fini2']}</th> <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> <th class=\"nomPetit \">{$arrayMots['gainPresence']}</th> </tr>            
                     </thead> <tbody>";
@@ -432,7 +436,7 @@ function affichageKillerCitron($connMYSQL, $arrayMots) {
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
                         <thead> 
-                            <tr> <th colspan='6'>{$arrayMots['method7']}</th></tr>
+                            <tr> <th colspan='6'>{$arrayMots['method7']}{$arrayMots['method7ratio']}</th></tr>
                             <tr> <th class=\"nomPetit\">{$arrayMots['rang']}</th> <th class=\"nomPetit\">{$arrayMots['joueur']}</th> <th class=\"nomPetit\">{$arrayMots['killer']}</th> <th class=\"nomPetit\">{$arrayMots['citron']}</th> <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> <th class=\"nomPetit\">{$arrayMots['gainPresence']}</th> </tr>            
                         </thead>
                         <tbody>";

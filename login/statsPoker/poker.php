@@ -26,6 +26,7 @@ function traduction($typeLangue, $user) {
         $victoire = "Fini 1er";
         $citron = "Prix Citron";
         $fini2 = "Fini 2e";
+        $gainPresence = "Ratio";
         $noTournois = "No. partie";
         $nbTournois = "Nb parties";
         $date = "Date";
@@ -63,6 +64,7 @@ function traduction($typeLangue, $user) {
         $fini2 = "2nd";
         $noTournois = "Game Num";
         $nbTournois = "Amount Games";
+        $gainPresence = "Profit/Amount Games";
         $date = "Date";
         $msgErreur_joueur = "Please select one player";
         $msgErreur_ID = "Please select a tournament number !";
@@ -72,7 +74,7 @@ function traduction($typeLangue, $user) {
         $returnUp = "Back to the method of displaying";
     }
 
-    $arrayMots = ['rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
+    $arrayMots = ['gainPresence' => $gainPresence, 'rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
 
     return $arrayMots;
 }
@@ -283,24 +285,28 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
 }
 
 function sommaireTousJoueurs($connMYSQL, $arrayMots) {
-    $sql = "SELECT
-                joueur,
-                SUM(gain) as gainTotaux,
-                count(case victoire when 'X' then 1 else null end) as nb_victoire,
-                count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
-                count(joueur) as nb_presence
-            FROM
-                poker
-            GROUP BY 
-                joueur
-            order by 
-                gainTotaux desc, nb_victoire desc, nb_fini2e desc, nb_presence";
+    $sql = "select res.* , round(res.gainTotaux / res.nb_presence,2) as gainPresence
+            from
+            (
+                SELECT
+                    joueur,
+                    SUM(gain) as gainTotaux,
+                    count(case victoire when 'X' then 1 else null end) as nb_victoire,
+                    count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
+                    count(joueur) as nb_presence
+                FROM
+                    poker
+                GROUP BY 
+                    joueur
+                order by 
+                    gainTotaux desc, nb_victoire desc, nb_fini2e desc, nb_presence
+            ) res";
     $result = $connMYSQL->query($sql);
     $tableau = "<table> 
                     <thead> 
-                        <tr> <th colspan='6'>{$arrayMots['method4']}</th> </tr>
-                        <tr> <th>{$arrayMots['rang']}</th><th>{$arrayMots['joueur']}</th> <th>{$arrayMots['gain']}</th> <th>{$arrayMots['victoire']}</th> 
-                                <th>{$arrayMots['fini2']}</th> <th>{$arrayMots['nbTournois']}</th> </tr>            
+                        <tr> <th colspan='7'>{$arrayMots['method4']}</th> </tr>
+                        <tr> <th class=\"nomPetit\">{$arrayMots['rang']}</th><th class=\"nomPetit\">{$arrayMots['joueur']}</th> <th class=\"nomPetit droit\">{$arrayMots['gain']}</th> <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
+                                <th class=\"nomPetit\">{$arrayMots['fini2']}</th> <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> <th class=\"nomPetit droit\">{$arrayMots['gainPresence']}</th> </tr>            
                     </thead> <tbody>";
 
     // Ajout d'un compteur pour afficher simplement le joueur avec ses stats et savoir où se trouve
@@ -312,15 +318,16 @@ function sommaireTousJoueurs($connMYSQL, $arrayMots) {
         $tableau .= "<td>{$position}</td>";
         $tableau .= "<td>{$row['joueur']}{$icone}</td>";
         if ($nombreGain > 0) {
-            $tableau .= "<td class='positif'>{$nombreGain}</td>";
+            $tableau .= "<td class='positif droit'>{$nombreGain}</td>";
         } elseif ($nombreGain < 0) {
-            $tableau .= "<td class='negatif'>{$nombreGain}</td>";
+            $tableau .= "<td class='negatif droit'>{$nombreGain}</td>";
         } else {
-            $tableau .= "<td>{$nombreGain}</td>";
+            $tableau .= "<td class=\"droit\">{$nombreGain}</td>";
         }
         $tableau .= "<td>{$row['nb_victoire']}</td>
                         <td>{$row['nb_fini2e']}</td>
-                        <td>{$row['nb_presence']}</td>";
+                        <td>{$row['nb_presence']}</td>
+                        <td class=\"droit\">{$row['gainPresence']}</td>";
         $tableau .= "</tr>";
         $position++; // On augmente de 1 la position pour le prochain joueur et ses statistiques pour l'affichage
     }

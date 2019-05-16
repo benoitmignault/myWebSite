@@ -133,11 +133,14 @@
     height: 30px; 
     width: auto;    
 }
-.positif{    
+.mainPage .affichage table .positif{    
     color:green;
 }
-.negatif{
+.mainPage .affichage table .negatif{
     color:red;
+}
+.mainPage .affichage table .droit{    
+    text-align: right;
 }
 .msgErreur{
     color : red;
@@ -192,6 +195,9 @@
     .mainPage .affichage fieldset,
     .mainPage .info_method fieldset{
         padding: 0px;
+    }
+    .mainPage .affichage table tr .nomPetit{
+        font-size: 14px;
     }
     .mainPage > div > fieldset > legend{
         width: 75%;

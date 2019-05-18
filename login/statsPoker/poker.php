@@ -1,7 +1,6 @@
 <?php
 function traduction($typeLangue, $user) {
     $user = strtoupper($user);
-
     if ($typeLangue === 'francais') {
         $titre = "Page des statistiques";
         $rang = "Rang";
@@ -83,77 +82,97 @@ function traduction($typeLangue, $user) {
     return $arrayMots;
 }
 
-function creationListe($nameSelected, $connMYSQL, $arrayMots) {    
-    $liste_Joueur = "";
-    $sql = "select joueur from joueur order by joueur";
-    $result = $connMYSQL->query($sql);
-    if ($_POST['method'] == 2){
-        $liste_Joueur = "<option value=''>{$arrayMots['option']}</option>";
-        foreach ($result as $row) {
-            if ($nameSelected === $row['joueur']) {
-                $liste_Joueur .= "<option value=\"{$row['joueur']}\" selected>{$row['joueur']}</option>";
-            } else {
-                $liste_Joueur .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
-            }
-        }        
-        
-    } elseif ($_POST['method'] == 3){
-        $liste_Joueur = "<option value=''>{$arrayMots['option']}</option>";
-        foreach ($result as $row) {
-            if ($nameSelected === $row['joueur']) {
-                $liste_Joueur .= "<option value=\"{$row['joueur']}\" selected>{$row['joueur']}</option>";
-            } else {
-                $liste_Joueur .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
-            }
-        }        
-        
-    } else {
-        $liste_Joueur = "<option value='' selected>{$arrayMots['option']}</option>";
-        foreach ($result as $row) {
-            $liste_Joueur .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
-        }
-    }    
-    return $liste_Joueur;
+function initialisation(){
+    $array_Champs = array("user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "", "nomJoueur" => "");        
+    return $array_Champs;
 }
 
-function creationListeId($IDSelected, $connMYSQL, $arrayMots) {
+function remplissage_Champs($array_Champs){
+    $array_Champs['typeLangue'] = $_SESSION['typeLangue'];
+    $array_Champs['user'] = $_SESSION['user'];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+    }
+    /*
+    $informationJoueur
+    $sommaireJoueur
+        $numeroID
+        $tournoiDate
+*/
+    return $array_Champs;
+}
+
+function creationListe($connMYSQL, $option, $nomJoueur) {    
+    // En fonction de la méthode 2 ou 3 ou sinon le premier if va s'appliquer
+    $liste_Joueur_method = array();
+    $sql = "select joueur from joueur order by joueur";
+    $result = $connMYSQL->query($sql);  
+    $premiere_option_select = "<option value='' selected>$option</option>";
+    // Au moment d'arriver sur la page d'affichage ou si on a choisi une méthode autre 2 ou 3
+    if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_POST['method'] !== 2 && $_POST['method'] !== 3 ){
+        // la premiere sera la valeur initial À sélectionner  
+        array_push($liste_Joueur_method, "<option value='' selected>$option</option>");
+        foreach ($result as $row) {
+            array_push($liste_Joueur_method, "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>");
+        }
+        // Si la méthode choisie est 2 ou 3
+    } elseif ($_POST['method'] == 2 || $_POST['method'] == 3){
+        // la premiere sera la valeur initial À sélectionner  
+        array_push($liste_Joueur_method, "<option value='' selected>$option</option>");
+        foreach ($result as $row) {
+            // Si le nom dans la BD est pareil
+            if ($nomJoueur == $row['joueur']) {
+                array_push($liste_Joueur_method, "<option value=\"{$row['joueur']}\" selected>{$row['joueur']}</option>");                
+            }  else {
+                array_push($liste_Joueur_method, "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>");
+            }
+        }
+    }
+    return $liste_Joueur_method;
+}
+
+function creationListeId($connMYSQL, $option, $IDSelected) {
+    $liste_Id_tournois = array();
     $sql = "SELECT distinct id_tournoi FROM poker order by id_tournoi desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 5) {
-        $liste_Id_tournois = "<option value='' selected>{$arrayMots['option']}</option>";
+        array_push($liste_Id_tournois, "<option value='' selected>$option</option>");
         foreach ($result as $row) {
-            $liste_Id_tournois .= "<option value=\"{$row['id_tournoi']}\">{$row['id_tournoi']}</option>";
+            array_push($liste_Id_tournois, "<option value=\"{$row['id_tournoi']}\">{$row['id_tournoi']}</option>");
         }
+
     } elseif ($_POST['method'] == 5) {
-        $liste_Id_tournois = "<option value=''>{$arrayMots['option']}</option>";
+        array_push($liste_Id_tournois, "<option value=''>$option</option>");
         foreach ($result as $row) {
             if ($IDSelected === $row['id_tournoi']) {
-                $liste_Id_tournois .= "<option value=\"{$row['id_tournoi']}\" selected>{$row['id_tournoi']}</option>";
+                array_push($liste_Id_tournois, "<option value=\"{$row['id_tournoi']}\" selected>{$row['id_tournoi']}</option>");
             } else {
-                $liste_Id_tournois .= "<option value=\"{$row['id_tournoi']}\">{$row['id_tournoi']}</option>";
+                array_push($liste_Id_tournois, "<option value=\"{$row['id_tournoi']}\">{$row['id_tournoi']}</option>");
             }
         }
     }
     return $liste_Id_tournois;
 }
 
-function creationListeDate($tournoiDate, $connMYSQL, $arrayMots) {
+function creationListeDate($connMYSQL, $option, $tournoiDate) {
+    $liste_Date_tournois = array();
     $sql = "SELECT distinct date FROM poker order by date desc";
     $result = $connMYSQL->query($sql);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_POST['method'] != 6) {
-        $liste_Date_tournois = "<option value='' selected>{$arrayMots['option']}</option>";
+        array_push($liste_Date_tournois, "<option value='' selected>$option</option>");
         foreach ($result as $row) {
-            $liste_Date_tournois .= "<option value=\"{$row['date']}\">{$row['date']}</option>";
+            array_push($liste_Date_tournois, "<option value=\"{$row['date']}\">{$row['date']}</option>");
         }
     } elseif ($_POST['method'] == 6) {
-        $liste_Date_tournois = "<option value=''>{$arrayMots['option']}</option>";
+        array_push($liste_Date_tournois, "<option value=''>$option</option>");
+
         foreach ($result as $row) {
             if ($tournoiDate === $row['date']) {
-                $liste_Date_tournois .= "<option value=\"{$row['date']}\" selected>{$row['date']}</option>";
+                array_push($liste_Date_tournois, "<option value=\"{$row['date']}\" selected>{$row['date']}</option>");
             } else {
-                $liste_Date_tournois .= "<option value=\"{$row['date']}\">{$row['date']}</option>";
+                array_push($liste_Date_tournois, "<option value=\"{$row['date']}\">{$row['date']}</option>");
             }
         }
     }
@@ -493,21 +512,21 @@ function delete_Session(){
 }
 
 function connexionBD() { 
-    
+
     /*
-    
+
     // Nouvelle connexion sur hébergement du Studio OL
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 */
-    
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -532,37 +551,36 @@ function verificationUser($connMYSQL) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $user = "";
-    $typeLangue = "";
-    $tableauResult = "";
-    $verificationUser = false;
     session_start();
+    $array_Champs = initialisation(); 
+
     if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue']) && isset($_COOKIE['POKER'])) {
         $connMYSQL = connexionBD();
-        $verificationUser = verificationUser($connMYSQL);
-        $typeLangue = $_SESSION['typeLangue'];
-        $user = $_SESSION['user'];
+        $array_Champs['verificationUser'] = verificationUser($connMYSQL);
     } else {
-        redirection($typeLangue);
+        redirection($array_Champs['typeLangue']);
     }
-
     // on vérifier si notre user existe en bonne éduforme
-    if (!$verificationUser) {
-        redirection($typeLangue);
-    } elseif ($typeLangue !== "francais" && $typeLangue !== "english") {
-        redirection($typeLangue);
+    if (!$array_Champs['verificationUser'] ) {
+        redirection($array_Champs['typeLangue']);
     } else {
-        $arrayMots = traduction($typeLangue, $user);
-        $liste_Joueur_method2 = creationListe("", $connMYSQL, $arrayMots);
-        $liste_Joueur_method3 = creationListe("", $connMYSQL, $arrayMots);
-        $liste_Id_tournois = creationListeId("", $connMYSQL, $arrayMots);
-        $liste_Date_tournois = creationListeDate("", $connMYSQL, $arrayMots);
+        $array_Champs = remplissage_Champs($array_Champs);
+
+        if ($array_Champs['typeLangue'] !== "francais" && $array_Champs['typeLangue'] !== "english") {
+            redirection("francais");
+        } 
+        $arrayMots = traduction($array_Champs['typeLangue'], $array_Champs['user']); 
+        $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['nomJoueur']);  
+        $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['nomJoueur']);
+        $liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
+        $liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
     }
     $connMYSQL->close();
 } // fin du GET
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
     session_start();
+    $array_Champ = initialisation();
     $user = "";
     $typeLangue = "";
     if (!isset($_SESSION['user']) || !isset($_SESSION['typeLangue']) || !isset($_SESSION['password'])) {
@@ -578,7 +596,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirection($typeLangue);
         } else {
             $arrayMots = traduction($typeLangue, $user); 
-            
+
             if (isset($_POST['informationJoueur']) && $_POST['method'] == 2) {
                 $informationJoueur = $_POST['informationJoueur'];                
             } else {
@@ -618,35 +636,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $connMYSQL->query($insert);
 
                 switch ($_POST['method']) {
-                    case 1 : $tableauResult = affichageBrute($connMYSQL, $arrayMots);
+                    case 1 : $array_Champ['tableauResult'] = affichageBrute($connMYSQL, $arrayMots);
                         break;
-                    case 2 : $tableauResult = affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots);
+                    case 2 : $array_Champ['tableauResult'] = affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots);
                         break;
-                    case 3 : $tableauResult = sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots);
+                    case 3 : $array_Champ['tableauResult'] = sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots);
                         break;
-                    case 4 : $tableauResult = sommaireTousJoueurs($connMYSQL, $arrayMots);
+                    case 4 : $array_Champ['tableauResult'] = sommaireTousJoueurs($connMYSQL, $arrayMots);
                         break;
-                    case 5 : $tableauResult = affichageParNumero($numeroID, $connMYSQL, $arrayMots);
+                    case 5 : $array_Champ['tableauResult'] = affichageParNumero($numeroID, $connMYSQL, $arrayMots);
                         break;
-                    case 6 : $tableauResult = affichageParDate($tournoiDate, $connMYSQL, $arrayMots);
+                    case 6 : $array_Champ['tableauResult'] = affichageParDate($tournoiDate, $connMYSQL, $arrayMots);
                         break;
-                    case 7 : $tableauResult = affichageKillerCitron($connMYSQL, $arrayMots);
+                    case 7 : $array_Champ['tableauResult'] = affichageKillerCitron($connMYSQL, $arrayMots);
                         break;
                 }
             } else {
                 redirection($typeLangue);
             }            
-            
-            $liste_Joueur_method2 = creationListe($informationJoueur, $connMYSQL, $arrayMots);
-            $liste_Joueur_method3 = creationListe($sommaireJoueur, $connMYSQL, $arrayMots);
-            $liste_Id_tournois = creationListeId($numeroID, $connMYSQL, $arrayMots);
-            $liste_Date_tournois = creationListeDate($tournoiDate, $connMYSQL, $arrayMots);
+
+            $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots);
+            $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots);
+            $liste_Id_tournois = creationListeId($connMYSQL, $arrayMots);
+            $liste_Date_tournois = creationListeDate($connMYSQL, $arrayMots);
         }
         $connMYSQL->close();
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -692,12 +709,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </tr>
                                 <tr>
                                     <td class="methode"><?php echo $arrayMots['method2']; ?></td>
-                                    <td><select id="joueur" name="informationJoueur"><?php echo $liste_Joueur_method2; ?></select></td>
+                                    <td><select id="joueur" name="nomJoueur"><?php foreach ($liste_Joueur_method2 as $value) { echo $value; } ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value=2></td>
                                 </tr>
                                 <tr>
                                     <td class="methode"><?php echo $arrayMots['method3']; ?></td>
-                                    <td><select id="joueur" name="sommaireJoueur"><?php echo $liste_Joueur_method3; ?></select></td>
+                                    <td><select id="joueur" name="nomJoueur"><?php foreach ($liste_Joueur_method2 as $value) { echo $value; } ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value=3></td>
                                 </tr>
                                 <tr>
@@ -707,12 +724,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </tr>
                                 <tr>
                                     <td class="methode"><?php echo $arrayMots['method5']; ?></td>
-                                    <td><select id="idTournois" name="listeId"><?php echo $liste_Id_tournois; ?></select></td>
+                                    <td><select id="idTournois" name="listeId"><?php foreach ($liste_Joueur_method5 as $value) { echo $value; } ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value=5></td>
                                 </tr>
                                 <tr>
                                     <td class="methode"><?php echo $arrayMots['method6']; ?></td>
-                                    <td><select id="tournois_date" name="listeDate"><?php echo $liste_Date_tournois; ?></select></td>
+                                    <td><select id="tournois_date" name="listeDate"><?php foreach ($liste_Joueur_method6 as $value) { echo $value; } ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value=6></td>
                                 </tr>
                                 <tr>
@@ -728,7 +745,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="affichage">
                 <fieldset>
                     <legend align="center"><?php echo $arrayMots['legend3']; ?></legend>
-                    <?php echo $tableauResult; ?>
+                    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { echo $array_Champs['tableauResult']; } ?>
                 </fieldset>                
             </div>
             <div class="return">

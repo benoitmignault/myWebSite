@@ -147,6 +147,8 @@
     text-align: right;
 }
 .msgErreur{
+    margin: auto;
+    text-align: center;
     color : red;
     font-size: 22px;
 }

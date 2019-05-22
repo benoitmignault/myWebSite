@@ -2,6 +2,9 @@
     box-sizing: border-box;  
     -moz-box-sizing: border-box;     
 }
+#hautPage, #endroitResultat{
+    margin:0;
+}
 .mainPage{
     display: -webkit-flex; 
     display: flex;
@@ -111,6 +114,15 @@
     border-right: 1px solid black;
     border-top: 1px solid black;    
 }
+.mainPage .affichage .lesInstructionTriage li{
+    line-height: 1.6em;
+}
+.mainPage .affichage .lesInstructionTriage{
+    text-align: center;
+}
+.mainPage .affichage .lesInstructionTriage .charGros{
+    font-weight: bold;
+}
 .mainPage .affichage table th,
 .mainPage .info_method table th{ 
     background-color: lightgray;
@@ -119,6 +131,9 @@
     color: black;
     padding-top:5px;  
     padding-bottom: 5px;
+}
+.mainPage .affichage table .retourLigne{
+    display: none;
 }
 .mainPage .affichage table td,
 .mainPage .info_method table td{    
@@ -133,13 +148,19 @@
     height: 30px; 
     width: auto;    
 }
-.positif{    
+.mainPage .affichage table .positif{    
     color:green;
 }
-.negatif{
+.mainPage .affichage table .negatif{
     color:red;
 }
+/* Ne sera pas utiliser pour l'instant */
+.mainPage .affichage table .droit{    
+    text-align: right;
+}
 .msgErreur{
+    margin: auto;
+    text-align: center;
     color : red;
     font-size: 22px;
 }
@@ -188,10 +209,16 @@
     }
     .mainPage .btnRetour{
         padding-bottom: 5px;
+    }    
+    .mainPage .affichage table .retourLigne{
+        display: block;
     }
     .mainPage .affichage fieldset,
     .mainPage .info_method fieldset{
         padding: 0px;
+    }
+    .mainPage .affichage table tr .nomPetit{
+        font-size: 14px;
     }
     .mainPage > div > fieldset > legend{
         width: 75%;

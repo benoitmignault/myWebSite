@@ -287,23 +287,19 @@ function connexionUser($champs, $connMYSQL) {
     return $champs;
 }
 
-function connexionBD() {
-    
-    /*
-    
+function connexionBD() {  
+
     // Nouvelle connexion sur hébergement du Studio OL
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
-
-*/
-    
+    /*    
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+    */
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;

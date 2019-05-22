@@ -400,6 +400,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots) {
     $position = 1;
     foreach ($result as $row) {
         $nombreGain = intval($row['gainTotaux']);
+        $gainRatio = floatval($row['gainPresence']);
         $icone = lesGrandsGagnants_100e($row['joueur']);
         $tableau .= "<tr>";
         $tableau .= "<td>{$position}</td>";
@@ -413,8 +414,15 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots) {
         }
         $tableau .= "<td>{$row['nb_victoire']}</td>
         <td>{$row['nb_fini2e']}</td>
-        <td>{$row['nb_presence']}</td>
-        <td class=\"\">{$row['gainPresence']}</td>";
+        <td>{$row['nb_presence']}</td>";
+
+        if ($gainRatio > 0) {
+            $tableau .= "<td class='positif'>{$gainRatio}</td>";
+        } elseif ($gainRatio < 0) {
+            $tableau .= "<td class='negatif'>{$gainRatio}</td>";
+        } else {
+            $tableau .= "<td class=\"\">{$gainRatio}</td>";
+        }  
         $tableau .= "</tr>";
         $position++; // On augmente de 1 la position pour le prochain joueur et ses statistiques pour l'affichage
     }

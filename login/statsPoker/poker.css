@@ -2,6 +2,9 @@
     box-sizing: border-box;  
     -moz-box-sizing: border-box;     
 }
+#hautPage, #endroitResultat{
+    margin:0;
+}
 .mainPage{
     display: -webkit-flex; 
     display: flex;
@@ -110,6 +113,15 @@
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-top: 1px solid black;    
+}
+.mainPage .affichage .lesInstructionTriage li{
+    line-height: 1.6em;
+}
+.mainPage .affichage .lesInstructionTriage{
+    text-align: center;
+}
+.mainPage .affichage .lesInstructionTriage .charGros{
+    font-weight: bold;
 }
 .mainPage .affichage table th,
 .mainPage .info_method table th{ 

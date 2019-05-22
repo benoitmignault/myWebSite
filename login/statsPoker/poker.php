@@ -693,7 +693,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);   
             }
 
-
             $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);  
             $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
             $liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
@@ -738,6 +737,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
             $liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
             $liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
+            
         }
         $connMYSQL->close();
     }
@@ -771,7 +771,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="info_method">
                 <fieldset>
                     <legend align="center"> <?php echo $arrayMots['legend1']; ?></legend>
-                    <form method='post' action='poker.php'>
+                    <form method='post' action='poker.php#endroitResultat'>
                         <table>
                             <thead>                            
                                 <tr>
@@ -822,12 +822,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </fieldset>
             </div> 
             <div class="affichage">
+                <p id="endroitResultat"></p>
                 <fieldset>
                     <legend align="center"><?php echo $arrayMots['legend3']; ?></legend>      
                     <?php if ($array_Champs['method'] == 4 || $array_Champs['method'] == 7 ) { ?>
                     <ul class="lesInstructionTriage">
-                        <li>Fonction du triage «Nb Portes» : Colonne «Positionnée» avec valeur à Non en premier et ensuite par décroissant de la colonne «Nb Portes».</li>
-                        <li>Fonction du triage «Ville» : Triage original croissant dans l'ordre des colonnes suivant : Ville, Rue, Orient et Civic De.</li>
+                        <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>
+                        <li>Triage «Ratio» : ratio, killer en <span class="charGros">décroissance</span> et prix citron, Nb parties en <span class="charGros">croissance</span></li>
                     </ul>
                     <?php } ?>
                     <?php if ( isset($_GET['triOriginal']) || isset($_GET['triRatio']) || $_SERVER['REQUEST_METHOD'] === 'POST') { echo $array_Champs['tableauResult']; } ?>                    

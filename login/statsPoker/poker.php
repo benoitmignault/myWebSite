@@ -9,7 +9,7 @@ function traduction($typeLangue, $user) {
         $method1 = "Affichage brute sans aucune modification.";
         $method2 = "Affichage de toutes les visites d'un joueur.";
         $method3 = "Le sommaire d'un joueur en particulier.";
-        $method4 = "Le sommaire de tous les joueurs. ";
+        $method4 = "Le sommaire de tous les joueurs.";
         $method4ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Gain / Présence)";
         $method5 = "Affichage d'un tournois par son numéro.";
         $method6 = "Affichage d'un tournois par la date.";
@@ -46,7 +46,7 @@ function traduction($typeLangue, $user) {
         $method1 = "Display all information with no modification.";
         $method2 = "Display all information about one player.";
         $method3 = "The summary about one player.";
-        $method4 = "The summary about all player. ";
+        $method4 = "The summary about all player.";
         $method4ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Profit / Amount Games)";
         $method5 = "Display a tournament by number.";
         $method6 = "Display a tournament by date.";
@@ -83,7 +83,7 @@ function traduction($typeLangue, $user) {
 }
 
 function initialisation(){
-    $array_Champs = array("method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");        
+    $array_Champs = array("nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");        
     return $array_Champs;
 }
 
@@ -95,11 +95,19 @@ function remplissage_Champs($array_Champs){
         if (isset($_GET['method'])){
             $array_Champs['method'] = intval($_GET['method']);            
         }
+        
+        if ($array_Champs['method'] == 4){
+            $array_Champs['nombre_Presences'] = intval($_GET['nombre_Presences']);
+        }
     }  
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['method'])){
             $array_Champs['method'] = intval($_POST['method']);            
+        }
+
+        if ($array_Champs['method'] == 4){
+            $array_Champs['nombre_Presences'] = intval($_POST['nombre_Presences']);
         }
 
         if (isset($_POST['informationJoueur']) && $array_Champs['method'] == 2) {
@@ -116,8 +124,11 @@ function remplissage_Champs($array_Champs){
 
         if (isset($_POST['listeDate']) && $array_Champs['method'] == 6) {
             $array_Champs['tournoiDate'] = $_POST['listeDate'];
-        } 
+        }         
     }
+
+
+
     return $array_Champs;
 }
 
@@ -147,6 +158,38 @@ function creationListe($connMYSQL, $option, $nomJoueur) {
         }
     }
     return $liste_Joueur_method;
+}
+
+function creationNbPresences($nb_presence){
+    // En fonction de la méthode 4 le premier if va s'appliquer
+    $liste_Presence_method = array();
+    switch ($nb_presence){
+        case 1 : 
+            array_push($liste_Presence_method, "<option value='1' selected>1</option>");
+            array_push($liste_Presence_method, "<option value='5'>5</option>");
+            array_push($liste_Presence_method, "<option value='10'>10</option>");
+            array_push($liste_Presence_method, "<option value='20'>20</option>");
+            break;
+        case 5 : 
+            array_push($liste_Presence_method, "<option value='1'>1</option>");
+            array_push($liste_Presence_method, "<option value='5' selected>5</option>");
+            array_push($liste_Presence_method, "<option value='10'>10</option>");
+            array_push($liste_Presence_method, "<option value='20'>20</option>");
+            break;
+        case 10 : 
+            array_push($liste_Presence_method, "<option value='1'>1</option>");
+            array_push($liste_Presence_method, "<option value='5'>5</option>");
+            array_push($liste_Presence_method, "<option value='10' selected>10</option>");
+            array_push($liste_Presence_method, "<option value='20'>20</option>");
+            break;
+        case 20 : 
+            array_push($liste_Presence_method, "<option value='1'>1</option>");
+            array_push($liste_Presence_method, "<option value='5'>5</option>");
+            array_push($liste_Presence_method, "<option value='10'>10</option>");
+            array_push($liste_Presence_method, "<option value='20' selected>20</option>");
+            break;
+    }
+    return $liste_Presence_method;
 }
 
 function creationListeId($connMYSQL, $option, $IDSelected) {
@@ -218,7 +261,7 @@ function selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs){
         case 1 : $tableauResult = affichageBrute($connMYSQL, $arrayMots); break;
         case 2 : $tableauResult = affichageUnjoueur($array_Champs['informationJoueur'], $connMYSQL, $arrayMots); break;
         case 3 : $tableauResult = sommaireUnjoueur($array_Champs['sommaireJoueur'], $connMYSQL, $arrayMots); break;
-        case 4 : $tableauResult = sommaireTousJoueurs($array_Champs['href'], $connMYSQL, $arrayMots); break;
+        case 4 : $tableauResult = sommaireTousJoueurs($array_Champs['href'], $connMYSQL, $arrayMots, $array_Champs['nombre_Presences']); break;
         case 5 : $tableauResult = affichageParNumero($array_Champs['numeroID'], $connMYSQL, $arrayMots); break;
         case 6 : $tableauResult = affichageParDate($array_Champs['tournoiDate'], $connMYSQL, $arrayMots); break;
         case 7 : $tableauResult = affichageKillerCitron($array_Champs['href'], $connMYSQL, $arrayMots); break;
@@ -338,7 +381,7 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
     return $tableau;
 }
 
-function sommaireTousJoueurs($href, $connMYSQL, $arrayMots) {
+function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
     $requeteSql = "";
     $sql = "select res.* , round(res.gainTotaux / res.nb_presence,2) as gainPresence
             from
@@ -353,7 +396,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots) {
                     poker
                 GROUP BY 
                     joueur                
-            ) res ";
+            ) res where res.nb_presence >= {$nombre_Presences}";
     $orderBy = "";
 
     // Ce qui va déterminer l'order by
@@ -378,7 +421,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots) {
                             <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['fini2']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}\">{$arrayMots['gainPresence']}</a></th> 
+                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['gainPresence']}</a></th> 
                         </tr>            
                     </thead> <tbody>";
     } elseif (isset($_GET['triRatio']) && !isset($_GET['triOriginal']) ){
@@ -387,7 +430,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots) {
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th>
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}\">{$arrayMots['gain']}</a></th> 
+                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['gain']}</a></th> 
                             <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['fini2']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
@@ -543,7 +586,7 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
                             <th class=\"nomPetit\">{$arrayMots['killer']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['citron']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}\">{$arrayMots['gainPresence']}</a></th> 
+                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['gainPresence']}</a></th> 
                         </tr>            
                     </thead><tbody>";        
     } elseif (isset($_GET['triRatio']) && !isset($_GET['triOriginal']) ){
@@ -552,7 +595,7 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}\">{$arrayMots['killer']}</a></th> 
+                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['killer']}</a></th> 
                             <th class=\"nomPetit\">{$arrayMots['citron']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['gainPresence']}</th> 
@@ -612,17 +655,18 @@ function delete_Session(){
 
 function connexionBD() { 
     // Nouvelle connexion sur hébergement du Studio OL
+    /*
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
-    /*
+    */
 
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-*/
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -663,9 +707,9 @@ function addStatAffichageUser($connMYSQL, $user){
 function lienVersTriage($array_Champs){
     $href = "";
     if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){
-        $href = "poker.php?triRatio=desc&method={$array_Champs['method']}";
+        $href = "poker.php?triRatio=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
     } elseif (isset($_GET['triRatio'])) {
-        $href = "poker.php?triOriginal=desc&method={$array_Champs['method']}";
+        $href = "poker.php?triOriginal=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
     }
     return $href;
 }
@@ -700,10 +744,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);  
             $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
+            $liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
             $liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
             $liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
         }
-    }
+    }  
+    
     $connMYSQL->close();
 } // fin du GET
 
@@ -740,6 +786,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Faire afficher l'information si elle est présise..
             $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);  
             $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
+            $liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
             $liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
             $liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
 
@@ -802,8 +849,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <td><input class='bouton' type='submit' name='method' value="3"></td>
                                 </tr>
                                 <tr>
-                                    <td class="methode"><?php echo $arrayMots['method4']; ?></td>
-                                    <td></td>
+                                    <td class="methode"><?php echo $arrayMots['method4']; if ($array_Champs['typeLangue'] == "francais") { echo " (Nb Présence et +)"; } elseif ($array_Champs['typeLangue'] == "english") { echo " (Number attendance and +)"; } ?></td>
+                                    <td><select id="nb_Presence" name="nombre_Presences"><?php foreach ($liste_Joueur_method4 as $value) { echo $value; } ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value="4"></td>
                                 </tr>
                                 <tr>

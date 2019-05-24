@@ -18,6 +18,7 @@ function traduction($champInitial) {
         $usager = "Nom d'utilisateur : ";
         $name = "Nom d'organisateur : ";
         $mdp = "Mot de passe : ";
+        $emailInfo = "Pour créer un compte seulement !";
         $btn_login = "Se Connecter";
         $btn_signUp = "S'inscrire";
         $btn_Erase = "Effacer";
@@ -62,6 +63,7 @@ function traduction($champInitial) {
         $li3 = "Your promoter name must be recognizable but must not be equal to the username.";
         $legend = "Connection !";
         $usager = "Username : ";
+        $emailInfo = "To create an username only!";
         $mdp = "Password : ";
         $name = "Promoter name : ";
         $btn_login = "Login";
@@ -100,7 +102,7 @@ function traduction($champInitial) {
             }
         }
     }
-    $arrayMots = ['title' => $title, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'li3' => $li3,
+    $arrayMots = ['emailInfo' => $emailInfo, 'title' => $title, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'li3' => $li3,
                   'legend' => $legend, 'name' => $name, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_Erase' => $btn_Erase, 'btn_return' => $btn_return, 'message' => $message];
     return $arrayMots;
 }
@@ -374,7 +376,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div> 
                             <div class="information <?php if ($champInitial['champVideName'] || $champInitial['invalidName'] || $champInitial['champNameTropLong']) { echo 'erreur'; } ?>">
                                 <label for="name"><?php echo $arrayMots['name']; ?></label>
-                                <input id="name" type="text" name="name" maxlength="30" value="<?php echo $champInitial['name']; ?>" />
+                                <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="name" type="text" name="name" maxlength="30" value="<?php echo $champInitial['name']; ?>" />
                             </div>
                         </div>
                         <div class="troisBTN">                         

@@ -49,6 +49,10 @@
     flex-direction:column;
     width:100%;
 }
+input::placeholder{
+    font-style: oblique;
+    font-size: 13px;
+}
 .content > .center > fieldset > form > .connexion{
     width:55%;
     margin: auto;

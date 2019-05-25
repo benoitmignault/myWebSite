@@ -169,7 +169,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if ($longueurKiller > 3) {
             $valid_Champ['longueur_inval_Killer'] = true;
         }
-        if ($longueurCitron > 1) {
+        if ($longueurCitron > 3) {
             $valid_Champ['longueur_inval_Citron'] = true;
         }
     } elseif (isset($_POST['ajouterNouveau'])) {
@@ -716,7 +716,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>  
                     <div class="citron <?php if (verifChampCitron($valid_Champ)) { echo "erreur"; } ?>">
                         <label for="citron"><?php echo $arrayMots['citron']; ?></label>
-                        <input maxlength="1" type="text" id="citron" name="citron" value="<?php echo $champs['citron'] ?>">
+                        <input maxlength="3" type="text" id="citron" name="citron" value="<?php echo $champs['citron'] ?>">
                     </div> 
                     <div class="bas_formulaire">
                         <input class="bouton" type="submit" name="ajouter" value="<?php echo $arrayMots['btn_add']; ?>">

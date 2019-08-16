@@ -28,6 +28,12 @@
     font-size: 24px;
     text-align: center;
 }
+.content > .center > .un{
+    padding-top:0px;
+}
+.content > .center > ul{
+    margin:0;
+}
 .content > .center > ul li.info{
     font-size: 19px;
     margin-bottom:8px;
@@ -75,7 +81,6 @@
 .content > .center > fieldset > form > .connexion > .information > div > input {
     width: 100%;
 }
-
 .content > .center > fieldset > form > .connexion > .information > div > .obligatoire{
     color: #FF0000;
 }

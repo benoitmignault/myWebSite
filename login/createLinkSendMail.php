@@ -12,7 +12,7 @@ function traduction($champs) {
         $li1 = "Veuillez saisir votre courriel.";
         $li2 = "Ensuite, un courrier vous sera envoyé avec toute les informations relier à votre changement de mot de passe.";
         $compte1 = "La page des statistiques de poker.";
-        $compte2 = "La page pour réserver nos places aux soirées de poker de Benoît (En développement - À venir !)";
+        $compte2 = "La page pour réserver vos places aux soirées de poker de Benoît (En développement - À venir !)";
         $legend = "Réinitialisation !";
         $email = "Courriel :";
         $btn_send_Link = "Réinitialiser";
@@ -66,7 +66,8 @@ function verifChamp($champs, $connMYSQL) {
     // Section de vérification des champs vide  
     if (empty($_POST['email'])){
         $champs['champVide'] = true;
-    } else {        
+    } else {
+
         $sql = "select user, email from login where email = '{$_POST['email']}' ";        
         $result = $connMYSQL->query($sql);
         $row_cnt = $result->num_rows; // si il y a des résultats, alors on est correct
@@ -78,7 +79,7 @@ function verifChamp($champs, $connMYSQL) {
                 $champs["email"] = $row['email'];
             }
         }
-    }  
+    } 
 
     $longueurEmail = strlen($champs['email']);    
 
@@ -87,7 +88,7 @@ function verifChamp($champs, $connMYSQL) {
     } 
 
     $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-    if (!preg_match($patternEmail, $champs['email'])) {
+    if (!preg_match($patternEmail, $_POST['email'])) {
         $champs['champInvalid'] = true; 
     }  
 
@@ -95,21 +96,22 @@ function verifChamp($champs, $connMYSQL) {
 }
 
 // apres avoir envoyer le courriel, nous allons déterminer le message qui sera affiché à l'usagé
-function situation($champs){
+function situation($champs){   
     $typeSituation = 0;    
     if ($champs['champVide']){
         $typeSituation = 1; 
-    } elseif (!$champs['champTropLong']){
+    } elseif ($champs['champTropLong']){
         $typeSituation = 2; 
-    } elseif (!$champs['champInvalid']){
+    } elseif ($champs['champInvalid']){
         $typeSituation = 3; 
-    } elseif (!$champs['emailExistePas']){
+    } elseif ($champs['emailExistePas']){
         $typeSituation = 4; 
     } elseif ($champs['erreurManipulationBD']){
         $typeSituation = 5; 
     } elseif ($champs['envoiCourrielSucces']){
         $typeSituation = 6; 
-    }  
+    } 
+ 
     return $typeSituation;
 }
 
@@ -291,8 +293,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs["emailExistePas"]){
                 $champs = creationLink($champs, $connMYSQL);
             }
-        }
-        $champs["situation"] = situation($champs);
+        }     
+
+        $champs["situation"] = situation($champs);          
         $arrayMots = traduction($champs);
     }
     $connMYSQL->close();

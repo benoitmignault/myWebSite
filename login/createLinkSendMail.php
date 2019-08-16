@@ -22,9 +22,7 @@ function traduction($champs) {
         $p1 = "You forgot your password, no problem, we take care of it !";        
         $li3 = "This page allows you to reset your associated accounts :";
         $li1 = "Please enter your email.";
-        $li2 = "Then, a mail will be sent to you with all the information related to your change of password.";
-        $li1 = "Please enter your username and email.";
-        $li2 = "Then an email will be sent to you with all the information related to your password change";        
+        $li2 = "Then, a mail will be sent to you with all the information related to your change of password.";              
         $compte1 = "The poker statistics page.";
         $compte2 = "The page to reserve our seats at Benoît's poker nights (In development - Coming soon!)"; 
         $legend = "Reseting !";
@@ -34,7 +32,7 @@ function traduction($champs) {
     }
 
     $messageFinal = traductionSituation($champs);
-    $arrayMots = ['compte1' => $compte1, 'compte2' => $compte2, 'message' => $messageFinal, 'title' => $title, 'p1' => $p1, 'li3' => $li3, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'usager' => $usager, 'email' => $email, 'btn_send_Link' => $btn_send_Link, 'btn_return' => $btn_return];
+    $arrayMots = ['compte1' => $compte1, 'compte2' => $compte2, 'message' => $messageFinal, 'title' => $title, 'p1' => $p1, 'li3' => $li3, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'email' => $email, 'btn_send_Link' => $btn_send_Link, 'btn_return' => $btn_return];
     return $arrayMots;
 }
 
@@ -67,7 +65,6 @@ function verifChamp($champs, $connMYSQL) {
     if (empty($_POST['email'])){
         $champs['champVide'] = true;
     } else {
-
         $sql = "select user, email from login where email = '{$_POST['email']}' ";        
         $result = $connMYSQL->query($sql);
         $row_cnt = $result->num_rows; // si il y a des résultats, alors on est correct
@@ -208,7 +205,7 @@ function preparationEmail($champs){
 function corpMessageFR($champs){    
     $messageFR = '<html><body>';
     $messageFR .= "<p>Bonjour !</p>";
-    $messageFR .= "<p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe pour faire de nouvelles consultation des statistiques de poker.</p>";
+    $messageFR .= "<p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe pour faire de nouvelles consultations des statistiques de poker.</p>";
     $messageFR .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
     $messageFR .= "<tr><td><strong>Lien Web :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
     $messageFR .= "<tr><td><strong>Nom Utilisateur :</strong> </td><td>" . $champs["user"] . "</td></tr>";
@@ -216,7 +213,7 @@ function corpMessageFR($champs){
     $messageFR .= "<tr><td><strong>Temps accordé pour le changement :</strong> </td><td>12 heures</td></tr>";    
     $messageFR .= "</table>";
     $messageFR .= "<p align=\"left\">Bonne journée</p>";
-    $messageFR .= "<p align=\"right\">La Direction</p>";
+    $messageFR .= "<p align=\"middle\">La Direction</p>";
     $messageFR .= "</body></html>";
     return $messageFR;
 }
@@ -344,7 +341,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                             <div class="information <?php if ($champs['champVide'] || $champs['champTropLong'] || $champs['champInvalid'] || $champs['emailExistePas']) { echo 'erreur'; } ?>">
                                 <label for="email"><?php echo $arrayMots['email']; ?></label>
                                 <div>
-                                    <input id="email" type="email" name="email" maxlength="50" value="<?php echo $champs['email']; ?>" />
+                                    <input placeholder="exemple@email.com" autofocus id="email" type="email" name="email" maxlength="50" value="<?php echo $champs['email']; ?>" />
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>

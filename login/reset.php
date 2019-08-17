@@ -1,6 +1,6 @@
 <?php 
 function initialChamp() {
-    $champInitial = ["erreurManipulationBD" => false, "creationUserSuccess" => false, "champsPWD_New_NonEgal" => false, "champTropLongPWD_2" => false, "champTropLongPWD_1" => false, "champTropLongPWD_Temp" => false, "champInvalidPWD" => false, "champInvalidPWD_Temp" => false, "champInvalidPWD_2" => false, "champInvalidPWD_1" => false, "champPWD_Temp_NonEgal" => false, "champsPWD_NonEgal" => false, "champsVidePWD" => false, "champVidePWD_1" => false, "champVidePWD_2" => false, "champVidePWD_Temp" => false, "invalid_Language" => false, "token_Time_Used" => 0, "token_Time_Expired" => false, "champTropLong" => false, "champVide" => false, "lien_Crypte_Good" => false, "lien_Crypte" => "", "situation" => 0, "typeLangue" => "", "password_Temp" => "", "new_Password_1" => "", "new_Password_2" => "", "ancien_Nouveau_PWD_Diff" => false];
+    $champInitial = ["erreurManipulationBD" => false, "creationUserSuccess" => false, "champsPWD_New_NonEgal" => false, "champTropLongPWD_2" => false, "champTropLongPWD_1" => false, "champTropLongPWD_Temp" => false, "champInvalidPWD" => false, "champInvalidPWD_Temp" => false, "champInvalidPWD_2" => false, "champInvalidPWD_1" => false, "champPWD_Temp_NonEgal" => false, "champsPWD_NonEgal" => false, "champsVidePWD" => false, "champVidePWD_1" => false, "champVidePWD_2" => false, "champVidePWD_Temp" => false, "invalid_Language" => false, "token_Time_Used" => 0, "token_Time_Expired" => false, "champTropLong" => false, "lien_Crypte_Good" => false, "lien_Crypte" => "", "situation" => 0, "typeLangue" => "", "password_Temp" => "", "new_Password_1" => "", "new_Password_2" => "", "ancien_Nouveau_PWD_Diff" => false];
     return $champInitial;
 }
 
@@ -10,8 +10,8 @@ function traduction($champs) {
         $p1 = "Vous pouvez maintenant changer votre du mot de passe !";
         $li1 = "Veuillez inscrire votre mot de passe temporaire.";
         $li2 = "Veuillez choisir un nouveau mot de passe et le confirmer dans le 3e champs.";
-        $li3 = "Votre nouveau mot de passe doit être différent de l'ancien, pour des raisons de sécurité !"
-            $legend = "Saisir de quoi de nouveau !";
+        $li3 = "Votre nouveau mot de passe doit être différent de l'ancien, pour des raisons de sécurité !";
+        $legend = "Saisir de quoi de nouveau !";
         $mdp_Temp = "Mot de passe temporaire :";
         $mdp_1 = "Nouveau mot de passe :";
         $mdp_2 = "Confirmer votre mot de passe :";
@@ -23,8 +23,8 @@ function traduction($champs) {
         $p1 = "You can now change your password !";
         $li1 = "Please enter your temporary password.";
         $li2 = "Please choose a new password and confirm it in the 3rd field.";
-        $li3 = "Your new password must be different from the old one, for security reasons !"
-            $legend = "Write something new !";
+        $li3 = "Your new password must be different from the old one, for security reasons !";
+        $legend = "Write something new !";
         $mdp_Temp = "Temporary password :";
         $mdp_1 = "New Password :";
         $mdp_2 = "Confirm your password :";
@@ -61,7 +61,7 @@ function traductionSituationFR($champs){
         case 9 : $messageFrench = "Votre mot de passe temporaire ne concorde pas avec nos informations et la confirmation du nouveau mot de passe n'est pas égal !"; break; 
         case 10 : $messageFrench = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des deux champs du nouveau mot de passe est invalide !"; break;
         case 11 : $messageFrench = "Votre mot de passe temporaire ne concorde pas avec nos informations et un des deux champs du nouveau mot de passe est invalide !"; break;    
-        case 12 : $messageFrench = "Votre nouveau mot de passe ne doit pas être égal à celui que vous aviez avant de vouloir le changer !"; break;    
+        case 12 : $messageFrench = "Votre nouveau mot de passe ne doit pas être égal à celui que vous aviez avant !"; break;    
         case 13 : $messageFrench = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break; 
     }
     return $messageFrench;
@@ -81,7 +81,7 @@ function traductionSituationEN($champs){
         case 9 : $messageEnglish = "Your temporary password does not match our information and the confirmation of the new password is not equal !"; break; 
         case 10 : $messageEnglish = "Your temporary password matches our information, but one of the two fields of the new password is invalid !"; break;
         case 11 : $messageEnglish = "Your temporary password does not match our information and one of the two fields of the new password is invalid !"; break;  
-        case 12 : $messageEnglish = "Your new password must not be equal to the one you had before you wanted to change it !"; break;    
+        case 12 : $messageEnglish = "Your new password must not be equal to the one you had before !"; break;    
         case 13 : $messageEnglish = "A communication / manipulation error occurred when sending you the email !"; break; 
     }
     return $messageEnglish;
@@ -146,7 +146,7 @@ function verifChamp($champs, $connMYSQL) {
         $champs['champsVidePWD'] = true;
     }   
 
-    if (strcmp($champs["new_Password_1"],$champs["new_Password_2"]) != 0) {
+    if ( (strcmp($champs["new_Password_1"],$champs["new_Password_2"]) != 0) && !$champs['champVidePWD_1'] && !$champs['champVidePWD_2'] ) {
         $champs["champsPWD_New_NonEgal"] = true;   
     }
 
@@ -158,15 +158,14 @@ function verifChamp($champs, $connMYSQL) {
             if (!password_verify($champs['password_Temp'], $row['passwordTemp'])){            
                 $champs['champPWD_Temp_NonEgal'] = true;            
             }
-
-            if (!$champs["champsPWD_New_NonEgal"]){
+            
+            // Si le nouveau password est égal dans les deux champs c'est 
+            if (!$champs["champsPWD_New_NonEgal"] && !$champs['champVidePWD_1'] && !$champs['champVidePWD_2']){
                 if (!password_verify($champs['new_Password_1'], $row['password'])){            
                     $champs['ancien_Nouveau_PWD_Diff'] = true;            
                 }
-            } else {
-                $champs['ancien_Nouveau_PWD_Diff'] = true;  // Par automatisme
-            }
-
+            } 
+            
             // Validation que le temps accordé au link soit toujours valide
             if ($champs["token_Time_Used"] > ((int)$row['temps_Valide_link'])){
                 $champs["token_Time_Expired"] = true;   
@@ -175,7 +174,7 @@ function verifChamp($champs, $connMYSQL) {
     } else {
         $champs['erreurManipulationBD'] = true;       
     }
-
+   
     if ($champs['champPWD_Temp_NonEgal'] || $champs["champsPWD_New_NonEgal"]){
         $champs["champsPWD_NonEgal"] = true;  
     }  
@@ -235,11 +234,9 @@ function situation($champs){
         $typeSituation = 6; 
     } elseif (!$champs["champsVidePWD"] && !$champs["champsPWD_NonEgal"] && $champs["token_Time_Expired"] && !$champs["champTropLong"] && !$champs["champInvalidPWD"]){
         $typeSituation = 7; 
-    } elseif ($champs['erreurManipulationBD']){
-        $typeSituation = 13; 
-    } elseif ($champs['ancien_Nouveau_PWD_Diff']){
+    } elseif (!$champs['ancien_Nouveau_PWD_Diff'] && !$champs['champVidePWD_1'] && !$champs['champVidePWD_2'] && !$champs['champPWD_Temp_NonEgal']){
         $typeSituation = 12; 
-    } elseif ($champs['creationUserSuccess']){
+    } elseif ($champs['creationUserSuccess'] && $champs['ancien_Nouveau_PWD_Diff']){
         $typeSituation = 8; 
     } elseif ($champs['champPWD_Temp_NonEgal'] && $champs["champsPWD_New_NonEgal"] && !$champs['champsVidePWD'] && !$champs['champInvalidPWD']){
         $typeSituation = 9;
@@ -247,7 +244,10 @@ function situation($champs){
         $typeSituation = 10; 
     } elseif ($champs['champPWD_Temp_NonEgal'] && $champs['champInvalidPWD']){
         $typeSituation = 11;
+    } elseif ($champs['erreurManipulationBD']){
+        $typeSituation = 13; 
     } 
+    
     return $typeSituation;
 }
 
@@ -354,6 +354,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             redirection($champs);
         } else {
             $champs = verifChamp($champs, $connMYSQL);  
+            
             if (!$champs["champsVidePWD"] && !$champs["champsPWD_NonEgal"] && !$champs["token_Time_Expired"] && !$champs["champTropLong"] && !$champs["champInvalidPWD"] && $champs["ancien_Nouveau_PWD_Diff"]){
                 $champs = changementPassword($champs, $connMYSQL);
             }
@@ -404,14 +405,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div> 
-                            <div class="information <?php if ($champs['champInvalidPWD_1'] || $champs['champTropLongPWD_1'] || $champs["champVidePWD_1"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
+                            <div class="information <?php if (( $_SERVER['REQUEST_METHOD'] === 'POST' && !$champs['ancien_Nouveau_PWD_Diff'] ) || $champs['champInvalidPWD_1'] || $champs['champTropLongPWD_1'] || $champs["champVidePWD_1"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
                                 <label for="new_Password_1"><?php echo $arrayMots['mdp_1']; ?></label>
                                 <div>
                                     <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_1" type='password' maxlength="25" name="new_Password_1" value="<?php echo $champs['new_Password_1']; ?>"/>
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div> 
-                            <div class="information <?php if ($champs['champInvalidPWD_2'] || $champs['champTropLongPWD_2'] || $champs["champVidePWD_2"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
+                            <div class="information <?php if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' && !$champs['ancien_Nouveau_PWD_Diff'] ) || $champs['champInvalidPWD_2'] || $champs['champTropLongPWD_2'] || $champs["champVidePWD_2"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
                                 <label for="new_Password_2"><?php echo $arrayMots['mdp_2']; ?></label>
                                 <div>
                                     <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_2" type='password' maxlength="25" name="new_Password_2" value="<?php echo $champs['new_Password_2']; ?>"/>

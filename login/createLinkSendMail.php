@@ -78,6 +78,7 @@ function verifChamp($champs, $connMYSQL) {
         }
     } 
 
+    
     $longueurEmail = strlen($champs['email']);    
 
     if ($longueurEmail > 50){
@@ -88,7 +89,7 @@ function verifChamp($champs, $connMYSQL) {
     if (!preg_match($patternEmail, $_POST['email'])) {
         $champs['champInvalid'] = true; 
     }  
-
+    
     return $champs;
 }
 
@@ -188,7 +189,7 @@ function preparationEmail($champs){
         $elementCourriel["message"] = corpMessageFR($champs);        
         $elementCourriel["to"] = "{$champs["email"]}"; 
         $elementCourriel["subject"] = "Changement de mot de passe !";
-        $elementCourriel["headers"] = "De: home@benoitmignault.ca \r\n";
+        $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
         $elementCourriel["headers"] .= "X-Mailer: PHP/" . phpversion() . "\r\n";
         $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
     } elseif ($champs["typeLangue"] == "english"){
@@ -248,14 +249,11 @@ function redirection($champs) {
 }
 
 function connexionBD(){
-    // Nouvelle connexion sur hébergement du Studio OL
-
-    
+    // Nouvelle connexion sur hébergement du Studio OL    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmi_benoitmignault.ca.mysql";
-    
+    $bd = "benoitmi_benoitmignault.ca.mysql";    
 /*
     $host = "localhost";
     $user = "zmignaub";
@@ -286,8 +284,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $connMYSQL = connexionBD();
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['send_Link'])) {
-            $champs = verifChamp($champs, $connMYSQL);            
-            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs["emailExistePas"]){
+            $champs = verifChamp($champs, $connMYSQL);             
+            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs["emailExistePas"]){                
                 $champs = creationLink($champs, $connMYSQL);
             }
         }     

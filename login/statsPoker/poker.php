@@ -95,7 +95,7 @@ function remplissage_Champs($array_Champs){
         if (isset($_GET['method'])){
             $array_Champs['method'] = intval($_GET['method']);            
         }
-        
+
         if ($array_Champs['method'] == 4){
             $array_Champs['nombre_Presences'] = intval($_GET['nombre_Presences']);
         }
@@ -655,13 +655,13 @@ function delete_Session(){
 
 function connexionBD() { 
     // Nouvelle connexion sur hébergement du Studio OL
-    
+   
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
+    
     /*
-
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
@@ -749,7 +749,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
         }
     }  
-    
+
     $connMYSQL->close();
 } // fin du GET
 

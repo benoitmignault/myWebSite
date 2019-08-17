@@ -1,6 +1,7 @@
 <?php
+// il va falloir ajouter une valid duplicateEmail
 function initialChamp() {
-    $champs = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideEmail" => false, "duplicatUser" => false, "champInvalid" => false,
+    $champs = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideEmail" => false, "duplicate" => false, "duplicatUser" => false, "duplicatEmail" => false, "champInvalid" => false,
                "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false, "creationUserSuccess" => false,
                "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
     return $champs;
@@ -10,8 +11,9 @@ function traduction($champs) {
     if ($champs["typeLangue"] === 'francais') {
         $title = "Connexion";
         $p1 = "Bienvenue à la page de connexion des statistiques du poker entre amis !";
-        $li1 = "Vous devez vous authentifiez, pour faire afficher les statistiques désirées";
-        $li2 = "Si vous n'avez pas de nom d'utilisateur, veuillez vous en créez un auparavant et ce dernier doit être unique.";
+        $li1 = "Vous devez vous authentifier, pour faire afficher les statistiques désirées";
+        $li2 = "Si vous n'avez pas de compte, veuillez vous en créer un.";
+        $li3 = "Veuillez spécifier un nom d'utilisateur et un courriel unique.";
         $legend = "Connexion !";
         $email = "Courriel :";
         $emailInfo = "Pour créer un compte seulement !";
@@ -25,8 +27,9 @@ function traduction($champs) {
     } elseif ($champs["typeLangue"] === 'english') {
         $title = "Connection";
         $p1 = "Welcome to the login page to see the statistic of poker between friends !";
-        $li1 = "You must login if you want to see the poker statistic.";
-        $li2 = "If you do not have a username, please create one before and it must be unique.";
+        $li1 = "You must authenticate, to display the desired statistics";
+        $li2 = "If you do not have an account, please create one.";
+        $li3 = "Please specify a username and a unique email.";
         $legend = "Connection !";
         $usager = "Username :";
         $mdp = "Password :";
@@ -39,7 +42,7 @@ function traduction($champs) {
     }
 
     $messageFinal = traductionSituation($champs);
-    $arrayMots = ['emailInfo' => $emailInfo, 'title' => $title, 'email' => $email, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_reset' => $btn_reset, 'btn_return' => $btn_return, 'message' => $messageFinal];
+    $arrayMots = ['emailInfo' => $emailInfo, 'title' => $title, 'email' => $email, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'li3' => $li3, 'legend' => $legend, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_reset' => $btn_reset, 'btn_return' => $btn_return, 'message' => $messageFinal];
     return $arrayMots;
 }
 
@@ -53,6 +56,7 @@ function traductionSituation($champs){
     return $messageEnPreparation;
 }
 
+// Il faudra un message si le email est deja utiliser lors de la creation du compte
 function traductionSituationFR($champs){
     $messageFrench = "";
     switch ($champs['situation']) {
@@ -75,10 +79,12 @@ function traductionSituationFR($champs){
         case 15 : $messageFrench = "Attention les champs peuvent contenir seulement des caractères alphanumériques !"; break;
         case 16 : $messageFrench = "Félicitation ! Votre compte a été crée avec succès !"; break;
         case 17 : $messageFrench = "Attention le courriel ne respecte la forme standard soit : exemple@courriel.com !"; break;
+        case 18 : $messageFrench = "Au moment de créer votre compte, le courriel ne doit pas être utiliser déjà par quelqu'un !"; break;
     }
     return $messageFrench;
 }
 
+// Il faudra un message si le email est deja utiliser lors de la creation du compte
 function traductionSituationEN($champs){
     $messageEnglish = "";
     switch ($champs['situation']) {
@@ -101,11 +107,12 @@ function traductionSituationEN($champs){
         case 15 : $messageEnglish = "Warning, the fields can only contain alphanumeric characters !"; break;
         case 16 : $messageEnglish = "Congratulations ! Your account has been successfully created !"; break;
         case 17 : $messageEnglish = "Warning, the email does not respect the standard form : example@courriel.com !"; break;
+        case 18 : $messageEnglish = "When creating your account, the email should not be used by anyone already !"; break;
     }
     return $messageEnglish;
 }
 
-function verifChamp($champs) {
+function verifChamp($champs, $connMYSQL) {
     if (empty($champs['user'])){
         $champs['champVideUser'] = true;
     }
@@ -163,17 +170,41 @@ function verifChamp($champs) {
         $champs['champInvalidEmail'] = true; 
     }  
 
-    // Simplification des champs invalides pour plutard...
-    if (($champs['champInvalidUser'] || $champs['champInvalidPassword'] || $champs['champInvalidEmail']) && !isset($_POST['login'])){
+    if (($champs['champInvalidUser'] || $champs['champInvalidPassword'] || $champs['champInvalidEmail']) /*&& !isset($_POST['login'])*/){
         $champs['champInvalid'] = true;
     }     
 
-    if (!$champs['champVideUser'] && !$champs['champVidePassword'] && $champs['user'] == $champs['password'] && !isset($_POST['login'])){
+    if (!$champs['champVideUser'] && !$champs['champVidePassword'] && $champs['user'] == $champs['password'] /*&& !isset($_POST['login'])*/){
         $champs['sameUserPWD'] = true;
     }
+
+    // Instauration de la validation si le user et ou email est dejà existant seulement si on veut créer un user 
+    if (isset($_POST['signUp'])){  
+        // Retourner un message erreur si la BD a eu un problème ! J
+        $sql = "select user, email from login where user = '{$champs['user']}' OR email = '{$champs['email']}' ";        
+        $result = $connMYSQL->query($sql);
+        $row_cnt = $result->num_rows; // si il y a des résultats, on va vérifier lequeles est un duplicate
+        if ($row_cnt !== 0){
+            foreach ($result as $row) {
+                if ($row['user'] === $champs['user']) {
+                    $champs['duplicatUser'] = true;
+                }
+
+                if ($row['email'] === $champs['email']) {
+                    $champs['duplicatEmail'] = true;
+                }
+            }
+        }
+    }
+
+    if ($champs['duplicatEmail'] || $champs['duplicatUser']){
+        $champs['duplicate'] = true;
+    }
+
     return $champs;
 }
 
+// Ajouter une situation ou plusieurs si le email est deja utilise par quelqu'un autre
 function situation($champs) {
     $typeSituation = 0;   
     // Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexionUser
@@ -201,7 +232,9 @@ function situation($champs) {
     } elseif ($champs['sameUserPWD'] && isset($_POST['signUp'])) {
         $typeSituation = 11; 
     } elseif ($champs['duplicatUser'] && isset($_POST['signUp'])) {
-        $typeSituation = 12; 
+        $typeSituation = 12;         
+    } elseif ($champs['duplicatEmail'] && isset($_POST['signUp'])) {
+        $typeSituation = 18;         
     } elseif ($champs['champVide']) {     
         $typeSituation = 13; 
     } elseif ($champs['champInvalidEmail']) {     
@@ -217,28 +250,16 @@ function situation($champs) {
 }
 
 function creationUser($champs, $connMYSQL) {
-    $sql = "select user from login";
-    $result = $connMYSQL->query($sql);
-
-    foreach ($result as $row) {
-        if ($row['user'] === $champs['user']) {
-            $champs['duplicatUser'] = true;
-        }
+    $passwordCrypter = encryptementPassword($champs['password']);
+    // Ajout de l'information du email dans la création du user
+    $insert = "INSERT INTO login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
+    $insert .= "('" . $champs['user'] . "','" . $passwordCrypter . "', NULL, '" . $champs['email'] . "', NULL, NULL, 0)";
+    $connMYSQL->query($insert);
+    if (mysqli_affected_rows($connMYSQL) == 1){
+        $champs['creationUserSuccess'] = true;
     }
+    return $champs;
 
-    if ($champs['duplicatUser']) {
-        return $champs;
-    } else {
-        $passwordCrypter = encryptementPassword($champs['password']);
-        // Ajout de l'information du email dans la création du user
-        $insert = "INSERT INTO login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
-        $insert .= "('" . $champs['user'] . "','" . $passwordCrypter . "', NULL, '" . $champs['email'] . "', NULL, NULL, 0)";
-        $connMYSQL->query($insert);
-        if (mysqli_affected_rows($connMYSQL) == 1){
-            $champs['creationUserSuccess'] = true;
-        }
-        return $champs;
-    }
 }
 // Selon une recommandation :
 // https://stackoverflow.com/questions/30279321/how-to-use-password-hash
@@ -289,12 +310,13 @@ function connexionUser($champs, $connMYSQL) {
 
 function connexionBD() {  
     // Nouvelle connexion sur hébergement du Studio OL
-    
+
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
-    /*   
+    
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
@@ -330,23 +352,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $champs["user"] = strtolower($_POST['user']);
         $champs["password"] = $_POST['password'];
         $champs["email"] = $_POST['email'];
-        $connMYSQL = connexionBD();
-        // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-        $sql = "select id from login where user = '{$champs["user"]}' ";                
-        $result_SQL = $connMYSQL->query($sql);
-        $row = $result_SQL->fetch_row(); // C'est mon array de résultat
-        $champs["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 
-
+        $connMYSQL = connexionBD();   
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['login'])) {
-            $champs = verifChamp($champs);
+            //////////////// Ceci est juste si je fais une connexion
+            // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
+            $sql = "select id from login where user = '{$champs["user"]}' ";                
+            $result_SQL = $connMYSQL->query($sql);
+            $row = $result_SQL->fetch_row(); // C'est mon array de résultat
+            $champs["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 
+            $champs = verifChamp($champs, $connMYSQL);
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] ) {
                 $champs = connexionUser($champs, $connMYSQL);
             }
             // si le bouton s'inscrire est pesé...
         } elseif (isset($_POST['signUp'])) {
-            $champs = verifChamp($champs);
-            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs['sameUserPWD']) {
+            $champs = verifChamp($champs, $connMYSQL);            
+            // Ajout de la validation si duplicate est à false en raison de unicité du user et email
+            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs['sameUserPWD'] && !$champs['duplicate']) {
                 $champs = creationUser($champs, $connMYSQL);
             }            
             // si le bouton éffacer est pesé...
@@ -392,6 +415,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <ul>
                     <li class='info'><?php echo $arrayMots['li1']; ?></li>
                     <li class='info'><?php echo $arrayMots['li2']; ?></li>
+                    <li class='info'><?php echo $arrayMots['li3']; ?></li>
                 </ul>
                 <fieldset>
                     <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
@@ -411,7 +435,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div> 
                             </div>                             
-                            <div class="information <?php if (!isset($_POST['login']) && ($champs['champVideEmail'] || $champs['champInvalidEmail'] || $champs['champTropLongEmail'])) { echo 'erreur';} ?>">
+                            <div class="information <?php if (!isset($_POST['login']) && ($champs['duplicatEmail'] || $champs['champVideEmail'] || $champs['champInvalidEmail'] || $champs['champTropLongEmail'])) { echo 'erreur';} ?>">
                                 <label for="email"><?php echo $arrayMots['email']; ?></label>
                                 <div>
                                     <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champs['email']; ?>"/>

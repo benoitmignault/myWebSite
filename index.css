@@ -360,21 +360,21 @@ span{
 .racineSite .right > div > .pageAccueil > p{
     text-align: justify;
 }
-.racineSite > .left > .media,
-.racineSite > .left > .media .sous_Media{
+.racineSite > .right > .media,
+.racineSite > .right > .media .sous_Media{
     width: 100%;
 }
-.racineSite > .left > .media .sous_Media{
+.racineSite > .right > .media .sous_Media{
     display: flex; 
     display: -webkit-flex;
 }
-.racineSite > .left > .media .sous_Media .lienSocial{
+.racineSite > .right > .media .sous_Media .lienSocial{
     width: 25%;
 }
-.racineSite .left > .media > .pageAccueil{
+.racineSite .right > .media > .pageAccueil{
     padding:0;
 }
-.racineSite .left > .media .sous_Media > .lienSocial > a img{
+.racineSite .right > .media .sous_Media > .lienSocial > a img{
     width: 100%;
     height: auto;
 } 

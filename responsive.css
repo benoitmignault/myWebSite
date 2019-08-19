@@ -5,7 +5,8 @@
         flex-direction:column; 
         margin: auto;
     }
-    .racineSite .left, .racineSite .middle, .racineSite .right{
+    .racineSite .left, .racineSite .middle, 
+    .racineSite .right{
         width: 100%; 
     }
     .racineSite .right .logoRight{

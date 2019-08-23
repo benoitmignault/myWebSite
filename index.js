@@ -154,15 +154,15 @@ function affichageSectionPhoto(){
         const h3 = document.querySelector('.photo h3');
         if (langue.value == "en"){
             switch (sousHref){
-                case "http://benoitmignault.ca/pageAccueil/photos/photo_golf/photo_golf.html" : 
+                case "https://benoitmignault.ca/pageAccueil/photos/photo_golf/photo_golf.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the golf :"; break;
-                case "http://benoitmignault.ca/pageAccueil/photos/photo_hiver/photo_hiver.html" : 
+                case "https://benoitmignault.ca/pageAccueil/photos/photo_hiver/photo_hiver.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the winter :"; break;
-                case "http://benoitmignault.ca/pageAccueil/photos/photo_poker/photo_poker.html" : 
+                case "https://benoitmignault.ca/pageAccueil/photos/photo_poker/photo_poker.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the poker :"; break;
-                case "http://benoitmignault.ca/pageAccueil/photos/photo_ski/photo_ski.html" : 
+                case "https://benoitmignault.ca/pageAccueil/photos/photo_ski/photo_ski.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the skiing :"; break;
-                case "http://benoitmignault.ca/pageAccueil/photos/photo_velo/photo_velo.html" : 
+                case "https://benoitmignault.ca/pageAccueil/photos/photo_velo/photo_velo.html" : 
                     h3.innerHTML = "Here is the sub section of the pictures on the bike :"; break;
             }
         }

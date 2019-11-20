@@ -21,10 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <body> 
         <div class="erreur404">
             <div id="explication">                
-                <button class="btnErreur" id="francais" type="button">Explication en français</button>
-                <button class="btnErreur" id="english" type="button">Explanation in english</button>
+                <button class="btnErreur" id="francais" type="button">Explication</button>
             </div>        
-            <!-- Fichier 404-notfound.jpg est une propriété du site http://maxpixel.freegreatpicture.com/File-Not-Found-Not-Found-404-Error-2384304 sous licence libre -->
+            <!-- Fichier 404-notfound.jpg est une propriété du site https://www.flickr.com/photos/guspim/2280690094/ sous licence libre -->
             <div class="photoErreur">
                 <img src="./404-notfound.jpg" alt="Erreur 404" title="Erreur 404">
             </div>            

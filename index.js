@@ -18,14 +18,14 @@ const calendrierAJAX = document.querySelector('#tableauAJAX');
 
 function activation_Liste(){
     lien.addEventListener('click', function(evt){
-        if (div_liste.style.display === ""){
+        if (div_liste.style.display == ""){
             div_liste.style.display = 'block';
             liste.innerHTML  = "<li>PHP / HTML / CSS</li>";
             liste.innerHTML += "<li>JAVASCRIPT / JQUERY / AJAX</li>";
             liste.innerHTML += "<li>C / C++ / MAKEFILE</li>";
             liste.innerHTML += "<li>SQL / MYSQL / ORACLE XE</li>";
             liste.innerHTML += "<li>JAVA</li>";            
-            if (langue === "en"){
+            if (langue.value == "en"){
                 liste.innerHTML += "<li>ASSEMBLY IN (Pep8)</li>"; 
             } else {
                 liste.innerHTML += "<li>ASSEMBLEUR EN (Pep8)</li>"; 
@@ -34,7 +34,7 @@ function activation_Liste(){
             liste.innerHTML += "<li>CODEBLOCKS + C / C++</li>";            
             liste.innerHTML += "<li>NETBEANS + JAVA</li>";    
             liste.innerHTML += "<li>ANDROID STUDIO + JAVA</li>";
-        } else if (div_liste.style.display === 'block'){
+        } else if (div_liste.style.display == 'block'){
             liste.innerHTML = "";
             div_liste.style.display = "";
         }
@@ -324,6 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     callAjax();
+    console.log(langue.value);
     activation_Liste();     
     envoyerCourriel();
 });

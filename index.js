@@ -20,22 +20,20 @@ function activation_Liste(){
     lien.addEventListener('click', function(evt){
         if (div_liste.style.display === ""){
             div_liste.style.display = 'block';
-            liste.innerHTML  = "<li>PHP</li>";
-            liste.innerHTML += "<li>HTML</li>";
-            liste.innerHTML += "<li>JAVASCRIPT</li>";
-            liste.innerHTML += "<li>JQUERY & AJAX</li>";
-            liste.innerHTML += "<li>CSS</li>";
-            liste.innerHTML += "<li>Android Studio / JAVA </li>";
-            liste.innerHTML += "<li>SQL & MYSQL</li>";
-            liste.innerHTML += "<li>ORACLE XE</li>";
-            liste.innerHTML += "<li>NETBEANS IDE 8.2</li>";
-            liste.innerHTML += "<li>GIT & GITHUB & GITLAB</li>";
-            liste.innerHTML += "<li>C</li>";
+            liste.innerHTML  = "<li>PHP / HTML / CSS</li>";
+            liste.innerHTML += "<li>JAVASCRIPT / JQUERY / AJAX</li>";
+            liste.innerHTML += "<li>C / C++ / MAKEFILE</li>";
+            liste.innerHTML += "<li>SQL / MYSQL / ORACLE XE</li>";
+            liste.innerHTML += "<li>JAVA</li>";            
             if (langue === "en"){
                 liste.innerHTML += "<li>ASSEMBLY IN (Pep8)</li>"; 
             } else {
                 liste.innerHTML += "<li>ASSEMBLEUR EN (Pep8)</li>"; 
-            } 
+            }            
+            liste.innerHTML += "<li>GIT / GITHUB / GITLAB</li>";        
+            liste.innerHTML += "<li>CODEBLOCKS + C / C++</li>";            
+            liste.innerHTML += "<li>NETBEANS + JAVA</li>";    
+            liste.innerHTML += "<li>ANDROID STUDIO + JAVA</li>";
         } else if (div_liste.style.display === 'block'){
             liste.innerHTML = "";
             div_liste.style.display = "";

@@ -276,12 +276,12 @@ function envoyerCourriel(){
             // Serialize the data in the form
             var serializedData = $form.serialize();
             var url = "";
-            if (langue.value === "fr"){
+            // la variable langue sera interprèter comem un type post comme on le défini dans l'appel Ajax.
+            if (langue.value === "fr"){                
                 url = "/contact/contact.php";
             } else if (langue.value === "en"){
                 url = "../contact/contact.php";
-            }
-            
+            }            
             request = $.ajax({
                 url: url,
                 type: "post",
@@ -324,7 +324,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     callAjax();
-    console.log(langue.value);
     activation_Liste();     
     envoyerCourriel();
 });

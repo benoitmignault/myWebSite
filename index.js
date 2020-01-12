@@ -170,6 +170,7 @@ function affichageSectionPhoto(){
 function envoyerCourriel(){
     $(form).submit(function(e){            
         e.preventDefault();
+        msgSucces.innerHTML = ""; // Une seul ligne est suffisante car ça dépasse le contexte de la langue de la page web - 13 Janvier 2020
         msgErr.innerHTML = "";
         var erreur = false;
         var nom = nomComplet.value;
@@ -300,10 +301,10 @@ function envoyerCourriel(){
             // Callback handler that will be called on failure
             request.fail(function (jqXHR, textStatus, errorThrown){
                 if (langue.value === "fr"){
-                    msgErr.innerHTML += "<li>Un problème avec l'envoi du courriel a été rencontré</li>";
+                    msgErr.innerHTML += "<li>Un problème avec l'envoi du courriel a été rencontré</li>";                    
                 } else if (langue.value === "en"){
                     msgErr.innerHTML += "<li>A problem with sending the email was encountered</li>";
-                } 
+                }                 
             });
         }
     });

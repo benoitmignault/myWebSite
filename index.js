@@ -277,9 +277,9 @@ function envoyerCourriel(){
             var serializedData = $form.serialize();
             var url = "";
             if (langue.value === "fr"){
-                url = "/contact/contact.php";
+                url = "/contact/contact.php?langue=francais";
             } else if (langue.value === "en"){
-                url = "../contact/contact.php";
+                url = "../contact/contact.php?langue=english";
             }
             
             request = $.ajax({

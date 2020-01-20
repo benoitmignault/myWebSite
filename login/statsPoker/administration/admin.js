@@ -28,6 +28,11 @@ function typePositionSelected() {
         }
     });
 
+    $(killer).change(function () {
+        if (this.value !== '0') {
+            citron.value = "0";
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {

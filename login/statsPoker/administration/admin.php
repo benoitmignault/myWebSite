@@ -457,20 +457,20 @@ function verifChampPosition($valid_Champ) {
 
 function connexionBD() {  
     // Nouvelle connexion sur hébergement du Studio OL
-    
+
     /*
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 */
-    
-    
+
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
 
@@ -658,7 +658,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
     <link rel="shortcut icon" href="admin.png">
     <link rel="stylesheet" type="text/css" href="admin.css">
-    <link href="date.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="date.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $arrayMots['title']; ?></title>
     <style>
@@ -759,10 +759,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
     </div>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
     <script type="text/javascript" src="admin.js"></script>
     <script type="text/javascript" src="date.js"></script>
 </body>

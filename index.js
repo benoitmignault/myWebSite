@@ -21,9 +21,10 @@ function activation_Liste() {
         if (div_liste.style.display == "") {
             div_liste.style.display = 'block';
             liste.innerHTML = "<li>PHP / HTML / CSS</li>";
-            liste.innerHTML += "<li>JAVASCRIPT / JQUERY / AJAX</li>";
+            liste.innerHTML += "<li>PYTHON3</li>";
+            liste.innerHTML += "<li>JAVASCRIPT / JQUERY</li>";
             liste.innerHTML += "<li>C / C++ / MAKEFILE</li>";
-            liste.innerHTML += "<li>SQL / MYSQL / ORACLE XE</li>";
+            liste.innerHTML += "<li>SQL / MYSQL / ORACLE</li>";
             liste.innerHTML += "<li>JAVA</li>";
             if (langue.value == "en") {
                 liste.innerHTML += "<li>ASSEMBLY IN (Pep8)</li>";
@@ -34,6 +35,7 @@ function activation_Liste() {
             liste.innerHTML += "<li>CODEBLOCKS + C / C++</li>";
             liste.innerHTML += "<li>NETBEANS + JAVA</li>";
             liste.innerHTML += "<li>ANDROID STUDIO + JAVA</li>";
+            liste.innerHTML += "<li>WINDOWS 7 / 10 / LINUX</li>";
         } else if (div_liste.style.display == 'block') {
             liste.innerHTML = "";
             div_liste.style.display = "";

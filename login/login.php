@@ -2,13 +2,13 @@
 // il va falloir ajouter une valid duplicateEmail
 function initialChamp() {
     $champs = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideEmail" => false, "duplicate" => false, "duplicatUser" => false, "duplicatEmail" => false, "champInvalid" => false,
-               "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false, "creationUserSuccess" => false,
-               "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
+               "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false, "creationUserSuccess" => false, "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
     return $champs;
 }
 
 function traduction($champs) {    
     if ($champs["typeLangue"] === 'francais') {
+        $lang = "fr";
         $title = "Connexion";
         $p1 = "Bienvenue à la page de connexion des statistiques du poker entre amis !";
         $li1 = "Vous devez vous authentifier, pour faire afficher les statistiques désirées";
@@ -25,6 +25,7 @@ function traduction($champs) {
         $btn_return = "Retour à l'accueil";
 
     } elseif ($champs["typeLangue"] === 'english') {
+        $lang = "en";
         $title = "Connection";
         $p1 = "Welcome to the login page to see the statistic of poker between friends !";
         $li1 = "You must authenticate, to display the desired statistics";
@@ -42,7 +43,7 @@ function traduction($champs) {
     }
 
     $messageFinal = traductionSituation($champs);
-    $arrayMots = ['emailInfo' => $emailInfo, 'title' => $title, 'email' => $email, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'li3' => $li3, 'legend' => $legend, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_reset' => $btn_reset, 'btn_return' => $btn_return, 'message' => $messageFinal];
+    $arrayMots = ["lang" => $lang, 'emailInfo' => $emailInfo, 'title' => $title, 'email' => $email, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'li3' => $li3, 'legend' => $legend, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_reset' => $btn_reset, 'btn_return' => $btn_return, 'message' => $messageFinal];
     return $arrayMots;
 }
 
@@ -389,7 +390,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?php echo $arrayMots['lang']; ?>">
 
 <head>
     <meta charset="utf-8">
@@ -422,7 +423,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li class='info'><?php echo $arrayMots['li3']; ?></li>
             </ul>
             <fieldset>
-                <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
+                <legend class="legendCenter"><?php echo $arrayMots['legend']; ?></legend>
                 <form method="post" action="./login.php">
                     <div class="connexion">
                         <div class="information <?php if ($champs['sameUserPWD'] || $champs['champVideUser'] || $champs['champInvalidUser'] || $champs['duplicatUser'] || $champs['badUser'] || $champs['champTropLongUser']) { echo 'erreur'; } ?>">

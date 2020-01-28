@@ -21,7 +21,7 @@ function activation_Liste() {
         if (div_liste.style.display == "") {
             div_liste.style.display = 'block';
             liste.innerHTML = "<li>PHP / HTML / CSS</li>";
-            liste.innerHTML += "<li>PYTHON3</li>";
+            liste.innerHTML += "<li>PYTHON3 / FLASK</li>";
             liste.innerHTML += "<li>JAVASCRIPT / JQUERY</li>";
             liste.innerHTML += "<li>C / C++ / MAKEFILE</li>";
             liste.innerHTML += "<li>SQL / MYSQL / ORACLE</li>";
@@ -32,10 +32,10 @@ function activation_Liste() {
                 liste.innerHTML += "<li>ASSEMBLEUR EN (Pep8)</li>";
             }
             liste.innerHTML += "<li>GIT / GITHUB / GITLAB</li>";
-            liste.innerHTML += "<li>CODEBLOCKS + C / C++</li>";
-            liste.innerHTML += "<li>NETBEANS + JAVA</li>";
-            liste.innerHTML += "<li>ANDROID STUDIO + JAVA</li>";
-            liste.innerHTML += "<li>WINDOWS 7 / 10 / LINUX</li>";
+            liste.innerHTML += "<li>CODEBLOCKS / C / C++</li>";
+            liste.innerHTML += "<li>NETBEANS / JAVA8 </li>";
+            liste.innerHTML += "<li>ANDROID STUDIO / JAVA</li>";
+            liste.innerHTML += "<li>WINDOWS 7 / 10 / UBUNTU</li>";
         } else if (div_liste.style.display == 'block') {
             liste.innerHTML = "";
             div_liste.style.display = "";

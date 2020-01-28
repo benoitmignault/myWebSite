@@ -1,26 +1,32 @@
-*{
-    box-sizing: border-box;  
-    -moz-box-sizing: border-box;     
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
-#hautPage, #endroitResultat{
-    margin:0;
+
+#hautPage,
+#endroitResultat {
+    margin: 0;
 }
-.mainPage{
-    display: -webkit-flex; 
+
+.mainPage {
+    display: -webkit-flex;
     display: flex;
     width: 50%;
     margin: auto;
-    -webkit-flex-direction:column; 
-    flex-direction:column; 
+    -webkit-flex-direction: column;
+    flex-direction: column;
     flex-wrap: wrap;
 }
-.mainPage > div{
+
+.mainPage > div {
     width: 100%;
 }
-.mainPage > div > fieldset{
+
+.mainPage > div > fieldset {
     background-color: #F0FFF0;
 }
-.mainPage .header > h1{
+
+.mainPage .header > h1 {
     color: white;
     text-align: center;
     margin-top: 10px;
@@ -28,59 +34,81 @@
     margin-right: 30px;
     line-height: 1.5;
 }
-.mainPage .info_method{
+
+.mainPage .info_method {
     margin-bottom: 20px;
 }
-.userDisplay{
-    color:red;    
+
+.userDisplay {
+    color: red;
     padding: 2px;
 }
-.mainPage > div > fieldset > legend{
+
+/* 
+Nouvelle manière d'afficher un legend au milieu
+*/
+.mainPage > div > fieldset > .legendCenter {
+    display: table;
+    min-width: 0px;
+    position: relative;
+    margin: auto;
+    padding: 5px 10px;
+    text-align: center;
+    font-weight: bold;
     background-color: #F0FFF0;
     border: 4px outset;
-    padding: 2px;
 }
-.mainPage .info_method form table tr td select{
-    padding:5px;
+
+.mainPage .info_method form table tr td select {
+    padding: 5px;
     border-radius: 10px;
 }
-.mainPage .btnRetour{
+
+.mainPage .btnRetour {
     text-align: center;
     padding: 15px;
 }
-.mainPage .method{
+
+.mainPage .method {
     margin-bottom: 25px;
 }
-.mainPage .method .formulaire{
-    display: -webkit-flex; 
+
+.mainPage .method .formulaire {
+    display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction:column;
-    flex-direction:column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
 }
-.mainPage .method .formulaire div{
+
+.mainPage .method .formulaire div {
     width: 100%;
 }
-.mainPage .method .formulaire div:first-of-type{
+
+.mainPage .method .formulaire div:first-of-type {
     margin-top: 15px;
     margin-bottom: 15px;
 }
-.mainPage .method .formulaire .listeJoueur{
+
+.mainPage .method .formulaire .listeJoueur {
     margin-bottom: 5px;
-    display: -webkit-flex; 
+    display: -webkit-flex;
     display: flex;
-    justify-content:flex-start;
+    justify-content: flex-start;
 }
-.mainPage .method .formulaire #joueur:hover,
+
+.mainPage .method .formulaire .joueur:hover,
 .mainPage .method .formulaire #idTournois:hover,
-.mainPage .method .formulaire #tournois_date:hover{
-    cursor:pointer;  
+.mainPage .method .formulaire #tournois_date:hover {
+    cursor: pointer;
 }
-.mainPage .method .formulaire #joueur,
+
+.mainPage .method .formulaire .joueur,
 .mainPage .method .formulaire #idTournois,
-.mainPage .method .formulaire #tournois_date{
+.mainPage .method .formulaire #tournois_date {
     font-size: 17px;
 }
-.bouton{
+
+.bouton {
     background: #416b43;
     background-image: -webkit-linear-gradient(top, #416b43, #99cff0);
     background-image: -moz-linear-gradient(top, #416b43, #99cff0);
@@ -97,6 +125,7 @@
     border: solid #738c1f 2px;
     margin-right: 15px;
 }
+
 .bouton:hover {
     background: #8bccf5;
     background-image: -webkit-linear-gradient(top, #8bccf5, #6da36d);
@@ -104,128 +133,156 @@
     background-image: -ms-linear-gradient(top, #8bccf5, #6da36d);
     background-image: -o-linear-gradient(top, #8bccf5, #6da36d);
     background-image: linear-gradient(to bottom, #8bccf5, #6da36d);
-    cursor:pointer;
+    cursor: pointer;
 }
+
 .mainPage .affichage table,
-.mainPage .info_method table{
-    border-spacing: 0; /* pour enlever les espace entre les td*/
+.mainPage .info_method table {
+    border-spacing: 0;
+    /* pour enlever les espace entre les td*/
     width: 100%;
     border-left: 1px solid black;
     border-right: 1px solid black;
-    border-top: 1px solid black;    
+    border-top: 1px solid black;
 }
-.mainPage .affichage .lesInstructionTriage li{
+
+.mainPage .affichage .lesInstructionTriage li {
     line-height: 1.6em;
 }
-.mainPage .affichage .lesInstructionTriage{
+
+.mainPage .affichage .lesInstructionTriage {
     text-align: center;
 }
-.mainPage .affichage .lesInstructionTriage .charGros{
+
+.mainPage .affichage .lesInstructionTriage .charGros {
     font-weight: bold;
 }
+
 .mainPage .affichage table th,
-.mainPage .info_method table th{ 
+.mainPage .info_method table th {
     background-color: lightgray;
     text-align: center;
     border-bottom: 1px solid black;
     color: black;
-    padding-top:5px;  
+    padding-top: 5px;
     padding-bottom: 5px;
 }
-.mainPage .affichage table .retourLigne{
+
+.mainPage .affichage table .retourLigne {
     display: none;
 }
+
 .mainPage .affichage table td,
-.mainPage .info_method table td{    
+.mainPage .info_method table td {
     text-align: center;
     border-bottom: 1px solid black;
-    padding-top:3px;  
+    padding-top: 3px;
     padding-bottom: 3px;
     font-weight: bold;
 }
-.mainPage .affichage table tr td img{
-    max-width: 100%; 
-    height: 30px; 
-    width: auto;    
+
+.mainPage .affichage table tr td img {
+    max-width: 100%;
+    height: 30px;
+    width: auto;
 }
-.mainPage .affichage table .positif{    
-    color:green;
+
+.mainPage .affichage table .positif {
+    color: green;
 }
-.mainPage .affichage table .negatif{
-    color:red;
+
+.mainPage .affichage table .negatif {
+    color: red;
 }
+
 /* Ne sera pas utiliser pour l'instant */
-.mainPage .affichage table .droit{    
+.mainPage .affichage table .droit {
     text-align: right;
 }
-.msgErreur{
+
+.msgErreur {
     margin: auto;
     text-align: center;
-    color : red;
+    color: red;
     font-size: 22px;
 }
-.mainPage .return{
+
+.mainPage .return {
     margin-top: 15px;
 }
-.mainPage .return > fieldset{
-    padding:0;
+
+.mainPage .return > fieldset {
+    padding: 0;
 }
-.mainPage .return a{
+
+.mainPage .return a {
     color: black;
     display: block;
     text-decoration: none;
-    font-size:18px;
+    font-size: 18px;
     font-weight: bold;
-    padding-top: 10px;       
+    padding-top: 10px;
     padding-bottom: 10px;
-    text-align:center;    
+    text-align: center;
 }
-.mainPage .return a:hover{
-    background-color: black;  
+
+.mainPage .return a:hover {
+    background-color: black;
     color: red;
-    cursor:pointer;
+    cursor: pointer;
 }
+
 @media screen and (max-width:768px) {
-    .mainPage{
+    .mainPage {
         width: 100%;
     }
-    .mainPage .header h1{
+
+    .mainPage .header h1 {
         line-height: normal;
         font-size: 1.5em;
         margin-top: 8px;
         margin-left: 15px;
         margin-right: 15px;
     }
-    .bouton{
+
+    .bouton {
         margin: 0px;
         padding: 3px 10px 5px 10px;
         margin-bottom: 15px;
     }
-    .mainPage .method .formulaire .bouton{
-        margin-right:15px;
+
+    .mainPage .method .formulaire .bouton {
+        margin-right: 15px;
     }
-    .mainPage .info_method .methode{
-        font-size:14px;
-    }
-    .mainPage .btnRetour{
-        padding-bottom: 5px;
-    }    
-    .mainPage .affichage table .retourLigne{
-        display: block;
-    }
-    .mainPage .affichage fieldset,
-    .mainPage .info_method fieldset{
-        padding: 0px;
-    }
-    .mainPage .affichage table tr .nomPetit{
+
+    .mainPage .info_method .methode {
         font-size: 14px;
     }
-    .mainPage > div > fieldset > legend{
+
+    .mainPage .btnRetour {
+        padding-bottom: 5px;
+    }
+
+    .mainPage .affichage table .retourLigne {
+        display: block;
+    }
+
+    .mainPage .affichage fieldset,
+    .mainPage .info_method fieldset {
+        padding: 0px;
+    }
+
+    .mainPage .affichage table tr .nomPetit {
+        font-size: 14px;
+    }
+
+    .mainPage > div > fieldset > legend {
         width: 75%;
         font-weight: bold;
     }
+
     .mainPage .affichage > fieldset > legend,
-    .mainPage .info_method > fieldset > legend{
+    .mainPage .info_method > fieldset > legend {
         margin-bottom: 10px;
     }
 }

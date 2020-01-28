@@ -2,6 +2,7 @@
 function traduction($typeLangue, $user) {
     $user = strtoupper($user);
     if ($typeLangue === 'francais') {
+        $lang = "fr";
         $titre = "Page des statistiques";
         $rang = "Rang";
         $h1 = "<h1>Bienvenue à vous &rarr; <span class='userDisplay'>{$user}</span> &larr; sur la page des statistiques du poker des vendredis entre amis.</h1>";
@@ -39,6 +40,7 @@ function traduction($typeLangue, $user) {
         $btnReturn = "Page d'Accueil";
         $returnUp = "Retour au choix d'affichage";
     } elseif ($typeLangue === 'english') {
+        $lang = "en";
         $titre = "Statistics page";
         $rang = "Rank";
         $h1 = "<h1>Welcome to you &rarr; <span class='userDisplay'>{$user}</span> &larr; on the statictics page about the friday nights poker between somes friends.</h1>";
@@ -77,7 +79,7 @@ function traduction($typeLangue, $user) {
         $returnUp = "Back to the method of displaying";
     }
 
-    $arrayMots = ['method4ratio' => $method4ratio, 'method7ratio' => $method7ratio, 'gainPresence' => $gainPresence, 'rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
+    $arrayMots = ["lang" => $lang, 'method4ratio' => $method4ratio, 'method7ratio' => $method7ratio, 'gainPresence' => $gainPresence, 'rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
 
     return $arrayMots;
 }
@@ -797,7 +799,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?php echo $arrayMots['lang']; ?>">
 
 <head>
     <meta charset="utf-8">
@@ -826,7 +828,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="header"> <?php echo $arrayMots['h1']; ?> </div>
         <div class="info_method">
             <fieldset>
-                <legend align="center"> <?php echo $arrayMots['legend1']; ?></legend>
+                <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
                 <form method='post' action='poker.php#endroitResultat'>
                     <table>
                         <thead>
@@ -844,12 +846,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </tr>
                             <tr>
                                 <td class="methode"><?php echo $arrayMots['method2']; ?></td>
-                                <td><select id="joueur" name="informationJoueur"><?php foreach ($liste_Joueur_method2 as $value) { echo $value; } ?></select></td>
+                                <td><select class="joueur" name="informationJoueur"><?php foreach ($liste_Joueur_method2 as $value) { echo $value; } ?></select></td>
                                 <td><input class='bouton' type='submit' name='method' value="2"></td>
                             </tr>
                             <tr>
                                 <td class="methode"><?php echo $arrayMots['method3']; ?></td>
-                                <td><select id="joueur" name="sommaireJoueur"><?php foreach ($liste_Joueur_method3 as $value) { echo $value; } ?></select></td>
+                                <td><select class="joueur" name="sommaireJoueur"><?php foreach ($liste_Joueur_method3 as $value) { echo $value; } ?></select></td>
                                 <td><input class='bouton' type='submit' name='method' value="3"></td>
                             </tr>
                             <tr>
@@ -880,7 +882,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="affichage">
             <p id="endroitResultat"></p>
             <fieldset>
-                <legend align="center"><?php echo $arrayMots['legend3']; ?></legend>
+                <legend class="legendCenter"><?php echo $arrayMots['legend3']; ?></legend>
                 <?php if ($array_Champs['method'] == 4 || $array_Champs['method'] == 7 ) { ?>
                 <ul class="lesInstructionTriage">
                     <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>

@@ -1,15 +1,18 @@
-*{
-    box-sizing: border-box;  
-    -moz-box-sizing: border-box;    
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
+
 body {
-    margin:0;
+    margin: 0;
     font-size: 18px;
 }
-.lesInstruction{
-    display:none;
+
+.lesInstruction {
+    display: none;
 }
-input[type="submit"]{     
+
+input[type="submit"] {
     background: #abe671;
     background-image: -webkit-linear-gradient(top, #abe671, #572bb8);
     background-image: -moz-linear-gradient(top, #abe671, #572bb8);
@@ -21,7 +24,7 @@ input[type="submit"]{
     border-radius: 30px;
     font-family: Georgia;
     color: #ffffff;
-    font-size: 16px;    
+    font-size: 16px;
     border: solid #1f628d 3px;
 }
 
@@ -35,72 +38,99 @@ input[type="submit"]:hover {
     text-decoration: none;
     cursor: pointer;
 }
-a:hover{
-    color:white;
-    background-color:cadetblue;
+
+a:hover {
+    color: white;
+    background-color: cadetblue;
 }
-legend{
+
+/* 
+Nouvelle manière d'afficher un legend au milieu
+*/
+.legendCenter {
+    display: table;
+    min-width: 0px;
+    position: relative;
+    margin: auto;
     background-color: #F0FFF0;
     border: 4px outset;
     padding: 2px;
-    color:green;    
+    font-size: 18px;
+    text-align: center;
     font-weight: bold;
+    color: green;
 }
-.procedure{
+
+
+.procedure {
     width: 50%;
     background-color: #F0FFF0;
-    margin:auto;
+    margin: auto;
 }
-.calcul{
+
+.calcul {
     width: 50%;
     background-color: #F0FFF0;
-    margin:auto;
+    margin: auto;
 }
-.button{
-    height:40px; 
-    width:40px;    
+
+.button {
+    height: 40px;
+    width: 40px;
     margin-bottom: 5px;
 }
-.buttonOpe{
-    height:30px; 
-    width:30px;
+
+.buttonOpe {
+    height: 30px;
+    width: 30px;
 }
-.buttonegal{
-    height:50px; 
-    width:50px
+
+.buttonegal {
+    height: 50px;
+    width: 50px
 }
-.buttonReset{
-    height:75px; 
-    width:75px
+
+.buttonReset {
+    height: 75px;
+    width: 75px
 }
-.buttonReturn{
-    height:30px; 
-    width:300px;
+
+.buttonReturn {
+    height: 30px;
+    width: 300px;
 }
-.H1titre{
+
+.H1titre {
     text-align: center;
-    color:white;
+    color: white;
 }
-a{
-    color:green;
+
+a {
+    color: green;
     font-weight: bold;
 }
-#info{
-    color:white;
+
+#info {
+    color: white;
     font-weight: bold;
-    text-align:center;
+    text-align: center;
 }
-.footer{
+
+.footer {
     width: 20%;
-    margin:auto;
-    padding:0;
-    border:0;
+    margin: auto;
+    padding: 0;
+    border: 0;
 }
+
 @media screen and (max-width:768px) {
-    .procedure, .calcul{
-        width: 100%;  
+
+    .procedure,
+    .calcul {
+        width: 100%;
     }
-    ol{        
+
+    ol {
         padding-left: 30px;
-    }    
+    }
 }

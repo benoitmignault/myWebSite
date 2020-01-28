@@ -1,5 +1,4 @@
 <?php
-
 // Cette fonction sera appellée lors de la création des deux nombres.
 // Elle ne fait pas la distinction entre nombre 1 et nombre 2 
 function constructionNombre(float $nombre, float $unChiffre) {
@@ -20,8 +19,10 @@ function traduction(string $typeLangue) {
     global $boutonReset, $procedure, $valeurReturn;
     global $information, $messageNombre1, $messageNombre2;
     global $messageFinal, $messageType, $messageError;
+    global $languagePage;
     if ($typeLangue === 'francais') {
         $title = "Calculatrice";
+        $languagePage = "fr";
         $h1 = "Voici ma calculatrice version Web";
         $legend1 = "Procédure d'utilisation";
         $legend2 = "Opération arithmétique sur deux nombres";
@@ -46,6 +47,7 @@ function traduction(string $typeLangue) {
         $messageError = "Résultat invalide";
     } elseif ($typeLangue === 'english') {
         $title = "Calculator";
+        $languagePage = "en";
         $h1 = "This is the web version of my calculator";
         $legend1 = "How to use";
         $legend2 = "Arithmetic operation on two inputs";
@@ -207,79 +209,83 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <!-- Le début de l'écriture de la page html de la calculatrice -->
 <!DOCTYPE html>
-<html>
-    <head>
-        <title> <?php echo $title ?> </title>
-        <link rel="stylesheet" href="calcul.css"/>        
-        <!-- Le fichier calcul.png est la propriété du site https://pixabay.com/fr/calculatrice-les-math%C3%A9matiques-t%C3%A2che-1019743/ mais en utilisation libre-->
-        <link rel="shortcut icon" href="calcul.png">	
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            body{
-                margin:0;                
-                /*Le fichier pageCalculatrice.jpg est la propriété du site https://pixabay.com/fr/calculatrice-compte-calculette-2359760/ mais en utilisation libre-->*/
-                background-image: url("pageCalculatrice.jpg");                
-                background-position: center;
-                background-attachment:fixed;
-                background-size:auto;
-                background-repeat: no-repeat;                
-            }
-        </style>
-    </head>
-    <body>
-        <h1 class="H1titre"> <?php echo $h1 ?> </h1>
-        <fieldset class="procedure">            
-            <legend align="center" id="legend1">
-                <a class="faireAfficher" href=""> <?php echo $legend1 ?> </a>
-            </legend>
-            <ol class="lesInstruction"> <?php echo $procedure ?> </ol> 
-        </fieldset>            
-        <p id="info"> <?php echo $information ?> </p>
-        <form method="post" action="./calcul.php">            
-            <fieldset class="calcul">
-                <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $afficher ?>">
-                <legend align="center" id="legend2"> <?php echo $legend2 ?></legend>                 
-                <input class="button" type="submit" value=1 name="un"> 
-                <input class="button" type="submit" value=2 name="deux"> 
-                <input class="button" type="submit" value=3 name="trois">
-                <br>
-                <input class="button" type="submit" value=4 name="quatre"> 
-                <input class="button" type="submit" value=5 name="cinq"> 
-                <input class="button" type="submit" value=6 name="six">
-                <br>
-                <input class="button" type="submit" value=7 name="sept"> 
-                <input class="button" type="submit" value=8 name="huit"> 
-                <input class="button" type="submit" value=9 name="neuf">  
-                <br>
-                <input class="button" type="submit" value=0 name="zero">                 
-                <br><br>
-                <input class="buttonOpe" type="submit" name="add" value="+">
-                <input class="buttonOpe" type="submit" name="sous" value="-">
-                <input class="buttonOpe" type="submit" name="multi" value="*">
-                <input class="buttonOpe" type="submit" name="div" value="/">                    
-                <br><br>
-                <label id="label1"> <?php echo $label1 ?> </label>
-                <input type="text" name="nombre1" value="<?php echo $nombre1 ?>">                
-                <br>
-                <input type="text" style="width:10px;" name="typeOpe" value="<?php echo $typeOpe ?>">
-                <br>
-                <label id="label2"> <?php echo $label2 ?> </label>
-                <input type="text" name="nombre2" value="<?php echo $nombre2 ?>">                
-                <br><br>
-                <input class="buttonegal" type="submit" name="resultFinal" value="=">
-                <br><br>                   
-                <label id="label3"> <?php echo $label3 ?> </label>
-                <input type="text" name="nombreFinal" value="<?php echo $nombreFinal ?>">
-                <br><br>
-                <input class="buttonReset" type="submit" name="reset" value="<?php echo $boutonReset ?>">
-            </fieldset>
+<html lang="<?php echo $languagePage ?>">
+
+<head>
+    <title> <?php echo $title ?> </title>
+    <link rel="stylesheet" href="calcul.css" />
+    <!-- Le fichier calcul.png est la propriété du site https://pixabay.com/fr/calculatrice-les-math%C3%A9matiques-t%C3%A2che-1019743/ mais en utilisation libre-->
+    <link rel="shortcut icon" href="calcul.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            /*Le fichier pageCalculatrice.jpg est la propriété du site https://pixabay.com/fr/calculatrice-compte-calculette-2359760/ mais en utilisation libre-->*/
+            background-image: url("pageCalculatrice.jpg");
+            background-position: center;
+            background-attachment: fixed;
+            background-size: auto;
+            background-repeat: no-repeat;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1 class="H1titre"> <?php echo $h1 ?> </h1>
+    <fieldset class="procedure">
+        <legend class="legendCenter" id="legend1">
+            <a class="faireAfficher" href=""> <?php echo $legend1 ?> </a>
+        </legend>
+        <ol class="lesInstruction"> <?php echo $procedure ?> </ol>
+    </fieldset>
+    <p id="info"> <?php echo $information ?> </p>
+    <form method="post" action="./calcul.php">
+        <fieldset class="calcul">
+            <legend class="legendCenter" id="legend2"> <?php echo $legend2 ?></legend>
+            <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $afficher ?>">
+            <input class="button" type="submit" value=1 name="un">
+            <input class="button" type="submit" value=2 name="deux">
+            <input class="button" type="submit" value=3 name="trois">
             <br>
-            <fieldset class="footer">
-                <input class="buttonReturn" type="submit" name="return" value="<?php echo $valeurReturn ?>">
-            </fieldset>
-            <input class="typeLanguage" type="hidden" name="typeLangue" value="<?php echo $typeLangue ?>">
-        </form>  
-        <script type="text/javascript" src="calcul.js"></script>
-    </body>
+            <input class="button" type="submit" value=4 name="quatre">
+            <input class="button" type="submit" value=5 name="cinq">
+            <input class="button" type="submit" value=6 name="six">
+            <br>
+            <input class="button" type="submit" value=7 name="sept">
+            <input class="button" type="submit" value=8 name="huit">
+            <input class="button" type="submit" value=9 name="neuf">
+            <br>
+            <input class="button" type="submit" value=0 name="zero">
+            <br><br>
+            <input class="buttonOpe" type="submit" name="add" value="+">
+            <input class="buttonOpe" type="submit" name="sous" value="-">
+            <input class="buttonOpe" type="submit" name="multi" value="*">
+            <input class="buttonOpe" type="submit" name="div" value="/">
+            <br><br>
+            <label id="label1"> <?php echo $label1 ?> </label>
+            <input type="text" name="nombre1" value="<?php echo $nombre1 ?>">
+            <br>
+            <input type="text" style="width:10px;" name="typeOpe" value="<?php echo $typeOpe ?>">
+            <br>
+            <label id="label2"> <?php echo $label2 ?> </label>
+            <input type="text" name="nombre2" value="<?php echo $nombre2 ?>">
+            <br><br>
+            <input class="buttonegal" type="submit" name="resultFinal" value="=">
+            <br><br>
+            <label id="label3"> <?php echo $label3 ?> </label>
+            <input type="text" name="nombreFinal" value="<?php echo $nombreFinal ?>">
+            <br><br>
+            <input class="buttonReset" type="submit" name="reset" value="<?php echo $boutonReset ?>">
+        </fieldset>
+        <br>
+        <fieldset class="footer">
+            <input class="buttonReturn" type="submit" name="return" value="<?php echo $valeurReturn ?>">
+        </fieldset>
+        <input class="typeLanguage" type="hidden" name="typeLangue" value="<?php echo $typeLangue ?>">
+    </form>
+    <script src="calcul.js"></script>
+</body>
+
 </html>

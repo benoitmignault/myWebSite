@@ -2,6 +2,7 @@
 function traduction($champs) {
     if ($champs["typeLangue"] === 'francais') {
         $btn_new = "Ajouter le nouveau joueur";
+        $lang = "fr";
         $newJoueur = "Nouveau joueur";
         $title = "Page de gestion du poker et login";
         $h1 = "Bienvenue à la page de gestion des utilisateurs et des statistiques du poker.";
@@ -23,6 +24,7 @@ function traduction($champs) {
         $btn_return = "Retour à l'accueil";
     } elseif ($champs["typeLangue"] === 'english') {
         $btn_new = "Add the new player";
+        $lang = "en";
         $newJoueur = "New player :";
         $title = "Poker management page and login";
         $h1 = "Welcome to the User Management and Poker Statistics page.";
@@ -43,7 +45,7 @@ function traduction($champs) {
         $btn_login = "Back to login page";
         $btn_return = "Back to Home";
     }
-    $arrayMots = ['btn_new' => $btn_new, 'title' => $title, 'killer' => $killer, 'citron' => $citron, 'newJoueur' => $newJoueur, 'gain' => $gain, 'h1' => $h1, 'victoire' => $victoire, 'fini2e' => $fini2e, 'h3' => $h3, 'autre' => $autre, 'noId' => $noId, 'option' => $option, 'joueur' => $joueur, 'resultat' => $resultat, 'btn_add' => $btn_add, 'btn_erase' => $btn_erase, 'btn_loginPoker' => $btn_loginPoker, 'btn_login' => $btn_login, 'btn_return' => $btn_return];
+    $arrayMots = ["lang" => $lang, 'btn_new' => $btn_new, 'title' => $title, 'killer' => $killer, 'citron' => $citron, 'newJoueur' => $newJoueur, 'gain' => $gain, 'h1' => $h1, 'victoire' => $victoire, 'fini2e' => $fini2e, 'h3' => $h3, 'autre' => $autre, 'noId' => $noId, 'option' => $option, 'joueur' => $joueur, 'resultat' => $resultat, 'btn_add' => $btn_add, 'btn_erase' => $btn_erase, 'btn_loginPoker' => $btn_loginPoker, 'btn_login' => $btn_login, 'btn_return' => $btn_return];
     return $arrayMots;
 }
 
@@ -650,7 +652,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?php echo $arrayMots['lang']; ?>">
 
 <head>
     <meta charset="utf-8">
@@ -687,7 +689,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </select>
                 </div>
                 <div class="position">
-                    <p class="labelPos" for="position"><?php echo $arrayMots['resultat']; ?></p>
+                    <p class="labelPos"><?php echo $arrayMots['resultat']; ?></p>
                     <div>
                         <input type="radio" <?php if ($champs['position'] === "victoire") { echo "checked"; } ?> name="position" id="victoire" value="victoire">
                         <label for="victoire"><?php echo $arrayMots['victoire']; ?></label>
@@ -712,7 +714,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="date <?php if (verifChampDate($valid_Champ)) { echo "erreur"; } ?>">
                     <div class="form-row animate-2">
                         <label for="date">Date :</label>
-                        <input type="date" id="date" value="<?php echo $champs['date'] ?>" name="date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' placeholder="AAAA-MM-DD" />
+                        <input type="date" id="date" value="<?php echo $champs['date'] ?>" name="date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}'>
                     </div>
                 </div>
                 <div class="killer <?php if (verifChampKiller($valid_Champ)) { echo "erreur"; } ?>">
@@ -761,8 +763,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-    <script type="text/javascript" src="admin.js"></script>
-    <script type="text/javascript" src="date.js"></script>
+    <script src="admin.js"></script>
+    <script src="date.js"></script>
 </body>
 
 </html>

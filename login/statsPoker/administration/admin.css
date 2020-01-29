@@ -84,13 +84,19 @@ h2 {
 .container > form > .formulaire_joueur > .gain,
 .container > form > .formulaire_joueur > .numero,
 .container > form > .formulaire_joueur > .killer,
-.container > form > .formulaire_joueur > .citron {
+.container > form > .formulaire_joueur > .citron,
+.container > form > .formulaire_joueur > .date{
     width: 33%;
     margin-bottom: 15px;
 }
 
+.container > form > .formulaire_joueur > .date > div {
+    width: 100%;
+}
+
 .container > form > .formulaire_joueur > div > input[type=text],
-.container > form > .formulaire_Nouveau > div > input[type=text] {
+.container > form > .formulaire_Nouveau > div > input[type=text],
+.container > form > .formulaire_joueur > div > div > input[type=date] {
     width: 100%;
     border-radius: 10px;
     padding: 5px;

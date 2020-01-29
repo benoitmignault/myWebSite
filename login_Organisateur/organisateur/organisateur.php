@@ -10,6 +10,7 @@ function traduction($champs, $connMYSQL) {
     } 
 
     if ($champs["typeLangue"] === 'francais') {
+        $lang = "fr";
         $titre = "Gestion d'un tournoi";
         $h1 = "Bienvenue à vous &rarr; <span class='userDisplay'>{$prenom}</span> &larr; sur la page de gestion d'un organisateur.";
         $h3_Ajouter = "Ajouter une combinaison.";
@@ -23,6 +24,7 @@ function traduction($champs, $connMYSQL) {
         $message = message_Situation($champs);
         $message_Erreur_BD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
     } elseif ($champs["typeLangue"] === 'english') {
+        $lang = "en";
         $titre = "Management of a tournament";
         $h1 = "welcome to you &rarr; <span class='userDisplay'>{$prenom}</span> &larr; on the management page of an organizer.";
         $h3_Ajouter = "Add combination.";
@@ -36,7 +38,7 @@ function traduction($champs, $connMYSQL) {
         $message = message_Situation($champs);
         $message_Erreur_BD = "There was a problem with insert your values into the DB. Please try again !";
     }
-    $arrayMots = ['message_Erreur_BD' => $message_Erreur_BD, 'message' => $message, 'title' => $titre, 'msg_welcome' => $h1, 'h3_Ajouter' => $h3_Ajouter, 'h3_Affichage' => $h3_Affichage, 'valeur_couleur'=>$valeur_couleur,'petit_grosse_mise'=> $petit_grosse_mise, 'btn_timer'=>$btn_timer, 'btn_return'=>$btn_return, 'btn_ajout'=>$btn_ajout, 'option'=>$option];
+    $arrayMots = ["lang" => $lang, 'message_Erreur_BD' => $message_Erreur_BD, 'message' => $message, 'title' => $titre, 'msg_welcome' => $h1, 'h3_Ajouter' => $h3_Ajouter, 'h3_Affichage' => $h3_Affichage, 'valeur_couleur'=>$valeur_couleur,'petit_grosse_mise'=> $petit_grosse_mise, 'btn_timer'=>$btn_timer, 'btn_return'=>$btn_return, 'btn_ajout'=>$btn_ajout, 'option'=>$option];
     return $arrayMots;
 }
 
@@ -289,7 +291,7 @@ function tableau_valeur_couleur($connMYSQL, $champs){
         $tableau .= "<tbody>";
         foreach ($result as $row) {
             $tableau .= "
-            <tr> <td>{$row['amount']}</td> <td bgcolor=\"{$row['color_english']}\"> </td> 
+            <tr> <td>{$row['amount']}</td> <td class=\"{$row['color_english']}\"></td> 
                 <td class=\"delete\"> 
                     <form method=\"post\" action=\"organisateur.php\"> 
                         <input class=\"btnimg\" type=\"submit\" name=\"btn_delValeurCouleur\" value=\"\">
@@ -502,77 +504,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-        <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
-        <link rel="shortcut icon" href="organisateur.png">	       
-        <link rel="stylesheet" type="text/css" href="organisateur.css"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><?php echo $arrayMots['title']; ?></title> 
-        <style>
-            body{
-                margin:0;    
-                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ 
+<html lang="<?php echo $arrayMots['lang']; ?>">
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
+    <link rel="shortcut icon" href="organisateur.png">
+    <link rel="stylesheet" type="text/css" href="organisateur.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php echo $arrayMots['title']; ?></title>
+    <style>
+        body {
+            margin: 0;
+            /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ 
                 sous licence libre */
-                background-image: url("organisateur.jpg");
-                background-position: center;
-                background-attachment: fixed;
-                background-size: 100%;
-            } 
-        </style>
-    </head>
-    <body>
-        <h1><?php echo $arrayMots['msg_welcome']; ?></h1>
-        <div class="container">
-            <div class="ajout_combinaison">
-                <h2><?php echo $arrayMots['h3_Ajouter']; ?></h2>    
-                <form method="post" action="organisateur.php">
-                    <div class='form_ajout_combinaison'>
-                        <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
-                        <input maxlength="5" type="text" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled"; } ?> name="valeur" value="<?php echo $champs['valeur'] ?>"> 
-                        <select name="couleur">                            
-                            <option value="" selected><?php echo $arrayMots['option']; ?></option>
-                            <?php echo $choix_couleur_restant; ?>
-                        </select>
-                        <input class="bouton" type="submit" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled=\"disabled\""; } ?> name="btn_addValeurCouleur" value="<?php echo $arrayMots['btn_ajout']; ?>">                        
-                    </div>
-                </form>  
-                <form method="post" action="organisateur.php">
-                    <div class='form_ajout_combinaison'>
-                        <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                        <input maxlength="6" type="text" name="small" value="<?php echo $champs['small'] ?>"> 
-                        <input maxlength="6" type="text" name="big" value="<?php echo $champs['big'] ?>">
-                        <input class="bouton" type="submit" name="btn_addSmallBig" value="<?php echo $arrayMots['btn_ajout']; ?>">
-                    </div>
-                </form> 
-            </div>
+            background-image: url("organisateur.jpg");
+            background-position: center;
+            background-attachment: fixed;
+            background-size: 100%;
+        }
 
-            <!-- Utilisation nouvelle d'un bouton X : https://fr.pngtree.com/element/down?id=Mjc3NDkzMA==&type=1 -->
-            <div class="affiche_combinaison">
-                <h2><?php echo $arrayMots['h3_Affichage']; ?></h2> 
-                <div class="form_affiche_combinaison">
+    </style>
+</head>
+
+<body>
+    <h1><?php echo $arrayMots['msg_welcome']; ?></h1>
+    <div class="container">
+        <div class="ajout_combinaison">
+            <h2><?php echo $arrayMots['h3_Ajouter']; ?></h2>
+            <form method="post" action="organisateur.php">
+                <div class='form_ajout_combinaison'>
                     <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
-                    <div><?php echo $tableau_valeur_couleur; ?></div> 
+                    <input maxlength="5" type="text" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled"; } ?> name="valeur" value="<?php echo $champs['valeur'] ?>">
+                    <select name="couleur">
+                        <option value="" selected><?php echo $arrayMots['option']; ?></option>
+                        <?php echo $choix_couleur_restant; ?>
+                    </select>
+                    <input class="bouton" type="submit" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled=\"disabled\""; } ?> name="btn_addValeurCouleur" value="<?php echo $arrayMots['btn_ajout']; ?>">
                 </div>
-                <div class="form_affiche_combinaison">
+            </form>
+            <form method="post" action="organisateur.php">
+                <div class='form_ajout_combinaison'>
                     <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                    <div><?php echo $tableau_petite_grosse; ?></div>                                                        
+                    <input maxlength="6" type="text" name="small" value="<?php echo $champs['small'] ?>">
+                    <input maxlength="6" type="text" name="big" value="<?php echo $champs['big'] ?>">
+                    <input class="bouton" type="submit" name="btn_addSmallBig" value="<?php echo $arrayMots['btn_ajout']; ?>">
                 </div>
-            </div>
+            </form>
+        </div>
 
-            <div class="retour">
-                <form method="post" action="organisateur.php">
-                    <div class="form_retour">
-                        <div class="btn_footer">
-                            <input class="bouton" type="submit" name="timer" value="<?php echo $arrayMots['btn_timer']; ?>">
-                        </div>
-                        <div class="btn_footer">
-                            <input class="bouton" type="submit" name="home" value="<?php echo $arrayMots['btn_return']; ?>">
-                        </div>                        
-                    </div>
-                </form> 
+        <!-- Utilisation nouvelle d'un bouton X : https://fr.pngtree.com/element/down?id=Mjc3NDkzMA==&type=1 -->
+        <div class="affiche_combinaison">
+            <h2><?php echo $arrayMots['h3_Affichage']; ?></h2>
+            <div class="form_affiche_combinaison">
+                <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
+                <div><?php echo $tableau_valeur_couleur; ?></div>
             </div>
-        </div>        
-    </body>
+            <div class="form_affiche_combinaison">
+                <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
+                <div><?php echo $tableau_petite_grosse; ?></div>
+            </div>
+        </div>
+
+        <div class="retour">
+            <form method="post" action="organisateur.php">
+                <div class="form_retour">
+                    <div class="btn_footer">
+                        <input class="bouton" type="submit" name="timer" value="<?php echo $arrayMots['btn_timer']; ?>">
+                    </div>
+                    <div class="btn_footer">
+                        <input class="bouton" type="submit" name="home" value="<?php echo $arrayMots['btn_return']; ?>">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
 </html>

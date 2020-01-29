@@ -1,6 +1,7 @@
 <?php
 function traduction($champs){
     if ($champs['typeLangue'] === "francais"){
+        $lang = "fr";
         $title = 'Minuteur';
         $typeMise = 'Les mises possible';
         $small = 'La petite mise';
@@ -18,6 +19,7 @@ function traduction($champs){
         $message_Erreur_BD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
     } elseif ($champs['typeLangue'] === "english") {
         $title = 'Timer';
+        $lang = "en";
         $choixOrganisateur = 'Please choose an organizer';
         $typeMise = 'Bets availables';
         $small = 'The small blind';
@@ -33,8 +35,8 @@ function traduction($champs){
         $message = message_Situation($champs);
         $message_Erreur_BD = "There was a problem with insert your values into the DB. Please try again !";
     }
-    $tableauLinguiste = ['title' => $title, 'typeMise' => $typeMise, 'changerMise' => $changer, 'choixOrganisateur' => $choixOrganisateur, 'option' => $option, 'btn_choix' => $btn_choix, 'message' => $message, 'message_Erreur_BD' => $message_Erreur_BD, 'small' => $small, 'big' => $big, 'retour' => $retour, 'btnReset' => $btnReset, 'reset' => $reset, 'periode' => $periode, 'btnReprendre' => $btnReprendre];
-    return $tableauLinguiste;
+    $arrayMots = ["lang" => $lang, 'title' => $title, 'typeMise' => $typeMise, 'changerMise' => $changer, 'choixOrganisateur' => $choixOrganisateur, 'option' => $option, 'btn_choix' => $btn_choix, 'message' => $message, 'message_Erreur_BD' => $message_Erreur_BD, 'small' => $small, 'big' => $big, 'retour' => $retour, 'btnReset' => $btnReset, 'reset' => $reset, 'periode' => $periode, 'btnReprendre' => $btnReprendre];
+    return $arrayMots;
 }
 
 function message_Situation($champs){
@@ -161,18 +163,18 @@ function situation($champs, $valid_champs) {
     return $situation;   
 }
 
-function liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste){
+function liste_Organisateurs($connMYSQL, $champs, $arrayMots){
     $liste_Organisateurs = "";
     $sql = "SELECT * FROM login_organisateur order by name";
     $result = $connMYSQL->query($sql);   
     if ($result->num_rows > 0){
         if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-            $liste_Organisateurs .= "<option value=\"\" selected>{$tableauLinguiste['option']}</option>";
+            $liste_Organisateurs .= "<option value=\"\" selected>{$arrayMots['option']}</option>";
             foreach ($result as $row) {
                 $liste_Organisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
             }
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $liste_Organisateurs .= "<option value=\"\">{$tableauLinguiste['option']}</option>";
+            $liste_Organisateurs .= "<option value=\"\">{$arrayMots['option']}</option>";
             foreach ($result as $row) {
                 if ($champs['user'] === $row['user']){
                     $liste_Organisateurs .= "<option value=\"{$row['user']}\" selected>{$row['name']}</option>";
@@ -209,7 +211,7 @@ function creation_tableau($connMYSQL, $champs){
         }    
         $tableau .= "<tbody>";
         foreach ($result as $row) {
-            $tableau .= "<tr><td class=\"colorModifie\">{$row['amount']}</td> <td bgcolor=\"{$row['color_english']}\"></td> </tr>";
+            $tableau .= "<tr><td class=\"colorModifie\">{$row['amount']}</td> <td class=\"{$row['color_english']}\"></td> </tr>";
         }
         $tableau .= "</tbody></table>";
     }
@@ -293,8 +295,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         redirection($champs);
     } else {
         $connMYSQL = connexionBD();
-        $tableauLinguiste = traduction($champs);
-        $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste);
+        $arrayMots = traduction($champs);
+        $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $arrayMots);
     }
     $connMYSQL->close();
 }
@@ -312,10 +314,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $connMYSQL = connexionBD();        
             $valid_champs = validation($champs, $valid_champs);
             $champs['situation'] = situation($champs, $valid_champs);
-            $tableauLinguiste = traduction($champs);
+            $arrayMots = traduction($champs);
 
             if ($champs['situation'] === 1){
-                echo "<script>alert('".$tableauLinguiste['message']."')</script>";
+                echo "<script>alert('".$arrayMots['message']."')</script>";
             } else {
                 $champs['nom_organisateur'] = affichage_nom_organisateur($connMYSQL, $champs);
                 $tableau_valeur_couleur = creation_tableau($connMYSQL, $champs);
@@ -341,144 +343,149 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
 
             }
-            $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $tableauLinguiste);
+            $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $arrayMots);
             $connMYSQL->close();            
         }        
     } 
 }
 ?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="compteur" content="timer"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Fichier favicon.ico est une propriété du site web : https://pixabay.com/fr/radio-r%C3%A9veil-alarme-temps-horloge-295228/ -->
-        <link rel="shortcut icon" href="favicon.ico">
-        <link rel="stylesheet" type="text/css" href="timer.css">
-        <style>
-            body{
-                margin:0; 
-                /* https://pxhere.com/fr/photo/1280141 */
-                background-image: url("timer.jpg");
-                background-position: center;
-                background-attachment: fixed;
-                background-size: 100%;
-            }
-            .container > .timer > .tableauDesMises > .lesMises > div > .blind{
-                color :<?php echo coloriage($champs); ?>
-            }            
-        </style>       
-        <title><?php echo $tableauLinguiste['title'] ?></title>        
-    </head>
-    <body>        
-        <!-- Fichier alert.wav est une propriété du site web : https://www.memoclic.com/sons-wav/766-sonneries-et-alarmes/page-1.html -->
-        <audio  id="alertSound"><source src="alert.wav" type="audio/wav"></audio>
-        <div class="container">
-            <div class="tableau_bord">
-                <form method="post" action="./timer.php" id="formulaire">
-                    <div class="choix">
-                        <input type="hidden" id="number_Red"  name="number_Red" value="<?php echo $champs['number_Red']; ?>">
-                        <input type="hidden" id="number_Green" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
-                        <input type="hidden" id="number_Blue" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
-                        <input type="hidden" id="trop_valeur" name="trop_valeur" value="<?php if ($champs['trop_valeur']) { echo "true"; } else { echo "false"; } ?>">
-                        <input type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
-                        <input type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
-                        <label class="modificationColor" for="choixOrganisateur"><?php echo $tableauLinguiste['choixOrganisateur']; ?></label>   
-                        <select id="choixOrganisateur" name="choixOrganisateur"> 
-                            <?php echo $liste_Organisateurs; ?>
-                        </select>
-                        <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php echo $tableauLinguiste['btn_choix']; ?>"> 
-                    </div>
-                </form>
-                <div class="affichage_choix">               
-                    <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) { 
-    echo $tableau_valeur_couleur;
-}
-                    ?>
-                </div>
-            </div>
-            <div class="timer">
-                <div class="tableauDesMises">
-                    <div class="lesMises">
-                        <div class="titre">
-                            <p class="resizeText"><?php echo $tableauLinguiste['typeMise'] ?></p>
-                        </div>
-                        <div class="small">
-                            <p class="resizeText"><?php echo $tableauLinguiste['small'] ?></p>
-                        </div>
-                        <div class="big">
-                            <p class="resizeText"><?php echo $tableauLinguiste['big'] ?></p>
-                        </div>            
-                        <div class="valeurSmall">
-                            <p class="blind" id="valeurSmall"><?php echo $champs['valeurSmall'] ?></p>
-                        </div>
-                        <div class="valeurBig">
-                            <p class="blind" id="valeurBig"><?php echo $champs['valeurBig'] ?></p>
-                        </div>                
-                    </div>
-                    <div class="lesBoutonsMises">
-                        <div class="double">
-                            <button name="btn_changerMise"<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur'] || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="double" form="formulaire"><?php echo $tableauLinguiste['changerMise'] ?></button>
-                        </div>
-                        <div class="resetMise">
-                            <button form="formulaire" name="btn_resetMise"<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> form="formulaire" id="reset"><?php echo $tableauLinguiste['reset'] ?></button>
-                        </div>                
-                    </div>
-                </div>
+<html lang="<?php echo $arrayMots['lang']; ?>">
 
-                <div class="tableauDuTemps">
-                    <div class="temps">
-                        <div class="periode">
-                            <p class="resizeText"><?php echo $tableauLinguiste['periode'] ?></p>
-                        </div>
-                        <div class="minutes">
-                            <p class="resizeText">Minutes</p>
-                        </div>
-                        <div class="secondes">
-                            <p class="resizeText">Secondes</p>
-                        </div>
-                        <div class="chiffreMin">
-                            <p>00</p>
-                        </div>
-                        <div class="chiffreSec">
-                            <p>00</p>
-                        </div>                 
-                    </div>   
-                    <div class="lesBoutonsActions">
-                        <div class="min15">
-                            <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
-                        </div>
-                        <div class="min30">
-                            <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
-                        </div>                
-                        <div class="stop">                            
-                            <button class="disabled" disabled id="timerStop">STOP</button>
-                        </div>
-                        <div class="reprend">
-                            <button class="disabled resizeText" disabled id="timerReprend"><?php echo $tableauLinguiste['btnReprendre'] ?></button>
-                        </div>
-                        <div class="resetTemps">
-                            <button <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['aucune_valeur'] || $champs['user'] == "") { ?> class="disabled" disabled <?php } ?> id="ResetTemps"><?php echo $tableauLinguiste['btnReset'] ?></button>
-                        </div>                
-                    </div> 
-                </div> 
+<head>
+    <meta charset="utf-8" />
+    <meta name="compteur" content="timer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fichier favicon.ico est une propriété du site web : https://pixabay.com/fr/radio-r%C3%A9veil-alarme-temps-horloge-295228/ -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="timer.css">
+    <style>
+        body {
+            margin: 0;
+            /* https://pxhere.com/fr/photo/1280141 */
+            background-image: url("timer.jpg");
+            background-position: center;
+            background-attachment: fixed;
+            background-size: 100%;
+        }
+
+        .container>.timer>.tableauDesMises>.lesMises>div>.blind {
+            color: <?php echo coloriage($champs);
+            ?>
+        }
+
+    </style>
+    <title><?php echo $arrayMots['title'] ?></title>
+</head>
+
+<body>
+    <!-- Fichier alert.wav est une propriété du site web : https://www.memoclic.com/sons-wav/766-sonneries-et-alarmes/page-1.html -->
+    <audio id="alertSound">
+        <source src="alert.wav" type="audio/wav">
+    </audio>
+    <div class="container">
+        <div class="tableau_bord">
+            <form method="post" action="./timer.php" id="formulaire">
+                <div class="choix">
+                    <input type="hidden" id="number_Red" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
+                    <input type="hidden" id="number_Green" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
+                    <input type="hidden" id="number_Blue" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
+                    <input type="hidden" id="trop_valeur" name="trop_valeur" value="<?php if ($champs['trop_valeur']) { echo "true"; } else { echo "false"; } ?>">
+                    <input type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                    <input type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                    <label class="modificationColor" for="choixOrganisateur"><?php echo $arrayMots['choixOrganisateur']; ?></label>
+                    <select id="choixOrganisateur" name="choixOrganisateur">
+                        <?php echo $liste_Organisateurs; ?>
+                    </select>
+                    <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php echo $arrayMots['btn_choix']; ?>">
+                </div>
+            </form>
+            <div class="affichage_choix">
+                <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) { echo $tableau_valeur_couleur; } ?>
             </div>
         </div>
-        <hr>
-        <div class="boutonRetour">
-            <div class="retour">
-                <form method="post" action="./timer.php">
-                    <input class="resizeText" type="submit" name="btnReturn" value="<?php echo $tableauLinguiste['retour'];?>">   
-                    <input type="hidden" name="typeLangueReturn" value="<?php echo $champs['typeLangue']; ?>">
-                </form>
+        <div class="timer">
+            <div class="tableauDesMises">
+                <div class="lesMises">
+                    <div class="titre">
+                        <p class="resizeText"><?php echo $arrayMots['typeMise'] ?></p>
+                    </div>
+                    <div class="small">
+                        <p class="resizeText"><?php echo $arrayMots['small'] ?></p>
+                    </div>
+                    <div class="big">
+                        <p class="resizeText"><?php echo $arrayMots['big'] ?></p>
+                    </div>
+                    <div class="valeurSmall">
+                        <p class="blind" id="valeurSmall"><?php echo $champs['valeurSmall'] ?></p>
+                    </div>
+                    <div class="valeurBig">
+                        <p class="blind" id="valeurBig"><?php echo $champs['valeurBig'] ?></p>
+                    </div>
+                </div>
+                <div class="lesBoutonsMises">
+                    <div class="double">
+                        <button name="btn_changerMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur'] || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="double" form="formulaire"><?php echo $arrayMots['changerMise'] ?></button>
+                    </div>
+                    <div class="resetMise">
+                        <button form="formulaire" name="btn_resetMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="reset"><?php echo $arrayMots['reset'] ?></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tableauDuTemps">
+                <div class="temps">
+                    <div class="periode">
+                        <p class="resizeText"><?php echo $arrayMots['periode'] ?></p>
+                    </div>
+                    <div class="minutes">
+                        <p class="resizeText">Minutes</p>
+                    </div>
+                    <div class="secondes">
+                        <p class="resizeText">Secondes</p>
+                    </div>
+                    <div class="chiffreMin">
+                        <p>00</p>
+                    </div>
+                    <div class="chiffreSec">
+                        <p>00</p>
+                    </div>
+                </div>
+                <div class="lesBoutonsActions">
+                    <div class="min15">
+                        <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
+                    </div>
+                    <div class="min30">
+                        <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
+                    </div>
+                    <div class="stop">
+                        <button class="disabled" disabled id="timerStop">STOP</button>
+                    </div>
+                    <div class="reprend">
+                        <button class="disabled resizeText" disabled id="timerReprend"><?php echo $arrayMots['btnReprendre'] ?></button>
+                    </div>
+                    <div class="resetTemps">
+                        <button <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['aucune_valeur'] || $champs['user'] == "") { ?> class="disabled" disabled <?php } ?> id="ResetTemps"><?php echo $arrayMots['btnReset'] ?></button>
+                    </div>
+                </div>
             </div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script> 
-        <script src="detect-zoom.js"></script>
-        <script src="detect-zoom.min.js"></script>
-        <script type="text/javascript" src="timer.js"></script>
+    </div>
+    <hr>
+    <div class="boutonRetour">
+        <div class="retour">
+            <form method="post" action="./timer.php">
+                <input class="resizeText" type="submit" name="btnReturn" value="<?php echo $arrayMots['retour'];?>">
+                <input type="hidden" name="typeLangueReturn" value="<?php echo $champs['typeLangue']; ?>">
+            </form>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="detect-zoom.js"></script>
+    <script src="detect-zoom.min.js"></script>
+    <script src="timer.js"></script>
 
-    </body>
+</body>
+
 </html>

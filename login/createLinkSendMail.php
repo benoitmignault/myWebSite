@@ -6,25 +6,23 @@ function initialChamp() {
 
 function traduction($champs) {    
     if ($champs["typeLangue"] === 'francais') {
+        $lang = "fr";
         $title = "Demande de Réinitialisation";
         $p1 = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
-        $li3 = "Cette page permet de réinitialiser vos comptes associés :";
+        $li3 = "Cette page permet de réinitialiser votre compte associés aux statistiques de poker.";
         $li1 = "Veuillez saisir votre courriel.";
         $li2 = "Ensuite, un courrier vous sera envoyé avec toute les informations relier à votre changement de mot de passe.";
-        $compte1 = "La page des statistiques de poker.";
-        $compte2 = "La page pour réserver vos places aux soirées de poker de Benoît (En développement - À venir !)";
         $legend = "Réinitialisation !";
         $email = "Courriel :";
         $btn_send_Link = "Réinitialiser";
         $btn_return = "Retour à l'accueil";
     } elseif ($champs["typeLangue"] === 'english') {
         $title = "Reset Request";
+        $lang = "en";
         $p1 = "You forgot your password, no problem, we take care of it !";        
-        $li3 = "This page allows you to reset your associated accounts :";
+        $li3 = "This page will reset your account associated with poker statistics.";
         $li1 = "Please enter your email.";
         $li2 = "Then, a mail will be sent to you with all the information related to your change of password.";              
-        $compte1 = "The poker statistics page.";
-        $compte2 = "The page to reserve our seats at Benoît's poker nights (In development - Coming soon!)"; 
         $legend = "Reseting !";
         $email = "Email :";
         $btn_send_Link = "Reset";
@@ -32,7 +30,7 @@ function traduction($champs) {
     }
 
     $messageFinal = traductionSituation($champs);
-    $arrayMots = ['compte1' => $compte1, 'compte2' => $compte2, 'message' => $messageFinal, 'title' => $title, 'p1' => $p1, 'li3' => $li3, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'email' => $email, 'btn_send_Link' => $btn_send_Link, 'btn_return' => $btn_return];
+    $arrayMots = ["lang" => $lang, 'message' => $messageFinal, 'title' => $title, 'p1' => $p1, 'li3' => $li3, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'email' => $email, 'btn_send_Link' => $btn_send_Link, 'btn_return' => $btn_return];
     return $arrayMots;
 }
 
@@ -297,72 +295,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 }
 ?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">	
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Envoi du courriel avec le lien">
-        <!-- Le fichier reset.png est la propriété du site https://pixabay.com/fr/bouton-r%C3%A9initialiser-inscrivez-vous-31199/-->
-        <link rel="shortcut icon" href="reset.png">	        
-        <link rel="stylesheet" type="text/css" href="login.css"> 
-        <title><?php echo $arrayMots['title']; ?></title> 
-        <style>
-            body{
-                margin:0;    
-                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
-                background-image: url("photologin.jpg");
-                background-position: center;
-                background-attachment: fixed;
-                background-size: 100%;
-            }   
-        </style>
-    </head>
-    <body>
-        <div class="content">             
-            <div class="center">
-                <p class='titre'><?php echo $arrayMots['p1']; ?></p>                
-                <ul>
-                    <li class='info'><?php echo $arrayMots['li3']; ?></li>
-                    <ul>
-                        <li class='info'><?php echo $arrayMots['compte1']; ?></li>
-                        <li class='info'><?php echo $arrayMots['compte2']; ?></li>
-                    </ul>
-                    <br>
-                    <li class='info'><?php echo $arrayMots['li1']; ?></li>                    
-                </ul>
-                <p class='titre un'><?php echo $arrayMots['li2']; ?></p> 
+<html lang="<?php echo $arrayMots['lang']; ?>">
 
-                <fieldset>
-                    <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
-                    <form method="post" action="./createLinkSendMail.php">
-                        <div class="connexion">                            
-                            <div class="information <?php if ($champs['champVide'] || $champs['champTropLong'] || $champs['champInvalid'] || $champs['emailExistePas']) { echo 'erreur'; } ?>">
-                                <label for="email"><?php echo $arrayMots['email']; ?></label>
-                                <div>
-                                    <input placeholder="exemple@email.com" autofocus id="email" type="email" name="email" maxlength="50" value="<?php echo $champs['email']; ?>" />
-                                    <span class="obligatoire">&nbsp;*</span>
-                                </div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Envoi du courriel avec le lien">
+    <!-- Le fichier reset.png est la propriété du site https://pixabay.com/fr/bouton-r%C3%A9initialiser-inscrivez-vous-31199/-->
+    <link rel="shortcut icon" href="reset.png">
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <title><?php echo $arrayMots['title']; ?></title>
+    <style>
+        body {
+            margin: 0;
+            /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
+            background-image: url("photologin.jpg");
+            background-position: center;
+            background-attachment: fixed;
+            background-size: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="center">
+            <p class='titre'><?php echo $arrayMots['p1']; ?></p>
+            <ul>
+                <li class='info'><?php echo $arrayMots['li3']; ?></li>
+                <li class='info'><?php echo $arrayMots['li1']; ?></li>
+            </ul>
+            <p class='titre un'><?php echo $arrayMots['li2']; ?></p>
+
+            <fieldset>
+                <legend class="legendCenter"><?php echo $arrayMots['legend']; ?></legend>
+                <form method="post" action="./createLinkSendMail.php">
+                    <div class="connexion">
+                        <div class="information <?php if ($champs['champVide'] || $champs['champTropLong'] || $champs['champInvalid'] || $champs['emailExistePas']) { echo 'erreur'; } ?>">
+                            <label for="email"><?php echo $arrayMots['email']; ?></label>
+                            <div>
+                                <input placeholder="exemple@email.com" autofocus id="email" type="email" name="email" maxlength="50" value="<?php echo $champs['email']; ?>" />
+                                <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
-                        <div class="troisBTN"> 
-                            <input class="bouton" type='submit' name='send_Link' value="<?php echo $arrayMots['btn_send_Link']; ?>">
-                            <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
-                        </div>
-                    </form> 
-                </fieldset>
-            </div>
-            <div class="footer">
-                <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
-                <div class='avert <?php if ($champs["situation"] != 6) { echo 'erreur'; } ?>'>
-                    <p> <?php echo $arrayMots['message']; ?> </p>
-                </div> 
-                <div class="btnRetour">
-                    <form method="post" action="./createLinkSendMail.php">                       
-                        <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">  
+                    </div>
+                    <div class="troisBTN">
+                        <input class="bouton" type='submit' name='send_Link' value="<?php echo $arrayMots['btn_send_Link']; ?>">
                         <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+        <div class="footer">
+            <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
+            <div class='avert <?php if ($champs["situation"] != 6) { echo 'erreur'; } ?>'>
+                <p> <?php echo $arrayMots['message']; ?> </p>
+            </div>
+            <div class="btnRetour">
+                <form method="post" action="./createLinkSendMail.php">
+                    <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
+                    <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
+                </form>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

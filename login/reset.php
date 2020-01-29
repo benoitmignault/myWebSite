@@ -6,6 +6,7 @@ function initialChamp() {
 
 function traduction($champs) {    
     if ($champs["typeLangue"] === 'francais') {
+        $lang = "fr";
         $title = "Mot de passe en changement !";
         $p1 = "Vous pouvez maintenant changer votre du mot de passe !";
         $li1 = "Veuillez inscrire votre mot de passe temporaire.";
@@ -20,6 +21,7 @@ function traduction($champs) {
         $return = "Retour à l'accueil";
     } elseif ($champs["typeLangue"] === 'english') {
         $title = "Password is changing !";
+        $lang = "en";
         $p1 = "You can now change your password !";
         $li1 = "Please enter your temporary password.";
         $li2 = "Please choose a new password and confirm it in the 3rd field.";
@@ -33,7 +35,7 @@ function traduction($champs) {
         $return = "Home Page";
     }
     $messageFinal = traductionSituation($champs);
-    $arrayMots = ["message" => $messageFinal, "title" => $title, "p1" => $p1, "li1" => $li1, "li2" => $li2, "li3" => $li3, "legend" => $legend, "mdp_Temp" => $mdp_Temp, "mdp_1" => $mdp_1, "mdp_2" => $mdp_2, "btn_create_New_PWD" => $btn_create_New_PWD, "btn_login" => $page_Login, "btn_return" => $return];
+    $arrayMots = ["lang" => $lang, "message" => $messageFinal, "title" => $title, "p1" => $p1, "li1" => $li1, "li2" => $li2, "li3" => $li3, "legend" => $legend, "mdp_Temp" => $mdp_Temp, "mdp_1" => $mdp_1, "mdp_2" => $mdp_2, "btn_create_New_PWD" => $btn_create_New_PWD, "btn_login" => $page_Login, "btn_return" => $return];
     return $arrayMots;
 }
 
@@ -365,83 +367,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $connMYSQL->close();
 }
 ?>
-<html>
-    <head>
-        <meta charset="utf-8">	
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Envoi du courriel avec le lien">
-        <!-- Le fichier reset.png est la propriété du site https://pixabay.com/fr/bouton-r%C3%A9initialiser-inscrivez-vous-31199/-->
-        <link rel="shortcut icon" href="reset.png">	        
-        <link rel="stylesheet" type="text/css" href="login.css"> 
-        <title><?php echo $arrayMots['title']; ?></title> 
-        <style>
-            body{
-                margin:0;    
-                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
-                background-image: url("photologin.jpg");
-                background-position: center;
-                background-attachment: fixed;
-                background-size: 100%;
-            }   
-        </style>
-    </head>
-    <body>
-        <div class="content"> 
-            <div class="center">
-                <p class='titre'><?php echo $arrayMots['p1']; ?></p>
-                <ul>
-                    <li class='info'><?php echo $arrayMots['li1']; ?></li>
-                    <li class='info'><?php echo $arrayMots['li2']; ?></li>
-                    <li class='info'><?php echo $arrayMots['li3']; ?></li>
-                </ul>                
-                <fieldset class="<?php if ($champs['creationUserSuccess']) { echo "changerAvecSucces"; } ?>">
-                    <legend align="center"><?php echo $arrayMots['legend']; ?></legend>
-                    <form method="post" action="./reset.php">
-                        <div class="connexion">
-                            <div class="information <?php if ($champs['champInvalidPWD_Temp'] || $champs['champTropLongPWD_Temp'] || $champs["champVidePWD_Temp"] || $champs['champPWD_Temp_NonEgal']) { echo 'erreur';} ?>">
-                                <label for="password_Temp"><?php echo $arrayMots['mdp_Temp']; ?></label>
-                                <div>
-                                    <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> autofocus id="password_Temp" type='password' maxlength="25" name="password_Temp" value="<?php echo $champs['password_Temp']; ?>"/>
-                                    <span class="obligatoire">&nbsp;*</span>
-                                </div>
-                            </div> 
-                            <div class="information <?php if (( $_SERVER['REQUEST_METHOD'] === 'POST' && !$champs['ancien_Nouveau_PWD_Diff'] ) || $champs['champInvalidPWD_1'] || $champs['champTropLongPWD_1'] || $champs["champVidePWD_1"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
-                                <label for="new_Password_1"><?php echo $arrayMots['mdp_1']; ?></label>
-                                <div>
-                                    <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_1" type='password' maxlength="25" name="new_Password_1" value="<?php echo $champs['new_Password_1']; ?>"/>
-                                    <span class="obligatoire">&nbsp;*</span>
-                                </div>
-                            </div> 
-                            <div class="information <?php if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' && !$champs['ancien_Nouveau_PWD_Diff'] ) || $champs['champInvalidPWD_2'] || $champs['champTropLongPWD_2'] || $champs["champVidePWD_2"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
-                                <label for="new_Password_2"><?php echo $arrayMots['mdp_2']; ?></label>
-                                <div>
-                                    <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_2" type='password' maxlength="25" name="new_Password_2" value="<?php echo $champs['new_Password_2']; ?>"/>
-                                    <span class="obligatoire">&nbsp;*</span>
-                                </div>
-                            </div> 
+<!DOCTYPE html>
+<html lang="<?php echo $arrayMots['lang']; ?>">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Envoi du courriel avec le lien">
+    <!-- Le fichier reset.png est la propriété du site https://pixabay.com/fr/bouton-r%C3%A9initialiser-inscrivez-vous-31199/-->
+    <link rel="shortcut icon" href="reset.png">
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <title><?php echo $arrayMots['title']; ?></title>
+    <style>
+        body {
+            margin: 0;
+            /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
+            background-image: url("photologin.jpg");
+            background-position: center;
+            background-attachment: fixed;
+            background-size: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="center">
+            <p class='titre'><?php echo $arrayMots['p1']; ?></p>
+            <ul>
+                <li class='info'><?php echo $arrayMots['li1']; ?></li>
+                <li class='info'><?php echo $arrayMots['li2']; ?></li>
+                <li class='info'><?php echo $arrayMots['li3']; ?></li>
+            </ul>
+            <fieldset class="<?php if ($champs['creationUserSuccess']) { echo "changerAvecSucces"; } ?>">
+                <legend class="legendCenter"><?php echo $arrayMots['legend']; ?></legend>
+                <form method="post" action="./reset.php">
+                    <div class="connexion">
+                        <div class="information <?php if ($champs['champInvalidPWD_Temp'] || $champs['champTropLongPWD_Temp'] || $champs["champVidePWD_Temp"] || $champs['champPWD_Temp_NonEgal']) { echo 'erreur';} ?>">
+                            <label for="password_Temp"><?php echo $arrayMots['mdp_Temp']; ?></label>
+                            <div>
+                                <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> autofocus id="password_Temp" type='password' maxlength="25" name="password_Temp" value="<?php echo $champs['password_Temp']; ?>" />
+                                <span class="obligatoire">&nbsp;*</span>
+                            </div>
                         </div>
-                        <div class="troisBTN"> 
-                            <input <?php if ($champs['creationUserSuccess']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> 
-                                   type='submit' name='create_New_PWD' value="<?php echo $arrayMots['btn_create_New_PWD']; ?>">
-                            <input type='hidden' name='typeLangue' value="<?php echo $champs['typeLangue']; ?>">
-                            <input type='hidden' name='lien_Crypte' value="<?php echo $champs['lien_Crypte']; ?>">
+                        <div class="information <?php if (( $_SERVER['REQUEST_METHOD'] === 'POST' && !$champs['ancien_Nouveau_PWD_Diff'] ) || $champs['champInvalidPWD_1'] || $champs['champTropLongPWD_1'] || $champs["champVidePWD_1"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
+                            <label for="new_Password_1"><?php echo $arrayMots['mdp_1']; ?></label>
+                            <div>
+                                <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_1" type='password' maxlength="25" name="new_Password_1" value="<?php echo $champs['new_Password_1']; ?>" />
+                                <span class="obligatoire">&nbsp;*</span>
+                            </div>
                         </div>
-                    </form>
-                </fieldset>
-            </div>
-            <div class="footer">
-                <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
-                <div class='avert <?php if ($champs["situation"] != 8) { echo 'erreur'; } ?>'>
-                    <p> <?php echo $arrayMots['message']; ?> </p>
-                </div>
-                <div class="btnRetour">
-                    <form method="post" action="./reset.php"> 
-                        <input class="bouton" type="submit" name="page_Login" value="<?php echo $arrayMots['btn_login']; ?>"> 
-                        <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">  
+                        <div class="information <?php if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' && !$champs['ancien_Nouveau_PWD_Diff'] ) || $champs['champInvalidPWD_2'] || $champs['champTropLongPWD_2'] || $champs["champVidePWD_2"] || $champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
+                            <label for="new_Password_2"><?php echo $arrayMots['mdp_2']; ?></label>
+                            <div>
+                                <input <?php if ($champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_2" type='password' maxlength="25" name="new_Password_2" value="<?php echo $champs['new_Password_2']; ?>" />
+                                <span class="obligatoire">&nbsp;*</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="troisBTN">
+                        <input <?php if ($champs['creationUserSuccess']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> type='submit' name='create_New_PWD' value="<?php echo $arrayMots['btn_create_New_PWD']; ?>">
                         <input type='hidden' name='typeLangue' value="<?php echo $champs['typeLangue']; ?>">
-                    </form>
-                </div>
+                        <input type='hidden' name='lien_Crypte' value="<?php echo $champs['lien_Crypte']; ?>">
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+        <div class="footer">
+            <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
+            <div class='avert <?php if ($champs["situation"] != 8) { echo 'erreur'; } ?>'>
+                <p> <?php echo $arrayMots['message']; ?> </p>
+            </div>
+            <div class="btnRetour">
+                <form method="post" action="./reset.php">
+                    <input class="bouton" type="submit" name="page_Login" value="<?php echo $arrayMots['btn_login']; ?>">
+                    <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
+                    <input type='hidden' name='typeLangue' value="<?php echo $champs['typeLangue']; ?>">
+                </form>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

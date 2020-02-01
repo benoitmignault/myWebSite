@@ -28,23 +28,23 @@ function typePositionSelected() {
             killer.value = "0";
             gain.value = "-10";
         } else if (this.value > '1' || this.value < '0') {
-            alert("On ne peut pas avoir un nombre supérieur à 1 killer ou une valeur négative !");
+            alert("La valeur doit être 1 ou 0 et elle ne peut être négative !");
             this.value = "";
         }
     });
 
     $(killer).change(function () {
-        if (this.value != '0') {
+        if (this.value > '0') {
             citron.value = "0";
         } else if (this.value < '0') {
-            alert("On ne peut pas avoir un nombre de killer négatif !");
+            alert("La valeur doit être supérieur à 0 !");
             this.value = "";
         }
     });
 
     $(numTournoi).change(function () {
         if (this.value < '1') {
-            alert("Le numéro du tournoi ne peut avoir une valeur 0 ou négative !");
+            alert("Le numéro du tournoi ne peut être de valeur 0 ou négative !");
             this.value = "";
         }
     });

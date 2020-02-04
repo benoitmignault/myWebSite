@@ -474,7 +474,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
 
     /* Association des variables de résultat */
     $result = $stmt->get_result();
-    
+
     $position = 1;
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
         $nombreGain = intval($row['gainTotaux']);
@@ -504,11 +504,11 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
         $tableau .= "</tr>";
         $position++; // On augmente de 1 la position pour le prochain joueur et ses statistiques pour l'affichage
     }
-    
+
     $tableau .= "</tbody></table>";
     /* Fermeture du traitement */
     $stmt->close();
-    
+
     return $tableau;
 }
 
@@ -516,8 +516,6 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
     if ($numeroID == 0) {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_ID']}</h3>";
     } else {
-        $sql = "SELECT * FROM poker where id_tournoi = '{$numeroID}' order by gain desc";
-        $result = $connMYSQL->query($sql);
         $tableau = "<table> 
         <thead> 
         <tr> <th colspan='6'>{$arrayMots['method5']} &rarr; {$numeroID} &larr;</th> </tr>
@@ -526,8 +524,19 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
         <th>{$arrayMots['date']}</th> </tr>            
         </thead>
         <tbody>";
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("SELECT * FROM poker where id_tournoi =? order by gain desc");
 
-        foreach ($result as $row) {
+        /* Lecture des marqueurs */
+        $stmt->bind_param("i", $numeroID);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> 
@@ -546,7 +555,38 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
         </tr>";
         }
         $tableau .= "</tbody></table>";
+        /* Fermeture du traitement */
+        $stmt->close();
     }
+
+
+
+
+
+    //$sql = "SELECT * FROM poker where id_tournoi = '{$numeroID}' order by gain desc";
+    //$result = $connMYSQL->query($sql);
+
+    /*
+    foreach ($result as $row) {
+        $nombreGain = intval($row['gain']);
+        $icone = lesGrandsGagnants_100e($row['joueur']);
+        $tableau .= "<tr> 
+        <td>{$row['joueur']}{$icone}</td>";
+        if ($nombreGain > 0) {
+            $tableau .= "<td class='positif'>{$nombreGain}</td>";
+        } elseif ($nombreGain < 0) {
+            $tableau .= "<td class='negatif'>{$nombreGain}</td>";
+        } else {
+            $tableau .= "<td>{$nombreGain}</td>";
+        }
+        $tableau .= "<td>{$row['victoire']}</td>
+        <td>{$row['fini_2e']}</td>
+        <td>{$row['id_tournoi']}</td>
+        <td>{$row['date']}</td>
+        </tr>";
+    }*/
+
+
     return $tableau;
 }
 

@@ -63,20 +63,25 @@ function verifChamp($champs, $connMYSQL) {
     if (empty($_POST['email'])){
         $champs['champVide'] = true;
     } else {
-        $sql = "select user, email from login where email = '{$_POST['email']}' ";        
-        $result = $connMYSQL->query($sql);
-        $row_cnt = $result->num_rows; // si il y a des résultats, alors on est correct
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("select user, email from login where email =? ");
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $_POST['email']);
+        /* Exécution de la requête */
+        $stmt->execute();
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+        $row_cnt = $result->num_rows;           
         if ($row_cnt == 0){
             $champs['emailExistePas'] = true;
-        } else {
-            foreach ($result as $row) {
-                $champs["user"] = $row['user'];
-                $champs["email"] = $row['email'];
-            }
+        } else {            
+            $row = $result->fetch_array(MYSQLI_ASSOC);
+            $champs["user"] = $row['user'];
+            $champs["email"] = $row['email'];
         }
-    } 
-
-    
+        /* close statement and connection */
+        $stmt->close();
+    }
     $longueurEmail = strlen($champs['email']);    
 
     if ($longueurEmail > 50){
@@ -87,7 +92,7 @@ function verifChamp($champs, $connMYSQL) {
     if (!preg_match($patternEmail, $_POST['email'])) {
         $champs['champInvalid'] = true; 
     }  
-    
+
     return $champs;
 }
 
@@ -107,7 +112,7 @@ function situation($champs){
     } elseif ($champs['envoiCourrielSucces']){
         $typeSituation = 6; 
     } 
- 
+
     return $typeSituation;
 }
 
@@ -248,7 +253,7 @@ function redirection($champs) {
 
 function connexionBD(){
     // Nouvelle connexion sur hébergement du Studio OL 
-    
+
     /*
     $host = "localhost";
     $user = "benoitmi_benoit";

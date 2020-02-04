@@ -737,20 +737,29 @@ function connexionBD() {
 }
 
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from login";
-    $result = $connMYSQL->query($sql);
+    // Optimisation de la vérification si le user existe dans la BD
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login where user=? ");
 
-    foreach ($result as $row) {
-        if ($row['user'] === $_SESSION['user']) {
-            // On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
-            if ($_COOKIE['POKER'] == $row['user']){
-                if (password_verify($_SESSION['password'], $row['password'])) {
-                    return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
-                }
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $_SESSION['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $stmt->close();
+    //var_dump($result->num_rows);exit;
+    if ($result->num_rows == 1){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        // On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
+        if ($_COOKIE['POKER'] == $row['user']){
+            if (password_verify($_SESSION['password'], $row['password'])) {
+                return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
             }
-        }
-        // la fin de la vérification pour trouver notre user dans la BD et ainsi que la vérification de son mdp  
-    }
+        } 
+    } 
     return false;
 }
 
@@ -772,7 +781,7 @@ function addStatAffichageUser($connMYSQL, $user){
     $id_login = (int) $row[0];	// Assignation de la valeur
     // Close statement
     $stmt->close();
-    
+
     date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
     $date_method = date("Y-m-d H:i:s");
     // Ajouter la methode choisie par le user dans la table affichage_stat_poker en lien avec la Xième connexion sur la page

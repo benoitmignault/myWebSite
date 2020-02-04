@@ -81,6 +81,7 @@ function traductionSituationFR($champs){
         case 16 : $messageFrench = "Félicitation ! Votre compte a été crée avec succès !"; break;
         case 17 : $messageFrench = "Attention le courriel ne respecte la forme standard soit : exemple@courriel.com !"; break;
         case 18 : $messageFrench = "Au moment de créer votre compte, le courriel ne doit pas être utiliser déjà par quelqu'un !"; break;
+        case 34 : $messageFrench = "Attention ! Au moment je crée votre le compte, il y a eu une erreur système. Veuillez recommencer !"; break;
     }
     return $messageFrench;
 }
@@ -109,6 +110,7 @@ function traductionSituationEN($champs){
         case 16 : $messageEnglish = "Congratulations ! Your account has been successfully created !"; break;
         case 17 : $messageEnglish = "Warning, the email does not respect the standard form : example@courriel.com !"; break;
         case 18 : $messageEnglish = "When creating your account, the email should not be used by anyone already !"; break;
+        case 34 : $messageEnglish = "Warning ! When I created your account, there was a system error. Please try again !"; break;
     }
     return $messageEnglish;
 }
@@ -246,22 +248,31 @@ function situation($champs) {
         $typeSituation = 15; 
     } elseif ($champs['creationUserSuccess'] && isset($_POST['signUp']) ) {
         $typeSituation = 16; 
-    }        
+    } elseif (!$champs['creationUserSuccess'] && isset($_POST['signUp']) ) {
+        $typeSituation = 34; 
+    }       
     return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
 }
 
 function creationUser($champs, $connMYSQL) {
     $passwordCrypter = encryptementPassword($champs['password']);
-    // Ajout de l'information du email dans la création du user
-    $insert = "INSERT INTO login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
-    $insert .= "('" . $champs['user'] . "','" . $passwordCrypter . "', NULL, '" . $champs['email'] . "', NULL, NULL, 0)";
-    $connMYSQL->query($insert);
-    if (mysqli_affected_rows($connMYSQL) == 1){
-        $champs['creationUserSuccess'] = true;
-    }
-    return $champs;
+    // Prepare an insert statement
+    $sql = "INSERT INTO login (user, password, email) VALUES (?,?,?)";
+    $stmt = $connMYSQL->prepare($sql);
 
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('sss', $champs['user'], $passwordCrypter, $champs['email']);
+    $stmt->execute();
+
+    if ($stmt->affected_rows == 1){
+        $champs['creationUserSuccess'] = true;
+    }    
+
+    // Close statement
+    $stmt->close();
+    return $champs;
 }
+
 // Selon une recommandation :
 // https://stackoverflow.com/questions/30279321/how-to-use-password-hash
 // On ne doit pas jouer avec le salt....
@@ -317,13 +328,13 @@ function connexionBD() {
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
     */
-    
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
-    
+
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;

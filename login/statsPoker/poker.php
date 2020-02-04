@@ -306,16 +306,26 @@ function affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots) {
     if ($informationJoueur === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_joueur']}</h3>";
     } else {
-        $sql = "SELECT * FROM poker where joueur = '{$informationJoueur}' order by id_tournoi desc";
-        $result = $connMYSQL->query($sql);
-        $tableau = "
-                    <table> <thead>
+        $tableau = "<table> <thead>
                         <tr> <th colspan='6'>{$arrayMots['method2']} &rarr; {$informationJoueur} &larr;</th> </tr>
                         <tr> <th>{$arrayMots['joueur']}</th> <th>{$arrayMots['gain']}</th> <th>{$arrayMots['victoire']}</th> 
                              <th>{$arrayMots['fini2']}</th> <th>{$arrayMots['noTournois']}</th> <th>{$arrayMots['date']}</th> </tr>            
                             </thead>
                             <tbody>";
-        foreach ($result as $row) {
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("SELECT * FROM poker where joueur =? order by id_tournoi desc");
+
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $informationJoueur);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+        
+        /* Lecture des valeurs */
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> <td>{$informationJoueur}{$icone}</td>";
@@ -334,6 +344,9 @@ function affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots) {
                     </tr>";
         }
         $tableau .= "</tbody></table>";
+        
+        /* Fermeture du traitement */
+        $stmt->close();
     }
     return $tableau;
 }

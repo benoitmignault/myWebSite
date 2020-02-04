@@ -664,12 +664,12 @@ function connexionBD() {
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 */
-    
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
 
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
@@ -703,9 +703,16 @@ function addStatAffichageUser($connMYSQL, $user){
     date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
     $date_method = date("Y-m-d H:i:s");
     // Ajouter la methode choisie par le user dans la table affichage_stat_poker en lien avec la Xième connexion sur la page
-    $insert = "INSERT INTO affichage_stat_poker (user,methode,id_login,id_affichage,date) VALUES ";
-    $insert .= "('" . $user . "','" . $_POST['method'] . "','" . $id_login . "',NULL,'" . $date_method . "')";
-    $connMYSQL->query($insert);
+    // Prepare an insert statement
+    $sql = "INSERT INTO affichage_stat_poker (user,methode,id_login,date) VALUES (?,?,?,?)";
+    $stmt = $connMYSQL->prepare($sql);
+
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('siis', $user, $_POST['method'], $id_login, $date_method);
+    $stmt->execute();                    
+
+    // Close statement
+    $stmt->close();
 }
 
 function lienVersTriage($array_Champs){

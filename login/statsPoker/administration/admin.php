@@ -479,18 +479,29 @@ function connexionBD() {
 }
 
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from login";
-    $result = $connMYSQL->query($sql);
+    // Optimisation de la vérification si le user existe dans la BD
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login where user=? ");
 
-    foreach ($result as $row) {
-        if ($_SESSION['user'] === "admin") {
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $_SESSION['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $stmt->close();
+    if ($result->num_rows == 1){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        // On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
+        if ($_COOKIE['POKER'] == $row['user']){
             if (password_verify($_SESSION['password'], $row['password'])) {
-                return true; // dès qu'on trouve notre user admin + son bon mdp on exit de la fct
+                return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
             }
-        }
-        // la fin de la vérification pour trouver notre user dans la BD et ainsi que la vérification de son mdp  
-    }
-    return false;
+        } 
+    } 
+    return false;    
 }
 
 function redirection($champs, $connMYSQL) {
@@ -548,10 +559,19 @@ function ajout_Stat_Joueur($champs,$connMYSQL){
         $fini2e = "X";
     }
     $killerFloat = floatval($champs["killer"]);
-    $insert = "INSERT INTO poker (joueur,gain,victoire,fini_2e,id_tournoi,date,id,killer,prixCitron) VALUES ";
-    $insert .= "('". $champs["listeJoueur"] ."','". $champs["gain"] ."','". $victoire ."','". $fini2e ."','". $champs["numTournoi"] ."',
-                 '". $champs["date"] ."',NULL,'". $killerFloat ."','". $champs["citron"] ."')";
-    $connMYSQL->query($insert);
+    $citronFloat = floatval($champs["citron"]);
+    
+    // Prepare an insert statement
+    $sql = "INSERT INTO poker (joueur,gain,victoire,fini_2e,id_tournoi,date,killer,prixCitron) VALUES (?,?,?,?,?,?,?,?)";
+    $stmt = $connMYSQL->prepare($sql);
+
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('sissisdd', $champs["listeJoueur"], $champs["gain"], $victoire, $fini2e, $champs["numTournoi"], $champs["date"], $killerFloat, $citronFloat);
+    $stmt->execute();                    
+
+    // Close statement
+    $stmt->close();
+    
     if ($champs['typeLangue'] === "francais") {
         $messageAjout = "Les informations du joueur {$champs["listeJoueur"]} a été ajouté à la BD.";
     } elseif ($champs['typeLangue'] === "english") {
@@ -563,9 +583,17 @@ function ajout_Stat_Joueur($champs,$connMYSQL){
 }
 
 function ajouter_Nouveau_Joueur($champs,$connMYSQL){
-    $insert = "INSERT INTO joueur (joueur,id) VALUES ";
-    $insert .= "('" . $champs["newJoueur"] . "', NULL)";
-    $connMYSQL->query($insert);
+    // Prepare an insert statement
+    $sql = "INSERT INTO joueur (joueur) VALUES (?)";
+    $stmt = $connMYSQL->prepare($sql);
+    
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('s', $champs["newJoueur"]);
+    $stmt->execute();                    
+
+    // Close statement
+    $stmt->close();
+    
     if ($champs['typeLangue'] === "francais") {
         $messageAjout = "Le nouveau joueur {$champs["listeJoueur"]} a été ajouté à la BD.";
     } elseif ($champs['typeLangue'] === "english") {

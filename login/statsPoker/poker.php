@@ -750,7 +750,6 @@ function verificationUser($connMYSQL) {
     /* Association des variables de résultat */
     $result = $stmt->get_result();
     $stmt->close();
-    //var_dump($result->num_rows);exit;
     if ($result->num_rows == 1){
         $row = $result->fetch_array(MYSQLI_ASSOC);
         // On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28

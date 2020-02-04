@@ -323,7 +323,7 @@ function affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots) {
 
         /* Association des variables de résultat */
         $result = $stmt->get_result();
-        
+
         /* Lecture des valeurs */
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
@@ -344,7 +344,7 @@ function affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots) {
                     </tr>";
         }
         $tableau .= "</tbody></table>";
-        
+
         /* Fermeture du traitement */
         $stmt->close();
     }
@@ -355,7 +355,16 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
     if ($sommaireJoueur === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_joueur']}</h3>";
     } else {
-        $sql = "SELECT
+        $tableau = "<table> 
+                        <thead> 
+                            <tr> <th colspan='5'>{$arrayMots['method3']} &rarr; {$sommaireJoueur} &larr;</th> </tr>
+                            <tr> <th>{$arrayMots['joueur']}</th> <th>{$arrayMots['gain']}</th> <th>{$arrayMots['victoire']}</th> 
+                                 <th>{$arrayMots['fini2']}</th> <th>{$arrayMots['nbTournois']}</th> </tr>            
+                        </thead>
+                        <tbody>";
+        
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("SELECT
                     joueur,
                     SUM(gain) as gainTotaux,
                     count(case victoire when 'X' then 1 else null end) as nb_victoire,
@@ -364,17 +373,19 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
                 FROM
                     poker
                 where 
-                    joueur = '{$sommaireJoueur}'";
-        $result = $connMYSQL->query($sql);
-        $tableau = "<table> 
-                        <thead> 
-                            <tr> <th colspan='5'>{$arrayMots['method3']} &rarr; {$sommaireJoueur} &larr;</th> </tr>
-                            <tr> <th>{$arrayMots['joueur']}</th> <th>{$arrayMots['gain']}</th> <th>{$arrayMots['victoire']}</th> 
-                                 <th>{$arrayMots['fini2']}</th> <th>{$arrayMots['nbTournois']}</th> </tr>            
-                        </thead>
-                        <tbody>";
+                    joueur =?");
+                
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $sommaireJoueur);
+        //$result = $connMYSQL->query($sql);
+        
+        /* Exécution de la requête */
+        $stmt->execute();
 
-        foreach ($result as $row) {
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+        
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gainTotaux']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> 
@@ -390,8 +401,11 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
                          <td>{$row['nb_fini2e']}</td>
                          <td>{$row['nb_presence']}</td>
                         </tr>";
-        }
+        }        
+
         $tableau .= "</tbody></table>";
+        /* Fermeture du traitement */
+        $stmt->close();
     }
     return $tableau;
 }

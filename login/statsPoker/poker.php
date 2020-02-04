@@ -658,17 +658,18 @@ function delete_Session(){
 function connexionBD() { 
     // Nouvelle connexion sur hébergement du Studio OL
 
+    /*
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
-
-    /*
+*/
+    
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+    
 
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
@@ -801,109 +802,109 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="<?php echo $arrayMots['lang']; ?>">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Statistique du poker">
-        <!-- Le fichier poker.png est la propriété du site : https://pixabay.com/fr/cartes-diamant-diamants-favoris-2029819/ mais sous licence gratuite -->
-        <link rel="shortcut icon" href="./photo/poker.png">
-        <link rel="stylesheet" type="text/css" href="poker.css">
-        <title><?php echo $arrayMots['titre']; ?></title>
-        <style>
-            body {
-                margin: 0;
-                /* Fichier photoPoker.jpg est une propriété du site https://www.flickr.com/photos/nostri-imago/7497137910 sous licence libre */
-                background-image: url("./photo/photoPoker.jpg");
-                background-position: center;
-                background-attachment: fixed;
-                background-size: 100%;
-            }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Statistique du poker">
+    <!-- Le fichier poker.png est la propriété du site : https://pixabay.com/fr/cartes-diamant-diamants-favoris-2029819/ mais sous licence gratuite -->
+    <link rel="shortcut icon" href="./photo/poker.png">
+    <link rel="stylesheet" type="text/css" href="poker.css">
+    <title><?php echo $arrayMots['titre']; ?></title>
+    <style>
+        body {
+            margin: 0;
+            /* Fichier photoPoker.jpg est une propriété du site https://www.flickr.com/photos/nostri-imago/7497137910 sous licence libre */
+            background-image: url("./photo/photoPoker.jpg");
+            background-position: center;
+            background-attachment: fixed;
+            background-size: 100%;
+        }
 
-        </style>
-    </head>
+    </style>
+</head>
 
-    <body>
-        <p id="hautPage"></p>
-        <div class="mainPage">
-            <div class="header"> <?php echo $arrayMots['h1']; ?> </div>
-            <div class="info_method">
-                <fieldset>
-                    <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
-                    <form method='post' action='poker.php#endroitResultat'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Méthode d'affichage</th>
-                                    <th>Sélection</th>
-                                    <th>Bouton de la méthode</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method1']; ?></td>
-                                    <td></td>
-                                    <td><input class='bouton' type='submit' name='method' value="1"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method2']; ?></td>
-                                    <td><select class="joueur" name="informationJoueur"><?php foreach ($liste_Joueur_method2 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="2"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method3']; ?></td>
-                                    <td><select class="joueur" name="sommaireJoueur"><?php foreach ($liste_Joueur_method3 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="3"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method4']; if ($array_Champs['typeLangue'] == "francais") { echo " (Nb Présence et +)"; } elseif ($array_Champs['typeLangue'] == "english") { echo " (Number attendance and +)"; } ?></td>
-                                    <td><select id="nb_Presence" name="nombre_Presences"><?php foreach ($liste_Joueur_method4 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="4"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method5']; ?></td>
-                                    <td><select id="idTournois" name="listeId"><?php foreach ($liste_Joueur_method5 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="5"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method6']; ?></td>
-                                    <td><select id="tournois_date" name="listeDate"><?php foreach ($liste_Joueur_method6 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="6"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method7']; ?></td>
-                                    <td></td>
-                                    <td><input class='bouton' type='submit' name='method' value="7"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
-                </fieldset>
-            </div>
-            <div class="affichage">
-                <p id="endroitResultat"></p>
-                <fieldset>
-                    <legend class="legendCenter"><?php echo $arrayMots['legend3']; ?></legend>
-                    <?php if ($array_Champs['method'] == 4 || $array_Champs['method'] == 7 ) { ?>
-                    <ul class="lesInstructionTriage">
-                        <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>
-                        <li>Triage «Ratio» : ratio, killer en <span class="charGros">décroissance</span> et prix citron, Nb parties en <span class="charGros">croissance</span></li>
-                    </ul>
-                    <?php } ?>
-                    <?php if ( isset($_GET['triOriginal']) || isset($_GET['triRatio']) || $_SERVER['REQUEST_METHOD'] === 'POST') { echo $array_Champs['tableauResult']; } ?>
-                </fieldset>
-            </div>
-            <div class="return">
-                <fieldset>
-                    <a href="#hautPage"><?php echo $arrayMots['returnUp']; ?></a>
-                </fieldset>
-            </div>
-            <div class='btnRetour'>
-                <form method="post" action="poker.php">
-                    <input class='bouton' type="submit" name="return" value="<?php echo $arrayMots['btnLogin']; ?>">
-                    <input class='bouton' type="submit" name="home" value="<?php echo $arrayMots['btnReturn']; ?>">
+<body>
+    <p id="hautPage"></p>
+    <div class="mainPage">
+        <div class="header"> <?php echo $arrayMots['h1']; ?> </div>
+        <div class="info_method">
+            <fieldset>
+                <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
+                <form method='post' action='poker.php#endroitResultat'>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Méthode d'affichage</th>
+                                <th>Sélection</th>
+                                <th>Bouton de la méthode</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method1']; ?></td>
+                                <td></td>
+                                <td><input class='bouton' type='submit' name='method' value="1"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method2']; ?></td>
+                                <td><select class="joueur" name="informationJoueur"><?php foreach ($liste_Joueur_method2 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method3']; ?></td>
+                                <td><select class="joueur" name="sommaireJoueur"><?php foreach ($liste_Joueur_method3 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="3"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method4']; if ($array_Champs['typeLangue'] == "francais") { echo " (Nb Présence et +)"; } elseif ($array_Champs['typeLangue'] == "english") { echo " (Number attendance and +)"; } ?></td>
+                                <td><select id="nb_Presence" name="nombre_Presences"><?php foreach ($liste_Joueur_method4 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method5']; ?></td>
+                                <td><select id="idTournois" name="listeId"><?php foreach ($liste_Joueur_method5 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method6']; ?></td>
+                                <td><select id="tournois_date" name="listeDate"><?php foreach ($liste_Joueur_method6 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="6"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method7']; ?></td>
+                                <td></td>
+                                <td><input class='bouton' type='submit' name='method' value="7"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </form>
-            </div>
+            </fieldset>
         </div>
-    </body>
+        <div class="affichage">
+            <p id="endroitResultat"></p>
+            <fieldset>
+                <legend class="legendCenter"><?php echo $arrayMots['legend3']; ?></legend>
+                <?php if ($array_Champs['method'] == 4 || $array_Champs['method'] == 7 ) { ?>
+                <ul class="lesInstructionTriage">
+                    <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>
+                    <li>Triage «Ratio» : ratio, killer en <span class="charGros">décroissance</span> et prix citron, Nb parties en <span class="charGros">croissance</span></li>
+                </ul>
+                <?php } ?>
+                <?php if ( isset($_GET['triOriginal']) || isset($_GET['triRatio']) || $_SERVER['REQUEST_METHOD'] === 'POST') { echo $array_Champs['tableauResult']; } ?>
+            </fieldset>
+        </div>
+        <div class="return">
+            <fieldset>
+                <a href="#hautPage"><?php echo $arrayMots['returnUp']; ?></a>
+            </fieldset>
+        </div>
+        <div class='btnRetour'>
+            <form method="post" action="poker.php">
+                <input class='bouton' type="submit" name="return" value="<?php echo $arrayMots['btnLogin']; ?>">
+                <input class='bouton' type="submit" name="home" value="<?php echo $arrayMots['btnReturn']; ?>">
+            </form>
+        </div>
+    </div>
+</body>
 
 </html>

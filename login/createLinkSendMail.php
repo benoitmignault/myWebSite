@@ -117,12 +117,19 @@ function situation($champs){
 }
 
 function creationLink($champs, $connMYSQL){  
-    $sql = "select user, password from login where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
-    $connMYSQL->query($sql);
-    // Si le résultat est inférieur à 1, 
-    // nous avons une erreur de communication ou un échec lors de la requête SQL 
-    // Ici, on s'assure que le résultat nous retourne seulement 1, car nous avons à faire à un seul user normalement
-    if (!mysqli_affected_rows($connMYSQL) == 1){
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login where email =? and user =? ");
+    /* Lecture des marqueurs */
+    $stmt->bind_param("ss", $champs["email"], $champs["user"]);
+    /* Exécution de la requête */
+    $stmt->execute();
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $row_cnt = $result->num_rows;
+    /* close statement and connection */
+    $stmt->close();    
+
+    if ($row_cnt == 0){
         $champs["erreurManipulationBD"] = true; 
     } else {
         date_default_timezone_set('America/New_York');
@@ -130,11 +137,20 @@ function creationLink($champs, $connMYSQL){
         $lien_Reset_PWD = encryptementPassword($lien_Reset_PWD);
         $password_Temp = generateRandomString(10);
         $password_Encrypted = encryptementPassword($password_Temp);
-        $sql_update = "update login set reset_link = '{$lien_Reset_PWD}', passwordTemp = '{$password_Encrypted}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
-        $connMYSQL->query($sql_update);
+
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("update login set reset_link =? , passwordTemp =? where email =? and user =?");
+        /* Lecture des marqueurs */
+        $stmt->bind_param("ssss", $lien_Reset_PWD, $password_Encrypted, $champs["email"], $champs["user"]);
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        $row_cnt = $stmt->affected_rows;
+        /* close statement and connection */
+        $stmt->close();
 
         // On valide que l'insertion des password temporaire et link encryptés s'est bien passé
-        if (!mysqli_affected_rows($connMYSQL) == 1){
+        if ($row_cnt == 0){
             $champs["erreurManipulationBD"] = true; 
         } else {
             // On récupère l'heure au moment de la création du link
@@ -143,11 +159,19 @@ function creationLink($champs, $connMYSQL){
             $current_timestamp = strtotime($current_time);
             // On ajoute 12 heures pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
             $temps_Autorise = strtotime("+12 hour", strtotime($current_time));
-            $sql_update = "update login set temps_Valide_link = '{$temps_Autorise}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
-            $connMYSQL->query($sql_update);
+
+            /* Crée une requête préparée */
+            $stmt = $connMYSQL->prepare("update login set temps_Valide_link =? where email =? and user =? ");
+            /* Lecture des marqueurs */
+            $stmt->bind_param("iss", $temps_Autorise, $champs["email"], $champs["user"]);
+            /* Exécution de la requête */
+            $stmt->execute();
+            $row_cnt = $stmt->affected_rows;
+            /* close statement and connection */
+            $stmt->close();           
 
             // On valide ici que l'ajout du temps autorisé au changement de PWD a bien marché
-            if (!mysqli_affected_rows($connMYSQL) == 1){
+            if ($row_cnt == 0){
                 $champs["erreurManipulationBD"] = true; 
             } else {
                 $champs["password_Temp"] = $password_Temp; 

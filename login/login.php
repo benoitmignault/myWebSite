@@ -301,12 +301,16 @@ function connexionUser($champs, $connMYSQL) {
                     header("Location: ./statsPoker/administration/admin.php");
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
-                    $insert = "INSERT INTO login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
-                    $insert .= "('" . $champs['user'] . "',
-                                 '" . $date . "',
-                                 NULL,
-                                 '" . $champs['idCreationUser'] . "')";
-                    $connMYSQL->query($insert);
+                    // Prepare an insert statement
+                    $sql = "INSERT INTO login_stat_poker (user,date,idCreationUser) VALUES (?,?,?)";
+                    $stmt = $connMYSQL->prepare($sql);
+
+                    // Bind variables to the prepared statement as parameters
+                    $stmt->bind_param('ssi', $champs['user'], $date, $champs['idCreationUser']);
+                    $stmt->execute();                    
+
+                    // Close statement
+                    $stmt->close();
                     header("Location: ./statsPoker/poker.php");
                 }
                 exit;

@@ -362,7 +362,7 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
                                  <th>{$arrayMots['fini2']}</th> <th>{$arrayMots['nbTournois']}</th> </tr>            
                         </thead>
                         <tbody>";
-        
+
         /* Crée une requête préparée */
         $stmt = $connMYSQL->prepare("SELECT
                     joueur,
@@ -374,17 +374,16 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
                     poker
                 where 
                     joueur =?");
-                
+
         /* Lecture des marqueurs */
         $stmt->bind_param("s", $sommaireJoueur);
-        //$result = $connMYSQL->query($sql);
-        
+
         /* Exécution de la requête */
         $stmt->execute();
 
         /* Association des variables de résultat */
         $result = $stmt->get_result();
-        
+
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gainTotaux']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
@@ -411,34 +410,6 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
 }
 
 function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
-    $requeteSql = "";
-    $sql = "select res.* , round(res.gainTotaux / res.nb_presence,2) as gainPresence
-            from
-            (
-                SELECT
-                    joueur,
-                    SUM(gain) as gainTotaux,
-                    count(case victoire when 'X' then 1 else null end) as nb_victoire,
-                    count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
-                    count(joueur) as nb_presence
-                FROM
-                    poker
-                GROUP BY 
-                    joueur                
-            ) res where res.nb_presence >= {$nombre_Presences}";
-    $orderBy = "";
-
-    // Ce qui va déterminer l'order by
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){
-        $orderBy = " order by res.gainTotaux desc, res.nb_victoire desc, res.nb_fini2e desc, res.nb_presence ";        
-    } elseif (isset($_GET['triRatio'])) {
-        $orderBy = " order by gainPresence desc, res.nb_victoire desc, res.nb_fini2e desc, res.nb_presence ";
-    }
-    $requeteSql = $sql . $orderBy;
-
-    // Le order by se sera sur le résultat de la table et non à l'intérieur de la table en création sur les conseils de Zouhair mon collègue 
-    // Le order by sera en focntion du tri qu'on aura cliquer 
-    $result = $connMYSQL->query($requeteSql);    
     $tableau = ""; // Initialiation du tableau
     if (!isset($_GET['triRatio']) && (isset($_GET['triOriginal']) || $_SERVER['REQUEST_METHOD'] == 'POST') ){
         $tableau = "<table><thead> 
@@ -467,10 +438,45 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
                         </tr>            
                     </thead> <tbody>";
     }
+    $requeteSql = "";
+    $orderBy = "";
 
-    // Ajout d'un compteur pour afficher simplement le joueur avec ses stats et savoir où se trouve
+    $sql = "select res.* , round(res.gainTotaux / res.nb_presence,2) as gainPresence
+            from
+            (
+                SELECT
+                    joueur,
+                    SUM(gain) as gainTotaux,
+                    count(case victoire when 'X' then 1 else null end) as nb_victoire,
+                    count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
+                    count(joueur) as nb_presence
+                FROM
+                    poker
+                GROUP BY 
+                    joueur                
+            ) res where res.nb_presence >=? ";
+
+    // Ce qui va déterminer l'order by
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){
+        $orderBy = " order by res.gainTotaux desc, res.nb_victoire desc, res.nb_fini2e desc, res.nb_presence ";        
+    } elseif (isset($_GET['triRatio'])) {
+        $orderBy = " order by gainPresence desc, res.nb_victoire desc, res.nb_fini2e desc, res.nb_presence ";
+    }
+
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare($sql . $orderBy);
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("i", $nombre_Presences);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    
     $position = 1;
-    foreach ($result as $row) {
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
         $nombreGain = intval($row['gainTotaux']);
         $gainRatio = floatval($row['gainPresence']);
         $icone = lesGrandsGagnants_100e($row['joueur']);
@@ -498,7 +504,11 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
         $tableau .= "</tr>";
         $position++; // On augmente de 1 la position pour le prochain joueur et ses statistiques pour l'affichage
     }
+    
     $tableau .= "</tbody></table>";
+    /* Fermeture du traitement */
+    $stmt->close();
+    
     return $tableau;
 }
 

@@ -558,35 +558,6 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
         /* Fermeture du traitement */
         $stmt->close();
     }
-
-
-
-
-
-    //$sql = "SELECT * FROM poker where id_tournoi = '{$numeroID}' order by gain desc";
-    //$result = $connMYSQL->query($sql);
-
-    /*
-    foreach ($result as $row) {
-        $nombreGain = intval($row['gain']);
-        $icone = lesGrandsGagnants_100e($row['joueur']);
-        $tableau .= "<tr> 
-        <td>{$row['joueur']}{$icone}</td>";
-        if ($nombreGain > 0) {
-            $tableau .= "<td class='positif'>{$nombreGain}</td>";
-        } elseif ($nombreGain < 0) {
-            $tableau .= "<td class='negatif'>{$nombreGain}</td>";
-        } else {
-            $tableau .= "<td>{$nombreGain}</td>";
-        }
-        $tableau .= "<td>{$row['victoire']}</td>
-        <td>{$row['fini_2e']}</td>
-        <td>{$row['id_tournoi']}</td>
-        <td>{$row['date']}</td>
-        </tr>";
-    }*/
-
-
     return $tableau;
 }
 
@@ -594,8 +565,6 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
     if ($tournoiDate === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_Date']}</h3>";
     } else {
-        $sql = "SELECT * FROM poker where date = '{$tournoiDate}' order by gain desc";
-        $result = $connMYSQL->query($sql);
         $tableau = "<table> 
         <thead> 
         <tr> <th colspan='6'>{$arrayMots['method6']} &rarr; {$tournoiDate} &larr;</th> </tr>
@@ -605,7 +574,19 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
         </thead>
         <tbody>";
 
-        foreach ($result as $row) {
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("SELECT * FROM poker where date =? order by gain desc");
+
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $tournoiDate);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> 
@@ -624,6 +605,8 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
         </tr>";
         }
         $tableau .= "</tbody></table>";
+        /* Fermeture du traitement */
+        $stmt->close();
     }
     return $tableau;
 }
@@ -773,10 +756,23 @@ function verificationUser($connMYSQL) {
 
 function addStatAffichageUser($connMYSQL, $user){
     // C'est la méthode que j'ai trouvé trouver la valeur max comme cette valeur va en augmentant
-    $sql = "select max(id_login) from login_stat_poker where user = '{$_SESSION['user']}' ";                    
-    $result_SQL = $connMYSQL->query($sql);
-    $row = $result_SQL->fetch_row(); // C'est mon array de résultat
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select max(id_login) from login_stat_poker where user =? ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $_SESSION['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+
+    $row = $result->fetch_array(MYSQLI_ASSOC);    
     $id_login = (int) $row[0];	// Assignation de la valeur
+    // Close statement
+    $stmt->close();
+    
     date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
     $date_method = date("Y-m-d H:i:s");
     // Ajouter la methode choisie par le user dans la table affichage_stat_poker en lien avec la Xième connexion sur la page

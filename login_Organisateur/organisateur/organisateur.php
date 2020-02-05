@@ -389,10 +389,15 @@ function tableau_petite_grosse($connMYSQL, $champs){
 }
 
 function insert_BD_valeur_couleur($connMYSQL, $champs){
-    $valeur = intval($champs["valeur"]);  
-    $insert = "INSERT INTO amount_color (user, amount, color_english, id_couleur, id_user) VALUES ";
-    $insert .= "('" . $champs["user"] . "','" . $valeur . "','" . $champs["couleur"] . "', NULL , '" . $champs["idUser"] . "')";
-    $result = $connMYSQL->query($insert);  
+    // Prepare an insert statement
+    $sql = "INSERT INTO amount_color (user, amount, color_english, id_user) VALUES (?,?,?,?)";
+    $stmt = $connMYSQL->prepare($sql);  
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('sisi', $champs['user'], intval($champs["valeur"]), $champs["couleur"], $champs["idUser"]);
+    $result = $stmt->execute();
+    // Close statement
+    $stmt->close();
+    
     return $result;
 }
 
@@ -562,79 +567,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="<?php echo $arrayMots['lang']; ?>">
 
-    <head>
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
-        <link rel="shortcut icon" href="organisateur.png">
-        <link rel="stylesheet" type="text/css" href="organisateur.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><?php echo $arrayMots['title']; ?></title>
-        <style>
-            body {
-                margin: 0;
-                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ 
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
+    <link rel="shortcut icon" href="organisateur.png">
+    <link rel="stylesheet" type="text/css" href="organisateur.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php echo $arrayMots['title']; ?></title>
+    <style>
+        body {
+            margin: 0;
+            /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ 
                 sous licence libre */
-                background-image: url("organisateur.jpg");
-                background-position: center;
-                background-attachment: fixed;
-                background-size: 100%;
-            }
+            background-image: url("organisateur.jpg");
+            background-position: center;
+            background-attachment: fixed;
+            background-size: 100%;
+        }
 
-        </style>
-    </head>
+    </style>
+</head>
 
-    <body>
-        <h1><?php echo $arrayMots['msg_welcome']; ?></h1>
-        <div class="container">
-            <div class="ajout_combinaison">
-                <h2><?php echo $arrayMots['h3_Ajouter']; ?></h2>
-                <form method="post" action="organisateur.php">
-                    <div class='form_ajout_combinaison'>
-                        <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
-                        <input maxlength="5" type="text" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled"; } ?> name="valeur" value="<?php echo $champs['valeur'] ?>">
-                        <select name="couleur">
-                            <option value="" selected><?php echo $arrayMots['option']; ?></option>
-                            <?php echo $choix_couleur_restant; ?>
-                        </select>
-                        <input class="bouton" type="submit" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled=\"disabled\""; } ?> name="btn_addValeurCouleur" value="<?php echo $arrayMots['btn_ajout']; ?>">
-                    </div>
-                </form>
-                <form method="post" action="organisateur.php">
-                    <div class='form_ajout_combinaison'>
-                        <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                        <input maxlength="6" type="text" name="small" value="<?php echo $champs['small'] ?>">
-                        <input maxlength="6" type="text" name="big" value="<?php echo $champs['big'] ?>">
-                        <input class="bouton" type="submit" name="btn_addSmallBig" value="<?php echo $arrayMots['btn_ajout']; ?>">
-                    </div>
-                </form>
-            </div>
-
-            <!-- Utilisation nouvelle d'un bouton X : https://fr.pngtree.com/element/down?id=Mjc3NDkzMA==&type=1 -->
-            <div class="affiche_combinaison">
-                <h2><?php echo $arrayMots['h3_Affichage']; ?></h2>
-                <div class="form_affiche_combinaison">
+<body>
+    <h1><?php echo $arrayMots['msg_welcome']; ?></h1>
+    <div class="container">
+        <div class="ajout_combinaison">
+            <h2><?php echo $arrayMots['h3_Ajouter']; ?></h2>
+            <form method="post" action="organisateur.php">
+                <div class='form_ajout_combinaison'>
                     <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
-                    <div><?php echo $tableau_valeur_couleur; ?></div>
+                    <input maxlength="5" type="text" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled"; } ?> name="valeur" value="<?php echo $champs['valeur'] ?>">
+                    <select name="couleur">
+                        <option value="" selected><?php echo $arrayMots['option']; ?></option>
+                        <?php echo $choix_couleur_restant; ?>
+                    </select>
+                    <input class="bouton" type="submit" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled=\"disabled\""; } ?> name="btn_addValeurCouleur" value="<?php echo $arrayMots['btn_ajout']; ?>">
                 </div>
-                <div class="form_affiche_combinaison">
+            </form>
+            <form method="post" action="organisateur.php">
+                <div class='form_ajout_combinaison'>
                     <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                    <div><?php echo $tableau_petite_grosse; ?></div>
+                    <input maxlength="6" type="text" name="small" value="<?php echo $champs['small'] ?>">
+                    <input maxlength="6" type="text" name="big" value="<?php echo $champs['big'] ?>">
+                    <input class="bouton" type="submit" name="btn_addSmallBig" value="<?php echo $arrayMots['btn_ajout']; ?>">
                 </div>
-            </div>
+            </form>
+        </div>
 
-            <div class="retour">
-                <form method="post" action="organisateur.php">
-                    <div class="form_retour">
-                        <div class="btn_footer">
-                            <input class="bouton" type="submit" name="timer" value="<?php echo $arrayMots['btn_timer']; ?>">
-                        </div>
-                        <div class="btn_footer">
-                            <input class="bouton" type="submit" name="home" value="<?php echo $arrayMots['btn_return']; ?>">
-                        </div>
-                    </div>
-                </form>
+        <!-- Utilisation nouvelle d'un bouton X : https://fr.pngtree.com/element/down?id=Mjc3NDkzMA==&type=1 -->
+        <div class="affiche_combinaison">
+            <h2><?php echo $arrayMots['h3_Affichage']; ?></h2>
+            <div class="form_affiche_combinaison">
+                <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
+                <div><?php echo $tableau_valeur_couleur; ?></div>
+            </div>
+            <div class="form_affiche_combinaison">
+                <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
+                <div><?php echo $tableau_petite_grosse; ?></div>
             </div>
         </div>
-    </body>
+
+        <div class="retour">
+            <form method="post" action="organisateur.php">
+                <div class="form_retour">
+                    <div class="btn_footer">
+                        <input class="bouton" type="submit" name="timer" value="<?php echo $arrayMots['btn_timer']; ?>">
+                    </div>
+                    <div class="btn_footer">
+                        <input class="bouton" type="submit" name="home" value="<?php echo $arrayMots['btn_return']; ?>">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
 
 </html>

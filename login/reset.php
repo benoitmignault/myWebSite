@@ -160,14 +160,14 @@ function verifChamp($champs, $connMYSQL) {
             if (!password_verify($champs['password_Temp'], $row['passwordTemp'])){            
                 $champs['champPWD_Temp_NonEgal'] = true;            
             }
-            
+
             // Si le nouveau password est égal dans les deux champs c'est 
             if (!$champs["champsPWD_New_NonEgal"] && !$champs['champVidePWD_1'] && !$champs['champVidePWD_2']){
                 if (!password_verify($champs['new_Password_1'], $row['password'])){            
                     $champs['ancien_Nouveau_PWD_Diff'] = true;            
                 }
             } 
-            
+
             // Validation que le temps accordé au link soit toujours valide
             if ($champs["token_Time_Used"] > ((int)$row['temps_Valide_link'])){
                 $champs["token_Time_Expired"] = true;   
@@ -176,7 +176,7 @@ function verifChamp($champs, $connMYSQL) {
     } else {
         $champs['erreurManipulationBD'] = true;       
     }
-   
+
     if ($champs['champPWD_Temp_NonEgal'] || $champs["champsPWD_New_NonEgal"]){
         $champs["champsPWD_NonEgal"] = true;  
     }  
@@ -249,29 +249,74 @@ function situation($champs){
     } elseif ($champs['erreurManipulationBD']){
         $typeSituation = 13; 
     } 
-    
+
     return $typeSituation;
 }
 
 function verif_link_BD($champs, $connMYSQL){
-    $sql = "select reset_link from login where reset_link = '{$champs["lien_Crypte"]}'";
-    $connMYSQL->query($sql);
-    // Ici , le résultat doit etre absolument de 1 car sinon le link n'est pas valide
-    if (mysqli_affected_rows($connMYSQL) == 1){
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select reset_link from login where reset_link =? ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs["lien_Crypte"]);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+
+    $row = $result->fetch_array(MYSQLI_ASSOC);    
+    $nb_result = (int) $row[0];	// Assignation de la valeur
+    // Close statement
+    $stmt->close();
+
+     ////// À VÉRIFDIER EN PROD !!!!!!!!!!!!!!!!!!!!    
+    
+    
+    if ($nb_result == 1){
         $champs["lien_Crypte_Good"] = true;
-    }    
+    } 
+
+    //$sql = "select reset_link from login where reset_link = '{$champs["lien_Crypte"]}'";
+    //$connMYSQL->query($sql);
+    // Ici , le résultat doit etre absolument de 1 car sinon le link n'est pas valide
+    //if (mysqli_affected_rows($connMYSQL) == 1){
+    //    $champs["lien_Crypte_Good"] = true;
+    //}    
     return $champs;
 }
 
 function changementPassword($champs, $connMYSQL){
     // Remise à NULL pour les 
     $newPWDencrypt = encryptementPassword($champs["new_Password_1"]); 
-    $updateSQL = "update login set password = '{$newPWDencrypt}', reset_link = NULL, passwordTemp = NULL, temps_Valide_link = 0 where reset_link = '{$champs["lien_Crypte"]}'";
 
-    $connMYSQL->query($updateSQL);    
-    if (mysqli_affected_rows($connMYSQL) == 1){
+    
+    ////// À VÉRIFDIER EN PROD !!!!!!!!!!!!!!!!!!!!
+    
+    
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("update login set password =? , reset_link =? , passwordTemp =?, temps_Valide_link =? where reset_link =? ");
+    /* Lecture des marqueurs */
+    $stmt->bind_param("sssis", $newPWDencrypt,"","","",0,$champs["lien_Crypte"]);
+    /* Exécution de la requête */
+    $stmt->execute();
+    $row_cnt = $stmt->affected_rows;
+    /* close statement and connection */
+    $stmt->close();           
+
+    if ($row_cnt == 1){
         $champs['creationUserSuccess'] = true;
     } 
+
+
+
+
+    //$updateSQL = "update login set password = '{$newPWDencrypt}', reset_link = NULL, passwordTemp = NULL, temps_Valide_link = 0 where reset_link = '{$champs["lien_Crypte"]}'";
+    //$connMYSQL->query($updateSQL);    
+    //if (mysqli_affected_rows($connMYSQL) == 1){
+    //    $champs['creationUserSuccess'] = true;
+    //} 
     // Remise à leur valeur initial, car le changement de mot d epasse est terminé et le lien n'est plus valide
     $champs['password_Temp'] = "";
     $champs['new_Password_1'] = "";
@@ -311,20 +356,20 @@ function redirection($champs) {
 
 function connexionBD() {
     // Nouvelle connexion sur hébergement du Studio OL
-    
+
     /*
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 */
-    
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
-    
+
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -359,7 +404,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             redirection($champs);
         } else {
             $champs = verifChamp($champs, $connMYSQL);  
-            
+
             if (!$champs["champsVidePWD"] && !$champs["champsPWD_NonEgal"] && !$champs["token_Time_Expired"] && !$champs["champTropLong"] && !$champs["champInvalidPWD"] && $champs["ancien_Nouveau_PWD_Diff"]){
                 $champs = changementPassword($champs, $connMYSQL);
             }

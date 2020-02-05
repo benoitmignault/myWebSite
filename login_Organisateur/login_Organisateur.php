@@ -2,7 +2,7 @@
 function initialChamp() {
     $champInitial = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideName" => false, "duplicatUser" => false, "invalidUser" => false, "invalidPassword" => false, 
                      "invalidName" => false, "badUser" => false, "champTropLong" => false, "badPassword" => false, "sameUserPassword" => false, "invalidInformation" => false,
-                     "champUserTropLong" => false, "champPasswordTropLong" => false, "champNameTropLong" => false, "password" => "", "situation" => 0, "user" => "", "typeLangue" => "", "name" => ""];
+                     "champUserTropLong" => false, "champPasswordTropLong" => false, "champNameTropLong" => false, "password" => "", "situation" => 0, "user" => "", "typeLangue" => "", "name" => "", "creationUserSuccess" => false];
     return $champInitial;
 }
 
@@ -54,6 +54,8 @@ function traduction($champInitial) {
                     break;
                 case 13 : $message = "Attention le mot de passe et nom de l'organisateur ne peuvent être vide au moment de créer l'utilisateur !";
                     break;
+                case 14 : $message = "Félicitation ! Votre compte organisateur a été crée avec succès !";
+                    break;    
             }
         }
     } elseif ($champInitial["typeLangue"] === 'english') {
@@ -101,6 +103,8 @@ function traduction($champInitial) {
                     break;
                 case 13 : $message = "Warning ! The password and promoter name can not be empty when creating the user !";
                     break;
+                case 14 : $message = "Congratulations ! Your organizer account has been successfully created !";
+                    break; 
             }
         }
     }
@@ -173,46 +177,48 @@ function verifChamp($champInitial) {
 function situation($champInitial) {
     $typeSituation = 0;
     if (isset($_POST['reset'])) {
-        echo 1;
+        //echo 1;
         $typeSituation = 1;   
     } elseif ($champInitial['badUser']) {
         $typeSituation = 2;
-        echo 2;
+        //echo 2;
     } elseif ($champInitial['badPassword'] && !$champInitial['champVidePassword']) {
         $typeSituation = 3;
-        echo 3;
+        //echo 3;
     } elseif ($champInitial['duplicatUser']) {
         $typeSituation = 4;
-        echo 4;
+        //echo 4;
         // La situatino 5 a été corrigé le 2018-10-03 , j'avais oublié d'ajouter la condition «sameUserPassword» 
     } elseif ($champInitial['user'] !== "" && !$champInitial['duplicatUser'] && !$champInitial['champVide'] && 
               !$champInitial['invalidInformation'] && !$champInitial['champVideName'] && !$champInitial['sameUserPassword']) {
         $typeSituation = 5;
-        echo 5;
+        //echo 5;
     } elseif (!$champInitial['champVideUser'] && $champInitial['champVidePassword'] && !$champInitial['badUser'] && isset($_POST['login'])) {
         $typeSituation = 6;
-        echo 6;
+        //echo 6;
     } elseif ($champInitial['champVideName'] && !$champInitial['champVidePassword'] && isset($_POST['signUp']) ) {
         $typeSituation = 7;
-        echo 7;
+        //echo 7;
     } elseif ($champInitial['champTropLong']) {
         $typeSituation = 8;
-        echo 8;
+        //echo 8;
     } elseif ($champInitial['invalidInformation'] && !$champInitial['champVideName'] && !$champInitial['champVide'] ) {
         $typeSituation = 9;
-        echo 9;
+        //echo 9;
     } elseif ($champInitial['sameUserPassword'] && isset($_POST['signUp']) && !$champInitial['champVideName'] && !$champInitial['champVide']) {
         $typeSituation = 10;
-        echo 10;
+        //echo 10;
     } elseif ($champInitial['champVideName'] && $champInitial['champVide'] && isset($_POST['signUp']) ){
         $typeSituation = 11;
-        echo 11;
+        //echo 11;
     } elseif ($champInitial['champVide'] && isset($_POST['login'])){
         $typeSituation = 12;
-        echo 12;
+        //echo 12;
     } elseif (!$champInitial['champVideUser'] && $champInitial['champVideName'] && $champInitial['champVideName'] && isset($_POST['signUp'])){
         $typeSituation = 13;
-        echo 13;
+        //echo 13;
+    } elseif ($champInitial['creationUserSuccess'] && isset($_POST['signUp'])){
+        $typeSituation = 14;
     }
 
 
@@ -221,6 +227,58 @@ function situation($champInitial) {
 }
 
 function creationUser($champInitial, $connMYSQL) {
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user from login_organisateur where user =? ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champInitial['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $row_cnt = $result->num_rows;
+
+    /* close statement and connection */
+    $stmt->close();    
+
+    if ($row_cnt == 1) {
+        $champInitial['duplicatUser'] = true;
+        return $champInitial;
+    } else {
+        $passwordCrypter = encryptementPassword($champInitial['password']);
+        $nameFormate = ucfirst($champInitial['name']); 
+
+        // Prepare an insert statement
+        $sql = "INSERT INTO login_organisateur (user, password, name) VALUES (?,?,?)";
+        $stmt = $connMYSQL->prepare($sql);
+
+        // Bind variables to the prepared statement as parameters
+        $stmt->bind_param('sss', $champInitial['user'], $passwordCrypter, $nameFormate);
+        $stmt->execute();
+
+        if ($stmt->affected_rows == 1){
+            $champInitial['creationUserSuccess'] = true;
+        }    
+
+        // Close statement
+        $stmt->close();
+
+
+
+
+
+
+
+
+        //$insert = "INSERT INTO login_organisateur (user, password, name, idUser) VALUES ";
+        //$insert .= "('".$champInitial['user']."', '".$passwordCrypter."', '".$nameFormate."', NULL)";
+        //$connMYSQL->query($insert);
+        return $champInitial;
+
+    }
+    /*
     $sql = "select user from login_organisateur";
     $result = $connMYSQL->query($sql);
     foreach ($result as $row) {
@@ -229,12 +287,7 @@ function creationUser($champInitial, $connMYSQL) {
             return $champInitial;
         }
     }
-    $nameFormate = ucfirst($champInitial['name']); 
-    $passwordCrypter = encryptementPassword($champInitial['password']);
-    $insert = "INSERT INTO login_organisateur (user, password, name, idUser) VALUES ";
-    $insert .= "('".$champInitial['user']."', '".$passwordCrypter."', '".$nameFormate."', NULL)";
-    $connMYSQL->query($insert);
-    return $champInitial;
+    */   
 }
 
 function encryptementPassword(string $password) {

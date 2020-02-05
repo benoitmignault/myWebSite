@@ -265,29 +265,8 @@ function creationUser($champInitial, $connMYSQL) {
         // Close statement
         $stmt->close();
 
-
-
-
-
-
-
-
-        //$insert = "INSERT INTO login_organisateur (user, password, name, idUser) VALUES ";
-        //$insert .= "('".$champInitial['user']."', '".$passwordCrypter."', '".$nameFormate."', NULL)";
-        //$connMYSQL->query($insert);
         return $champInitial;
-
     }
-    /*
-    $sql = "select user from login_organisateur";
-    $result = $connMYSQL->query($sql);
-    foreach ($result as $row) {
-        if ($row['user'] === $champInitial['user']) {
-            $champInitial['duplicatUser'] = true;
-            return $champInitial;
-        }
-    }
-    */   
 }
 
 function encryptementPassword(string $password) {
@@ -297,25 +276,37 @@ function encryptementPassword(string $password) {
 }
 
 function connexionUser($champInitial, $connMYSQL) {
-    $sql = "select user, password from login_organisateur";
-    $result = $connMYSQL->query($sql);
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login_organisateur where user =? ");
 
-    foreach ($result as $row) {
-        if ($row['user'] === $champInitial['user']) {
-            if (password_verify($champInitial['password'], $row['password'])) {
-                session_start();
-                $_SESSION['user'] = $champInitial['user'];
-                $_SESSION['password'] = $champInitial['password'];
-                $_SESSION['typeLangue'] = $champInitial["typeLangue"];
-                header("Location: ./organisateur/organisateur.php");
-                exit;   
-            } else {
-                $champInitial['badPassword'] = true;
-                return $champInitial;
-            }
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champInitial['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $row = $result->fetch_array(MYSQLI_ASSOC);  
+    $row_cnt = $result->num_rows;
+
+    /* close statement and connection */
+    $stmt->close();    
+
+    if ($row_cnt == 1){
+        if (password_verify($champInitial['password'], $row['password'])) {
+            session_start();
+            $_SESSION['user'] = $champInitial['user'];
+            $_SESSION['password'] = $champInitial['password'];
+            $_SESSION['typeLangue'] = $champInitial["typeLangue"];
+            header("Location: ./organisateur/organisateur.php");
+            exit;   
+        } else {
+            $champInitial['badPassword'] = true;
         }
+    } else {
+        $champInitial['badUser'] = true;
     }
-    $champInitial['badUser'] = true;
     return $champInitial;
 }
 

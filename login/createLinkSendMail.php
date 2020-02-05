@@ -44,6 +44,7 @@ function traductionSituation($champs){
             case 4 : $message = "Le courriel saisie n'existe pas dans nos informations !"; break; 
             case 5 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break; 
             case 6 : $message = "Dans les prochains instant, vous allez recevoir le courriel de réinitialisation avec toutes les informations nécessaire !"; break; 
+            case 7 : $message = "Erreur Système au moment d'envoyer le courriel !"; break; 
         }
     } elseif ($champs["typeLangue"] === 'english') {
         switch ($champs['situation']) {
@@ -53,6 +54,7 @@ function traductionSituation($champs){
             case 4 : $message = "The entered email does not exist in our information !"; break; 
             case 5 : $message = "A communication / manipulation error occurred when sending you the email !"; break; 
             case 6 : $message = "In the next few moments, you will receive the reset email with all the necessary information !"; break; 
+            case 7 : $message = "System error when sending email !"; break;     
         }
     }
     return $message;
@@ -111,6 +113,8 @@ function situation($champs){
         $typeSituation = 5; 
     } elseif ($champs['envoiCourrielSucces']){
         $typeSituation = 6; 
+    } elseif (!$champs['envoiCourrielSucces']){
+        $typeSituation = 7; 
     } 
 
     return $typeSituation;
@@ -180,7 +184,7 @@ function creationLink($champs, $connMYSQL){
                 } elseif ($champs["typeLangue"] === 'english') {
                     $lien = "Link to change your password";
                 }
-                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";
+                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";                
                 $elementCourriel = preparationEmail($champs);
                 $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                
                 if ($succes) {

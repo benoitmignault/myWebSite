@@ -247,9 +247,24 @@ function situation($champs, $valid_Champ) {
 }
 
 function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
-    $sql = "SELECT * FROM $table WHERE $champ = $valeur and user = $user";
-    $result = $connMYSQL->query($sql);
-    if ($result->num_rows > 0){
+    // En fonction des contraintes de PHP, je ne peux pas saisir le nom d ela table et le champ dans la préparation car de ne sont pas des types - 2020-02-04
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("SELECT * FROM $table WHERE $champ =? and user =? ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("is", $valeur, $user);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();      
+    $row_cnt = $result->num_rows;
+
+    /* close statement and connection */
+    $stmt->close();    
+    
+    if ($row_cnt > 0){
         return true;
     } else {
         return false;

@@ -221,16 +221,33 @@ function affichage_nom_organisateur($connMYSQL, $champs){
     
 function creation_tableau($connMYSQL, $champs){
     $tableau = "";
-    $sql = "SELECT amount, color_english FROM amount_color where user = '{$champs['user']}' order by amount";
-    $result = $connMYSQL->query($sql);   
-    if ($result->num_rows > 0){
+    
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("SELECT amount, color_english FROM amount_color where user =? order by amount ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */ 
+    $result = $stmt->get_result();
+    
+    $row_cnt = $result->num_rows;
+ 
+    // Close statement
+    $stmt->close();    
+    
+    if ($row_cnt > 0){
         if ($champs["typeLangue"] == "francais"){
             $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Valeur</th><th>Couleur</th></tr></thead>";
         } elseif ($champs["typeLangue"] == "english") {
             $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Value</th><th>Color</th></tr></thead>";
         }    
         $tableau .= "<tbody>";
-        foreach ($result as $row) {
+        
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)){
             $tableau .= "<tr><td class=\"colorModifie\">{$row['amount']}</td> <td class=\"{$row['color_english']}\"></td> </tr>";
         }
         $tableau .= "</tbody></table>";

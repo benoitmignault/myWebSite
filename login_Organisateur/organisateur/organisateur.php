@@ -106,13 +106,26 @@ function remplissageChamps($champs, $connMYSQL) {
     if (isset($_SESSION['typeLangue'])){
         $champs["typeLangue"] = $_SESSION['typeLangue'];
     }
+
     if (isset($_SESSION['user'])){
         $champs["user"] = $_SESSION['user'];
-        // Comme j'ai instauré une foreign key entre la table mise_small_big vers login_organisateur je dois aller récupérer Iduser pour l'insérer avec la nouvelle combinaison
-        $sql = "select idUser from login_organisateur where user = '{$champs["user"]}' ";                
-        $result_SQL = $connMYSQL->query($sql);
-        $row = $result_SQL->fetch_row(); // C'est mon array de résultat
-        $champs["idUser"] = (int) $row[0];	// Assignation de la valeur 
+
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("select idUser from login_organisateur where user =? ");
+
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $champs["user"]);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+
+        $row = $result->fetch_array(MYSQLI_ASSOC);    
+        $champs["idUser"] = $row["idUser"];	// Assignation de la valeur 
+        // Close statement
+        $stmt->close(); 
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -134,7 +147,7 @@ function remplissageChamps($champs, $connMYSQL) {
 function validation($champs, $valid_Champ, $connMYSQL) {
     $valeurNumerique = "#^[0-9]{1}([0-9]{0,4})[0-9]{0,1}$#";
     $user = "\"" . $champs['user'] . "\"";
-    
+
     if (isset($_POST['btn_addValeurCouleur'])){
         $longueurValeur = strlen($champs['valeur']);             
         if ($champs["valeur"] === ""){
@@ -376,19 +389,19 @@ function reset_champs($champs){
 
 function connexionBD() {
     // Nouvelle connexion sur hébergement du Studio OL
-    
+
     /*
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 */
-    
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'"); // ceci permet d,avoir des accents affiché sur la page web ! 
 

@@ -3,17 +3,19 @@ header("Content-type: application/json; charset=utf-8");
 
 function connexionBD() {
     // Nouvelle connexion sur hébergement du Studio OL
+
+    /*
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
+*/
 
-    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
 
     $connMYSQL->query("set names 'utf8'"); // ceci permet d'avoir des accents affiché sur la page web !
@@ -79,17 +81,31 @@ function remplissageChamps($champs){
 function selection_small_big_blind($connMYSQL, $champs){
     // Au moment arriver ici, la combinaison est aumenter précédament dans l'autre fonction
     $result_double_dimention = [];
-    $sql = "SELECT small, big FROM mise_small_big where user = '{$champs['user']}' order by small";
-    $result = $connMYSQL->query($sql);  
 
-    if ($result->num_rows > 0){ 
-        foreach ($result as $row) {
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("SELECT small, big FROM mise_small_big where user =? order by small ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */ 
+    $result = $stmt->get_result();    
+    $row_cnt = $result->num_rows;
+
+    // Close statement
+    $stmt->close();
+
+    if ($row_cnt > 0){
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)){
             // On insère tous les couples small et big dans le tableau double dimensions
             $couple = ["small" => $row['small'], "big" => $row['big']];  
             $result_double_dimention[] = $couple;
-        }
+        }        
         // le nombre de la ligne est toujours pareil
-        $nbLignes = $result->num_rows;
+        $nbLignes = $row_cnt;
         if ($champs['combinaison'] <= $nbLignes){
             foreach ($result_double_dimention as $couple => $value){
                 // On passe en revue toutes les combinaisons et lorsque nous arrivons à celle que nous voulons afficher on stock les données dans les deux variables
@@ -109,6 +125,7 @@ function selection_small_big_blind($connMYSQL, $champs){
     } elseif ($result->num_rows == 0){ 
         $champs['aucune_valeur'] = true;
     } 
+
     return $champs;
 }
 

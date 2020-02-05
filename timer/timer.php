@@ -187,7 +187,6 @@ function liste_Organisateurs($connMYSQL, $champs, $arrayMots){
     return $liste_Organisateurs;
 }
 
-
 function affichage_nom_organisateur($connMYSQL, $champs){
     $prenom = "";    
     /* Crée une requête préparée */
@@ -211,7 +210,6 @@ function affichage_nom_organisateur($connMYSQL, $champs){
     }
     return $prenom;
 }
-
 
 function creation_tableau($connMYSQL, $champs){
     $tableau = "";

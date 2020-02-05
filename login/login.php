@@ -282,45 +282,58 @@ function encryptementPassword(string $password) {
 }
 
 function connexionUser($champs, $connMYSQL) {
-    $sql = "select user, password from login";
-    $result = $connMYSQL->query($sql);
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login where user =? ");
 
-    foreach ($result as $row) {
-        if ($row['user'] === $champs['user']) {
-            if (password_verify($champs['password'], $row['password'])) {
-                session_start();
-                $_SESSION['user'] = $champs['user'];
-                $_SESSION['password'] = $champs['password'];
-                $_SESSION['typeLangue'] = $champs["typeLangue"];                
-                date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
-                // Je set un cookie pour améliorer la sécurité pour vérifier que l'user est bien là...2018-12-28
-                setcookie("POKER", $_SESSION['user'], time() + 3600, "/");                
-                $date = date("Y-m-d H:i:s");
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs['user']);
 
-                if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/admin.php");
-                } else {
-                    // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
-                    // Prepare an insert statement
-                    $sql = "INSERT INTO login_stat_poker (user,date,idCreationUser) VALUES (?,?,?)";
-                    $stmt = $connMYSQL->prepare($sql);
+    /* Exécution de la requête */
+    $stmt->execute();
 
-                    // Bind variables to the prepared statement as parameters
-                    $stmt->bind_param('ssi', $champs['user'], $date, $champs['idCreationUser']);
-                    $stmt->execute();                    
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $row = $result->fetch_array(MYSQLI_ASSOC);  
+    $row_cnt = $result->num_rows;
 
-                    // Close statement
-                    $stmt->close();
-                    header("Location: ./statsPoker/poker.php");
-                }
-                exit;
+    /* close statement and connection */
+    $stmt->close();   
+
+    if ($row_cnt == 1){
+        if (password_verify($champs['password'], $row['password'])) {
+            session_start();
+            $_SESSION['user'] = $champs['user'];
+            $_SESSION['password'] = $champs['password'];
+            $_SESSION['typeLangue'] = $champs["typeLangue"];                
+            date_default_timezone_set('America/New_York'); 
+            // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
+            // Je set un cookie pour améliorer la sécurité pour vérifier que l'user est bien là...2018-12-28
+            setcookie("POKER", $_SESSION['user'], time() + 3600, "/");                
+            $date = date("Y-m-d H:i:s");
+
+            if ($row['user'] === "admin") {
+                header("Location: ./statsPoker/administration/admin.php");
             } else {
-                $champs['badPassword'] = true;
-                return $champs;
+                // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
+                // Prepare an insert statement
+                $sql = "INSERT INTO login_stat_poker (user,date,idCreationUser) VALUES (?,?,?)";
+                $stmt = $connMYSQL->prepare($sql);
+
+                // Bind variables to the prepared statement as parameters
+                $stmt->bind_param('ssi', $champs['user'], $date, $champs['idCreationUser']);
+                $stmt->execute();                    
+
+                // Close statement
+                $stmt->close();
+                header("Location: ./statsPoker/poker.php");
             }
+            exit;
+        } else {
+            $champs['badPassword'] = true;
         }
+    } else {
+        $champs['badUser'] = true;
     }
-    $champs['badUser'] = true;
     return $champs;
 }
 

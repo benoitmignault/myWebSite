@@ -420,16 +420,11 @@ function delete_BD_valeur_couleur($connMYSQL, $champs){
     $result = $stmt->execute();
     // Close statement
     $stmt->close();
-    
+
     return $result;
 }
 
 function delete_BD_petite_grosse_mise($connMYSQL, $champs){
-    //$user = "\"" . $champs['user'] . "\"";
-    //$id = $champs["idPetiteGrosse"];
-    //$delete = "DELETE FROM mise_small_big WHERE user = $user and id_valeur = $id";
-    //$result = $connMYSQL->query($delete);
-    
     // Prepare an insert statement
     $stmt = $connMYSQL->prepare("DELETE FROM mise_small_big WHERE user =? and id_valeur =? ");  
     // Bind variables to the prepared statement as parameters
@@ -437,15 +432,7 @@ function delete_BD_petite_grosse_mise($connMYSQL, $champs){
     $result = $stmt->execute();
     // Close statement
     $stmt->close();
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     return $result;
 }
 
@@ -478,19 +465,27 @@ function connexionBD() {
 }
 
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from login_organisateur WHERE user = '{$_SESSION['user']}'";
-    $result = $connMYSQL->query($sql);
-    if ($result->num_rows > 0){
-        foreach ($result as $row) {
-            if ($row['user'] === $_SESSION['user']) {
-                if (password_verify($_SESSION['password'], $row['password'])) {
-                    return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
-                }
-            }        
+    // Optimisation de la vérification si le user existe dans la BD
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login_organisateur WHERE user =? ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $_SESSION['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $stmt->close();
+    if ($result->num_rows == 1){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        if (password_verify($_SESSION['password'], $row['password'])) {
+            return true; // Si le password est bon, on retourne vrai
         }
-    } else {
-        return false;
-    }
+
+    } 
+    return false;
 }
 
 function redirection($champs) {  

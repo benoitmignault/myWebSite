@@ -387,10 +387,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['login'])) {
             //////////////// Ceci est juste si je fais une connexion
             // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-            $sql = "select id from login where user = '{$champs["user"]}' ";                
-            $result_SQL = $connMYSQL->query($sql);
-            $row = $result_SQL->fetch_row(); // C'est mon array de résultat
-            $champs["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 
+            /* Crée une requête préparée */
+            $stmt = $connMYSQL->prepare("select id from login where user =?");
+
+            /* Lecture des marqueurs */
+            $stmt->bind_param("s", $champs["user"]);
+
+            /* Exécution de la requête */
+            $stmt->execute();
+
+            /* Association des variables de résultat */
+            $result = $stmt->get_result();
+
+            $row = $result->fetch_array(MYSQLI_ASSOC);  
+            
+            // Close statement
+            $stmt->close();
+            
+            $champs["idCreationUser"] = $row["id"];	// Assignation de la valeur
             $champs = verifChamp($champs, $connMYSQL);
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] ) {
                 $champs = connexionUser($champs, $connMYSQL);

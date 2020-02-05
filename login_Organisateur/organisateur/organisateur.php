@@ -249,7 +249,7 @@ function situation($champs, $valid_Champ) {
 function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
     /* Crée une requête préparée */ 
     $stmt = $connMYSQL->prepare("SELECT * FROM $table WHERE $champ =? and user =? "); 
-    
+
     /* Lecture des marqueurs */
     $stmt->bind_param("is", $valeur, $user);
 
@@ -261,7 +261,7 @@ function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
     $row_cnt = $result->num_rows;
     // Close statement
     $stmt->close();   
-    
+
     if ($row_cnt > 0){
         return true;
     } else {
@@ -270,8 +270,9 @@ function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
 }
 
 function nb_couleur_restant($connMYSQL, $champs){
+    // Impossible de récupérer la valeur avec une requete prepare à l'avance avec des placeholders
     $sql = "SELECT * FROM color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
-    $result = $connMYSQL->query($sql);    
+    $result = $connMYSQL->query($sql); 
     if ($result->num_rows > 0){
         $champs["nbCouleurRestant"] = $result->num_rows;
     }
@@ -279,6 +280,7 @@ function nb_couleur_restant($connMYSQL, $champs){
 }
 
 function choix_couleur_restant($connMYSQL, $champs){
+    // Impossible de récupérer la valeur avec une requete prepare à l'avance avec des placeholders
     $choixDesOption = "";    
     $sql = "SELECT * FROM color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
     $result = $connMYSQL->query($sql);    
@@ -306,16 +308,30 @@ function choix_couleur_restant($connMYSQL, $champs){
 
 function tableau_valeur_couleur($connMYSQL, $champs){
     $tableau = "";
-    $sql = "SELECT * FROM amount_color where user = '{$champs['user']}' ORDER BY amount";
-    $result = $connMYSQL->query($sql);    
-    if ($result->num_rows > 0){
+
+    /* Crée une requête préparée */ 
+    $stmt = $connMYSQL->prepare("SELECT * FROM amount_color where user =? ORDER BY amount "); 
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result(); 
+    $row_cnt = $result->num_rows;
+    // Close statement
+    $stmt->close();   
+
+    if ($row_cnt > 0){
         if ($champs["typeLangue"] == "francais"){
             $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr> <th>Valeur</th> <th>Couleur</th> <th></th> </tr> </thead>";
         } elseif ($champs["typeLangue"] == "english") {
             $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr> <th>Value</th> <th>Color</th> <th></th> </tr> </thead>";
         }    
-        $tableau .= "<tbody>";
-        foreach ($result as $row) {
+        $tableau .= "<tbody>";        
+        while($row = $result->fetch_array(MYSQLI_ASSOC)){
             $tableau .= "
             <tr> <td>{$row['amount']}</td> <td class=\"{$row['color_english']}\"></td> 
                 <td class=\"delete\"> 
@@ -326,7 +342,7 @@ function tableau_valeur_couleur($connMYSQL, $champs){
                 </td> 
             </tr>";
             // Pour la 3e partie de la ligne, nous insérons un tableau, dans l'éventualité qu'on devra détruire la ligne du tableau
-        }
+        }        
         $tableau .= "</tbody></table>";
     }
     return $tableau;

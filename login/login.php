@@ -385,7 +385,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $connMYSQL = connexionBD();   
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['login'])) {
-            //////////////// Ceci est juste si je fais une connexion
             // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
             /* Crée une requête préparée */
             $stmt = $connMYSQL->prepare("select id from login where user =?");

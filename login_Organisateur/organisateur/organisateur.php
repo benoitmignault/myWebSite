@@ -390,10 +390,33 @@ function tableau_petite_grosse($connMYSQL, $champs){
 
 function insert_BD_valeur_couleur($connMYSQL, $champs){
     // Prepare an insert statement
-    $sql = "INSERT INTO amount_color (user, amount, color_english, id_user) VALUES (?,?,?,?)";
-    $stmt = $connMYSQL->prepare($sql);  
+    $stmt = $connMYSQL->prepare("INSERT INTO amount_color (user, amount, color_english, id_user) VALUES (?,?,?,?)");  
     // Bind variables to the prepared statement as parameters
     $stmt->bind_param('sisi', $champs['user'], intval($champs["valeur"]), $champs["couleur"], $champs["idUser"]);
+    $result = $stmt->execute();
+    // Close statement
+    $stmt->close();
+
+    return $result;
+}
+
+function insert_BD_petite_grosse_mise($connMYSQL, $champs){  
+    // Prepare an insert statement
+    $stmt = $connMYSQL->prepare("INSERT INTO mise_small_big (user, small, big, id_user) VALUES (?,?,?,?)");  
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('siii', $champs['user'], intval($champs["small"]), intval($champs["big"]), $champs["idUser"]);
+    $result = $stmt->execute();
+    // Close statement
+    $stmt->close();
+
+    return $result;
+}
+
+function delete_BD_valeur_couleur($connMYSQL, $champs){
+    // Prepare an insert statement
+    $stmt = $connMYSQL->prepare("DELETE FROM amount_color WHERE user =? and id_couleur =? ");  
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('si', $champs['user'],$champs["idCouleur"]);
     $result = $stmt->execute();
     // Close statement
     $stmt->close();
@@ -401,28 +424,28 @@ function insert_BD_valeur_couleur($connMYSQL, $champs){
     return $result;
 }
 
-function insert_BD_petite_grosse_mise($connMYSQL, $champs){  
-    $small = intval($champs["small"]);  
-    $big = intval($champs["big"]);  
-    $insert = "INSERT INTO mise_small_big (user, small, big, id_valeur, id_user) VALUES ";
-    $insert .= "('" . $champs["user"] . "','" . $small . "','" . $big . "', NULL , '" . $champs["idUser"] . "')";
-    $result = $connMYSQL->query($insert); 
-    return $result;
-}
-
-function delete_BD_valeur_couleur($connMYSQL, $champs){
-    $user = "\"" . $champs['user'] . "\"";
-    $id = $champs["idCouleur"];
-    $delete = "DELETE FROM amount_color WHERE user = $user and id_couleur = $id";
-    $result = $connMYSQL->query($delete);  
-    return $result;
-}
-
 function delete_BD_petite_grosse_mise($connMYSQL, $champs){
-    $user = "\"" . $champs['user'] . "\"";
-    $id = $champs["idPetiteGrosse"];
-    $delete = "DELETE FROM mise_small_big WHERE user = $user and id_valeur = $id";
-    $result = $connMYSQL->query($delete);
+    //$user = "\"" . $champs['user'] . "\"";
+    //$id = $champs["idPetiteGrosse"];
+    //$delete = "DELETE FROM mise_small_big WHERE user = $user and id_valeur = $id";
+    //$result = $connMYSQL->query($delete);
+    
+    // Prepare an insert statement
+    $stmt = $connMYSQL->prepare("DELETE FROM mise_small_big WHERE user =? and id_valeur =? ");  
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('si', $champs['user'],$champs["idPetiteGrosse"]);
+    $result = $stmt->execute();
+    // Close statement
+    $stmt->close();
+    
+    
+    
+    
+    
+    
+    
+    
+    
     return $result;
 }
 

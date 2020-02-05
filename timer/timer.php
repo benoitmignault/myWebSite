@@ -54,7 +54,7 @@ function message_Situation($champs){
 }
 
 function initialisation_Champs() {
-    $champs = ["typeLangue" => "", "user" => "",/*"nom_organisateur" => "",*/"situation" => 0, "combinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucune_valeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255]; 
+    $champs = ["typeLangue" => "", "user" => "", "nom_organisateur" => "", "situation" => 0, "combinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucune_valeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255]; 
     return $champs;
 }
 
@@ -187,41 +187,35 @@ function liste_Organisateurs($connMYSQL, $champs, $arrayMots){
     return $liste_Organisateurs;
 }
 
-/*
+
 function affichage_nom_organisateur($connMYSQL, $champs){
     $prenom = "";    
-    /* Crée une requête préparée 
+    /* Crée une requête préparée */
     $stmt = $connMYSQL->prepare("SELECT name FROM login_organisateur where user =? ");
 
-    /* Lecture des marqueurs 
+    /* Lecture des marqueurs */
     $stmt->bind_param("s", $champs['user']);
 
-    /* Exécution de la requête
+    /* Exécution de la requête */
     $stmt->execute();
 
-    /* Association des variables de résultat 
+    /* Association des variables de résultat */ 
     $result = $stmt->get_result();
 
     $row = $result->fetch_array(MYSQLI_ASSOC); 
     // Close statement
-    $stmt->close();
+    $stmt->close();    
 
-    
-    
-    //$sql = "SELECT name FROM login_organisateur where user = '{$champs['user']}'";
-    //$result = $connMYSQL->query($sql);   
-    //if ($result->num_rows > 0){
-        //foreach ($result as $row) {
-            //$prenom = $row['name'];
-        //}
-    //}
-    //return $prenom;
-//}
-*/
-    
+    if ($result->num_rows > 0){
+        $prenom = $row['name'];
+    }
+    return $prenom;
+}
+
+
 function creation_tableau($connMYSQL, $champs){
     $tableau = "";
-    
+
     /* Crée une requête préparée */
     $stmt = $connMYSQL->prepare("SELECT amount, color_english FROM amount_color where user =? order by amount ");
 
@@ -232,13 +226,12 @@ function creation_tableau($connMYSQL, $champs){
     $stmt->execute();
 
     /* Association des variables de résultat */ 
-    $result = $stmt->get_result();
-    
+    $result = $stmt->get_result();    
     $row_cnt = $result->num_rows;
- 
+
     // Close statement
     $stmt->close();    
-    
+
     if ($row_cnt > 0){
         if ($champs["typeLangue"] == "francais"){
             $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Valeur</th><th>Couleur</th></tr></thead>";
@@ -246,7 +239,7 @@ function creation_tableau($connMYSQL, $champs){
             $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Value</th><th>Color</th></tr></thead>";
         }    
         $tableau .= "<tbody>";
-        
+
         while ($row = $result->fetch_array(MYSQLI_ASSOC)){
             $tableau .= "<tr><td class=\"colorModifie\">{$row['amount']}</td> <td class=\"{$row['color_english']}\"></td> </tr>";
         }
@@ -258,17 +251,31 @@ function creation_tableau($connMYSQL, $champs){
 function selection_small_big_blind($connMYSQL, $champs){
     // Au moment arriver ici, la combinaison est aumenter précédament dans l'autre fonction
     $result_double_dimention = [];
-    $sql = "SELECT small, big FROM mise_small_big where user = '{$champs['user']}' order by small";
-    $result = $connMYSQL->query($sql);  
 
-    if ($result->num_rows > 0){ 
-        foreach ($result as $row) {
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("SELECT small, big FROM mise_small_big where user =? order by small ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */ 
+    $result = $stmt->get_result();    
+    $row_cnt = $result->num_rows;
+
+    // Close statement
+    $stmt->close();
+
+    if ($row_cnt > 0){
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)){
             // On insère tous les couples small et big dans le tableau double dimensions
             $couple = ["small" => $row['small'], "big" => $row['big']];  
             $result_double_dimention[] = $couple;
-        }
+        }        
         // le nombre de la ligne est toujours pareil
-        $nbLignes = $result->num_rows;
+        $nbLignes = $row_cnt;
         if ($champs['combinaison'] <= $nbLignes){
             foreach ($result_double_dimention as $couple => $value){
                 // On passe en revue toutes les combinaisons et lorsque nous arrivons à celle que nous voulons afficher on stock les données dans les deux variables
@@ -309,19 +316,19 @@ function redirection($champs) {
 
 function connexionBD() {
     // Nouvelle connexion sur hébergement du Studio OL
-    
+
     /*
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 */
-    
+
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'"); // ceci permet d'avoir des accents affiché sur la page web !
     return $connMYSQL;
@@ -358,7 +365,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($champs['situation'] === 1){
                 echo "<script>alert('".$arrayMots['message']."')</script>";
             } else {
-                //$champs['nom_organisateur'] = affichage_nom_organisateur($connMYSQL, $champs);
+                $champs['nom_organisateur'] = affichage_nom_organisateur($connMYSQL, $champs);
                 $tableau_valeur_couleur = creation_tableau($connMYSQL, $champs);
                 if ($tableau_valeur_couleur === ""){ 
                     $msgErr = "";                

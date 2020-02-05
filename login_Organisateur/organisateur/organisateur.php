@@ -146,7 +146,7 @@ function remplissageChamps($champs, $connMYSQL) {
 
 function validation($champs, $valid_Champ, $connMYSQL) {
     $valeurNumerique = "#^[0-9]{1}([0-9]{0,4})[0-9]{0,1}$#";
-    $user = "\"" . $champs['user'] . "\"";
+    //$user = "\"" . $champs['user'] . "\"";
 
     if (isset($_POST['btn_addValeurCouleur'])){
         $longueurValeur = strlen($champs['valeur']);             
@@ -162,7 +162,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if ($longueurValeur > 6){
             $valid_Champ['valeur_long_inval'] = true;
         }        
-        $valid_Champ['doublon_valeur'] = verification_doublon("amount_color", "amount", intval($champs["valeur"]), $user, $connMYSQL);
+        $valid_Champ['doublon_valeur'] = verification_doublon("amount_color", "amount", intval($champs["valeur"]), $champs['user'], $connMYSQL);
         // fin de la vérification avec le bouton des Valeur / Couleur
     } elseif (isset($_POST['btn_addSmallBig'])){
         $small = intval($champs["small"]);
@@ -194,8 +194,8 @@ function validation($champs, $valid_Champ, $connMYSQL) {
             $valid_Champ['big_invalide'] = true;
         }
 
-        $valid_Champ['doublon_small'] = verification_doublon("mise_small_big", "small", $small, $user, $connMYSQL);
-        $valid_Champ['doublon_big'] = verification_doublon("mise_small_big", "big", $big, $user, $connMYSQL);
+        $valid_Champ['doublon_small'] = verification_doublon("mise_small_big", "small", $small, $champs['user'], $connMYSQL);
+        $valid_Champ['doublon_big'] = verification_doublon("mise_small_big", "big", $big, $champs['user'], $connMYSQL);
         // fin de la vérification avec le bouton des petites / grosses mises        
     } 
     return $valid_Champ;
@@ -247,9 +247,22 @@ function situation($champs, $valid_Champ) {
 }
 
 function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
-    $sql = "SELECT * FROM $table WHERE $champ = $valeur and user = $user";
-    $result = $connMYSQL->query($sql);
-    if ($result->num_rows > 0){
+    /* Crée une requête préparée */ 
+    $stmt = $connMYSQL->prepare("SELECT * FROM $table WHERE $champ =? and user =? "); 
+    
+    /* Lecture des marqueurs */
+    $stmt->bind_param("is", $valeur, $user);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result(); 
+    $row_cnt = $result->num_rows;
+    // Close statement
+    $stmt->close();   
+    
+    if ($row_cnt > 0){
         return true;
     } else {
         return false;

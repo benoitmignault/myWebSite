@@ -308,7 +308,6 @@ function choix_couleur_restant($connMYSQL, $champs){
 
 function tableau_valeur_couleur($connMYSQL, $champs){
     $tableau = "";
-
     /* Crée une requête préparée */ 
     $stmt = $connMYSQL->prepare("SELECT * FROM amount_color where user =? ORDER BY amount "); 
 
@@ -349,17 +348,30 @@ function tableau_valeur_couleur($connMYSQL, $champs){
 }
 
 function tableau_petite_grosse($connMYSQL, $champs){
-    $tableau = "";
-    $sql = "SELECT * FROM mise_small_big where user = '{$champs['user']}' ORDER BY small, big";
-    $result = $connMYSQL->query($sql);    
-    if ($result->num_rows > 0){
+    $tableau = "";    
+    /* Crée une requête préparée */ 
+    $stmt = $connMYSQL->prepare("SELECT * FROM mise_small_big where user =? ORDER BY small, big "); 
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result(); 
+    $row_cnt = $result->num_rows;
+    // Close statement
+    $stmt->close();   
+
+    if ($row_cnt > 0){
         if ($champs["typeLangue"] == "francais"){
             $tableau .= "<table class=\"tblValeurCouleur\"><thead> <tr> <th>Petite</th> <th>Grosse</th> <th></th> </tr> </thead>";
         } elseif ($champs["typeLangue"] == "english") {
             $tableau .= "<table class=\"tblValeurCouleur\"><thead> <tr> <th>Small</th> <th>Big</th> <th></th> </tr> </thead>";
         } 
         $tableau .= "<tbody>";
-        foreach ($result as $row) {
+        while($row = $result->fetch_array(MYSQLI_ASSOC)){
             $tableau .= "
             <tr> <td>{$row['small']}</td> <td>{$row['big']}</td> 
                 <td class=\"delete\"> 
@@ -370,7 +382,7 @@ function tableau_petite_grosse($connMYSQL, $champs){
                 </td> 
             </tr>";
             // Pour la 3e partie de la ligne, nous insérons un tableau, dans l'éventualité qu'on devra détruire la ligne du tableau
-        }
+        } 
         $tableau .= "</tbody></table>";
     }
     return $tableau;
@@ -550,79 +562,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="<?php echo $arrayMots['lang']; ?>">
 
-<head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
-    <link rel="shortcut icon" href="organisateur.png">
-    <link rel="stylesheet" type="text/css" href="organisateur.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo $arrayMots['title']; ?></title>
-    <style>
-        body {
-            margin: 0;
-            /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ 
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
+        <link rel="shortcut icon" href="organisateur.png">
+        <link rel="stylesheet" type="text/css" href="organisateur.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><?php echo $arrayMots['title']; ?></title>
+        <style>
+            body {
+                margin: 0;
+                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ 
                 sous licence libre */
-            background-image: url("organisateur.jpg");
-            background-position: center;
-            background-attachment: fixed;
-            background-size: 100%;
-        }
+                background-image: url("organisateur.jpg");
+                background-position: center;
+                background-attachment: fixed;
+                background-size: 100%;
+            }
 
-    </style>
-</head>
+        </style>
+    </head>
 
-<body>
-    <h1><?php echo $arrayMots['msg_welcome']; ?></h1>
-    <div class="container">
-        <div class="ajout_combinaison">
-            <h2><?php echo $arrayMots['h3_Ajouter']; ?></h2>
-            <form method="post" action="organisateur.php">
-                <div class='form_ajout_combinaison'>
+    <body>
+        <h1><?php echo $arrayMots['msg_welcome']; ?></h1>
+        <div class="container">
+            <div class="ajout_combinaison">
+                <h2><?php echo $arrayMots['h3_Ajouter']; ?></h2>
+                <form method="post" action="organisateur.php">
+                    <div class='form_ajout_combinaison'>
+                        <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
+                        <input maxlength="5" type="text" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled"; } ?> name="valeur" value="<?php echo $champs['valeur'] ?>">
+                        <select name="couleur">
+                            <option value="" selected><?php echo $arrayMots['option']; ?></option>
+                            <?php echo $choix_couleur_restant; ?>
+                        </select>
+                        <input class="bouton" type="submit" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled=\"disabled\""; } ?> name="btn_addValeurCouleur" value="<?php echo $arrayMots['btn_ajout']; ?>">
+                    </div>
+                </form>
+                <form method="post" action="organisateur.php">
+                    <div class='form_ajout_combinaison'>
+                        <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
+                        <input maxlength="6" type="text" name="small" value="<?php echo $champs['small'] ?>">
+                        <input maxlength="6" type="text" name="big" value="<?php echo $champs['big'] ?>">
+                        <input class="bouton" type="submit" name="btn_addSmallBig" value="<?php echo $arrayMots['btn_ajout']; ?>">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Utilisation nouvelle d'un bouton X : https://fr.pngtree.com/element/down?id=Mjc3NDkzMA==&type=1 -->
+            <div class="affiche_combinaison">
+                <h2><?php echo $arrayMots['h3_Affichage']; ?></h2>
+                <div class="form_affiche_combinaison">
                     <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
-                    <input maxlength="5" type="text" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled"; } ?> name="valeur" value="<?php echo $champs['valeur'] ?>">
-                    <select name="couleur">
-                        <option value="" selected><?php echo $arrayMots['option']; ?></option>
-                        <?php echo $choix_couleur_restant; ?>
-                    </select>
-                    <input class="bouton" type="submit" <?php if ($champs['nbCouleurRestant'] === 0) { echo "disabled=\"disabled\""; } ?> name="btn_addValeurCouleur" value="<?php echo $arrayMots['btn_ajout']; ?>">
+                    <div><?php echo $tableau_valeur_couleur; ?></div>
                 </div>
-            </form>
-            <form method="post" action="organisateur.php">
-                <div class='form_ajout_combinaison'>
+                <div class="form_affiche_combinaison">
                     <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                    <input maxlength="6" type="text" name="small" value="<?php echo $champs['small'] ?>">
-                    <input maxlength="6" type="text" name="big" value="<?php echo $champs['big'] ?>">
-                    <input class="bouton" type="submit" name="btn_addSmallBig" value="<?php echo $arrayMots['btn_ajout']; ?>">
+                    <div><?php echo $tableau_petite_grosse; ?></div>
                 </div>
-            </form>
-        </div>
-
-        <!-- Utilisation nouvelle d'un bouton X : https://fr.pngtree.com/element/down?id=Mjc3NDkzMA==&type=1 -->
-        <div class="affiche_combinaison">
-            <h2><?php echo $arrayMots['h3_Affichage']; ?></h2>
-            <div class="form_affiche_combinaison">
-                <h3><?php echo $arrayMots['valeur_couleur']; ?></h3>
-                <div><?php echo $tableau_valeur_couleur; ?></div>
             </div>
-            <div class="form_affiche_combinaison">
-                <h3><?php echo $arrayMots['petit_grosse_mise']; ?></h3>
-                <div><?php echo $tableau_petite_grosse; ?></div>
+
+            <div class="retour">
+                <form method="post" action="organisateur.php">
+                    <div class="form_retour">
+                        <div class="btn_footer">
+                            <input class="bouton" type="submit" name="timer" value="<?php echo $arrayMots['btn_timer']; ?>">
+                        </div>
+                        <div class="btn_footer">
+                            <input class="bouton" type="submit" name="home" value="<?php echo $arrayMots['btn_return']; ?>">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-
-        <div class="retour">
-            <form method="post" action="organisateur.php">
-                <div class="form_retour">
-                    <div class="btn_footer">
-                        <input class="bouton" type="submit" name="timer" value="<?php echo $arrayMots['btn_timer']; ?>">
-                    </div>
-                    <div class="btn_footer">
-                        <input class="bouton" type="submit" name="home" value="<?php echo $arrayMots['btn_return']; ?>">
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</body>
+    </body>
 
 </html>

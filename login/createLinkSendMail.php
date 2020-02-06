@@ -65,36 +65,40 @@ function verifChamp($champs, $connMYSQL) {
     if (empty($_POST['email'])){
         $champs['champVide'] = true;
     } else {
-        /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("select user, email from login where email =? ");
-        /* Lecture des marqueurs */
-        $stmt->bind_param("s", $_POST['email']);
-        /* Exécution de la requête */
-        $stmt->execute();
-        /* Association des variables de résultat */
-        $result = $stmt->get_result();
-        $row_cnt = $result->num_rows;           
-        if ($row_cnt == 0){
-            $champs['emailExistePas'] = true;
-        } else {            
-            $row = $result->fetch_array(MYSQLI_ASSOC);
-            $champs["user"] = $row['user'];
-            $champs["email"] = $row['email'];
+        $champs['email'] = $_POST['email'];
+        $longueurEmail = strlen($champs['email']);    
+        if ($longueurEmail > 50){
+            $champs['champTropLong'] = true;
+        } 
+
+        $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
+        if (!preg_match($patternEmail, $_POST['email'])) {
+            $champs['champInvalid'] = true; 
+        } elseif (!(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))){
+            // Ajout de cette sécurité / 5 Février 2020
+            // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
+            $champs['champInvalid'] = true; 
+        } else {
+            /* Crée une requête préparée */
+            $stmt = $connMYSQL->prepare("select user, email from login where email =? ");
+            /* Lecture des marqueurs */
+            $stmt->bind_param("s", $_POST['email']);
+            /* Exécution de la requête */
+            $stmt->execute();
+            /* Association des variables de résultat */
+            $result = $stmt->get_result();
+            $row_cnt = $result->num_rows;           
+            if ($row_cnt == 0){
+                $champs['emailExistePas'] = true;
+            } else {            
+                $row = $result->fetch_array(MYSQLI_ASSOC);
+                $champs["user"] = $row['user'];
+                $champs["email"] = $row['email'];
+            }
+            /* close statement and connection */
+            $stmt->close();
         }
-        /* close statement and connection */
-        $stmt->close();
     }
-    $longueurEmail = strlen($champs['email']);    
-
-    if ($longueurEmail > 50){
-        $champs['champTropLong'] = true;
-    } 
-
-    $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-    if (!preg_match($patternEmail, $_POST['email'])) {
-        $champs['champInvalid'] = true; 
-    }  
-
     return $champs;
 }
 

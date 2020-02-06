@@ -266,39 +266,25 @@ function verif_link_BD($champs, $connMYSQL){
     /* Association des variables de résultat */
     $result = $stmt->get_result();
 
-    $row = $result->fetch_array(MYSQLI_ASSOC);    
-    $nb_result = (int) $row[0];	// Assignation de la valeur
     // Close statement
-    $stmt->close();
+    $stmt->close();    
 
-     ////// À VÉRIFDIER EN PROD !!!!!!!!!!!!!!!!!!!!    
-    
-    
-    if ($nb_result == 1){
+    if ($result->num_rows == 1){
         $champs["lien_Crypte_Good"] = true;
-    } 
-
-    //$sql = "select reset_link from login where reset_link = '{$champs["lien_Crypte"]}'";
-    //$connMYSQL->query($sql);
-    // Ici , le résultat doit etre absolument de 1 car sinon le link n'est pas valide
-    //if (mysqli_affected_rows($connMYSQL) == 1){
-    //    $champs["lien_Crypte_Good"] = true;
-    //}    
+    }  
     return $champs;
 }
 
 function changementPassword($champs, $connMYSQL){
     // Remise à NULL pour les 
-    $newPWDencrypt = encryptementPassword($champs["new_Password_1"]); 
+    $newPWDencrypt = encryptementPassword($champs["new_Password_1"]);     
 
-    
-    ////// À VÉRIFDIER EN PROD !!!!!!!!!!!!!!!!!!!!
-    
-    
     /* Crée une requête préparée */
     $stmt = $connMYSQL->prepare("update login set password =? , reset_link =? , passwordTemp =?, temps_Valide_link =? where reset_link =? ");
     /* Lecture des marqueurs */
-    $stmt->bind_param("sssis", $newPWDencrypt,"","","",0,$champs["lien_Crypte"]);
+    $zero = 0; // Je dois créer une variable qui va contenir la valeur 0
+    $stringVide = "";
+    $stmt->bind_param("sssis", $newPWDencrypt,$stringVide,$stringVide,$zero,$champs["lien_Crypte"]);
     /* Exécution de la requête */
     $stmt->execute();
     $row_cnt = $stmt->affected_rows;
@@ -307,22 +293,13 @@ function changementPassword($champs, $connMYSQL){
 
     if ($row_cnt == 1){
         $champs['creationUserSuccess'] = true;
+        // Remise à leur valeur initial, car le changement de mot de passe est terminé et le lien n'est plus valide
+        $champs['password_Temp'] = "";
+        $champs['new_Password_1'] = "";
+        $champs['new_Password_2'] = "";
+        $champs['lien_Crypte'] = "";
+        $champs['token_Time_Used'] = 0;
     } 
-
-
-
-
-    //$updateSQL = "update login set password = '{$newPWDencrypt}', reset_link = NULL, passwordTemp = NULL, temps_Valide_link = 0 where reset_link = '{$champs["lien_Crypte"]}'";
-    //$connMYSQL->query($updateSQL);    
-    //if (mysqli_affected_rows($connMYSQL) == 1){
-    //    $champs['creationUserSuccess'] = true;
-    //} 
-    // Remise à leur valeur initial, car le changement de mot d epasse est terminé et le lien n'est plus valide
-    $champs['password_Temp'] = "";
-    $champs['new_Password_1'] = "";
-    $champs['new_Password_2'] = "";
-    $champs['lien_Crypte'] = "";
-    $champs['token_Time_Used'] = 0;
     return $champs;
 }
 
@@ -357,13 +334,12 @@ function redirection($champs) {
 function connexionBD() {
     // Nouvelle connexion sur hébergement du Studio OL
 
-    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 
-/*
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";

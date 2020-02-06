@@ -765,7 +765,7 @@ function verificationUser($connMYSQL) {
 function addStatAffichageUser($connMYSQL, $user){
     // C'est la méthode que j'ai trouvé trouver la valeur max comme cette valeur va en augmentant
     /* Crée une requête préparée */
-    $stmt = $connMYSQL->prepare("select max(id_login) from login_stat_poker where user =? ");
+    $stmt = $connMYSQL->prepare("select max(id_login) as maximum from login_stat_poker where user =? ");
 
     /* Lecture des marqueurs */
     $stmt->bind_param("s", $_SESSION['user']);
@@ -777,7 +777,7 @@ function addStatAffichageUser($connMYSQL, $user){
     $result = $stmt->get_result();
 
     $row = $result->fetch_array(MYSQLI_ASSOC);    
-    $id_login = (int) $row[0];	// Assignation de la valeur
+    $id_login = $row['maximum'];	// Assignation de la valeur
     // Close statement
     $stmt->close();
 

@@ -116,6 +116,15 @@ function traductionSituationEN($champs){
 }
 
 function verifChamp($champs, $connMYSQL) {
+    if (isset($_POST['signUp']) || isset($_POST['login'])){
+        $champs["user"] = strtolower($_POST['user']);
+        $champs["password"] = $_POST['password'];
+    }
+
+    if (isset($_POST['signUp'])){
+        $champs["email"] = $_POST['email'];
+    }
+
     if (empty($champs['user'])){
         $champs['champVideUser'] = true;
     }
@@ -125,12 +134,12 @@ function verifChamp($champs, $connMYSQL) {
     }
 
     // Cette validation doit exclure si on pèse sur le bouton login
-    if (empty($champs['email']) && !isset($_POST['login'])){
+    if (empty($champs['email']) && isset($_POST['signUp'])){
         $champs['champVideEmail'] = true;
     } 
 
     // Simplification des champs vide pour plutard...
-    if (($champs['champVideUser'] || $champs['champVidePassword'] || $champs['champVideEmail']) && !isset($_POST['login'])){
+    if (($champs['champVideUser'] || $champs['champVidePassword'] || $champs['champVideEmail'])){
         $champs['champVide'] = true;
     }
 
@@ -146,7 +155,7 @@ function verifChamp($champs, $connMYSQL) {
         $champs['champTropLongPassword'] = true;
     }
 
-    if ($longueurEmail > 50){
+    if ($longueurEmail > 50 && isset($_POST['signUp']) ){
         $champs['champTropLongEmail'] = true;
     }
 
@@ -169,21 +178,21 @@ function verifChamp($champs, $connMYSQL) {
     }
 
     $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-    if (!preg_match($patternEmail, $champs['email']) && !isset($_POST['login'])) {
+    if (!preg_match($patternEmail, $champs['email']) && isset($_POST['signUp'])) {
         $champs['champInvalidEmail'] = true; 
-    } else {
-        // Ajout de cette sécurité / 5 Février 2020
-        // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
-        if (!(filter_var($champs['email'], FILTER_VALIDATE_EMAIL))){
-            $champs['champInvalidEmail'] = true; 
-        }
-    }  
+    } 
 
-    if (($champs['champInvalidUser'] || $champs['champInvalidPassword'] || $champs['champInvalidEmail']) /*&& !isset($_POST['login'])*/){
+    // Ajout de cette sécurité / 5 Février 2020
+    // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
+    if (!(filter_var($champs['email'], FILTER_VALIDATE_EMAIL)) && isset($_POST['signUp']) ){
+        $champs['champInvalidEmail'] = true; 
+    }
+
+    if (($champs['champInvalidUser'] || $champs['champInvalidPassword'] || $champs['champInvalidEmail'])){
         $champs['champInvalid'] = true;
     }     
 
-    if (!$champs['champVideUser'] && !$champs['champVidePassword'] && $champs['user'] == $champs['password'] /*&& !isset($_POST['login'])*/){
+    if (!$champs['champVideUser'] && !$champs['champVidePassword'] && $champs['user'] == $champs['password']){
         $champs['sameUserPWD'] = true;
     }
 
@@ -193,7 +202,7 @@ function verifChamp($champs, $connMYSQL) {
 
         // Optimisation pour avoir directement la valeur qui nous intéreste
         $stmt = $connMYSQL->prepare("select user, email from login where user =? OR email =? ");
-        
+
         /* Lecture des marqueurs */
         $stmt->bind_param("ss", $champs['user'], $champs['email']);
 
@@ -360,13 +369,13 @@ function connexionUser($champs, $connMYSQL) {
 
 function connexionBD() {  
     // Nouvelle connexion sur hébergement du Studio OL
-    
+
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
-    
-/*
+
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
@@ -400,9 +409,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit;
     } else {
-        $champs["user"] = strtolower($_POST['user']);
-        $champs["password"] = $_POST['password'];
-        $champs["email"] = $_POST['email'];
         $connMYSQL = connexionBD();   
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['login'])) {

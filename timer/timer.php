@@ -54,7 +54,7 @@ function message_Situation($champs){
 }
 
 function initialisation_Champs() {
-    $champs = ["typeLangue" => "", "user" => "", "nom_organisateur" => "", "situation" => 0, "combinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucune_valeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255]; 
+    $champs = ["typeLangue" => "", "user" => "", "nom_organisateur" => "", "situation" => 0, "combinaison" => 0, "maxCombinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucune_valeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255]; 
     return $champs;
 }
 
@@ -63,7 +63,7 @@ function initialisation_indicateur() {
     return $valid_champs;
 }
 
-function remplissageChamps($champs) {
+function remplissageChamps($champs, $connMYSQL) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET'){
         if (isset($_GET['langue'])){
             $champs['typeLangue'] = $_GET['langue'];
@@ -75,9 +75,18 @@ function remplissageChamps($champs) {
             }
         } else {
             $champs['typeLangue'] = $_POST['typeLangue'];
-            $champs['user'] = $_POST['choixOrganisateur'];
+            $champs['user'] = $_POST['choixOrganisateur'];        
+            if (isset($_POST['choixOrganisateur'])){  
+                // Au moment de setter l'organisateur, on va chercher une seule fois son nombre de combinaisons totales.
+                $champs['maxCombinaison'] = recupererMaxCombinaisonUser($connMYSQL, $champs['user']);
+            }                
 
             if (isset($_POST['btn_changerMise'])){
+                // Au moment de changer les mise, on récuprer la valeur du nombre max de combinaisons
+                if (isset($_POST['maxCombinaison'])){
+                    $champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
+                }
+
                 $champs['combinaison'] = intval($_POST['combinaison']);
                 $champs['combinaison']++;
                 if (isset($_POST['number_Red'])){
@@ -111,16 +120,31 @@ function remplissageChamps($champs) {
                 $champs['number_Green'] = 255;
                 $champs['number_Blue'] = 255;
             }
-
-
-
-
-
-
         }
     }
     return $champs;
 }
+
+function recupererMaxCombinaisonUser($connMYSQL, $user){
+    // Optimisation pour avoir directement la valeur qui nous intéreste
+    $stmt = $connMYSQL->prepare("SELECT count(*) as number FROM mise_small_big where user =? ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $user);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */ 
+    $result = $stmt->get_result(); 
+    $row = $result->fetch_array(MYSQLI_ASSOC);
+
+    // Close statement
+    $stmt->close();
+
+    return $row['number'];
+}
+
 
 function coloriage($champs) {
     return "rgb({$champs['number_Red']},{$champs['number_Green']},{$champs['number_Blue']})";
@@ -238,14 +262,13 @@ function creation_tableau($connMYSQL, $champs){
 }
 
 function selection_small_big_blind($connMYSQL, $champs){
-    // Au moment arriver ici, la combinaison est aumenter précédament dans l'autre fonction
-    $result_double_dimention = [];
-
     /* Crée une requête préparée */
-    $stmt = $connMYSQL->prepare("SELECT small, big FROM mise_small_big where user =? order by small ");
-
+    
+    // Optimisation pour avoir directement la valeur qui nous intéreste
+    $stmt = $connMYSQL->prepare("SELECT small, big FROM mise_small_big where user =? order by small limit ? , ? ");
+    $un = 1; // Je vais créer une variable fix à 1, car , la fct bind_param ne me permet pas d'envoyer des valeurs sans être une variable
     /* Lecture des marqueurs */
-    $stmt->bind_param("s", $champs['user']);
+    $stmt->bind_param("sii", $champs['user'], $champs['combinaison'], $un);
 
     /* Exécution de la requête */
     $stmt->execute();
@@ -256,31 +279,18 @@ function selection_small_big_blind($connMYSQL, $champs){
 
     // Close statement
     $stmt->close();
+    
+    if ($row_cnt == 1){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        $champs['valeurSmall'] = $row['small'];        
+        $champs['valeurBig'] = $row['big']; 
 
-    if ($row_cnt > 0){
-        while ($row = $result->fetch_array(MYSQLI_ASSOC)){
-            // On insère tous les couples small et big dans le tableau double dimensions
-            $couple = ["small" => $row['small'], "big" => $row['big']];  
-            $result_double_dimention[] = $couple;
-        }        
-        // le nombre de la ligne est toujours pareil
-        $nbLignes = $row_cnt;
-        if ($champs['combinaison'] <= $nbLignes){
-            foreach ($result_double_dimention as $couple => $value){
-                // On passe en revue toutes les combinaisons et lorsque nous arrivons à celle que nous voulons afficher on stock les données dans les deux variables
-                if ($champs['combinaison'] == $couple){
-                    $champs['valeurSmall'] = $value['small'];        
-                    $champs['valeurBig'] = $value['big'];  
-                    
-                }
-            }
-            $nbLignes--;
-            // $champs['combinaison']++ ne jamais faire ca en validation d'une condition
-            // Ici, nous avons atteint la derniere combinaison small et big
-            if ($champs['combinaison'] == $nbLignes){
-                $champs['trop_valeur'] = true;
-            }
-        } 
+        $nbLignes = $champs['maxCombinaison'];
+        $nbLignes--;
+        // Ici, nous avons atteint la derniere combinaison small et big
+        if ($champs['combinaison'] == $nbLignes){
+            $champs['trop_valeur'] = true;
+        }
         // Le retour de fonction n'a trouvé aucun valeur
     } elseif ($result->num_rows == 0){ 
         $champs['aucune_valeur'] = true;
@@ -326,11 +336,11 @@ function connexionBD() {
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $champs = initialisation_Champs();
-    $champs = remplissageChamps($champs);    
+    $connMYSQL = connexionBD();
+    $champs = remplissageChamps($champs, $connMYSQL);    
     if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english"){
         redirection($champs);
-    } else {
-        $connMYSQL = connexionBD();
+    } else {        
         $arrayMots = traduction($champs);
         $liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $arrayMots);
     }
@@ -340,14 +350,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $champs = initialisation_Champs();
     $valid_champs = initialisation_indicateur();
-    $champs = remplissageChamps($champs);    
+    $connMYSQL = connexionBD();      
+    $champs = remplissageChamps($champs, $connMYSQL);    
     if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english"){
         redirection($champs);
     } else {
         if (isset($_POST['btnReturn'])){
             redirection($champs);
-        } else { 
-            $connMYSQL = connexionBD();        
+        } else {               
             $valid_champs = validation($champs, $valid_champs);
             $champs['situation'] = situation($champs, $valid_champs);
             $arrayMots = traduction($champs);
@@ -423,12 +433,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="tableau_bord">
             <form method="post" action="./timer.php" id="formulaire">
                 <div class="choix">
-                    <input type="hidden" id="number_Red" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
-                    <input type="hidden" id="number_Green" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
-                    <input type="hidden" id="number_Blue" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
-                    <input type="hidden" id="trop_valeur" name="trop_valeur" value="<?php if ($champs['trop_valeur']) { echo "true"; } else { echo "false"; } ?>">
-                    <input type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
-                    <input type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                    <input form="formulaire" type="hidden" id="number_Red" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
+                    <input form="formulaire" type="hidden" id="number_Green" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
+                    <input form="formulaire" type="hidden" id="number_Blue" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
+                    <input form="formulaire" type="hidden" id="trop_valeur" name="trop_valeur" value="<?php if ($champs['trop_valeur']) { echo "true"; } else { echo "false"; } ?>">
+                    <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                    <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                    <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison" value="<?php echo $champs['maxCombinaison']; ?>">
+
                     <label class="modificationColor" for="choixOrganisateur"><?php echo $arrayMots['choixOrganisateur']; ?></label>
                     <select id="choixOrganisateur" name="choixOrganisateur">
                         <?php echo $liste_Organisateurs; ?>

@@ -347,7 +347,7 @@ function connexionUser($champs, $connMYSQL) {
                 // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
                 // Prepare an insert statement
                 $sql = "INSERT INTO login_stat_poker (user,date,idCreationUser) VALUES (?,?,?)";
-                $stmt = $connMYSQL->prepare($sql);
+                $stmt = $connMYSQL->prepare($sql);                
 
                 // Bind variables to the prepared statement as parameters
                 $stmt->bind_param('ssi', $champs['user'], $date, $champs['idCreationUser']);
@@ -409,7 +409,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit;
     } else {
-        $connMYSQL = connexionBD();   
+        $connMYSQL = connexionBD(); 
+        $champs = verifChamp($champs, $connMYSQL);
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['login'])) {
             // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
@@ -431,13 +432,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
             $champs["idCreationUser"] = $row["id"];	// Assignation de la valeur
-            $champs = verifChamp($champs, $connMYSQL);
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] ) {
                 $champs = connexionUser($champs, $connMYSQL);
             }
             // si le bouton s'inscrire est pesé...
-        } elseif (isset($_POST['signUp'])) {
-            $champs = verifChamp($champs, $connMYSQL);            
+        } elseif (isset($_POST['signUp'])) {          
             // Ajout de la validation si duplicate est à false en raison de unicité du user et email
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs['sameUserPWD'] && !$champs['duplicate']) {
                 $champs = creationUser($champs, $connMYSQL);

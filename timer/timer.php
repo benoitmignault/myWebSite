@@ -68,64 +68,55 @@ function remplissageChamps($champs) {
         if (isset($_GET['langue'])){
             $champs['typeLangue'] = $_GET['langue'];
         }
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){        
-        if (isset($_POST['btn_choixOrganisateur'])){
-            if (isset($_POST['typeLangue'])){     
-                $champs['typeLangue'] = $_POST['typeLangue'];
-            }
-            if (isset($_POST['choixOrganisateur'])){
-                $champs['user'] = $_POST['choixOrganisateur'];
-            }
-        } elseif (isset($_POST['btnReturn'])){
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){  
+        if (isset($_POST['btnReturn'])){
             if (isset($_POST['typeLangueReturn'])){     
                 $champs['typeLangue'] = $_POST['typeLangueReturn'];
             }
-        } elseif (isset($_POST['btn_changerMise'])){
-            if (isset($_POST['typeLangue'])){     
-                $champs['typeLangue'] = $_POST['typeLangue'];
-            }
-            if (isset($_POST['choixOrganisateur'])){
-                $champs['user'] = $_POST['choixOrganisateur'];
-            }
-            $champs['combinaison'] = intval($_POST['combinaison']);
-            $champs['combinaison']++;
-            if (isset($_POST['number_Red'])){
-                $champs['number_Red'] = intval($_POST['number_Red']);
-            }
-            if (isset($_POST['number_Green'])){
-                $champs['number_Green'] = intval($_POST['number_Green']);
-            }
-            if (isset($_POST['number_Blue'])){
-                $champs['number_Blue'] = intval($_POST['number_Blue']);
-            }
-            $value_Red_temp = $champs['number_Red'] - 25;
-            $value_Green_temp = $champs['number_Green'] - 25;
-            // Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
-            if ($value_Green_temp > 0){
-                $champs['number_Green'] = $value_Green_temp;
-                $champs['number_Blue'] = $value_Green_temp;
-                // Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
-            } elseif ($value_Red_temp > 0){
-                $champs['number_Red'] = $value_Red_temp;
-                $champs['number_Green'] = 0;
-                $champs['number_Blue'] = 0;
-            } else {
-                $champs['number_Red'] = 0;
-                $champs['number_Green'] = 0;
-                $champs['number_Blue'] = 0;
+        } else {
+            $champs['typeLangue'] = $_POST['typeLangue'];
+            $champs['user'] = $_POST['choixOrganisateur'];
+
+            if (isset($_POST['btn_changerMise'])){
+                $champs['combinaison'] = intval($_POST['combinaison']);
+                $champs['combinaison']++;
+                if (isset($_POST['number_Red'])){
+                    $champs['number_Red'] = intval($_POST['number_Red']);
+                }
+                if (isset($_POST['number_Green'])){
+                    $champs['number_Green'] = intval($_POST['number_Green']);
+                }
+                if (isset($_POST['number_Blue'])){
+                    $champs['number_Blue'] = intval($_POST['number_Blue']);
+                }
+                $value_Red_temp = $champs['number_Red'] - 25;
+                $value_Green_temp = $champs['number_Green'] - 25;
+                // Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
+                if ($value_Green_temp > 0){
+                    $champs['number_Green'] = $value_Green_temp;
+                    $champs['number_Blue'] = $value_Green_temp;
+                    // Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
+                } elseif ($value_Red_temp > 0){
+                    $champs['number_Red'] = $value_Red_temp;
+                    $champs['number_Green'] = 0;
+                    $champs['number_Blue'] = 0;
+                } else {
+                    $champs['number_Red'] = 0;
+                    $champs['number_Green'] = 0;
+                    $champs['number_Blue'] = 0;
+                }
+            } elseif (isset($_POST['btn_resetMise'])){
+                $champs['combinaison'] = 0;
+                $champs['number_Red'] = 255;
+                $champs['number_Green'] = 255;
+                $champs['number_Blue'] = 255;
             }
 
-        } elseif (isset($_POST['btn_resetMise'])){
-            if (isset($_POST['typeLangue'])){     
-                $champs['typeLangue'] = $_POST['typeLangue'];
-            }
-            if (isset($_POST['choixOrganisateur'])){
-                $champs['user'] = $_POST['choixOrganisateur'];
-            }
-            $champs['combinaison'] = 0;
-            $champs['number_Red'] = 255;
-            $champs['number_Green'] = 255;
-            $champs['number_Blue'] = 255;
+
+
+
+
+
         }
     }
     return $champs;
@@ -279,7 +270,8 @@ function selection_small_big_blind($connMYSQL, $champs){
                 // On passe en revue toutes les combinaisons et lorsque nous arrivons à celle que nous voulons afficher on stock les données dans les deux variables
                 if ($champs['combinaison'] == $couple){
                     $champs['valeurSmall'] = $value['small'];        
-                    $champs['valeurBig'] = $value['big'];        
+                    $champs['valeurBig'] = $value['big'];  
+                    
                 }
             }
             $nbLignes--;

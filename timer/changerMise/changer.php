@@ -79,14 +79,13 @@ function remplissageChamps($champs){
 }
 
 function selection_small_big_blind($connMYSQL, $champs){
-    // Au moment arriver ici, la combinaison est aumenter précédament dans l'autre fonction
-    $result_double_dimention = [];
-
     /* Crée une requête préparée */
-    $stmt = $connMYSQL->prepare("SELECT small, big FROM mise_small_big where user =? order by small ");
 
+    // Optimisation pour avoir directement la valeur qui nous intéreste
+    $stmt = $connMYSQL->prepare("SELECT small, big FROM mise_small_big where user =? order by small limit ? , ? ");
+    $un = 1; // Je vais créer une variable fix à 1, car , la fct bind_param ne me permet pas d'envoyer des valeurs sans être une variable
     /* Lecture des marqueurs */
-    $stmt->bind_param("s", $champs['user']);
+    $stmt->bind_param("sii", $champs['user'], $champs['combinaison'], $un);
 
     /* Exécution de la requête */
     $stmt->execute();
@@ -98,29 +97,17 @@ function selection_small_big_blind($connMYSQL, $champs){
     // Close statement
     $stmt->close();
 
-    if ($row_cnt > 0){
-        while ($row = $result->fetch_array(MYSQLI_ASSOC)){
-            // On insère tous les couples small et big dans le tableau double dimensions
-            $couple = ["small" => $row['small'], "big" => $row['big']];  
-            $result_double_dimention[] = $couple;
-        }        
-        // le nombre de la ligne est toujours pareil
-        $nbLignes = $row_cnt;
-        if ($champs['combinaison'] <= $nbLignes){
-            foreach ($result_double_dimention as $couple => $value){
-                // On passe en revue toutes les combinaisons et lorsque nous arrivons à celle que nous voulons afficher on stock les données dans les deux variables
-                if ($champs['combinaison'] == $couple){
-                    $champs['valeurSmall'] = $value['small'];        
-                    $champs['valeurBig'] = $value['big'];        
-                }
-            }
-            $nbLignes--;
-            // $champs['combinaison']++ ne jamais faire ca en validation d'une condition
-            // Ici, nous avons atteint la derniere combinaison small et big
-            if ($champs['combinaison'] == $nbLignes){
-                $champs['trop_valeur'] = true;
-            }
-        } 
+    if ($row_cnt == 1){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        $champs['valeurSmall'] = $row['small'];        
+        $champs['valeurBig'] = $row['big']; 
+
+        $nbLignes = $champs['maxCombinaison'];
+        $nbLignes--;
+        // Ici, nous avons atteint la derniere combinaison small et big
+        if ($champs['combinaison'] == $nbLignes){
+            $champs['trop_valeur'] = true;
+        }
         // Le retour de fonction n'a trouvé aucun valeur
     } elseif ($result->num_rows == 0){ 
         $champs['aucune_valeur'] = true;

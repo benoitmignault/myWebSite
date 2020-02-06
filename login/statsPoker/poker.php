@@ -306,16 +306,26 @@ function affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots) {
     if ($informationJoueur === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_joueur']}</h3>";
     } else {
-        $sql = "SELECT * FROM poker where joueur = '{$informationJoueur}' order by id_tournoi desc";
-        $result = $connMYSQL->query($sql);
-        $tableau = "
-                    <table> <thead>
+        $tableau = "<table> <thead>
                         <tr> <th colspan='6'>{$arrayMots['method2']} &rarr; {$informationJoueur} &larr;</th> </tr>
                         <tr> <th>{$arrayMots['joueur']}</th> <th>{$arrayMots['gain']}</th> <th>{$arrayMots['victoire']}</th> 
                              <th>{$arrayMots['fini2']}</th> <th>{$arrayMots['noTournois']}</th> <th>{$arrayMots['date']}</th> </tr>            
                             </thead>
                             <tbody>";
-        foreach ($result as $row) {
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("SELECT * FROM poker where joueur =? order by id_tournoi desc");
+
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $informationJoueur);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+
+        /* Lecture des valeurs */
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> <td>{$informationJoueur}{$icone}</td>";
@@ -334,6 +344,9 @@ function affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots) {
                     </tr>";
         }
         $tableau .= "</tbody></table>";
+
+        /* Fermeture du traitement */
+        $stmt->close();
     }
     return $tableau;
 }
@@ -342,17 +355,6 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
     if ($sommaireJoueur === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_joueur']}</h3>";
     } else {
-        $sql = "SELECT
-                    joueur,
-                    SUM(gain) as gainTotaux,
-                    count(case victoire when 'X' then 1 else null end) as nb_victoire,
-                    count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
-                    count(joueur) as nb_presence
-                FROM
-                    poker
-                where 
-                    joueur = '{$sommaireJoueur}'";
-        $result = $connMYSQL->query($sql);
         $tableau = "<table> 
                         <thead> 
                             <tr> <th colspan='5'>{$arrayMots['method3']} &rarr; {$sommaireJoueur} &larr;</th> </tr>
@@ -361,7 +363,28 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
                         </thead>
                         <tbody>";
 
-        foreach ($result as $row) {
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("SELECT
+                    joueur,
+                    SUM(gain) as gainTotaux,
+                    count(case victoire when 'X' then 1 else null end) as nb_victoire,
+                    count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
+                    count(joueur) as nb_presence
+                FROM
+                    poker
+                where 
+                    joueur =?");
+
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $sommaireJoueur);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gainTotaux']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> 
@@ -377,41 +400,16 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
                          <td>{$row['nb_fini2e']}</td>
                          <td>{$row['nb_presence']}</td>
                         </tr>";
-        }
+        }        
+
         $tableau .= "</tbody></table>";
+        /* Fermeture du traitement */
+        $stmt->close();
     }
     return $tableau;
 }
 
 function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
-    $requeteSql = "";
-    $sql = "select res.* , round(res.gainTotaux / res.nb_presence,2) as gainPresence
-            from
-            (
-                SELECT
-                    joueur,
-                    SUM(gain) as gainTotaux,
-                    count(case victoire when 'X' then 1 else null end) as nb_victoire,
-                    count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
-                    count(joueur) as nb_presence
-                FROM
-                    poker
-                GROUP BY 
-                    joueur                
-            ) res where res.nb_presence >= {$nombre_Presences}";
-    $orderBy = "";
-
-    // Ce qui va déterminer l'order by
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){
-        $orderBy = " order by res.gainTotaux desc, res.nb_victoire desc, res.nb_fini2e desc, res.nb_presence ";        
-    } elseif (isset($_GET['triRatio'])) {
-        $orderBy = " order by gainPresence desc, res.nb_victoire desc, res.nb_fini2e desc, res.nb_presence ";
-    }
-    $requeteSql = $sql . $orderBy;
-
-    // Le order by se sera sur le résultat de la table et non à l'intérieur de la table en création sur les conseils de Zouhair mon collègue 
-    // Le order by sera en focntion du tri qu'on aura cliquer 
-    $result = $connMYSQL->query($requeteSql);    
     $tableau = ""; // Initialiation du tableau
     if (!isset($_GET['triRatio']) && (isset($_GET['triOriginal']) || $_SERVER['REQUEST_METHOD'] == 'POST') ){
         $tableau = "<table><thead> 
@@ -440,10 +438,45 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
                         </tr>            
                     </thead> <tbody>";
     }
+    $requeteSql = "";
+    $orderBy = "";
 
-    // Ajout d'un compteur pour afficher simplement le joueur avec ses stats et savoir où se trouve
+    $sql = "select res.* , round(res.gainTotaux / res.nb_presence,2) as gainPresence
+            from
+            (
+                SELECT
+                    joueur,
+                    SUM(gain) as gainTotaux,
+                    count(case victoire when 'X' then 1 else null end) as nb_victoire,
+                    count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
+                    count(joueur) as nb_presence
+                FROM
+                    poker
+                GROUP BY 
+                    joueur                
+            ) res where res.nb_presence >=? ";
+
+    // Ce qui va déterminer l'order by
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){
+        $orderBy = " order by res.gainTotaux desc, res.nb_victoire desc, res.nb_fini2e desc, res.nb_presence ";        
+    } elseif (isset($_GET['triRatio'])) {
+        $orderBy = " order by gainPresence desc, res.nb_victoire desc, res.nb_fini2e desc, res.nb_presence ";
+    }
+
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare($sql . $orderBy);
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("i", $nombre_Presences);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+
     $position = 1;
-    foreach ($result as $row) {
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
         $nombreGain = intval($row['gainTotaux']);
         $gainRatio = floatval($row['gainPresence']);
         $icone = lesGrandsGagnants_100e($row['joueur']);
@@ -471,7 +504,11 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
         $tableau .= "</tr>";
         $position++; // On augmente de 1 la position pour le prochain joueur et ses statistiques pour l'affichage
     }
+
     $tableau .= "</tbody></table>";
+    /* Fermeture du traitement */
+    $stmt->close();
+
     return $tableau;
 }
 
@@ -479,8 +516,6 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
     if ($numeroID == 0) {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_ID']}</h3>";
     } else {
-        $sql = "SELECT * FROM poker where id_tournoi = '{$numeroID}' order by gain desc";
-        $result = $connMYSQL->query($sql);
         $tableau = "<table> 
         <thead> 
         <tr> <th colspan='6'>{$arrayMots['method5']} &rarr; {$numeroID} &larr;</th> </tr>
@@ -489,8 +524,19 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
         <th>{$arrayMots['date']}</th> </tr>            
         </thead>
         <tbody>";
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("SELECT * FROM poker where id_tournoi =? order by gain desc");
 
-        foreach ($result as $row) {
+        /* Lecture des marqueurs */
+        $stmt->bind_param("i", $numeroID);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> 
@@ -509,6 +555,8 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
         </tr>";
         }
         $tableau .= "</tbody></table>";
+        /* Fermeture du traitement */
+        $stmt->close();
     }
     return $tableau;
 }
@@ -517,8 +565,6 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
     if ($tournoiDate === "") {
         $tableau = "<h3 class='msgErreur'>{$arrayMots['msgErreur_Date']}</h3>";
     } else {
-        $sql = "SELECT * FROM poker where date = '{$tournoiDate}' order by gain desc";
-        $result = $connMYSQL->query($sql);
         $tableau = "<table> 
         <thead> 
         <tr> <th colspan='6'>{$arrayMots['method6']} &rarr; {$tournoiDate} &larr;</th> </tr>
@@ -528,7 +574,19 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
         </thead>
         <tbody>";
 
-        foreach ($result as $row) {
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("SELECT * FROM poker where date =? order by gain desc");
+
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $tournoiDate);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> 
@@ -547,6 +605,8 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
         </tr>";
         }
         $tableau .= "</tbody></table>";
+        /* Fermeture du traitement */
+        $stmt->close();
     }
     return $tableau;
 }
@@ -658,17 +718,18 @@ function delete_Session(){
 function connexionBD() { 
     // Nouvelle connexion sur hébergement du Studio OL
 
+    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 
-    /*
+/*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+*/
 
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
@@ -676,35 +737,63 @@ function connexionBD() {
 }
 
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from login";
-    $result = $connMYSQL->query($sql);
+    // Optimisation de la vérification si le user existe dans la BD
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login where user=? ");
 
-    foreach ($result as $row) {
-        if ($row['user'] === $_SESSION['user']) {
-            // On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
-            if ($_COOKIE['POKER'] == $row['user']){
-                if (password_verify($_SESSION['password'], $row['password'])) {
-                    return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
-                }
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $_SESSION['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $stmt->close();
+    if ($result->num_rows == 1){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        // On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
+        if ($_COOKIE['POKER'] == $row['user']){
+            if (password_verify($_SESSION['password'], $row['password'])) {
+                return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
             }
-        }
-        // la fin de la vérification pour trouver notre user dans la BD et ainsi que la vérification de son mdp  
-    }
+        } 
+    } 
     return false;
 }
 
 function addStatAffichageUser($connMYSQL, $user){
     // C'est la méthode que j'ai trouvé trouver la valeur max comme cette valeur va en augmentant
-    $sql = "select max(id_login) from login_stat_poker where user = '{$_SESSION['user']}' ";                    
-    $result_SQL = $connMYSQL->query($sql);
-    $row = $result_SQL->fetch_row(); // C'est mon array de résultat
-    $id_login = (int) $row[0];	// Assignation de la valeur
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select max(id_login) as maximum from login_stat_poker where user =? ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $_SESSION['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+
+    $row = $result->fetch_array(MYSQLI_ASSOC);    
+    $id_login = $row['maximum'];	// Assignation de la valeur
+    // Close statement
+    $stmt->close();
+
     date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
     $date_method = date("Y-m-d H:i:s");
     // Ajouter la methode choisie par le user dans la table affichage_stat_poker en lien avec la Xième connexion sur la page
-    $insert = "INSERT INTO affichage_stat_poker (user,methode,id_login,id_affichage,date) VALUES ";
-    $insert .= "('" . $user . "','" . $_POST['method'] . "','" . $id_login . "',NULL,'" . $date_method . "')";
-    $connMYSQL->query($insert);
+    // Prepare an insert statement
+    $sql = "INSERT INTO affichage_stat_poker (user,methode,id_login,date) VALUES (?,?,?,?)";
+    $stmt = $connMYSQL->prepare($sql);
+
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('siis', $user, $_POST['method'], $id_login, $date_method);
+    $stmt->execute();                    
+
+    // Close statement
+    $stmt->close();
 }
 
 function lienVersTriage($array_Champs){
@@ -801,109 +890,109 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="<?php echo $arrayMots['lang']; ?>">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Statistique du poker">
-        <!-- Le fichier poker.png est la propriété du site : https://pixabay.com/fr/cartes-diamant-diamants-favoris-2029819/ mais sous licence gratuite -->
-        <link rel="shortcut icon" href="./photo/poker.png">
-        <link rel="stylesheet" type="text/css" href="poker.css">
-        <title><?php echo $arrayMots['titre']; ?></title>
-        <style>
-            body {
-                margin: 0;
-                /* Fichier photoPoker.jpg est une propriété du site https://www.flickr.com/photos/nostri-imago/7497137910 sous licence libre */
-                background-image: url("./photo/photoPoker.jpg");
-                background-position: center;
-                background-attachment: fixed;
-                background-size: 100%;
-            }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Statistique du poker">
+    <!-- Le fichier poker.png est la propriété du site : https://pixabay.com/fr/cartes-diamant-diamants-favoris-2029819/ mais sous licence gratuite -->
+    <link rel="shortcut icon" href="./photo/poker.png">
+    <link rel="stylesheet" type="text/css" href="poker.css">
+    <title><?php echo $arrayMots['titre']; ?></title>
+    <style>
+        body {
+            margin: 0;
+            /* Fichier photoPoker.jpg est une propriété du site https://www.flickr.com/photos/nostri-imago/7497137910 sous licence libre */
+            background-image: url("./photo/photoPoker.jpg");
+            background-position: center;
+            background-attachment: fixed;
+            background-size: 100%;
+        }
 
-        </style>
-    </head>
+    </style>
+</head>
 
-    <body>
-        <p id="hautPage"></p>
-        <div class="mainPage">
-            <div class="header"> <?php echo $arrayMots['h1']; ?> </div>
-            <div class="info_method">
-                <fieldset>
-                    <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
-                    <form method='post' action='poker.php#endroitResultat'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Méthode d'affichage</th>
-                                    <th>Sélection</th>
-                                    <th>Bouton de la méthode</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method1']; ?></td>
-                                    <td></td>
-                                    <td><input class='bouton' type='submit' name='method' value="1"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method2']; ?></td>
-                                    <td><select class="joueur" name="informationJoueur"><?php foreach ($liste_Joueur_method2 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="2"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method3']; ?></td>
-                                    <td><select class="joueur" name="sommaireJoueur"><?php foreach ($liste_Joueur_method3 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="3"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method4']; if ($array_Champs['typeLangue'] == "francais") { echo " (Nb Présence et +)"; } elseif ($array_Champs['typeLangue'] == "english") { echo " (Number attendance and +)"; } ?></td>
-                                    <td><select id="nb_Presence" name="nombre_Presences"><?php foreach ($liste_Joueur_method4 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="4"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method5']; ?></td>
-                                    <td><select id="idTournois" name="listeId"><?php foreach ($liste_Joueur_method5 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="5"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method6']; ?></td>
-                                    <td><select id="tournois_date" name="listeDate"><?php foreach ($liste_Joueur_method6 as $value) { echo $value; } ?></select></td>
-                                    <td><input class='bouton' type='submit' name='method' value="6"></td>
-                                </tr>
-                                <tr>
-                                    <td class="methode"><?php echo $arrayMots['method7']; ?></td>
-                                    <td></td>
-                                    <td><input class='bouton' type='submit' name='method' value="7"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
-                </fieldset>
-            </div>
-            <div class="affichage">
-                <p id="endroitResultat"></p>
-                <fieldset>
-                    <legend class="legendCenter"><?php echo $arrayMots['legend3']; ?></legend>
-                    <?php if ($array_Champs['method'] == 4 || $array_Champs['method'] == 7 ) { ?>
-                    <ul class="lesInstructionTriage">
-                        <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>
-                        <li>Triage «Ratio» : ratio, killer en <span class="charGros">décroissance</span> et prix citron, Nb parties en <span class="charGros">croissance</span></li>
-                    </ul>
-                    <?php } ?>
-                    <?php if ( isset($_GET['triOriginal']) || isset($_GET['triRatio']) || $_SERVER['REQUEST_METHOD'] === 'POST') { echo $array_Champs['tableauResult']; } ?>
-                </fieldset>
-            </div>
-            <div class="return">
-                <fieldset>
-                    <a href="#hautPage"><?php echo $arrayMots['returnUp']; ?></a>
-                </fieldset>
-            </div>
-            <div class='btnRetour'>
-                <form method="post" action="poker.php">
-                    <input class='bouton' type="submit" name="return" value="<?php echo $arrayMots['btnLogin']; ?>">
-                    <input class='bouton' type="submit" name="home" value="<?php echo $arrayMots['btnReturn']; ?>">
+<body>
+    <p id="hautPage"></p>
+    <div class="mainPage">
+        <div class="header"> <?php echo $arrayMots['h1']; ?> </div>
+        <div class="info_method">
+            <fieldset>
+                <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
+                <form method='post' action='poker.php#endroitResultat'>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Méthode d'affichage</th>
+                                <th>Sélection</th>
+                                <th>Bouton de la méthode</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method1']; ?></td>
+                                <td></td>
+                                <td><input class='bouton' type='submit' name='method' value="1"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method2']; ?></td>
+                                <td><select class="joueur" name="informationJoueur"><?php foreach ($liste_Joueur_method2 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method3']; ?></td>
+                                <td><select class="joueur" name="sommaireJoueur"><?php foreach ($liste_Joueur_method3 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="3"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method4']; if ($array_Champs['typeLangue'] == "francais") { echo " (Nb Présence et +)"; } elseif ($array_Champs['typeLangue'] == "english") { echo " (Number attendance and +)"; } ?></td>
+                                <td><select id="nb_Presence" name="nombre_Presences"><?php foreach ($liste_Joueur_method4 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method5']; ?></td>
+                                <td><select id="idTournois" name="listeId"><?php foreach ($liste_Joueur_method5 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method6']; ?></td>
+                                <td><select id="tournois_date" name="listeDate"><?php foreach ($liste_Joueur_method6 as $value) { echo $value; } ?></select></td>
+                                <td><input class='bouton' type='submit' name='method' value="6"></td>
+                            </tr>
+                            <tr>
+                                <td class="methode"><?php echo $arrayMots['method7']; ?></td>
+                                <td></td>
+                                <td><input class='bouton' type='submit' name='method' value="7"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </form>
-            </div>
+            </fieldset>
         </div>
-    </body>
+        <div class="affichage">
+            <p id="endroitResultat"></p>
+            <fieldset>
+                <legend class="legendCenter"><?php echo $arrayMots['legend3']; ?></legend>
+                <?php if ($array_Champs['method'] == 4 || $array_Champs['method'] == 7 ) { ?>
+                <ul class="lesInstructionTriage">
+                    <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>
+                    <li>Triage «Ratio» : ratio, killer en <span class="charGros">décroissance</span> et prix citron, Nb parties en <span class="charGros">croissance</span></li>
+                </ul>
+                <?php } ?>
+                <?php if ( isset($_GET['triOriginal']) || isset($_GET['triRatio']) || $_SERVER['REQUEST_METHOD'] === 'POST') { echo $array_Champs['tableauResult']; } ?>
+            </fieldset>
+        </div>
+        <div class="return">
+            <fieldset>
+                <a href="#hautPage"><?php echo $arrayMots['returnUp']; ?></a>
+            </fieldset>
+        </div>
+        <div class='btnRetour'>
+            <form method="post" action="poker.php">
+                <input class='bouton' type="submit" name="return" value="<?php echo $arrayMots['btnLogin']; ?>">
+                <input class='bouton' type="submit" name="home" value="<?php echo $arrayMots['btnReturn']; ?>">
+            </form>
+        </div>
+    </div>
+</body>
 
 </html>

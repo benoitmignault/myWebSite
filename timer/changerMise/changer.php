@@ -3,17 +3,19 @@ header("Content-type: application/json; charset=utf-8");
 
 function connexionBD() {
     // Nouvelle connexion sur hébergement du Studio OL
+
+    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 
-    /*
+/*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+*/
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
 
     $connMYSQL->query("set names 'utf8'"); // ceci permet d'avoir des accents affiché sur la page web !
@@ -77,38 +79,40 @@ function remplissageChamps($champs){
 }
 
 function selection_small_big_blind($connMYSQL, $champs){
-    // Au moment arriver ici, la combinaison est aumenter précédament dans l'autre fonction
-    $result_double_dimention = [];
-    $sql = "SELECT small, big FROM mise_small_big where user = '{$champs['user']}' order by small";
-    $result = $connMYSQL->query($sql);  
+    /* Crée une requête préparée */
 
-    if ($result->num_rows > 0){ 
-        foreach ($result as $row) {
-            // On insère tous les couples small et big dans le tableau double dimensions
-            $couple = ["small" => $row['small'], "big" => $row['big']];  
-            $result_double_dimention[] = $couple;
+    // Optimisation pour avoir directement la valeur qui nous intéreste
+    $stmt = $connMYSQL->prepare("SELECT small, big FROM mise_small_big where user =? order by small limit ? , ? ");
+    $un = 1; // Je vais créer une variable fix à 1, car , la fct bind_param ne me permet pas d'envoyer des valeurs sans être une variable
+    /* Lecture des marqueurs */
+    $stmt->bind_param("sii", $champs['user'], $champs['combinaison'], $un);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */ 
+    $result = $stmt->get_result();    
+    $row_cnt = $result->num_rows;
+
+    // Close statement
+    $stmt->close();
+
+    if ($row_cnt == 1){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        $champs['valeurSmall'] = $row['small'];        
+        $champs['valeurBig'] = $row['big']; 
+
+        $nbLignes = $champs['maxCombinaison'];
+        $nbLignes--;
+        // Ici, nous avons atteint la derniere combinaison small et big
+        if ($champs['combinaison'] == $nbLignes){
+            $champs['trop_valeur'] = true;
         }
-        // le nombre de la ligne est toujours pareil
-        $nbLignes = $result->num_rows;
-        if ($champs['combinaison'] <= $nbLignes){
-            foreach ($result_double_dimention as $couple => $value){
-                // On passe en revue toutes les combinaisons et lorsque nous arrivons à celle que nous voulons afficher on stock les données dans les deux variables
-                if ($champs['combinaison'] == $couple){
-                    $champs['valeurSmall'] = $value['small'];        
-                    $champs['valeurBig'] = $value['big'];        
-                }
-            }
-            $nbLignes--;
-            // $champs['combinaison']++ ne jamais faire ca en validation d'une condition
-            // Ici, nous avons atteint la derniere combinaison small et big
-            if ($champs['combinaison'] == $nbLignes){
-                $champs['trop_valeur'] = true;
-            }
-        } 
         // Le retour de fonction n'a trouvé aucun valeur
     } elseif ($result->num_rows == 0){ 
         $champs['aucune_valeur'] = true;
     } 
+
     return $champs;
 }
 

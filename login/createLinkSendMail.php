@@ -44,6 +44,7 @@ function traductionSituation($champs){
             case 4 : $message = "Le courriel saisie n'existe pas dans nos informations !"; break; 
             case 5 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break; 
             case 6 : $message = "Dans les prochains instant, vous allez recevoir le courriel de réinitialisation avec toutes les informations nécessaire !"; break; 
+            case 7 : $message = "Erreur Système au moment d'envoyer le courriel !"; break; 
         }
     } elseif ($champs["typeLangue"] === 'english') {
         switch ($champs['situation']) {
@@ -53,6 +54,7 @@ function traductionSituation($champs){
             case 4 : $message = "The entered email does not exist in our information !"; break; 
             case 5 : $message = "A communication / manipulation error occurred when sending you the email !"; break; 
             case 6 : $message = "In the next few moments, you will receive the reset email with all the necessary information !"; break; 
+            case 7 : $message = "System error when sending email !"; break;     
         }
     }
     return $message;
@@ -63,31 +65,40 @@ function verifChamp($champs, $connMYSQL) {
     if (empty($_POST['email'])){
         $champs['champVide'] = true;
     } else {
-        $sql = "select user, email from login where email = '{$_POST['email']}' ";        
-        $result = $connMYSQL->query($sql);
-        $row_cnt = $result->num_rows; // si il y a des résultats, alors on est correct
-        if ($row_cnt == 0){
-            $champs['emailExistePas'] = true;
+        $champs['email'] = $_POST['email'];
+        $longueurEmail = strlen($champs['email']);    
+        if ($longueurEmail > 50){
+            $champs['champTropLong'] = true;
+        } 
+
+        $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
+        if (!preg_match($patternEmail, $_POST['email'])) {
+            $champs['champInvalid'] = true; 
+        } elseif (!(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))){
+            // Ajout de cette sécurité / 5 Février 2020
+            // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
+            $champs['champInvalid'] = true; 
         } else {
-            foreach ($result as $row) {
+            /* Crée une requête préparée */
+            $stmt = $connMYSQL->prepare("select user, email from login where email =? ");
+            /* Lecture des marqueurs */
+            $stmt->bind_param("s", $_POST['email']);
+            /* Exécution de la requête */
+            $stmt->execute();
+            /* Association des variables de résultat */
+            $result = $stmt->get_result();
+            $row_cnt = $result->num_rows;           
+            if ($row_cnt == 0){
+                $champs['emailExistePas'] = true;
+            } else {            
+                $row = $result->fetch_array(MYSQLI_ASSOC);
                 $champs["user"] = $row['user'];
                 $champs["email"] = $row['email'];
             }
+            /* close statement and connection */
+            $stmt->close();
         }
-    } 
-
-    
-    $longueurEmail = strlen($champs['email']);    
-
-    if ($longueurEmail > 50){
-        $champs['champTropLong'] = true;
-    } 
-
-    $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-    if (!preg_match($patternEmail, $_POST['email'])) {
-        $champs['champInvalid'] = true; 
-    }  
-    
+    }
     return $champs;
 }
 
@@ -106,18 +117,27 @@ function situation($champs){
         $typeSituation = 5; 
     } elseif ($champs['envoiCourrielSucces']){
         $typeSituation = 6; 
+    } elseif (!$champs['envoiCourrielSucces']){
+        $typeSituation = 7; 
     } 
- 
+
     return $typeSituation;
 }
 
 function creationLink($champs, $connMYSQL){  
-    $sql = "select user, password from login where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
-    $connMYSQL->query($sql);
-    // Si le résultat est inférieur à 1, 
-    // nous avons une erreur de communication ou un échec lors de la requête SQL 
-    // Ici, on s'assure que le résultat nous retourne seulement 1, car nous avons à faire à un seul user normalement
-    if (!mysqli_affected_rows($connMYSQL) == 1){
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login where email =? and user =? ");
+    /* Lecture des marqueurs */
+    $stmt->bind_param("ss", $champs["email"], $champs["user"]);
+    /* Exécution de la requête */
+    $stmt->execute();
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $row_cnt = $result->num_rows;
+    /* close statement and connection */
+    $stmt->close();    
+
+    if ($row_cnt == 0){
         $champs["erreurManipulationBD"] = true; 
     } else {
         date_default_timezone_set('America/New_York');
@@ -125,11 +145,20 @@ function creationLink($champs, $connMYSQL){
         $lien_Reset_PWD = encryptementPassword($lien_Reset_PWD);
         $password_Temp = generateRandomString(10);
         $password_Encrypted = encryptementPassword($password_Temp);
-        $sql_update = "update login set reset_link = '{$lien_Reset_PWD}', passwordTemp = '{$password_Encrypted}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
-        $connMYSQL->query($sql_update);
+
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("update login set reset_link =? , passwordTemp =? where email =? and user =?");
+        /* Lecture des marqueurs */
+        $stmt->bind_param("ssss", $lien_Reset_PWD, $password_Encrypted, $champs["email"], $champs["user"]);
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        $row_cnt = $stmt->affected_rows;
+        /* close statement and connection */
+        $stmt->close();
 
         // On valide que l'insertion des password temporaire et link encryptés s'est bien passé
-        if (!mysqli_affected_rows($connMYSQL) == 1){
+        if ($row_cnt == 0){
             $champs["erreurManipulationBD"] = true; 
         } else {
             // On récupère l'heure au moment de la création du link
@@ -138,11 +167,19 @@ function creationLink($champs, $connMYSQL){
             $current_timestamp = strtotime($current_time);
             // On ajoute 12 heures pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
             $temps_Autorise = strtotime("+12 hour", strtotime($current_time));
-            $sql_update = "update login set temps_Valide_link = '{$temps_Autorise}' where email = '{$champs["email"]}' and user = '{$champs["user"]}'";
-            $connMYSQL->query($sql_update);
+
+            /* Crée une requête préparée */
+            $stmt = $connMYSQL->prepare("update login set temps_Valide_link =? where email =? and user =? ");
+            /* Lecture des marqueurs */
+            $stmt->bind_param("iss", $temps_Autorise, $champs["email"], $champs["user"]);
+            /* Exécution de la requête */
+            $stmt->execute();
+            $row_cnt = $stmt->affected_rows;
+            /* close statement and connection */
+            $stmt->close();           
 
             // On valide ici que l'ajout du temps autorisé au changement de PWD a bien marché
-            if (!mysqli_affected_rows($connMYSQL) == 1){
+            if ($row_cnt == 0){
                 $champs["erreurManipulationBD"] = true; 
             } else {
                 $champs["password_Temp"] = $password_Temp; 
@@ -151,7 +188,7 @@ function creationLink($champs, $connMYSQL){
                 } elseif ($champs["typeLangue"] === 'english') {
                     $lien = "Link to change your password";
                 }
-                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";
+                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";                
                 $elementCourriel = preparationEmail($champs);
                 $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                
                 if ($succes) {
@@ -247,12 +284,15 @@ function redirection($champs) {
 }
 
 function connexionBD(){
-    // Nouvelle connexion sur hébergement du Studio OL    
+    // Nouvelle connexion sur hébergement du Studio OL 
+
+    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";    
-/*
+
+    /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";

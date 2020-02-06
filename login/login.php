@@ -81,6 +81,7 @@ function traductionSituationFR($champs){
         case 16 : $messageFrench = "Félicitation ! Votre compte a été crée avec succès !"; break;
         case 17 : $messageFrench = "Attention le courriel ne respecte la forme standard soit : exemple@courriel.com !"; break;
         case 18 : $messageFrench = "Au moment de créer votre compte, le courriel ne doit pas être utiliser déjà par quelqu'un !"; break;
+        case 34 : $messageFrench = "Attention ! Au moment je crée votre le compte, il y a eu une erreur système. Veuillez recommencer !"; break;
     }
     return $messageFrench;
 }
@@ -109,11 +110,21 @@ function traductionSituationEN($champs){
         case 16 : $messageEnglish = "Congratulations ! Your account has been successfully created !"; break;
         case 17 : $messageEnglish = "Warning, the email does not respect the standard form : example@courriel.com !"; break;
         case 18 : $messageEnglish = "When creating your account, the email should not be used by anyone already !"; break;
+        case 34 : $messageEnglish = "Warning ! When I created your account, there was a system error. Please try again !"; break;
     }
     return $messageEnglish;
 }
 
 function verifChamp($champs, $connMYSQL) {
+    if (isset($_POST['signUp']) || isset($_POST['login'])){
+        $champs["user"] = strtolower($_POST['user']);
+        $champs["password"] = $_POST['password'];
+    }
+
+    if (isset($_POST['signUp'])){
+        $champs["email"] = $_POST['email'];
+    }
+
     if (empty($champs['user'])){
         $champs['champVideUser'] = true;
     }
@@ -123,12 +134,12 @@ function verifChamp($champs, $connMYSQL) {
     }
 
     // Cette validation doit exclure si on pèse sur le bouton login
-    if (empty($champs['email']) && !isset($_POST['login'])){
+    if (empty($champs['email']) && isset($_POST['signUp'])){
         $champs['champVideEmail'] = true;
     } 
 
     // Simplification des champs vide pour plutard...
-    if (($champs['champVideUser'] || $champs['champVidePassword'] || $champs['champVideEmail']) && !isset($_POST['login'])){
+    if (($champs['champVideUser'] || $champs['champVidePassword'] || $champs['champVideEmail'])){
         $champs['champVide'] = true;
     }
 
@@ -144,7 +155,7 @@ function verifChamp($champs, $connMYSQL) {
         $champs['champTropLongPassword'] = true;
     }
 
-    if ($longueurEmail > 50){
+    if ($longueurEmail > 50 && isset($_POST['signUp']) ){
         $champs['champTropLongEmail'] = true;
     }
 
@@ -167,23 +178,44 @@ function verifChamp($champs, $connMYSQL) {
     }
 
     $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-    if (!preg_match($patternEmail, $champs['email']) && !isset($_POST['login'])) {
+    if (!preg_match($patternEmail, $champs['email']) && isset($_POST['signUp'])) {
         $champs['champInvalidEmail'] = true; 
-    }  
+    } 
 
-    if (($champs['champInvalidUser'] || $champs['champInvalidPassword'] || $champs['champInvalidEmail']) /*&& !isset($_POST['login'])*/){
+    // Ajout de cette sécurité / 5 Février 2020
+    // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
+    if (!(filter_var($champs['email'], FILTER_VALIDATE_EMAIL)) && isset($_POST['signUp']) ){
+        $champs['champInvalidEmail'] = true; 
+    }
+
+    if (($champs['champInvalidUser'] || $champs['champInvalidPassword'] || $champs['champInvalidEmail'])){
         $champs['champInvalid'] = true;
     }     
 
-    if (!$champs['champVideUser'] && !$champs['champVidePassword'] && $champs['user'] == $champs['password'] /*&& !isset($_POST['login'])*/){
+    if (!$champs['champVideUser'] && !$champs['champVidePassword'] && $champs['user'] == $champs['password']){
         $champs['sameUserPWD'] = true;
     }
 
     // Instauration de la validation si le user et ou email est dejà existant seulement si on veut créer un user 
     if (isset($_POST['signUp'])){  
-        // Retourner un message erreur si la BD a eu un problème ! J
-        $sql = "select user, email from login where user = '{$champs['user']}' OR email = '{$champs['email']}' ";        
-        $result = $connMYSQL->query($sql);
+        // Retourner un message erreur si la BD a eu un problème !
+
+        // Optimisation pour avoir directement la valeur qui nous intéreste
+        $stmt = $connMYSQL->prepare("select user, email from login where user =? OR email =? ");
+
+        /* Lecture des marqueurs */
+        $stmt->bind_param("ss", $champs['user'], $champs['email']);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */ 
+        $result = $stmt->get_result();    
+        $row_cnt = $result->num_rows;
+
+        // Close statement
+        $stmt->close();
+
         $row_cnt = $result->num_rows; // si il y a des résultats, on va vérifier lequeles est un duplicate
         if ($row_cnt !== 0){
             foreach ($result as $row) {
@@ -246,22 +278,31 @@ function situation($champs) {
         $typeSituation = 15; 
     } elseif ($champs['creationUserSuccess'] && isset($_POST['signUp']) ) {
         $typeSituation = 16; 
-    }        
+    } elseif (!$champs['creationUserSuccess'] && isset($_POST['signUp']) ) {
+        $typeSituation = 34; 
+    }       
     return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
 }
 
 function creationUser($champs, $connMYSQL) {
     $passwordCrypter = encryptementPassword($champs['password']);
-    // Ajout de l'information du email dans la création du user
-    $insert = "INSERT INTO login (user, password, id, email, reset_link, passwordTemp, temps_Valide_link) VALUES ";
-    $insert .= "('" . $champs['user'] . "','" . $passwordCrypter . "', NULL, '" . $champs['email'] . "', NULL, NULL, 0)";
-    $connMYSQL->query($insert);
-    if (mysqli_affected_rows($connMYSQL) == 1){
-        $champs['creationUserSuccess'] = true;
-    }
-    return $champs;
+    // Prepare an insert statement
+    $sql = "INSERT INTO login (user, password, email) VALUES (?,?,?)";
+    $stmt = $connMYSQL->prepare($sql);
 
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('sss', $champs['user'], $passwordCrypter, $champs['email']);
+    $stmt->execute();
+
+    if ($stmt->affected_rows == 1){
+        $champs['creationUserSuccess'] = true;
+    }    
+
+    // Close statement
+    $stmt->close();
+    return $champs;
 }
+
 // Selon une recommandation :
 // https://stackoverflow.com/questions/30279321/how-to-use-password-hash
 // On ne doit pas jouer avec le salt....
@@ -271,59 +312,76 @@ function encryptementPassword(string $password) {
 }
 
 function connexionUser($champs, $connMYSQL) {
-    $sql = "select user, password from login";
-    $result = $connMYSQL->query($sql);
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login where user =? ");
 
-    foreach ($result as $row) {
-        if ($row['user'] === $champs['user']) {
-            if (password_verify($champs['password'], $row['password'])) {
-                session_start();
-                $_SESSION['user'] = $champs['user'];
-                $_SESSION['password'] = $champs['password'];
-                $_SESSION['typeLangue'] = $champs["typeLangue"];                
-                date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
-                // Je set un cookie pour améliorer la sécurité pour vérifier que l'user est bien là...2018-12-28
-                setcookie("POKER", $_SESSION['user'], time() + 3600, "/");                
-                $date = date("Y-m-d H:i:s");
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs['user']);
 
-                if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/admin.php");
-                } else {
-                    // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
-                    $insert = "INSERT INTO login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
-                    $insert .= "('" . $champs['user'] . "',
-                                 '" . $date . "',
-                                 NULL,
-                                 '" . $champs['idCreationUser'] . "')";
-                    $connMYSQL->query($insert);
-                    header("Location: ./statsPoker/poker.php");
-                }
-                exit;
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $row = $result->fetch_array(MYSQLI_ASSOC);  
+    $row_cnt = $result->num_rows;
+
+    /* close statement and connection */
+    $stmt->close();   
+
+    if ($row_cnt == 1){
+        if (password_verify($champs['password'], $row['password'])) {
+            session_start();
+            $_SESSION['user'] = $champs['user'];
+            $_SESSION['password'] = $champs['password'];
+            $_SESSION['typeLangue'] = $champs["typeLangue"];                
+            date_default_timezone_set('America/New_York'); 
+            // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
+            // Je set un cookie pour améliorer la sécurité pour vérifier que l'user est bien là...2018-12-28
+            setcookie("POKER", $_SESSION['user'], time() + 3600, "/");                
+            $date = date("Y-m-d H:i:s");
+
+            if ($row['user'] === "admin") {
+                header("Location: ./statsPoker/administration/admin.php");
             } else {
-                $champs['badPassword'] = true;
-                return $champs;
+                // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques 
+                // Prepare an insert statement
+                $sql = "INSERT INTO login_stat_poker (user,date,idCreationUser) VALUES (?,?,?)";
+                $stmt = $connMYSQL->prepare($sql);                
+
+                // Bind variables to the prepared statement as parameters
+                $stmt->bind_param('ssi', $champs['user'], $date, $champs['idCreationUser']);
+                $stmt->execute();                    
+
+                // Close statement
+                $stmt->close();
+                header("Location: ./statsPoker/poker.php");
             }
+            exit;
+        } else {
+            $champs['badPassword'] = true;
         }
+    } else {
+        $champs['badUser'] = true;
     }
-    $champs['badUser'] = true;
     return $champs;
 }
 
 function connexionBD() {  
     // Nouvelle connexion sur hébergement du Studio OL
-    
+
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
-    
+
     /*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
-    
+*/
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
@@ -351,25 +409,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit;
     } else {
-        $champs["user"] = strtolower($_POST['user']);
-        $champs["password"] = $_POST['password'];
-        $champs["email"] = $_POST['email'];
-        $connMYSQL = connexionBD();   
+        $connMYSQL = connexionBD(); 
+        $champs = verifChamp($champs, $connMYSQL);
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['login'])) {
-            //////////////// Ceci est juste si je fais une connexion
             // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-            $sql = "select id from login where user = '{$champs["user"]}' ";                
-            $result_SQL = $connMYSQL->query($sql);
-            $row = $result_SQL->fetch_row(); // C'est mon array de résultat
-            $champs["idCreationUser"] = (int) $row[0];	// Assignation de la valeur 
-            $champs = verifChamp($champs, $connMYSQL);
+            /* Crée une requête préparée */
+            $stmt = $connMYSQL->prepare("select id from login where user =?");
+
+            /* Lecture des marqueurs */
+            $stmt->bind_param("s", $champs["user"]);
+
+            /* Exécution de la requête */
+            $stmt->execute();
+
+            /* Association des variables de résultat */
+            $result = $stmt->get_result();
+
+            $row = $result->fetch_array(MYSQLI_ASSOC);  
+
+            // Close statement
+            $stmt->close();
+
+            $champs["idCreationUser"] = $row["id"];	// Assignation de la valeur
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] ) {
                 $champs = connexionUser($champs, $connMYSQL);
             }
             // si le bouton s'inscrire est pesé...
-        } elseif (isset($_POST['signUp'])) {
-            $champs = verifChamp($champs, $connMYSQL);            
+        } elseif (isset($_POST['signUp'])) {          
             // Ajout de la validation si duplicate est à false en raison de unicité du user et email
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs['sameUserPWD'] && !$champs['duplicate']) {
                 $champs = creationUser($champs, $connMYSQL);

@@ -106,13 +106,26 @@ function remplissageChamps($champs, $connMYSQL) {
     if (isset($_SESSION['typeLangue'])){
         $champs["typeLangue"] = $_SESSION['typeLangue'];
     }
+
     if (isset($_SESSION['user'])){
         $champs["user"] = $_SESSION['user'];
-        // Comme j'ai instauré une foreign key entre la table mise_small_big vers login_organisateur je dois aller récupérer Iduser pour l'insérer avec la nouvelle combinaison
-        $sql = "select idUser from login_organisateur where user = '{$champs["user"]}' ";                
-        $result_SQL = $connMYSQL->query($sql);
-        $row = $result_SQL->fetch_row(); // C'est mon array de résultat
-        $champs["idUser"] = (int) $row[0];	// Assignation de la valeur 
+
+        /* Crée une requête préparée */
+        $stmt = $connMYSQL->prepare("select idUser from login_organisateur where user =? ");
+
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $champs["user"]);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+
+        $row = $result->fetch_array(MYSQLI_ASSOC);    
+        $champs["idUser"] = $row["idUser"];	// Assignation de la valeur 
+        // Close statement
+        $stmt->close(); 
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -133,8 +146,8 @@ function remplissageChamps($champs, $connMYSQL) {
 
 function validation($champs, $valid_Champ, $connMYSQL) {
     $valeurNumerique = "#^[0-9]{1}([0-9]{0,4})[0-9]{0,1}$#";
-    $user = "\"" . $champs['user'] . "\"";
-    
+    //$user = "\"" . $champs['user'] . "\"";
+
     if (isset($_POST['btn_addValeurCouleur'])){
         $longueurValeur = strlen($champs['valeur']);             
         if ($champs["valeur"] === ""){
@@ -149,7 +162,7 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if ($longueurValeur > 6){
             $valid_Champ['valeur_long_inval'] = true;
         }        
-        $valid_Champ['doublon_valeur'] = verification_doublon("amount_color", "amount", intval($champs["valeur"]), $user, $connMYSQL);
+        $valid_Champ['doublon_valeur'] = verification_doublon("amount_color", "amount", intval($champs["valeur"]), $champs['user'], $connMYSQL);
         // fin de la vérification avec le bouton des Valeur / Couleur
     } elseif (isset($_POST['btn_addSmallBig'])){
         $small = intval($champs["small"]);
@@ -181,8 +194,8 @@ function validation($champs, $valid_Champ, $connMYSQL) {
             $valid_Champ['big_invalide'] = true;
         }
 
-        $valid_Champ['doublon_small'] = verification_doublon("mise_small_big", "small", $small, $user, $connMYSQL);
-        $valid_Champ['doublon_big'] = verification_doublon("mise_small_big", "big", $big, $user, $connMYSQL);
+        $valid_Champ['doublon_small'] = verification_doublon("mise_small_big", "small", $small, $champs['user'], $connMYSQL);
+        $valid_Champ['doublon_big'] = verification_doublon("mise_small_big", "big", $big, $champs['user'], $connMYSQL);
         // fin de la vérification avec le bouton des petites / grosses mises        
     } 
     return $valid_Champ;
@@ -234,9 +247,22 @@ function situation($champs, $valid_Champ) {
 }
 
 function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
-    $sql = "SELECT * FROM $table WHERE $champ = $valeur and user = $user";
-    $result = $connMYSQL->query($sql);
-    if ($result->num_rows > 0){
+    /* Crée une requête préparée */ 
+    $stmt = $connMYSQL->prepare("SELECT * FROM $table WHERE $champ =? and user =? "); 
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("is", $valeur, $user);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result(); 
+    $row_cnt = $result->num_rows;
+    // Close statement
+    $stmt->close();   
+
+    if ($row_cnt > 0){
         return true;
     } else {
         return false;
@@ -244,8 +270,9 @@ function verification_doublon($table, $champ, $valeur, $user, $connMYSQL){
 }
 
 function nb_couleur_restant($connMYSQL, $champs){
+    // Impossible de récupérer la valeur avec une requete prepare à l'avance avec des placeholders
     $sql = "SELECT * FROM color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
-    $result = $connMYSQL->query($sql);    
+    $result = $connMYSQL->query($sql); 
     if ($result->num_rows > 0){
         $champs["nbCouleurRestant"] = $result->num_rows;
     }
@@ -253,6 +280,7 @@ function nb_couleur_restant($connMYSQL, $champs){
 }
 
 function choix_couleur_restant($connMYSQL, $champs){
+    // Impossible de récupérer la valeur avec une requete prepare à l'avance avec des placeholders
     $choixDesOption = "";    
     $sql = "SELECT * FROM color WHERE color_english not in (SELECT color_english FROM amount_color WHERE user = '{$champs['user']}')";
     $result = $connMYSQL->query($sql);    
@@ -280,16 +308,29 @@ function choix_couleur_restant($connMYSQL, $champs){
 
 function tableau_valeur_couleur($connMYSQL, $champs){
     $tableau = "";
-    $sql = "SELECT * FROM amount_color where user = '{$champs['user']}' ORDER BY amount";
-    $result = $connMYSQL->query($sql);    
-    if ($result->num_rows > 0){
+    /* Crée une requête préparée */ 
+    $stmt = $connMYSQL->prepare("SELECT * FROM amount_color where user =? ORDER BY amount "); 
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result(); 
+    $row_cnt = $result->num_rows;
+    // Close statement
+    $stmt->close();   
+
+    if ($row_cnt > 0){
         if ($champs["typeLangue"] == "francais"){
             $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr> <th>Valeur</th> <th>Couleur</th> <th></th> </tr> </thead>";
         } elseif ($champs["typeLangue"] == "english") {
             $tableau .= "<table class=\"tblValeurCouleur\"><thead><tr> <th>Value</th> <th>Color</th> <th></th> </tr> </thead>";
         }    
-        $tableau .= "<tbody>";
-        foreach ($result as $row) {
+        $tableau .= "<tbody>";        
+        while($row = $result->fetch_array(MYSQLI_ASSOC)){
             $tableau .= "
             <tr> <td>{$row['amount']}</td> <td class=\"{$row['color_english']}\"></td> 
                 <td class=\"delete\"> 
@@ -300,24 +341,37 @@ function tableau_valeur_couleur($connMYSQL, $champs){
                 </td> 
             </tr>";
             // Pour la 3e partie de la ligne, nous insérons un tableau, dans l'éventualité qu'on devra détruire la ligne du tableau
-        }
+        }        
         $tableau .= "</tbody></table>";
     }
     return $tableau;
 }
 
 function tableau_petite_grosse($connMYSQL, $champs){
-    $tableau = "";
-    $sql = "SELECT * FROM mise_small_big where user = '{$champs['user']}' ORDER BY small, big";
-    $result = $connMYSQL->query($sql);    
-    if ($result->num_rows > 0){
+    $tableau = "";    
+    /* Crée une requête préparée */ 
+    $stmt = $connMYSQL->prepare("SELECT * FROM mise_small_big where user =? ORDER BY small, big "); 
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $champs['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result(); 
+    $row_cnt = $result->num_rows;
+    // Close statement
+    $stmt->close();   
+
+    if ($row_cnt > 0){
         if ($champs["typeLangue"] == "francais"){
             $tableau .= "<table class=\"tblValeurCouleur\"><thead> <tr> <th>Petite</th> <th>Grosse</th> <th></th> </tr> </thead>";
         } elseif ($champs["typeLangue"] == "english") {
             $tableau .= "<table class=\"tblValeurCouleur\"><thead> <tr> <th>Small</th> <th>Big</th> <th></th> </tr> </thead>";
         } 
         $tableau .= "<tbody>";
-        foreach ($result as $row) {
+        while($row = $result->fetch_array(MYSQLI_ASSOC)){
             $tableau .= "
             <tr> <td>{$row['small']}</td> <td>{$row['big']}</td> 
                 <td class=\"delete\"> 
@@ -328,42 +382,57 @@ function tableau_petite_grosse($connMYSQL, $champs){
                 </td> 
             </tr>";
             // Pour la 3e partie de la ligne, nous insérons un tableau, dans l'éventualité qu'on devra détruire la ligne du tableau
-        }
+        } 
         $tableau .= "</tbody></table>";
     }
     return $tableau;
 }
 
 function insert_BD_valeur_couleur($connMYSQL, $champs){
-    $valeur = intval($champs["valeur"]);  
-    $insert = "INSERT INTO amount_color (user, amount, color_english, id_couleur, id_user) VALUES ";
-    $insert .= "('" . $champs["user"] . "','" . $valeur . "','" . $champs["couleur"] . "', NULL , '" . $champs["idUser"] . "')";
-    $result = $connMYSQL->query($insert);  
+    // Prepare an insert statement
+    $stmt = $connMYSQL->prepare("INSERT INTO amount_color (user, amount, color_english, id_user) VALUES (?,?,?,?)");  
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('sisi', $champs['user'], intval($champs["valeur"]), $champs["couleur"], $champs["idUser"]);
+    $result = $stmt->execute();
+    // Close statement
+    $stmt->close();
+
     return $result;
 }
 
 function insert_BD_petite_grosse_mise($connMYSQL, $champs){  
-    $small = intval($champs["small"]);  
-    $big = intval($champs["big"]);  
-    $insert = "INSERT INTO mise_small_big (user, small, big, id_valeur, id_user) VALUES ";
-    $insert .= "('" . $champs["user"] . "','" . $small . "','" . $big . "', NULL , '" . $champs["idUser"] . "')";
-    $result = $connMYSQL->query($insert); 
+    // Prepare an insert statement
+    $stmt = $connMYSQL->prepare("INSERT INTO mise_small_big (user, small, big, id_user) VALUES (?,?,?,?)");  
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('siii', $champs['user'], intval($champs["small"]), intval($champs["big"]), $champs["idUser"]);
+    $result = $stmt->execute();
+    // Close statement
+    $stmt->close();
+
     return $result;
 }
 
 function delete_BD_valeur_couleur($connMYSQL, $champs){
-    $user = "\"" . $champs['user'] . "\"";
-    $id = $champs["idCouleur"];
-    $delete = "DELETE FROM amount_color WHERE user = $user and id_couleur = $id";
-    $result = $connMYSQL->query($delete);  
+    // Prepare an insert statement
+    $stmt = $connMYSQL->prepare("DELETE FROM amount_color WHERE user =? and id_couleur =? ");  
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('si', $champs['user'],$champs["idCouleur"]);
+    $result = $stmt->execute();
+    // Close statement
+    $stmt->close();
+
     return $result;
 }
 
 function delete_BD_petite_grosse_mise($connMYSQL, $champs){
-    $user = "\"" . $champs['user'] . "\"";
-    $id = $champs["idPetiteGrosse"];
-    $delete = "DELETE FROM mise_small_big WHERE user = $user and id_valeur = $id";
-    $result = $connMYSQL->query($delete);
+    // Prepare an insert statement
+    $stmt = $connMYSQL->prepare("DELETE FROM mise_small_big WHERE user =? and id_valeur =? ");  
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param('si', $champs['user'],$champs["idPetiteGrosse"]);
+    $result = $stmt->execute();
+    // Close statement
+    $stmt->close();
+
     return $result;
 }
 
@@ -376,17 +445,19 @@ function reset_champs($champs){
 
 function connexionBD() {
     // Nouvelle connexion sur hébergement du Studio OL
+
+    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 
-    /*
+/*
     $host = "localhost";
     $user = "zmignaub";
     $password = "Banane11";
     $bd = "benoitmignault_ca_mywebsite";
-    */
+*/
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'"); // ceci permet d,avoir des accents affiché sur la page web ! 
 
@@ -394,19 +465,27 @@ function connexionBD() {
 }
 
 function verificationUser($connMYSQL) {
-    $sql = "select user, password from login_organisateur WHERE user = '{$_SESSION['user']}'";
-    $result = $connMYSQL->query($sql);
-    if ($result->num_rows > 0){
-        foreach ($result as $row) {
-            if ($row['user'] === $_SESSION['user']) {
-                if (password_verify($_SESSION['password'], $row['password'])) {
-                    return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
-                }
-            }        
+    // Optimisation de la vérification si le user existe dans la BD
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login_organisateur WHERE user =? ");
+
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $_SESSION['user']);
+
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    $stmt->close();
+    if ($result->num_rows == 1){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        if (password_verify($_SESSION['password'], $row['password'])) {
+            return true; // Si le password est bon, on retourne vrai
         }
-    } else {
-        return false;
-    }
+
+    } 
+    return false;
 }
 
 function redirection($champs) {  

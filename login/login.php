@@ -171,6 +171,12 @@ function verifChamp($champs, $connMYSQL) {
     $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
     if (!preg_match($patternEmail, $champs['email']) && !isset($_POST['login'])) {
         $champs['champInvalidEmail'] = true; 
+    } else {
+        // Ajout de cette sécurité / 5 Février 2020
+        // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
+        if (!(filter_var($champs['email'], FILTER_VALIDATE_EMAIL))){
+            $champs['champInvalidEmail'] = true; 
+        }
     }  
 
     if (($champs['champInvalidUser'] || $champs['champInvalidPassword'] || $champs['champInvalidEmail']) /*&& !isset($_POST['login'])*/){

@@ -189,9 +189,24 @@ function verifChamp($champs, $connMYSQL) {
 
     // Instauration de la validation si le user et ou email est dejà existant seulement si on veut créer un user 
     if (isset($_POST['signUp'])){  
-        // Retourner un message erreur si la BD a eu un problème ! J
-        $sql = "select user, email from login where user = '{$champs['user']}' OR email = '{$champs['email']}' ";        
-        $result = $connMYSQL->query($sql);
+        // Retourner un message erreur si la BD a eu un problème !
+
+        // Optimisation pour avoir directement la valeur qui nous intéreste
+        $stmt = $connMYSQL->prepare("select user, email from login where user =? OR email =? ");
+        
+        /* Lecture des marqueurs */
+        $stmt->bind_param("ss", $champs['user'], $champs['email']);
+
+        /* Exécution de la requête */
+        $stmt->execute();
+
+        /* Association des variables de résultat */ 
+        $result = $stmt->get_result();    
+        $row_cnt = $result->num_rows;
+
+        // Close statement
+        $stmt->close();
+
         $row_cnt = $result->num_rows; // si il y a des résultats, on va vérifier lequeles est un duplicate
         if ($row_cnt !== 0){
             foreach ($result as $row) {
@@ -405,10 +420,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $stmt->get_result();
 
             $row = $result->fetch_array(MYSQLI_ASSOC);  
-            
+
             // Close statement
             $stmt->close();
-            
+
             $champs["idCreationUser"] = $row["id"];	// Assignation de la valeur
             $champs = verifChamp($champs, $connMYSQL);
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] ) {

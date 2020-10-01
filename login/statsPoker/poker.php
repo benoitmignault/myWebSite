@@ -684,25 +684,25 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
 function redirection($typeLangue) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         delete_Session();
-        header("Location: /erreur/erreur.php");
+        header("Location: https://benoitmignault.ca/erreur/erreur.php");
 
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
         delete_Session();
         if (isset($_POST['return'])) {
             if ($typeLangue == 'english') {
-                header("Location: /login/login.php?langue=english");
+                header("Location: https://benoitmignault.ca/login/login.php?langue=english");
             } else {
-                header("Location: /login/login.php?langue=francais");
+                header("Location: https://benoitmignault.ca/login/login.php?langue=francais");
             }
         } elseif (isset($_POST['home'])) {
             if ($typeLangue == 'english') {
-                header("Location: /english/english.html");
+                header("Location: https://benoitmignault.ca/english/english.html");
 
             } else {
-                header("Location: /index.html");
+                header("Location: https://benoitmignault.ca/index.html");
             }
         } else {
-            header("Location: /erreur/erreur.php");
+            header("Location: https://benoitmignault.ca/erreur/erreur.php");
         }
     }
     exit; // pour arrêter l'éxecution du code php
@@ -710,7 +710,6 @@ function redirection($typeLangue) {
 
 function delete_Session(){
     session_unset(); // détruire toutes les variables SESSION
-    setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
     session_destroy();
     session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
 }

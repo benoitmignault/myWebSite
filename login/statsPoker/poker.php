@@ -242,9 +242,9 @@ function creationListeDate($connMYSQL, $option, $tournoiDate) {
 }
 
 function lesGrandsGagnants_100e($nom_Champion) {
-    //https://pixabay.com/fr/médaille-or-conception-2163347/
-    //https://pixabay.com/fr/m%C3%A9daille-argent-conception-2163349/
-    //https://pixabay.com/fr/m%C3%A9daille-bronze-conception-2163351/
+    // https://pixabay.com/fr/médaille-or-conception-2163347/
+    // https://pixabay.com/fr/m%C3%A9daille-argent-conception-2163349/
+    // https://pixabay.com/fr/m%C3%A9daille-bronze-conception-2163351/
     if ($nom_Champion === "Frederic V") {
         $icone = "<img src=\"./photo/medaile_or.jpg\" alt=\"or\" title=\"or\">";
     } elseif ($nom_Champion === "Frederic") {

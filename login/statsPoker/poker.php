@@ -212,7 +212,7 @@ function creationListeId($connMYSQL, $option, $IDSelected) {
                 $IdTrouver = true;
             } else {
                 array_push($liste_Id_tournois, "<option value=\"{$row['id_tournoi']}\">{$row['id_tournoi']}</option>");
-            }
+            }                   
         }
     }
     return $liste_Id_tournois;

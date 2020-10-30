@@ -25,7 +25,7 @@ function verifier_affichage() {
 }
 
 function afficher_Instructions() {
-    affichage.addEventListener('click', function (evt) {
+    affichage.addEventListener('click', function(evt) {
         evt.preventDefault();
         if (liste_info.style.display === "") {
             liste_info.style.display = "block";
@@ -47,7 +47,7 @@ function afficher_Instructions() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function (event) {
+document.addEventListener('DOMContentLoaded', function(event) {
     verifier_affichage();
     afficher_Instructions();
 });

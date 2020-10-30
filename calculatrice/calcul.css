@@ -44,9 +44,11 @@ a:hover {
     background-color: cadetblue;
 }
 
+
 /* 
 Nouvelle manière d'afficher un legend au milieu
 */
+
 .legendCenter {
     display: table;
     min-width: 0px;
@@ -60,7 +62,6 @@ Nouvelle manière d'afficher un legend au milieu
     font-weight: bold;
     color: green;
 }
-
 
 .procedure {
     width: 50%;
@@ -124,12 +125,10 @@ a {
 }
 
 @media screen and (max-width:768px) {
-
     .procedure,
     .calcul {
         width: 100%;
     }
-
     ol {
         padding-left: 30px;
     }

@@ -228,7 +228,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background-size: auto;
             background-repeat: no-repeat;
         }
-
     </style>
 </head>
 

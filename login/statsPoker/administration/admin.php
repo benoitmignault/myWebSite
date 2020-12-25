@@ -458,19 +458,11 @@ function verifChampPosition($valid_Champ) {
 }
 
 function connexionBD() {  
-    // Nouvelle connexion sur hébergement du Studio OL
-    
+    // Nouvelle connexion sur hébergement du Studio OL    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
-
-    /*
-    $host = "localhost";
-    $user = "zmignaub";
-    $password = "Banane11";
-    $bd = "benoitmignault_ca_mywebsite";
-    */
     
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
@@ -521,10 +513,7 @@ function redirection($champs, $connMYSQL) {
 
             // Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques 
             $insert = "INSERT INTO login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
-            $insert .= "('" . $_SESSION['user'] . "',
-                         '" . $date . "',
-                            NULL,
-                         '" . $id . "')";
+            $insert .= "('" . $_SESSION['user'] . "', '" . $date . "', NULL, '" . $id . "')";
             $connMYSQL->query($insert);            
             header("Location: /login/statsPoker/poker.php");
         } elseif (isset($_POST['login'])) {
@@ -532,7 +521,7 @@ function redirection($champs, $connMYSQL) {
             header("Location: /login/login.php?langue={$champs["typeLangue"]}");
         } elseif (isset($_POST['accueuil'])) {
             delete_Session();
-            if ($typeLangue == 'english') {
+            if ($champs["typeLangue"] == 'english') {
                 header("Location: /english/english.html");
             } else {
                 header("Location: /index.html");

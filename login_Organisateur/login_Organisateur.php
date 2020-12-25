@@ -1,8 +1,9 @@
 <?php
 function initialChamp() {
     $champs = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideName" => false, "duplicatUser" => false, "invalidUser" => false, "invalidPassword" => false, 
-                     "invalidName" => false, "badUser" => false, "champTropLong" => false, "badPassword" => false, "sameUserPassword" => false, "invalidInformation" => false,
-                     "champUserTropLong" => false, "champPasswordTropLong" => false, "champNameTropLong" => false, "password" => "", "situation" => 0, "user" => "", "typeLangue" => "", "name" => "", "creationUserSuccess" => false];
+    "invalidName" => false, "badUser" => false, "champTropLong" => false, "badPassword" => false, "sameUserPassword" => false, "invalidInformation" => false,
+    "champUserTropLong" => false, "champPasswordTropLong" => false, "champNameTropLong" => false, "password" => "", "situation" => 0, "user" => "", "typeLangue" => "", "name" => "", "creationUserSuccess" => false];
+
     return $champs;
 }
 
@@ -32,7 +33,7 @@ function traduction($champs) {
                 case 2 : $message = "Votre utilisateur &rarr; {$champs['user']} &larr; n'existe pas !";
                     break;
                 case 3 : $message = "Vous n'avez pas saisie le bon mot de passe avec votre utilisateur &rarr; {$champs['user']} &larr; !<br>
-                         Si vous avez oublié votre mot de passe, Veuillez recréer un nouvel utilisateur pour l'instant et nous avertir via notre page d'accueuil dans la section «Nous joindre» pour détruire votre ancien nom utilisateur.";
+                Si vous avez oublié votre mot de passe, Veuillez recréer un nouvel utilisateur pour l'instant et nous avertir via notre page d'accueuil dans la section «Nous joindre» pour détruire votre ancien nom utilisateur.";
                     break;
                 case 4 : $message = "Attention l'utilisateur &rarr; {$champs['user']} &larr; est déjà utilisé par quelqu'un d'autre !";
                     break;
@@ -81,7 +82,7 @@ function traduction($champs) {
                 case 2 : $message = "Your username &rarr; {$champs['user']} &larr; doesn't exist !";
                     break;
                 case 3 : $message = "You have not entered the good password with your user &rarr; {$champs['user']} &larr; !<br>
-                            If you have forgotten your password, please recreate a new user at this time and notify us via our home page in the «Contact Us» section to delete your old username.";
+                If you have forgotten your password, please recreate a new user at this time and notify us via our home page in the «Contact Us» section to delete your old username.";
                     break;
                 case 4 : $message = "Warning ! The username &rarr; {$champs['user']} &larr; is already taken by someone else !";
                     break;
@@ -108,8 +109,9 @@ function traduction($champs) {
             }
         }
     }
-    $arrayMots = ["lang" => $lang, 'emailInfo' => $emailInfo, 'title' => $title, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'li3' => $li3,
-                  'legend' => $legend, 'name' => $name, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_Erase' => $btn_Erase, 'btn_return' => $btn_return, 'message' => $message];
+    $arrayMots = ["lang" => $lang, 'emailInfo' => $emailInfo, 'title' => $title, 'p1' => $p1, 'li1' => $li1, 'li2' => $li2, 'li3' => $li3, 
+    'legend' => $legend, 'name' => $name, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login, 'btn_signUp' => $btn_signUp, 'btn_Erase' => $btn_Erase, 'btn_return' => $btn_return, 'message' => $message];
+
     return $arrayMots;
 }
 
@@ -190,7 +192,7 @@ function situation($champs) {
         //echo 4;
         // La situatino 5 a été corrigé le 2018-10-03 , j'avais oublié d'ajouter la condition «sameUserPassword» 
     } elseif ($champs['user'] !== "" && !$champs['duplicatUser'] && !$champs['champVide'] && 
-              !$champs['invalidInformation'] && !$champs['champVideName'] && !$champs['sameUserPassword']) {
+            !$champs['invalidInformation'] && !$champs['champVideName'] && !$champs['sameUserPassword']) {
         $typeSituation = 5;
         //echo 5;
     } elseif (!$champs['champVideUser'] && $champs['champVidePassword'] && !$champs['badUser'] && isset($_POST['login'])) {
@@ -220,8 +222,6 @@ function situation($champs) {
     } elseif ($champs['creationUserSuccess'] && isset($_POST['signUp'])){
         $typeSituation = 14;
     }
-
-
 
     return $typeSituation; 
 }
@@ -311,22 +311,15 @@ function connexionUser($champs, $connMYSQL) {
 }
 
 function connexionBD() {
-    // Nouvelle connexion sur hébergement du Studio OL
-
-    
+    // Nouvelle connexion sur hébergement du Studio OL    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 
-/*
-    $host = "localhost";
-    $user = "zmignaub";
-    $password = "Banane11";
-    $bd = "benoitmignault_ca_mywebsite";
-*/
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");
+
     return $connMYSQL;
 }
 
@@ -341,6 +334,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $arrayMots = traduction($champs);
     }
 }
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $champs = initialChamp();
     $champs["typeLangue"] = $_POST['langue'];

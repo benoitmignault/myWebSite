@@ -89,8 +89,9 @@ function message_Situation($champs){
 }
 
 function initialisation_Champs() {
-    $champs = ["typeLangue" => "", "user" => "", "situation" => 0, "valeur" => "", "small" => "", 
-               "big" => "", "couleur" => "","idCouleur" => 0, "idPetiteGrosse" => 0, "nbCouleurRestant" => 0, "idUser" => 0];
+    $champs = ["typeLangue" => "", "user" => "", "situation" => 0, "valeur" => "", "small" => "",
+    "big" => "", "couleur" => "","idCouleur" => 0, "idPetiteGrosse" => 0, "nbCouleurRestant" => 0, "idUser" => 0];
+
     return $champs;
 }
 
@@ -99,6 +100,7 @@ function initialisation_indicateur() {
                     "doublon_small" => false, "doublon_big" => false, "small_vide" => false, "big_vide" => false, "small_big_egal" => false, 
                     "big_trop_petit" => false, "valeur_long_inval" => false, "valeur_invalide" => false, "small_long_inval" => false, 
                     "small_invalide" => false, "big_long_inval" => false, "big_invalide" => false];
+
     return $valid_Champ;
 }
 
@@ -141,6 +143,7 @@ function remplissageChamps($champs, $connMYSQL) {
             $champs["idPetiteGrosse"] = $_POST['idCoupleMise'];
         }
     }
+
     return $champs;
 }
 
@@ -444,20 +447,12 @@ function reset_champs($champs){
 }
 
 function connexionBD() {
-    // Nouvelle connexion sur hébergement du Studio OL
-
-    
+    // Nouvelle connexion sur hébergement du Studio OL    
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
     $bd = "benoitmi_benoitmignault.ca.mysql";
 
-/*
-    $host = "localhost";
-    $user = "zmignaub";
-    $password = "Banane11";
-    $bd = "benoitmignault_ca_mywebsite";
-*/
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'"); // ceci permet d,avoir des accents affiché sur la page web ! 
 
@@ -483,8 +478,8 @@ function verificationUser($connMYSQL) {
         if (password_verify($_SESSION['password'], $row['password'])) {
             return true; // Si le password est bon, on retourne vrai
         }
-
     } 
+    
     return false;
 }
 

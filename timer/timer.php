@@ -145,7 +145,6 @@ function recupererMaxCombinaisonUser($connMYSQL, $user){
     return $row['number'];
 }
 
-
 function coloriage($champs) {
     return "rgb({$champs['number_Red']},{$champs['number_Green']},{$champs['number_Blue']})";
 }
@@ -319,10 +318,10 @@ function connexionBD() {
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmignault_ca_mywebsite";
-    
+    $bd = "benoitmi_benoitmignault.ca.mysql";
+
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
-    $connMYSQL->query("set names 'utf8'"); // ceci permet d'avoir des accents affiché sur la page web !
+    $connMYSQL->query("set names 'utf8'");
     return $connMYSQL;
 }
 

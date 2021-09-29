@@ -9,7 +9,7 @@ function connexionBD() {
     $bd = "benoitmi_benoitmignault.ca.mysql";
 
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
-    $connMYSQL->query("set names 'utf8'"); // ceci permet d'avoir des accents affiché sur la page web !
+    $connMYSQL->query("set names 'utf8'");
 
     return $connMYSQL;
 }
@@ -20,8 +20,8 @@ function is_ajax() {
 }
 
 function initialisation_Champs() {
-    $champs = ["user" => "", "combinaison" => 0, "valeurSmall" => "", "valeurBig" => "", "aucune_valeur" => false, "trop_valeur" => false,
-    "color_red" => 0, "color_green" => 0, "color_blue" => 0];  
+    $champs = ["maxCombinaison" => 0, "user" => "", "combinaison" => 0, "valeurSmall" => "", "valeurBig" => "", "aucune_valeur" => false, 
+    "trop_valeur" => false, "color_red" => 0, "color_green" => 0, "color_blue" => 0];  
 
     return $champs;
 }
@@ -35,6 +35,11 @@ function remplissageChamps($champs){
         if (isset($_POST['niveau_combinaison'])){
             $champs['combinaison'] = intval($_POST['niveau_combinaison']);
             $champs['combinaison']++;
+        }
+
+        // Ajout 2021-09-28 , l'information a semblerait disparue...
+        if (isset($_POST['maxCombinaison'])){
+            $champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
         }
 
         if (isset($_POST['color_red'])){

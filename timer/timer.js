@@ -18,6 +18,7 @@ const secondes = document.querySelector('.chiffreSec p');
 const periode = document.querySelector('.periode p');
 const alertSound = document.querySelector('#alertSound');
 const combinaison = document.querySelector('.combinaison');
+const maxCombinaison = document.querySelector('.maxCombinaison');
 const organisateur = document.querySelector('#choixOrganisateur');
 const color_red = document.querySelector('#number_Red');
 const color_green = document.querySelector('#number_Green');
@@ -50,7 +51,7 @@ function modificationSizeValeurs(big) {
 }
 
 function reset() {
-    resetValeur.addEventListener('click', function (evt) {
+    resetValeur.addEventListener('click', function(evt) {
         doubleValeur.setAttribute("class", "");
         doubleValeur.removeAttribute("disabled");
         resetValeur.setAttribute("class", "disabled");
@@ -61,7 +62,7 @@ function reset() {
 }
 
 function timer15Min() {
-    temps15min.addEventListener('click', function (evt) {
+    temps15min.addEventListener('click', function(evt) {
         clearTimeout(comptage);
         reprendTimer.setAttribute("class", "disabled");
         reprendTimer.setAttribute("disabled", "disabled");
@@ -124,7 +125,7 @@ function starting15() {
 }
 
 function timer30Min() {
-    temps30min.addEventListener('click', function (evt) {
+    temps30min.addEventListener('click', function(evt) {
         clearTimeout(comptage);
         reprendTimer.setAttribute("class", "disabled");
         reprendTimer.setAttribute("disabled", "disabled");
@@ -218,6 +219,7 @@ function callAjax() {
             resetValeur.removeAttribute("disabled");
             var data = {
                 "niveau_combinaison": combinaison.value,
+                "maxCombinaison": maxCombinaison.value,
                 "nom_orginateur": organisateur.value,
                 "color_red": color_red.value,
                 "color_green": color_green.value,
@@ -229,7 +231,7 @@ function callAjax() {
                 dataType: "json",
                 url: "changerMise/changer.php",
                 data: data,
-                success: function (dataReturn) {
+                success: function(dataReturn) {
                     // sécurisation du retour d'information
                     if (dataReturn["data"]) {
                         var dataObj = JSON.parse(dataReturn["data"]);
@@ -276,7 +278,7 @@ function playMusique() {
 }
 
 function stop() {
-    stopTimer.addEventListener('click', function (evt) {
+    stopTimer.addEventListener('click', function(evt) {
         clearTimeout(comptage); // arrête le coulage du temps
         reprendTimer.setAttribute("class", "");
         reprendTimer.removeAttribute("disabled");
@@ -290,7 +292,7 @@ function stop() {
 }
 
 function reprendreTemps() {
-    reprendTimer.addEventListener('click', function (evt) {
+    reprendTimer.addEventListener('click', function(evt) {
         clearTimeout(comptage); // arrête le coulage du temps
         reprendTimer.setAttribute("class", "disabled");
         reprendTimer.setAttribute("disabled", "disabled");
@@ -313,7 +315,7 @@ function reprendreTemps() {
 }
 
 function resetTemp() {
-    resetTemps.addEventListener('click', function (evt) {
+    resetTemps.addEventListener('click', function(evt) {
         clearTimeout(comptage); // arrête le coulage du temps
         chrono = 0;
         min = "00";
@@ -393,7 +395,7 @@ function resizeText() {
     // 1.3802082538604736 -> 125%
 }
 
-document.addEventListener('DOMContentLoaded', function (event) {
+document.addEventListener('DOMContentLoaded', function(event) {
     modificationSizeValeurs(valeurBig.innerHTML);
     resizeText();
     timer15Min();

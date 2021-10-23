@@ -612,22 +612,22 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
 }
 
 function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
-    $sql = "select res.*, round(res.prixKiller / res.nb_presence,2) as killerPresence
-        from
-        (
-        SELECT
-        joueur,
-        SUM(killer) as prixKiller,
-        SUM(prixCitron) as citronPrice,
-        count(case victoire when 'X' then 1 else null end) as nb_victoire,
-        count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
-        count(joueur) as nb_presence
-        FROM
-        poker
-        where 
-        id_tournoi > 100
-        GROUP BY joueur                
-        ) res ";
+    $sql = "
+    select 
+        res.*, 
+        round(res.prixKiller / res.nb_presence,2) as killerPresence 
+        from 
+        ( 
+            SELECT joueur, 
+                round(SUM(killer),2) as prixKiller, 
+                round(SUM(prixCitron),2) as citronPrice, 
+                count(case victoire when 'X' then 1 else null end) as nb_victoire, 
+                count(case fini_2e when 'X' then 1 else null end) as nb_fini2e, 
+                count(joueur) as nb_presence 
+            FROM poker 
+            where id_tournoi > 100 
+            GROUP BY joueur 
+        ) res";
     $orderBy = "";
     // Ce qui va déterminer l'order by
     if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){

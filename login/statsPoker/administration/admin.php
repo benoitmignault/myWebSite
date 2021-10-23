@@ -168,10 +168,10 @@ function validation($champs, $valid_Champ, $connMYSQL) {
         if ($longueurid > 4) {
             $valid_Champ['longueur_inval_Id'] = true;
         }
-        if ($longueurKiller > 3) {
+        if ($longueurKiller > 4) {
             $valid_Champ['longueur_inval_Killer'] = true;
         }
-        if ($longueurCitron > 3) {
+        if ($longueurCitron > 4) {
             $valid_Champ['longueur_inval_Citron'] = true;
         }
     } elseif (isset($_POST['ajouterNouveau'])) {
@@ -184,7 +184,8 @@ function validation($champs, $valid_Champ, $connMYSQL) {
     $patternGain = "#^[-]{0,1}([0-9]{1,3})$#";
     $patternID = "#^[0-9]{1,4}$#";
     $patternDate = "#^([0-9]{4})[-]([0-9]{2})[-]([0-9]{2})$#";
-    $patternKillerCitron = "#^([0-9]{1})([.][5]){0,1}$#";
+    // Changement du pattern pour les prix killer et citron pour avoir 2 chiffres après les décimals
+    $patternKillerCitron = "#^([0-9]{1})([.]){0,1}([1-9]){0,2}$#"; 
 
     if (isset($_POST['ajouter'])) {
         if (!preg_match($patternGain, $champs['gain'])) {
@@ -736,11 +737,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="killer <?php if (verifChampKiller($valid_Champ)) { echo "erreur"; } ?>">
                     <label for="killer"><?php echo $arrayMots['killer']; ?></label>
-                    <input maxlength="3" type="text" id="killer" name="killer" value="<?php echo $champs['killer'] ?>">
+                    <input maxlength="4" type="text" id="killer" name="killer" value="<?php echo $champs['killer'] ?>">
                 </div>
                 <div class="citron <?php if (verifChampCitron($valid_Champ)) { echo "erreur"; } ?>">
                     <label for="citron"><?php echo $arrayMots['citron']; ?></label>
-                    <input maxlength="3" type="text" id="citron" name="citron" value="<?php echo $champs['citron'] ?>">
+                    <input maxlength="4" type="text" id="citron" name="citron" value="<?php echo $champs['citron'] ?>">
                 </div>
                 <div class="bas_formulaire">
                     <input class="bouton" type="submit" name="ajouter" value="<?php echo $arrayMots['btn_add']; ?>">

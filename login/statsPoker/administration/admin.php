@@ -517,16 +517,16 @@ function redirection($champs, $connMYSQL) {
             $insert .= "('" . $_SESSION['user'] . "', '" . $date . "', NULL, '" . $id . "')";
             $connMYSQL->query($insert);            
             header("Location: /login/statsPoker/poker.php");
-        } elseif (isset($_POST['login'])) {
-            delete_Session();
+        } elseif (isset($_POST['login'])) {            
             header("Location: /login/login.php?langue={$champs["typeLangue"]}");
-        } elseif (isset($_POST['accueuil'])) {
             delete_Session();
+        } elseif (isset($_POST['accueuil'])) {            
             if ($champs["typeLangue"] == 'english') {
                 header("Location: /english/english.html");
             } else {
                 header("Location: /index.html");
             }
+            delete_Session();
         }
     }
     exit; // pour arrêter l'éxecution du code php

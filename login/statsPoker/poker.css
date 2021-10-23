@@ -18,15 +18,15 @@
     flex-wrap: wrap;
 }
 
-.mainPage > div {
+.mainPage>div {
     width: 100%;
 }
 
-.mainPage > div > fieldset {
+.mainPage>div>fieldset {
     background-color: #F0FFF0;
 }
 
-.mainPage .header > h1 {
+.mainPage .header>h1 {
     color: white;
     text-align: center;
     margin-top: 10px;
@@ -44,10 +44,12 @@
     padding: 2px;
 }
 
+
 /* 
 Nouvelle manière d'afficher un legend au milieu
 */
-.mainPage > div > fieldset > .legendCenter {
+
+.mainPage>div>fieldset>.legendCenter {
     display: table;
     min-width: 0px;
     position: relative;
@@ -181,6 +183,19 @@ Nouvelle manière d'afficher un legend au milieu
     font-weight: bold;
 }
 
+.mainPage .affichage table td div {
+    width: 50%;
+    margin: auto;
+}
+
+.mainPage .affichage table td .prenom {
+    text-align: left;
+}
+
+.mainPage .affichage table td .valeur {
+    text-align: right;
+}
+
 .mainPage .affichage table tr td img {
     max-width: 100%;
     height: 30px;
@@ -195,7 +210,9 @@ Nouvelle manière d'afficher un legend au milieu
     color: red;
 }
 
+
 /* Ne sera pas utiliser pour l'instant */
+
 .mainPage .affichage table .droit {
     text-align: right;
 }
@@ -211,7 +228,7 @@ Nouvelle manière d'afficher un legend au milieu
     margin-top: 15px;
 }
 
-.mainPage .return > fieldset {
+.mainPage .return>fieldset {
     padding: 0;
 }
 
@@ -236,7 +253,6 @@ Nouvelle manière d'afficher un legend au milieu
     .mainPage {
         width: 100%;
     }
-
     .mainPage .header h1 {
         line-height: normal;
         font-size: 1.5em;
@@ -244,45 +260,36 @@ Nouvelle manière d'afficher un legend au milieu
         margin-left: 15px;
         margin-right: 15px;
     }
-
     .bouton {
         margin: 0px;
         padding: 3px 10px 5px 10px;
         margin-bottom: 15px;
     }
-
     .mainPage .method .formulaire .bouton {
         margin-right: 15px;
     }
-
     .mainPage .info_method .methode {
         font-size: 14px;
     }
-
     .mainPage .btnRetour {
         padding-bottom: 5px;
     }
-
     .mainPage .affichage table .retourLigne {
         display: block;
     }
-
     .mainPage .affichage fieldset,
     .mainPage .info_method fieldset {
         padding: 0px;
     }
-
     .mainPage .affichage table tr .nomPetit {
         font-size: 14px;
     }
-
-    .mainPage > div > fieldset > legend {
+    .mainPage>div>fieldset>legend {
         width: 75%;
         font-weight: bold;
     }
-
-    .mainPage .affichage > fieldset > legend,
-    .mainPage .info_method > fieldset > legend {
+    .mainPage .affichage>fieldset>legend,
+    .mainPage .info_method>fieldset>legend {
         margin-bottom: 10px;
     }
 }

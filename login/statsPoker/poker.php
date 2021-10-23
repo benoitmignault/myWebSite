@@ -286,16 +286,18 @@ function affichageBrute($connMYSQL, $arrayMots) {
         $nombreGain = intval($row['gain']);
         $icone = lesGrandsGagnants_100e($row['joueur']);
         $tableau .= "<tr>
-                <td>{$row['joueur']}{$icone}</td>";
+                <td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>";
         if ($nombreGain > 0) {
-            $tableau .= "<td class='positif'>{$nombreGain}</td>";
+            $tableau .= "<td class='positif'><div class=\"valeur\">{$nombreGain}</div></td>";
         } elseif ($nombreGain < 0) {
-            $tableau .= "<td class='negatif'>{$nombreGain}</td>";
+            $tableau .= "<td class='negatif'><div class=\"valeur\">{$nombreGain}</div></td>";
         } else {
-            $tableau .= "<td>{$nombreGain}</td>";
+            $tableau .= "<td><div class=\"valeur\">{$nombreGain}</div></td>";
         }
-        $tableau .= "<td>{$row['victoire']}</td> <td>{$row['fini_2e']}</td>
-                     <td>{$row['id_tournoi']}</td> <td>{$row['date']}</td>
+        $tableau .= "<td><div class=\"valeur\">{$row['victoire']}</div></td>
+                     <td><div class=\"valeur\">{$row['fini_2e']}</div></td>
+                     <td><div class=\"valeur\">{$row['id_tournoi']}</div></td> 
+                     <td><div class=\"valeur\">{$row['date']}</div></td>
                 </tr>";
     }
     $tableau .= "</tbody></table>";
@@ -328,19 +330,19 @@ function affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots) {
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
-            $tableau .= "<tr> <td>{$informationJoueur}{$icone}</td>";
+            $tableau .= "<tr> <td><div class=\"prenom\">{$informationJoueur}{$icone}</div></td>";
             if ($nombreGain > 0) {
-                $tableau .= "<td class='positif'>{$nombreGain}</td>";
+                $tableau .= "<td class='positif'><div class=\"valeur\">{$nombreGain}</div></td>";
             } elseif ($nombreGain < 0) {
-                $tableau .= "<td class='negatif'>{$nombreGain}</td>";
+                $tableau .= "<td class='negatif'><div class=\"valeur\">{$nombreGain}</div></td>";
             } else {
-                $tableau .= "<td>{$nombreGain}</td>";
+                $tableau .= "<td><div class=\"valeur\">{$nombreGain}</div></td>";
             }
             $tableau .= "     
-                        <td>{$row['victoire']}</td>
-                        <td>{$row['fini_2e']}</td>
-                        <td>{$row['id_tournoi']}</td>
-                        <td>{$row['date']}</td>
+                        <td><div class=\"valeur\">{$row['victoire']}</div></td>
+                        <td><div class=\"valeur\">{$row['fini_2e']}</div></td>
+                        <td><div class=\"valeur\">{$row['id_tournoi']}</div></td>
+                        <td><div class=\"valeur\">{$row['date']}</div></td>
                     </tr>";
         }
         $tableau .= "</tbody></table>";
@@ -366,7 +368,7 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
         /* Crée une requête préparée */
         $stmt = $connMYSQL->prepare("SELECT
                     joueur,
-                    SUM(gain) as gainTotaux,
+                    sum(gain) as gainTotaux,
                     count(case victoire when 'X' then 1 else null end) as nb_victoire,
                     count(case fini_2e when 'X' then 1 else null end) as nb_fini2e,
                     count(joueur) as nb_presence
@@ -483,25 +485,25 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
         $gainRatio = number_format($gainRatio, 2);
         $icone = lesGrandsGagnants_100e($row['joueur']);
         $tableau .= "<tr>";
-        $tableau .= "<td>{$position}</td>";
-        $tableau .= "<td>{$row['joueur']}{$icone}</td>";
+        $tableau .= "<td><div class=\"valeur\">{$position}</div></td>";
+        $tableau .= "<td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>";
         if ($nombreGain > 0) {
-            $tableau .= "<td class='positif'>{$nombreGain}</td>";
+            $tableau .= "<td class='positif'><div class=\"valeur\">{$nombreGain}</div></td>";
         } elseif ($nombreGain < 0) {
-            $tableau .= "<td class='negatif'>{$nombreGain}</td>";
+            $tableau .= "<td class='negatif'><div class=\"valeur\">{$nombreGain}</div></td>";
         } else {
-            $tableau .= "<td class=\"\">{$nombreGain}</td>";
+            $tableau .= "<td class=\"\"><div class=\"valeur\">{$nombreGain}</div></td>";
         }
-        $tableau .= "<td>{$row['nb_victoire']}</td>
-        <td>{$row['nb_fini2e']}</td>
-        <td>{$row['nb_presence']}</td>";
+        $tableau .= "<td><div class=\"valeur\">{$row['nb_victoire']}</div></td>
+        <td><div class=\"valeur\">{$row['nb_fini2e']}</div></td>
+        <td><div class=\"valeur\">{$row['nb_presence']}</div></td>";
 
         if ($gainRatio > 0) {
-            $tableau .= "<td class='positif'>{$gainRatio}</td>";
+            $tableau .= "<td class='positif'><div class=\"valeur\">{$gainRatio}</div></td>";
         } elseif ($gainRatio < 0) {
-            $tableau .= "<td class='negatif'>{$gainRatio}</td>";
+            $tableau .= "<td class='negatif'><div class=\"valeur\">{$gainRatio}</div></td>";
         } else {
-            $tableau .= "<td class=\"\">{$gainRatio}</td>";
+            $tableau .= "<td><div class=\"valeur\">{$gainRatio}</div></td>";
         }  
         $tableau .= "</tr>";
         $position++; // On augmente de 1 la position pour le prochain joueur et ses statistiques pour l'affichage
@@ -542,18 +544,18 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
             $nombreGain = intval($row['gain']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> 
-        <td>{$row['joueur']}{$icone}</td>";
+        <td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>";
             if ($nombreGain > 0) {
-                $tableau .= "<td class='positif'>{$nombreGain}</td>";
+                $tableau .= "<td class='positif'><div class=\"valeur\">{$nombreGain}</div></td>";
             } elseif ($nombreGain < 0) {
-                $tableau .= "<td class='negatif'>{$nombreGain}</td>";
+                $tableau .= "<td class='negatif'><div class=\"valeur\">{$nombreGain}</div></td>";
             } else {
-                $tableau .= "<td>{$nombreGain}</td>";
+                $tableau .= "<td><div class=\"valeur\">{$nombreGain}</div></td>";
             }
-            $tableau .= "<td>{$row['victoire']}</td>
-        <td>{$row['fini_2e']}</td>
-        <td>{$row['id_tournoi']}</td>
-        <td>{$row['date']}</td>
+            $tableau .= "<td><div class=\"valeur\">{$row['victoire']}</div></td>
+        <td><div class=\"valeur\">{$row['fini_2e']}</div></td>
+        <td><div class=\"valeur\">{$row['id_tournoi']}</div></td>
+        <td><div class=\"valeur\">{$row['date']}</div></td>
         </tr>";
         }
         $tableau .= "</tbody></table>";
@@ -592,18 +594,18 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
             $nombreGain = intval($row['gain']);
             $icone = lesGrandsGagnants_100e($row['joueur']);
             $tableau .= "<tr> 
-        <td>{$row['joueur']}{$icone}</td>";
+        <td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>";
             if ($nombreGain > 0) {
-                $tableau .= "<td class='positif'>{$nombreGain}</td>";
+                $tableau .= "<td class='positif'><div class=\"valeur\">{$nombreGain}</div></td>";
             } elseif ($nombreGain < 0) {
-                $tableau .= "<td class='negatif'>{$nombreGain}</td>";
+                $tableau .= "<td class='negatif'><div class=\"valeur\">{$nombreGain}</div></td>";
             } else {
-                $tableau .= "<td>{$nombreGain}</td>";
+                $tableau .= "<td><div class=\"valeur\">{$nombreGain}</div></td>";
             }
-            $tableau .= "<td>{$row['victoire']}</td>
-        <td>{$row['fini_2e']}</td>
-        <td>{$row['id_tournoi']}</td>
-        <td>{$row['date']}</td>
+            $tableau .= "<td><div class=\"valeur\">{$row['victoire']}</div></td>
+        <td><div class=\"valeur\">{$row['fini_2e']}</div></td>
+        <td><div class=\"valeur\">{$row['id_tournoi']}</div></td>
+        <td><div class=\"valeur\">{$row['date']}</div></td>
         </tr>";
         }
         $tableau .= "</tbody></table>";
@@ -670,12 +672,12 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
     foreach ($result as $row) {
         $icone = lesGrandsGagnants_100e($row['joueur']);
         $tableau .= "<tr>
-        <td>{$position}</td>
-        <td>{$row['joueur']}{$icone}</td>        
-        <td>{$row['prixKiller']}</td>
-        <td>{$row['citronPrice']}</td>
-        <td>{$row['nb_presence']}</td>
-        <td>{$row['killerPresence']}</td>
+        <td><div class=\"valeur\">{$position}</div></td>
+        <td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>        
+        <td><div class=\"valeur\">{$row['prixKiller']}</div></td>
+        <td><div class=\"valeur\">{$row['citronPrice']}</div></td>
+        <td><div class=\"valeur\">{$row['nb_presence']}</div></td>
+        <td><div class=\"valeur\">{$row['killerPresence']}</div></td>
         </tr>";
         $position++;
     }

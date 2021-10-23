@@ -479,6 +479,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
         $nombreGain = intval($row['gainTotaux']);
         $gainRatio = floatval($row['gainPresence']);
+        // Ajout de deux décimales apres la virgule pour tout les résultats
         $gainRatio = number_format($gainRatio, 2);
         $icone = lesGrandsGagnants_100e($row['joueur']);
         $tableau .= "<tr>";

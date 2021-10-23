@@ -372,7 +372,7 @@ function connexionBD() {
     $host = "localhost";
     $user = "benoitmi_benoit";
     $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmi_benoitmignault.ca.mysql";
+    $bd = "benoitmi_benoitmignault.ca.mysql";    
 
     $connMYSQL = mysqli_connect($host, $user, $password, $bd);
     $connMYSQL->query("set names 'utf8'");

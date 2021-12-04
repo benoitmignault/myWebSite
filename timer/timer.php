@@ -3,7 +3,7 @@ function traduction($champs){
     if ($champs['typeLangue'] === "francais"){
         $lang = "fr";
         $title = 'Minuteur';
-        $typeMise = 'Les mises possible';
+        $typeMise = 'Les mises possibles';
         $small = 'La petite mise';
         $big = 'La grosse mise';
         $retour = 'Page d\'Accueil';

@@ -2,21 +2,10 @@
 // Partie 1
 // Heure : 9:30 - Debut 
 // Heure : 12:30 - Fin
-/*To avoid the most dangerous areas, you need to determine the number of points where at least two lines overlap. 
-In the above example, this is anywhere in the diagram with a 2 or larger - a total of 5 points.
 
-.......1..
-..1....1..
-..1....1..
-.......1..
-.112111211
-..........
-..........
-..........
-..........
-222111....
-*/
-
+// Partie 2
+// Heure : 14:00 - Debut 
+// Heure : 15:10 - Fin
 
 function initialisation(){
     $array_champs = array("carte" => array(), "mouvement" => array(), "nb_position_plus_2" => 0, "max_X" => 0, "max_Y" => 0);
@@ -84,15 +73,14 @@ function deplacement_sur_carte($array_champs){
     // On passe à travers de chaque mouvement
     foreach($array_champs['mouvement'] as $un_mouvement){        
         // Nous savons que nous avons simplement 2 points, on va y aller de manière static
-        $ligne_debut  = $un_mouvement[0][0]; // x1
-        $ligne_fin  = $un_mouvement[1][0];   // x2
-        $ligne = 0; // déplacement vertical par rapport à X
-        $colonne_debut = $un_mouvement[0][1];   // y1
-        $colonne_fin = $un_mouvement[1][1];     // y2 
-        $colonne = 0; // déplacement horizontale par rapport à Y
-
+        $ligne_debut  = $un_mouvement[0][0];  // x1
+        $ligne_fin  = $un_mouvement[1][0];    // x2
+        $colonne_debut = $un_mouvement[0][1]; // y1
+        $colonne_fin = $un_mouvement[1][1];   // y2
         // Pour la partie 1, on considère juste les mouvements verticaux or horizontaux
-        if ($colonne_debut == $colonne_fin OR $ligne_debut == $ligne_fin){
+        if ($colonne_debut == $colonne_fin OR $ligne_debut == $ligne_fin){            
+            $ligne = 0; // déplacement vertical par rapport à X
+            $colonne = 0; // déplacement horizontale par rapport à Y
             // On doit inverse le déplacement des points pour aller du plus petit vers le plus grand point
             if ($colonne_debut == $colonne_fin){
                 $colonne = $colonne_debut;
@@ -127,10 +115,44 @@ function deplacement_sur_carte($array_champs){
                     $array_champs['carte'][$colonne_debut][$ligne]++;                    
                 }
             }
-        }
-    }       
+        } else {
+            // Nous avons alors un mouvement diagonale
+            // On doit déterminer si les X montent ou dessent
+            $pente_x = "";
+            if ($ligne_debut < $ligne_fin){  
+                $pente_x = "MONTENTE";
+
+            } elseif ($ligne_debut > $ligne_fin){
+                $pente_x = "DECENDENTE";
+            } 
+
+            if ($colonne_debut < $colonne_fin){
+                for ($colonne_debut; $colonne_debut <= $colonne_fin; $colonne_debut++){                     
+                    $array_champs['carte'][$colonne_debut][$ligne_debut]++;                    
+                    $ligne_debut = determiner_pente_x($ligne_debut, $pente_x);       
+                }
+
+            } elseif ($colonne_debut > $colonne_fin){
+                for ($colonne_debut; $colonne_debut >= $colonne_fin; $colonne_debut--){ 
+                    $array_champs['carte'][$colonne_debut][$ligne_debut]++;
+                    $ligne_debut = determiner_pente_x($ligne_debut, $pente_x);
+                }
+            }            
+        }        
+    } 
 
     return $array_champs;
+}
+
+// Fonction commune pour détemriner le nouveau X pour la prochaine variable X
+function determiner_pente_x($x1, $pente_x){
+    if ($pente_x == "MONTENTE"){
+        $x1++;
+    } else {
+        $x1--;
+    }
+
+    return $x1;
 }
 
 function calcul_deplacement_plus_deux($array_champs){

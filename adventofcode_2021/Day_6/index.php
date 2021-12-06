@@ -4,11 +4,11 @@
 // Heure : 8:36 - Fin
 
 // Partie 2
-// Heure : 
-// Heure : 
+// Heure : 8:40 - Debut
+// Heure : 14:15 - Fin
 
 function initialisation(){
-    $array_champs = array("liste_nombres" => array(), "mouvement" => array(), "nb_position_plus_2" => 0, "max_X" => 0, "max_Y" => 0, "longueur_liste" => 0);
+    $array_champs = array("liste_nombres" => array(), "groupe_precedant" => array(), "groupe_suivant" => array(), "nb_poissons_total" => 0);
 
     return $array_champs;
 }
@@ -46,40 +46,69 @@ function lecture_fichier_CSV_TXT($array_champs){
     return $array_champs;
 }
 
-function initialisation_carte($array_champs){    
-    // Initialisation de la carte en fonction des max X et max Y 
-    for ($i = 0; $i <= $array_champs['max_Y']; $i++){
-        for ($j = 0; $j <= $array_champs['max_X']; $j++){
-            $array_champs['carte'][$i][$j] = 0;        
+function aggrandissement_tableau($array_champs){    
+    // Une boucle de 80 jours
+    $day = 1;
+    $day_avec_groupe = 0;
+
+    //for($day; $day <= 80; $day++){ // Partie 1    
+    for($day = 1; $day < 256; $day++){
+        // À chaque jour, on décrément les nombres
+        // On créer un tableau contenant les nouveaux nombres à ajouter à la fin de la journée
+        
+        foreach($array_champs['liste_nombres'] as $key => $value){
+            if ($value == 0){                
+                $array_champs['liste_nombres'][$key] = 6;
+                array_push($array_champs['liste_nombres'], 8);
+
+            } else {
+                $array_champs['liste_nombres'][$key] = $value - 1;
+            }
         }
+
+        // Vérification de snombres
+        $groupe_day = array();
+        foreach($array_champs['liste_nombres'] as $value){
+            // Si la key existe, on incrémente sa présence
+            if (isset($groupe_day[$value])){
+                $groupe_day[$value]++;
+            } else {
+                $groupe_day[$value] = 1;
+            }
+        }
+
+        // Si nous avons tous les nombres au moins une fois, on sort...
+        if (count($groupe_day) == 9){
+            $array_champs['groupe_precedant'] = $groupe_day;
+            $day_avec_groupe = $day; // On récupère la jour
+            $day = 256; // On doit sortir de la boucle FOR
+        }        
+    } 
+
+    for($day_avec_groupe; $day_avec_groupe < 256; $day_avec_groupe++){
+        // On prepare les information pour la nouvelle journée
+        $array_champs['groupe_suivant'] = $array_champs['groupe_precedant'];
+        $array_champs['groupe_suivant'][0] = $array_champs['groupe_precedant'][1];
+        $array_champs['groupe_suivant'][1] = $array_champs['groupe_precedant'][2];
+        $array_champs['groupe_suivant'][2] = $array_champs['groupe_precedant'][3];
+        $array_champs['groupe_suivant'][3] = $array_champs['groupe_precedant'][4];
+        $array_champs['groupe_suivant'][4] = $array_champs['groupe_precedant'][5];
+        $array_champs['groupe_suivant'][5] = $array_champs['groupe_precedant'][6];
+        $array_champs['groupe_suivant'][6] = $array_champs['groupe_precedant'][0] + $array_champs['groupe_precedant'][7];
+        $array_champs['groupe_suivant'][7] = $array_champs['groupe_precedant'][8];
+        $array_champs['groupe_suivant'][8] = $array_champs['groupe_precedant'][0];
+        // Fin de la journée
+        $array_champs['groupe_precedant'] = $array_champs['groupe_suivant'];        
     }
+
 
     return $array_champs;
 }
 
-function aggrandissement_tableau($array_champs){
-    // Une boucle de 80 jours
-    for($day = 1; $day <= 80; $day++){
-        // À chaque jour, on décrément les nombres
-        // On créer un tableau contenant les nouveaux nombres à ajoute rà la fin de la journée
-        $nouveau_chiffre = 0;
-        for($i = 0; $i < $array_champs['longueur_liste']; $i++){
-            
-            if ($array_champs['liste_nombres'][$i] == 0){                
-                $array_champs['liste_nombres'][$i] = 6;
-                $nouveau_chiffre++;
-                
-            } else {
-                $array_champs['liste_nombres'][$i]--;
-            }
-        }
-
-        // On rajoute les nouveaux nombres dans le tableaux et on agrandit celui-ci
-        for ($j = 0; $j < $nouveau_chiffre; $j++){
-            array_push($array_champs['liste_nombres'], 8);
-            $array_champs['longueur_liste']++;
-        } 
-    }   
+function calcul_poissons_tous_type($array_champs){    
+    foreach($array_champs['groupe_precedant'] as $value){        
+        $array_champs['nb_poissons_total'] += $value;
+    }
 
     return $array_champs;
 }
@@ -90,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (isset($_POST['submit'])){
         $array_champs = lecture_fichier_CSV_TXT($array_champs);
         $array_champs = aggrandissement_tableau($array_champs);
+        $array_champs = calcul_poissons_tous_type($array_champs);
     }  
 }
 ?>
@@ -124,9 +154,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                     if (!empty($array_champs['message_sys'])){
                         echo $array_champs['message_sys']; 
                     } else {
-                        echo $array_champs['longueur_liste']; 
+                        echo $array_champs['nb_poissons_total']; 
                     }      
                  } ?>
         </p>
+        <pre id="output"></pre>
+        <script src="day_6.js"></script>
     </body>
 </html>

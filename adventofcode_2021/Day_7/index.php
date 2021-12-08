@@ -73,38 +73,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <title>--- Day 7: The Treachery of Whales ---</title>
-        <link href="view.css" rel="stylesheet" type="text/css">
-        <meta charset="utf-8" />
-    </head>
-    <body>
-        <form class="appnitro" enctype="multipart/form-data" method="post" action="index.php">
-            <div class="form_description">
-                <h2>--- Day 7: The Treachery of Whales ---</h2>
-            </div>
-            <ul>
-                <li name="importation" >
-                    <br>
-                    <label class="description" for="element_1">Importer un fichier CSV</label>
-                    <div name="conteneur_fichier">
-                        <input id="element_1" name="nomFichier" class="element file medium" type="file" size="5"/>
-                        <input type="hidden" name="MAX_FILE_SIZE" value="300000" />
-                    </div>
-                </li>
-                <li class="buttons">                    
-                    <input id="saveForm" class="button_text" type="submit" name="submit" value="Importer" /> 
-                </li>
-            </ul>
-        </form>
-        <p>
-            <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+<head>
+    <title>--- Day 7: The Treachery of Whales ---</title>
+    <link href="view.css" rel="stylesheet" type="text/css">
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <form class="appnitro" enctype="multipart/form-data" method="post" action="index.php">
+        <div class="form_description">
+            <h2>--- Day 7: The Treachery of Whales ---</h2>
+        </div>
+        <ul>
+            <li name="importation">
+                <br>
+                <label class="description" for="element_1">Importer un fichier CSV</label>
+                <div name="conteneur_fichier">
+                    <input id="element_1" name="nomFichier" class="element file medium" type="file" size="5" />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+                </div>
+            </li>
+            <li class="buttons">
+                <input id="saveForm" class="button_text" type="submit" name="submit" value="Importer" />
+            </li>
+        </ul>
+    </form>
+    <p>
+        <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                     if (!empty($array_champs['message_sys'])){
                         echo $array_champs['message_sys']; 
                     } else {
                         echo $array_champs['cout_petit']; 
                     }      
                  } ?>
-        </p>
-    </body>
+    </p>
+</body>
+
 </html>

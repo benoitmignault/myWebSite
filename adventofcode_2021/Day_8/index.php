@@ -4,7 +4,7 @@
 // Heure : 20:30 - Fin
 
 // Partie 2
-// Heure : 
+// Heure : 20:30 - Début
 // Heure : 
 
 /*
@@ -12,7 +12,7 @@ Counting only digits in the output values (the part after | on each line)
 */
 
 function initialisation(){
-    $array_champs = array("liste_numero_digit" => array(), "liste_pattern_signal" => array(), "liste_digit_output" => array(), "nb_digit_unique" => 0);
+    $array_champs = array("liste_numero_digit" => array(), "liste_pattern_signal" => array(), "liste_digit_output" => array(), "somme_digit" => 0);
     // Création des digits avec les lettres - surement pour la 2e partie                                                  
     $array_champs['liste_numero_digit'][0] = "abcefg";
     $array_champs['liste_numero_digit'][1] = "cf";
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                     if (!empty($array_champs['message_sys'])){
                         echo $array_champs['message_sys']; 
                     } else {
-                        echo $array_champs['nb_digit_unique']; 
+                        echo $array_champs['somme_digit']; 
                     }      
                 } ?>
     </p>

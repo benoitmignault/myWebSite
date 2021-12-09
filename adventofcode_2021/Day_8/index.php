@@ -1,14 +1,31 @@
 <?php
 // Partie 1
-// Heure :  
-// Heure : 
+// Heure : 18:00 - Début
+// Heure : 20:30 - Fin
 
 // Partie 2
 // Heure : 
 // Heure : 
 
+/*
+Counting only digits in the output values (the part after | on each line)
+*/
+
 function initialisation(){
-    $array_champs = array("nb_nombres" => 0, "liste_nombres" => array(), "cout_petit" => INF);
+    $array_champs = array("liste_numero_digit" => array(), "liste_pattern_signal" => array(), "liste_digit_output" => array(), "nb_digit_unique" => 0);
+    // Création des digits avec les lettres - surement pour la 2e partie                                                  
+    $array_champs['liste_numero_digit'][0] = "abcefg";
+    $array_champs['liste_numero_digit'][1] = "cf";
+    $array_champs['liste_numero_digit'][2] = "acdeg";
+    $array_champs['liste_numero_digit'][3] = "acdfg";
+    $array_champs['liste_numero_digit'][4] = "bcdf";
+    $array_champs['liste_numero_digit'][5] = "abdefg";
+    $array_champs['liste_numero_digit'][6] = "abdefg";
+    $array_champs['liste_numero_digit'][7] = "acf";
+    $array_champs['liste_numero_digit'][8] = "abcdefg";
+    $array_champs['liste_numero_digit'][9] = "abcdfg";
+    // acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf
+    // 
 
     return $array_champs;
 }
@@ -27,38 +44,40 @@ function lecture_fichier_CSV_TXT($array_champs){
                 $fichier = fopen($_FILES['nomFichier']['tmp_name'], 'r');
                 if (!$fichier ){
                     $array_champs['message_sys'] = "Impossible d'ouvrir le fichier " . $_FILES['nomFichier']['tmp_name'];
-                } else {                    
-                    // Je viens de trouver mon erreur, il avait plus d'une ligne dans le fichier, caliss :)
-                    // Si une ligne est tropppppppppppp longue, je dois faire plusieurs lignes
-                    while (($liste_chiffre = fgetcsv($fichier, 1024, ";")) !== FALSE) {
-                        $un_chiffre = explode(',', $liste_chiffre[0]); // On récupère le mouvement
-                        foreach($un_chiffre as $value_point){                   
-                            array_push($array_champs['liste_nombres'], intval($value_point));   
-                        } 
-                    } 
-                    $array_champs['nb_nombres'] = count($array_champs['liste_nombres']); // On initialise la longueur du tableau des nombres          
+                } else {  
+                    $i = 0;       
+                    while (($une_ligne = fgetcsv($fichier, 1024, ";")) !== FALSE) {
+                        $liste = explode(' | ', $une_ligne[0]); 
+                        
+                        $liste_pattern_signal = explode(' ', $liste[0]);
+                        $liste_digit_output = explode(' ', $liste[1]);
+                        $array_champs['liste_pattern_signal'][$i] = $liste_pattern_signal;        
+                        $array_champs['liste_digit_output'][$i] = $liste_digit_output;
+                        
+                        $i++;
+                    }
                 }
                 fclose($fichier);
                 break;
             default : $array_champs['message_sys'] = "Le type de fichier n'est pas valide : {$_FILES['nomFichier']['type']}"; break;
         }
     }
+
     return $array_champs;
 }
 
-function calcul_deplacement($array_champs){    
-    $i =  min($array_champs['liste_nombres']);
-    $max = max($array_champs['liste_nombres']) + 1;
-    // Chaque nombre entre le min et le max + 1 sera testé comme point de ressemblement
-    for ($i; $i < $max; $i++){
-        $cout_total = 0;
-        // Pour chaque nombre du sur les l'axe des Y, allons vers le nombre Y désigné comme milieu
-        for ($j = 0; $j < $array_champs['nb_nombres']; $j++){          
-            $cout_total += ( abs($i - $array_champs['liste_nombres'][$j]) / 2 ) * ( abs($i - $array_champs['liste_nombres'][$j]) +1 );
-        }
-        $array_champs['cout_petit'] = min($array_champs['cout_petit'], $cout_total);
-    }
+function recuperation_pattern_digit($array_champs){    
+    foreach ($array_champs['liste_digit_output'] as $une_serie_digit){
 
+        foreach ($une_serie_digit as $key => $value){
+            //var_dump($value); var_dump($une_serie_digit);exit;
+            $length = strlen($value);
+            switch($length){
+                case 2 : case 3 : case 4 : case 7 : $array_champs['nb_digit_unique']++; break;
+            }
+        }
+
+    }
     return $array_champs;
 }
 
@@ -67,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $array_champs = initialisation();
     if (isset($_POST['submit'])){
         $array_champs = lecture_fichier_CSV_TXT($array_champs);
-        $array_champs = calcul_deplacement($array_champs);
+        $array_champs = recuperation_pattern_digit($array_champs);
     }  
 }
 ?>
@@ -104,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                     if (!empty($array_champs['message_sys'])){
                         echo $array_champs['message_sys']; 
                     } else {
-                        echo $array_champs['cout_petit']; 
+                        echo $array_champs['nb_digit_unique']; 
                     }      
                 } ?>
     </p>

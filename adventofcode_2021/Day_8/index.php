@@ -57,6 +57,11 @@ function recuperation_pattern_digit($array_champs){
         array_multisort(array_map('strlen', $array_champs['liste_pattern_signal']), $array_champs['liste_pattern_signal']);
         $array_champs['liste_digit_output'] = explode(' ', $liste[1]);  
         
+
+        // acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf
+
+
+        
         foreach($array_champs['liste_pattern_signal'] as $value_pattern){
             $length = strlen($value_pattern);            
             switch ($length){

@@ -10,8 +10,8 @@ function traduction($champs) {
         $title = "Mot de passe en changement !";
         $p1 = "Vous pouvez maintenant changer votre du mot de passe !";
         $li1 = "Veuillez inscrire votre mot de passe temporaire.";
-        $li2 = "Veuillez choisir un nouveau mot de passe et le confirmer dans le 3e champs.";
-        $li3 = "Votre nouveau mot de passe doit être différent de l'ancien, pour des raisons de sécurité !";
+        $li2 = "Veuillez choisir un nouveau mot de passe et le confirmer dans le 3e champs contenant des lettres et chiffres seulement.";
+        $li3 = "Votre nouveau mot de passe doit être différent de l'ancien, pour des raisons de sécurité.";
         $legend = "Saisir de quoi de nouveau !";
         $mdp_Temp = "Mot de passe temporaire :";
         $mdp_1 = "Nouveau mot de passe :";
@@ -24,7 +24,7 @@ function traduction($champs) {
         $lang = "en";
         $p1 = "You can now change your password !";
         $li1 = "Please enter your temporary password.";
-        $li2 = "Please choose a new password and confirm it in the 3rd field.";
+        $li2 = "Please choose a new password and confirm it in the 3rd field containing letters and numbers only.";
         $li3 = "Your new password must be different from the old one, for security reasons !";
         $legend = "Write something new !";
         $mdp_Temp = "Temporary password :";

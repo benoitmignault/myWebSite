@@ -241,19 +241,21 @@ function creationListeDate($connMYSQL, $option, $tournoiDate) {
     return $liste_Date_tournois;
 }
 
-function lesGrandsGagnants_100e($nom_Champion) {
+// En raison du 150e tournois, nous avons changer le nom de la fonction et ajouter les noms des gagnants qui doivent avoir leur médaille
+function grands_gagnants_super_tournois($nom_Champion) {
     // https://pixabay.com/fr/médaille-or-conception-2163347/
     // https://pixabay.com/fr/m%C3%A9daille-argent-conception-2163349/
     // https://pixabay.com/fr/m%C3%A9daille-bronze-conception-2163351/
-    if ($nom_Champion === "Frederic V") {
+    if ($nom_Champion === "Frederic V" OR $nom_Champion === "Richard") {
         $icone = "<img src=\"./photo/medaile_or.jpg\" alt=\"or\" title=\"or\">";
-    } elseif ($nom_Champion === "Frederic") {
+    } elseif ($nom_Champion === "Frederic" OR $nom_Champion === "Maxime") {
         $icone = "<img src=\"./photo/medaile_argent.jpg\" alt=\"argent\" title=\"argent\">";
-    } elseif ($nom_Champion === "Marc-Andre") {
+    } elseif ($nom_Champion === "Marc-Andre" OR $nom_Champion === "Jean-Philippe") {
         $icone = "<img src=\"./photo/medaile_bronze.jpg\" alt=\"bronze\" title=\"bronze\">";
     } else {
         $icone = "";
     }
+
     return $icone;
 }
 
@@ -284,7 +286,7 @@ function affichageBrute($connMYSQL, $arrayMots) {
             <tbody>";
     foreach ($result as $row) {
         $nombreGain = intval($row['gain']);
-        $icone = lesGrandsGagnants_100e($row['joueur']);
+        $icone = grands_gagnants_super_tournois($row['joueur']);
         $tableau .= "<tr>
                 <td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>";
         if ($nombreGain > 0) {
@@ -329,7 +331,7 @@ function affichageUnjoueur($informationJoueur, $connMYSQL, $arrayMots) {
         /* Lecture des valeurs */
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
-            $icone = lesGrandsGagnants_100e($row['joueur']);
+            $icone = grands_gagnants_super_tournois($row['joueur']);
             $tableau .= "<tr> <td><div class=\"prenom\">{$informationJoueur}{$icone}</div></td>";
             if ($nombreGain > 0) {
                 $tableau .= "<td class='positif'><div class=\"valeur\">{$nombreGain}</div></td>";
@@ -388,7 +390,7 @@ function sommaireUnjoueur($sommaireJoueur, $connMYSQL, $arrayMots) {
 
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gainTotaux']);
-            $icone = lesGrandsGagnants_100e($row['joueur']);
+            $icone = grands_gagnants_super_tournois($row['joueur']);
             $tableau .= "<tr> 
                         <td>{$sommaireJoueur}{$icone}</td>";
             if ($nombreGain > 0) {
@@ -483,7 +485,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
         $gainRatio = floatval($row['gainPresence']);
         // Ajout de deux décimales apres la virgule pour tout les résultats
         $gainRatio = number_format($gainRatio, 2);
-        $icone = lesGrandsGagnants_100e($row['joueur']);
+        $icone = grands_gagnants_super_tournois($row['joueur']);
         $tableau .= "<tr>";
         $tableau .= "<td><div class=\"valeur\">{$position}</div></td>";
         $tableau .= "<td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>";
@@ -542,7 +544,7 @@ function affichageParNumero($numeroID, $connMYSQL, $arrayMots) {
 
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
-            $icone = lesGrandsGagnants_100e($row['joueur']);
+            $icone = grands_gagnants_super_tournois($row['joueur']);
             $tableau .= "<tr> 
         <td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>";
             if ($nombreGain > 0) {
@@ -592,7 +594,7 @@ function affichageParDate($tournoiDate, $connMYSQL, $arrayMots) {
 
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $nombreGain = intval($row['gain']);
-            $icone = lesGrandsGagnants_100e($row['joueur']);
+            $icone = grands_gagnants_super_tournois($row['joueur']);
             $tableau .= "<tr> 
         <td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>";
             if ($nombreGain > 0) {
@@ -670,7 +672,7 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
     }
     $position = 1;
     foreach ($result as $row) {
-        $icone = lesGrandsGagnants_100e($row['joueur']);
+        $icone = grands_gagnants_super_tournois($row['joueur']);
         $tableau .= "<tr>
         <td><div class=\"valeur\">{$position}</div></td>
         <td><div class=\"prenom\">{$row['joueur']}{$icone}</div></td>        

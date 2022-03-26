@@ -11,7 +11,7 @@ function traduction($champs) {
         $p1 = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
         $li3 = "Cette page permet de réinitialiser votre compte associés aux statistiques de poker.";
         $li1 = "Veuillez saisir votre courriel.";
-        $li2 = "Ensuite, un courrier vous sera envoyé avec toute les informations relier à votre changement de mot de passe.";
+        $li2 = "Ensuite, un courriel vous sera envoyé avec toute les informations relier à votre changement de mot de passe.";
         $legend = "Réinitialisation !";
         $email = "Courriel :";
         $btn_send_Link = "Réinitialiser";

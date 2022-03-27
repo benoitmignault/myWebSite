@@ -290,15 +290,14 @@ function changementPassword($champs, $connMYSQL){
     $stmt = $connMYSQL->prepare("update login set password =? , reset_link =? , passwordTemp =?, temps_Valide_link =? where reset_link =? ");
     /* Lecture des marqueurs */
     $zero = 0; // Je dois créer une variable qui va contenir la valeur 0
-    $stringVide = "";
+    $stringVide = NUll;
     $stmt->bind_param("sssis", $newPWDencrypt,$stringVide,$stringVide,$zero,$champs["lien_Crypte"]);
     /* Exécution de la requête */
-    $stmt->execute();
-    $row_cnt = $stmt->affected_rows;
-    /* close statement and connection */
-    $stmt->close();           
+    $status = $stmt->execute();
 
-    if ($row_cnt == 1){
+    if ($status === false) {
+        trigger_error($stmt->error, E_USER_ERROR);
+    } else {
         $champs['creationUserSuccess'] = true;
         // Remise à leur valeur initial, car le changement de mot de passe est terminé et le lien n'est plus valide
         $champs['password_Temp'] = "";
@@ -306,7 +305,10 @@ function changementPassword($champs, $connMYSQL){
         $champs['new_Password_2'] = "";
         $champs['lien_Crypte'] = "";
         $champs['token_Time_Used'] = 0;
-    } 
+    }
+
+    /* close statement and connection */
+    $stmt->close();  
 
     return $champs;
 }

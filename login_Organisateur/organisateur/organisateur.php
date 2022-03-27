@@ -393,9 +393,14 @@ function tableau_petite_grosse($connMYSQL, $champs){
 
 function insert_BD_valeur_couleur($connMYSQL, $champs){
     // Prepare an insert statement
-    $stmt = $connMYSQL->prepare("INSERT INTO amount_color (user, amount, color_english, id_user) VALUES (?,?,?,?)");  
+    $stmt = $connMYSQL->prepare("INSERT INTO amount_color (user, amount, color_english, id_user) VALUES (?,?,?,?)"); 
+    // en raison d'une erreur : Fatal error: Uncaught Error: Cannot pass parameter 3 by reference
+    // Je dois passer des paramètres manuellement
+    // 2022-03-26 
     // Bind variables to the prepared statement as parameters
-    $stmt->bind_param('sisi', $champs['user'], intval($champs["valeur"]), $champs["couleur"], $champs["idUser"]);
+    $valeur = intval($champs["valeur"]);
+    $couleur = $champs["couleur"];
+    $stmt->bind_param('sisi', $champs['user'], $valeur, $couleur, $champs["idUser"]);
     $result = $stmt->execute();
     // Close statement
     $stmt->close();
@@ -406,8 +411,13 @@ function insert_BD_valeur_couleur($connMYSQL, $champs){
 function insert_BD_petite_grosse_mise($connMYSQL, $champs){  
     // Prepare an insert statement
     $stmt = $connMYSQL->prepare("INSERT INTO mise_small_big (user, small, big, id_user) VALUES (?,?,?,?)");  
+    // en raison d'une erreur : Fatal error: Uncaught Error: Cannot pass parameter 3 by reference
+    // Je dois passer des paramètres manuellement
+    // 2022-03-26
+    $small = intval($champs["small"]);
+    $big =  intval($champs["big"]);
     // Bind variables to the prepared statement as parameters
-    $stmt->bind_param('siii', $champs['user'], intval($champs["small"]), intval($champs["big"]), $champs["idUser"]);
+    $stmt->bind_param('siii', $champs['user'], $small, $big, $champs["idUser"]);
     $result = $stmt->execute();
     // Close statement
     $stmt->close();

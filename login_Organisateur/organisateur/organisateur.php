@@ -391,16 +391,13 @@ function tableau_petite_grosse($connMYSQL, $champs){
     return $tableau;
 }
 
-function insert_BD_valeur_couleur($connMYSQL, $champs){
+// 2022-03-26
+// en raison d'une erreur : Fatal error: Uncaught Error: Cannot pass parameter 3 by reference
+// Je vais passer en paramètre les valeurs directements
+function insert_BD_valeur_couleur($connMYSQL, $user, $valeur, $couleur, $idUser){
     // Prepare an insert statement
-    $stmt = $connMYSQL->prepare("INSERT INTO amount_color (user, amount, color_english, id_user) VALUES (?,?,?,?)"); 
-    // en raison d'une erreur : Fatal error: Uncaught Error: Cannot pass parameter 3 by reference
-    // Je dois passer des paramètres manuellement
-    // 2022-03-26 
-    // Bind variables to the prepared statement as parameters
-    $valeur = intval($champs["valeur"]);
-    $couleur = $champs["couleur"];
-    $stmt->bind_param('sisi', $champs['user'], $valeur, $couleur, $champs["idUser"]);
+    $stmt = $connMYSQL->prepare("INSERT INTO amount_color (user, amount, color_english, id_user) VALUES (?,?,?,?)");     
+    $stmt->bind_param('sisi', $user, $valeur, $couleur, $idUser);
     $result = $stmt->execute();
     // Close statement
     $stmt->close();
@@ -408,16 +405,13 @@ function insert_BD_valeur_couleur($connMYSQL, $champs){
     return $result;
 }
 
-function insert_BD_petite_grosse_mise($connMYSQL, $champs){  
+// en raison d'une erreur : Fatal error: Uncaught Error: Cannot pass parameter 3 by reference
+// Je vais passer en paramètre les valeurs directements
+function insert_BD_petite_grosse_mise($connMYSQL, $user,  $small, $big, $idUser){  
     // Prepare an insert statement
-    $stmt = $connMYSQL->prepare("INSERT INTO mise_small_big (user, small, big, id_user) VALUES (?,?,?,?)");  
-    // en raison d'une erreur : Fatal error: Uncaught Error: Cannot pass parameter 3 by reference
-    // Je dois passer des paramètres manuellement
-    // 2022-03-26
-    $small = intval($champs["small"]);
-    $big =  intval($champs["big"]);
+    $stmt = $connMYSQL->prepare("INSERT INTO mise_small_big (user, small, big, id_user) VALUES (?,?,?,?)");
     // Bind variables to the prepared statement as parameters
-    $stmt->bind_param('siii', $champs['user'], $small, $big, $champs["idUser"]);
+    $stmt->bind_param('siii', $user, $small, $big, $idUser);
     $result = $stmt->execute();
     // Close statement
     $stmt->close();
@@ -425,11 +419,11 @@ function insert_BD_petite_grosse_mise($connMYSQL, $champs){
     return $result;
 }
 
-function delete_BD_valeur_couleur($connMYSQL, $champs){
+function delete_BD_valeur_couleur($connMYSQL, $user, $id_couleur){
     // Prepare an insert statement
     $stmt = $connMYSQL->prepare("DELETE FROM amount_color WHERE user =? and id_couleur =? ");  
     // Bind variables to the prepared statement as parameters
-    $stmt->bind_param('si', $champs['user'],$champs["idCouleur"]);
+    $stmt->bind_param('si', $user, $id_couleur);
     $result = $stmt->execute();
     // Close statement
     $stmt->close();
@@ -437,11 +431,11 @@ function delete_BD_valeur_couleur($connMYSQL, $champs){
     return $result;
 }
 
-function delete_BD_petite_grosse_mise($connMYSQL, $champs){
+function delete_BD_petite_grosse_mise($connMYSQL, $user, $id_valeur){
     // Prepare an insert statement
     $stmt = $connMYSQL->prepare("DELETE FROM mise_small_big WHERE user =? and id_valeur =? ");  
     // Bind variables to the prepared statement as parameters
-    $stmt->bind_param('si', $champs['user'],$champs["idPetiteGrosse"]);
+    $stmt->bind_param('si', $user, $id_valeur);
     $result = $stmt->execute();
     // Close statement
     $stmt->close();
@@ -559,11 +553,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirection($champs);
         } else {
             if ($champs['situation'] === 1 || $champs['situation'] === 7 || $champs['situation'] === 16 || $champs['situation'] === 18){
-                switch ($champs['situation']){            
-                    case 1 : $result = insert_BD_valeur_couleur($connMYSQL, $champs); break;  
-                    case 7 : $result = insert_BD_petite_grosse_mise($connMYSQL, $champs); break;  
-                    case 16 : $result = delete_BD_valeur_couleur($connMYSQL, $champs); break;  
-                    case 18 : $result = delete_BD_petite_grosse_mise($connMYSQL, $champs); break;  
+                switch ($champs['situation']){
+                    case 1 : $result = insert_BD_valeur_couleur($connMYSQL, $champs['user'], intval($champs["valeur"]), $champs["couleur"], $champs["idUser"]); break;
+                    case 7 : $result = insert_BD_petite_grosse_mise($connMYSQL, $champs['user'], intval($champs["small"]), intval($champs["big"]), $champs["idUser"]); break;  
+                    case 16 : $result = delete_BD_valeur_couleur($connMYSQL, $champs['user'], $champs["idCouleur"]); break;  
+                    case 18 : $result = delete_BD_petite_grosse_mise($connMYSQL, $champs['user'], $champs["idPetiteGrosse"]); break;  
                 } 
                 if ($result){
                     $operation_sur_BD = false; 

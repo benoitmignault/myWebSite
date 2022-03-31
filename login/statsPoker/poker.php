@@ -1,4 +1,9 @@
 <?php
+function initialisation(){
+    $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");        
+    return $array_Champs;
+}
+
 function traduction($typeLangue, $user) {
     $user = strtoupper($user);
     if ($typeLangue === 'francais') {
@@ -84,11 +89,6 @@ function traduction($typeLangue, $user) {
     return $arrayMots;
 }
 
-function initialisation(){
-    $array_Champs = array("nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");        
-    return $array_Champs;
-}
-
 function remplissage_Champs($array_Champs){
     $array_Champs['typeLangue'] = $_SESSION['typeLangue'];
     $array_Champs['user'] = $_SESSION['user'];
@@ -101,9 +101,22 @@ function remplissage_Champs($array_Champs){
         if ($array_Champs['method'] == 4){
             $array_Champs['nombre_Presences'] = intval($_GET['nombre_Presences']);
         }
+
+        if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
+            var_dump("Get triRatio ou triOriginal");
+            var_dump($_GET['visible_Info']);
+            if (isset($_GET['visible_Info'])){
+                $array_Champs['afficher'] = $_GET['visible_Info'];
+            }
+        }
     }  
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // On doit setter le mode de visibilité
+        if (isset($_POST['visible_Info'])){
+            $array_Champs['afficher'] = $_POST['visible_Info'];
+        }
+
         if (isset($_POST['method'])){
             $array_Champs['method'] = intval($_POST['method']);            
         }
@@ -128,8 +141,6 @@ function remplissage_Champs($array_Champs){
             $array_Champs['tournoiDate'] = $_POST['listeDate'];
         }         
     }
-
-
 
     return $array_Champs;
 }
@@ -425,7 +436,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
                             <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['fini2']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['gainPresence']}</a></th> 
+                            <th class=\"nomPetit\"><a id=\"link\" href=\"{$href}\">{$arrayMots['gainPresence']}</a></th> 
                         </tr>            
                     </thead> <tbody>";
     } elseif (isset($_GET['triRatio']) && !isset($_GET['triOriginal']) ){
@@ -434,7 +445,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th>
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['gain']}</a></th> 
+                            <th class=\"nomPetit\"><a id=\"link\" href=\"{$href}\">{$arrayMots['gain']}</a></th> 
                             <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['fini2']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
@@ -654,7 +665,7 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
                             <th class=\"nomPetit\">{$arrayMots['killer']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['citron']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['gainPresence']}</a></th> 
+                            <th class=\"nomPetit\"><a id=\"link\" href=\"{$href}\">{$arrayMots['gainPresence']}</a></th> 
                         </tr>            
                     </thead><tbody>";        
     } elseif (isset($_GET['triRatio']) && !isset($_GET['triOriginal']) ){
@@ -663,7 +674,7 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['killer']}</a></th> 
+                            <th class=\"nomPetit\"><a id=\"link\" href=\"{$href}\">{$arrayMots['killer']}</a></th> 
                             <th class=\"nomPetit\">{$arrayMots['citron']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['gainPresence']}</th> 
@@ -794,11 +805,13 @@ function addStatAffichageUser($connMYSQL, $user){
 
 function lienVersTriage($array_Champs){
     $href = "";
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){
         $href = "poker.php?triRatio=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
     } elseif (isset($_GET['triRatio'])) {
         $href = "poker.php?triOriginal=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
     }
+
     return $href;
 }
 
@@ -818,16 +831,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } else {
         $array_Champs = remplissage_Champs($array_Champs);
 
+        
+
         if ($array_Champs['typeLangue'] !== "francais" && $array_Champs['typeLangue'] !== "english") {
             redirection("francais");
         } else {
             $arrayMots = traduction($array_Champs['typeLangue'], $array_Champs['user']);             
 
             // Insérer ici les triages en conséquence
-
             if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
                 $array_Champs['href'] = lienVersTriage($array_Champs);
                 $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);   
+                //var_dump($array_Champs['afficher']); exit;
             }
 
             $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);  
@@ -887,7 +902,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="<?php echo $arrayMots['lang']; ?>">
 
 <head>
-    <meta charset="utf-8">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <meta name="http-equiv" content="Content-type: text/html; charset=utf-8"/>
+    <meta name="Statistique" content="Information sur les statistiques du poker entre amis">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Statistique du poker">
     <!-- Le fichier poker.png est la propriété du site : https://pixabay.com/fr/cartes-diamant-diamants-favoris-2029819/ mais sous licence gratuite -->
@@ -915,6 +932,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <fieldset>
                 <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
                 <form method='post' action='poker.php#endroitResultat'>
+                    <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $array_Champs['afficher']; ?>">
                     <table>
                         <thead>
                             <tr>
@@ -969,10 +987,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <fieldset>
                 <legend class="legendCenter"><?php echo $arrayMots['legend3']; ?></legend>
                 <?php if ($array_Champs['method'] == 4 || $array_Champs['method'] == 7 ) { ?>
-                <ul class="lesInstructionTriage">
-                    <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>
-                    <li>Triage «Ratio» : ratio, killer en <span class="charGros">décroissance</span> et prix citron, Nb parties en <span class="charGros">croissance</span></li>
-                </ul>
+                <div class="section_info">    
+                    <div class="infoGauche">
+                        <a class="faireAfficher" href="#">Information utile</a>                
+                        <ul class="lesInstruction">
+                            <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>
+                            <li>Triage «Ratio» : ratio, killer en <span class="charGros">décroissance</span> et prix citron, Nb parties en <span class="charGros">croissance</span></li>
+                            <li>Au moment de faire les 100e et 150e tournois, nous avons offert des médailles aux 3 premiers de chaque tournois.</li>
+                            <ul class="lesInstruction">
+                                <li><span class="charGros">Les gagnants du 100e :</span></li>
+                                <ol class="lesInstruction">
+                                    <li>Frederic V</li>
+                                    <li>Frederic</li>
+                                    <li>Marc-Andre</li>
+                                </ol>
+                                <li><span class="charGros">Les gagnants du 150e :</span></li>
+                                <ol class="lesInstruction">
+                                    <li>Richard</li>
+                                    <li>Maxime</li>
+                                    <li>Jean-Philippe</li>
+                                </ol>
+                            </ul>
+                            <li class="avertissement">Important !!! À partir du 151e tournois, le prix d'entré sera de 20$ par personne et non 10$ ! Inflation, comme on dit :)</li>                    
+                        </ul>
+                    </div>
+                </div>
                 <?php } ?>
                 <?php if ( isset($_GET['triOriginal']) || isset($_GET['triRatio']) || $_SERVER['REQUEST_METHOD'] === 'POST') { echo $array_Champs['tableauResult']; } ?>
             </fieldset>
@@ -989,6 +1028,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="poker.js"></script>
 </body>
 
 </html>

@@ -1,91 +1,9 @@
 <?php
-function traduction($typeLangue, $user) {
-    $user = strtoupper($user);
-    if ($typeLangue === 'francais') {
-        $lang = "fr";
-        $titre = "Page des statistiques";
-        $rang = "Rang";
-        $h1 = "<h1>Bienvenue à vous &rarr; <span class='userDisplay'>{$user}</span> &larr; sur la page des statistiques du poker des vendredis entre amis.</h1>";
-        $legend1 = "Voici les différentes méthodes affichages des stats du poker :";
-        $method1 = "Affichage brute sans aucune modification.";
-        $method2 = "Affichage de toutes les visites d'un joueur.";
-        $method3 = "Le sommaire d'un joueur en particulier.";
-        $method4 = "Le sommaire de tous les joueurs.";
-        $method4ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Gain / Présence)";
-        $method5 = "Affichage d'un tournois par son numéro.";
-        $method6 = "Affichage d'un tournois par la date.";
-        $method7 = "Le sommaire de tous les joueurs avec leurs prix citrons et killers. ";
-        $method7ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Killer / Présence)";
-        $h3 = "Le numéro du bouton sera la méthode sélectionnée";
-        $legend2 = "Veuillez sélectionner votre méthode :";
-        $label1 = "Pour les méthodes 2 et 3, veuillez sélectionner un joueur : ";
-        $label2 = "Pour les méthodes 5, veuillez sélectionner un numéro tournois : ";
-        $label3 = "Pour les méthodes 6, veuillez sélectionner une date d'un tournois : ";
-        $option = "À sélectionner";
-        $legend3 = "Voici le résultat de la méthode d'affichage choisie :";
-        $joueur = "Joueur";
-        $gain = "Gain";
-        $victoire = "Fini 1er";
-        $citron = "Prix Citron";
-        $fini2 = "Fini 2e";
-        $gainPresence = "Ratio";
-        $noTournois = "No. partie";
-        $nbTournois = "Nb parties";
-        $date = "Date";
-        $killer = "Killer";
-        $msgErreur_joueur = "Veuillez sélectionner un joueur !";
-        $msgErreur_ID = "Veuillez sélectionner un numéro de tournois !";
-        $msgErreur_Date = "Veuillez sélectionner une date d'un tournois !";
-        $btnLogin = "Page de connexion";
-        $btnReturn = "Page d'Accueil";
-        $returnUp = "Retour au choix d'affichage";
-    } elseif ($typeLangue === 'english') {
-        $lang = "en";
-        $titre = "Statistics page";
-        $rang = "Rank";
-        $h1 = "<h1>Welcome to you &rarr; <span class='userDisplay'>{$user}</span> &larr; on the statictics page about the friday nights poker between somes friends.</h1>";
-        $legend1 = "Here are the differents methods of displaying poker statistics";
-        $method1 = "Display all information with no modification.";
-        $method2 = "Display all information about one player.";
-        $method3 = "The summary about one player.";
-        $method4 = "The summary about all player.";
-        $method4ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Profit / Amount Games)";
-        $method5 = "Display a tournament by number.";
-        $method6 = "Display a tournament by date.";
-        $method7 = "The summary of all players with their prices lemons and killers. ";
-        $method7ratio = "<span class=\"retourLigne\"><br></span> (Ratio &rarr; Killer / Amount Games)";
-        $h3 = "The number on the button will match with the number of the method";
-        $legend2 = "Please choose your method";
-        $label1 = "About the method 2 and 3, please select one player";
-        $label2 = "About the method 5, please select a tournament number:";
-        $label3 = "About the method 6, please select a date from a tournament:";
-        $option = "Select";
-        $citron = "Lemon price";
-        $killer = "Killer";
-        $legend3 = "This is the result of the selected method";
-        $joueur = "Player";
-        $gain = "Profit";
-        $victoire = "1st";
-        $fini2 = "2nd";
-        $noTournois = "Game Num";
-        $nbTournois = "Amount Games";
-        $gainPresence = "Ratio";
-        $date = "Date";
-        $msgErreur_joueur = "Please select one player";
-        $msgErreur_ID = "Please select a tournament number !";
-        $msgErreur_Date = "Please select a date from a tournament !";
-        $btnLogin = "Login page";
-        $btnReturn = "Home page";
-        $returnUp = "Back to the method of displaying";
-    }
+include("../../traduction/traduction_poker.php");
 
-    $arrayMots = ["lang" => $lang, 'method4ratio' => $method4ratio, 'method7ratio' => $method7ratio, 'gainPresence' => $gainPresence, 'rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
-
-    return $arrayMots;
-}
-
-function initialisation(){
-    $array_Champs = array("nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");        
+function initialisation(){    
+    $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");        
+    
     return $array_Champs;
 }
 
@@ -101,9 +19,22 @@ function remplissage_Champs($array_Champs){
         if ($array_Champs['method'] == 4){
             $array_Champs['nombre_Presences'] = intval($_GET['nombre_Presences']);
         }
+
+        if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
+            var_dump("Get triRatio ou triOriginal");
+            var_dump($_GET['visible_Info']);
+            if (isset($_GET['visible_Info'])){
+                $array_Champs['afficher'] = $_GET['visible_Info'];
+            }
+        }
     }  
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // On doit setter le mode de visibilité
+        if (isset($_POST['visible_Info'])){
+            $array_Champs['afficher'] = $_POST['visible_Info'];
+        }
+
         if (isset($_POST['method'])){
             $array_Champs['method'] = intval($_POST['method']);            
         }
@@ -128,8 +59,6 @@ function remplissage_Champs($array_Champs){
             $array_Champs['tournoiDate'] = $_POST['listeDate'];
         }         
     }
-
-
 
     return $array_Champs;
 }
@@ -417,7 +346,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
     $tableau = ""; // Initialiation du tableau
     if (!isset($_GET['triRatio']) && (isset($_GET['triOriginal']) || $_SERVER['REQUEST_METHOD'] == 'POST') ){
         $tableau = "<table><thead> 
-                        <tr> <th colspan='7'>{$arrayMots['method4']}{$arrayMots['method4ratio']}</th> </tr>
+                        <tr> <th colspan='7'>{$arrayMots['method4']}</th></tr>
                         <tr>
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th>
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
@@ -425,16 +354,16 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
                             <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['fini2']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['gainPresence']}</a></th> 
+                            <th class=\"nomPetit\"><a id=\"link\" href=\"{$href}\">{$arrayMots['gainPresence']}</a></th> 
                         </tr>            
                     </thead> <tbody>";
     } elseif (isset($_GET['triRatio']) && !isset($_GET['triOriginal']) ){
         $tableau = "<table><thead> 
-                        <tr> <th colspan='7'>{$arrayMots['method4']}{$arrayMots['method4ratio']}</th> </tr>
+                        <tr> <th colspan='7'>{$arrayMots['method4']}</th> </tr>
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th>
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['gain']}</a></th> 
+                            <th class=\"nomPetit\"><a id=\"link\" href=\"{$href}\">{$arrayMots['gain']}</a></th> 
                             <th class=\"nomPetit\">{$arrayMots['victoire']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['fini2']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
@@ -647,23 +576,23 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
 
     if (!isset($_GET['triRatio']) && (isset($_GET['triOriginal']) || $_SERVER['REQUEST_METHOD'] == 'POST') ){
         $tableau = "<table><thead> 
-                        <tr><th colspan='6'>{$arrayMots['method7']}{$arrayMots['method7ratio']}</th></tr>
+                        <tr><th colspan='6'>{$arrayMots['method7']}</th></tr>
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['killer']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['citron']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['gainPresence']}</a></th> 
+                            <th class=\"nomPetit\"><a id=\"link\" href=\"{$href}\">{$arrayMots['gainPresence']}</a></th> 
                         </tr>            
                     </thead><tbody>";        
     } elseif (isset($_GET['triRatio']) && !isset($_GET['triOriginal']) ){
         $tableau = "<table><thead> 
-                        <tr><th colspan='6'>{$arrayMots['method7']}{$arrayMots['method7ratio']}</th></tr>
+                        <tr><th colspan='6'>{$arrayMots['method7']}</th></tr>
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
-                            <th class=\"nomPetit\"><a href=\"{$href}#endroitResultat\">{$arrayMots['killer']}</a></th> 
+                            <th class=\"nomPetit\"><a id=\"link\" href=\"{$href}\">{$arrayMots['killer']}</a></th> 
                             <th class=\"nomPetit\">{$arrayMots['citron']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['nbTournois']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['gainPresence']}</th> 
@@ -794,11 +723,13 @@ function addStatAffichageUser($connMYSQL, $user){
 
 function lienVersTriage($array_Champs){
     $href = "";
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){
         $href = "poker.php?triRatio=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
     } elseif (isset($_GET['triRatio'])) {
         $href = "poker.php?triOriginal=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
     }
+
     return $href;
 }
 
@@ -818,16 +749,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } else {
         $array_Champs = remplissage_Champs($array_Champs);
 
+        
+
         if ($array_Champs['typeLangue'] !== "francais" && $array_Champs['typeLangue'] !== "english") {
             redirection("francais");
         } else {
             $arrayMots = traduction($array_Champs['typeLangue'], $array_Champs['user']);             
 
             // Insérer ici les triages en conséquence
-
             if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
                 $array_Champs['href'] = lienVersTriage($array_Champs);
                 $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);   
+                //var_dump($array_Champs['afficher']); exit;
             }
 
             $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);  
@@ -839,7 +772,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }  
 
     $connMYSQL->close();
-} // fin du GET
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
     session_start();
@@ -887,7 +820,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="<?php echo $arrayMots['lang']; ?>">
 
 <head>
-    <meta charset="utf-8">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <meta name="http-equiv" content="Content-type: text/html; charset=utf-8"/>
+    <meta name="Statistique" content="Information sur les statistiques du poker entre amis">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Statistique du poker">
     <!-- Le fichier poker.png est la propriété du site : https://pixabay.com/fr/cartes-diamant-diamants-favoris-2029819/ mais sous licence gratuite -->
@@ -915,12 +850,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <fieldset>
                 <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
                 <form method='post' action='poker.php#endroitResultat'>
+                    <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $array_Champs['afficher']; ?>">
+                    <input id="info_langue" type="hidden" name="langue_Info" value="<?php echo $array_Champs['typeLangue']; ?>">
                     <table>
                         <thead>
                             <tr>
-                                <th>Méthode d'affichage</th>
-                                <th>Sélection</th>
-                                <th>Bouton de la méthode</th>
+                                <th><?php echo $arrayMots['methode']; ?></th>
+                                <th><?php echo $arrayMots['selection']; ?></th>
+                                <th><?php echo $arrayMots['btn_methode']; ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -969,10 +906,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <fieldset>
                 <legend class="legendCenter"><?php echo $arrayMots['legend3']; ?></legend>
                 <?php if ($array_Champs['method'] == 4 || $array_Champs['method'] == 7 ) { ?>
-                <ul class="lesInstructionTriage">
-                    <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>
-                    <li>Triage «Ratio» : ratio, killer en <span class="charGros">décroissance</span> et prix citron, Nb parties en <span class="charGros">croissance</span></li>
-                </ul>
+                <div class="section_info">    
+                    <div class="infoGauche">
+                        <a class="faireAfficher" href="#"><?php echo $arrayMots['info_utile']; ?></a>                
+                        <ul class="lesInstruction">
+                            <?php if ($array_Champs['method'] == 4) { ?>
+                                <li><?php echo $arrayMots['info_trie_method4_gain']; ?></li>
+                                <li><?php echo $arrayMots['info_trie_method4_ratio']; ?></li>
+                            
+                            <?php } elseif ($array_Champs['method'] == 7) { ?>
+                                <li><?php echo $arrayMots['info_trie_method7_killer']; ?></li>
+                                <li><?php echo $arrayMots['info_trie_method7_ratio']; ?></li>
+                            <?php } ?>                            
+                            <li><?php echo $arrayMots['information_post_tournois']; ?></li>
+                            <ul class="lesInstruction">
+                                <li><span class="charGros"><?php echo $arrayMots['les_gagnant_100E']; ?></span></li>
+                                <ol class="lesInstruction">
+                                    <li>Frederic V</li>
+                                    <li>Frederic</li>
+                                    <li>Marc-Andre</li>
+                                </ol>
+                                <li><span class="charGros"><?php echo $arrayMots['les_gagnant_150E']; ?></span></li>
+                                <ol class="lesInstruction">
+                                    <li>Richard</li>
+                                    <li>Maxime</li>
+                                    <li>Jean-Philippe</li>
+                                </ol>
+                            </ul>
+                            <li><span class="charGros"><?php echo $arrayMots['msgInfo_killer_citron']; ?></li>   
+                            <ol class="lesInstruction">
+                                <li><?php echo $arrayMots['killer']; ?></li>
+                                <li><?php echo $arrayMots['citron']; ?></li>
+                            </ol>           
+                        </ul>
+                    </div>
+                </div>
                 <?php } ?>
                 <?php if ( isset($_GET['triOriginal']) || isset($_GET['triRatio']) || $_SERVER['REQUEST_METHOD'] === 'POST') { echo $array_Champs['tableauResult']; } ?>
             </fieldset>
@@ -989,6 +957,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="poker.js"></script>
 </body>
 
 </html>

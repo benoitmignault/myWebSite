@@ -1,6 +1,11 @@
-* {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
+*{
+    box-sizing: border-box;  
+    -moz-box-sizing: border-box;  
+    -webkit-box-sizing: border-box;
+}
+
+html{
+    scroll-behavior: smooth; 
 }
 
 #hautPage,
@@ -16,6 +21,14 @@
     -webkit-flex-direction: column;
     flex-direction: column;
     flex-wrap: wrap;
+}
+
+.mainPage .affichage fieldset .section_info{
+    width: 100%;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
 }
 
 .mainPage>div {
@@ -48,8 +61,7 @@
 /* 
 Nouvelle manière d'afficher un legend au milieu
 */
-
-.mainPage>div>fieldset>.legendCenter {
+.mainPage > div > fieldset > .legendCenter {
     display: table;
     min-width: 0px;
     position: relative;
@@ -111,6 +123,7 @@ Nouvelle manière d'afficher un legend au milieu
 }
 
 .bouton {
+    width: 40%;
     background: #416b43;
     background-image: -webkit-linear-gradient(top, #416b43, #99cff0);
     background-image: -moz-linear-gradient(top, #416b43, #99cff0);
@@ -125,7 +138,6 @@ Nouvelle manière d'afficher un legend au milieu
     font-size: 16px;
     padding: 8px 15px 8px 15px;
     border: solid #738c1f 2px;
-    margin-right: 15px;
 }
 
 .bouton:hover {
@@ -148,19 +160,43 @@ Nouvelle manière d'afficher un legend au milieu
     border-top: 1px solid black;
 }
 
-.mainPage .affichage .lesInstructionTriage li {
-    line-height: 1.6em;
+.mainPage .affichage fieldset .section_info .infoGauche{
+    width: 100%;
 }
 
-.mainPage .affichage .lesInstructionTriage {
-    text-align: center;
+.mainPage .affichage fieldset .section_info .infoGauche .faireAfficher {
+    margin-left: 25px;
+    border: 2px solid black;
+    font-weight: bold;
+    background-color: #737373;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #FFFFFF;
+    text-decoration: none; 
 }
 
-.mainPage .affichage .lesInstructionTriage .charGros {
+.mainPage .affichage fieldset .section_info .infoGauche .faireAfficher:hover{
+    color:#DDDDDD;
+    text-decoration:none;
+}
+
+.mainPage .affichage fieldset .section_info .infoGauche .lesInstruction li,
+.mainPage .affichage fieldset .section_info .infoGauche .lesInstruction .lesInstruction li,
+.mainPage .affichage fieldset .section_info .infoGauche .lesInstruction .lesInstruction .lesInstruction li {
+    line-height:160%;
+}
+
+.mainPage .affichage fieldset .section_info .infoGauche .lesInstruction .charGros {
     font-weight: bold;
 }
 
-.mainPage .affichage table th,
+.mainPage .affichage fieldset .section_info .infoGauche .lesInstruction .avertissement{
+    color: red;
+    font-weight: bold;
+}
+
+
+.mainPage > .affichage fieldset table th,
 .mainPage .info_method table th {
     background-color: lightgray;
     text-align: center;
@@ -181,6 +217,11 @@ Nouvelle manière d'afficher un legend au milieu
     padding-top: 3px;
     padding-bottom: 3px;
     font-weight: bold;
+}
+
+.mainPage .info_method table .methode {
+    text-align: left;
+    padding-left: 25px;
 }
 
 .mainPage .affichage table td div {

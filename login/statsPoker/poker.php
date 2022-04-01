@@ -1,12 +1,16 @@
 <?php
-function initialisation(){
+function initialisation(){    
     $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");        
+    
     return $array_Champs;
 }
 
 function traduction($typeLangue, $user) {
     $user = strtoupper($user);
     if ($typeLangue === 'francais') {
+        $methode = "Méthode d'affichage";
+        $selection = "Sélection";
+        $btn_methode = "Bouton de la méthode";
         $lang = "fr";
         $titre = "Page des statistiques";
         $rang = "Rang";
@@ -30,7 +34,7 @@ function traduction($typeLangue, $user) {
         $legend3 = "Voici le résultat de la méthode d'affichage choisie :";
         $joueur = "Joueur";
         $gain = "Gain";
-        $victoire = "Fini 1er";
+        $victoire = "Victoire";
         $citron = "Prix Citron";
         $fini2 = "Fini 2e";
         $gainPresence = "Ratio";
@@ -44,7 +48,19 @@ function traduction($typeLangue, $user) {
         $btnLogin = "Page de connexion";
         $btnReturn = "Page d'Accueil";
         $returnUp = "Retour au choix d'affichage";
+        $msgInfo_killer_citron = "À partir du 101e tournois,</span> un des joueurs à proposer de commencer des statistiques sur d'autres aspect du jeu soit :";
+        $les_gagnant_100E = "Les gagnants du 100e :";
+        $les_gagnant_150E = "Les gagnants du 150e :";
+        $information_post_tournois = "Au moment de faire les 100e et 150e tournois, nous avons offert des médailles aux 3 premiers de chaque tournois.";        
+        $info_trie_method4_gain = "Triage «Gain» : Gain & Victoires & Fini 2e en <span class=\"charGros\">décroissance</span> et Nb parties en <span class=\"charGros\">croissance</span>";
+        $info_trie_method4_ratio = "Triage «Ratio» : Gain / Nb parties en <span class=\"charGros\">décroissance</span> et Nb parties en <span class=\"charGros\">croissance</span>";
+        $info_trie_method7_killer = "Triage «Killer» : Nb Killer en <span class=\"charGros\">décroissance</span> & Nb Citron en <span class=\"charGros\">croissance</span> et Nb parties en <span class=\"charGros\">croissance</span>";
+        $info_trie_method7_ratio = "Triage «Ratio» : Nb Killer / Nb parties jouées en <span class=\"charGros\">décroissance</span> et Nb parties en <span class=\"charGros\">croissance</span>";
+
     } elseif ($typeLangue === 'english') {
+        $methode = "Display method";
+        $selection = "Selection";
+        $btn_methode = "Method button";
         $lang = "en";
         $titre = "Statistics page";
         $rang = "Rank";
@@ -65,13 +81,13 @@ function traduction($typeLangue, $user) {
         $label2 = "About the method 5, please select a tournament number:";
         $label3 = "About the method 6, please select a date from a tournament:";
         $option = "Select";
-        $citron = "Lemon price";
-        $killer = "Killer";
+        $citron = "Lemon Price";
+        $killer = "Killer Price";
         $legend3 = "This is the result of the selected method";
         $joueur = "Player";
-        $gain = "Profit";
-        $victoire = "1st";
-        $fini2 = "2nd";
+        $gain = "Gain";
+        $victoire = "Win";
+        $fini2 = "2nd";        
         $noTournois = "Game Num";
         $nbTournois = "Amount Games";
         $gainPresence = "Ratio";
@@ -82,9 +98,24 @@ function traduction($typeLangue, $user) {
         $btnLogin = "Login page";
         $btnReturn = "Home page";
         $returnUp = "Back to the method of displaying";
+        $msgInfo_killer_citron = "From the 101st tournament,</span> one of the players to propose to start statistics on other aspects of the game either :";
+        $les_gagnant_100E = "The winner of 100th :";
+        $les_gagnant_150E = "The winner of 150th :";
+        $information_post_tournois = "At the end of the 100th and 150th tournaments, we offered medals to the first 3 of each tournament.";
+        $info_trie_method4_gain = "«Gain» sorting: Gain & Victories & Finished 2nd in <span class=\"charGros\">Decrease</span> and Nb games in <span class=\"charGros\">Increase</span>";
+        $info_trie_method4_ratio = "«Ratio» sorting: Gain / Nb games in <span class=\"charGros\">Decrease</span> and Nb games in <span class=\"charGros\">Increase</span>";
+        $info_trie_method7_killer = "«Killer» sorting: Nb Killer in <span class=\"charGros\">Decrease</span> & Nb Lemon in <span class=\"charGros\">Increase</span> and Nb games in <span class=\"charGros\">Increase</span>";
+        $info_trie_method7_ratio = "«Ratio» sorting: Nb Killer / Nb games in <span class=\"charGros\">Decrease</span> and Nb games in <span class=\"charGros\">Increase</span>";
     }
 
-    $arrayMots = ["lang" => $lang, 'method4ratio' => $method4ratio, 'method7ratio' => $method7ratio, 'gainPresence' => $gainPresence, 'rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, 'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, 'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp];
+    $arrayMots = array("lang" => $lang, 'method4ratio' => $method4ratio, 'method7ratio' => $method7ratio, 'gainPresence' => $gainPresence,
+    'rang' => $rang, 'titre' => $titre, 'h1' => $h1, 'legend1' => $legend1, 'method1' => $method1, 'method2' => $method2, 'methode' => $methode,  'selection' => $selection, 'btn_methode' => $btn_methode,
+    'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, "msgInfo_killer_citron" => $msgInfo_killer_citron,
+    'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, "les_gagnant_100E" => $les_gagnant_100E, "les_gagnant_150E" => $les_gagnant_150E,
+    'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'information_post_tournois' => $information_post_tournois,
+    'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur,
+    'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp,
+    'info_trie_method4_gain' => $info_trie_method4_gain, 'info_trie_method4_ratio' => $info_trie_method4_ratio, 'info_trie_method7_killer' => $info_trie_method7_killer, 'info_trie_method7_ratio' => $info_trie_method7_ratio);
 
     return $arrayMots;
 }
@@ -854,7 +885,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }  
 
     $connMYSQL->close();
-} // fin du GET
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
     session_start();
@@ -936,9 +967,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <table>
                         <thead>
                             <tr>
-                                <th>Méthode d'affichage</th>
-                                <th>Sélection</th>
-                                <th>Bouton de la méthode</th>
+                                <th><?php echo $arrayMots['methode']; ?></th>
+                                <th><?php echo $arrayMots['selection']; ?></th>
+                                <th><?php echo $arrayMots['btn_methode']; ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -991,24 +1022,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="infoGauche">
                         <a class="faireAfficher" href="#">Information utile</a>                
                         <ul class="lesInstruction">
-                            <li>Triage «Gain» : gains, victoires, finis 2e en <span class="charGros">décroissance</span> et présence en <span class="charGros">croissance</span></li>
-                            <li>Triage «Ratio» : ratio, killer en <span class="charGros">décroissance</span> et prix citron, Nb parties en <span class="charGros">croissance</span></li>
-                            <li>Au moment de faire les 100e et 150e tournois, nous avons offert des médailles aux 3 premiers de chaque tournois.</li>
+                            <?php if ($array_Champs['method'] == 4) { ?>
+                                <li><?php echo $arrayMots['info_trie_method4_gain']; ?></li>
+                                <li><?php echo $arrayMots['info_trie_method4_ratio']; ?></li>
+                            
+                            <?php } elseif ($array_Champs['method'] == 7) { ?>
+                                <li><?php echo $arrayMots['info_trie_method7_killer']; ?></li>
+                                <li><?php echo $arrayMots['info_trie_method7_ratio']; ?></li>
+                            <?php } ?>                            
+                            <li><?php echo $arrayMots['information_post_tournois']; ?></li>
                             <ul class="lesInstruction">
-                                <li><span class="charGros">Les gagnants du 100e :</span></li>
+                                <li><span class="charGros"><?php echo $arrayMots['les_gagnant_100E']; ?></span></li>
                                 <ol class="lesInstruction">
                                     <li>Frederic V</li>
                                     <li>Frederic</li>
                                     <li>Marc-Andre</li>
                                 </ol>
-                                <li><span class="charGros">Les gagnants du 150e :</span></li>
+                                <li><span class="charGros"><?php echo $arrayMots['les_gagnant_150E']; ?></span></li>
                                 <ol class="lesInstruction">
                                     <li>Richard</li>
                                     <li>Maxime</li>
                                     <li>Jean-Philippe</li>
                                 </ol>
                             </ul>
-                            <li class="avertissement">Important !!! À partir du 151e tournois, le prix d'entré sera de 20$ par personne et non 10$ ! Inflation, comme on dit :)</li>                    
+                            <li><span class="charGros"><?php echo $arrayMots['msgInfo_killer_citron']; ?></li>   
+                            <ol class="lesInstruction">
+                                <li><?php echo $arrayMots['killer']; ?></li>
+                                <li><?php echo $arrayMots['citron']; ?></li>
+                            </ol>           
                         </ul>
                     </div>
                 </div>

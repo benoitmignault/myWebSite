@@ -86,10 +86,10 @@ function traduction($typeLangue, $user) {
         $legend3 = "This is the result of the selected method";
         $joueur = "Player";
         $gain = "Gain";
-        $victoire = "Win";
+        $victoire = "Wins";
         $fini2 = "2nd";        
         $noTournois = "Game Num";
-        $nbTournois = "Amount Games";
+        $nbTournois = "Nb games";
         $gainPresence = "Ratio";
         $date = "Date";
         $msgErreur_joueur = "Please select one player";
@@ -102,7 +102,7 @@ function traduction($typeLangue, $user) {
         $les_gagnant_100E = "The winner of 100th :";
         $les_gagnant_150E = "The winner of 150th :";
         $information_post_tournois = "At the end of the 100th and 150th tournaments, we offered medals to the first 3 of each tournament.";
-        $info_trie_method4_gain = "«Gain» sorting: Gain & Victories & Finished 2nd in <span class=\"charGros\">Decrease</span> and Nb games in <span class=\"charGros\">Increase</span>";
+        $info_trie_method4_gain = "«Gain» sorting: Gain & Wins & Finished 2nd in <span class=\"charGros\">Decrease</span> and Nb games in <span class=\"charGros\">Increase</span>";
         $info_trie_method4_ratio = "«Ratio» sorting: Gain / Nb games in <span class=\"charGros\">Decrease</span> and Nb games in <span class=\"charGros\">Increase</span>";
         $info_trie_method7_killer = "«Killer» sorting: Nb Killer in <span class=\"charGros\">Decrease</span> & Nb Lemon in <span class=\"charGros\">Increase</span> and Nb games in <span class=\"charGros\">Increase</span>";
         $info_trie_method7_ratio = "«Ratio» sorting: Nb Killer / Nb games in <span class=\"charGros\">Decrease</span> and Nb games in <span class=\"charGros\">Increase</span>";
@@ -459,7 +459,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
     $tableau = ""; // Initialiation du tableau
     if (!isset($_GET['triRatio']) && (isset($_GET['triOriginal']) || $_SERVER['REQUEST_METHOD'] == 'POST') ){
         $tableau = "<table><thead> 
-                        <tr> <th colspan='7'>{$arrayMots['method4']}{$arrayMots['method4ratio']}</th> </tr>
+                        <tr> <th colspan='7'>{$arrayMots['method4']}</th></tr>
                         <tr>
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th>
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
@@ -472,7 +472,7 @@ function sommaireTousJoueurs($href, $connMYSQL, $arrayMots, $nombre_Presences) {
                     </thead> <tbody>";
     } elseif (isset($_GET['triRatio']) && !isset($_GET['triOriginal']) ){
         $tableau = "<table><thead> 
-                        <tr> <th colspan='7'>{$arrayMots['method4']}{$arrayMots['method4ratio']}</th> </tr>
+                        <tr> <th colspan='7'>{$arrayMots['method4']}</th> </tr>
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th>
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
@@ -689,7 +689,7 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
 
     if (!isset($_GET['triRatio']) && (isset($_GET['triOriginal']) || $_SERVER['REQUEST_METHOD'] == 'POST') ){
         $tableau = "<table><thead> 
-                        <tr><th colspan='6'>{$arrayMots['method7']}{$arrayMots['method7ratio']}</th></tr>
+                        <tr><th colspan='6'>{$arrayMots['method7']}</th></tr>
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 
@@ -701,7 +701,7 @@ function affichageKillerCitron($href, $connMYSQL, $arrayMots) {
                     </thead><tbody>";        
     } elseif (isset($_GET['triRatio']) && !isset($_GET['triOriginal']) ){
         $tableau = "<table><thead> 
-                        <tr><th colspan='6'>{$arrayMots['method7']}{$arrayMots['method7ratio']}</th></tr>
+                        <tr><th colspan='6'>{$arrayMots['method7']}</th></tr>
                         <tr> 
                             <th class=\"nomPetit\">{$arrayMots['rang']}</th> 
                             <th class=\"nomPetit\">{$arrayMots['joueur']}</th> 

@@ -56,6 +56,7 @@ function traduction($typeLangue, $user) {
         $info_trie_method4_ratio = "Triage «Ratio» : Gain / Nb parties en <span class=\"charGros\">décroissance</span> et Nb parties en <span class=\"charGros\">croissance</span>";
         $info_trie_method7_killer = "Triage «Killer» : Nb Killer en <span class=\"charGros\">décroissance</span> & Nb Citron en <span class=\"charGros\">croissance</span> et Nb parties en <span class=\"charGros\">croissance</span>";
         $info_trie_method7_ratio = "Triage «Ratio» : Nb Killer / Nb parties jouées en <span class=\"charGros\">décroissance</span> et Nb parties en <span class=\"charGros\">croissance</span>";
+        $info_utile = "Information utile";
 
     } elseif ($typeLangue === 'english') {
         $methode = "Display method";
@@ -106,6 +107,7 @@ function traduction($typeLangue, $user) {
         $info_trie_method4_ratio = "«Ratio» sorting: Gain / Nb games in <span class=\"charGros\">Decrease</span> and Nb games in <span class=\"charGros\">Increase</span>";
         $info_trie_method7_killer = "«Killer» sorting: Nb Killer in <span class=\"charGros\">Decrease</span> & Nb Lemon in <span class=\"charGros\">Increase</span> and Nb games in <span class=\"charGros\">Increase</span>";
         $info_trie_method7_ratio = "«Ratio» sorting: Nb Killer / Nb games in <span class=\"charGros\">Decrease</span> and Nb games in <span class=\"charGros\">Increase</span>";
+        $info_utile = "Useful information";
     }
 
     $arrayMots = array("lang" => $lang, 'method4ratio' => $method4ratio, 'method7ratio' => $method7ratio, 'gainPresence' => $gainPresence,
@@ -113,7 +115,7 @@ function traduction($typeLangue, $user) {
     'method3' => $method3, 'method4' => $method4, 'method5' => $method5, 'method6' => $method6, 'method7' => $method7, "msgInfo_killer_citron" => $msgInfo_killer_citron,
     'h3' => $h3, 'legend2' => $legend2, 'label1' => $label1, 'label2' => $label2, 'label3' => $label3, 'option' => $option, "les_gagnant_100E" => $les_gagnant_100E, "les_gagnant_150E" => $les_gagnant_150E,
     'legend3' => $legend3, 'joueur' => $joueur, 'gain' => $gain, 'killer' => $killer, 'victoire' => $victoire, 'fini2' => $fini2, 'information_post_tournois' => $information_post_tournois,
-    'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur,
+    'noTournois' => $noTournois, 'nbTournois' => $nbTournois, 'date' => $date, 'citron' => $citron, 'msgErreur_joueur' => $msgErreur_joueur, 'info_utile' => $info_utile,
     'msgErreur_ID' => $msgErreur_ID, 'msgErreur_Date' => $msgErreur_Date, 'btnLogin' => $btnLogin, 'btnReturn' => $btnReturn, 'returnUp' => $returnUp,
     'info_trie_method4_gain' => $info_trie_method4_gain, 'info_trie_method4_ratio' => $info_trie_method4_ratio, 'info_trie_method7_killer' => $info_trie_method7_killer, 'info_trie_method7_ratio' => $info_trie_method7_ratio);
 
@@ -964,6 +966,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
                 <form method='post' action='poker.php#endroitResultat'>
                     <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $array_Champs['afficher']; ?>">
+                    <input id="info_langue" type="hidden" name="langue_Info" value="<?php echo $array_Champs['typeLangue']; ?>">
                     <table>
                         <thead>
                             <tr>
@@ -1020,7 +1023,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if ($array_Champs['method'] == 4 || $array_Champs['method'] == 7 ) { ?>
                 <div class="section_info">    
                     <div class="infoGauche">
-                        <a class="faireAfficher" href="#">Information utile</a>                
+                        <a class="faireAfficher" href="#"><?php echo $arrayMots['info_utile']; ?></a>                
                         <ul class="lesInstruction">
                             <?php if ($array_Champs['method'] == 4) { ?>
                                 <li><?php echo $arrayMots['info_trie_method4_gain']; ?></li>

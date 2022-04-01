@@ -1,5 +1,6 @@
 const section_info = document.querySelector('.section_info');
 const info_liste = document.querySelector('#info_Instruction'); // on garde l'info lors du reload de la page
+const info_langue = document.querySelector('#info_langue'); // on garde l'info lors du reload de la page
 const liste_info = document.querySelector('.lesInstruction'); // la liste qui sera caché
 const affichage = document.querySelector('.faireAfficher'); // le texte du lien qui changera
 const link = document.querySelector('#link'); // le lien qu'on devra modifier dynamiquement
@@ -10,12 +11,22 @@ function verifier_affichage() {
     if (info_liste.value === "display") {
         liste_info.style.display = "block";
         section_info.style.marginBottom = "0px";
-        affichage.innerHTML = "Information utile";
+        // Traduction 
+        if (info_langue.value === "francais"){
+            affichage.innerHTML = "Information utile";                
+        } else if (info_langue.value === "english") {
+            affichage.innerHTML = "Useful information";
+        }
 
     } else if (info_liste.value === "hidden") {
         liste_info.style.display = "none";
         section_info.style.marginBottom = "15px";
-        affichage.innerHTML = "Afficher l'information utile";
+        // Traduction 
+        if (info_langue.value === "francais"){
+            affichage.innerHTML = "Afficher l'information utile";            
+        } else if (info_langue.value === "english") {
+            affichage.innerHTML = "Display useful information";
+        }
     }
 } 
 
@@ -27,13 +38,23 @@ function afficher_Instructions() {
             liste_info.style.display = "block";
             section_info.style.marginBottom = "0px";
             info_liste.value = "display"; // input prend la valeur de display pour le reload de la page
-            affichage.innerHTML = "Information utile";
+            // Traduction 
+            if (info_langue.value === "francais"){
+                affichage.innerHTML = "Information utile";                
+            } else if (info_langue.value === "english") {
+                affichage.innerHTML = "Useful information";
+            }
 
         } else if (liste_info.style.display === 'block') {
             liste_info.style.display = "none";
             section_info.style.marginBottom = "15px";
             info_liste.value = "hidden"; // input prend la valeur de hidden pour le reload de la page
-            affichage.innerHTML = "Afficher l'information utile";
+            // Traduction 
+            if (info_langue.value === "francais"){
+                affichage.innerHTML = "Afficher l'information utile";            
+            } else if (info_langue.value === "english") {
+                affichage.innerHTML = "Display useful information";
+            }
         }
     });
 }

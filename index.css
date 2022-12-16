@@ -15,7 +15,7 @@ body {
     margin: auto;
 }
 
-.racineSite>div {
+.racineSite > div {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
@@ -35,7 +35,7 @@ body {
     width: 50%;
 }
 
-.left>div {
+.left > div {
     width: 100%;
 }
 
@@ -50,13 +50,13 @@ body {
     margin: 0;
 }
 
-.left>div .liste {
+.left > div .liste {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-.left>div .liste li {
+.left > div .liste li {
     font-weight: bold;
     background-color: darkgrey;
     line-height: 35px;
@@ -65,12 +65,12 @@ body {
     text-align: center;
 }
 
-.left>div .liste li:hover {
+.left > div .liste li:hover {
     background-color: black;
     cursor: pointer;
 }
 
-.left>div .liste li a:hover {
+.left > div .liste li a:hover {
     color: red;
 }
 
@@ -169,7 +169,7 @@ td {
     color: darkgoldenrod;
 }
 
-.middle>div {
+.middle > div {
     width: 100%;
     /* Les div doivent resté display:block */
 }
@@ -190,7 +190,7 @@ td {
     align-items: center;
 }
 
-.middle .header>div,
+.middle .header > div,
 .middle .center .header .unePassionPhoto {
     width: 20%;
     text-align: center;
@@ -214,7 +214,7 @@ td {
     text-decoration: none;
 }
 
-.middle .header>div:hover,
+.middle .header > div:hover,
 .middle .header div a:hover {
     background-color: black;
     color: red;
@@ -280,12 +280,12 @@ Nouvelle manière d'afficher un legend au milieu
     color: green;
 }
 
-.middle>.center>.projet>.pageAccueil>center {
+.middle > .center > .projet > .pageAccueil > center {
     margin-bottom: 5px;
 }
 
-.middle>.center>.projet>.pageAccueil>center>a,
-.middle>.center>p>a {
+.middle > .center > .projet > .pageAccueil > center > a,
+.middle > .center > p > a {
     color: white;
     text-decoration: none;
     background-color: darkgrey;
@@ -295,8 +295,8 @@ Nouvelle manière d'afficher un legend au milieu
     text-align: center;
 }
 
-.middle>.center>.projet>.pageAccueil>center>a:hover,
-.middle>.center>p>a:hover {
+.middle > .center > .projet > .pageAccueil > center > a:hover,
+.middle > .center > p > a:hover {
     background-color: black;
     cursor: pointer;
     color: red;
@@ -311,7 +311,7 @@ Nouvelle manière d'afficher un legend au milieu
     width: 100%;
 }
 
-.middle .center>div .passion {
+.middle .center > div .passion {
     width: 50%;
 }
 
@@ -356,7 +356,7 @@ span {
     position: relative;
 }
 
-.middle .photo>.sous_photo {
+.middle .photo > .sous_photo {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
@@ -364,7 +364,7 @@ span {
     width: 100%;
 }
 
-.middle .center>.passionResize {
+.middle .center > .passionResize {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -372,7 +372,7 @@ span {
     flex-wrap: wrap;
 }
 
-.middle .center>.passionResize>.passion {
+.middle .center > .passionResize > .passion {
     display: flex;
     display: -webkit-flex;
     flex-direction: column;
@@ -435,7 +435,7 @@ span {
     cursor: pointer;
 }
 
-.right>div {
+.right > div {
     width: 100%;
 }
 
@@ -443,14 +443,14 @@ span {
     width: 100%;
 }
 
-.racineSite>div>div>.pageAccueil,
+.racineSite > div > div > .pageAccueil,
 .racineSite .middle .center .projet .pageAccueil {
     width: 100%;
     margin: 0;
     padding: 0;
 }
 
-.racineSite>div>div>.pageAccueil {
+.racineSite > div > div > .pageAccueil {
     margin-bottom: 20px;
 }
 
@@ -462,21 +462,21 @@ span {
 }
 */
 
-.racineSite .right>div>.pageAccueil>p {
+.racineSite .right > div > .pageAccueil > p {
     text-align: justify;
 }
 
-.racineSite>.right>.media,
-.racineSite>.right>.media .sous_Media {
+.racineSite > .right > .media,
+.racineSite > .right > .media .sous_Media {
     width: 100%;
 }
 
-.racineSite>.right>.media .sous_Media {
+.racineSite > .right > .media .sous_Media {
     display: flex;
     display: -webkit-flex;
 }
 
-.racineSite>.right>.media .sous_Media .lienSocial {
+.racineSite > .right > .media .sous_Media .lienSocial {
     width: 25%;
 }
 
@@ -487,7 +487,7 @@ span {
 }
 */
 
-.racineSite .right>.media .sous_Media>.lienSocial>a img {
+.racineSite .right > .media .sous_Media > .lienSocial > a img {
     width: 100%;
     height: auto;
 }
@@ -537,7 +537,7 @@ input[type="submit"]:hover {
     cursor: pointer;
 }
 
-.msgErr>li {
+.msgErr > li {
     color: red;
     font-size: 16px;
     font-weight: bold;
@@ -558,7 +558,7 @@ input[type="submit"]:hover {
     -webkit-flex-direction: column;
 }
 
-.formulaire>.droite {
+.formulaire > .droite {
     display: flex;
     display: -webkit-flex;
     align-items: flex-start;

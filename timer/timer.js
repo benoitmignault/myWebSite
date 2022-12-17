@@ -199,8 +199,8 @@ function addZero() {
 function callAjax() {
     stopTimer.setAttribute("class", "disabled");
     stopTimer.setAttribute("disabled", "disabled");
-    if (user.value != "") {
-        if (trop_valeur.value == "true") {
+    if (user.value !== "") {
+        if (trop_valeur.value === "true") {
             doubleValeur.setAttribute("class", "disabled");
             doubleValeur.setAttribute("disabled", "disabled");
             temps30min.setAttribute("class", "disabled");
@@ -209,12 +209,12 @@ function callAjax() {
             temps15min.setAttribute("disabled", "disabled");
             resetTemps.setAttribute("class", "disabled");
             resetTemps.setAttribute("disabled", "disabled");
-        } else if (trop_valeur.value == "false") {
+        } else if (trop_valeur.value === "false") {
             doubleValeur.setAttribute("class", "");
             doubleValeur.removeAttribute("disabled");
             resetValeur.setAttribute("class", "");
             resetValeur.removeAttribute("disabled");
-            var data = {
+            let data = {
                 "niveau_combinaison": combinaison.value,
                 "maxCombinaison": maxCombinaison.value,
                 "nom_orginateur": organisateur.value,
@@ -252,7 +252,7 @@ function callAjax() {
                             } else if (dataErr.situation3) {
                                 alert("This file must be called via an AJAX call !");
                             }
-                        } else if (typeLangue.value == "francais") {
+                        } else if (typeLangue.value === "francais") {
                             if (dataErr.situation1) {
                                 alert(dataErr.situation1);
                             } else if (dataErr.situation2) {
@@ -334,7 +334,7 @@ function resetTemp() {
         reprendTimer.setAttribute("disabled", "disabled");
         stopTimer.setAttribute("class", "disabled");
         stopTimer.setAttribute("disabled", "disabled");
-        if (user.value != "" && trop_valeur.value == "false") {
+        if (user.value !== "" && trop_valeur.value === "false") {
             doubleValeur.setAttribute("class", "");
             doubleValeur.removeAttribute("disabled");
         }

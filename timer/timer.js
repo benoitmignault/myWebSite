@@ -62,8 +62,9 @@ function modificationSizeValeurs(big) {
     }
 }
 
+// La fonction doit rester une simple function qui n'est pas caller comme les autres fonctions en bas via document.addEventListener
 function reset() {
-    resetValeur.addEventListener('click', function(evt) {
+    resetValeur.addEventListener('click', function (evt) {
         doubleValeur.setAttribute("class", "");
         doubleValeur.removeAttribute("disabled");
         resetValeur.setAttribute("class", "disabled");

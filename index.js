@@ -1,24 +1,25 @@
-var langue = document.querySelector('#typeLangue');
-var div_Photo = document.querySelector('.photo');
-var div_Center = document.querySelector('.center');
-var listeSections = document.querySelectorAll('.header div a');
-var listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
-var lien = document.querySelector('#liste_language');
-var div_liste = document.querySelector('#hidden');
-var liste = document.querySelector('#enum_Language');
-var nomComplet = document.querySelector('#nom');
-var courriel = document.querySelector('#email');
-var message = document.querySelector('#msg');
-var sujet = document.querySelector('#sujet');
-var msgErr = document.querySelector('.msgErr');
-var form = document.querySelector('#formContact');
-var msgSucces = document.querySelector('.courrielSend');
-var hashTag = document.querySelector('#hashTag');
-var calendrierAJAX = document.querySelector('#tableauAJAX');
+const langue = document.querySelector('#typeLangue');
+const div_Photo = document.querySelector('.photo');
+const div_Center = document.querySelector('.center');
+const listeSections = document.querySelectorAll('.header div a');
+// Doublon de déclaration
+// const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
+const lien = document.querySelector('#liste_language');
+const div_liste = document.querySelector('#hidden');
+const liste = document.querySelector('#enum_Language');
+const nomComplet = document.querySelector('#nom');
+const courriel = document.querySelector('#email');
+const message = document.querySelector('#msg');
+const sujet = document.querySelector('#sujet');
+const msgErr = document.querySelector('.msgErr');
+const form = document.querySelector('#formContact');
+const msgSucces = document.querySelector('.courrielSend');
+const hashTag = document.querySelector('#hashTag');
+const calendrierAJAX = document.querySelector('#tableauAJAX');
 
 function activation_Liste() {
     lien.addEventListener('click', function (evt) {
-        if (div_liste.style.display == "") {
+        if (div_liste.style.display === "") {
             div_liste.style.display = 'block';
             liste.innerHTML = "<li>PHP / HTML / CSS</li>";
             liste.innerHTML += "<li>PYTHON3 / FLASK</li>";

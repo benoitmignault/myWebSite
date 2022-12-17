@@ -478,114 +478,126 @@
 </head>
 
 <body>
-    <!-- Fichier alert.wav est une propriété du site web : https://www.memoclic.com/sons-wav/766-sonneries-et-alarmes/page-1.html -->
-    <audio id="alertSound">
-        <source src="alert.wav" type="audio/wav">
-    </audio>
-    <div class="container">
-        <div class="tableau_bord">
-            <form method="post" action="./timer.php" id="formulaire">
-                <div class="choix">
-                    <input form="formulaire" type="hidden" id="number_Red" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
-                    <input form="formulaire" type="hidden" id="number_Green" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
-                    <input form="formulaire" type="hidden" id="number_Blue" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
-                    <input form="formulaire" type="hidden" id="trop_valeur" name="trop_valeur" value="<?php if ($champs['trop_valeur']) { echo "true"; } else { echo "false"; } ?>">
-                    <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
-                    <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
-                    <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison" value="<?php echo $champs['maxCombinaison']; ?>">
+<!-- Fichier alert.wav est une propriété du site web : https://www.memoclic.com/sons-wav/766-sonneries-et-alarmes/page-1.html -->
+<audio id="alertSound">
+    <source src="alert.wav" type="audio/wav">
+</audio>
+<div class="container">
+    <div class="tableau_bord">
+        <form method="post" action="./timer.php" id="formulaire">
+            <div class="choix">
+                <input form="formulaire" type="hidden" id="number_Red" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
+                <input form="formulaire" type="hidden" id="number_Green" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
+                <input form="formulaire" type="hidden" id="number_Blue" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
+                <input form="formulaire" type="hidden" id="trop_valeur" name="trop_valeur" value="<?php if ($champs['trop_valeur']) {
+					echo "true";
+				}
+				else {
+					echo "false";
+				} ?>">
+                <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison"
+                       value="<?php echo $champs['maxCombinaison']; ?>">
 
-                    <label class="modificationColor" for="choixOrganisateur"><?php echo $arrayMots['choixOrganisateur']; ?></label>
-                    <select id="choixOrganisateur" name="choixOrganisateur">
-                        <?php echo $liste_Organisateurs; ?>
-                    </select>
-                    <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php echo $arrayMots['btn_choix']; ?>">
+                <label class="modificationColor" for="choixOrganisateur"><?php echo $arrayMots['choixOrganisateur']; ?></label>
+                <select id="choixOrganisateur" name="choixOrganisateur">
+					<?php echo $liste_Organisateurs; ?>
+                </select>
+                <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php echo $arrayMots['btn_choix']; ?>">
+            </div>
+        </form>
+        <div class="affichage_choix">
+			<?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) {
+				echo $tableau_valeur_couleur;
+			} ?>
+        </div>
+    </div>
+    <div class="timer">
+        <div class="tableauDesMises">
+            <div class="lesMises">
+                <div class="titre">
+                    <p class="resizeText"><?php echo $arrayMots['typeMise'] ?></p>
                 </div>
-            </form>
-            <div class="affichage_choix">
-                <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) { echo $tableau_valeur_couleur; } ?>
+                <div class="small">
+                    <p class="resizeText"><?php echo $arrayMots['small'] ?></p>
+                </div>
+                <div class="big">
+                    <p class="resizeText"><?php echo $arrayMots['big'] ?></p>
+                </div>
+                <div class="valeurSmall">
+                    <p class="blind" id="valeurSmall"><?php echo $champs['valeurSmall'] ?></p>
+                </div>
+                <div class="valeurBig">
+                    <p class="blind" id="valeurBig"><?php echo $champs['valeurBig'] ?></p>
+                </div>
+            </div>
+            <div class="lesBoutonsMises">
+                <div class="double">
+                    <button name="btn_changerMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur'] || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?>
+                            id="double" form="formulaire"><?php echo $arrayMots['changerMise'] ?></button>
+                </div>
+                <div class="resetMise">
+                    <button form="formulaire"
+                            name="btn_resetMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?>
+                            id="reset"><?php echo $arrayMots['reset'] ?></button>
+                </div>
             </div>
         </div>
-        <div class="timer">
-            <div class="tableauDesMises">
-                <div class="lesMises">
-                    <div class="titre">
-                        <p class="resizeText"><?php echo $arrayMots['typeMise'] ?></p>
-                    </div>
-                    <div class="small">
-                        <p class="resizeText"><?php echo $arrayMots['small'] ?></p>
-                    </div>
-                    <div class="big">
-                        <p class="resizeText"><?php echo $arrayMots['big'] ?></p>
-                    </div>
-                    <div class="valeurSmall">
-                        <p class="blind" id="valeurSmall"><?php echo $champs['valeurSmall'] ?></p>
-                    </div>
-                    <div class="valeurBig">
-                        <p class="blind" id="valeurBig"><?php echo $champs['valeurBig'] ?></p>
-                    </div>
+
+        <div class="tableauDuTemps">
+            <div class="temps">
+                <div class="periode">
+                    <p class="resizeText"><?php echo $arrayMots['periode'] ?></p>
                 </div>
-                <div class="lesBoutonsMises">
-                    <div class="double">
-                        <button name="btn_changerMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur'] || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="double" form="formulaire"><?php echo $arrayMots['changerMise'] ?></button>
-                    </div>
-                    <div class="resetMise">
-                        <button form="formulaire" name="btn_resetMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="reset"><?php echo $arrayMots['reset'] ?></button>
-                    </div>
+                <div class="minutes">
+                    <p class="resizeText">Minutes</p>
+                </div>
+                <div class="secondes">
+                    <p class="resizeText">Secondes</p>
+                </div>
+                <div class="chiffreMin">
+                    <p>00</p>
+                </div>
+                <div class="chiffreSec">
+                    <p>00</p>
                 </div>
             </div>
-
-            <div class="tableauDuTemps">
-                <div class="temps">
-                    <div class="periode">
-                        <p class="resizeText"><?php echo $arrayMots['periode'] ?></p>
-                    </div>
-                    <div class="minutes">
-                        <p class="resizeText">Minutes</p>
-                    </div>
-                    <div class="secondes">
-                        <p class="resizeText">Secondes</p>
-                    </div>
-                    <div class="chiffreMin">
-                        <p>00</p>
-                    </div>
-                    <div class="chiffreSec">
-                        <p>00</p>
-                    </div>
+            <div class="lesBoutonsActions">
+                <div class="min15">
+                    <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
                 </div>
-                <div class="lesBoutonsActions">
-                    <div class="min15">
-                        <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
-                    </div>
-                    <div class="min30">
-                        <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
-                    </div>
-                    <div class="stop">
-                        <button class="disabled" disabled id="timerStop">STOP</button>
-                    </div>
-                    <div class="reprend">
-                        <button class="disabled resizeText" disabled id="timerReprend"><?php echo $arrayMots['btnReprendre'] ?></button>
-                    </div>
-                    <div class="resetTemps">
-                        <button <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['aucune_valeur'] || $champs['user'] == "") { ?> class="disabled" disabled <?php } ?> id="ResetTemps"><?php echo $arrayMots['btnReset'] ?></button>
-                    </div>
+                <div class="min30">
+                    <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
+                </div>
+                <div class="stop">
+                    <button class="disabled" disabled id="timerStop">STOP</button>
+                </div>
+                <div class="reprend">
+                    <button class="disabled resizeText" disabled id="timerReprend"><?php echo $arrayMots['btnReprendre'] ?></button>
+                </div>
+                <div class="resetTemps">
+                    <button <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['aucune_valeur'] || $champs['user'] == "") { ?> class="disabled" disabled <?php } ?>
+                            id="ResetTemps"><?php echo $arrayMots['btnReset'] ?></button>
                 </div>
             </div>
         </div>
     </div>
-    <hr>
-    <div class="boutonRetour">
-        <div class="retour">
-            <form method="post" action="./timer.php">
-                <input class="resizeText" type="submit" name="btnReturn" value="<?php echo $arrayMots['retour'];?>">
-                <input type="hidden" name="typeLangueReturn" value="<?php echo $champs['typeLangue']; ?>">
-            </form>
-        </div>
+</div>
+<hr>
+<div class="boutonRetour">
+    <div class="retour">
+        <form method="post" action="./timer.php">
+            <input class="resizeText" type="submit" name="btnReturn" value="<?php echo $arrayMots['retour']; ?>">
+            <input type="hidden" name="typeLangueReturn" value="<?php echo $champs['typeLangue']; ?>">
+        </form>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-    <script src="detect-zoom.js"></script>
-    <script src="detect-zoom.min.js"></script>
-    <script src="timer.js"></script>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+<script src="detect-zoom.js"></script>
+<script src="detect-zoom.min.js"></script>
+<script src="timer.js"></script>
 
 </body>
 

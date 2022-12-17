@@ -274,22 +274,8 @@ function playMusique() {
     }
 }
 
-function stop() {
-    stopTimer.addEventListener('click', function(evt) {
-        clearTimeout(comptage); // arrête le coulage du temps
-        reprendTimer.setAttribute("class", "");
-        reprendTimer.removeAttribute("disabled");
-        stopTimer.setAttribute("class", "disabled");
-        stopTimer.setAttribute("disabled", "disabled");
-        temps15min.setAttribute("class", "disabled");
-        temps15min.setAttribute("disabled", "disabled");
-        temps30min.setAttribute("class", "disabled");
-        temps30min.setAttribute("disabled", "disabled");
-    });
-}
-
 function reprendreTemps() {
-    reprendTimer.addEventListener('click', function(evt) {
+    reprendTimer.addEventListener('click', function () {
         clearTimeout(comptage); // arrête le coulage du temps
         reprendTimer.setAttribute("class", "disabled");
         reprendTimer.setAttribute("disabled", "disabled");
@@ -311,8 +297,22 @@ function reprendreTemps() {
     });
 }
 
+function stop() {
+    stopTimer.addEventListener('click', function () {
+        clearTimeout(comptage); // arrête le coulage du temps
+        reprendTimer.setAttribute("class", "");
+        reprendTimer.removeAttribute("disabled");
+        stopTimer.setAttribute("class", "disabled");
+        stopTimer.setAttribute("disabled", "disabled");
+        temps15min.setAttribute("class", "disabled");
+        temps15min.setAttribute("disabled", "disabled");
+        temps30min.setAttribute("class", "disabled");
+        temps30min.setAttribute("disabled", "disabled");
+    });
+}
+
 function resetTemp() {
-    resetTemps.addEventListener('click', function(evt) {
+    resetTemps.addEventListener('click', function () {
         clearTimeout(comptage); // arrête le coulage du temps
         chrono = 0;
         min = "00";

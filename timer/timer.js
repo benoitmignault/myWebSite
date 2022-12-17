@@ -1,38 +1,50 @@
 const doubleValeur = document.querySelector('#double');
-const timerReprend = document.querySelector('.resizeText');
+
 const temps_periode = document.querySelector('.container .timer .tableauDuTemps .temps div .resizeText');
 const type_mises = document.querySelector('.container .timer .tableauDesMises .lesMises div .resizeText');
-const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
-const btn_choisir = document.querySelector('.container .tableau_bord form .choix .bouton');
+
 const resetValeur = document.querySelector('#reset');
+const resetTemps = document.querySelector('#ResetTemps');
+
 const typeLangue = document.querySelector('#typeLangue');
+
 const temps15min = document.querySelector('#timer15');
 const temps30min = document.querySelector('#timer30');
-const stopTimer = document.querySelector('#timerStop');
+
 const reprendTimer = document.querySelector('#timerReprend');
-const resetTemps = document.querySelector('#ResetTemps');
+const stopTimer = document.querySelector('#timerStop');
+
 const valeurSmall = document.querySelector('#valeurSmall');
 const valeurBig = document.querySelector('#valeurBig');
+
 const minutes = document.querySelector('.chiffreMin p');
 const secondes = document.querySelector('.chiffreSec p');
+
 const periode = document.querySelector('.periode p');
 const alertSound = document.querySelector('#alertSound');
+
 const combinaison = document.querySelector('.combinaison');
 const maxCombinaison = document.querySelector('.maxCombinaison');
+
 const organisateur = document.querySelector('#choixOrganisateur');
 const color_red = document.querySelector('#number_Red');
 const color_green = document.querySelector('#number_Green');
 const color_blue = document.querySelector('#number_Blue');
+
 const user = document.querySelector('#choixOrganisateur');
 const trop_valeur = document.querySelector('#trop_valeur');
 
-var comptage = 0; // la variable un genre de compteur de temps 
-var min = 0;
-var sec = 0;
-var chrono = 0; // pour savoir quel compteur est déclanché...
+const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
+const btn_choisir = document.querySelector('.container .tableau_bord form .choix .bouton');
+
+let comptage = 0; // la variable un genre de compteur de temps
+let min = 0;
+let sec = 0;
+let chrono = 0; // pour savoir quel compteur est déclenche...
+
 function modificationSizeValeurs(big) {
-    var bigNumber = parseInt(big);
-    var largeur = window.innerWidth;
+    let bigNumber = parseInt(big);
+    let largeur = window.innerWidth;
     if (largeur < 768) {
         if (bigNumber < 1000) {
             valeurSmall.style.fontSize = "64px";

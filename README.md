@@ -31,5 +31,3 @@ To finish for now my 3rd project, a timer for my poker nights and my breaks and 
 Then, I discovered the notions of flexing-box easier to understand and use than the floats and position ...
 
 Benoit Mignault, junior web analyst programmer.
-
-Test commit sur le main

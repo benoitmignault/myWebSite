@@ -469,9 +469,8 @@
             background-size: 100%;
         }
 
-        .container>.timer>.tableauDesMises>.lesMises>div>.blind {
-            color: <?php echo coloriage($champs);
-            ?>
+        .container > .timer > .tableauDesMises > .lesMises > div > .blind {
+            color: <?php echo coloriage($champs); ?>
         }
 
     </style>

@@ -121,7 +121,7 @@ function starting15() {
     }
 
     if (min < 10 || sec < 10) {
-        addZero(); // On vérifi Si les minutes ou secondes sont en bas de 10, on ajoute un 0 devant
+        addZero(); // On vérifie Si les minutes ou secondes sont en bas de 10, on ajoute un 0 devant
     } else {
         minutes.innerHTML = min.toString();
         secondes.innerHTML = sec.toString();
@@ -174,7 +174,7 @@ function starting30() {
     }
 
     if (min < 10 || sec < 10) {
-        addZero(); // On vérifi Si les minutes ou secondes sont en bas de 10, on ajoute un 0 devant
+        addZero(); // On vérifie Si les minutes ou secondes sont en bas de 10, on ajoute un 0 devant
     } else {
         minutes.innerHTML = min.toString();
         secondes.innerHTML = sec.toString();
@@ -228,10 +228,10 @@ function callAjax() {
                 dataType: "json",
                 url: "changerMise/changer.php",
                 data: data,
-                success: function(dataReturn) {
+                success: function (dataReturn) {
                     // sécurisation du retour d'information
                     if (dataReturn["data"]) {
-                        var dataObj = JSON.parse(dataReturn["data"]);
+                        let dataObj = JSON.parse(dataReturn["data"]);
                         trop_valeur.value = dataObj.trop_valeur;
                         combinaison.value = dataObj.combinaison;
                         color_red.value = dataObj.color_red;
@@ -243,8 +243,8 @@ function callAjax() {
                         valeurBig.style.color = "rgb(" + color_red.value + "," + color_green.value + "," + color_blue.value + ")";
 
                     } else if (dataReturn["erreur"]) {
-                        var dataErr = JSON.parse(dataReturn["erreur"]);
-                        if (typeLangue.value == "english") {
+                        let dataErr = JSON.parse(dataReturn["erreur"]);
+                        if (typeLangue.value === "english") {
                             if (dataErr.situation1) {
                                 alert("Can not access the BD. Please try again later !");
                             } else if (dataErr.situation2) {
@@ -264,8 +264,8 @@ function callAjax() {
                     }
                 }
             });
-        } // Si la derniere valeur est atteinte
-    } // Si le user est vide
+        } // Si la dernière valeur est atteinte
+    } // Si l'user est vide
 }
 
 function playMusique() {
@@ -343,8 +343,8 @@ function resetTemp() {
 }
 
 function resizeText() {
-    var device = detectZoom.device();
-    var largeur = window.innerWidth;
+    let device = detectZoom.device();
+    let largeur = window.innerWidth;
 
     if (largeur < 1300) {
         if (device > 1.2) {

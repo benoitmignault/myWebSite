@@ -247,10 +247,8 @@ td {
 
 .middle .center p,
 .right .field1 p {
-    margin: 0;
     font-size: 18px;
-    margin-left: 25px;
-    margin-right: 25px;
+    margin: 0 25px;
     line-height: 1.5;
     text-align: justify;
 }
@@ -263,11 +261,9 @@ td {
     margin-left: 25px;
 }
 
-
 /* 
 Nouvelle manière d'afficher un legend au milieu
 */
-
 .legendCenter {
     display: table;
     min-width: 0px;
@@ -280,11 +276,14 @@ Nouvelle manière d'afficher un legend au milieu
     color: green;
 }
 
-.middle > .center > .projet > .pageAccueil > center {
+.middle > .center > .projet > .pageAccueil > .lien_centrer {
+    display: flex;
+    display: -webkit-flex;
     margin-bottom: 5px;
+    justify-content: center;
 }
 
-.middle > .center > .projet > .pageAccueil > center > a,
+.middle > .center > .projet > .pageAccueil > .lien_centrer > a,
 .middle > .center > p > a {
     color: white;
     text-decoration: none;
@@ -295,16 +294,14 @@ Nouvelle manière d'afficher un legend au milieu
     text-align: center;
 }
 
-.middle > .center > .projet > .pageAccueil > center > a:hover,
+.middle > .center > .projet > .pageAccueil > .lien_centrer > a:hover,
 .middle > .center > p > a:hover {
     background-color: black;
     cursor: pointer;
     color: red;
 }
 
-
 /* Les div à intérieur de la sélection seront misent sur une ligne */
-
 .middle .center div {
     display: flex;
     display: -webkit-flex;
@@ -454,14 +451,6 @@ span {
     margin-bottom: 20px;
 }
 
-
-/*
-.racineSite .right > div > .pageAccueil {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-*/
-
 .racineSite .right > div > .pageAccueil > p {
     text-align: justify;
 }
@@ -480,25 +469,10 @@ span {
     width: 25%;
 }
 
-
-/*
-.racineSite .right > .media > .pageAccueil {
-    padding: 0;
-}
-*/
-
 .racineSite .right > .media .sous_Media > .lienSocial > a img {
     width: 100%;
     height: auto;
 }
-
-
-/*
-.racineSite .left .sectionMeteo .pageAccueil {
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-*/
 
 .right .info a {
     color: white;
@@ -508,7 +482,7 @@ span {
     font-weight: bold;
     padding: 5px;
     text-align: center;
-    font-family: "Times New Roman"
+    font-family: "Times New Roman", serif;
 }
 
 .right .info a:hover {
@@ -527,7 +501,7 @@ input[type="submit"] {
     font-size: 18px;
     font-weight: bold;
     padding: 5px;
-    font-family: "Times New Roman";
+    font-family: "Times New Roman", serif;
     margin: 0 auto;
 }
 

@@ -75,16 +75,8 @@ function reset() {
 }
 
 function timer15Min() {
-    temps15min.addEventListener('click', function(evt) {
-        clearTimeout(comptage);
-        reprendTimer.setAttribute("class", "disabled");
-        reprendTimer.setAttribute("disabled", "disabled");
-        stopTimer.setAttribute("class", "");
-        stopTimer.removeAttribute("disabled");
-        resetTemps.setAttribute("class", "");
-        resetTemps.removeAttribute("disabled");
-        doubleValeur.setAttribute("class", "disabled");
-        doubleValeur.setAttribute("disabled", "disabled");
+    temps15min.addEventListener('click', function () {
+        miseEnMarcheDuTimer();
         min = 15;
         sec = 0;
         chrono = 15;
@@ -138,16 +130,8 @@ function starting15() {
 }
 
 function timer30Min() {
-    temps30min.addEventListener('click', function(evt) {
-        clearTimeout(comptage);
-        reprendTimer.setAttribute("class", "disabled");
-        reprendTimer.setAttribute("disabled", "disabled");
-        stopTimer.setAttribute("class", "");
-        stopTimer.removeAttribute("disabled");
-        resetTemps.setAttribute("class", "");
-        resetTemps.removeAttribute("disabled");
-        doubleValeur.setAttribute("class", "disabled");
-        doubleValeur.setAttribute("disabled", "disabled");
+    temps30min.addEventListener('click', function () {
+        miseEnMarcheDuTimer();
         min = 30;
         sec = 0;
         chrono = 30;
@@ -408,7 +392,20 @@ function resizeText() {
     // 1.3802082538604736 -> 125%
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
+function miseEnMarcheDuTimer() {
+    // clearTimeout -> cancels a timeout previously established by calling setTimeout()
+    clearTimeout(comptage);
+    reprendTimer.setAttribute("class", "disabled");
+    reprendTimer.setAttribute("disabled", "disabled");
+    stopTimer.setAttribute("class", "");
+    stopTimer.removeAttribute("disabled");
+    resetTemps.setAttribute("class", "");
+    resetTemps.removeAttribute("disabled");
+    doubleValeur.setAttribute("class", "disabled");
+    doubleValeur.setAttribute("disabled", "disabled");
+}
+
+document.addEventListener('DOMContentLoaded', function () {
     modificationSizeValeurs(valeurBig.innerHTML);
     resizeText();
     timer15Min();

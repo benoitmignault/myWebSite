@@ -42,6 +42,7 @@ let min = 0;
 let sec = 0;
 let chrono = 0; // pour savoir quel compteur est déclenche...
 
+
 function modificationSizeValeurs(big) {
     let bigNumber = parseInt(big);
     let largeur = window.innerWidth;
@@ -60,7 +61,43 @@ function modificationSizeValeurs(big) {
             valeurBig.style.fontSize = "40px";
         }
     }
+    console.log(valeurSmall.style.fontSize);
 }
+
+
+// Function optimiser par OpenAI
+/*
+function modificationSizeValeurs(big) {
+    // Tableau de valeurs de fontSize en fonction de bigNumber
+    const fontSizes = [64, 56, 48, 40];
+
+    // Pré-calcul de la largeur de la fenêtre
+    const windowWidth = window.innerWidth;
+
+    // Arrondi de bigNumber à l'entier le plus proche
+    const bigNumber = Math.floor(parseInt(big));
+
+    // Si la largeur de la fenêtre est inférieure à 768
+    if (windowWidth < 768) {
+        // Détermination de l'index du tableau à partir de bigNumber
+        let index = 0;
+        if (bigNumber >= 1000) {
+            index = 1;
+        }
+        if (bigNumber >= 10000) {
+            index = 2;
+        }
+        if (bigNumber >= 100000) {
+            index = 3;
+        }
+
+        // Mise à jour de la taille de police avec la valeur du tableau
+        valeurSmall.style.fontSize = `${fontSizes[index]}px`;
+        valeurBig.style.fontSize = `${fontSizes[index]}px`;
+    }
+    console.log(valeurSmall.style.fontSize);
+}
+*/
 
 // La fonction doit rester une simple function qui n'est pas caller comme les autres fonctions en bas via document.addEventListener
 function reset() {
@@ -342,6 +379,7 @@ function resetTemp() {
     });
 }
 
+/*
 function resizeText() {
     let device = detectZoom.device();
     let largeur = window.innerWidth;
@@ -387,10 +425,12 @@ function resizeText() {
             btn_choisir.style.fontSize = "35px";
         }
     }
+    // modificationSizeValeurs(valeurBig.innerHTML);
     // 1.1041666269302368 -> 100%
     // 1.2145832777023315 -> 110%
     // 1.3802082538604736 -> 125%
 }
+*/
 
 function miseEnMarcheDuTimer() {
     // clearTimeout -> cancels a timeout previously established by calling setTimeout()
@@ -406,8 +446,7 @@ function miseEnMarcheDuTimer() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    modificationSizeValeurs(valeurBig.innerHTML);
-    resizeText();
+    //resizeText();
     timer15Min();
     timer30Min();
     stop();

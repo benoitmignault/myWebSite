@@ -164,29 +164,9 @@
 			return $row[NUMBER_OF_RECORDS];
 		}
 	}
-  
-        /*
-		// Optimisation pour avoir directement la valeur que nous avons besoin
-        $stmt = $connMYSQL->prepare("SELECT count(*) as number FROM mise_small_big where user =? ");
-		
-		// Lecture des marqueurs
-		$stmt->bind_param("s", $user);
-		
-		// Exécution de la requête
-		$stmt->execute();
-		
-		// Association des variables de résultat
-		$result = $stmt->get_result();
-		$row = $result->fetch_array(MYSQLI_ASSOC);
-		
-		// Close statement
-		$stmt->close();
-		
-		return $row['number'];
-	}*/
 	
 	function coloriage($champs): string {
-  
+		
 		return "rgb({$champs['number_Red']},{$champs['number_Green']},{$champs['number_Blue']})";
 	}
 	

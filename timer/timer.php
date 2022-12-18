@@ -133,7 +133,7 @@
 		return $champs;
 	}
 	
-    // Optimisation de ma function avec OpenAI
+	// Optimisation de ma function avec OpenAI
 	function recupererMaxCombinaisonUser($connMYSQL, $user) {
 		// Définition de constantes pour les chaînes de caractères statiques
 		define('TABLE_NAME', 'mise_small_big');
@@ -183,7 +183,7 @@
         elseif (isset($_POST['btn_choixOrganisateur'])) {
 			$valid_champs["choix_user"] = true;
 		}
-  
+		
 		return $valid_champs;
 	}
 	
@@ -375,7 +375,7 @@
 		
 		$connMYSQL = mysqli_connect($host, $user, $password, $bd);
 		$connMYSQL->query("set names 'utf8'");
-				
+		
 		// Vérification de la connexion
 		if ($connMYSQL->connect_error) {
 			die('Erreur de connexion (' . $connMYSQL->connect_errno . ') '. $connMYSQL->connect_error);

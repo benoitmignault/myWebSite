@@ -420,7 +420,7 @@
 				}
 				else {
 					$champs['nom_organisateur'] = affichage_nom_organisateur($connMYSQL, $champs);
-					$tableau_valeur_couleur = creation_tableau($connMYSQL, $champs);
+					$tableau_valeur_couleur = selection_valeur_couleur($connMYSQL, $champs);
 					if ($tableau_valeur_couleur === "") {
 						$msgErr = "";
 						if ($champs["typeLangue"] == "francais") {

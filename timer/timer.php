@@ -255,45 +255,63 @@
 		return $prenom;
 	}
 	
-	function creation_tableau($connMYSQL, $champs) {
-		/* Crée une requête préparée */
-		$stmt = $connMYSQL->prepare("SELECT amount, color_english FROM amount_color where user =? order by amount ");
+	/**
+     * On vient récupérer la liste des valeurs / couleurs de l'organisation
+	 * @param $connMYSQL
+	 * @param $champs
+	 * @return string
+	 */
+	function selection_valeur_couleur($connMYSQL, $champs): string {
+		// Définition de constantes pour les chaînes de caractères statiques
+		define('SELECT_SELECTION_VALEUR_COULEUR', 'amount, color_english');
+        define('FROM_SELECTION_VALEUR_COULEUR', 'amount_color');
+		define('WHERE_SELECTION_VALEUR_COULEUR', 'user');
+		define('ORDER_SELECTION_VALEUR_COULEUR', 'amount');
+		$tableau = ""; // Création du tableau HTML qui sera afficher à la sortie
 		
-		/* Lecture des marqueurs */
+		// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+		$query = "SELECT " . SELECT_SELECTION_VALEUR_COULEUR .
+                 " FROM " . FROM_SELECTION_VALEUR_COULEUR .
+                 " WHERE " . WHERE_SELECTION_VALEUR_COULEUR . " = ? " .
+                 " ORDER BY " . ORDER_SELECTION_VALEUR_COULEUR;
+		
+		$stmt = $connMYSQL->prepare($query);
+		
+		// Liage des paramètres de la requête
 		$stmt->bind_param("s", $champs['user']);
 		
-		/* Exécution de la requête */
+		// Exécution de la requête
 		$stmt->execute();
 		
-		/* Association des variables de résultat */
-		$result = $stmt->get_result();
-		$row_cnt = $result->num_rows;
-		
-		// Close statement
-		$stmt->close();
-		
-		$tableau = "";
-		if ($row_cnt > 0) {
-			if ($champs["typeLangue"] == "francais") {
-				$tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Valeur</th><th>Couleur</th></tr></thead>";
+		// Vérification de l'exécution de la requête
+		if (!$stmt->errno) {
+			// Récupération du résultat de la requête
+			$result = $stmt->get_result();
+			$row_cnt = $result->num_rows;
+   
+			if ($row_cnt > 0) {
+				if ($champs["typeLangue"] == "francais") {
+					$tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Valeur</th><th>Couleur</th></tr></thead>";
+				}
+                elseif ($champs["typeLangue"] == "english") {
+					$tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Value</th><th>Color</th></tr></thead>";
+				}
+				$tableau .= "<tbody>";
+				
+				while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+					$tableau .= "<tr><td class=\"colorModifie\">{$row['amount']}</td> <td class=\"{$row['color_english']}\"></td> </tr>";
+				}
+				$tableau .= "</tbody></table>";
 			}
-            elseif ($champs["typeLangue"] == "english") {
-				$tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Value</th><th>Color</th></tr></thead>";
-			}
-			$tableau .= "<tbody>";
-			
-			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-				$tableau .= "<tr><td class=\"colorModifie\">{$row['amount']}</td> <td class=\"{$row['color_english']}\"></td> </tr>";
-			}
-			$tableau .= "</tbody></table>";
 		}
+		// Fermeture de la requête
+		$stmt->close();
   
+		// Retour du tableau HTML
 		return $tableau;
 	}
 	
 	function selection_small_big_blind($connMYSQL, $champs) {
-		/* Crée une requête préparée */
-		
 		// Optimisation pour avoir directement la valeur qui nous intéreste
 		$stmt = $connMYSQL->prepare("SELECT small, big FROM mise_small_big where user =? order by small limit ? , ? ");
 		$un = 1; // Je vais créer une variable fix à 1, car , la fct bind_param ne me permet pas d'envoyer des valeurs sans être une variable

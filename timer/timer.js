@@ -64,7 +64,7 @@ function modificationSizeValeurs(big) {
     console.log(valeurSmall.style.fontSize);
 }
 
-
+// TODO : Comprendre pourquoi ca marche pas
 // Function optimiser par OpenAI
 /*
 function modificationSizeValeurs(big) {
@@ -379,6 +379,7 @@ function resetTemp() {
     });
 }
 
+// TODO : Comprendre pourquoi ca marche pas
 /*
 function resizeText() {
     let device = detectZoom.device();
@@ -446,7 +447,7 @@ function miseEnMarcheDuTimer() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    //resizeText();
+    //resizeText(); // TODO : Comprendre pourquoi ca marche pas
     timer15Min();
     timer30Min();
     stop();

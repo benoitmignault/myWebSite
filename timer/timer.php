@@ -357,8 +357,13 @@
 		
 		$connMYSQL = mysqli_connect($host, $user, $password, $bd);
 		$connMYSQL->query("set names 'utf8'");
-		
-		return $connMYSQL;
+				
+		// Vérification de la connexion
+		if ($connMYSQL->connect_error) {
+			die('Erreur de connexion (' . $connMYSQL->connect_errno . ') '. $connMYSQL->connect_error);
+		} else {
+			return $connMYSQL;
+        }
 	}
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {

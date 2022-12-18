@@ -317,7 +317,7 @@
 			
 			$nbLignes = $champs['maxCombinaison'];
 			$nbLignes--;
-			// Ici, nous avons atteint la derniere combinaison small et big
+			// Ici, nous avons atteint la dernière combinaison small et big
 			if ($champs['combinaison'] == $nbLignes) {
 				$champs['trop_valeur'] = true;
 			}
@@ -357,6 +357,7 @@
 		
 		$connMYSQL = mysqli_connect($host, $user, $password, $bd);
 		$connMYSQL->query("set names 'utf8'");
+		
 		return $connMYSQL;
 	}
 	

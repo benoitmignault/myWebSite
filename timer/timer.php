@@ -473,55 +473,43 @@
     <div class="tableau_bord">
         <form method="post" action="./timer.php" id="formulaire">
             <div class="choix">
-                <input form="formulaire" type="hidden" id="numberRed" name="numberRed" value="<?php
-					echo $champs['numberRed']; ?>">
-                <input form="formulaire" type="hidden" id="numberGreen" name="numberGreen" value="<?php
-					echo $champs['numberGreen']; ?>">
-                <input form="formulaire" type="hidden" id="numberBlue" name="numberBlue" value="<?php
-					echo $champs['numberBlue']; ?>">
-                <input form="formulaire" type="hidden" id="tropValeur" name="tropValeur" value="<?php
-					if ($champs['tropValeur']) {
-						echo "true";
-					}
-					else {
-						echo "false";
-					} ?>">
-                <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php
-					echo $champs['typeLangue']; ?>">
-                <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php
-					echo $champs['combinaison']; ?>">
+                <input form="formulaire" type="hidden" id="numberRed" name="numberRed" value="<?php echo $champs['numberRed']; ?>">
+                <input form="formulaire" type="hidden" id="numberGreen" name="numberGreen" value="<?php echo $champs['numberGreen']; ?>">
+                <input form="formulaire" type="hidden" id="numberBlue" name="numberBlue" value="<?php echo $champs['numberBlue']; ?>">
+                <input form="formulaire" type="hidden" id="tropValeur" name="tropValeur" value="<?php if ($champs['tropValeur']) {
+					echo "true";
+				}
+				else {
+					echo "false";
+				} ?>">
+                <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
                 <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison"
-                       value="<?php
-					       echo $champs['maxCombinaison']; ?>">
-
-                <label class="modificationColor" for="choixOrganisateur"><?php
-						echo $arrayMots['choixOrganisateur']; ?></label>
+                       value="<?php echo $champs['maxCombinaison']; ?>">
+                <label class="modificationColor" for="choixOrganisateur"><?php echo $champsMots['choixOrganisateur']; ?></label>
                 <select id="choixOrganisateur" name="choixOrganisateur">
-					<?php
-						echo $listeDesOrganisateurs; ?>
+					<?php echo $listeDesOrganisateurs; ?>
                 </select>
-                <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php
-					echo $arrayMots['btnChoix']; ?>">
+                <input class="bouton" type="submit" name="btnChoixOrganisateur" value="<?php echo $champsMots['btnChoix']; ?>">
             </div>
         </form>
         <div class="affichage_choix">
-			<?php
-				if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) {
-					echo $tableauValeurCouleur;
-				} ?>
+			<?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) {
+				echo $tableauValeurCouleur;
+			} ?>
         </div>
     </div>
     <div class="timer">
         <div class="tableauDesMises">
             <div class="lesMises">
                 <div class="titre">
-                    <p class="resizeText"><?php echo $arrayMots['typeMise'] ?></p>
+                    <p class="resizeText"><?php echo $champsMots['typeMise'] ?></p>
                 </div>
                 <div class="small">
-                    <p class="resizeText"><?php echo $arrayMots['small'] ?></p>
+                    <p class="resizeText"><?php echo $champsMots['small'] ?></p>
                 </div>
                 <div class="big">
-                    <p class="resizeText"><?php echo $arrayMots['big'] ?></p>
+                    <p class="resizeText"><?php echo $champsMots['big'] ?></p>
                 </div>
                 <div class="valeurSmall">
                     <p class="blind" id="valeurSmall"><?php echo $champs['valeurSmall'] ?></p>

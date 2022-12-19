@@ -26,12 +26,11 @@ const alertSound = document.querySelector('#alertSound');
 const combinaison = document.querySelector('.combinaison');
 const maxCombinaison = document.querySelector('.maxCombinaison');
 
-const organisateur = document.querySelector('#choixOrganisateur');
+const nomOrganisateur = document.querySelector('#choixOrganisateur');
 const colorRed = document.querySelector('#numberRed');
 const colorGreen = document.querySelector('#numberGreen');
 const colorBlue = document.querySelector('#numberBlue');
 
-const user = document.querySelector('#choixOrganisateur');
 const tropValeur = document.querySelector('#tropValeur');
 
 const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
@@ -237,7 +236,7 @@ function addZero() {
 function callAjax() {
     stopTimer.setAttribute("class", "disabled");
     stopTimer.setAttribute("disabled", "disabled");
-    if (user.value !== "") {
+    if (nomOrganisateur.value !== "") {
         if (tropValeur.value === "true") {
             changerMise.setAttribute("class", "disabled");
             changerMise.setAttribute("disabled", "disabled");
@@ -255,7 +254,7 @@ function callAjax() {
             let data = {
                 "niveauCombinaison": combinaison.value,
                 "maxCombinaison": maxCombinaison.value,
-                "nomOrganisateur": organisateur.value,
+                "nomOrganisateur": nomOrganisateur.value,
                 "colorRed": colorRed.value,
                 "colorGreen": colorGreen.value,
                 "colorBlue": colorBlue.value
@@ -303,7 +302,7 @@ function callAjax() {
                 }
             });
         } // Si la dernière valeur est atteinte
-    } // Si l'user est vide
+    } // Si le nomOrganisateur est vide
 }
 
 function playMusique() {

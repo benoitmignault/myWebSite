@@ -84,8 +84,10 @@
 	if (is_ajax()) {
 		// À titre exemple de 2e niveau de sécurité
 		if (isset($_POST["niveau_combinaison"]) && isset($_POST["nom_orginateur"])) {
+			include_once("../../fonction_commune/fct_connexion_bd.php");
 			$connMYSQL = connexionBD();
 			if ($connMYSQL) {
+				include_once("../../fonction_commune/fct_timer.php");
 				$champs = initialisation_Champs();
 				$champs = remplissageChamps($champs);
 				$champs = selection_small_big_blind($connMYSQL, $champs);
@@ -96,7 +98,6 @@
 				$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
 				echo json_encode($return, JSON_FORCE_OBJECT);
 			}
-			
 		}
 		else {
 			$champs["situation2"] = "Il manque des informations importantes. Revalider vos informations !";

@@ -1,5 +1,5 @@
 <?php
-	function connexionBD() {
+	function connexion() {
 		// Nouvelle connexion sur hébergement du Studio OL
 		$host = "localhost";
 		$user = "benoitmi_benoit";

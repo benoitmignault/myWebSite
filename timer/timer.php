@@ -141,12 +141,12 @@
 	// Optimisation de ma function avec OpenAI
 	function recupererMaxCombinaisonUser($connMYSQL, $user) {
 		// Définition de constantes pour les chaînes de caractères statiques
-		define('TABLE_NAME', 'mise_small_big');
-		define('COLUMN_NAME', 'user');
-		define('NUMBER_OF_RECORDS', 'number_of_records');
+		define('SELECT_MAX_COMBINAISON_USER', 'number_of_records');
+        define('FROM_MAX_COMBINAISON_USER', 'mise_small_big');
+		define('WHERE_MAX_COMBINAISON_USER', 'user');
 		
 		// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
-		$query = "SELECT count(*) as " . NUMBER_OF_RECORDS . " FROM " . TABLE_NAME . " where " . COLUMN_NAME . " = ?";
+		$query = "SELECT count(*) as " . SELECT_MAX_COMBINAISON_USER . " FROM " . FROM_MAX_COMBINAISON_USER . " where " . WHERE_MAX_COMBINAISON_USER . " = ?";
 		
 		$stmt = $connMYSQL->prepare($query);
 		
@@ -166,7 +166,7 @@
 			$stmt->close();
 			
 			// Retour de la valeur de la colonne 'number_of_records'
-			return $row[NUMBER_OF_RECORDS];
+			return $row[SELECT_MAX_COMBINAISON_USER];
 		}
 	}
 	

@@ -149,9 +149,9 @@
 		$query = "SELECT count(*) as " . SELECT_MAX_COMBINAISON_USER . " FROM " . FROM_MAX_COMBINAISON_USER . " where " . WHERE_MAX_COMBINAISON_USER . " = ?";
 		
 		$stmt = $connMYSQL->prepare($query);
-  
+		
 		// Définissez les paramètres de la requête - Déjà défini
-  
+		
 		// Les & est la référence de la variable que je dois passer en paramètre
 		$params = array("s", &$user);
 		
@@ -521,18 +521,17 @@
             <div class="lesBoutonsMises">
                 <div class="double">
                     <button name="btnChangerMise"
-						<?php
-							if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['tropValeur'] || $champs['aucuneValeur']) { ?>
-                                class="disabled" disabled <?php
-							} ?> id="changerMise" form="formulaire"><?php echo $arrayMots['changerMise'] ?></button>
+						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['tropValeur'] || $champs['aucuneValeur']) { ?>
+                            class="disabled" disabled <?php } ?> id="changerMise"
+                            form="formulaire"><?php echo $champsMots['changerMise'] ?>
+                    </button>
                 </div>
                 <div class="resetMise">
-                    <button form="formulaire"
-                            name="btnResetMise" <?php
-						if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucuneValeur']) { ?> class="disabled" disabled <?php
-						} ?>
-                            id="reset"><?php
-							echo $arrayMots['reset'] ?></button>
+                    <button form="formulaire" name="btnResetMise"
+						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucuneValeur']) { ?>
+                            class="disabled" disabled <?php } ?>
+                            id="reset"><?php echo $champsMots['reset'] ?>
+                    </button>
                 </div>
             </div>
         </div>

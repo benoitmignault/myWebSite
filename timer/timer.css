@@ -4,6 +4,15 @@
     padding: 0;
 }
 
+body {
+    margin: 0;
+    /* https://pxhere.com/fr/photo/1280141 */
+    background-image: url("timer.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-size: 100%;
+}
+
 .container {
     display: -webkit-flex;
     display: flex;

@@ -422,19 +422,9 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="timer.css">
     <style>
-        body {
-            margin: 0;
-            /* https://pxhere.com/fr/photo/1280141 */
-            background-image: url("timer.jpg");
-            background-position: center;
-            background-attachment: fixed;
-            background-size: 100%;
-        }
-
         .container > .timer > .tableauDesMises > .lesMises > div > .blind {
             color: <?php echo coloriage($champs); ?>
         }
-
     </style>
     <title><?php echo $champsMots['title'] ?></title>
 </head>

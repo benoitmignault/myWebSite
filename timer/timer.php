@@ -374,8 +374,9 @@
 			}
 			else {
 				$champs['nomOrganisateur'] = affichageNomOrganisateur($connMYSQL, $champs);
-				$tableauValeurCouleur = selectionValeurCouleur($connMYSQL, $champs);
-				if ($tableauValeurCouleur === "") {
+				$champs['listeDesValeursCouleurs'] = selectionValeursCouleurs($connMYSQL, $champs);
+				
+				if (count($champs['listeDesValeursCouleurs']) === 0) {
 					$msgErr = "";
 					if ($champs["typeLangue"] == "francais") {
 						$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées à ses jetons.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles valeur couleur de jetons.";

@@ -87,7 +87,7 @@
 				}
 				
 				if (isset($_POST['btn_changerMise'])) {
-					// Au moment de changer les mise, on récuprer la valeur du nombre max de combinaisons
+					// Au moment de changer les mise, on récupérer la valeur du nombre max de combinaisons
 					if (isset($_POST['maxCombinaison'])) {
 						$champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
 					}

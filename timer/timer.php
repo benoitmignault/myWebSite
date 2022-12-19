@@ -210,30 +210,30 @@
 		return $situation;
 	}
 	
-	function listeOrganisateurs($connMYSQL, $champs, $arrayMots) {
-		$listeOrganisateurs = "";
+	function listeDesOrganisateurs($connMYSQL, $champs, $arrayMots) {
+		$listeDesOrganisateurs = "";
 		$sql = "SELECT * FROM login_organisateur order by name";
 		$result = $connMYSQL->query($sql);
 		if ($result->num_rows > 0) {
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-				$listeOrganisateurs .= "<option value=\"\" selected>{$arrayMots['option']}</option>";
+				$listeDesOrganisateurs .= "<option value=\"\" selected>{$arrayMots['option']}</option>";
 				foreach ($result as $row) {
-					$listeOrganisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
+					$listeDesOrganisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
 				}
 			}
             elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				$listeOrganisateurs .= "<option value=\"\">{$arrayMots['option']}</option>";
+	            $listeDesOrganisateurs .= "<option value=\"\">{$arrayMots['option']}</option>";
 				foreach ($result as $row) {
 					if ($champs['user'] === $row['user']) {
-						$listeOrganisateurs .= "<option value=\"{$row['user']}\" selected>{$row['name']}</option>";
+						$listeDesOrganisateurs .= "<option value=\"{$row['user']}\" selected>{$row['name']}</option>";
 					}
 					else {
-						$listeOrganisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
+						$listeDesOrganisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
 					}
 				}
 			}
 		}
-		return $listeOrganisateurs;
+		return $listeDesOrganisateurs;
 	}
 	
 	function affichageNomOrganisateur($connMYSQL, $champs) {
@@ -342,7 +342,7 @@
 		}
 		else {
 			$arrayMots = traduction($champs);
-			$listeOrganisateurs = listeOrganisateurs($connMYSQL, $champs, $arrayMots);
+			$listeDesOrganisateurs = listeDesOrganisateurs($connMYSQL, $champs, $arrayMots);
 		}
 		$connMYSQL->close();
 	}
@@ -396,7 +396,7 @@
 					}
 					
 				}
-				$listeOrganisateurs = listeOrganisateurs($connMYSQL, $champs, $arrayMots);
+				$listeDesOrganisateurs = listeOrganisateurs($connMYSQL, $champs, $arrayMots);
 				$connMYSQL->close();
 			}
 		}
@@ -467,7 +467,7 @@
 						echo $arrayMots['choixOrganisateur']; ?></label>
                 <select id="choixOrganisateur" name="choixOrganisateur">
 					<?php
-						echo $listeOrganisateurs; ?>
+						echo $listeDesOrganisateurs; ?>
                 </select>
                 <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php
 					echo $arrayMots['btnChoix']; ?>">

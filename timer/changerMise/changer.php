@@ -1,19 +1,6 @@
 <?php
 	header("Content-type: application/json; charset=utf-8");
 	
-	function connexionBD() {
-		// Nouvelle connexion sur hébergement du Studio OL
-		$host = "localhost";
-		$user = "benoitmi_benoit";
-		$password = "d-&47mK!9hjGC4L-";
-		$bd = "benoitmi_benoitmignault.ca.mysql";
-		
-		$connMYSQL = mysqli_connect($host, $user, $password, $bd);
-		$connMYSQL->query("set names 'utf8'");
-		
-		return $connMYSQL;
-	}
-	
 	//Function to check if the request is an AJAX request
 	function is_ajax(): bool {
 		

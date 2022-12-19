@@ -326,7 +326,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     background-image: linear-gradient(to bottom, #56b064, #6679b3);
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
     .container {
         flex-direction: column;
     }

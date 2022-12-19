@@ -50,7 +50,7 @@
 				// Le retour de fonction n'a trouvé aucun valeur
 			}
 			else {
-				$champs['aucune_valeur'] = true;
+				$champs['aucuneValeur'] = true;
 			}
 		}
 		

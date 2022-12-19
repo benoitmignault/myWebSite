@@ -338,79 +338,72 @@
 	
 	include_once("../includes/fct-connexion-bd.php");
 	
+	// Les fonctions communes
+	$connMYSQL = connexion();
+	$champs = initialisationChamps();
+	$champs = remplissageChamps($champs, $connMYSQL);
+	$listeDesOrganisateurs = listeDesOrganisateurs($connMYSQL);
+	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-		$champs = initialisationChamps();
-		$connMYSQL = connexion();
-		$champs = remplissageChamps($champs, $connMYSQL);
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
 			redirection($champs);
 		}
 		else {
-			$arrayMots = traduction($champs);
-			$listeDesOrganisateurs = listeDesOrganisateurs($connMYSQL, $champs, $arrayMots);
+			$champsMots = traduction($champs);
 		}
-		$connMYSQL->close();
 	}
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		$champs = initialisationChamps();
-		$validChamps = initialisationIndicateur();
-		$connMYSQL = connexion();
-		$champs = remplissageChamps($champs, $connMYSQL);
-		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
+		$champsValid = initialisationValidation();
+		
+		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english" || isset($_POST['btnReturn'])) {
 			redirection($champs);
 		}
 		else {
-			if (isset($_POST['btnReturn'])) {
-				redirection($champs);
+			$champsValid = validation($champs, $champsValid);
+			$champs['situation'] = situation($champsValid);
+			$champsMots = traduction($champs);
+			
+			if ($champs['situation'] === 1) {
+				echo "<script>alert('" . $champsMots['message'] . "')</script>";
 			}
 			else {
-				$validChamps = validation($champs, $validChamps);
-				$champs['situation'] = situation($validChamps);
-				$arrayMots = traduction($champs);
-				
-				if ($champs['situation'] === 1) {
-					echo "<script>alert('" . $arrayMots['message'] . "')</script>";
+				$champs['nomOrganisateur'] = affichageNomOrganisateur($connMYSQL, $champs);
+				$tableauValeurCouleur = selectionValeurCouleur($connMYSQL, $champs);
+				if ($tableauValeurCouleur === "") {
+					$msgErr = "";
+					if ($champs["typeLangue"] == "francais") {
+						$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées à ses jetons.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles valeur couleur de jetons.";
+					}
+                    elseif ($champs["typeLangue"] == "english") {
+						$msgErr = "Warning ! Your organizer did not choose his values associated with his chips.\\nPlease contact him to ask him to create his value color sets of tokens.";
+					}
+					echo "<script>alert(\"$msgErr\")</script>";
 				}
 				else {
-					$champs['nomOrganisateur'] = affichageNomOrganisateur($connMYSQL, $champs);
-					$tableauValeurCouleur = selectionValeurCouleur($connMYSQL, $champs);
-					if ($tableauValeurCouleur === "") {
+					include_once("../includes/fct-timer.php");
+					$champs = selectionSmallBigBlind($connMYSQL, $champs);
+					if ($champs['aucuneValeur']) {
 						$msgErr = "";
 						if ($champs["typeLangue"] == "francais") {
-							$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées à ses jetons.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles valeur couleur de jetons.";
+							$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées aux mises petites et grosses mises.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles petite mise et grosse mise.";
 						}
                         elseif ($champs["typeLangue"] == "english") {
-							$msgErr = "Warning ! Your organizer did not choose his values associated with his chips.\\nPlease contact him to ask him to create his value color sets of tokens.";
+							$msgErr = "Warning ! Your organizer has not chosen his values associated with small and large bets.\\nPlease contact him to ask him to create his sets small bet and big bet.";
 						}
 						echo "<script>alert(\"$msgErr\")</script>";
 					}
-					else {
-						include_once("../includes/fct-timer.php");
-						$champs = selectionSmallBigBlind($connMYSQL, $champs);
-						if ($champs['aucuneValeur']) {
-							$msgErr = "";
-							if ($champs["typeLangue"] == "francais") {
-								$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées aux mises petites et grosses mises.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles petite mise et grosse mise.";
-							}
-                            elseif ($champs["typeLangue"] == "english") {
-								$msgErr = "Warning ! Your organizer has not chosen his values associated with small and large bets.\\nPlease contact him to ask him to create his sets small bet and big bet.";
-							}
-							echo "<script>alert(\"$msgErr\")</script>";
-						}
-					}
-					
 				}
-				$listeDesOrganisateurs = listeDesOrganisateurs($connMYSQL, $champs, $arrayMots);
-				$connMYSQL->close();
 			}
 		}
 	}
+	
+	$connMYSQL->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="<?php
-	echo $arrayMots['lang']; ?>">
+	echo $champsMots['lang']; ?>">
 
 <head>
     <meta charset="utf-8"/>

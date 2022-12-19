@@ -24,6 +24,7 @@
 		call_user_func_array(array($stmt, "bind_param"), $params);
 		
 		/* Exécution de la requête */
+		
 		$stmt->execute();
 		
 		// Vérification de l'exécution de la requête
@@ -31,7 +32,6 @@
 			// Récupération des résultats
 			$result = $stmt->get_result();
 			$row_cnt = $result->num_rows;
-			
 			
 			if ($row_cnt > 0) {
 				// Traitement des résultats

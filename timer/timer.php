@@ -326,27 +326,11 @@
 		else {
 			header("Location: /erreur/erreur.php");
 		}
-		exit; // pour arrêter l'éxecution du code php
+		exit; // pour arrêter execution du code php
 	}
-	
-	function connexionBD() {
-		// Nouvelle connexion sur hébergement du Studio OL
-		$host = "localhost";
-		$user = "benoitmi_benoit";
-		$password = "d-&47mK!9hjGC4L-";
-		$bd = "benoitmi_benoitmignault.ca.mysql";
-		
-		$connMYSQL = mysqli_connect($host, $user, $password, $bd);
-		$connMYSQL->query("set names 'utf8'");
-		
-		// Vérification de la connexion
-		if ($connMYSQL->connect_error) {
-			die('Erreur de connexion (' . $connMYSQL->connect_errno . ') '. $connMYSQL->connect_error);
-		} else {
-			return $connMYSQL;
-        }
-	}
-	
+ 
+	include_once("../fonction_commune/fct_connexion_bd.php");
+ 
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$champs = initialisation_Champs();
 		$connMYSQL = connexionBD();

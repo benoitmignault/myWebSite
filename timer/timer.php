@@ -149,9 +149,14 @@
 		$query = "SELECT count(*) as " . SELECT_MAX_COMBINAISON_USER . " FROM " . FROM_MAX_COMBINAISON_USER . " where " . WHERE_MAX_COMBINAISON_USER . " = ?";
 		
 		$stmt = $connMYSQL->prepare($query);
+  
+		// Définissez les paramètres de la requête - Déjà défini
+  
+		// Les & est la référence de la variable que je dois passer en paramètre
+		$params = array("s", &$user);
 		
-		// Liage des paramètres de la requête
-		$stmt->bind_param("s", $user);
+		// Exécutez la requête en utilisant call_user_func_array
+		call_user_func_array(array($stmt, "bind_param"), $params);
 		
 		// Exécution de la requête
 		$stmt->execute();

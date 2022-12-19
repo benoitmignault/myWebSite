@@ -1,14 +1,16 @@
 <?php
-	function initialisation_Champs(): array {
+	function initialisationChamps(): array {
 		
-		return ["typeLangue" => "", "user" => "", "nom_organisateur" => "", "situation" => 0, "combinaison" => 0, "maxCombinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucuneValeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255];
+		return ["typeLangue" => "", "user" => "", "nomOrganisateur" => "", "situation" => 0, "combinaison" => 0, "maxCombinaison" => 0,
+		        "valeurSmall" => "00", "valeurBig" => "00", "aucuneValeur" => false, "tropValeur" => false, "numberRed" => 255,
+		        "numberGreen" => 255, "numberBlue" => 255];
 	}
 	
-	function initialisation_indicateur(): array {
+	function initialisationIndicateur(): array {
 		
-		return ["user_vide" => false, "changement_mise" => false, "reset_mise" => false, "choix_user" => false];
+		return ["userVide" => false, "changementMise" => false, "resetMise" => false, "choixUser" => false];
 	}
- 
+	
 	function traduction($champs): array {
 		if ($champs['typeLangue'] === "francais") {
 			$lang = "fr";
@@ -24,9 +26,9 @@
 			$btnReprendre = 'POURSUIVRE';
 			$choixOrganisateur = 'Veuillez choisir votre organisateur';
 			$option = "À sélectionner";
-			$btn_choix = 'Choisir';
-			$message = message_Situation($champs);
-			$message_Erreur_BD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
+			$btnChoix = 'Choisir';
+			$message = messageSituation($champs);
+			$messageErreurBD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
 		}
         elseif ($champs['typeLangue'] === "english") {
 			$title = 'Timer';
@@ -42,15 +44,18 @@
 			$periode = 'Waiting for a period of time...';
 			$btnReprendre = 'GO ON';
 			$option = "Select";
-			$btn_choix = 'PICK OUT';
-			$message = message_Situation($champs);
-			$message_Erreur_BD = "There was a problem with insert your values into the DB. Please try again !";
+			$btnChoix = 'PICK OUT';
+			$message = messageSituation($champs);
+			$messageErreurBD = "There was a problem with insert your values into the DB. Please try again !";
 		}
 		
-		return ["lang" => $lang, 'title' => $title, 'typeMise' => $typeMise, 'changerMise' => $changer, 'choixOrganisateur' => $choixOrganisateur, 'option' => $option, 'btn_choix' => $btn_choix, 'message' => $message, 'message_Erreur_BD' => $message_Erreur_BD, 'small' => $small, 'big' => $big, 'retour' => $retour, 'btnReset' => $btnReset, 'reset' => $reset, 'periode' => $periode, 'btnReprendre' => $btnReprendre];
+		return ["lang" => $lang, 'title' => $title, 'typeMise' => $typeMise, 'changerMise' => $changer,
+		        'choixOrganisateur' => $choixOrganisateur, 'option' => $option, 'btnChoix' => $btnChoix, 'message' => $message,
+		        'messageErreurBD' => $messageErreurBD, 'small' => $small, 'big' => $big, 'retour' => $retour, 'btnReset' => $btnReset,
+		        'reset' => $reset, 'periode' => $periode, 'btnReprendre' => $btnReprendre];
 	}
 	
-	function message_Situation($champs): string {
+	function messageSituation($champs): string {
 		$message = "";
 		if ($champs["typeLangue"] === 'francais') {
 			if ($champs['situation'] == 1) {
@@ -86,7 +91,7 @@
 					$champs['maxCombinaison'] = recupererMaxCombinaisonUser($connMYSQL, $champs['user']);
 				}
 				
-				if (isset($_POST['btn_changerMise'])) {
+				if (isset($_POST['btnChangerMise'])) {
 					// Au moment de changer les mise, on récupérer la valeur du nombre max de combinaisons
 					if (isset($_POST['maxCombinaison'])) {
 						$champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
@@ -94,39 +99,39 @@
 					
 					$champs['combinaison'] = intval($_POST['combinaison']);
 					$champs['combinaison']++;
-					if (isset($_POST['number_Red'])) {
-						$champs['number_Red'] = intval($_POST['number_Red']);
+					if (isset($_POST['numberRed'])) {
+						$champs['numberRed'] = intval($_POST['numberRed']);
 					}
-					if (isset($_POST['number_Green'])) {
-						$champs['number_Green'] = intval($_POST['number_Green']);
+					if (isset($_POST['numberGreen'])) {
+						$champs['numberGreen'] = intval($_POST['numberGreen']);
 					}
-					if (isset($_POST['number_Blue'])) {
-						$champs['number_Blue'] = intval($_POST['number_Blue']);
+					if (isset($_POST['numberBlue'])) {
+						$champs['numberBlue'] = intval($_POST['numberBlue']);
 					}
-					$value_Red_temp = $champs['number_Red'] - 25;
-					$value_Green_temp = $champs['number_Green'] - 25;
+					$valueRedTemp = $champs['numberRed'] - 25;
+					$valueGreenTemp = $champs['numberGreen'] - 25;
 					// Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
-					if ($value_Green_temp > 0) {
-						$champs['number_Green'] = $value_Green_temp;
-						$champs['number_Blue'] = $value_Green_temp;
+					if ($valueGreenTemp > 0) {
+						$champs['numberGreen'] = $valueGreenTemp;
+						$champs['numberBlue'] = $valueGreenTemp;
 						// Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
 					}
-                    elseif ($value_Red_temp > 0) {
-						$champs['number_Red'] = $value_Red_temp;
-						$champs['number_Green'] = 0;
-						$champs['number_Blue'] = 0;
+                    elseif ($valueRedTemp > 0) {
+						$champs['numberRed'] = $valueRedTemp;
+						$champs['numberGreen'] = 0;
+						$champs['numberBlue'] = 0;
 					}
 					else {
-						$champs['number_Red'] = 0;
-						$champs['number_Green'] = 0;
-						$champs['number_Blue'] = 0;
+						$champs['numberRed'] = 0;
+						$champs['numberGreen'] = 0;
+						$champs['numberBlue'] = 0;
 					}
 				}
-                elseif (isset($_POST['btn_resetMise'])) {
+                elseif (isset($_POST['btnResetMise'])) {
 					$champs['combinaison'] = 0;
-					$champs['number_Red'] = 255;
-					$champs['number_Green'] = 255;
-					$champs['number_Blue'] = 255;
+					$champs['numberRed'] = 255;
+					$champs['numberGreen'] = 255;
+					$champs['numberBlue'] = 255;
 				}
 			}
 		}
@@ -167,71 +172,71 @@
 	
 	function coloriage($champs): string {
 		
-		return "rgb({$champs['number_Red']},{$champs['number_Green']},{$champs['number_Blue']})";
+		return "rgb({$champs['numberRed']},{$champs['numberGreen']},{$champs['numberBlue']})";
 	}
 	
-	function validation($champs, $valid_champs) {
+	function validation($champs, $validChamps) {
 		if ($champs['user'] === "") {
-			$valid_champs["user_vide"] = true;
+			$validChamps["userVide"] = true;
 		}
-		if (isset($_POST['btn_changerMise'])) {
-			$valid_champs["changement_mise"] = true;
+		if (isset($_POST['btnChangerMise'])) {
+			$validChamps["changementMise"] = true;
 		}
-        elseif (isset($_POST['btn_resetMise'])) {
-			$valid_champs["reset_mise"] = true;
+        elseif (isset($_POST['btnResetMise'])) {
+	        $validChamps["resetMise"] = true;
 		}
         elseif (isset($_POST['btn_choixOrganisateur'])) {
-			$valid_champs["choix_user"] = true;
+	        $validChamps["choixUser"] = true;
 		}
 		
-		return $valid_champs;
+		return $validChamps;
 	}
 	
-	function situation($champs, $valid_champs): int {
+	function situation($validChamps): int {
 		$situation = 0;
-		if ($valid_champs['user_vide']) {
+		if ($validChamps['userVide']) {
 			$situation = 1; // Le user ne peut être vide
 		}
-        elseif ($valid_champs['changement_mise']) {
+        elseif ($validChamps['changementMise']) {
 			$situation = 2; // Un changement de mise a été demandé
 		}
-        elseif ($valid_champs['reset_mise']) {
+        elseif ($validChamps['resetMise']) {
 			$situation = 3; // Un reset des mises a été demandé
 		}
-        elseif ($valid_champs['choix_user']) {
+        elseif ($validChamps['choixUser']) {
 			$situation = 4; // Un choix de user est fait
 		}
 		
 		return $situation;
 	}
 	
-	function liste_Organisateurs($connMYSQL, $champs, $arrayMots) {
-		$liste_Organisateurs = "";
+	function listeOrganisateurs($connMYSQL, $champs, $arrayMots) {
+		$listeOrganisateurs = "";
 		$sql = "SELECT * FROM login_organisateur order by name";
 		$result = $connMYSQL->query($sql);
 		if ($result->num_rows > 0) {
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-				$liste_Organisateurs .= "<option value=\"\" selected>{$arrayMots['option']}</option>";
+				$listeOrganisateurs .= "<option value=\"\" selected>{$arrayMots['option']}</option>";
 				foreach ($result as $row) {
-					$liste_Organisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
+					$listeOrganisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
 				}
 			}
             elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				$liste_Organisateurs .= "<option value=\"\">{$arrayMots['option']}</option>";
+				$listeOrganisateurs .= "<option value=\"\">{$arrayMots['option']}</option>";
 				foreach ($result as $row) {
 					if ($champs['user'] === $row['user']) {
-						$liste_Organisateurs .= "<option value=\"{$row['user']}\" selected>{$row['name']}</option>";
+						$listeOrganisateurs .= "<option value=\"{$row['user']}\" selected>{$row['name']}</option>";
 					}
 					else {
-						$liste_Organisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
+						$listeOrganisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
 					}
 				}
 			}
 		}
-		return $liste_Organisateurs;
+		return $listeOrganisateurs;
 	}
 	
-	function affichage_nom_organisateur($connMYSQL, $champs) {
+	function affichageNomOrganisateur($connMYSQL, $champs) {
 		$prenom = "";
 		/* Crée une requête préparée */
 		$stmt = $connMYSQL->prepare("SELECT name FROM login_organisateur where user =? ");
@@ -261,7 +266,7 @@
 	 * @param $champs
 	 * @return string
 	 */
-	function selection_valeur_couleur($connMYSQL, $champs): string {
+	function selectionValeurCouleur($connMYSQL, $champs): string {
 		// Définition de constantes pour les chaînes de caractères statiques
 		define('SELECT_SELECTION_VALEUR_COULEUR', 'amount, color_english');
 		define('FROM_SELECTION_VALEUR_COULEUR', 'amount_color');
@@ -326,25 +331,25 @@
 		exit; // pour arrêter execution du code php
 	}
 	
-	include_once("../fonction_commune/fct_connexion_bd.php");
+	include_once("../includes/fct-connexion-bd.php");
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-		$champs = initialisation_Champs();
-		$connMYSQL = connexionBD();
+		$champs = initialisationChamps();
+		$connMYSQL = connexion();
 		$champs = remplissageChamps($champs, $connMYSQL);
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
 			redirection($champs);
 		}
 		else {
 			$arrayMots = traduction($champs);
-			$liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $arrayMots);
+			$listeOrganisateurs = listeOrganisateurs($connMYSQL, $champs, $arrayMots);
 		}
 		$connMYSQL->close();
 	}
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		$champs = initialisation_Champs();
-		$valid_champs = initialisation_indicateur();
+		$champs = initialisationChamps();
+		$validChamps = initialisationIndicateur();
 		$connMYSQL = connexionBD();
 		$champs = remplissageChamps($champs, $connMYSQL);
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
@@ -355,17 +360,17 @@
 				redirection($champs);
 			}
 			else {
-				$valid_champs = validation($champs, $valid_champs);
-				$champs['situation'] = situation($champs, $valid_champs);
+				$validChamps = validation($champs, $validChamps);
+				$champs['situation'] = situation($validChamps);
 				$arrayMots = traduction($champs);
 				
 				if ($champs['situation'] === 1) {
 					echo "<script>alert('" . $arrayMots['message'] . "')</script>";
 				}
 				else {
-					$champs['nom_organisateur'] = affichage_nom_organisateur($connMYSQL, $champs);
-					$tableau_valeur_couleur = selection_valeur_couleur($connMYSQL, $champs);
-					if ($tableau_valeur_couleur === "") {
+					$champs['nomOrganisateur'] = affichageNomOrganisateur($connMYSQL, $champs);
+					$tableauValeurCouleur = selectionValeurCouleur($connMYSQL, $champs);
+					if ($tableauValeurCouleur === "") {
 						$msgErr = "";
 						if ($champs["typeLangue"] == "francais") {
 							$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées à ses jetons.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles valeur couleur de jetons.";
@@ -376,8 +381,8 @@
 						echo "<script>alert(\"$msgErr\")</script>";
 					}
 					else {
-						include_once("../fonction_commune/fct_timer.php");
-						$champs = selection_small_big_blind($connMYSQL, $champs);
+						include_once("../includes/fct-timer.php");
+						$champs = selectionSmallBigBlind($connMYSQL, $champs);
 						if ($champs['aucuneValeur']) {
 							$msgErr = "";
 							if ($champs["typeLangue"] == "francais") {
@@ -391,7 +396,7 @@
 					}
 					
 				}
-				$liste_Organisateurs = liste_Organisateurs($connMYSQL, $champs, $arrayMots);
+				$listeOrganisateurs = listeOrganisateurs($connMYSQL, $champs, $arrayMots);
 				$connMYSQL->close();
 			}
 		}
@@ -399,7 +404,8 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php echo $arrayMots['lang']; ?>">
+<html lang="<?php
+	echo $arrayMots['lang']; ?>">
 
 <head>
     <meta charset="utf-8"/>
@@ -423,7 +429,8 @@
         }
 
     </style>
-    <title><?php echo $arrayMots['title'] ?></title>
+    <title><?php
+			echo $arrayMots['title'] ?></title>
 </head>
 
 <body>
@@ -435,31 +442,42 @@
     <div class="tableau_bord">
         <form method="post" action="./timer.php" id="formulaire">
             <div class="choix">
-                <input form="formulaire" type="hidden" id="number_Red" name="number_Red" value="<?php echo $champs['number_Red']; ?>">
-                <input form="formulaire" type="hidden" id="number_Green" name="number_Green" value="<?php echo $champs['number_Green']; ?>">
-                <input form="formulaire" type="hidden" id="number_Blue" name="number_Blue" value="<?php echo $champs['number_Blue']; ?>">
-                <input form="formulaire" type="hidden" id="trop_valeur" name="trop_valeur" value="<?php if ($champs['trop_valeur']) {
-					echo "true";
-				}
-				else {
-					echo "false";
-				} ?>">
-                <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
-                <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                <input form="formulaire" type="hidden" id="numberRed" name="numberRed" value="<?php
+					echo $champs['numberRed']; ?>">
+                <input form="formulaire" type="hidden" id="numberGreen" name="numberGreen" value="<?php
+					echo $champs['numberGreen']; ?>">
+                <input form="formulaire" type="hidden" id="numberBlue" name="numberBlue" value="<?php
+					echo $champs['numberBlue']; ?>">
+                <input form="formulaire" type="hidden" id="tropValeur" name="tropValeur" value="<?php
+					if ($champs['tropValeur']) {
+						echo "true";
+					}
+					else {
+						echo "false";
+					} ?>">
+                <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php
+					echo $champs['typeLangue']; ?>">
+                <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php
+					echo $champs['combinaison']; ?>">
                 <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison"
-                       value="<?php echo $champs['maxCombinaison']; ?>">
+                       value="<?php
+					       echo $champs['maxCombinaison']; ?>">
 
-                <label class="modificationColor" for="choixOrganisateur"><?php echo $arrayMots['choixOrganisateur']; ?></label>
+                <label class="modificationColor" for="choixOrganisateur"><?php
+						echo $arrayMots['choixOrganisateur']; ?></label>
                 <select id="choixOrganisateur" name="choixOrganisateur">
-					<?php echo $liste_Organisateurs; ?>
+					<?php
+						echo $listeOrganisateurs; ?>
                 </select>
-                <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php echo $arrayMots['btn_choix']; ?>">
+                <input class="bouton" type="submit" name="btn_choixOrganisateur" value="<?php
+					echo $arrayMots['btnChoix']; ?>">
             </div>
         </form>
         <div class="affichage_choix">
-			<?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) {
-				echo $tableau_valeur_couleur;
-			} ?>
+			<?php
+				if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) {
+					echo $tableauValeurCouleur;
+				} ?>
         </div>
     </div>
     <div class="timer">
@@ -483,13 +501,19 @@
             </div>
             <div class="lesBoutonsMises">
                 <div class="double">
-                    <button name="btn_changerMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur'] || $champs['aucuneValeur']) { ?> class="disabled" disabled <?php } ?>
-                            id="double" form="formulaire"><?php echo $arrayMots['changerMise'] ?></button>
+                    <button name="btnChangerMise"
+						<?php
+							if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['tropValeur'] || $champs['aucuneValeur']) { ?>
+                                class="disabled" disabled <?php
+							} ?> id="changerMise" form="formulaire"><?php echo $arrayMots['changerMise'] ?></button>
                 </div>
                 <div class="resetMise">
                     <button form="formulaire"
-                            name="btn_resetMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucuneValeur']) { ?> class="disabled" disabled <?php } ?>
-                            id="reset"><?php echo $arrayMots['reset'] ?></button>
+                            name="btnResetMise" <?php
+						if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucuneValeur']) { ?> class="disabled" disabled <?php
+						} ?>
+                            id="reset"><?php
+							echo $arrayMots['reset'] ?></button>
                 </div>
             </div>
         </div>
@@ -526,8 +550,7 @@
                     <button class="disabled resizeText" disabled id="timerReprend"><?php echo $arrayMots['btnReprendre'] ?></button>
                 </div>
                 <div class="resetTemps">
-                    <button <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['aucuneValeur'] || $champs['user'] == "") { ?> class="disabled" disabled <?php } ?>
-                            id="ResetTemps"><?php echo $arrayMots['btnReset'] ?></button>
+                    <button class="disabled" disabled id="ResetTemps"><?php echo $arrayMots['btnReset'] ?></button>
                 </div>
             </div>
         </div>

@@ -1,4 +1,14 @@
 <?php
+	function initialisation_Champs(): array {
+		
+		return ["typeLangue" => "", "user" => "", "nom_organisateur" => "", "situation" => 0, "combinaison" => 0, "maxCombinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucuneValeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255];
+	}
+	
+	function initialisation_indicateur(): array {
+		
+		return ["user_vide" => false, "changement_mise" => false, "reset_mise" => false, "choix_user" => false];
+	}
+ 
 	function traduction($champs): array {
 		if ($champs['typeLangue'] === "francais") {
 			$lang = "fr";
@@ -54,16 +64,6 @@
 		}
 		
 		return $message;
-	}
-	
-	function initialisation_Champs(): array {
-		
-		return ["typeLangue" => "", "user" => "", "nom_organisateur" => "", "situation" => 0, "combinaison" => 0, "maxCombinaison" => 0, "valeurSmall" => "00", "valeurBig" => "00", "aucune_valeur" => false, "trop_valeur" => false, "number_Red" => 255, "number_Green" => 255, "number_Blue" => 255];
-	}
-	
-	function initialisation_indicateur(): array {
-		
-		return ["user_vide" => false, "changement_mise" => false, "reset_mise" => false, "choix_user" => false];
 	}
 	
 	function remplissageChamps($champs, $connMYSQL) {

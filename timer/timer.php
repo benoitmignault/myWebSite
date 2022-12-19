@@ -6,7 +6,7 @@
 		        "numberGreen" => 255, "numberBlue" => 255, "listeDesOrganisateurs" => array()];
 	}
 	
-	function initialisationIndicateur(): array {
+	function initialisationValidation(): array {
 		
 		return ["userVide" => false, "changementMise" => false, "resetMise" => false, "choixUser" => false];
 	}

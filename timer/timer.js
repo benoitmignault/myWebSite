@@ -99,7 +99,10 @@ function modificationSizeValeurs(big) {
 }
 */
 
-// La fonction doit rester une simple function qui n'est pas caller comme les autres fonctions en bas via document.addEventListener
+/**
+ * La fonction doit rester une simple function qui n'est pas caller
+ * comme les autres fonctions en bas via document.addEventListener
+ */
 function reset() {
     resetValeur.addEventListener('click', function () {
         changerMise.setAttribute("class", "");
@@ -382,9 +385,10 @@ function resetTemp() {
 }
 
 // TODO : Comprendre pourquoi ca marche pas
-/*
+
 function resizeText() {
     let device = detectZoom.device();
+    console.log(device);
     let largeur = window.innerWidth;
 
     if (largeur < 1300) {
@@ -428,12 +432,12 @@ function resizeText() {
             btn_choisir.style.fontSize = "35px";
         }
     }
-    // modificationSizeValeurs(valeurBig.innerHTML);
+    modificationSizeValeurs(valeurBig.innerHTML);
     // 1.1041666269302368 -> 100%
     // 1.2145832777023315 -> 110%
     // 1.3802082538604736 -> 125%
 }
-*/
+
 
 function miseEnMarcheDuTimer() {
     // clearTimeout -> cancels a timeout previously established by calling setTimeout()
@@ -449,7 +453,7 @@ function miseEnMarcheDuTimer() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    //resizeText(); // TODO : Comprendre pourquoi ca marche pas
+    resizeText(); // TODO : Comprendre pourquoi ca marche pas
     timer15Min();
     timer30Min();
     stop();

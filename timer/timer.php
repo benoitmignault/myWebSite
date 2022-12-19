@@ -396,7 +396,7 @@
 					}
 					
 				}
-				$listeDesOrganisateurs = listeOrganisateurs($connMYSQL, $champs, $arrayMots);
+				$listeDesOrganisateurs = listeDesOrganisateurs($connMYSQL, $champs, $arrayMots);
 				$connMYSQL->close();
 			}
 		}

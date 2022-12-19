@@ -488,7 +488,22 @@
                        value="<?php echo $champs['maxCombinaison']; ?>">
                 <label class="modificationColor" for="choixOrganisateur"><?php echo $champsMots['choixOrganisateur']; ?></label>
                 <select id="choixOrganisateur" name="choixOrganisateur">
-					<?php echo $listeDesOrganisateurs; ?>
+					<?php if ($_SERVER['REQUEST_METHOD'] === 'GET') { ?>
+                        <option value="" selected><?php echo $champsMots['option']; ?></option>
+						<?php foreach ($champs["listeDesOrganisateurs"] as $unOrganisateur) { ?>
+                            <option value="<?php echo $unOrganisateur['user']; ?>"><?php echo $unOrganisateur['name']; ?></option>
+						<?php } ?>
+					<?php } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
+                        <option value=""><?php echo $champsMots['option']; ?></option>
+						<?php foreach ($champs["listeDesOrganisateurs"] as $unOrganisateur) {
+							if ($champs['user'] === $unOrganisateur['user']) { ?>
+                                <option value="<?php echo $unOrganisateur['user']; ?>" selected><?php echo $unOrganisateur['name']; ?>
+                                </option>
+							<?php } else { ?>
+                                <option value="<?php echo $unOrganisateur['user']; ?>"><?php echo $unOrganisateur['name']; ?></option>
+							<?php } ?>
+						<?php } ?>
+					<?php } ?>
                 </select>
                 <input class="bouton" type="submit" name="btnChoixOrganisateur" value="<?php echo $champsMots['btnChoix']; ?>">
             </div>

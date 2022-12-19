@@ -276,30 +276,33 @@
 		if ($result->num_rows > 0) {
 			$prenom = $row['name'];
 		}
+  
 		return $prenom;
 	}
 	
-	/**
-	 * On vient récupérer la liste des valeurs / couleurs de l'organisation
-	 * @param $connMYSQL
-	 * @param $champs
-	 * @return string
-	 */
-	function selectionValeurCouleur($connMYSQL, $champs): string {
+	function selectionValeursCouleurs($connMYSQL, $champs): array {
 		// Définition de constantes pour les chaînes de caractères statiques
 		define('SELECT_SELECTION_VALEUR_COULEUR', 'amount, color_english');
 		define('FROM_SELECTION_VALEUR_COULEUR', 'amount_color');
 		define('WHERE_SELECTION_VALEUR_COULEUR', 'user');
 		define('ORDER_SELECTION_VALEUR_COULEUR', 'amount');
-		$tableau = ""; // Création du tableau HTML qui sera afficher à la sortie
+		
+		// Création de la futur liste des combinaisons Valeurs / Couleurs de l'organisateur
+		$listeDesValeursCouleurs = array();
 		
 		// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
 		$query = "SELECT " . SELECT_SELECTION_VALEUR_COULEUR . " FROM " . FROM_SELECTION_VALEUR_COULEUR . " WHERE " . WHERE_SELECTION_VALEUR_COULEUR . " = ? " . " ORDER BY " . ORDER_SELECTION_VALEUR_COULEUR;
 		
 		$stmt = $connMYSQL->prepare($query);
 		
-		// Liage des paramètres de la requête
-		$stmt->bind_param("s", $champs['user']);
+		// Définissez les paramètres de la requête
+		$user = $champs['user'];
+		
+		// Les & est la référence de la variable que je dois passer en paramètre
+		$params = array("s", &$user);
+		
+		// Exécutez la requête en utilisant call_user_func_array
+		call_user_func_array(array($stmt, "bind_param"), $params);
 		
 		// Exécution de la requête
 		$stmt->execute();

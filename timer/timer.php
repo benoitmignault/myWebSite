@@ -329,15 +329,20 @@
 		return $listeDesValeursCouleurs;
 	}
 	
-	function redirection($champs) {
+	/**
+     * Retourne à la page accueil en fonction de la langue pré-sélectionner
+	 * @param $typeLangue
+	 * @return void
+	 */
+	function redirection($typeLangue) {
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			header("Location: /erreur/erreur.php");
 		}
         elseif (isset($_POST['btnReturn'])) {
-			if ($champs["typeLangue"] == 'english') {
+			if ($typeLangue == 'english') {
 				header("Location: /english/english.html");
 			}
-            elseif ($champs["typeLangue"] == 'francais') {
+            elseif ($typeLangue == 'francais') {
 				header("Location: /index.html");
 			}
 		}
@@ -357,7 +362,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
-			redirection($champs);
+			redirection($champs["typeLangue"]);
 		}
 		else {
 			$champsMots = traduction($champs);
@@ -368,7 +373,7 @@
 		$champsValid = initialisationValidation();
 		
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english" || isset($_POST['btnReturn'])) {
-			redirection($champs);
+			redirection($champs["typeLangue"]);
 		}
 		else {
 			$champsValid = validation($champs, $champsValid);

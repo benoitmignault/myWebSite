@@ -1,6 +1,6 @@
 <?php
 	// TODO : Passer en paramètre seulement les éléments nécessaires
-	function selection_small_big_blind($connMYSQL, $champs) {
+	function selectionSmallBigBlind($connMYSQL, $champs) {
 		// Définition de constantes pour les chaînes de caractères statiques
 		define('SELECT_SELECTION_SMALL_BIG_BLIND', 'small, big');
 		define('FROM_SELECTION_SMALL_BIG_BLIND', 'mise_small_big');
@@ -45,7 +45,7 @@
 				
 				// Ici, nous avons atteint la dernière combinaison small et big
 				if ($champs['combinaison'] == $nbLignes) {
-					$champs['trop_valeur'] = true;
+					$champs['tropValeur'] = true;
 				}
 				// Le retour de fonction n'a trouvé aucun valeur
 			}

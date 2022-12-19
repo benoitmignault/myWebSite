@@ -180,54 +180,87 @@
 		return "rgb({$champs['numberRed']},{$champs['numberGreen']},{$champs['numberBlue']})";
 	}
 	
-	function validation($champs, $validChamps) {
+	function validation($champs, $champsValid) {
 		if ($champs['user'] === "") {
-			$validChamps["userVide"] = true;
+			$champsValid["userVide"] = true;
 		}
 		if (isset($_POST['btnChangerMise'])) {
-			$validChamps["changementMise"] = true;
+			$champsValid["changementMise"] = true;
 		}
         elseif (isset($_POST['btnResetMise'])) {
-	        $validChamps["resetMise"] = true;
+			$champsValid["resetMise"] = true;
 		}
-        elseif (isset($_POST['btn_choixOrganisateur'])) {
-	        $validChamps["choixUser"] = true;
+        elseif (isset($_POST['btnChoixOrganisateur'])) {
+			$champsValid["choixUser"] = true;
 		}
 		
-		return $validChamps;
+		return $champsValid;
 	}
 	
-	function situation($validChamps): int {
+	function situation($champsValid): int {
 		$situation = 0;
-		if ($validChamps['userVide']) {
+		if ($champsValid['userVide']) {
 			$situation = 1; // Le user ne peut être vide
 		}
-        elseif ($validChamps['changementMise']) {
+        elseif ($champsValid['changementMise']) {
 			$situation = 2; // Un changement de mise a été demandé
 		}
-        elseif ($validChamps['resetMise']) {
+        elseif ($champsValid['resetMise']) {
 			$situation = 3; // Un reset des mises a été demandé
 		}
-        elseif ($validChamps['choixUser']) {
+        elseif ($champsValid['choixUser']) {
 			$situation = 4; // Un choix de user est fait
 		}
 		
 		return $situation;
 	}
 	
-	function listeDesOrganisateurs($connMYSQL, $champs, $arrayMots) {
+	function listeDesOrganisateurs($connMYSQL): array {
+		// Définition de constantes pour les chaînes de caractères statiques
+		define('SELECT_LISTE_DES_ORGANISATEURS', '*');
+		define('FROM_LISTE_DES_ORGANISATEURS', 'login_organisateur');
+		define('ORDER_LISTE_DES_ORGANISATEURS', 'name');
+		
+		// Création de la futur liste des organisateurs
+		$listeDesOrganisateurs = array();
+		
+		// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+		$query = "SELECT " . SELECT_LISTE_DES_ORGANISATEURS . " FROM " . FROM_LISTE_DES_ORGANISATEURS . " ORDER BY " . ORDER_LISTE_DES_ORGANISATEURS;
+		
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		
+		//call_user_func_array(array($stmt, "bind_param"), $params) ----> N'est pas utiliser vue que je n'ai pas de paramètres
+		
+		/* Exécution de la requête */
+		$stmt->execute();
+		
+		// Vérification de l'exécution de la requête
+		if (!$stmt->errno) {
+			// Récupération des résultats
+			$result = $stmt->get_result();
+			$row_cnt = $result->num_rows;
+			
+			if ($row_cnt > 0) {
+				while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+					$listeDesOrganisateurs[] = array("user" => $row['user'], "name" => $row['name']);
+				}
+			}
+		}
+		
+		/*
 		$listeDesOrganisateurs = "";
 		$sql = "SELECT * FROM login_organisateur order by name";
 		$result = $connMYSQL->query($sql);
 		if ($result->num_rows > 0) {
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-				$listeDesOrganisateurs .= "<option value=\"\" selected>{$arrayMots['option']}</option>";
+				$listeDesOrganisateurs .= "<option value=\"\" selected>{$champsMots['option']}</option>";
 				foreach ($result as $row) {
 					$listeDesOrganisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
 				}
 			}
             elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	            $listeDesOrganisateurs .= "<option value=\"\">{$arrayMots['option']}</option>";
+				$listeDesOrganisateurs .= "<option value=\"\">{$champsMots['option']}</option>";
 				foreach ($result as $row) {
 					if ($champs['user'] === $row['user']) {
 						$listeDesOrganisateurs .= "<option value=\"{$row['user']}\" selected>{$row['name']}</option>";
@@ -427,8 +460,7 @@
         }
 
     </style>
-    <title><?php
-			echo $arrayMots['title'] ?></title>
+    <title><?php echo $champsMots['title'] ?></title>
 </head>
 
 <body>
@@ -519,7 +551,7 @@
         <div class="tableauDuTemps">
             <div class="temps">
                 <div class="periode">
-                    <p class="resizeText"><?php echo $arrayMots['periode'] ?></p>
+                    <p class="resizeText"><?php echo $champsMots['periode'] ?></p>
                 </div>
                 <div class="minutes">
                     <p class="resizeText">Minutes</p>
@@ -545,10 +577,10 @@
                     <button class="disabled" disabled id="timerStop">STOP</button>
                 </div>
                 <div class="reprend">
-                    <button class="disabled resizeText" disabled id="timerReprend"><?php echo $arrayMots['btnReprendre'] ?></button>
+                    <button class="disabled resizeText" disabled id="timerReprend"><?php echo $champsMots['btnReprendre'] ?></button>
                 </div>
                 <div class="resetTemps">
-                    <button class="disabled" disabled id="ResetTemps"><?php echo $arrayMots['btnReset'] ?></button>
+                    <button class="disabled" disabled id="ResetTemps"><?php echo $champsMots['btnReset'] ?></button>
                 </div>
             </div>
         </div>
@@ -558,7 +590,7 @@
 <div class="boutonRetour">
     <div class="retour">
         <form method="post" action="./timer.php">
-            <input class="resizeText" type="submit" name="btnReturn" value="<?php echo $arrayMots['retour']; ?>">
+            <input class="resizeText" type="submit" name="btnReturn" value="<?php echo $champsMots['retour']; ?>">
             <input type="hidden" name="typeLangueReturn" value="<?php echo $champs['typeLangue']; ?>">
         </form>
     </div>

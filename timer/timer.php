@@ -350,7 +350,7 @@
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$champs = initialisationChamps();
 		$validChamps = initialisationIndicateur();
-		$connMYSQL = connexionBD();
+		$connMYSQL = connexion();
 		$champs = remplissageChamps($champs, $connMYSQL);
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
 			redirection($champs);

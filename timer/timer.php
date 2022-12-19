@@ -270,7 +270,8 @@
 					}
 				}
 			}
-		}
+		}*/
+		
 		return $listeDesOrganisateurs;
 	}
 	

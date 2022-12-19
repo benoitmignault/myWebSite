@@ -252,34 +252,10 @@
 			}
 		}
 		
-		/*
-		$listeDesOrganisateurs = "";
-		$sql = "SELECT * FROM login_organisateur order by name";
-		$result = $connMYSQL->query($sql);
-		if ($result->num_rows > 0) {
-			if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-				$listeDesOrganisateurs .= "<option value=\"\" selected>{$champsMots['option']}</option>";
-				foreach ($result as $row) {
-					$listeDesOrganisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
-				}
-			}
-            elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				$listeDesOrganisateurs .= "<option value=\"\">{$champsMots['option']}</option>";
-				foreach ($result as $row) {
-					if ($champs['user'] === $row['user']) {
-						$listeDesOrganisateurs .= "<option value=\"{$row['user']}\" selected>{$row['name']}</option>";
-					}
-					else {
-						$listeDesOrganisateurs .= "<option value=\"{$row['user']}\">{$row['name']}</option>";
-					}
-				}
-			}
-		}*/
-		
 		return $listeDesOrganisateurs;
 	}
 	
-	function affichageNomOrganisateur($connMYSQL, $champs) {
+	function affichageNomOrganisateur($connMYSQL, $champs): string {
 		$prenom = "";
 		/* Crée une requête préparée */
 		$stmt = $connMYSQL->prepare("SELECT name FROM login_organisateur where user =? ");

@@ -481,9 +481,24 @@
             </div>
         </form>
         <div class="affichage_choix">
-			<?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $champs['situation'] != 1) {
-				echo $tableauValeurCouleur;
-			} ?>
+			<?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && $champs['situation'] != 1) { ?>
+                <table class="tblValeurCouleur">
+                    <thead>
+                    <tr>
+                        <th><?php echo $champsMots['valeur']; ?></th>
+                        <th><?php echo $champsMots['couleur']; ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+					<?php foreach ($champs["listeDesValeursCouleurs"] as $uneCombinaison) { ?>
+                        <tr>
+                            <td class="colorModifie"><?php echo $uneCombinaison['amount']; ?></td>
+                            <td class="<?php echo $uneCombinaison['color_english']; ?>"></td>
+                        </tr>
+					<?php } ?>
+                    </tbody>
+                </table>
+			<?php } ?>
         </div>
     </div>
     <div class="timer">

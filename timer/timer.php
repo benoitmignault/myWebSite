@@ -256,7 +256,7 @@
 	}
 	
 	/**
-     * On vient récupérer la liste des valeurs / couleurs de l'organisation
+	 * On vient récupérer la liste des valeurs / couleurs de l'organisation
 	 * @param $connMYSQL
 	 * @param $champs
 	 * @return string
@@ -264,16 +264,13 @@
 	function selection_valeur_couleur($connMYSQL, $champs): string {
 		// Définition de constantes pour les chaînes de caractères statiques
 		define('SELECT_SELECTION_VALEUR_COULEUR', 'amount, color_english');
-        define('FROM_SELECTION_VALEUR_COULEUR', 'amount_color');
+		define('FROM_SELECTION_VALEUR_COULEUR', 'amount_color');
 		define('WHERE_SELECTION_VALEUR_COULEUR', 'user');
 		define('ORDER_SELECTION_VALEUR_COULEUR', 'amount');
 		$tableau = ""; // Création du tableau HTML qui sera afficher à la sortie
 		
 		// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
-		$query = "SELECT " . SELECT_SELECTION_VALEUR_COULEUR .
-                 " FROM " . FROM_SELECTION_VALEUR_COULEUR .
-                 " WHERE " . WHERE_SELECTION_VALEUR_COULEUR . " = ? " .
-                 " ORDER BY " . ORDER_SELECTION_VALEUR_COULEUR;
+		$query = "SELECT " . SELECT_SELECTION_VALEUR_COULEUR . " FROM " . FROM_SELECTION_VALEUR_COULEUR . " WHERE " . WHERE_SELECTION_VALEUR_COULEUR . " = ? " . " ORDER BY " . ORDER_SELECTION_VALEUR_COULEUR;
 		
 		$stmt = $connMYSQL->prepare($query);
 		

@@ -1,4 +1,4 @@
-const doubleValeur = document.querySelector('#double');
+const changerMise = document.querySelector('#changerMise');
 
 const temps_periode = document.querySelector('.container .timer .tableauDuTemps .temps div .resizeText');
 const type_mises = document.querySelector('.container .timer .tableauDesMises .lesMises div .resizeText');
@@ -27,12 +27,12 @@ const combinaison = document.querySelector('.combinaison');
 const maxCombinaison = document.querySelector('.maxCombinaison');
 
 const organisateur = document.querySelector('#choixOrganisateur');
-const color_red = document.querySelector('#number_Red');
-const color_green = document.querySelector('#number_Green');
-const color_blue = document.querySelector('#number_Blue');
+const colorRed = document.querySelector('#numberRed');
+const colorGreen = document.querySelector('#numberGreen');
+const colorBlue = document.querySelector('#numberBlue');
 
 const user = document.querySelector('#choixOrganisateur');
-const trop_valeur = document.querySelector('#trop_valeur');
+const tropValeur = document.querySelector('#tropValeur');
 
 const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
 const btn_choisir = document.querySelector('.container .tableau_bord form .choix .bouton');
@@ -65,6 +65,7 @@ function modificationSizeValeurs(big) {
 }
 
 // TODO : Comprendre pourquoi ca marche pas
+
 // Function optimiser par OpenAI
 /*
 function modificationSizeValeurs(big) {
@@ -101,9 +102,9 @@ function modificationSizeValeurs(big) {
 
 // La fonction doit rester une simple function qui n'est pas caller comme les autres fonctions en bas via document.addEventListener
 function reset() {
-    resetValeur.addEventListener('click', function (evt) {
-        doubleValeur.setAttribute("class", "");
-        doubleValeur.removeAttribute("disabled");
+    resetValeur.addEventListener('click', function () {
+        changerMise.setAttribute("class", "");
+        changerMise.removeAttribute("disabled");
         resetValeur.setAttribute("class", "disabled");
         resetValeur.setAttribute("disabled", "disabled");
         valeurSmall.style.fontSize = "64px";
@@ -237,27 +238,27 @@ function callAjax() {
     stopTimer.setAttribute("class", "disabled");
     stopTimer.setAttribute("disabled", "disabled");
     if (user.value !== "") {
-        if (trop_valeur.value === "true") {
-            doubleValeur.setAttribute("class", "disabled");
-            doubleValeur.setAttribute("disabled", "disabled");
+        if (tropValeur.value === "true") {
+            changerMise.setAttribute("class", "disabled");
+            changerMise.setAttribute("disabled", "disabled");
             temps30min.setAttribute("class", "disabled");
             temps30min.setAttribute("disabled", "disabled");
             temps15min.setAttribute("class", "disabled");
             temps15min.setAttribute("disabled", "disabled");
             resetTemps.setAttribute("class", "disabled");
             resetTemps.setAttribute("disabled", "disabled");
-        } else if (trop_valeur.value === "false") {
-            doubleValeur.setAttribute("class", "");
-            doubleValeur.removeAttribute("disabled");
+        } else if (tropValeur.value === "false") {
+            changerMise.setAttribute("class", "");
+            changerMise.removeAttribute("disabled");
             resetValeur.setAttribute("class", "");
             resetValeur.removeAttribute("disabled");
             let data = {
-                "niveau_combinaison": combinaison.value,
+                "niveauCombinaison": combinaison.value,
                 "maxCombinaison": maxCombinaison.value,
-                "nom_orginateur": organisateur.value,
-                "color_red": color_red.value,
-                "color_green": color_green.value,
-                "color_blue": color_blue.value
+                "nomOrganisateur": organisateur.value,
+                "colorRed": colorRed.value,
+                "colorGreen": colorGreen.value,
+                "colorBlue": colorBlue.value
             };
 
             $.ajax({
@@ -269,15 +270,15 @@ function callAjax() {
                     // sécurisation du retour d'information
                     if (dataReturn["data"]) {
                         let dataObj = JSON.parse(dataReturn["data"]);
-                        trop_valeur.value = dataObj.trop_valeur;
+                        tropValeur.value = dataObj.tropValeur;
                         combinaison.value = dataObj.combinaison;
-                        color_red.value = dataObj.color_red;
-                        color_green.value = dataObj.color_green;
-                        color_blue.value = dataObj.color_blue;
+                        colorRed.value = dataObj.colorRed;
+                        colorGreen.value = dataObj.colorGreen;
+                        colorBlue.value = dataObj.colorBlue;
                         valeurSmall.innerHTML = dataObj.valeurSmall;
                         valeurBig.innerHTML = dataObj.valeurBig;
-                        valeurSmall.style.color = "rgb(" + color_red.value + "," + color_green.value + "," + color_blue.value + ")";
-                        valeurBig.style.color = "rgb(" + color_red.value + "," + color_green.value + "," + color_blue.value + ")";
+                        valeurSmall.style.color = "rgb(" + colorRed.value + "," + colorGreen.value + "," + colorBlue.value + ")";
+                        valeurBig.style.color = "rgb(" + colorRed.value + "," + colorGreen.value + "," + colorBlue.value + ")";
 
                     } else if (dataReturn["erreur"]) {
                         let dataErr = JSON.parse(dataReturn["erreur"]);
@@ -371,9 +372,11 @@ function resetTemp() {
         reprendTimer.setAttribute("disabled", "disabled");
         stopTimer.setAttribute("class", "disabled");
         stopTimer.setAttribute("disabled", "disabled");
-        if (user.value !== "" && trop_valeur.value === "false") {
-            doubleValeur.setAttribute("class", "");
-            doubleValeur.removeAttribute("disabled");
+        resetTemps.setAttribute("class", "disabled");
+        resetTemps.setAttribute("disabled", "disabled");
+        if (user.value !== "" && tropValeur.value === "false") {
+            changerMise.setAttribute("class", "");
+            changerMise.removeAttribute("disabled");
         }
 
     });
@@ -442,8 +445,8 @@ function miseEnMarcheDuTimer() {
     stopTimer.removeAttribute("disabled");
     resetTemps.setAttribute("class", "");
     resetTemps.removeAttribute("disabled");
-    doubleValeur.setAttribute("class", "disabled");
-    doubleValeur.setAttribute("disabled", "disabled");
+    changerMise.setAttribute("class", "disabled");
+    changerMise.setAttribute("disabled", "disabled");
 }
 
 document.addEventListener('DOMContentLoaded', function () {

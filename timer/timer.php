@@ -3,7 +3,7 @@
 		
 		return ["typeLangue" => "", "user" => "", "nomOrganisateur" => "", "situation" => 0, "combinaison" => 0, "maxCombinaison" => 0,
 		        "valeurSmall" => "00", "valeurBig" => "00", "aucuneValeur" => false, "tropValeur" => false, "numberRed" => 255,
-		        "numberGreen" => 255, "numberBlue" => 255];
+		        "numberGreen" => 255, "numberBlue" => 255, "listeDesOrganisateurs" => array()];
 	}
 	
 	function initialisationIndicateur(): array {

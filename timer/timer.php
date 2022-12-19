@@ -311,43 +311,6 @@
 		return $tableau;
 	}
 	
-	function selection_small_big_blind($connMYSQL, $champs) {
-		// Optimisation pour avoir directement la valeur qui nous intéreste
-		$stmt = $connMYSQL->prepare("SELECT small, big FROM mise_small_big where user =? order by small limit ? , ? ");
-		$un = 1; // Je vais créer une variable fix à 1, car , la fct bind_param ne me permet pas d'envoyer des valeurs sans être une variable
-		/* Lecture des marqueurs */
-		$stmt->bind_param("sii", $champs['user'], $champs['combinaison'], $un);
-		
-		/* Exécution de la requête */
-		$stmt->execute();
-		
-		/* Association des variables de résultat */
-		$result = $stmt->get_result();
-		$row_cnt = $result->num_rows;
-		
-		// Close statement
-		$stmt->close();
-		
-		if ($row_cnt == 1) {
-			$row = $result->fetch_array(MYSQLI_ASSOC);
-			$champs['valeurSmall'] = $row['small'];
-			$champs['valeurBig'] = $row['big'];
-			
-			$nbLignes = $champs['maxCombinaison'];
-			$nbLignes--;
-			// Ici, nous avons atteint la dernière combinaison small et big
-			if ($champs['combinaison'] == $nbLignes) {
-				$champs['trop_valeur'] = true;
-			}
-			// Le retour de fonction n'a trouvé aucun valeur
-		}
-        elseif ($result->num_rows == 0) {
-			$champs['aucune_valeur'] = true;
-		}
-		
-		return $champs;
-	}
-	
 	function redirection($champs) {
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			header("Location: /erreur/erreur.php");

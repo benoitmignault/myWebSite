@@ -29,6 +29,8 @@
 			$btnChoix = 'Choisir';
 			$message = messageSituation($champs);
 			$messageErreurBD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
+			$valeur = "Valeur";
+			$couleur = "Couleur";
 		}
         elseif ($champs['typeLangue'] === "english") {
 			$title = 'Timer';
@@ -47,12 +49,14 @@
 			$btnChoix = 'PICK OUT';
 			$message = messageSituation($champs);
 			$messageErreurBD = "There was a problem with insert your values into the DB. Please try again !";
+			$valeur = "Value";
+			$couleur = "Color";
 		}
 		
-		return ["lang" => $lang, 'title' => $title, 'typeMise' => $typeMise, 'changerMise' => $changer,
-		        'choixOrganisateur' => $choixOrganisateur, 'option' => $option, 'btnChoix' => $btnChoix, 'message' => $message,
-		        'messageErreurBD' => $messageErreurBD, 'small' => $small, 'big' => $big, 'retour' => $retour, 'btnReset' => $btnReset,
-		        'reset' => $reset, 'periode' => $periode, 'btnReprendre' => $btnReprendre];
+		return ["lang" => $lang, "title" => $title, "typeMise" => $typeMise, "changerMise" => $changer,
+		        "choixOrganisateur" => $choixOrganisateur, "option" => $option, "btnChoix" => $btnChoix, "message" => $message,
+		        "messageErreurBD" => $messageErreurBD, "small" => $small, "big" => $big, "retour" => $retour, "btnReset" => $btnReset,
+		        "reset" => $reset, "periode" => $periode, "btnReprendre" => $btnReprendre, "valeur" => $valeur, "couleur" => $couleur];
 	}
 	
 	function messageSituation($champs): string {

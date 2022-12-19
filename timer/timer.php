@@ -441,7 +441,6 @@
                             <option value="<?php echo $unOrganisateur['user']; ?>"><?php echo $unOrganisateur['name']; ?></option>
 						<?php } ?>
 					<?php } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
-                        <option value=""><?php echo $champsMots['option']; ?></option>
 						<?php foreach ($champs["listeDesOrganisateurs"] as $unOrganisateur) {
 							if ($champs['user'] === $unOrganisateur['user']) { ?>
                                 <option value="<?php echo $unOrganisateur['user']; ?>" selected><?php echo $unOrganisateur['name']; ?>

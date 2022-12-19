@@ -142,7 +142,7 @@
 	function recupererMaxCombinaisonUser($connMYSQL, $user) {
 		// Définition de constantes pour les chaînes de caractères statiques
 		define('SELECT_MAX_COMBINAISON_USER', 'number_of_records');
-        define('FROM_MAX_COMBINAISON_USER', 'mise_small_big');
+		define('FROM_MAX_COMBINAISON_USER', 'mise_small_big');
 		define('WHERE_MAX_COMBINAISON_USER', 'user');
 		
 		// Préparation de la requête SQL avec un alias pour la colonne sélectionnée

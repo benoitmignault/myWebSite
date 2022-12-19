@@ -359,7 +359,6 @@
 				echo "<script>alert('" . $champsMots['message'] . "')</script>";
 			}
 			else {
-				$champs['nomOrganisateur'] = affichageNomOrganisateur($connMYSQL, $champs);
 				$champs['listeDesValeursCouleurs'] = selectionValeursCouleurs($connMYSQL, $champs['user']);
 				
 				if (count($champs['listeDesValeursCouleurs']) === 0) {

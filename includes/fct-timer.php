@@ -17,6 +17,7 @@
 		$user = $champs['user'];
 		$combinaison = $champs['combinaison'];
 		$nb_result = 1;
+		
 		// Les & est la référence de la variable que je dois passer en paramètre
 		$params = array("sii", &$user, &$combinaison, &$nb_result);
 		

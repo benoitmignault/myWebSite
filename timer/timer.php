@@ -311,25 +311,16 @@
 			$row_cnt = $result->num_rows;
 			
 			if ($row_cnt > 0) {
-				if ($champs["typeLangue"] == "francais") {
-					$tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Valeur</th><th>Couleur</th></tr></thead>";
-				}
-                elseif ($champs["typeLangue"] == "english") {
-					$tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Value</th><th>Color</th></tr></thead>";
-				}
-				$tableau .= "<tbody>";
-				
 				while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-					$tableau .= "<tr><td class=\"colorModifie\">{$row['amount']}</td> <td class=\"{$row['color_english']}\"></td> </tr>";
+					$listeDesValeursCouleurs[] = array("amount" => $row['amount'], "color_english" => $row['color_english']);
 				}
-				$tableau .= "</tbody></table>";
 			}
 		}
+  
 		// Fermeture de la requête
 		$stmt->close();
 		
-		// Retour du tableau HTML
-		return $tableau;
+		return $listeDesValeursCouleurs;
 	}
 	
 	function redirection($champs) {

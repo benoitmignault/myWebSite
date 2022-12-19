@@ -432,6 +432,7 @@
 						echo "<script>alert(\"$msgErr\")</script>";
 					}
 					else {
+						include_once ("fonction_commune.php");
 						$champs = selection_small_big_blind($connMYSQL, $champs);
 						if ($champs['aucune_valeur']) {
 							$msgErr = "";

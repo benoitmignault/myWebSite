@@ -9,7 +9,7 @@
 	
 	function initialisation_Champs(): array {
 		
-		return ["maxCombinaison" => 0, "user" => "", "combinaison" => 0, "valeurSmall" => "", "valeurBig" => "", "aucune_valeur" => false, "trop_valeur" => false, "color_red" => 0, "color_green" => 0, "color_blue" => 0];
+		return ["maxCombinaison" => 0, "user" => "", "combinaison" => 0, "valeurSmall" => "", "valeurBig" => "", "aucuneValeur" => false, "trop_valeur" => false, "color_red" => 0, "color_green" => 0, "color_blue" => 0];
 	}
 	
 	function remplissageChamps($champs) {
@@ -69,7 +69,6 @@
 	}
 	
 	if (is_ajax()) {
-		// À titre exemple de 2e niveau de sécurité
 		if (isset($_POST["niveau_combinaison"]) && isset($_POST["nom_orginateur"])) {
 			include_once("../../fonction_commune/fct_connexion_bd.php");
 			$connMYSQL = connexionBD();
@@ -81,7 +80,7 @@
 				returnOfAJAX($champs);
 			}
 			else {
-				$champs["situation1"] = "Impossible d'accéder à la BD. Veuillez réasseyer plutard !";
+				$champs["situation1"] = "Impossible d'accéder à la BD. Veuillez réessayer plus tard !";
 				$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
 				echo json_encode($return, JSON_FORCE_OBJECT);
 			}

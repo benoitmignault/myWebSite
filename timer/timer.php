@@ -255,31 +255,6 @@
 		return $listeDesOrganisateurs;
 	}
 	
-	function affichageNomOrganisateur($connMYSQL, $champs): string {
-		$prenom = "";
-		/* Crée une requête préparée */
-		$stmt = $connMYSQL->prepare("SELECT name FROM login_organisateur where user =? ");
-		
-		/* Lecture des marqueurs */
-		$stmt->bind_param("s", $champs['user']);
-		
-		/* Exécution de la requête */
-		$stmt->execute();
-		
-		/* Association des variables de résultat */
-		$result = $stmt->get_result();
-		
-		$row = $result->fetch_array(MYSQLI_ASSOC);
-		// Close statement
-		$stmt->close();
-		
-		if ($result->num_rows > 0) {
-			$prenom = $row['name'];
-		}
-  
-		return $prenom;
-	}
-	
 	/**
      * Retourne la liste des valeurs des couleurs de jetons de l'organisateur
 	 * @param $connMYSQL

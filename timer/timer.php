@@ -379,7 +379,7 @@
 						echo "<script>alert(\"$msgErr\")</script>";
 					}
 					else {
-						include_once ("fonction_commune.php");
+						include_once("../fct_timer.php");
 						$champs = selection_small_big_blind($connMYSQL, $champs);
 						if ($champs['aucune_valeur']) {
 							$msgErr = "";

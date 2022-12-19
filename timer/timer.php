@@ -280,7 +280,13 @@
 		return $prenom;
 	}
 	
-	function selectionValeursCouleurs($connMYSQL, $champs): array {
+	/**
+     * Retourne la liste des valeurs des couleurs de jetons de l'organisateur
+	 * @param $connMYSQL
+	 * @param $user
+	 * @return array
+	 */
+	function selectionValeursCouleurs($connMYSQL, $user): array {
 		// Définition de constantes pour les chaînes de caractères statiques
 		define('SELECT_SELECTION_VALEUR_COULEUR', 'amount, color_english');
 		define('FROM_SELECTION_VALEUR_COULEUR', 'amount_color');
@@ -294,9 +300,6 @@
 		$query = "SELECT " . SELECT_SELECTION_VALEUR_COULEUR . " FROM " . FROM_SELECTION_VALEUR_COULEUR . " WHERE " . WHERE_SELECTION_VALEUR_COULEUR . " = ? " . " ORDER BY " . ORDER_SELECTION_VALEUR_COULEUR;
 		
 		$stmt = $connMYSQL->prepare($query);
-		
-		// Définissez les paramètres de la requête
-		$user = $champs['user'];
 		
 		// Les & est la référence de la variable que je dois passer en paramètre
 		$params = array("s", &$user);
@@ -377,7 +380,7 @@
 			}
 			else {
 				$champs['nomOrganisateur'] = affichageNomOrganisateur($connMYSQL, $champs);
-				$champs['listeDesValeursCouleurs'] = selectionValeursCouleurs($connMYSQL, $champs);
+				$champs['listeDesValeursCouleurs'] = selectionValeursCouleurs($connMYSQL, $champs['user']);
 				
 				if (count($champs['listeDesValeursCouleurs']) === 0) {
 					$msgErr = "";

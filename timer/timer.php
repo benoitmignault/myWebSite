@@ -376,7 +376,7 @@
 	$connMYSQL = connexion();
 	$champs = initialisationChamps();
 	$champs = remplissageChamps($champs, $connMYSQL);
-	$listeDesOrganisateurs = listeDesOrganisateurs($connMYSQL);
+	$champs["listeDesOrganisateurs"] = listeDesOrganisateurs($connMYSQL);
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {

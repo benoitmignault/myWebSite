@@ -285,7 +285,7 @@
 			// Récupération du résultat de la requête
 			$result = $stmt->get_result();
 			$row_cnt = $result->num_rows;
-   
+			
 			if ($row_cnt > 0) {
 				if ($champs["typeLangue"] == "francais") {
 					$tableau .= "<table class=\"tblValeurCouleur\"><thead><tr><th>Valeur</th><th>Couleur</th></tr></thead>";
@@ -303,7 +303,7 @@
 		}
 		// Fermeture de la requête
 		$stmt->close();
-  
+		
 		// Retour du tableau HTML
 		return $tableau;
 	}
@@ -325,9 +325,9 @@
 		}
 		exit; // pour arrêter execution du code php
 	}
- 
+	
 	include_once("../fonction_commune/fct_connexion_bd.php");
- 
+	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$champs = initialisation_Champs();
 		$connMYSQL = connexionBD();
@@ -378,7 +378,7 @@
 					else {
 						include_once("../fonction_commune/fct_timer.php");
 						$champs = selection_small_big_blind($connMYSQL, $champs);
-						if ($champs['aucune_valeur']) {
+						if ($champs['aucuneValeur']) {
 							$msgErr = "";
 							if ($champs["typeLangue"] == "francais") {
 								$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées aux mises petites et grosses mises.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles petite mise et grosse mise.";
@@ -483,12 +483,12 @@
             </div>
             <div class="lesBoutonsMises">
                 <div class="double">
-                    <button name="btn_changerMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur'] || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?>
+                    <button name="btn_changerMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['trop_valeur'] || $champs['aucuneValeur']) { ?> class="disabled" disabled <?php } ?>
                             id="double" form="formulaire"><?php echo $arrayMots['changerMise'] ?></button>
                 </div>
                 <div class="resetMise">
                     <button form="formulaire"
-                            name="btn_resetMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?>
+                            name="btn_resetMise" <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucuneValeur']) { ?> class="disabled" disabled <?php } ?>
                             id="reset"><?php echo $arrayMots['reset'] ?></button>
                 </div>
             </div>
@@ -514,10 +514,10 @@
             </div>
             <div class="lesBoutonsActions">
                 <div class="min15">
-                    <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
+                    <button <?php if ($champs['aucuneValeur']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
                 </div>
                 <div class="min30">
-                    <button <?php if ($champs['aucune_valeur']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
+                    <button <?php if ($champs['aucuneValeur']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
                 </div>
                 <div class="stop">
                     <button class="disabled" disabled id="timerStop">STOP</button>
@@ -526,7 +526,7 @@
                     <button class="disabled resizeText" disabled id="timerReprend"><?php echo $arrayMots['btnReprendre'] ?></button>
                 </div>
                 <div class="resetTemps">
-                    <button <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['aucune_valeur'] || $champs['user'] == "") { ?> class="disabled" disabled <?php } ?>
+                    <button <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['aucuneValeur'] || $champs['user'] == "") { ?> class="disabled" disabled <?php } ?>
                             id="ResetTemps"><?php echo $arrayMots['btnReset'] ?></button>
                 </div>
             </div>

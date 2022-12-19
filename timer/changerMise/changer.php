@@ -22,8 +22,7 @@
 	
 	function initialisation_Champs(): array {
 		
-		return ["maxCombinaison" => 0, "user" => "", "combinaison" => 0, "valeurSmall" => "", "valeurBig" => "", "aucune_valeur" => false,
-		        "trop_valeur" => false, "color_red" => 0, "color_green" => 0, "color_blue" => 0];
+		return ["maxCombinaison" => 0, "user" => "", "combinaison" => 0, "valeurSmall" => "", "valeurBig" => "", "aucune_valeur" => false, "trop_valeur" => false, "color_red" => 0, "color_green" => 0, "color_blue" => 0];
 	}
 	
 	function remplissageChamps($champs) {

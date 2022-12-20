@@ -242,7 +242,7 @@
 				}
 			}
 		}
-  
+		
 		// Fermeture de la requête
 		$stmt->close();
 		
@@ -250,39 +250,176 @@
 	}
 	
 	/**
-     * Retourne à la page accueil en fonction de la langue pré-sélectionner
+	 * Retourne le nombre maximale de combinaisons possible
+	 * @param $connMYSQL
+	 * @param $nomOrganisateur
+	 * @return int
+	 */
+	function recupererMaxCombinaison($connMYSQL, $nomOrganisateur): int {
+		
+		// Définition de constantes pour les chaînes de caractères statiques
+		define('SELECT_MAX_COMBINAISON_USER', 'number_of_records');
+		define('FROM_MAX_COMBINAISON_USER', 'mise_small_big');
+		define('WHERE_MAX_COMBINAISON_USER', 'user');
+		
+		// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+		$query = "SELECT count(*) as " . SELECT_MAX_COMBINAISON_USER . " FROM " . FROM_MAX_COMBINAISON_USER . " where " . WHERE_MAX_COMBINAISON_USER . " = ?";
+		
+		$stmt = $connMYSQL->prepare($query);
+		
+		// Les & est la référence de la variable que je dois passer en paramètre
+		$params = array("s", &$nomOrganisateur);
+		
+		// Exécutez la requête en utilisant call_user_func_array
+		call_user_func_array(array($stmt, "bind_param"), $params);
+		
+		// Exécution de la requête
+		$stmt->execute();
+		
+		// Vérification de l'exécution de la requête
+		if (!$stmt->errno) {
+			// Récupération du résultat de la requête
+			$result = $stmt->get_result();
+			$row = $result->fetch_assoc();
+			
+			// Fermeture de la requête
+			$stmt->close();
+			
+			// Retour de la valeur de la colonne 'number_of_records'
+			return $row[SELECT_MAX_COMBINAISON_USER];
+		}
+	}
+	
+	
+	/**
+	 * Vérifier que tous c'est bien passé
+	 * @param $champs
+	 * @param $champsValidation
+	 * @return mixed de valeurs true & false
+	 */
+	function validation($champs, $champsValidation) {
+		
+		if (empty($champs['nomOrganisateur'])) {
+			$champsValidation["nomOrganisateurVide"] = true;
+		}
+		
+		if ($champs['combinaison'] === $champs['maxCombinaison']) {
+			$champsValidation["aucuneProchaineValeurDispo"] = true;
+		}
+		
+		if (count($champs["listeDesValeursCouleurs"]) === 0) {
+			$champsValidation["aucuneValeurCouleur"] = true;
+		}
+  
+		if (count($champs["nouvelleCombinaison"]) === 0) {
+			$champsValidation["aucuneValeurSmallBig"] = true;
+		}
+        
+        if (count($champs["listeDesOrganisateurs"]) === 0) {
+	        $champsValidation["aucunOrganisateur"] = true;
+        }
+		
+		return $champsValidation;
+	}
+	
+	// TODO
+	function situation($champs): int {
+		
+		
+		return 0;
+	}
+	
+	
+	function coloriage($champs): string {
+		
+		return "rgb({$champs['numberRed']},{$champs['numberGreen']},{$champs['numberBlue']})";
+	}
+	
+	/**
+	 * Redirection vers la page d'erreur, car il y a eu un problème avec la page du timer
+	 * @return void
+	 */
+	function redirectionVersPageErreur() {
+		
+		header("Location: /erreur/erreur.php");
+		exit;
+	}
+	
+	/**
+	 * Retourne à la page accueil en fonction de la langue pré-sélectionner
 	 * @param $typeLangue
 	 * @return void
 	 */
-	function redirection($typeLangue) {
-		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-			header("Location: /erreur/erreur.php");
+	function redirectionVersAccueil($typeLangue) {
+		
+		if ($typeLangue == 'francais') {
+			header("Location: /index.html");
 		}
-        elseif (isset($_POST['btnReturn'])) {
-			if ($typeLangue == 'english') {
-				header("Location: /english/english.html");
-			}
-            elseif ($typeLangue == 'francais') {
-				header("Location: /index.html");
-			}
+        elseif ($typeLangue == 'english') {
+			header("Location: /english/english.html");
 		}
-		else {
-			header("Location: /erreur/erreur.php");
+		
+		exit; // Pour arrêter execution du code php
+	}
+	
+	/**
+	 * Retourne sur la page du timer en fonction de la langue pré-sélectionner
+	 * @param $typeLangue
+	 * @return void
+	 */
+	function redirectionVersTimer($typeLangue) {
+		
+		if ($typeLangue === 'francais') {
+			header("Location: /timer/timer.php?langue=francais");
 		}
+        elseif ($typeLangue === 'english') {
+			header("Location: /timer/timer.php?langue=english");
+		}
+		
 		exit; // pour arrêter execution du code php
 	}
+	
+	// TODO : PHP-DOC
+	function afficherMsgAlert() {
+		
+		$msgErr = "";
+		
+		if ($typeLangue == "francais") {
+			$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées à ses jetons.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles valeur couleur de jetons.";
+		}
+        elseif ($typeLangue == "english") {
+			$msgErr = "Warning ! Your organizer did not choose his values associated with his chips.\\nPlease contact him to ask him to create his value color sets of tokens.";
+		}
+		//var_dump("Test"); exit;
+		
+		
+		echo "<script>alert(\"$msgErr\")</script>";
+		
+		
+		$msgErr = "";
+		if ($champs["typeLangue"] == "francais") {
+			$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées aux mises petites et grosses mises.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles petite mise et grosse mise.";
+		}
+        elseif ($champs["typeLangue"] == "english") {
+			$msgErr = "Warning ! Your organizer has not chosen his values associated with small and large bets.\\nPlease contact him to ask him to create his sets small bet and big bet.";
+		}
+		echo "<script>alert(\"$msgErr\")</script>";
+		
+		
+	}
+	
 	
 	include_once("../includes/fct-connexion-bd.php");
 	
 	// Les fonctions communes
 	$connMYSQL = connexion();
 	$champs = initialisationChamps();
-	$champs = remplissageChamps($champs, $connMYSQL);
+	$champs = remplissageChamps($connMYSQL, $champs);
 	$champs["listeDesOrganisateurs"] = listeDesOrganisateurs($connMYSQL);
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
-			redirection($champs["typeLangue"]);
+			redirectionVersPageErreur();
 		}
 		else {
 			$champsMots = traduction($champs);
@@ -386,7 +523,7 @@
 						<?php } ?>
 					<?php } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
 						<?php foreach ($champs["listeDesOrganisateurs"] as $unOrganisateur) {
-							if ($champs['user'] === $unOrganisateur['user']) { ?>
+							if ($champs['nomOrganisateur'] === $unOrganisateur['user']) { ?>
                                 <option value="<?php echo $unOrganisateur['user']; ?>" selected><?php echo $unOrganisateur['name']; ?>
                                 </option>
 							<?php } else { ?>
@@ -432,25 +569,25 @@
                     <p class="resizeText"><?php echo $champsMots['big'] ?></p>
                 </div>
                 <div class="valeurSmall">
-                    <p class="blind" id="valeurSmall"><?php echo $champs['valeurSmall'] ?></p>
+                    <p class="blind" id="valeurSmall"><?php echo $champs['nouvelleCombinaison']['valeurSmall'] ?></p>
                 </div>
                 <div class="valeurBig">
-                    <p class="blind" id="valeurBig"><?php echo $champs['valeurBig'] ?></p>
+                    <p class="blind" id="valeurBig"><?php echo $champs['nouvelleCombinaison']['valeurBig'] ?></p>
                 </div>
             </div>
             <div class="lesBoutonsMises">
                 <div class="double">
                     <button name="btnChangerMise"
-						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['situation'] === 1 || $champs['tropValeur'] || $champs['aucuneValeur']) { ?>
-                            class="disabled" disabled <?php } ?> id="changerMise"
-                            form="formulaire"><?php echo $champsMots['changerMise'] ?>
+						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['nomOrganisateurVide'] || $champs['tropValeur'] || $champs['aucuneValeurMise']) { ?>
+                            class="disabled" disabled
+						<?php } ?> id="changerMise" form="formulaire"><?php echo $champsMots['changerMise'] ?>
                     </button>
                 </div>
                 <div class="resetMise">
                     <button form="formulaire" name="btnResetMise"
-						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucuneValeur']) { ?>
-                            class="disabled" disabled <?php } ?>
-                            id="reset"><?php echo $champsMots['reset'] ?>
+						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucuneValeurMise']) { ?>
+                            class="disabled" disabled
+						<?php } ?> id="reset"><?php echo $champsMots['reset'] ?>
                     </button>
                 </div>
             </div>
@@ -476,10 +613,10 @@
             </div>
             <div class="lesBoutonsActions">
                 <div class="min15">
-                    <button <?php if ($champs['aucuneValeur']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
+                    <button <?php if ($champs['aucuneValeurMise']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
                 </div>
                 <div class="min30">
-                    <button <?php if ($champs['aucuneValeur']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
+                    <button <?php if ($champs['aucuneValeurMise']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
                 </div>
                 <div class="stop">
                     <button class="disabled" disabled id="timerStop">STOP</button>

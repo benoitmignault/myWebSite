@@ -200,12 +200,13 @@
 	}
 	
 	/**
-     * Retourne la liste des valeurs des couleurs de jetons de l'organisateur
+	 * Retourne la liste des valeurs des couleurs de jetons de l'organisateur
 	 * @param $connMYSQL
-	 * @param $user
+	 * @param $nomOrganisateur
 	 * @return array
 	 */
-	function selectionValeursCouleurs($connMYSQL, $user): array {
+	function selectionValeursCouleurs($connMYSQL, $nomOrganisateur): array {
+		
 		// Définition de constantes pour les chaînes de caractères statiques
 		define('SELECT_SELECTION_VALEUR_COULEUR', 'amount, color_english');
 		define('FROM_SELECTION_VALEUR_COULEUR', 'amount_color');
@@ -221,7 +222,7 @@
 		$stmt = $connMYSQL->prepare($query);
 		
 		// Les & est la référence de la variable que je dois passer en paramètre
-		$params = array("s", &$user);
+		$params = array("s", &$nomOrganisateur);
 		
 		// Exécutez la requête en utilisant call_user_func_array
 		call_user_func_array(array($stmt, "bind_param"), $params);

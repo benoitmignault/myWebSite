@@ -25,13 +25,11 @@
 		// Préparation de la requête
 		$stmt = $connMYSQL->prepare($query);
 		
-		// Définissez les paramètres de la requête
-		$user = $champs['user'];
-		$combinaison = $champs['combinaison'];
+		// Définissez les paramètres de la requête qui n'arrive pas de la méthode
 		$nb_result = 1;
 		
 		// Les & est la référence de la variable que je dois passer en paramètre
-		$params = array("sii", &$user, &$combinaison, &$nb_result);
+		$params = array("sii", &$nomOrganisateur, &$combinaison, &$nb_result);
 		
 		// Exécutez la requête en utilisant call_user_func_array
 		call_user_func_array(array($stmt, "bind_param"), $params);

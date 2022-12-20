@@ -8,7 +8,8 @@
 		
 		return ["typeLangue" => "", "nomOrganisateur" => "", "situation" => 0, "combinaison" => 0, "maxCombinaison" => 0,
 		        "valeurSmall" => 0, "valeurBig" => 0, "numberRed" => 255, "numberGreen" => 255, "numberBlue" => 255,
-		        "listeDesOrganisateurs" => array(), "listeDesValeursCouleurs" => array(), "nouvelleCombinaison" => array('valeurSmall' => "00", 'valeurBig' => "00")];
+		        "listeDesOrganisateurs" => array(), "listeDesValeursCouleurs" => array(),
+		        "nouvelleCombinaison" => array('valeurSmall' => "00", 'valeurBig' => "00")];
 	}
 	
 	/**
@@ -106,13 +107,14 @@
 			if (isset($_POST['typeLangue'])) {
 				$champs['typeLangue'] = $_POST['typeLangue'];
 			}
+			// Peu importe quand, on doit récupérer le nom de l'organisateur
+			if (isset($_POST['choixOrganisateur'])) {
+				$champs['nomOrganisateur'] = $_POST['choixOrganisateur'];
+			}
 			// Remplissage des variables si on passe par le choix de l'organisateur
 			if (isset($_POST['btnChoixOrganisateur'])) {
-				if (isset($_POST['choixOrganisateur'])) {
-					$champs['nomOrganisateur'] = $_POST['choixOrganisateur'];
-					// Au moment de setter l'organisateur, on va chercher une seule fois son nombre de combinaisons totales.
-					$champs['maxCombinaison'] = recupererMaxCombinaison($connMYSQL, $champs['nomOrganisateur']);
-				}
+				// Au moment de setter l'organisateur, on va chercher une seule fois son nombre de combinaisons totales.
+				$champs['maxCombinaison'] = recupererMaxCombinaison($connMYSQL, $champs['nomOrganisateur']);
 			} // Remplissage des variables si on passe par changer de mise
             elseif (isset($_POST['btnChangerMise'])) {
 				// Au moment de changer les mise, on récupérer la valeur du nombre max de combinaisons
@@ -436,8 +438,6 @@
 			redirectionVersAccueil($champs["typeLangue"]);
 		}
 		else {
-			
-			//var_dump($query); exit;
 			// Si l'organisateur n'est pas vide, on va chercher ces valeurs / couleurs + sa combinaison en cours
 			if (!empty($champs['nomOrganisateur'])) {
 				$champs['listeDesValeursCouleurs'] = selectionValeursCouleurs($connMYSQL, $champs['nomOrganisateur']);
@@ -448,9 +448,10 @@
 			}
 			
 			$champsValid = validation($champs, $champsValid);
-            // TODO : ces eux fonction
+			// TODO : ces eux fonction
 			$champs['situation'] = situation($champs);
 			$champsMots = traduction($champs);
+			//var_dump($champs);			var_dump("<br>");			var_dump($champsValid);			exit;
 		}
 	}
 	
@@ -491,7 +492,8 @@
                 <input form="formulaire" type="hidden" id="tropValeur" name="tropValeur" value="
                 <?php if ($champsValid['aucuneValeurDispo']) {
 					echo "true";
-				} else {
+				}
+				else {
 					echo "false";
 				} ?>">
                 <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">

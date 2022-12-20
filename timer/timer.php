@@ -18,7 +18,7 @@
 	function initialisationChampsValidation(): array {
 		
 		return ["nomOrganisateurVide" => false, "aucuneValeurSmallBig" => false, "aucuneValeurCouleur" => false,
-		        "aucuneProchaineValeurDispo" => false, "aucunOrganisateur" => false];
+		        "aucuneValeurDispo" => false, "aucunOrganisateur" => false];
 	}
 	
 	function traduction($champs): array {

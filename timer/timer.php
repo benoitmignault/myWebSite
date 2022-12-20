@@ -71,6 +71,7 @@
 	}
 	
 	function messageSituation($champs): string {
+		
 		$message = "";
 		if ($champs["typeLangue"] === 'francais') {
 			if ($champs['situation'] == 1) {
@@ -294,32 +295,32 @@
 	/**
 	 * Vérifier que tous c'est bien passé
 	 * @param $champs
-	 * @param $champsValidation
+	 * @param $champsValid
 	 * @return mixed de valeurs true & false
 	 */
-	function validation($champs, $champsValidation) {
+	function validation($champs, $champsValid) {
 		
 		if (empty($champs['nomOrganisateur'])) {
-			$champsValidation["nomOrganisateurVide"] = true;
+			$champsValid["nomOrganisateurVide"] = true;
 		}
 		
 		if ($champs['combinaison'] === $champs['maxCombinaison']) {
-			$champsValidation["aucuneProchaineValeurDispo"] = true;
+			$champsValid["aucuneValeurDispo"] = true;
 		}
 		
 		if (count($champs["listeDesValeursCouleurs"]) === 0) {
-			$champsValidation["aucuneValeurCouleur"] = true;
+			$champsValid["aucuneValeurCouleur"] = true;
 		}
-  
-		if (count($champs["nouvelleCombinaison"]) === 0) {
-			$champsValidation["aucuneValeurSmallBig"] = true;
-		}
-        
-        if (count($champs["listeDesOrganisateurs"]) === 0) {
-	        $champsValidation["aucunOrganisateur"] = true;
-        }
 		
-		return $champsValidation;
+		if ($champs['maxCombinaison'] === 0) {
+			$champsValid["aucuneValeurSmallBig"] = true;
+		}
+		
+		if (count($champs["listeDesOrganisateurs"]) === 0) {
+			$champsValid["aucunOrganisateur"] = true;
+		}
+		
+		return $champsValid;
 	}
 	
 	// TODO
@@ -434,7 +435,7 @@
 			redirectionVersAccueil($champs["typeLangue"]);
 		}
 		else {
-			$champsValidation = initialisationChampsValidation();
+			$champsValid = initialisationChampsValidation();
 			// Si l'organisateur n'est pas vide, on va chercher ces valeurs / couleurs + sa combinaison en cours
 			if (!empty($champs['nomOrganisateur'])) {
 				$champs['listeDesValeursCouleurs'] = selectionValeursCouleurs($connMYSQL, $champs['nomOrganisateur']);
@@ -444,30 +445,12 @@
 				$champs['combinaison']++; // On incrémente pour aller chercher la prochaine combinaison lors du prochain POST
 			}
 			
-			$champsValidation = validation($champs, $champsValidation);
+			$champsValid = validation($champs, $champsValid);
 			
+            // TODO : ces eux fonction
 			$champs['situation'] = situation($champs);
 			$champsMots = traduction($champs);
-			
-			if ($champs['situation'] === 1) {
-				echo "<script>alert('" . $champsMots['message'] . "')</script>";
-			}
-			else {
-				
-				
-				if (count($champs['listeDesValeursCouleurs']) === 0) {
-					redirectionVersTimer($champs["typeLangue"]);
-				}
-				else {
-					
-					if ($champs['aucuneValeurMise']) {
-					
-					}
-				}
-			}
 		}
-		
-		
 	}
 	
 	$connMYSQL->close();
@@ -504,10 +487,10 @@
                 <input form="formulaire" type="hidden" id="numberRed" name="numberRed" value="<?php echo $champs['numberRed']; ?>">
                 <input form="formulaire" type="hidden" id="numberGreen" name="numberGreen" value="<?php echo $champs['numberGreen']; ?>">
                 <input form="formulaire" type="hidden" id="numberBlue" name="numberBlue" value="<?php echo $champs['numberBlue']; ?>">
-                <input form="formulaire" type="hidden" id="tropValeur" name="tropValeur" value="<?php if ($champs['tropValeur']) {
+                <input form="formulaire" type="hidden" id="tropValeur" name="tropValeur" value="
+                <?php if ($champsValid['aucuneValeurDispo']) {
 					echo "true";
-				}
-				else {
+				} else {
 					echo "false";
 				} ?>">
                 <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
@@ -578,14 +561,14 @@
             <div class="lesBoutonsMises">
                 <div class="double">
                     <button name="btnChangerMise"
-						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['nomOrganisateurVide'] || $champs['tropValeur'] || $champs['aucuneValeurMise']) { ?>
+						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champsValid['nomOrganisateurVide'] || $champsValid['aucuneValeurDispo'] || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled
 						<?php } ?> id="changerMise" form="formulaire"><?php echo $champsMots['changerMise'] ?>
                     </button>
                 </div>
                 <div class="resetMise">
                     <button form="formulaire" name="btnResetMise"
-						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 1 || $champs['aucuneValeurMise']) { ?>
+						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 2 || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled
 						<?php } ?> id="reset"><?php echo $champsMots['reset'] ?>
                     </button>
@@ -613,10 +596,10 @@
             </div>
             <div class="lesBoutonsActions">
                 <div class="min15">
-                    <button <?php if ($champs['aucuneValeurMise']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
+                    <button <?php if ($champsValid['aucuneValeurDispo']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
                 </div>
                 <div class="min30">
-                    <button <?php if ($champs['aucuneValeurMise']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
+                    <button <?php if ($champsValid['aucuneValeurDispo']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
                 </div>
                 <div class="stop">
                     <button class="disabled" disabled id="timerStop">STOP</button>

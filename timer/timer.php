@@ -457,6 +457,10 @@
 			//var_dump($champs);			var_dump("<br>");			var_dump($champsValid);			exit;
 		}
 	}
+	// TODO : Faire les situations
+	// TODO : Faire les messages en fct des situations
+	// TODO : Tester les redirections
+    // TODO : Armoniser la portion JS pour que ça marche avec changer et fct-timer
 	
 	$connMYSQL->close();
 ?>

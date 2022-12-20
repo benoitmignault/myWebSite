@@ -415,6 +415,7 @@
 	// Les fonctions communes
 	$connMYSQL = connexion();
 	$champs = initialisationChamps();
+	$champsValid = initialisationChampsValidation();
 	$champs = remplissageChamps($connMYSQL, $champs);
 	$champs["listeDesOrganisateurs"] = listeDesOrganisateurs($connMYSQL);
 	

@@ -271,6 +271,7 @@ function callAjax() {
                 success: function (dataReturn) {
                     // sécurisation du retour d'information
                     if (dataReturn["data"]) {
+                        // TODO : repasser à travers ces variables là
                         let dataObj = JSON.parse(dataReturn["data"]);
                         tropValeur.value = dataObj.tropValeur;
                         combinaison.value = dataObj.combinaison;

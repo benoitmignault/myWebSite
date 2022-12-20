@@ -1,25 +1,28 @@
 <?php
+	
 	/**
-	 * Retourne un array des variables qui seront utilisées pour le timer
+	 * Retourne un array de variables qui seront utilisées pour le timer
 	 * @return array
 	 */
 	function initialisationChamps(): array {
 		
-		return array("typeLangue" => "", "user" => "", "nomOrganisateur" => "", "situation" => 0, "combinaison" => 0, "maxCombinaison" => 0,
-		             "valeurSmall" => "00", "valeurBig" => "00", "aucuneValeur" => false, "tropValeur" => false, "numberRed" => 255,
-		             "numberGreen" => 255, "numberBlue" => 255, "listeDesOrganisateurs" => array(), "listeDesValeursCouleurs" => array());
+		return ["typeLangue" => "", "nomOrganisateur" => "", "situation" => 0, "combinaison" => 0, "maxCombinaison" => 0,
+		        "valeurSmall" => 0, "valeurBig" => 0, "numberRed" => 255, "numberGreen" => 255, "numberBlue" => 255,
+		        "listeDesOrganisateurs" => array(), "listeDesValeursCouleurs" => array(), "nouvelleCombinaison" => array()];
 	}
 	
 	/**
-	 * Retourne un array des variables qui seront utilisées pour faire des vérifications
-	 * @return array
+	 * Retourne un array de variables toutes à false pour commencer qui seront les chiens de garde du bon fonctionnement
+	 * @return false[]
 	 */
-	function initialisationValidation(): array {
+	function initialisationChampsValidation(): array {
 		
-		return array("userVide" => false, "changementMise" => false, "resetMise" => false, "choixUser" => false);
+		return ["nomOrganisateurVide" => false, "aucuneValeurSmallBig" => false, "aucuneValeurCouleur" => false,
+		        "aucuneProchaineValeurDispo" => false, "aucunOrganisateur" => false];
 	}
 	
 	function traduction($champs): array {
+		
 		if ($champs['typeLangue'] === "francais") {
 			$lang = "fr";
 			$title = 'Minuteur';

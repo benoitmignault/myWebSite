@@ -492,13 +492,12 @@
                 <input form="formulaire" type="hidden" id="numberRed" name="numberRed" value="<?php echo $champs['numberRed']; ?>">
                 <input form="formulaire" type="hidden" id="numberGreen" name="numberGreen" value="<?php echo $champs['numberGreen']; ?>">
                 <input form="formulaire" type="hidden" id="numberBlue" name="numberBlue" value="<?php echo $champs['numberBlue']; ?>">
-                <input form="formulaire" type="hidden" id="tropValeur" name="tropValeur" value="
-                <?php if ($champsValid['aucuneValeurDispo']) {
-					echo "true";
-				}
-				else {
-					echo "false";
-				} ?>">
+                <input form="formulaire" type="hidden" id="tropValeur" name="tropValeur"
+					<?php if ($champsValid['aucuneValeurDispo']) { ?>
+                        value="true"
+					<?php } else { ?>
+                        value="false"
+					<?php } ?> >
                 <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
                 <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
                 <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison"

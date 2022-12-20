@@ -484,7 +484,7 @@
     <link rel="stylesheet" type="text/css" href="timer.css">
     <style>
         .container > .timer > .tableauDesMises > .lesMises > div > .blind {
-            color: <?php echo coloriage($champs); ?>
+            color: <?php echo couleurValeurMise($champs['numberRed'], $champs['numberGreen'], $champs['numberBlue']); ?>
         }
     </style>
     <title><?php echo $champsMots['title'] ?></title>

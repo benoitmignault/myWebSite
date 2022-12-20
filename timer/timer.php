@@ -180,8 +180,6 @@
 		// Préparation de la requête
 		$stmt = $connMYSQL->prepare($query);
 		
-		//call_user_func_array(array($stmt, "bind_param"), $params) ----> N'est pas utilisée vue qu'il n'y a pas de paramètres
-		
 		/* Exécution de la requête */
 		$stmt->execute();
 		

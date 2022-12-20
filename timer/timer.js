@@ -240,7 +240,7 @@ function callAjax() {
     stopTimer.setAttribute("class", "disabled");
     stopTimer.setAttribute("disabled", "disabled");
     if (nomOrganisateur.value !== "") {
-        if (tropValeur.value === "true") {
+        if (tropValeur.value.trim() === "true") {
             changerMise.setAttribute("class", "disabled");
             changerMise.setAttribute("disabled", "disabled");
             temps30min.setAttribute("class", "disabled");
@@ -249,7 +249,7 @@ function callAjax() {
             temps15min.setAttribute("disabled", "disabled");
             resetTemps.setAttribute("class", "disabled");
             resetTemps.setAttribute("disabled", "disabled");
-        } else if (tropValeur.value === "false") {
+        } else if (tropValeur.value.trim() === "false") {
             changerMise.setAttribute("class", "");
             changerMise.removeAttribute("disabled");
             resetValeur.setAttribute("class", "");
@@ -271,8 +271,8 @@ function callAjax() {
                 success: function (dataReturn) {
                     // sécurisation du retour d'information
                     if (dataReturn["data"]) {
-                        // TODO : repasser à travers ces variables là
                         let dataObj = JSON.parse(dataReturn["data"]);
+                        // TODO : repasser à travers ces variables là
                         tropValeur.value = dataObj.tropValeur;
                         combinaison.value = dataObj.combinaison;
                         colorRed.value = dataObj.colorRed;
@@ -367,6 +367,7 @@ function resetTemp() {
         } else if (typeLangue.value === "english") {
             periode.innerHTML = "Waiting for a period of time ...";
         }
+
         temps15min.setAttribute("class", "");
         temps15min.removeAttribute("disabled");
         temps30min.setAttribute("class", "");
@@ -377,11 +378,11 @@ function resetTemp() {
         stopTimer.setAttribute("disabled", "disabled");
         resetTemps.setAttribute("class", "disabled");
         resetTemps.setAttribute("disabled", "disabled");
-        if (user.value !== "" && tropValeur.value === "false") {
+
+        if (nomOrganisateur.value !== "" && tropValeur.value.trim() === "false") {
             changerMise.setAttribute("class", "");
             changerMise.removeAttribute("disabled");
         }
-
     });
 }
 

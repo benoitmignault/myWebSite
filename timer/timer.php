@@ -466,7 +466,7 @@
 	// TODO : Faire les situations
 	// TODO : Faire les messages en fct des situations
 	// TODO : Tester les redirections
-    // TODO : Armoniser la portion JS pour que ça marche avec changer et fct-timer
+	// TODO : Armoniser la portion JS pour que ça marche avec changer et fct-timer
 	
 	$connMYSQL->close();
 ?>

@@ -292,14 +292,17 @@
 			
 			// Retour de la valeur de la colonne 'number_of_records'
 			return $row[SELECT_MAX_COMBINAISON_USER];
+		} // Sinon, on retourne 0, car IntelliJ n'aime pas qu'on retourne pas de return
+		else {
+			return 0;
 		}
 	}
 	
 	
 	/**
 	 * Vérifier que tous c'est bien passé
-	 * @param $champs, on passera la variable au complet, car beaucoup de choses seront utilisées.
-	 * @param $champsValid, on passera la variable au complet, car beaucoup de choses seront utilisées.
+	 * @param $champs , on passera la variable au complet, car beaucoup de choses seront utilisées.
+	 * @param $champsValid , on passera la variable au complet, car beaucoup de choses seront utilisées.
 	 * @return mixed de valeurs true & false
 	 */
 	function validation($champs, $champsValid) {

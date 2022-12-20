@@ -335,10 +335,16 @@
 		return 0;
 	}
 	
-	
-	function coloriage($champs): string {
+	/**
+	 * Retourne la couleur dynamiquement pour les valeurs des «Small» et «Big» blind.
+	 * @param $numberRed
+	 * @param $numberGreen
+	 * @param $numberBlue
+	 * @return string
+	 */
+	function couleurValeurMise($numberRed, $numberGreen, $numberBlue): string {
 		
-		return "rgb({$champs['numberRed']},{$champs['numberGreen']},{$champs['numberBlue']})";
+		return "rgb($numberRed, $numberGreen, $numberBlue)";
 	}
 	
 	/**

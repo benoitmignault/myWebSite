@@ -601,10 +601,10 @@
             </div>
             <div class="lesBoutonsActions">
                 <div class="min15">
-                    <button <?php if ($champsValid['aucuneValeurDispo']) { ?> class="disabled" disabled <?php } ?> id="timer15">15</button>
+                    <button class="" id="timer15">15</button>
                 </div>
                 <div class="min30">
-                    <button <?php if ($champsValid['aucuneValeurDispo']) { ?> class="disabled" disabled <?php } ?> id="timer30">30</button>
+                    <button class="" id="timer30">30</button>
                 </div>
                 <div class="stop">
                     <button class="disabled" disabled id="timerStop">STOP</button>

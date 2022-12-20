@@ -240,7 +240,7 @@ function callAjax() {
     stopTimer.setAttribute("class", "disabled");
     stopTimer.setAttribute("disabled", "disabled");
     if (nomOrganisateur.value !== "") {
-        if (tropValeur.value.trim() === "true") {
+        if (tropValeur.value === "true") {
             changerMise.setAttribute("class", "disabled");
             changerMise.setAttribute("disabled", "disabled");
             temps30min.setAttribute("class", "disabled");
@@ -249,7 +249,7 @@ function callAjax() {
             temps15min.setAttribute("disabled", "disabled");
             resetTemps.setAttribute("class", "disabled");
             resetTemps.setAttribute("disabled", "disabled");
-        } else if (tropValeur.value.trim() === "false") {
+        } else if (tropValeur.value === "false") {
             changerMise.setAttribute("class", "");
             changerMise.removeAttribute("disabled");
             resetValeur.setAttribute("class", "");
@@ -379,7 +379,7 @@ function resetTemp() {
         resetTemps.setAttribute("class", "disabled");
         resetTemps.setAttribute("disabled", "disabled");
 
-        if (nomOrganisateur.value !== "" && tropValeur.value.trim() === "false") {
+        if (nomOrganisateur.value !== "" && tropValeur.value === "false") {
             changerMise.setAttribute("class", "");
             changerMise.removeAttribute("disabled");
         }

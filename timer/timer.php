@@ -308,6 +308,7 @@
 			$champsValid["nomOrganisateurVide"] = true;
 		}
 		
+		// Lorsque nous avons une égalité, c'est signe que nous n'avons plus de prochaines small/big
 		if ($champs['combinaison'] === $champs['maxCombinaison']) {
 			$champsValid["aucuneValeurDispo"] = true;
 		}

@@ -298,8 +298,8 @@
 	
 	/**
 	 * Vérifier que tous c'est bien passé
-	 * @param $champs
-	 * @param $champsValid
+	 * @param $champs, on passera la variable au complet, car beaucoup de choses seront utilisées.
+	 * @param $champsValid, on passera la variable au complet, car beaucoup de choses seront utilisées.
 	 * @return mixed de valeurs true & false
 	 */
 	function validation($champs, $champsValid) {

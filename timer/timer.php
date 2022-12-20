@@ -436,7 +436,8 @@
 			redirectionVersAccueil($champs["typeLangue"]);
 		}
 		else {
-			$champsValid = initialisationChampsValidation();
+			
+			//var_dump($query); exit;
 			// Si l'organisateur n'est pas vide, on va chercher ces valeurs / couleurs + sa combinaison en cours
 			if (!empty($champs['nomOrganisateur'])) {
 				$champs['listeDesValeursCouleurs'] = selectionValeursCouleurs($connMYSQL, $champs['nomOrganisateur']);
@@ -447,7 +448,6 @@
 			}
 			
 			$champsValid = validation($champs, $champsValid);
-			
             // TODO : ces eux fonction
 			$champs['situation'] = situation($champs);
 			$champsMots = traduction($champs);

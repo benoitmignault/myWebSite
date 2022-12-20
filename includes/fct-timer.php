@@ -46,29 +46,16 @@
 			if ($row_cnt > 0) {
 				// Traitement des résultats
 				$row = $result->fetch_array(MYSQLI_ASSOC);
-				$champs['valeurSmall'] = $row['small'];
-				$champs['valeurBig'] = $row['big'];
-				
-				$nbLignes = $champs['maxCombinaison'];
-				// Il nous reste une combinaison de moins possible à récupérer
-				$nbLignes--;
-				
-				// Ici, nous avons atteint la dernière combinaison small et big
-				if ($champs['combinaison'] == $nbLignes) {
-					$champs['tropValeur'] = true;
-				}
-				// Le retour de fonction n'a trouvé aucun valeur
-			}
-			else {
-				$champs['aucuneValeur'] = true;
+				$combinaisonSuivante['valeurSmall'] = intval($row['small']);
+				$combinaisonSuivante['valeurBig'] = intval($row['big']);
 			}
 		}
 		
 		// Close statement
 		$stmt->close();
 		
-		// On va retourner pour l'instant
-		return $champs;
+		// On va retourner array de la prochaine combinaison
+		return $combinaisonSuivante;
 	}
 
 ?>

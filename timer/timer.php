@@ -498,10 +498,7 @@
 <hr>
 <div class="boutonRetour">
     <div class="retour">
-        <form method="post" action="./timer.php">
-            <input class="resizeText" type="submit" name="btnReturn" value="<?php echo $champsMots['retour']; ?>">
-            <input type="hidden" name="typeLangueReturn" value="<?php echo $champs['typeLangue']; ?>">
-        </form>
+        <input class="resizeText" type="submit" name="btnReturn" form="formulaire" value="<?php echo $champsMots['retour']; ?>">
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

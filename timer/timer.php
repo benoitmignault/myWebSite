@@ -86,151 +86,86 @@
 		return $message;
 	}
 	
-	function remplissageChamps($champs, $connMYSQL) {
+	/**
+	 * Remplissage des variables en fonction de quels boutons a été sélectionné
+	 * @param $connMYSQL
+	 * @param $champs
+	 * @return array
+	 */
+	function remplissageChamps($connMYSQL, $champs): array {
+		
+		// Remplissage des variables si on passe par le GET
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			if (isset($_GET['langue'])) {
 				$champs['typeLangue'] = $_GET['langue'];
 			}
-		}
+		} // Remplissage des variables si on passe par le POST
         elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			if (isset($_POST['btnReturn'])) {
-				if (isset($_POST['typeLangueReturn'])) {
-					$champs['typeLangue'] = $_POST['typeLangueReturn'];
-				}
-			}
-			else {
+			// Assignation de la variable langue est commune rendu ici
+			if (isset($_POST['typeLangue'])) {
 				$champs['typeLangue'] = $_POST['typeLangue'];
-				$champs['user'] = $_POST['choixOrganisateur'];
+			}
+			// Remplissage des variables si on passe par le choix de l'organisateur
+			if (isset($_POST['btnChoixOrganisateur'])) {
 				if (isset($_POST['choixOrganisateur'])) {
+					$champs['nomOrganisateur'] = $_POST['choixOrganisateur'];
 					// Au moment de setter l'organisateur, on va chercher une seule fois son nombre de combinaisons totales.
-					$champs['maxCombinaison'] = recupererMaxCombinaisonUser($connMYSQL, $champs['user']);
+					$champs['maxCombinaison'] = recupererMaxCombinaison($connMYSQL, $champs['nomOrganisateur']);
 				}
-				
-				if (isset($_POST['btnChangerMise'])) {
-					// Au moment de changer les mise, on récupérer la valeur du nombre max de combinaisons
-					if (isset($_POST['maxCombinaison'])) {
-						$champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
-					}
-					
-					$champs['combinaison'] = intval($_POST['combinaison']);
-					$champs['combinaison']++;
-					if (isset($_POST['numberRed'])) {
-						$champs['numberRed'] = intval($_POST['numberRed']);
-					}
-					if (isset($_POST['numberGreen'])) {
-						$champs['numberGreen'] = intval($_POST['numberGreen']);
-					}
-					if (isset($_POST['numberBlue'])) {
-						$champs['numberBlue'] = intval($_POST['numberBlue']);
-					}
-					$valueRedTemp = $champs['numberRed'] - 25;
-					$valueGreenTemp = $champs['numberGreen'] - 25;
-					// Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
-					if ($valueGreenTemp > 0) {
-						$champs['numberGreen'] = $valueGreenTemp;
-						$champs['numberBlue'] = $valueGreenTemp;
-						// Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
-					}
-                    elseif ($valueRedTemp > 0) {
-						$champs['numberRed'] = $valueRedTemp;
-						$champs['numberGreen'] = 0;
-						$champs['numberBlue'] = 0;
-					}
-					else {
-						$champs['numberRed'] = 0;
-						$champs['numberGreen'] = 0;
-						$champs['numberBlue'] = 0;
-					}
+			} // Remplissage des variables si on passe par changer de mise
+            elseif (isset($_POST['btnChangerMise'])) {
+				// Au moment de changer les mise, on récupérer la valeur du nombre max de combinaisons
+				if (isset($_POST['maxCombinaison'])) {
+					$champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
 				}
-                elseif (isset($_POST['btnResetMise'])) {
-					$champs['combinaison'] = 0;
-					$champs['numberRed'] = 255;
-					$champs['numberGreen'] = 255;
-					$champs['numberBlue'] = 255;
+				// On préparer la prochaine combinaison qui s'envient
+				$champs['combinaison'] = intval($_POST['combinaison']);
+				// On récupère les trois types de couleurs
+				if (isset($_POST['numberRed'])) {
+					$champs['numberRed'] = intval($_POST['numberRed']);
 				}
+				if (isset($_POST['numberGreen'])) {
+					$champs['numberGreen'] = intval($_POST['numberGreen']);
+				}
+				if (isset($_POST['numberBlue'])) {
+					$champs['numberBlue'] = intval($_POST['numberBlue']);
+				}
+				$valueRedTemp = $champs['numberRed'] - 25;
+				$valueGreenTemp = $champs['numberGreen'] - 25;
+				// Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
+				if ($valueGreenTemp > 0) {
+					$champs['numberGreen'] = $valueGreenTemp;
+					$champs['numberBlue'] = $valueGreenTemp;
+				} // Sinon, Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
+                elseif ($valueRedTemp > 0) {
+					$champs['numberRed'] = $valueRedTemp;
+					$champs['numberGreen'] = 0;
+					$champs['numberBlue'] = 0;
+				}
+				else {
+					$champs['numberRed'] = 0;
+					$champs['numberGreen'] = 0;
+					$champs['numberBlue'] = 0;
+				}
+			} // Remplissage des variables si on passe par une remise à 0 des mises
+            elseif (isset($_POST['btnResetMise'])) {
+				$champs['combinaison'] = 0;
+				$champs['numberRed'] = 255;
+				$champs['numberGreen'] = 255;
+				$champs['numberBlue'] = 255;
 			}
 		}
+		
 		return $champs;
 	}
 	
-	// Optimisation de ma function avec OpenAI
-	function recupererMaxCombinaisonUser($connMYSQL, $user) {
-		// Définition de constantes pour les chaînes de caractères statiques
-		define('SELECT_MAX_COMBINAISON_USER', 'number_of_records');
-		define('FROM_MAX_COMBINAISON_USER', 'mise_small_big');
-		define('WHERE_MAX_COMBINAISON_USER', 'user');
-		
-		// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
-		$query = "SELECT count(*) as " . SELECT_MAX_COMBINAISON_USER . " FROM " . FROM_MAX_COMBINAISON_USER . " where " . WHERE_MAX_COMBINAISON_USER . " = ?";
-		
-		$stmt = $connMYSQL->prepare($query);
-		
-		// Définissez les paramètres de la requête - Déjà défini
-		
-		// Les & est la référence de la variable que je dois passer en paramètre
-		$params = array("s", &$user);
-		
-		// Exécutez la requête en utilisant call_user_func_array
-		call_user_func_array(array($stmt, "bind_param"), $params);
-		
-		// Exécution de la requête
-		$stmt->execute();
-		
-		// Vérification de l'exécution de la requête
-		if (!$stmt->errno) {
-			// Récupération du résultat de la requête
-			$result = $stmt->get_result();
-			$row = $result->fetch_assoc();
-			
-			// Fermeture de la requête
-			$stmt->close();
-			
-			// Retour de la valeur de la colonne 'number_of_records'
-			return $row[SELECT_MAX_COMBINAISON_USER];
-		}
-	}
-	
-	function coloriage($champs): string {
-		
-		return "rgb({$champs['numberRed']},{$champs['numberGreen']},{$champs['numberBlue']})";
-	}
-	
-	function validation($champs, $champsValid) {
-		if ($champs['user'] === "") {
-			$champsValid["userVide"] = true;
-		}
-		if (isset($_POST['btnChangerMise'])) {
-			$champsValid["changementMise"] = true;
-		}
-        elseif (isset($_POST['btnResetMise'])) {
-			$champsValid["resetMise"] = true;
-		}
-        elseif (isset($_POST['btnChoixOrganisateur'])) {
-			$champsValid["choixUser"] = true;
-		}
-		
-		return $champsValid;
-	}
-	
-	function situation($champsValid): int {
-		$situation = 0;
-		if ($champsValid['userVide']) {
-			$situation = 1; // Le user ne peut être vide
-		}
-        elseif ($champsValid['changementMise']) {
-			$situation = 2; // Un changement de mise a été demandé
-		}
-        elseif ($champsValid['resetMise']) {
-			$situation = 3; // Un reset des mises a été demandé
-		}
-        elseif ($champsValid['choixUser']) {
-			$situation = 4; // Un choix de user est fait
-		}
-		
-		return $situation;
-	}
-	
+	/**
+	 * Retourne la liste des organisateurs
+	 * @param $connMYSQL
+	 * @return array
+	 */
 	function listeDesOrganisateurs($connMYSQL): array {
+		
 		// Définition de constantes pour les chaînes de caractères statiques
 		define('SELECT_LISTE_DES_ORGANISATEURS', '*');
 		define('FROM_LISTE_DES_ORGANISATEURS', 'login_organisateur');

@@ -152,6 +152,8 @@
 				}
 			} // Remplissage des variables si on passe par une remise à 0 des mises
             elseif (isset($_POST['btnResetMise'])) {
+	            // En raison d'un bug, nous allons récupéré la valeur Max pour permettre à la validation aucuneValeurSmallBig d'être ok
+	            $champs['maxCombinaison'] = recupererMaxCombinaison($connMYSQL, $champs['nomOrganisateur']);
 				$champs['combinaison'] = 0;
 				$champs['numberRed'] = 255;
 				$champs['numberGreen'] = 255;

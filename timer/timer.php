@@ -451,6 +451,7 @@
 	$champs = remplissageChamps($connMYSQL, $champs);
 	$champs["listeDesOrganisateurs"] = listeDesOrganisateurs($connMYSQL);
 	
+	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
 			redirectionVersPageErreur();
@@ -555,8 +556,8 @@
 					<?php if (count($champs["listeDesOrganisateurs"]) === 0) { ?>
                         class="bouton disabled" disabled
 					<?php } else { ?>
-                       class="bouton"
-                    <?php } ?>>
+                        class="bouton"
+					<?php } ?>>
             </div>
         </form>
         <div class="affichage_choix">

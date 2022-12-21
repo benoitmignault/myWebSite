@@ -383,6 +383,13 @@
 			$champsValid['aucunOrganisateur'] = true;
 		}
 		
+		foreach ($champsValid as $uneValidation) {
+			if ($uneValidation) {
+				$champsValid['erreurPossible'] = true;
+				break;
+			}
+		}
+		
 		return $champsValid;
 	}
 	

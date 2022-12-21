@@ -70,23 +70,78 @@
 		             "reset" => $reset, "periode" => $periode, "btnReprendre" => $btnReprendre, "valeur" => $valeur, "couleur" => $couleur);
 	}
 	
-	
+	/**
+	 * Retourne le message en fonction de la langue et de la situation séparé en deux fonctions différentes.
+	 * @param $typeLangue
+	 * @param $situation
+	 * @return string
+	 */
 	function messageSituation($typeLangue, $situation): string {
 		
 		$message = "";
+		
 		if ($typeLangue === 'francais') {
-			if ($situation == 1) {
-				$message = "Votre choix organisateur ne peut être null !";
-			}
+			$message = messageSituationFr($situation);
 		}
         elseif ($typeLangue === 'english') {
-			if ($situation == 1) {
-				$message = "Your organizer choice can not be null !";
-			}
+			$message = messageSituationAng($situation);
 		}
 		
 		return $message;
 	}
+	
+	/**
+     * Retourne le message si la langue utilisé est le français
+	 * @param $situation
+	 * @return string
+	 */
+	function messageSituationFr($situation): string {
+		
+		$messageFr = "";
+		switch ($situation) {
+			case 1:
+				$messageFr = "Vous devez choisir absolument votre organisateur de tournois avant de commencer la partie.";
+				break;
+			case 2:
+				$messageFr = "Votre organisateur n'a pas organisé ses valeurs / couleurs de jetons.";
+				break;
+			case 3:
+				$messageFr = "Votre organisateur n'a pas organisé ses mises de «Small» & «Big» blind.";
+				break;
+			case 4:
+				$messageFr = "Votre organisateur n'a tout simplement rien organisé de son côté, veuillez lui en faire part.";
+				break;
+		}
+		
+		return $messageFr;
+	}
+	
+	/**
+	 * Retourne le message si la langue utilisé est l'anglais
+	 * @param $situation
+	 * @return string
+	 */
+	function messageSituationAng($situation): string {
+		
+		$messageAng = "";
+		switch ($situation) {
+			case 1:
+				$messageAng = "You absolutely must choose your tournament organizer before starting the game.";
+				break;
+			case 2:
+				$messageAng = "Your organizer has not organized their chip values & colors.";
+				break;
+			case 3:
+				$messageAng = "Your organizer has not organized his «Small» & «Big» blind bets.";
+				break;
+			case 4:
+				$messageAng = "Your organizer has simply not organized anything on his side, please let him know.";
+				break;
+		}
+		
+		return $messageAng;
+	}
+	
 	
 	/**
 	 * Remplissage des variables en fonction de quels boutons a été sélectionné

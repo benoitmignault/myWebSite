@@ -42,7 +42,7 @@
 	function traduction($motATraduire, $dictionnaire): string {
 		
 		$mot = "";
-  
+		
 		if (array_key_exists($motATraduire, $dictionnaire)) {
 			// Retourner la traduction du mot, s'il doit être traduit
 			if ($_SERVER['typeLangue'] === "english") {
@@ -531,8 +531,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php echo $champsMots['lang']; ?>">
-
+<html lang="<?php echo traduction("fr", $dictionnaire); ?>">
 <head>
     <meta charset="utf-8"/>
     <meta name="compteur" content="timer"/>
@@ -545,7 +544,7 @@
             color: <?php echo couleurValeurMise($champs['numberRed'], $champs['numberGreen'], $champs['numberBlue']); ?>
         }
     </style>
-    <title><?php echo $champsMots['title'] ?></title>
+    <title><?php echo traduction("Minuteur", $dictionnaire); ?></title>
 </head>
 
 <body>
@@ -570,10 +569,11 @@
                 <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
                 <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison"
                        value="<?php echo $champs['maxCombinaison']; ?>">
-                <label class="modificationColor" for="choixOrganisateur"><?php echo $champsMots['choixOrganisateur']; ?></label>
+                <label class="modificationColor"
+                       for="choixOrganisateur"><?php echo traduction("Veuillez choisir votre Organisateur", $dictionnaire); ?></label>
                 <select id="choixOrganisateur" name="choixOrganisateur">
 					<?php if ($_SERVER['REQUEST_METHOD'] === 'GET') { ?>
-                        <option value="" selected><?php echo $champsMots['option']; ?></option>
+                        <option value="" selected><?php echo traduction("Sélectionner", $dictionnaire); ?></option>
 						<?php foreach ($champs['listeDesOrganisateurs'] as $unOrganisateur) { ?>
                             <option value="<?php echo $unOrganisateur['user']; ?>"><?php echo $unOrganisateur['name']; ?></option>
 						<?php } ?>
@@ -588,7 +588,7 @@
 						<?php } ?>
 					<?php } ?>
                 </select>
-                <input type="submit" name="btnChoixOrganisateur" value="<?php echo $champsMots['btnChoix']; ?>"
+                <input type="submit" name="btnChoixOrganisateur" value="<?php echo traduction("Choisir", $dictionnaire); ?>"
 					<?php if (count($champs['listeDesOrganisateurs']) === 0) { ?>
                         class="bouton disabled" disabled
 					<?php } else { ?>
@@ -601,8 +601,8 @@
                 <table class="tblValeurCouleur">
                     <thead>
                     <tr>
-                        <th><?php echo $champsMots['valeur']; ?></th>
-                        <th><?php echo $champsMots['couleur']; ?></th>
+                        <th><?php echo traduction("Valeur", $dictionnaire); ?></th>
+                        <th><?php echo traduction("Couleur", $dictionnaire); ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -621,19 +621,19 @@
         <div class="tableauDesMises">
             <div class="lesMises">
                 <div class="titre">
-                    <p class="resizeText"><?php echo $champsMots['typeMise'] ?></p>
+                    <p class="resizeText"><?php echo traduction("Mises Possibles", $dictionnaire); ?></p>
                 </div>
                 <div class="small">
-                    <p class="resizeText"><?php echo $champsMots['small'] ?></p>
+                    <p class="resizeText"><?php echo traduction("Petite Mise", $dictionnaire); ?></p>
                 </div>
                 <div class="big">
-                    <p class="resizeText"><?php echo $champsMots['big'] ?></p>
+                    <p class="resizeText"><?php echo traduction("Grosse Mise", $dictionnaire); ?></p>
                 </div>
                 <div class="valeurSmall">
-                    <p class="blind" id="valeurSmall"><?php echo $champs['nouvelleCombinaison']['valeurSmall'] ?></p>
+                    <p class="blind" id="valeurSmall"><?php echo $champs['nouvelleCombinaison']['valeurSmall']; ?></p>
                 </div>
                 <div class="valeurBig">
-                    <p class="blind" id="valeurBig"><?php echo $champs['nouvelleCombinaison']['valeurBig'] ?></p>
+                    <p class="blind" id="valeurBig"><?php echo $champs['nouvelleCombinaison']['valeurBig']; ?></p>
                 </div>
             </div>
             <div class="lesBoutonsMises">
@@ -641,14 +641,14 @@
                     <button name="btnChangerMise"
 						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champsValid['nomOrganisateurVide'] || $champsValid['aucuneValeurDispo'] || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled
-						<?php } ?> id="changerMise" form="formulaire"><?php echo $champsMots['changerMise'] ?>
+						<?php } ?> id="changerMise" form="formulaire"><?php echo traduction("Changer", $dictionnaire); ?>
                     </button>
                 </div>
                 <div class="resetMise">
                     <button form="formulaire" name="btnResetMise"
 						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 2 || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled
-						<?php } ?> id="reset"><?php echo $champsMots['reset'] ?>
+						<?php } ?> id="reset"><?php echo traduction("Réinitialiser Mise", $dictionnaire); ?>
                     </button>
                 </div>
             </div>
@@ -657,13 +657,13 @@
         <div class="tableauDuTemps">
             <div class="temps">
                 <div class="periode">
-                    <p class="resizeText"><?php echo $champsMots['periode'] ?></p>
+                    <p class="resizeText"><?php echo traduction("Sélectionner votre Période", $dictionnaire); ?></p>
                 </div>
                 <div class="minutes">
-                    <p class="resizeText">Minutes</p>
+                    <p class="resizeText"><?php echo traduction("Minutes", $dictionnaire); ?></p>
                 </div>
                 <div class="secondes">
-                    <p class="resizeText">Secondes</p>
+                    <p class="resizeText"><?php echo traduction("Secondes", $dictionnaire); ?></p>
                 </div>
                 <div class="chiffreMin">
                     <p>00</p>
@@ -680,13 +680,13 @@
                     <button class="" id="timer30">30</button>
                 </div>
                 <div class="stop">
-                    <button class="disabled" disabled id="timerStop">STOP</button>
+                    <button class="disabled" disabled id="timerStop"><?php echo traduction("Arrêt", $dictionnaire); ?></button>
                 </div>
                 <div class="reprend">
-                    <button class="disabled resizeText" disabled id="timerReprend"><?php echo $champsMots['btnReprendre'] ?></button>
+                    <button class="disabled resizeText" disabled id="timerReprend"><?php echo traduction("Poursuivre", $dictionnaire); ?></button>
                 </div>
                 <div class="resetTemps">
-                    <button class="disabled" disabled id="ResetTemps"><?php echo $champsMots['btnReset'] ?></button>
+                    <button class="disabled" disabled id="ResetTemps"><?php echo traduction("Réinitialiser Temps", $dictionnaire); ?></button>
                 </div>
             </div>
         </div>
@@ -695,9 +695,10 @@
 <hr>
 <div class="boutonRetour">
     <div class="retour">
-        <input class="resizeText" type="submit" name="btnReturn" form="formulaire" value="<?php echo $champsMots['retour']; ?>">
+        <input class="resizeText" type="submit" name="btnReturn" form="formulaire" value="<?php echo traduction("Page d'Accueil", $dictionnaire); ?>">
     </div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.2.1.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
@@ -706,5 +707,4 @@
 <script src="timer.js"></script>
 
 </body>
-
 </html>

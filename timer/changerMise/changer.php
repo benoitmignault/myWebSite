@@ -24,7 +24,7 @@
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if (isset($_POST['nomOrganisateur'])) {
-				$champs['user'] = $_POST['nomOrganisateur'];
+				$champs['nomOrganisateur'] = $_POST['nomOrganisateur'];
 			}
 			
 			if (isset($_POST['niveauCombinaison'])) {
@@ -36,35 +36,35 @@
 				$champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
 			}
 			
-			if (isset($_POST['colorRed'])) {
-				$champs['colorRed'] = intval($_POST['colorRed']);
+			if (isset($_POST['numberRed'])) {
+				$champs['numberRed'] = intval($_POST['numberRed']);
 			}
 			
-			if (isset($_POST['colorGreen'])) {
-				$champs['colorGreen'] = intval($_POST['colorGreen']);
+			if (isset($_POST['numberGreen'])) {
+				$champs['numberGreen'] = intval($_POST['numberGreen']);
 			}
 			
-			if (isset($_POST['colorBlue'])) {
-				$champs['colorBlue'] = intval($_POST['colorBlue']);
+			if (isset($_POST['numberBlue'])) {
+				$champs['numberBlue'] = intval($_POST['numberBlue']);
 			}
 			
-			$value_Red_temp = $champs['colorRed'] - 25;
-			$value_Green_temp = $champs['colorGreen'] - 25;
+			$valueRedtemp = $champs['numberRed'] - 25;
+			$valueGreentemp = $champs['numberGreen'] - 25;
 			// Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
-			if ($value_Green_temp > 0) {
-				$champs['colorGreen'] = $value_Green_temp;
-				$champs['colorBlue'] = $value_Green_temp;
+			if ($valueGreentemp > 0) {
+				$champs['numberGreen'] = $valueGreentemp;
+				$champs['numberBlue'] = $valueGreentemp;
 				// Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
 			}
-			elseif ($value_Red_temp > 0) {
-				$champs['colorRed'] = $value_Red_temp;
-				$champs['colorGreen'] = 0;
-				$champs['colorBlue'] = 0;
+			elseif ($valueRedtemp > 0) {
+				$champs['numberRed'] = $valueRedtemp;
+				$champs['numberGreen'] = 0;
+				$champs['numberBlue'] = 0;
 			}
 			else {
-				$champs['colorRed'] = 0;
-				$champs['colorGreen'] = 0;
-				$champs['colorBlue'] = 0;
+				$champs['numberRed'] = 0;
+				$champs['numberGreen'] = 0;
+				$champs['numberBlue'] = 0;
 			}
 		}
 		

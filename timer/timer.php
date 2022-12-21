@@ -622,20 +622,15 @@
         <div class="tableauDesMises">
             <div class="lesMises">
                 <div class="titre">
-                    <p class="resizeText"><?php echo traduction("Mises Possibles", $dictionnaire); ?></p>
-                </div>
+                    <p class="resizeText"><?php echo traduction("Mises Possibles", $dictionnaire); ?></p></div>
                 <div class="small">
-                    <p class="resizeText"><?php echo traduction("Petite Mise", $dictionnaire); ?></p>
-                </div>
+                    <p class="resizeText"><?php echo traduction("Petite Mise", $dictionnaire); ?></p></div>
                 <div class="big">
-                    <p class="resizeText"><?php echo traduction("Grosse Mise", $dictionnaire); ?></p>
-                </div>
+                    <p class="resizeText"><?php echo traduction("Grosse Mise", $dictionnaire); ?></p></div>
                 <div class="valeurSmall">
-                    <p class="blind" id="valeurSmall"><?php echo $champs['nouvelleCombinaison']['valeurSmall']; ?></p>
-                </div>
+                    <p class="blind" id="valeurSmall"><?php echo $champs['nouvelleCombinaison']['valeurSmall']; ?></p></div>
                 <div class="valeurBig">
-                    <p class="blind" id="valeurBig"><?php echo $champs['nouvelleCombinaison']['valeurBig']; ?></p>
-                </div>
+                    <p class="blind" id="valeurBig"><?php echo $champs['nouvelleCombinaison']['valeurBig']; ?></p></div>
             </div>
             <div class="lesBoutonsMises">
                 <div class="double">
@@ -711,4 +706,5 @@
 <script src="timer.js"></script>
 
 </body>
+
 </html>

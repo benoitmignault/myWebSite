@@ -93,21 +93,16 @@
 		$champs = remplissageChamps($champs);
 		
 		if (!empty($champs['combinaison']) && !empty($champs['nomOrganisateur'])) {
-			
 			$champs['nouvelleCombinaison'] = selectionSmallBigBlind($connMYSQL, $champs['nomOrganisateur'], $champs['combinaison']);
-			// TODO : Revalider ici
 			$champs['combinaison']++;
-			returnOfAjax($champs);
+			returnOfAjaxSucces($champs);
 		}
 		else {
 			$champs["situation"] = "Il manque des informations importantes. Revalider vos informations !";
-			$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
-			echo json_encode($return, JSON_FORCE_OBJECT);
+			returnOfAjaxErreur($champs);
 		}
-		
 	}
 	else {
 		$champs["situation"] = "Ce fichier doit être caller via un appel AJAX !";
-		$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
-		echo json_encode($return, JSON_FORCE_OBJECT);
+		returnOfAjaxErreur($champs);
 	}

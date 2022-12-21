@@ -1,6 +1,7 @@
 <code_scheme name="Configuration_Design" version="173">
   <option name="RIGHT_MARGIN" value="140" />
   <option name="FORMATTER_TAGS_ENABLED" value="true" />
+  <option name="SOFT_MARGINS" value="140" />
   <JavaCodeStyleSettings>
     <option name="SPACE_BEFORE_OPENING_ANGLE_BRACKET_IN_TYPE_PARAMETER" value="true" />
     <option name="ANNOTATION_PARAMETER_WRAP" value="1" />

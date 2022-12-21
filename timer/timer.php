@@ -34,7 +34,7 @@
 	}
 	
 	/**
-     * Retourne soit le mot traduit ou le mot lui-même, si l'utilisateur est sur la page en français
+	 * Retourne soit le mot traduit ou le mot lui-même, si l'utilisateur est sur la page en français
 	 * @param $motATraduire
 	 * @param $dictionnaire
 	 * @return string

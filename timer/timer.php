@@ -26,50 +26,15 @@
  
 	function traduction($typeLangue): array {
 		
-		if ($typeLangue === "francais") {
-			$lang = "fr";
-			$title = "Minuteur";
-			$typeMise = "Les mises possibles";
-			$small = "La petite mise";
-			$big = "La grosse mise";
-			$retour = "Page d'Accueil";
-			$changer = "Changer mise";
-			$btnReset = "Reset du Temps";
-			$reset = "Reset des mises";
-			$periode = "En attente d'une période de temps...";
-			$btnReprendre = "POURSUIVRE";
-			$choixOrganisateur = "Veuillez choisir votre organisateur";
-			$option = "À sélectionner";
-			$btnChoix = "Choisir";
-			$messageErreurBD = "Il y a eu un problème avec l'insertion de vos valeurs dans la BD. Veuillez recommencer !";
-			$valeur = "Valeur";
-			$couleur = "Couleur";
-		}
-        elseif ($typeLangue === "english") {
-			$title = "Timer";
-			$lang = "en";
-			$choixOrganisateur = "Please choose an organizer";
-			$typeMise = "Bets available";
-			$small = "The small blind";
-			$big = "The big blind";
-			$retour = "HOME";
-			$changer = "Change bet";
-			$btnReset = "Time Reset";
-			$reset = "Bets Reset";
-			$periode = "Waiting for a period of time...";
-			$btnReprendre = "GO ON";
-			$option = "Select";
-			$btnChoix = "PICK OUT";
-			$messageErreurBD = "There was a problem with insert your values into the DB. Please try again !";
-			$valeur = "Value";
-			$couleur = "Color";
-		}
-		
-		return array("lang" => $lang, "title" => $title, "typeMise" => $typeMise, "changerMise" => $changer,
-		             "choixOrganisateur" => $choixOrganisateur, "option" => $option, "btnChoix" => $btnChoix,
-		             "messageErreurBD" => $messageErreurBD, "small" => $small, "big" => $big, "retour" => $retour, "btnReset" => $btnReset,
-		             "reset" => $reset, "periode" => $periode, "btnReprendre" => $btnReprendre, "valeur" => $valeur, "couleur" => $couleur);
+	
 	}
+	
+	
+    
+    
+    
+    
+    
 	
 	/**
 	 * Retourne le message en fonction de la langue et de la situation séparé en deux fonctions différentes.

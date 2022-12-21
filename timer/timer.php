@@ -137,7 +137,6 @@
 		return $messageAng;
 	}
 	
-	
 	/**
 	 * Remplissage des variables en fonction de quels boutons a été sélectionné
 	 * @param $connMYSQL

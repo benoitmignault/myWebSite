@@ -79,32 +79,32 @@
 	}
 	
 	if (is_ajax()) {
-		if (isset($_POST["niveauCombinaison"]) && isset($_POST["nomOrganisateur"])) {
-			include_once("../../includes/fct-connexion-bd.php");
-			$connMYSQL = connexion();
-			if ($connMYSQL) {
-				include_once("../../includes/fct-timer.php");
-				$champs = initialisationChamps();
-				$champs = remplissageChamps($champs);
-				$champs = selectionSmallBigBlind($connMYSQL, $champs);
-				returnOfAjax($champs);
-			}
-			else {
-				$champs["situation1"] = "Impossible d'accéder à la BD. Veuillez réessayer plus tard !";
-				$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
-				echo json_encode($return, JSON_FORCE_OBJECT);
-			}
+		include_once("../../includes/fct-connexion-bd.php");
+		$connMYSQL = connexion();
+		
+		include_once("../../includes/fct-timer.php");
+		$champs = initialisationChamps();
+		$champs = remplissageChamps($champs);
+		
+		if (!empty($champs['combinaison']) && !empty($champs['nomOrganisateur'])) {
+			
+			
+			$champs = selectionSmallBigBlind($connMYSQL, $champs['nomOrganisateur'], $champs['combinaison']);
+			// TODO : Revalider ici
+			$champs['combinaison']++;
+			returnOfAjax($champs);
+			
+			
 		}
 		else {
-			$champs["situation2"] = "Il manque des informations importantes. Revalider vos informations !";
+			$champs["situation"] = "Il manque des informations importantes. Revalider vos informations !";
 			$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
 			echo json_encode($return, JSON_FORCE_OBJECT);
 		}
 		
 	}
 	else {
-		$champs["situation3"] = "Ce fichier doit être caller via un appel AJAX !";
+		$champs["situation"] = "Ce fichier doit être caller via un appel AJAX !";
 		$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
 		echo json_encode($return, JSON_FORCE_OBJECT);
 	}
-?>

@@ -71,10 +71,16 @@
 		return $champs;
 	}
 	
-	function returnOfAjax($champs) {
+	function returnOfAjaxSucces($champs) {
 		
 		$return = $champs;
 		$return["data"] = json_encode($return, JSON_FORCE_OBJECT);
+		echo json_encode($return, JSON_FORCE_OBJECT);
+	}
+	
+	function returnOfAjaxErreur($champs) {
+		
+		$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
 		echo json_encode($return, JSON_FORCE_OBJECT);
 	}
 	

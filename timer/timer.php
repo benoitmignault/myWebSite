@@ -480,13 +480,13 @@
 			}
 			
 			$champsValid = validation($champs, $champsValid);
-			
 			$champs['situation'] = situation($champsValid);
+   
 			$champsMots = traduction($champs['typeLangue']);
-			//var_dump($champs);			var_dump("<br>");			var_dump($champsValid);			exit;
+			$champsMots['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
 		}
 	}
-	// TODO : Faire les situations
+	
 	// TODO : Faire les messages en fct des situations
 	// TODO : Tester les redirections
 	// TODO : Armoniser la portion JS pour que ça marche avec changer et fct-timer

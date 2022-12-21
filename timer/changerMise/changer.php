@@ -10,8 +10,14 @@
 	
 	function initialisationChamps(): array {
 		
-		return ["maxCombinaison" => 0, "user" => "", "combinaison" => 0, "valeurSmall" => "", "valeurBig" => "", "aucuneValeur" => false,
-		        "tropValeur" => false, "colorRed" => 0, "colorGreen" => 0, "colorBlue" => 0];
+		// tropValeur remplace aucuneValeurDispo
+		// user remplace nomOrganisateur
+		// valeurSmall & valeurBig remplace 'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00")
+		// colorRed & colorGreen & colorBlue remplace 'numberRed' => 255, 'numberGreen' => 255, 'numberBlue' => 255,
+		
+		return ['situation' => "", 'maxCombinaison' => 0, 'nomOrganisateur' => "", 'combinaison' => 0, "aucuneValeur" => false,
+		        'aucuneValeurDispo' => false, 'numberRed' => 255, 'numberGreen' => 255, 'numberBlue' => 255,
+		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00")];
 	}
 	
 	function remplissageChamps($champs) {

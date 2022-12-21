@@ -340,11 +340,24 @@
 		
 		$situation = 0;
 		
+		if ($champsValid["nomOrganisateurVide"]) {
+			$situation = 1;
+		}
+        elseif ($champsValid["aucuneValeurCouleur"] && !$champsValid["aucuneValeurSmallBig"]) {
+			$situation = 2;
+		}
+        elseif (!$champsValid["aucuneValeurCouleur"] && $champsValid["aucuneValeurSmallBig"]) {
+			$situation = 3;
+		}
+        elseif ($champsValid["aucuneValeurCouleur"] && $champsValid["aucuneValeurSmallBig"]) {
+			$situation = 4;
+		}
+		
 		return $situation;
 	}
 	
 	/**
-	 * Retourne la couleur dynamiquement pour les valeurs des «Small» et «Big» blind.
+	 * Retourne la couleur dynamiquement pour les valeurs «Small» et «Big» blind.
 	 * @param $numberRed
 	 * @param $numberGreen
 	 * @param $numberBlue

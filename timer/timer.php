@@ -355,33 +355,35 @@
 	 * Vérifier que tous c'est bien passé
 	 * @param $champs , on passera la variable au complet, car beaucoup de choses seront utilisées.
 	 * @param $champsValid , on passera la variable au complet, car beaucoup de choses seront utilisées.
-	 * @return mixed de valeurs true & false
+	 * @return array de valeurs true & false
 	 */
-	function validation($champs, $champsValid) {
+	function validation($champs, $champsValid): array {
 		
 		if (empty($champs['nomOrganisateur'])) {
 			$champsValid['nomOrganisateurVide'] = true;
 		}
-		
-		// Lorsque nous avons une égalité, c'est signe que nous n'avons plus de prochaines small/big
-		if ($champs['combinaison'] === $champs['maxCombinaison']) {
-			$champsValid['aucuneValeurDispo'] = true;
+		else {
+			// Lorsque nous avons une égalité, c'est signe que nous n'avons plus de prochaines small/big
+			if ($champs['combinaison'] === $champs['maxCombinaison']) {
+				$champsValid['aucuneValeurDispo'] = true;
+			}
+			
+			if (count($champs['listeDesValeursCouleurs']) === 0) {
+				$champsValid['aucuneValeurCouleur'] = true;
+			}
+			
+			if ($champs['maxCombinaison'] === 0) {
+				$champsValid['aucuneValeurSmallBig'] = true;
+			}
+			
+			if (count($champs['listeDesOrganisateurs']) === 0) {
+				$champsValid['aucunOrganisateur'] = true;
+			}
 		}
 		
-		if (count($champs['listeDesValeursCouleurs']) === 0) {
-			$champsValid['aucuneValeurCouleur'] = true;
-		}
-		
-		if ($champs['maxCombinaison'] === 0) {
-			$champsValid['aucuneValeurSmallBig'] = true;
-		}
-		
-		if (count($champs['listeDesOrganisateurs']) === 0) {
-			$champsValid['aucunOrganisateur'] = true;
-		}
-		
-		foreach ($champsValid as $uneValidation) {
-			if ($uneValidation) {
+		foreach ($champsValid as $item => $value) {
+			// aucuneValeurDispo ne doit pas être considéré comme une erreur mais plutôt comme un avertissement pour griser le bouton Changer Mise à la dernière mise
+			if ($value && $item !== "aucuneValeurDispo") {
 				$champsValid['erreurPossible'] = true;
 				break;
 			}

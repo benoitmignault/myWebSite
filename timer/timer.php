@@ -91,7 +91,7 @@
 	}
 	
 	/**
-     * Retourne le message si la langue utilisé est le français
+	 * Retourne le message si la langue utilisé est le français
 	 * @param $situation
 	 * @return string
 	 */
@@ -451,51 +451,25 @@
 	}
 	
 	/**
-	 * Retourne sur la page du timer en fonction de la langue pré-sélectionner
+	 * Retourne sur la page du timer + un message avertissement
 	 * @param $typeLangue
+	 * @param $message
 	 * @return void
 	 */
-	function redirectionVersTimer($typeLangue) {
+	function redirectionVersTimer($typeLangue, $message) {
 		
+		$url = "";
 		if ($typeLangue === 'francais') {
-			header("Location: /timer/timer.php?langue=francais");
+			$url = "/timer/timer.php?langue=francais";
 		}
         elseif ($typeLangue === 'english') {
-			header("Location: /timer/timer.php?langue=english");
+			$url = "/timer/timer.php?langue=english";
 		}
+		
+		echo "<script type='text/javascript'> alert('$message'); window.location.replace('$url'); </script>";
 		
 		exit; // pour arrêter execution du code php
 	}
-	
-	// TODO : PHP-DOC
-	function afficherMsgAlert() {
-		
-		$msgErr = "";
-		
-		if ($typeLangue == "francais") {
-			$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées à ses jetons.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles valeur couleur de jetons.";
-		}
-        elseif ($typeLangue == "english") {
-			$msgErr = "Warning ! Your organizer did not choose his values associated with his chips.\\nPlease contact him to ask him to create his value color sets of tokens.";
-		}
-		//var_dump("Test"); exit;
-		
-		
-		echo "<script>alert(\"$msgErr\")</script>";
-		
-		
-		$msgErr = "";
-		if ($champs["typeLangue"] == "francais") {
-			$msgErr = "Attention ! Votre organisateur n'a pas choisi ses valeurs associées aux mises petites et grosses mises.\\nVeuillez le contacter pour lui demander de bien vouloir créer ses ensembles petite mise et grosse mise.";
-		}
-        elseif ($champs["typeLangue"] == "english") {
-			$msgErr = "Warning ! Your organizer has not chosen his values associated with small and large bets.\\nPlease contact him to ask him to create his sets small bet and big bet.";
-		}
-		echo "<script>alert(\"$msgErr\")</script>";
-		
-		
-	}
-	
 	
 	include_once("../includes/fct-connexion-bd.php");
 	
@@ -536,9 +510,10 @@
 			
 			$champsValid = validation($champs, $champsValid);
 			$champs['situation'] = situation($champsValid);
-   
+			
 			$champsMots = traduction($champs['typeLangue']);
 			$champsMots['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
+			redirectionVersTimer($champs['typeLangue'], $champsMots['message']);
 		}
 	}
 	

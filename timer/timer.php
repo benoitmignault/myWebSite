@@ -530,6 +530,7 @@
 	}
 	
 	// TODO : Harmoniser la portion JS pour que ça marche avec changer et fct-timer
+    // TODO : Possible essayer exporter les fct messageSituation dans le dictionnaire
 	
 	$connMYSQL->close();
 ?>

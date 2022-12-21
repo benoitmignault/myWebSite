@@ -120,6 +120,7 @@
 		// Remplissage des variables si on passe par le GET
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			if (isset($_GET['langue'])) {
+				$_SERVER['typeLangue'] = $_GET['langue'];
 				$champs['typeLangue'] = $_GET['langue'];
 			}
 		} // Remplissage des variables si on passe par le POST

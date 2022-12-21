@@ -516,8 +516,6 @@
 			
 			$champsValid = validation($champs, $champsValid);
 			$champs['situation'] = situation($champsValid);
-			
-			$champsMots = traduction($champs['typeLangue']);
 			$champsMots['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
 			
 			if ($champsValid['erreurPossible']) {

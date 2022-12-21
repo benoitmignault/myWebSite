@@ -25,7 +25,7 @@
 	
 	function traduction($typeLangue): array {
 		
-		if ($champs['typeLangue'] === "francais") {
+		if ($typeLangue === "francais") {
 			$lang = "fr";
 			$title = "Minuteur";
 			$typeMise = "Les mises possibles";
@@ -44,7 +44,7 @@
 			$valeur = "Valeur";
 			$couleur = "Couleur";
 		}
-        elseif ($champs['typeLangue'] === "english") {
+        elseif ($typeLangue === "english") {
 			$title = "Timer";
 			$lang = "en";
 			$choixOrganisateur = "Please choose an organizer";
@@ -489,7 +489,7 @@
 	
 	// TODO : Faire les messages en fct des situations
 	// TODO : Tester les redirections
-	// TODO : Armoniser la portion JS pour que ça marche avec changer et fct-timer
+	// TODO : Harmoniser la portion JS pour que ça marche avec changer et fct-timer
 	
 	$connMYSQL->close();
 ?>

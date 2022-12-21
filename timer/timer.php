@@ -6,7 +6,7 @@
 	 */
 	function initialisationChamps(): array {
 		
-		return ['typeLangue' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0,
+		return ['message' => "", 'typeLangue' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0,
 		        'valeurSmall' => 0, 'valeurBig' => 0, 'numberRed' => 255, 'numberGreen' => 255, 'numberBlue' => 255,
 		        'listeDesOrganisateurs' => array(), 'listeDesValeursCouleurs' => array(),
 		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00")];

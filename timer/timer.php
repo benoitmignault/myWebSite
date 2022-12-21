@@ -542,7 +542,6 @@
 		}
 	}
 	
-	// TODO : Faire les messages en fct des situations
 	// TODO : Tester les redirections
 	// TODO : Harmoniser la portion JS pour que ça marche avec changer et fct-timer
 	

@@ -364,9 +364,9 @@ function resetTemp() {
         minutes.innerHTML = min.toString();
         secondes.innerHTML = sec.toString();
         if (typeLangue.value === "francais") {
-            periode.innerHTML = "En attente d'une période de temps...";
+            periode.innerHTML = "Sélectionner votre Période";
         } else if (typeLangue.value === "english") {
-            periode.innerHTML = "Waiting for a period of time ...";
+            periode.innerHTML = "Select your Period";
         }
 
         temps15min.setAttribute("class", "");

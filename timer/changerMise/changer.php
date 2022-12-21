@@ -29,8 +29,6 @@
 			
 			if (isset($_POST['niveauCombinaison'])) {
 				$champs['combinaison'] = intval($_POST['niveauCombinaison']);
-				// TODO : Revalider
-				$champs['combinaison']++;
 			}
 			
 			// Ajout 2021-09-28 , l'information a semblerait disparue...

@@ -331,11 +331,16 @@
 		return $champsValid;
 	}
 	
-	// TODO
-	function situation($champs): int {
+	/**
+	 * Retourne un chiffre pour une situation donnée qui sera affecté un message et envoyer en message AlertBox, au moment opportun
+	 * @param $champsValid
+	 * @return int
+	 */
+	function situation($champsValid): int {
 		
+		$situation = 0;
 		
-		return 0;
+		return $situation;
 	}
 	
 	/**
@@ -460,8 +465,8 @@
 			}
 			
 			$champsValid = validation($champs, $champsValid);
-			// TODO : ces eux fonction
-			$champs['situation'] = situation($champs);
+			
+			$champs['situation'] = situation($champsValid);
 			$champsMots = traduction($champs);
 			//var_dump($champs);			var_dump("<br>");			var_dump($champsValid);			exit;
 		}

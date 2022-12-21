@@ -685,10 +685,12 @@
                     <button class="disabled" disabled id="timerStop"><?php echo traduction("Arrêt", $dictionnaire); ?></button>
                 </div>
                 <div class="reprend">
-                    <button class="disabled resizeText" disabled id="timerReprend"><?php echo traduction("Poursuivre", $dictionnaire); ?></button>
+                    <button class="disabled resizeText" disabled
+                            id="timerReprend"><?php echo traduction("Poursuivre", $dictionnaire); ?></button>
                 </div>
                 <div class="resetTemps">
-                    <button class="disabled" disabled id="ResetTemps"><?php echo traduction("Réinitialiser Temps", $dictionnaire); ?></button>
+                    <button class="disabled" disabled
+                            id="ResetTemps"><?php echo traduction("Réinitialiser Temps", $dictionnaire); ?></button>
                 </div>
             </div>
         </div>
@@ -697,7 +699,8 @@
 <hr>
 <div class="boutonRetour">
     <div class="retour">
-        <input class="resizeText" type="submit" name="btnReturn" form="formulaire" value="<?php echo traduction("Page d'Accueil", $dictionnaire); ?>">
+        <input class="resizeText" type="submit" name="btnReturn" form="formulaire"
+               value="<?php echo traduction("Page d'Accueil", $dictionnaire); ?>">
     </div>
 </div>
 

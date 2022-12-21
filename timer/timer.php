@@ -476,7 +476,7 @@
 	
 	include_once("../includes/fct-connexion-bd.php");
 	
-	const CHEMIN_DICTIONNAIRE_TIMER = '/dictionary/timer.json';
+	const CHEMIN_DICTIONNAIRE_TIMER = '../dictionary/timer.json';
 	
 	// Les fonctions communes
 	$connMYSQL = connexion();

@@ -88,13 +88,10 @@
 		
 		if (!empty($champs['combinaison']) && !empty($champs['nomOrganisateur'])) {
 			
-			
-			$champs = selectionSmallBigBlind($connMYSQL, $champs['nomOrganisateur'], $champs['combinaison']);
+			$champs['nouvelleCombinaison'] = selectionSmallBigBlind($connMYSQL, $champs['nomOrganisateur'], $champs['combinaison']);
 			// TODO : Revalider ici
 			$champs['combinaison']++;
 			returnOfAjax($champs);
-			
-			
 		}
 		else {
 			$champs["situation"] = "Il manque des informations importantes. Revalider vos informations !";

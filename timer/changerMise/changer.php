@@ -1,4 +1,5 @@
 <?php
+	
 	header("Content-type: application/json; charset=utf-8");
 	
 	//Function to check if the request is an AJAX request
@@ -14,6 +15,7 @@
 	}
 	
 	function remplissageChamps($champs) {
+		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if (isset($_POST['nomOrganisateur'])) {
 				$champs['user'] = $_POST['nomOrganisateur'];
@@ -21,6 +23,7 @@
 			
 			if (isset($_POST['niveauCombinaison'])) {
 				$champs['combinaison'] = intval($_POST['niveauCombinaison']);
+				// TODO : Revalider
 				$champs['combinaison']++;
 			}
 			
@@ -60,10 +63,12 @@
 				$champs['colorBlue'] = 0;
 			}
 		}
+		
 		return $champs;
 	}
 	
 	function returnOfAjax($champs) {
+		
 		$return = $champs;
 		$return["data"] = json_encode($return, JSON_FORCE_OBJECT);
 		echo json_encode($return, JSON_FORCE_OBJECT);

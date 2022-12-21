@@ -258,9 +258,9 @@ function callAjax() {
                 "niveauCombinaison": combinaison.value,
                 "maxCombinaison": maxCombinaison.value,
                 "nomOrganisateur": nomOrganisateur.value,
-                "colorRed": colorRed.value,
-                "colorGreen": colorGreen.value,
-                "colorBlue": colorBlue.value
+                "numberRed": colorRed.value,
+                "numberGreen": colorGreen.value,
+                "numberBlue": colorBlue.value
             };
 
             $.ajax({

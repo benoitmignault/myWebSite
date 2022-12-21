@@ -1,5 +1,11 @@
 <?php
+	
+	/**
+	 * Retourne la variable instance de connexion à la BD~
+	 * @return false|mysqli|void
+	 */
 	function connexion() {
+		
 		// Nouvelle connexion sur hébergement du Studio OL
 		$host = "localhost";
 		$user = "benoitmi_benoit";

@@ -520,19 +520,20 @@
 			
 			$champsMots = traduction($champs['typeLangue']);
 			$champsMots['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
-			redirectionVersTimer($champs['typeLangue'], $champsMots['message']);
+			
+			if ($champsValid['erreurPossible']) {
+				redirectionVersTimer($champs['typeLangue'], $champsMots['message']);
+			}
 		}
 	}
 	
-	// TODO : Tester les redirections
 	// TODO : Harmoniser la portion JS pour que ça marche avec changer et fct-timer
 	
 	$connMYSQL->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php
-	echo $champsMots['lang']; ?>">
+<html lang="<?php echo $champsMots['lang']; ?>">
 
 <head>
     <meta charset="utf-8"/>

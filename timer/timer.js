@@ -286,6 +286,7 @@ function callAjax() {
                     } else if (dataReturn["erreur"]) {
                         let dataErr = JSON.parse(dataReturn["erreur"]);
                         if (typeLangue.value === "english") {
+                            // TODO : refaire les situation
                             if (dataErr.situation1) {
                                 alert("Can not access the BD. Please try again later !");
                             } else if (dataErr.situation2) {

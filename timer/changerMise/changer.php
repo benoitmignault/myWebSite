@@ -1,5 +1,5 @@
 <?php
-	
+	// TODO : JavaDoc
 	header("Content-type: application/json; charset=utf-8");
 	
 	//Function to check if the request is an AJAX request

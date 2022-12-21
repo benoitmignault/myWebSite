@@ -19,7 +19,7 @@
 	function initialisationChampsValidation(): array {
 		
 		return ['nomOrganisateurVide' => false, 'aucuneValeurSmallBig' => false, 'aucuneValeurCouleur' => false,
-		        'aucuneValeurDispo' => false, 'aucunOrganisateur' => false];
+		        'aucuneValeurDispo' => false, 'aucunOrganisateur' => false, 'erreurPossible' => false];
 	}
 	
 	

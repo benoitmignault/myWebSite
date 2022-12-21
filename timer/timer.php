@@ -55,16 +55,15 @@
 		else {
 			// Retourner un message d'erreur si le mot n'est pas présent dans le dictionnaire
 			if ($_SERVER['typeLangue'] === "english") {
-				$mot = "Word not found in dictionary.";
+				$mot = "Word not found";
 			}
             elseif ($_SERVER['typeLangue'] === "francais") {
-				$mot = "Mot introuvable dans le dictionnaire.";
+				$mot = "Mot introuvable";
 			}
 		}
 		
 		return $mot;
 	}
-	
 	
 	/**
 	 * Retourne le message en fonction de la langue et de la situation séparé en deux fonctions différentes.

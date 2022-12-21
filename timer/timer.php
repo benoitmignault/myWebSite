@@ -525,7 +525,7 @@
 		}
 	}
 	
-	// TODO : Harmoniser la portion JS pour que ça marche avec changer et fct-timer
+	// TODO : Vérifier si les appels Ajax marche encore malgré tous mes changements
 	// TODO : Possible essayer exporter les fct messageSituation dans le dictionnaire
 	
 	$connMYSQL->close();

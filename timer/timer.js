@@ -126,9 +126,9 @@ function timer15Min() {
         secondes.innerHTML = "0" + sec.toString();
         // modifier la valeur en fonction de la langue choisie par l'usagé de la page
         if (typeLangue.value === "francais") {
-            periode.innerHTML = "Vous avez choisi la période : 15 minutes !";
+            periode.innerHTML = "Période choisi ⇒ 15 minutes";
         } else if (typeLangue.value === "english") {
-            periode.innerHTML = "You have chosen the period: 15 minutes!";
+            periode.innerHTML = "Chosen period ⇒ 15 minutes";
         }
         comptage = setTimeout(starting15, 1000);
     });
@@ -181,9 +181,9 @@ function timer30Min() {
         secondes.innerHTML = "0" + sec.toString();
         // modifier la valeur en fonction de la langue choisie par l'usagé de la page
         if (typeLangue.value === "francais") {
-            periode.innerHTML = "Vous avez choisi la période : 30 minutes !";
+            periode.innerHTML = "Période choisi ⇒ 30 minutes";
         } else if (typeLangue.value === "english") {
-            periode.innerHTML = "You have chosen the period: 30 minutes!";
+            periode.innerHTML = "Chosen period ⇒ 30 minutes";
         }
         comptage = setTimeout(starting30, 1000);
     });

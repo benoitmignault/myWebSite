@@ -156,6 +156,7 @@
         elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// Assignation de la variable langue est commune rendu ici
 			if (isset($_POST['typeLangue'])) {
+				$_SERVER['typeLangue'] = $_POST['typeLangue'];
 				$champs['typeLangue'] = $_POST['typeLangue'];
 			}
 			// Peu importe quand, on doit récupérer le nom de l'organisateur

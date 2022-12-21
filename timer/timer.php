@@ -538,7 +538,12 @@
 						<?php } ?>
 					<?php } ?>
                 </select>
-                <input class="bouton" type="submit" name="btnChoixOrganisateur" value="<?php echo $champsMots['btnChoix']; ?>">
+                <input type="submit" name="btnChoixOrganisateur" value="<?php echo $champsMots['btnChoix']; ?>"
+					<?php if (count($champs["listeDesOrganisateurs"]) === 0) { ?>
+                        class="bouton disabled" disabled
+					<?php } else { ?>
+                       class="bouton"
+                    <?php } ?>>
             </div>
         </form>
         <div class="affichage_choix">

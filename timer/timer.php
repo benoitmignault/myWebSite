@@ -103,7 +103,7 @@
 				$messageFr = "Vous devez choisir absolument votre organisateur de tournois avant de commencer la partie.";
 				break;
 			case 2:
-				$messageFr = "Votre organisateur n'a pas organisé ses valeurs / couleurs de jetons.";
+				$messageFr = "Votre organisateur n'a pas organisé ses valeurs & couleurs de jetons.";
 				break;
 			case 3:
 				$messageFr = "Votre organisateur n'a pas organisé ses mises de «Small» & «Big» blind.";
@@ -473,9 +473,9 @@
 			$url = "/timer/timer.php?langue=english";
 		}
 		
-		echo "<script type='text/javascript'> alert('$message'); window.location.replace('$url'); </script>";
+		echo "<script type='text/javascript'> alert(\"$message\"); window.location.replace('$url'); </script>";
 		
-		exit; // pour arrêter execution du code php
+		exit;
 	}
 	
 	include_once("../includes/fct-connexion-bd.php");

@@ -22,7 +22,8 @@
 		        'aucuneValeurDispo' => false, 'aucunOrganisateur' => false, 'erreurPossible' => false];
 	}
 	
-	
+ 
+ 
 	function traduction($typeLangue): array {
 		
 		if ($typeLangue === "francais") {
@@ -483,6 +484,7 @@
 	// Les fonctions communes
 	$connMYSQL = connexion();
 	$champs = initialisationChamps();
+	$champsMots = array();
 	$champsValid = initialisationChampsValidation();
 	$champs = remplissageChamps($connMYSQL, $champs);
 	$champs['listeDesOrganisateurs'] = listeDesOrganisateurs($connMYSQL);

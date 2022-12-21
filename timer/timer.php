@@ -477,13 +477,15 @@
 	
 	include_once("../includes/fct-connexion-bd.php");
 	
+	const CHEMIN_DICTIONNAIRE_TIMER = '/dictionary/timer.json';
+	
 	// Les fonctions communes
 	$connMYSQL = connexion();
 	$champs = initialisationChamps();
-	$champsMots = array();
 	$champsValid = initialisationChampsValidation();
 	$champs = remplissageChamps($connMYSQL, $champs);
 	$champs['listeDesOrganisateurs'] = listeDesOrganisateurs($connMYSQL);
+	$dictionnaire = recuperationContenuFichierJson(CHEMIN_DICTIONNAIRE_TIMER);
 	
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -491,7 +493,6 @@
 			redirectionVersPageErreur();
 		}
 		else {
-			$champsMots = traduction($champs['typeLangue']);
 			$champsMots['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
 		}
 	}

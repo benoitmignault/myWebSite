@@ -64,77 +64,33 @@
 		
 		return $mot;
 	}
-	
+ 
 	/**
-	 * Retourne le message en fonction de la langue et de la situation séparé en deux fonctions différentes.
-	 * @param $typeLangue
+     * Retourne le message en fonction de la situation trouver dans le dictionnaire et la traduire au besoin.
+	 * @param $dictionnaire
 	 * @param $situation
 	 * @return string
 	 */
-	function messageSituation($typeLangue, $situation): string {
+	function messageSituation($dictionnaire, $situation): string {
 		
+		define('SITUATION_1', "Vous devez choisir absolument votre organisateur de tournois avant de commencer la partie.");
+		define('SITUATION_2', "Votre organisateur n'a pas organisé ses valeurs & couleurs de jetons.");
+		define('SITUATION_3', "Votre organisateur n'a pas organisé ses mises de «Small» & «Big» blind.");
+		define('SITUATION_4', "Votre organisateur n'a tout simplement rien organisé de son côté, veuillez lui en faire part.");
+  
 		$message = "";
-		
-		if ($typeLangue === 'francais') {
-			$message = messageSituationFr($situation);
-		}
-        elseif ($typeLangue === 'english') {
-			$message = messageSituationAng($situation);
+		switch ($situation) {
+			case 1:
+				$message = traduction(SITUATION_1, $dictionnaire); break;
+			case 2:
+				$message = traduction(SITUATION_2, $dictionnaire); break;
+			case 3:
+				$message = traduction(SITUATION_3, $dictionnaire); break;
+			case 4:
+				$message = traduction(SITUATION_4, $dictionnaire); break;
 		}
 		
 		return $message;
-	}
-	
-	/**
-	 * Retourne le message si la langue utilisé est le français
-	 * @param $situation
-	 * @return string
-	 */
-	function messageSituationFr($situation): string {
-		
-		$messageFr = "";
-		switch ($situation) {
-			case 1:
-				$messageFr = "Vous devez choisir absolument votre organisateur de tournois avant de commencer la partie.";
-				break;
-			case 2:
-				$messageFr = "Votre organisateur n'a pas organisé ses valeurs & couleurs de jetons.";
-				break;
-			case 3:
-				$messageFr = "Votre organisateur n'a pas organisé ses mises de «Small» & «Big» blind.";
-				break;
-			case 4:
-				$messageFr = "Votre organisateur n'a tout simplement rien organisé de son côté, veuillez lui en faire part.";
-				break;
-		}
-		
-		return $messageFr;
-	}
-	
-	/**
-	 * Retourne le message si la langue utilisé est l'anglais
-	 * @param $situation
-	 * @return string
-	 */
-	function messageSituationAng($situation): string {
-		
-		$messageAng = "";
-		switch ($situation) {
-			case 1:
-				$messageAng = "You absolutely must choose your tournament organizer before starting the game.";
-				break;
-			case 2:
-				$messageAng = "Your organizer has not organized their chip values & colors.";
-				break;
-			case 3:
-				$messageAng = "Your organizer has not organized his «Small» & «Big» blind bets.";
-				break;
-			case 4:
-				$messageAng = "Your organizer has simply not organized anything on his side, please let him know.";
-				break;
-		}
-		
-		return $messageAng;
 	}
 	
 	/**

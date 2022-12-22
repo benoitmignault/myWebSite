@@ -33,71 +33,13 @@ const couleurBleu = document.querySelector('#numberBlue');
 
 const aucuneValeurDispo = document.querySelector('#aucuneValeurDispo');
 
-const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
-const btn_choisir = document.querySelector('.container .tableau_bord form .choix .bouton');
+const btnReturn = document.querySelector('.boutonRetour .retour form .resizeText');
+const btnChoisir = document.querySelector('.container .tableau_bord form .choix .bouton');
 
 let comptage = 0; // la variable un genre de compteur de temps
 let min = 0;
 let sec = 0;
 let chrono = 0; // pour savoir quel compteur est déclenche...
-
-
-function modificationSizeValeurs(big) {
-    let bigNumber = parseInt(big);
-    let largeur = window.innerWidth;
-    if (largeur < 768) {
-        if (bigNumber < 1000) {
-            valeurSmall.style.fontSize = "64px";
-            valeurBig.style.fontSize = "64px";
-        } else if (bigNumber >= 1000 && bigNumber < 10000) {
-            valeurSmall.style.fontSize = "56px";
-            valeurBig.style.fontSize = "56px";
-        } else if (bigNumber >= 10000 && bigNumber < 100000) {
-            valeurSmall.style.fontSize = "48px";
-            valeurBig.style.fontSize = "48px";
-        } else if (bigNumber >= 100000) {
-            valeurSmall.style.fontSize = "40px";
-            valeurBig.style.fontSize = "40px";
-        }
-    }
-    console.log(valeurSmall.style.fontSize);
-}
-
-// TODO : Comprendre pourquoi ca marche pas
-
-// Function optimiser par OpenAI
-/*
-function modificationSizeValeurs(big) {
-    // Tableau de valeurs de fontSize en fonction de bigNumber
-    const fontSizes = [64, 56, 48, 40];
-
-    // Pré-calcul de la largeur de la fenêtre
-    const windowWidth = window.innerWidth;
-
-    // Arrondi de bigNumber à l'entier le plus proche
-    const bigNumber = Math.floor(parseInt(big));
-
-    // Si la largeur de la fenêtre est inférieure à 768
-    if (windowWidth < 768) {
-        // Détermination de l'index du tableau à partir de bigNumber
-        let index = 0;
-        if (bigNumber >= 1000) {
-            index = 1;
-        }
-        if (bigNumber >= 10000) {
-            index = 2;
-        }
-        if (bigNumber >= 100000) {
-            index = 3;
-        }
-
-        // Mise à jour de la taille de police avec la valeur du tableau
-        valeurSmall.style.fontSize = `${fontSizes[index]}px`;
-        valeurBig.style.fontSize = `${fontSizes[index]}px`;
-    }
-    console.log(valeurSmall.style.fontSize);
-}
-*/
 
 /**
  * La fonction doit rester une simple function qui n'est pas caller
@@ -438,6 +380,37 @@ function resizeText() {
     // 1.2145832777023315 -> 110%
     // 1.3802082538604736 -> 125%
 }
+
+function modificationSizeValeurs(big) {
+    // Tableau de valeurs de fontSize en fonction de bigNumber
+    const fontSizes = [64, 56, 48, 40];
+
+    // Pré-calcul de la largeur de la fenêtre
+    const windowWidth = window.innerWidth;
+
+    // Arrondi de bigNumber à l'entier le plus proche
+    const bigNumber = Math.floor(parseInt(big));
+
+    // Si la largeur de la fenêtre est inférieure à 768
+    if (windowWidth < 768) {
+        // Détermination de l'index du tableau à partir de bigNumber
+        let index = 0;
+        if (bigNumber >= 1000) {
+            index = 1;
+        }
+        if (bigNumber >= 10000) {
+            index = 2;
+        }
+        if (bigNumber >= 100000) {
+            index = 3;
+        }
+
+        // Mise à jour de la taille de police avec la valeur du tableau
+        valeurSmall.style.fontSize = `${fontSizes[index]}px`;
+        valeurBig.style.fontSize = `${fontSizes[index]}px`;
+    }
+}
+
 
 
 function miseEnMarcheDuTimer() {

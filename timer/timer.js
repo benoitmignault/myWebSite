@@ -288,19 +288,15 @@ function callAjax() {
                         if (typeLangue.value === "english") {
                             // TODO : refaire les situation
                             if (dataErr.situation1) {
-                                alert("Can not access the BD. Please try again later !");
+                                alert("Crucial information is missing to retrieve information from the DB.");
                             } else if (dataErr.situation2) {
-                                alert("Missing important information. Validate your information !");
-                            } else if (dataErr.situation3) {
-                                alert("This file must be called via an AJAX call !");
+                                alert("This file must be called via an AJAX call.");
                             }
                         } else if (typeLangue.value === "francais") {
                             if (dataErr.situation1) {
                                 alert(dataErr.situation1);
                             } else if (dataErr.situation2) {
                                 alert(dataErr.situation2);
-                            } else if (dataErr.situation3) {
-                                alert(dataErr.situation3);
                             }
                         }
                     }

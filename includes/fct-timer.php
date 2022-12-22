@@ -57,5 +57,41 @@
 		// On va retourner array de la prochaine combinaison
 		return $combinaisonSuivante;
 	}
+	
+	function remplissageCouleurs(): array {
+		
+		$couleurs = array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255);
+		
+		// On récupère les trois types de couleurs
+		if (isset($_POST['couleurRouge'])) {
+			$couleurs['couleurRouge'] = intval($_POST['couleurRouge']);
+		}
+		if (isset($_POST['couleurVert'])) {
+			$couleurs['couleurVert'] = intval($_POST['couleurVert']);
+		}
+		if (isset($_POST['couleurBleu'])) {
+			$couleurs['couleurBleu'] = intval($_POST['couleurBleu']);
+		}
+		
+		$valeurRougeTemp = $couleurs['couleurRouge'] - 25;
+		$valeurVertTemp = $couleurs['couleurVert'] - 25;
+		// Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
+		if ($valeurVertTemp > 0) {
+			$couleurs['couleurVert'] = $valeurVertTemp;
+			$couleurs['couleurBleu'] = $valeurVertTemp;
+		} // Sinon, Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
+		elseif ($valeurRougeTemp > 0) {
+			$couleurs['couleurRouge'] = $valeurRougeTemp;
+			$couleurs['couleurVert'] = 0;
+			$couleurs['couleurBleu'] = 0;
+		}
+		else {
+			$couleurs['couleurRouge'] = 0;
+			$couleurs['couleurVert'] = 0;
+			$couleurs['couleurBleu'] = 0;
+		}
+		
+		return $couleurs;
+	}
 
 ?>

@@ -442,6 +442,7 @@
 	}
 	
 	include_once("../includes/fct-connexion-bd.php");
+	include_once("../includes/fct-timer.php");
 	
 	const CHEMIN_DICTIONNAIRE_TIMER = '../dictionary/timer.json';
 	

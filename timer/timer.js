@@ -31,7 +31,7 @@ const couleurRouge = document.querySelector('#numberRed');
 const couleurVert = document.querySelector('#numberGreen');
 const couleurBleu = document.querySelector('#numberBlue');
 
-const aucuneValeurDispo = document.querySelector('#tropValeur');
+const aucuneValeurDispo = document.querySelector('#aucuneValeurDispo');
 
 const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
 const btn_choisir = document.querySelector('.container .tableau_bord form .choix .bouton');

@@ -7,7 +7,7 @@
 	function initialisationChamps(): array {
 		
 		return ['message' => "", 'typeLangue' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0,
-		        'valeurSmall' => 0, 'valeurBig' => 0, 'numberRed' => 255, 'numberGreen' => 255, 'numberBlue' => 255,
+		        'valeurSmall' => 0, 'valeurBig' => 0, 'couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255,
 		        'listeDesOrganisateurs' => array(), 'listeDesValeursCouleurs' => array(),
 		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00")];
 	}
@@ -64,9 +64,9 @@
 		
 		return $mot;
 	}
- 
+	
 	/**
-     * Retourne le message en fonction de la situation trouver dans le dictionnaire et la traduire au besoin.
+	 * Retourne le message en fonction de la situation trouver dans le dictionnaire et la traduire au besoin.
 	 * @param $dictionnaire
 	 * @param $situation
 	 * @return string
@@ -77,17 +77,21 @@
 		define('SITUATION_2', "Votre organisateur n'a pas organisé ses valeurs & couleurs de jetons.");
 		define('SITUATION_3', "Votre organisateur n'a pas organisé ses mises de «Small» & «Big» blind.");
 		define('SITUATION_4', "Votre organisateur n'a tout simplement rien organisé de son côté, veuillez lui en faire part.");
-  
+		
 		$message = "";
 		switch ($situation) {
 			case 1:
-				$message = traduction(SITUATION_1, $dictionnaire); break;
+				$message = traduction(SITUATION_1, $dictionnaire);
+				break;
 			case 2:
-				$message = traduction(SITUATION_2, $dictionnaire); break;
+				$message = traduction(SITUATION_2, $dictionnaire);
+				break;
 			case 3:
-				$message = traduction(SITUATION_3, $dictionnaire); break;
+				$message = traduction(SITUATION_3, $dictionnaire);
+				break;
 			case 4:
-				$message = traduction(SITUATION_4, $dictionnaire); break;
+				$message = traduction(SITUATION_4, $dictionnaire);
+				break;
 		}
 		
 		return $message;
@@ -131,40 +135,40 @@
 				// On préparer la prochaine combinaison qui s'envient
 				$champs['combinaison'] = intval($_POST['combinaison']);
 				// On récupère les trois types de couleurs
-				if (isset($_POST['numberRed'])) {
-					$champs['numberRed'] = intval($_POST['numberRed']);
+				if (isset($_POST['couleurRouge'])) {
+					$champs['couleurRouge'] = intval($_POST['couleurRouge']);
 				}
-				if (isset($_POST['numberGreen'])) {
-					$champs['numberGreen'] = intval($_POST['numberGreen']);
+				if (isset($_POST['couleurVert'])) {
+					$champs['couleurVert'] = intval($_POST['couleurVert']);
 				}
-				if (isset($_POST['numberBlue'])) {
-					$champs['numberBlue'] = intval($_POST['numberBlue']);
+				if (isset($_POST['couleurBleu'])) {
+					$champs['couleurBleu'] = intval($_POST['couleurBleu']);
 				}
-				$valueRedTemp = $champs['numberRed'] - 25;
-				$valueGreenTemp = $champs['numberGreen'] - 25;
+				$valueRedTemp = $champs['couleurRouge'] - 25;
+				$valueGreenTemp = $champs['couleurVert'] - 25;
 				// Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
 				if ($valueGreenTemp > 0) {
-					$champs['numberGreen'] = $valueGreenTemp;
-					$champs['numberBlue'] = $valueGreenTemp;
+					$champs['couleurVert'] = $valueGreenTemp;
+					$champs['couleurBleu'] = $valueGreenTemp;
 				} // Sinon, Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
                 elseif ($valueRedTemp > 0) {
-					$champs['numberRed'] = $valueRedTemp;
-					$champs['numberGreen'] = 0;
-					$champs['numberBlue'] = 0;
+					$champs['couleurRouge'] = $valueRedTemp;
+					$champs['couleurVert'] = 0;
+					$champs['couleurBleu'] = 0;
 				}
 				else {
-					$champs['numberRed'] = 0;
-					$champs['numberGreen'] = 0;
-					$champs['numberBlue'] = 0;
+					$champs['couleurRouge'] = 0;
+					$champs['couleurVert'] = 0;
+					$champs['couleurBleu'] = 0;
 				}
 			} // Remplissage des variables si on passe par une remise à 0 des mises
             elseif (isset($_POST['btnResetMise'])) {
 				// En raison d'un bug, nous allons récupéré la valeur Max pour permettre à la validation aucuneValeurSmallBig d'être ok
 				$champs['maxCombinaison'] = recupererMaxCombinaison($connMYSQL, $champs['nomOrganisateur']);
 				$champs['combinaison'] = 0;
-				$champs['numberRed'] = 255;
-				$champs['numberGreen'] = 255;
-				$champs['numberBlue'] = 255;
+				$champs['couleurRouge'] = 255;
+				$champs['couleurVert'] = 255;
+				$champs['couleurBleu'] = 255;
 			}
 		}
 		
@@ -374,14 +378,14 @@
 	
 	/**
 	 * Retourne la couleur dynamiquement pour les valeurs «Small» et «Big» blind.
-	 * @param $numberRed
-	 * @param $numberGreen
-	 * @param $numberBlue
+	 * @param $couleurRouge
+	 * @param $couleurVert
+	 * @param $couleurBleu
 	 * @return string
 	 */
-	function couleurValeurMise($numberRed, $numberGreen, $numberBlue): string {
+	function couleurValeurMise($couleurRouge, $couleurVert, $couleurBleu): string {
 		
-		return "rgb($numberRed, $numberGreen, $numberBlue)";
+		return "rgb($couleurRouge, $couleurVert, $couleurBleu)";
 	}
 	
 	/**
@@ -410,15 +414,16 @@
 		
 		exit; // Pour arrêter execution du code php
 	}
-		
-    /**
-     * Retourne sur la page du timer + un message avertissement
-     * @param $dictionnaire
-     * @param $situation
-     * @param $typeLangue
-     * @return void
-     */
+	
+	/**
+	 * Retourne sur la page du timer + un message avertissement
+	 * @param $dictionnaire
+	 * @param $situation
+	 * @param $typeLangue
+	 * @return void
+	 */
 	function redirectionVersTimer($dictionnaire, $situation, $typeLangue) {
+		
 		$message = messageSituation($dictionnaire, $situation);
 		
 		define('FRENCH_URL', "/timer/timer.php?langue=francais");
@@ -497,7 +502,7 @@
     <link rel="stylesheet" type="text/css" href="timer.css">
     <style>
         .container > .timer > .tableauDesMises > .lesMises > div > .blind {
-            color: <?php echo couleurValeurMise($champs['numberRed'], $champs['numberGreen'], $champs['numberBlue']); ?>
+            color: <?php echo couleurValeurMise($champs['couleurRouge'], $champs['couleurVert'], $champs['couleurBleu']); ?>
         }
     </style>
     <title><?php echo traduction("Minuteur", $dictionnaire); ?></title>
@@ -512,10 +517,10 @@
     <div class="tableau_bord">
         <form method="post" action="./timer.php" id="formulaire">
             <div class="choix">
-                <input form="formulaire" type="hidden" id="numberRed" name="numberRed" value="<?php echo $champs['numberRed']; ?>">
-                <input form="formulaire" type="hidden" id="numberGreen" name="numberGreen" value="<?php echo $champs['numberGreen']; ?>">
-                <input form="formulaire" type="hidden" id="numberBlue" name="numberBlue" value="<?php echo $champs['numberBlue']; ?>">
-                <input form="formulaire" type="hidden" id="tropValeur" name="tropValeur"
+                <input form="formulaire" type="hidden" id="numberRed" name="couleurRouge" value="<?php echo $champs['couleurRouge']; ?>">
+                <input form="formulaire" type="hidden" id="numberGreen" name="couleurVert" value="<?php echo $champs['couleurVert']; ?>">
+                <input form="formulaire" type="hidden" id="numberBlue" name="couleurBleu" value="<?php echo $champs['couleurBleu']; ?>">
+                <input form="formulaire" type="hidden" id="aucuneValeurDispo"
 					<?php if ($champsValid['aucuneValeurDispo']) { ?>
                         value="true"
 					<?php } else { ?>

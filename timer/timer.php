@@ -503,7 +503,7 @@
     <link rel="stylesheet" type="text/css" href="timer.css">
     <style>
         .container > .timer > .tableauDesMises > .lesMises > div > .blind {
-            color: <?php echo couleurValeurMise($champs['couleurRouge'], $champs['couleurVert'], $champs['couleurBleu']); ?>
+            color: <?php echo couleurValeurMise($champs['couleurs']['couleurRouge'], $champs['couleurs']['couleurVert'], $champs['couleurs']['couleurBleu']); ?>
         }
     </style>
     <title><?php echo traduction("Minuteur", $dictionnaire); ?></title>
@@ -518,9 +518,12 @@
     <div class="tableau_bord">
         <form method="post" action="./timer.php" id="formulaire">
             <div class="choix">
-                <input form="formulaire" type="hidden" id="numberRed" name="couleurRouge" value="<?php echo $champs['couleurRouge']; ?>">
-                <input form="formulaire" type="hidden" id="numberGreen" name="couleurVert" value="<?php echo $champs['couleurVert']; ?>">
-                <input form="formulaire" type="hidden" id="numberBlue" name="couleurBleu" value="<?php echo $champs['couleurBleu']; ?>">
+                <input form="formulaire" type="hidden" id="numberRed" name="couleurRouge"
+                       value="<?php echo $champs['couleurs']['couleurRouge']; ?>">
+                <input form="formulaire" type="hidden" id="numberGreen" name="couleurVert"
+                       value="<?php echo $champs['couleurs']['couleurVert']; ?>">
+                <input form="formulaire" type="hidden" id="numberBlue" name="couleurBleu"
+                       value="<?php echo $champs['couleurs']['couleurBleu']; ?>">
                 <input form="formulaire" type="hidden" id="aucuneValeurDispo"
 					<?php if ($champsValid['aucuneValeurDispo']) { ?>
                         value="true"

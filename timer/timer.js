@@ -1,7 +1,7 @@
 const changerMise = document.querySelector('#changerMise');
 
-const temps_periode = document.querySelector('.container .timer .tableauDuTemps .temps div .resizeText');
-const type_mises = document.querySelector('.container .timer .tableauDesMises .lesMises div .resizeText');
+const tempsPeriode = document.querySelector('.container .timer .tableauDuTemps .temps div .resizeText');
+const typeMises = document.querySelector('.container .timer .tableauDesMises .lesMises div .resizeText');
 
 const resetValeur = document.querySelector('#reset');
 const resetTemps = document.querySelector('#ResetTemps');
@@ -387,7 +387,6 @@ function resetTemp() {
 }
 
 // TODO : Comprendre pourquoi ca marche pas
-
 function resizeText() {
     let device = detectZoom.device();
     console.log(device);
@@ -396,42 +395,42 @@ function resizeText() {
     if (largeur < 1300) {
         if (device > 1.2) {
             reprendTimer.style.fontSize = "20px";
-            temps_periode.style.fontSize = "30px";
-            type_mises.style.fontSize = "30px";
-            btn_return.style.fontSize = "20px";
-            btn_choisir.style.fontSize = "20px";
+            tempsPeriode.style.fontSize = "30px";
+            typeMises.style.fontSize = "30px";
+            btnReturn.style.fontSize = "20px";
+            btnChoisir.style.fontSize = "20px";
         } else if (device >= 1.1) {
             reprendTimer.style.fontSize = "25px";
-            temps_periode.style.fontSize = "35px";
-            type_mises.style.fontSize = "35px";
-            btn_return.style.fontSize = "25px";
-            btn_choisir.style.fontSize = "25px";
+            tempsPeriode.style.fontSize = "35px";
+            typeMises.style.fontSize = "35px";
+            btnReturn.style.fontSize = "25px";
+            btnChoisir.style.fontSize = "25px";
         } else if (device >= 1) {
             reprendTimer.style.fontSize = "30px";
-            temps_periode.style.fontSize = "40px";
-            type_mises.style.fontSize = "40px";
-            btn_return.style.fontSize = "30px";
-            btn_choisir.style.fontSize = "30px";
+            tempsPeriode.style.fontSize = "40px";
+            typeMises.style.fontSize = "40px";
+            btnReturn.style.fontSize = "30px";
+            btnChoisir.style.fontSize = "30px";
         }
     } else if (largeur > 1300) {
         if (device > 1.4) {
             reprendTimer.style.fontSize = "20px";
-            temps_periode.style.fontSize = "30px";
-            type_mises.style.fontSize = "30px";
-            btn_return.style.fontSize = "20px";
-            btn_choisir.style.fontSize = "20px";
+            tempsPeriode.style.fontSize = "30px";
+            typeMises.style.fontSize = "30px";
+            btnReturn.style.fontSize = "20px";
+            btnChoisir.style.fontSize = "20px";
         } else if (device > 1.2) {
             reprendTimer.style.fontSize = "30px";
-            temps_periode.style.fontSize = "35px";
-            type_mises.style.fontSize = "35px";
-            btn_return.style.fontSize = "30px";
-            btn_choisir.style.fontSize = "30px";
+            tempsPeriode.style.fontSize = "35px";
+            typeMises.style.fontSize = "35px";
+            btnReturn.style.fontSize = "30px";
+            btnChoisir.style.fontSize = "30px";
         } else if (device > 1.1) {
             reprendTimer.style.fontSize = "35px";
-            temps_periode.style.fontSize = "40px";
-            type_mises.style.fontSize = "40px";
-            btn_return.style.fontSize = "35px";
-            btn_choisir.style.fontSize = "35px";
+            tempsPeriode.style.fontSize = "40px";
+            typeMises.style.fontSize = "40px";
+            btnReturn.style.fontSize = "35px";
+            btnChoisir.style.fontSize = "35px";
         }
     }
     modificationSizeValeurs(valeurBig.innerHTML);

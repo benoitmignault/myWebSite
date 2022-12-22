@@ -105,70 +105,40 @@
 	 */
 	function remplissageChamps($connMYSQL, $champs): array {
 		
-		// Remplissage des variables si on passe par le GET
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			if (isset($_GET['langue'])) {
 				$_SERVER['typeLangue'] = $_GET['langue'];
 				$champs['typeLangue'] = $_GET['langue'];
 			}
-		} // Remplissage des variables si on passe par le POST
+		}
         elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			// Assignation de la variable langue est commune rendu ici
+			
 			if (isset($_POST['typeLangue'])) {
 				$_SERVER['typeLangue'] = $_POST['typeLangue'];
 				$champs['typeLangue'] = $_POST['typeLangue'];
 			}
-			// Peu importe quand, on doit récupérer le nom de l'organisateur
+			
 			if (isset($_POST['choixOrganisateur'])) {
 				$champs['nomOrganisateur'] = $_POST['choixOrganisateur'];
 			}
-			// Remplissage des variables si on passe par le choix de l'organisateur
+			
 			if (isset($_POST['btnChoixOrganisateur'])) {
-				// Au moment de setter l'organisateur, on va chercher une seule fois son nombre de combinaisons totales.
 				$champs['maxCombinaison'] = recupererMaxCombinaison($connMYSQL, $champs['nomOrganisateur']);
-			} // Remplissage des variables si on passe par changer de mise
+			}
             elseif (isset($_POST['btnChangerMise'])) {
-				// Au moment de changer les mise, on récupérer la valeur du nombre max de combinaisons
+				
 				if (isset($_POST['maxCombinaison'])) {
 					$champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
 				}
-				// On préparer la prochaine combinaison qui s'envient
+				
 				$champs['combinaison'] = intval($_POST['combinaison']);
-				// On récupère les trois types de couleurs
-				if (isset($_POST['couleurRouge'])) {
-					$champs['couleurRouge'] = intval($_POST['couleurRouge']);
-				}
-				if (isset($_POST['couleurVert'])) {
-					$champs['couleurVert'] = intval($_POST['couleurVert']);
-				}
-				if (isset($_POST['couleurBleu'])) {
-					$champs['couleurBleu'] = intval($_POST['couleurBleu']);
-				}
-				$valueRedTemp = $champs['couleurRouge'] - 25;
-				$valueGreenTemp = $champs['couleurVert'] - 25;
-				// Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
-				if ($valueGreenTemp > 0) {
-					$champs['couleurVert'] = $valueGreenTemp;
-					$champs['couleurBleu'] = $valueGreenTemp;
-				} // Sinon, Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
-                elseif ($valueRedTemp > 0) {
-					$champs['couleurRouge'] = $valueRedTemp;
-					$champs['couleurVert'] = 0;
-					$champs['couleurBleu'] = 0;
-				}
-				else {
-					$champs['couleurRouge'] = 0;
-					$champs['couleurVert'] = 0;
-					$champs['couleurBleu'] = 0;
-				}
-			} // Remplissage des variables si on passe par une remise à 0 des mises
+				$champs['couleurs'] = remplissageCouleurs();
+			}
             elseif (isset($_POST['btnResetMise'])) {
 				// En raison d'un bug, nous allons récupéré la valeur Max pour permettre à la validation aucuneValeurSmallBig d'être ok
 				$champs['maxCombinaison'] = recupererMaxCombinaison($connMYSQL, $champs['nomOrganisateur']);
 				$champs['combinaison'] = 0;
-				$champs['couleurRouge'] = 255;
-				$champs['couleurVert'] = 255;
-				$champs['couleurBleu'] = 255;
+				$champs['couleurs'] = array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255);
 			}
 		}
 		

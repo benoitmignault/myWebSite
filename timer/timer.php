@@ -480,7 +480,6 @@
 	}
 	
 	// TODO : Vérifier si les appels Ajax marche encore malgré tous mes changements
-	// TODO : Possible essayer exporter les fct messageSituation dans le dictionnaire
 	
 	$connMYSQL->close();
 ?>

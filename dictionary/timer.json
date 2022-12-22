@@ -17,5 +17,9 @@
   "Couleur": "Color",
   "Minutes": "Minutes",
   "Secondes": "Seconds",
-  "Arrêt": "Stop"
+  "Arrêt": "Stop",
+  "Vous devez choisir absolument votre organisateur de tournois avant de commencer la partie.": "You absolutely must choose your tournament organizer before starting the game.",
+  "Votre organisateur n'a pas organisé ses valeurs & couleurs de jetons.": "Your organizer has not organized their chip values & colors.",
+  "Votre organisateur n'a pas organisé ses mises de «Small» & «Big» blind.": "Your organizer has not organized his «Small» & «Big» blind bets.",
+  "Votre organisateur n'a tout simplement rien organisé de son côté, veuillez lui en faire part.": "Your organizer has simply not organized anything on his side, please let him know."
 }

@@ -23,8 +23,8 @@
 		// colorRed & colorGreen & colorBlue remplace 'numberRed' => 255, 'numberGreen' => 255, 'numberBlue' => 255,
 		
 		return ['situation' => "", 'maxCombinaison' => 0, 'nomOrganisateur' => "", 'combinaison' => 0, "aucuneValeur" => false,
-		        'aucuneValeurDispo' => false, 'couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255,
-		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00")];
+		        'aucuneValeurDispo' => false, 'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00"),
+		        'couleurs' => array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255)];
 	}
 	
 	/**

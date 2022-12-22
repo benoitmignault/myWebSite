@@ -116,15 +116,21 @@
 		
 		if (!empty($champs['combinaison']) && !empty($champs['nomOrganisateur'])) {
 			$champs['nouvelleCombinaison'] = selectionSmallBigBlind($connMYSQL, $champs['nomOrganisateur'], $champs['combinaison']);
-			$champs['combinaison']++;
+			$champs['combinaison']++; // On incrémente pour aller chercher la prochaine combinaison lors du prochain POST
+			
+			// Lorsque nous avons une égalité, c'est signe que nous n'avons plus de prochaines small/big
+			if ($champs['combinaison'] === $champs['maxCombinaison']) {
+				$champs['aucuneValeurDispo'] = true;
+			}
+			
 			returnOfAjaxSucces($champs);
 		}
 		else {
-			$champs["situation"] = "Il manque des informations importantes. Revalider vos informations !";
+			$champs["situation1"] = "Il manque des informations cruciales pour récupérer les informations venant de la BD.";
 			returnOfAjaxErreur($champs);
 		}
 	}
 	else {
-		$champs["situation"] = "Ce fichier doit être caller via un appel AJAX !";
+		$champs["situation2"] = "Ce fichier doit être caller via un appel AJAX.";
 		returnOfAjaxErreur($champs);
 	}

@@ -495,9 +495,6 @@
 		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
 			redirectionVersPageErreur();
 		}
-		else {
-			$champs['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
-		}
 	}
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {

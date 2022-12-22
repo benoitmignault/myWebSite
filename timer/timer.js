@@ -302,8 +302,11 @@ function callAjax() {
                     }
                 }
             });
-        } // Si la dernière valeur est atteinte
-    } // Si le nomOrganisateur est vide
+        } else {
+            resetTemps.setAttribute("class", "disabled");
+            resetTemps.setAttribute("disabled", "disabled");
+        }
+    }
 }
 
 function playMusique() {

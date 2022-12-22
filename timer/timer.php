@@ -413,11 +413,11 @@
 	
 	/**
 	 * Retourne sur la page du timer + un message avertissement
-	 * @param $typeLangue
-	 * @param $message
+	 * @param $situation
 	 * @return void
 	 */
-	function redirectionVersTimer($typeLangue, $message) {
+	function redirectionVersTimer($dictionnaire, $situation, $typeLangue) {
+		$message = messageSituation($dictionnaire, $situation);
 		
 		define('FRENCH_URL', "/timer/timer.php?langue=francais");
 		define('ENGLISH_URL', "/timer/timer.php?langue=english");
@@ -472,10 +472,9 @@
 			
 			$champsValid = validation($champs, $champsValid);
 			$champs['situation'] = situation($champsValid);
-			$champs['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
 			
 			if ($champsValid['erreurPossible']) {
-				redirectionVersTimer($champs['typeLangue'], $champs['message']);
+				redirectionVersTimer($dictionnaire, $champs['situation'], $champs['typeLangue']);
 			}
 		}
 	}

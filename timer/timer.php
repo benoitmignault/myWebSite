@@ -410,12 +410,14 @@
 		
 		exit; // Pour arrêter execution du code php
 	}
-	
-	/**
-	 * Retourne sur la page du timer + un message avertissement
-	 * @param $situation
-	 * @return void
-	 */
+		
+    /**
+     * Retourne sur la page du timer + un message avertissement
+     * @param $dictionnaire
+     * @param $situation
+     * @param $typeLangue
+     * @return void
+     */
 	function redirectionVersTimer($dictionnaire, $situation, $typeLangue) {
 		$message = messageSituation($dictionnaire, $situation);
 		

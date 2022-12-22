@@ -42,20 +42,8 @@ let sec = 0;
 let chrono = 0; // pour savoir quel compteur est déclenche...
 
 /**
- * La fonction doit rester une simple function qui n'est pas caller
- * comme les autres fonctions en bas via document.addEventListener
+ * Donne 15 minutes au cycle de temps.
  */
-function reset() {
-    resetValeur.addEventListener('click', function () {
-        changerMise.setAttribute("class", "");
-        changerMise.removeAttribute("disabled");
-        resetValeur.setAttribute("class", "disabled");
-        resetValeur.setAttribute("disabled", "disabled");
-        valeurSmall.style.fontSize = "64px";
-        valeurBig.style.fontSize = "64px";
-    });
-}
-
 function timer15Min() {
     temps15min.addEventListener('click', function () {
         miseEnMarcheDuTimer();

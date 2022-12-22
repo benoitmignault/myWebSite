@@ -29,7 +29,6 @@
 	
 	/**
 	 * Remplissage des variables qui seront utilisées pour l'appel Ajax du Timer lors d'un changement de mise
-	 * @param $connMYSQL
 	 * @param $champs
 	 * @return array
 	 */

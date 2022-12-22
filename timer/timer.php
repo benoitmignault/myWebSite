@@ -463,12 +463,14 @@
 	 */
 	function redirectionVersTimer($typeLangue, $message) {
 		
+		define('FRENCH_URL', "/timer/timer.php?langue=francais");
+		define('ENGLISH_URL', "/timer/timer.php?langue=english");
 		$url = "";
 		if ($typeLangue === 'francais') {
-			$url = "/timer/timer.php?langue=francais";
+			$url = FRENCH_URL;
 		}
         elseif ($typeLangue === 'english') {
-			$url = "/timer/timer.php?langue=english";
+			$url = ENGLISH_URL;
 		}
 		
 		echo "<script type='text/javascript'> alert(\"$message\"); window.location.replace('$url'); </script>";

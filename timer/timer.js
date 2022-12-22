@@ -214,9 +214,9 @@ function callAjax() {
                         // TODO : repasser à travers ces variables là
                         AUCUNE_VALEUR_DISPO.value = dataObj.aucuneValeurDispo;
                         COMBINAISON.value = dataObj.combinaison;
-                        COULEUR_ROUGE.value = dataObj.couleurRouge;
-                        COULEUR_VERT.value = dataObj.couleurVert;
-                        COULEUR_BLEU.value = dataObj.couleurBleu;
+                        COULEUR_ROUGE.value = dataObj.couleurs.couleurRouge;
+                        COULEUR_VERT.value = dataObj.couleurs.couleurVert;
+                        COULEUR_BLEU.value = dataObj.couleurs.couleurBleu;
                         VALEUR_SMALL.innerHTML = dataObj.nouvelleCombinaison.valeurSmall;
                         VALEUR_BIG.innerHTML = dataObj.nouvelleCombinaison.valeurBig;
                         VALEUR_SMALL.style.color = "rgb(" + COULEUR_ROUGE.value + "," + COULEUR_VERT.value + "," + COULEUR_BLEU.value + ")";

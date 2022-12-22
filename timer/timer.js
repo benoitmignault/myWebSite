@@ -240,16 +240,7 @@ function callAjax() {
     stopTimer.setAttribute("class", "disabled");
     stopTimer.setAttribute("disabled", "disabled");
     if (nomOrganisateur.value !== "") {
-        if (aucuneValeurDispo.value === "true") {
-            changerMise.setAttribute("class", "disabled");
-            changerMise.setAttribute("disabled", "disabled");
-            temps30min.setAttribute("class", "disabled");
-            temps30min.setAttribute("disabled", "disabled");
-            temps15min.setAttribute("class", "disabled");
-            temps15min.setAttribute("disabled", "disabled");
-            resetTemps.setAttribute("class", "disabled");
-            resetTemps.setAttribute("disabled", "disabled");
-        } else if (aucuneValeurDispo.value === "false") {
+        if (aucuneValeurDispo.value === "false") {
             changerMise.setAttribute("class", "");
             changerMise.removeAttribute("disabled");
             resetValeur.setAttribute("class", "");
@@ -278,10 +269,18 @@ function callAjax() {
                         couleurRouge.value = dataObj.couleurRouge;
                         couleurVert.value = dataObj.couleurVert;
                         couleurBleu.value = dataObj.couleurBleu;
-                        valeurSmall.innerHTML = dataObj.valeurSmall;
-                        valeurBig.innerHTML = dataObj.valeurBig;
+                        valeurSmall.innerHTML = dataObj.nouvelleCombinaison.valeurSmall;
+                        valeurBig.innerHTML = dataObj.nouvelleCombinaison.valeurBig;
                         valeurSmall.style.color = "rgb(" + couleurRouge.value + "," + couleurVert.value + "," + couleurBleu.value + ")";
                         valeurBig.style.color = "rgb(" + couleurRouge.value + "," + couleurVert.value + "," + couleurBleu.value + ")";
+
+                        // Déplacement de la logique si nous avons atteint la dernière valeur
+                        if (aucuneValeurDispo.value === "true") {
+                            changerMise.setAttribute("class", "disabled");
+                            changerMise.setAttribute("disabled", "disabled");
+                            resetTemps.setAttribute("class", "disabled");
+                            resetTemps.setAttribute("disabled", "disabled");
+                        }
 
                     } else if (dataReturn["erreur"]) {
                         let dataErr = JSON.parse(dataReturn["erreur"]);

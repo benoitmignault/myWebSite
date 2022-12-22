@@ -1,13 +1,20 @@
 <?php
-	// TODO : JavaDoc
+	
 	header("Content-type: application/json; charset=utf-8");
 	
-	//Function to check if the request is an AJAX request
+	/**
+	 * Retourne un boolean à savoir si cette appel Ajax en est vraiment une...
+	 * @return bool
+	 */
 	function is_ajax(): bool {
 		
 		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 	}
 	
+	/**
+	 * Retourne un array de variables qui seront utilisées pour l'appel Ajax du Timer lors d'un changement de mise
+	 * @return array
+	 */
 	function initialisationChamps(): array {
 		
 		// tropValeur remplace aucuneValeurDispo
@@ -20,7 +27,13 @@
 		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00")];
 	}
 	
-	function remplissageChamps($champs) {
+	/**
+	 * Remplissage des variables qui seront utilisées pour l'appel Ajax du Timer lors d'un changement de mise
+	 * @param $connMYSQL
+	 * @param $champs
+	 * @return array
+	 */
+	function remplissageChamps($champs): array {
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if (isset($_POST['nomOrganisateur'])) {
@@ -71,6 +84,11 @@
 		return $champs;
 	}
 	
+	/**
+	 * Retourne un succès avec le data qui a été récupéré pour afficher ce qui doit être afficher sur le tableau de bord
+	 * @param $champs
+	 * @return void
+	 */
 	function returnOfAjaxSucces($champs) {
 		
 		$return = $champs;
@@ -78,6 +96,10 @@
 		echo json_encode($return, JSON_FORCE_OBJECT);
 	}
 	
+	/**
+	 * @param $champs
+	 * @return void
+	 */
 	function returnOfAjaxErreur($champs) {
 		
 		$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);

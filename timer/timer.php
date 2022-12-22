@@ -496,7 +496,7 @@
 			redirectionVersPageErreur();
 		}
 		else {
-			$champsMots['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
+			$champs['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
 		}
 	}
 	
@@ -519,10 +519,10 @@
 			
 			$champsValid = validation($champs, $champsValid);
 			$champs['situation'] = situation($champsValid);
-			$champsMots['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
+			$champs['message'] = messageSituation($champs['typeLangue'], $champs['situation']);
 			
 			if ($champsValid['erreurPossible']) {
-				redirectionVersTimer($champs['typeLangue'], $champsMots['message']);
+				redirectionVersTimer($champs['typeLangue'], $champs['message']);
 			}
 		}
 	}

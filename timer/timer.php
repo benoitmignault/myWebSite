@@ -7,9 +7,9 @@
 	function initialisationChamps(): array {
 		
 		return ['message' => "", 'typeLangue' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0,
-		        'valeurSmall' => 0, 'valeurBig' => 0, 'couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255,
-		        'listeDesOrganisateurs' => array(), 'listeDesValeursCouleurs' => array(),
-		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00")];
+		        'valeurSmall' => 0, 'valeurBig' => 0, 'listeDesOrganisateurs' => array(), 'listeDesValeursCouleurs' => array(),
+		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00"),
+		        'couleurs' => array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255)];
 	}
 	
 	/**

@@ -23,7 +23,7 @@
 		// colorRed & colorGreen & colorBlue remplace 'numberRed' => 255, 'numberGreen' => 255, 'numberBlue' => 255,
 		
 		return ['situation' => "", 'maxCombinaison' => 0, 'nomOrganisateur' => "", 'combinaison' => 0, "aucuneValeur" => false,
-		        'aucuneValeurDispo' => false, 'numberRed' => 255, 'numberGreen' => 255, 'numberBlue' => 255,
+		        'aucuneValeurDispo' => false, 'couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255,
 		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00")];
 	}
 	
@@ -48,35 +48,35 @@
 				$champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
 			}
 			
-			if (isset($_POST['numberRed'])) {
-				$champs['numberRed'] = intval($_POST['numberRed']);
+			if (isset($_POST['couleurRouge'])) {
+				$champs['couleurRouge'] = intval($_POST['couleurRouge']);
 			}
 			
-			if (isset($_POST['numberGreen'])) {
-				$champs['numberGreen'] = intval($_POST['numberGreen']);
+			if (isset($_POST['couleurVert'])) {
+				$champs['couleurVert'] = intval($_POST['couleurVert']);
 			}
 			
-			if (isset($_POST['numberBlue'])) {
-				$champs['numberBlue'] = intval($_POST['numberBlue']);
+			if (isset($_POST['couleurBleu'])) {
+				$champs['couleurBleu'] = intval($_POST['couleurBleu']);
 			}
 			
-			$valueRedtemp = $champs['numberRed'] - 25;
-			$valueGreentemp = $champs['numberGreen'] - 25;
+			$valueRedtemp = $champs['couleurRouge'] - 25;
+			$valueGreentemp = $champs['couleurVert'] - 25;
 			// Si la partie bleu et vert sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
 			if ($valueGreentemp > 0) {
-				$champs['numberGreen'] = $valueGreentemp;
-				$champs['numberBlue'] = $valueGreentemp;
+				$champs['couleurVert'] = $valueGreentemp;
+				$champs['couleurBleu'] = $valueGreentemp;
 				// Si la partie rouge sont au dessus de 0 avec la diminution de 25, on réduit le vert et bleu de 25.
 			}
 			elseif ($valueRedtemp > 0) {
-				$champs['numberRed'] = $valueRedtemp;
-				$champs['numberGreen'] = 0;
-				$champs['numberBlue'] = 0;
+				$champs['couleurRouge'] = $valueRedtemp;
+				$champs['couleurVert'] = 0;
+				$champs['couleurBleu'] = 0;
 			}
 			else {
-				$champs['numberRed'] = 0;
-				$champs['numberGreen'] = 0;
-				$champs['numberBlue'] = 0;
+				$champs['couleurRouge'] = 0;
+				$champs['couleurVert'] = 0;
+				$champs['couleurBleu'] = 0;
 			}
 		}
 		

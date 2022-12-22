@@ -27,11 +27,11 @@ const combinaison = document.querySelector('.combinaison');
 const maxCombinaison = document.querySelector('.maxCombinaison');
 
 const nomOrganisateur = document.querySelector('#choixOrganisateur');
-const colorRed = document.querySelector('#numberRed');
-const colorGreen = document.querySelector('#numberGreen');
-const colorBlue = document.querySelector('#numberBlue');
+const couleurRouge = document.querySelector('#numberRed');
+const couleurVert = document.querySelector('#numberGreen');
+const couleurBleu = document.querySelector('#numberBlue');
 
-const tropValeur = document.querySelector('#tropValeur');
+const aucuneValeurDispo = document.querySelector('#tropValeur');
 
 const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
 const btn_choisir = document.querySelector('.container .tableau_bord form .choix .bouton');
@@ -240,7 +240,7 @@ function callAjax() {
     stopTimer.setAttribute("class", "disabled");
     stopTimer.setAttribute("disabled", "disabled");
     if (nomOrganisateur.value !== "") {
-        if (tropValeur.value === "true") {
+        if (aucuneValeurDispo.value === "true") {
             changerMise.setAttribute("class", "disabled");
             changerMise.setAttribute("disabled", "disabled");
             temps30min.setAttribute("class", "disabled");
@@ -249,7 +249,7 @@ function callAjax() {
             temps15min.setAttribute("disabled", "disabled");
             resetTemps.setAttribute("class", "disabled");
             resetTemps.setAttribute("disabled", "disabled");
-        } else if (tropValeur.value === "false") {
+        } else if (aucuneValeurDispo.value === "false") {
             changerMise.setAttribute("class", "");
             changerMise.removeAttribute("disabled");
             resetValeur.setAttribute("class", "");
@@ -258,9 +258,9 @@ function callAjax() {
                 "niveauCombinaison": combinaison.value,
                 "maxCombinaison": maxCombinaison.value,
                 "nomOrganisateur": nomOrganisateur.value,
-                "numberRed": colorRed.value,
-                "numberGreen": colorGreen.value,
-                "numberBlue": colorBlue.value
+                "couleurRouge": couleurRouge.value,
+                "couleurVert": couleurVert.value,
+                "couleurBleu": couleurBleu.value
             };
 
             $.ajax({
@@ -273,15 +273,15 @@ function callAjax() {
                     if (dataReturn["data"]) {
                         let dataObj = JSON.parse(dataReturn["data"]);
                         // TODO : repasser à travers ces variables là
-                        tropValeur.value = dataObj.tropValeur;
+                        aucuneValeurDispo.value = dataObj.aucuneValeurDispo;
                         combinaison.value = dataObj.combinaison;
-                        colorRed.value = dataObj.colorRed;
-                        colorGreen.value = dataObj.colorGreen;
-                        colorBlue.value = dataObj.colorBlue;
+                        couleurRouge.value = dataObj.couleurRouge;
+                        couleurVert.value = dataObj.couleurVert;
+                        couleurBleu.value = dataObj.couleurBleu;
                         valeurSmall.innerHTML = dataObj.valeurSmall;
                         valeurBig.innerHTML = dataObj.valeurBig;
-                        valeurSmall.style.color = "rgb(" + colorRed.value + "," + colorGreen.value + "," + colorBlue.value + ")";
-                        valeurBig.style.color = "rgb(" + colorRed.value + "," + colorGreen.value + "," + colorBlue.value + ")";
+                        valeurSmall.style.color = "rgb(" + couleurRouge.value + "," + couleurVert.value + "," + couleurBleu.value + ")";
+                        valeurBig.style.color = "rgb(" + couleurRouge.value + "," + couleurVert.value + "," + couleurBleu.value + ")";
 
                     } else if (dataReturn["erreur"]) {
                         let dataErr = JSON.parse(dataReturn["erreur"]);
@@ -295,6 +295,7 @@ function callAjax() {
                         } else if (typeLangue.value === "francais") {
                             if (dataErr.situation1) {
                                 alert(dataErr.situation1);
+
                             } else if (dataErr.situation2) {
                                 alert(dataErr.situation2);
                             }
@@ -376,7 +377,7 @@ function resetTemp() {
         resetTemps.setAttribute("class", "disabled");
         resetTemps.setAttribute("disabled", "disabled");
 
-        if (nomOrganisateur.value !== "" && tropValeur.value === "false") {
+        if (nomOrganisateur.value !== "" && aucuneValeurDispo.value === "false") {
             changerMise.setAttribute("class", "");
             changerMise.removeAttribute("disabled");
         }

@@ -443,7 +443,6 @@
 			if (!empty($champs['nomOrganisateur'])) {
 				$champs['listeDesValeursCouleurs'] = selectionValeursCouleurs($connMYSQL, $champs['nomOrganisateur']);
 				
-				include_once("../includes/fct-timer.php");
 				$champs['nouvelleCombinaison'] = selectionSmallBigBlind($connMYSQL, $champs['nomOrganisateur'], $champs['combinaison']);
 				$champs['combinaison']++; // On incrémente pour aller chercher la prochaine combinaison lors du prochain POST
 			}

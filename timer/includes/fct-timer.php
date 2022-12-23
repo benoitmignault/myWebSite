@@ -58,6 +58,10 @@
 		return $combinaisonSuivante;
 	}
 	
+	/**
+	 * Retourne la couleur nécessaire à l'affichage des mises
+	 * @return int[]
+	 */
 	function remplissageCouleurs(): array {
 		
 		$couleurs = array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255);

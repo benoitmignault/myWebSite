@@ -34,38 +34,6 @@
 	}
 	
 	/**
-	 * Retourne soit le mot traduit ou le mot lui-même, si l'utilisateur est sur la page en français
-	 * @param $motATraduire
-	 * @param $dictionnaire
-	 * @return string
-	 */
-	function traduction($motATraduire, $dictionnaire): string {
-		
-		$mot = "";
-		
-		if (array_key_exists($motATraduire, $dictionnaire)) {
-			// Retourner la traduction du mot, s'il doit être traduit
-			if ($_SERVER['typeLangue'] === "english") {
-				$mot = $dictionnaire[$motATraduire];
-			}
-            elseif ($_SERVER['typeLangue'] === "francais") {
-				$mot = $motATraduire;
-			}
-		}
-		else {
-			// Retourner un message d'erreur si le mot n'est pas présent dans le dictionnaire
-			if ($_SERVER['typeLangue'] === "english") {
-				$mot = "Word not found";
-			}
-            elseif ($_SERVER['typeLangue'] === "francais") {
-				$mot = "Mot introuvable";
-			}
-		}
-		
-		return $mot;
-	}
-	
-	/**
 	 * Retourne le message en fonction de la situation trouver dans le dictionnaire et la traduire au besoin.
 	 * @param $dictionnaire
 	 * @param $situation

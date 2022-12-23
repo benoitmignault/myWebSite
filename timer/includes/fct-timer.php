@@ -98,6 +98,17 @@
 	}
 	
 	/**
+	 * Retourne une structure de fichier Json qui contient le dictionnaire
+	 * @param $chemin
+	 * @return mixed
+	 */
+	function recuperationContenuFichierJson($chemin) {
+		
+		// Décoder les données JSON et les stocker dans un tableau associatif
+		return json_decode(file_get_contents($chemin), true);
+	}
+	
+	/**
 	 * Retourne soit le mot traduit ou le mot lui-même, si l'utilisateur est sur la page en français
 	 * @param $motATraduire
 	 * @param $dictionnaire

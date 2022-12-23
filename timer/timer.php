@@ -23,17 +23,6 @@
 	}
 	
 	/**
-	 * Retourne une structure de fichier Json qui contient le dictionnaire
-	 * @param $chemin
-	 * @return mixed
-	 */
-	function recuperationContenuFichierJson($chemin) {
-		
-		// Décoder les données JSON et les stocker dans un tableau associatif
-		return json_decode(file_get_contents($chemin), true);
-	}
-	
-	/**
 	 * Retourne le message en fonction de la situation trouver dans le dictionnaire et la traduire au besoin.
 	 * @param $dictionnaire
 	 * @param $situation

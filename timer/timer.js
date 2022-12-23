@@ -194,6 +194,7 @@ function callAjax() {
             RESET_VALEUR.setAttribute("class", "");
             RESET_VALEUR.removeAttribute("disabled");
             let data = {
+                "typeLangue": TYPE_LANGUE.value,
                 "niveauCombinaison": COMBINAISON.value,
                 "maxCombinaison": MAX_COMBINAISON.value,
                 "nomOrganisateur": NOM_ORGANISATEUR.value,

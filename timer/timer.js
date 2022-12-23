@@ -323,7 +323,6 @@ function resetTemp() {
 // TODO : Comprendre pourquoi ca marche pas
 function resizeText() {
     let device = detectZoom.device();
-    console.log(device);
     let largeur = window.innerWidth;
 
     if (largeur < 1300) {

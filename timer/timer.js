@@ -205,7 +205,7 @@ function callAjax() {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "changerMise/changer.php",
+                url: "changer.php",
                 data: data,
                 success: function (dataReturn) {
                     // sécurisation du retour d'information

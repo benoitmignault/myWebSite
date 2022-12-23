@@ -30,6 +30,10 @@
 	function remplissageChamps($champs): array {
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			if (isset($_POST['typeLangue'])) {
+				$_SERVER['typeLangue'] = $_POST['typeLangue'];
+			}
+			
 			if (isset($_POST['nomOrganisateur'])) {
 				$champs['nomOrganisateur'] = $_POST['nomOrganisateur'];
 			}

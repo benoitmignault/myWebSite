@@ -209,9 +209,8 @@ function callAjax() {
                 url: "changer.php",
                 data: data,
                 success: function (dataReturn) {
-                    // sécurisation du retour d'information
-                    if (dataReturn["data"]) {
-                        let dataObj = JSON.parse(dataReturn["data"]);
+                    if (dataReturn["dataAjaxSucces"]) {
+                        let dataObj = JSON.parse(dataReturn["dataAjaxSucces"]);
                         AUCUNE_VALEUR_DISPO.value = dataObj.aucuneValeurDispo;
                         COMBINAISON.value = dataObj.combinaison;
                         COULEUR_ROUGE.value = dataObj.couleurs.couleurRouge;
@@ -230,23 +229,10 @@ function callAjax() {
                             RESET_TEMPS.setAttribute("disabled", "disabled");
                         }
 
-                    } else if (dataReturn["erreur"]) {
-                        let dataErr = JSON.parse(dataReturn["erreur"]);
-                        if (TYPE_LANGUE.value === "english") {
-                            // TODO : refaire les situation
-                            if (dataErr.situation1) {
-                                alert("Crucial information is missing to retrieve information from the DB.");
-                            } else if (dataErr.situation2) {
-                                alert("This file must be called via an AJAX call.");
-                            }
-                        } else if (TYPE_LANGUE.value === "francais") {
-                            if (dataErr.situation1) {
-                                alert(dataErr.situation1);
+                    } else if (dataReturn["dataAjaxErreur"]) {
+                        let dataErr = JSON.parse(dataReturn["dataAjaxErreur"]);
 
-                            } else if (dataErr.situation2) {
-                                alert(dataErr.situation2);
-                            }
-                        }
+                        alert(dataErr.situation);
                     }
                 }
             });

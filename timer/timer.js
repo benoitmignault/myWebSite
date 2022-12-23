@@ -211,7 +211,6 @@ function callAjax() {
                     // sécurisation du retour d'information
                     if (dataReturn["data"]) {
                         let dataObj = JSON.parse(dataReturn["data"]);
-                        // TODO : repasser à travers ces variables là
                         AUCUNE_VALEUR_DISPO.value = dataObj.aucuneValeurDispo;
                         COMBINAISON.value = dataObj.combinaison;
                         COULEUR_ROUGE.value = dataObj.couleurs.couleurRouge;

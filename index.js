@@ -1,24 +1,25 @@
-var langue = document.querySelector('#typeLangue');
-var div_Photo = document.querySelector('.photo');
-var div_Center = document.querySelector('.center');
-var listeSections = document.querySelectorAll('.header div a');
-var listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
-var lien = document.querySelector('#liste_language');
-var div_liste = document.querySelector('#hidden');
-var liste = document.querySelector('#enum_Language');
-var nomComplet = document.querySelector('#nom');
-var courriel = document.querySelector('#email');
-var message = document.querySelector('#msg');
-var sujet = document.querySelector('#sujet');
-var msgErr = document.querySelector('.msgErr');
-var form = document.querySelector('#formContact');
-var msgSucces = document.querySelector('.courrielSend');
-var hashTag = document.querySelector('#hashTag');
-var calendrierAJAX = document.querySelector('#tableauAJAX');
+const langue = document.querySelector('#typeLangue');
+const div_Photo = document.querySelector('.photo');
+const div_Center = document.querySelector('.center');
+const listeSections = document.querySelectorAll('.header div a');
+// Doublon de déclaration
+// const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
+const lien = document.querySelector('#liste_language');
+const div_liste = document.querySelector('#hidden');
+const liste = document.querySelector('#enum_Language');
+const nomComplet = document.querySelector('#nom');
+const courriel = document.querySelector('#email');
+const message = document.querySelector('#msg');
+const sujet = document.querySelector('#sujet');
+const msgErr = document.querySelector('.msgErr');
+const form = document.querySelector('#formContact');
+const msgSucces = document.querySelector('.courrielSend');
+const hashTag = document.querySelector('#hashTag');
+const calendrierAJAX = document.querySelector('#tableauAJAX');
 
 function activation_Liste() {
     lien.addEventListener('click', function (evt) {
-        if (div_liste.style.display == "") {
+        if (div_liste.style.display === "") {
             div_liste.style.display = 'block';
             liste.innerHTML = "<li>PHP / HTML / CSS</li>";
             liste.innerHTML += "<li>PYTHON3 / FLASK</li>";
@@ -26,7 +27,7 @@ function activation_Liste() {
             liste.innerHTML += "<li>C / C++ / MAKEFILE</li>";
             liste.innerHTML += "<li>SQL / MYSQL / ORACLE</li>";
             liste.innerHTML += "<li>JAVA</li>";
-            if (langue.value == "en") {
+            if (langue.value === "en") {
                 liste.innerHTML += "<li>ASSEMBLY IN (Pep8)</li>";
             } else {
                 liste.innerHTML += "<li>ASSEMBLEUR EN (Pep8)</li>";
@@ -36,7 +37,7 @@ function activation_Liste() {
             liste.innerHTML += "<li>NETBEANS / JAVA8 </li>";
             liste.innerHTML += "<li>ANDROID STUDIO / JAVA</li>";
             liste.innerHTML += "<li>WINDOWS 7 / 10 / UBUNTU</li>";
-        } else if (div_liste.style.display == 'block') {
+        } else if (div_liste.style.display === 'block') {
             liste.innerHTML = "";
             div_liste.style.display = "";
         }
@@ -44,9 +45,9 @@ function activation_Liste() {
 }
 
 function affichageAccueil() {
-    if (langue.value == "fr") {
+    if (langue.value === "fr") {
         $(div_Center).load("pageAccueil/partie_accueil.html");
-    } else if (langue.value == "en") {
+    } else if (langue.value === "en") {
         $(div_Center).load("../pageAccueil/partie_accueil_EN.html");
     }
     hashTag.value = "";
@@ -54,12 +55,12 @@ function affichageAccueil() {
 }
 
 function affichageSection() {
-    var tagSection = $(listeSections).filter("[href='" + location.hash + "']");
+    let tagSection = $(listeSections).filter("[href='" + location.hash + "']");
     if (tagSection.length) {
         hashTag.value = tagSection.attr('href');
-        if (tagSection.attr('href') == '#english') {
+        if (tagSection.attr('href') === '#english') {
             window.location.replace("english/english.html")
-        } else if (tagSection.attr('href') == '#french') {
+        } else if (tagSection.attr('href') === '#french') {
             window.location.replace("../index.html")
         } else {
             var lien_page = tagSection.data('href');
@@ -67,21 +68,21 @@ function affichageSection() {
                 div_Photo.innerHTML = "";
             });
         } // si je pese sur hautPageDesktop apres avec peser sur la section photo, erreur js
-    } else if (hashTag.value == '#photos' || hashTag.value == '#pictures') {
+    } else if (hashTag.value === '#photos' || hashTag.value === '#pictures') {
         affichageSectionPhoto();
-    } else if (location.hash != "#hautPageDesktop" && location.hash != "#hautPageCellulaire") {
+    } else if (location.hash !== "#hautPageDesktop" && location.hash !== "#hautPageCellulaire") {
         affichageAccueil();
     }
 }
 
 function callAjax() {
-    var data = {
+    let data = {
         "type_langue": langue.value
     };
-    var url = "";
-    if (langue.value == "fr") {
+    let url = "";
+    if (langue.value === "fr") {
         url = "/calendrier/calendrier.php";
-    } else if (langue.value == "en") {
+    } else if (langue.value === "en") {
         url = "../calendrier/calendrier.php";
     }
 
@@ -98,8 +99,8 @@ function callAjax() {
                 // Après l'affichage du calendrier, on call le temps du timer et voilà
                 start_timer();
             } else if (dataReturn["erreur"]) {
-                var dataErr = JSON.parse(dataReturn["erreur"]);
-                if (langue.value == "en") {
+                let dataErr = JSON.parse(dataReturn["erreur"]);
+                if (langue.value === "en") {
                     if (dataErr.situation1) {
                         calendrierAJAX.innerHTML = "Warning ! It is missing the value of the language for the display of the web page !";
                     } else if (dataErr.situation2) {
@@ -119,13 +120,14 @@ function callAjax() {
 
 function start_timer() {
     const insertion_time = document.querySelector('.contenu_ligne_heure_actuel');
-    var date_live = new Date();
-    if (langue.value == "fr") {
-        var date_affiche = remplissageZeroFilled(date_live.getHours()) + ":" + remplissageZeroFilled(date_live.getMinutes()) + ":" + remplissageZeroFilled(date_live.getSeconds());
+    let date_live = new Date();
+    let date_affiche;
+    if (langue.value === "fr") {
+        date_affiche = remplissageZeroFilled(date_live.getHours()) + ":" + remplissageZeroFilled(date_live.getMinutes()) + ":" + remplissageZeroFilled(date_live.getSeconds());
         insertion_time.innerHTML = date_affiche;
         setTimeout("start_timer()", 1000);
-    } else if (langue.value == "en") {
-        var date_affiche = formatAMPM(date_live);
+    } else if (langue.value === "en") {
+        date_affiche = formatAMPM(date_live);
         insertion_time.innerHTML = date_affiche;
         setTimeout("start_timer()", 1000);
     }
@@ -136,25 +138,25 @@ function remplissageZeroFilled(valeur) {
 }
 
 function formatAMPM(date) {
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var secondes = date.getSeconds();
-    var am_Or_pm = hours >= 12 ? 'PM' : 'AM';
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let secondes = date.getSeconds();
+    let am_Or_pm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? '0' + minutes : minutes;
     secondes = secondes < 10 ? '0' + secondes : secondes;
-    var heure_english = hours + ':' + minutes + ':' + secondes + ' ' + am_Or_pm;
-    return heure_english;
+
+    return hours + ':' + minutes + ':' + secondes + ' ' + am_Or_pm;
 }
 
 function affichageSectionPhoto() {
     const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
-    var tagSousSection = $(listePassions).filter("[href='" + location.hash + "']");
-    var sousHref = tagSousSection.data('href');
+    let tagSousSection = $(listePassions).filter("[href='" + location.hash + "']");
+    let sousHref = tagSousSection.data('href');
     $(div_Photo).load(sousHref, function () {
         const h3 = document.querySelector('.photo h3');
-        if (langue.value == "en") {
+        if (langue.value === "en") {
             switch (sousHref) {
                 case "https://benoitmignault.ca/pageAccueil/photos/photo_golf/photo_golf.html":
                     h3.innerHTML = "Here is the sub section of the pictures on the golf :";
@@ -179,17 +181,17 @@ function affichageSectionPhoto() {
 function envoyerCourriel() {
     $(form).submit(function (e) {
         e.preventDefault();
-        msgSucces.innerHTML = ""; // Une seul ligne est suffisante car ça dépasse le contexte de la langue de la page web - 13 Janvier 2020
+        msgSucces.innerHTML = ""; // Une seule ligne est suffisante, car ça dépasse le contexte de la langue de la page web - 13 janvier 2020
         msgErr.innerHTML = "";
-        var erreur = false;
-        var nom = nomComplet.value;
-        var longueurNom = nom.length;
-        var email = courriel.value;
-        var longueurEmail = email.length;
-        var msg = message.value;
-        var longueurMsg = msg.length;
-        var objet = sujet.value;
-        var longueurSujet = objet.length;
+        let erreur = false;
+        let nom = nomComplet.value;
+        let longueurNom = nom.length;
+        let email = courriel.value;
+        let longueurEmail = email.length;
+        let msg = message.value;
+        let longueurMsg = msg.length;
+        let objet = sujet.value;
+        let longueurSujet = objet.length;
 
         if (nomComplet.value === "") {
             nomComplet.style.border = "2px solid red";
@@ -275,18 +277,18 @@ function envoyerCourriel() {
         }
 
         if (erreur === false) {
-            var request;
+            let request;
             // Abort any pending request
             if (request) {
                 request.abort();
             }
             // setup some local variables
-            var $form = $(this);
+            let $form = $(this);
 
             // Serialize the data in the form
-            var serializedData = $form.serialize();
-            var url = "";
-            // la variable langue sera interprèter comem un type post comme on le défini dans l'appel Ajax.
+            let serializedData = $form.serialize();
+            let url = "";
+            // la variable langue sera interpreter comme un type post comme on le définit dans l'appel Ajax.
             if (langue.value === "fr") {
                 url = "/contact/contact.php";
             } else if (langue.value === "en") {
@@ -320,14 +322,13 @@ function envoyerCourriel() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-
-    /* À chaque fois que le hashTag change on appel cet évenement */
+    /* À chaque fois que le hashTag change-t-on appel cet évènement */
     $(window).on('hashchange', function (event) {
         affichageSection();
     });
 
     /* Si on inscrit manuellement un hasgTag, on call la fct sinon on call la fct de base */
-    if (location.hash != "") {
+    if (location.hash !== "") {
         affichageSection();
     } else {
         affichageAccueil();

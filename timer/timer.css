@@ -4,6 +4,15 @@
     padding: 0;
 }
 
+body {
+    margin: 0;
+    /* https://pxhere.com/fr/photo/1280141 */
+    background-image: url("timer.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-size: 100%;
+}
+
 .container {
     display: -webkit-flex;
     display: flex;
@@ -42,8 +51,7 @@
     padding: 5px;
     width: 50%;
     border-radius: 10px;
-    margin: auto;
-    margin-bottom: 10px;
+    margin: auto auto 10px;
 }
 
 .container > .tableau_bord > form > .choix > label {
@@ -55,16 +63,6 @@
 .container > .tableau_bord > form > .choix > .bouton {
     margin: auto;
     width: 50%;
-}
-
-.container > .tableau_bord > .affichage_choix > p {
-    color: whitesmoke;
-    margin: auto;
-    width: 100%;
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 10px;
-    margin-top: 10px;
 }
 
 .container > .tableau_bord > .affichage_choix > .tblValeurCouleur {
@@ -145,16 +143,6 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 .container > .timer {
     width: 60%;
     margin: auto;
-}
-
-.container > .timer > h2,
-.container > .tableau_bord > h2 {
-    width: 100%;
-    text-align: center;
-    margin: auto;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    color: whitesmoke;
 }
 
 .container > .timer > .tableauDesMises,
@@ -265,28 +253,25 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 }
 
 .boutonRetour {
-    /*on détermine le parent comme un flex*/
     display: -webkit-flex;
     display: flex;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
     background-color: black;
-    margin-top: 10px;
     width: 25%;
     margin: auto;
     border: 3px outset #3385ff;
 }
 
-.boutonRetour .retour,
-.boutonRetour .retour > form {
+.boutonRetour {
+    margin-top: 25px;
+}
+
+.boutonRetour > .retour {
     width: 100%;
 }
 
-.boutonRetour .retour > form {
-    margin: 0;
-}
-
-.boutonRetour input,
+.boutonRetour > .retour > input,
 .tableauDuTemps button,
 .tableauDesMises button,
 .container > .tableau_bord .choix .bouton {
@@ -302,11 +287,11 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     background-image: linear-gradient(to bottom, #3455d9, #2bb84c);
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
-    border-radius: 0px;
-    -webkit-box-shadow: 0px 1px 3px #666666;
-    -moz-box-shadow: 0px 1px 3px #666666;
-    box-shadow: 0px 1px 3px #666666;
-    font-family: Georgia;
+    border-radius: 0;
+    -webkit-box-shadow: 0 1px 3px #666666;
+    -moz-box-shadow: 0 1px 3px #666666;
+    box-shadow: 0 1px 3px #666666;
+    font-family: Georgia, serif;
     border: solid #8c601f 2px
 }
 
@@ -314,7 +299,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 40%;
 }
 
-.boutonRetour input:hover,
+.boutonRetour > .retour > input:hover,
 .tableauDuTemps button:hover,
 .tableauDesMises button:hover,
 .container > .tableau_bord .choix .bouton:hover {
@@ -326,7 +311,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     background-image: linear-gradient(to bottom, #56b064, #6679b3);
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
     .container {
         flex-direction: column;
     }
@@ -348,10 +333,6 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     }
 
     .container > .timer {
-        width: 100%;
-    }
-
-    .container > .timer > h2 {
         width: 100%;
     }
 
@@ -403,7 +384,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         flex-direction: column;
     }
 
-    .boutonRetour .retour input {
+    .boutonRetour > .retour input {
         font-size: large;
     }
 }

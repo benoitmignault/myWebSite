@@ -1,94 +1,72 @@
-const doubleValeur = document.querySelector('#double');
-const timerReprend = document.querySelector('.resizeText');
-const temps_periode = document.querySelector('.container .timer .tableauDuTemps .temps div .resizeText');
-const type_mises = document.querySelector('.container .timer .tableauDesMises .lesMises div .resizeText');
-const btn_return = document.querySelector('.boutonRetour .retour form .resizeText');
-const btn_choisir = document.querySelector('.container .tableau_bord form .choix .bouton');
-const resetValeur = document.querySelector('#reset');
-const typeLangue = document.querySelector('#typeLangue');
-const temps15min = document.querySelector('#timer15');
-const temps30min = document.querySelector('#timer30');
-const stopTimer = document.querySelector('#timerStop');
-const reprendTimer = document.querySelector('#timerReprend');
-const resetTemps = document.querySelector('#ResetTemps');
-const valeurSmall = document.querySelector('#valeurSmall');
-const valeurBig = document.querySelector('#valeurBig');
-const minutes = document.querySelector('.chiffreMin p');
-const secondes = document.querySelector('.chiffreSec p');
-const periode = document.querySelector('.periode p');
-const alertSound = document.querySelector('#alertSound');
-const combinaison = document.querySelector('.combinaison');
-const maxCombinaison = document.querySelector('.maxCombinaison');
-const organisateur = document.querySelector('#choixOrganisateur');
-const color_red = document.querySelector('#number_Red');
-const color_green = document.querySelector('#number_Green');
-const color_blue = document.querySelector('#number_Blue');
-const user = document.querySelector('#choixOrganisateur');
-const trop_valeur = document.querySelector('#trop_valeur');
+const CHANGER_MISE = document.querySelector('#changerMise');
 
-var comptage = 0; // la variable un genre de compteur de temps 
-var min = 0;
-var sec = 0;
-var chrono = 0; // pour savoir quel compteur est déclanché...
-function modificationSizeValeurs(big) {
-    var bigNumber = parseInt(big);
-    var largeur = window.innerWidth;
-    if (largeur < 768) {
-        if (bigNumber < 1000) {
-            valeurSmall.style.fontSize = "64px";
-            valeurBig.style.fontSize = "64px";
-        } else if (bigNumber >= 1000 && bigNumber < 10000) {
-            valeurSmall.style.fontSize = "56px";
-            valeurBig.style.fontSize = "56px";
-        } else if (bigNumber >= 10000 && bigNumber < 100000) {
-            valeurSmall.style.fontSize = "48px";
-            valeurBig.style.fontSize = "48px";
-        } else if (bigNumber >= 100000) {
-            valeurSmall.style.fontSize = "40px";
-            valeurBig.style.fontSize = "40px";
-        }
-    }
-}
+const TEMPS_PERIODE = document.querySelector('.container .timer .tableauDuTemps .temps div .resizeText');
+const TYPE_MISES = document.querySelector('.container .timer .tableauDesMises .lesMises div .resizeText');
 
-function reset() {
-    resetValeur.addEventListener('click', function(evt) {
-        doubleValeur.setAttribute("class", "");
-        doubleValeur.removeAttribute("disabled");
-        resetValeur.setAttribute("class", "disabled");
-        resetValeur.setAttribute("disabled", "disabled");
-        valeurSmall.style.fontSize = "64px";
-        valeurBig.style.fontSize = "64px";
-    });
-}
+const RESET_VALEUR = document.querySelector('#reset');
+const RESET_TEMPS = document.querySelector('#ResetTemps');
 
+const TYPE_LANGUE = document.querySelector('#typeLangue');
+
+const TEMPS_15_MIN = document.querySelector('#timer15');
+const TEMPS_30_MIN = document.querySelector('#timer30');
+
+const REPREND_TIMER = document.querySelector('#timerReprend');
+const STOP_TIMER = document.querySelector('#timerStop');
+
+const VALEUR_SMALL = document.querySelector('#valeurSmall');
+const VALEUR_BIG = document.querySelector('#valeurBig');
+
+const MINUTES = document.querySelector('.chiffreMin p');
+const SECONDES = document.querySelector('.chiffreSec p');
+
+const PERIODE = document.querySelector('.periode p');
+const ALERT_SOUND = document.querySelector('#alertSound');
+
+const AUCUNE_VALEUR_DISPO = document.querySelector('#aucuneValeurDispo');
+const COMBINAISON = document.querySelector('.combinaison');
+const MAX_COMBINAISON = document.querySelector('.maxCombinaison');
+
+const NOM_ORGANISATEUR = document.querySelector('#choixOrganisateur');
+const COULEUR_ROUGE = document.querySelector('#numberRed');
+const COULEUR_VERT = document.querySelector('#numberGreen');
+const COULEUR_BLEU = document.querySelector('#numberBlue');
+
+const BTN_RETURN = document.querySelector('.boutonRetour .retour form .resizeText');
+const BTN_CHOISIR = document.querySelector('.container .tableau_bord form .choix .bouton');
+
+let comptage = 0; // la variable un genre de compteur de temps
+let min = 0;
+let sec = 0;
+let chrono = 0; // pour savoir quel compteur est déclenche...
+
+/**
+ * Est appelé une seule fois et au moment de cliquer sur le bouton 15 minutes.
+ */
 function timer15Min() {
-    temps15min.addEventListener('click', function(evt) {
-        clearTimeout(comptage);
-        reprendTimer.setAttribute("class", "disabled");
-        reprendTimer.setAttribute("disabled", "disabled");
-        stopTimer.setAttribute("class", "");
-        stopTimer.removeAttribute("disabled");
-        resetTemps.setAttribute("class", "");
-        resetTemps.removeAttribute("disabled");
-        doubleValeur.setAttribute("class", "disabled");
-        doubleValeur.setAttribute("disabled", "disabled");
+    TEMPS_15_MIN.addEventListener('click', function () {
+        miseEnMarcheDuTimer();
         min = 15;
         sec = 0;
         chrono = 15;
-        minutes.style.color = "green";
-        secondes.style.color = "green";
-        minutes.innerHTML = min.toString();
-        secondes.innerHTML = "0" + sec.toString();
-        // modifier la valeur en fonction de la langue choisie par l'usagé de la page
-        if (typeLangue.value === "francais") {
-            periode.innerHTML = "Vous avez choisi la période : 15 minutes !";
-        } else if (typeLangue.value === "english") {
-            periode.innerHTML = "You have chosen the period: 15 minutes!";
+        MINUTES.style.color = "green";
+        SECONDES.style.color = "green";
+        MINUTES.innerHTML = min.toString();
+        SECONDES.innerHTML = "0" + sec.toString();
+
+        if (TYPE_LANGUE.value === "francais") {
+            PERIODE.innerHTML = "Période choisi ⇒ 15 minutes";
+        } else if (TYPE_LANGUE.value === "english") {
+            PERIODE.innerHTML = "Chosen period ⇒ 15 minutes";
         }
+
         comptage = setTimeout(starting15, 1000);
     });
 }
 
+/**
+ * Vérifier à chaque cycle de 1000 milliseconde, ce qu'on doit faire durant le cycle de 15 minutes.
+ */
 function starting15() {
     if (sec === 0) {
         if (min === 0) {
@@ -103,50 +81,42 @@ function starting15() {
         playMusique();
     }
 
-    // On affiche la nouvelle valeur du temps à l'écran avec la couleur en fonction des minutes
     if (min >= 10) {
-        minutes.style.color = "green";
-        secondes.style.color = "green";
+        MINUTES.style.color = "green";
+        SECONDES.style.color = "green";
     } else if (min < 10 && min >= 5) {
-        minutes.style.color = "orange";
-        secondes.style.color = "orange";
+        MINUTES.style.color = "orange";
+        SECONDES.style.color = "orange";
     } else if (min < 5) {
-        minutes.style.color = "red";
-        secondes.style.color = "red";
+        MINUTES.style.color = "red";
+        SECONDES.style.color = "red";
     }
 
     if (min < 10 || sec < 10) {
-        addZero(); // On vérifi Si les minutes ou secondes sont en bas de 10, on ajoute un 0 devant
+        addZero();
     } else {
-        minutes.innerHTML = min.toString();
-        secondes.innerHTML = sec.toString();
+        MINUTES.innerHTML = min.toString();
+        SECONDES.innerHTML = sec.toString();
     }
+
     comptage = setTimeout(starting15, 1000);
 }
 
 function timer30Min() {
-    temps30min.addEventListener('click', function(evt) {
-        clearTimeout(comptage);
-        reprendTimer.setAttribute("class", "disabled");
-        reprendTimer.setAttribute("disabled", "disabled");
-        stopTimer.setAttribute("class", "");
-        stopTimer.removeAttribute("disabled");
-        resetTemps.setAttribute("class", "");
-        resetTemps.removeAttribute("disabled");
-        doubleValeur.setAttribute("class", "disabled");
-        doubleValeur.setAttribute("disabled", "disabled");
+    TEMPS_30_MIN.addEventListener('click', function () {
+        miseEnMarcheDuTimer();
         min = 30;
         sec = 0;
         chrono = 30;
-        minutes.style.color = "green";
-        secondes.style.color = "green";
-        minutes.innerHTML = min.toString();
-        secondes.innerHTML = "0" + sec.toString();
+        MINUTES.style.color = "green";
+        SECONDES.style.color = "green";
+        MINUTES.innerHTML = min.toString();
+        SECONDES.innerHTML = "0" + sec.toString();
         // modifier la valeur en fonction de la langue choisie par l'usagé de la page
-        if (typeLangue.value === "francais") {
-            periode.innerHTML = "Vous avez choisi la période : 30 minutes !";
-        } else if (typeLangue.value === "english") {
-            periode.innerHTML = "You have chosen the period: 30 minutes!";
+        if (TYPE_LANGUE.value === "francais") {
+            PERIODE.innerHTML = "Période choisi ⇒ 30 minutes";
+        } else if (TYPE_LANGUE.value === "english") {
+            PERIODE.innerHTML = "Chosen period ⇒ 30 minutes";
         }
         comptage = setTimeout(starting30, 1000);
     });
@@ -166,142 +136,130 @@ function starting30() {
         playMusique();
     }
     if (min >= 15) {
-        minutes.style.color = "green";
-        secondes.style.color = "green";
+        MINUTES.style.color = "green";
+        SECONDES.style.color = "green";
     } else if (min < 15 && min >= 5) {
-        minutes.style.color = "orange";
-        secondes.style.color = "orange";
+        MINUTES.style.color = "orange";
+        SECONDES.style.color = "orange";
     } else if (min < 5) {
-        minutes.style.color = "red";
-        secondes.style.color = "red";
+        MINUTES.style.color = "red";
+        SECONDES.style.color = "red";
     }
 
     if (min < 10 || sec < 10) {
-        addZero(); // On vérifi Si les minutes ou secondes sont en bas de 10, on ajoute un 0 devant
+        addZero();
     } else {
-        minutes.innerHTML = min.toString();
-        secondes.innerHTML = sec.toString();
+        MINUTES.innerHTML = min.toString();
+        SECONDES.innerHTML = sec.toString();
     }
     comptage = setTimeout(starting30, 1000);
 }
 
+
+function miseEnMarcheDuTimer() {
+
+    clearTimeout(comptage);
+    REPREND_TIMER.setAttribute("class", "disabled");
+    REPREND_TIMER.setAttribute("disabled", "disabled");
+    STOP_TIMER.setAttribute("class", "");
+    STOP_TIMER.removeAttribute("disabled");
+    RESET_TEMPS.setAttribute("class", "");
+    RESET_TEMPS.removeAttribute("disabled");
+    CHANGER_MISE.setAttribute("class", "disabled");
+    CHANGER_MISE.setAttribute("disabled", "disabled");
+}
+
+
 function addZero() {
     if (min < 10) {
-        minutes.innerHTML = "0" + min.toString();
+        MINUTES.innerHTML = "0" + min.toString();
     } else {
-        minutes.innerHTML = min.toString();
+        MINUTES.innerHTML = min.toString();
     }
 
     if (sec < 10) {
-        secondes.innerHTML = "0" + sec.toString();
+        SECONDES.innerHTML = "0" + sec.toString();
     } else {
-        secondes.innerHTML = sec.toString();
+        SECONDES.innerHTML = sec.toString();
     }
 }
 
 function callAjax() {
-    stopTimer.setAttribute("class", "disabled");
-    stopTimer.setAttribute("disabled", "disabled");
-    if (user.value != "") {
-        if (trop_valeur.value == "true") {
-            doubleValeur.setAttribute("class", "disabled");
-            doubleValeur.setAttribute("disabled", "disabled");
-            temps30min.setAttribute("class", "disabled");
-            temps30min.setAttribute("disabled", "disabled");
-            temps15min.setAttribute("class", "disabled");
-            temps15min.setAttribute("disabled", "disabled");
-            resetTemps.setAttribute("class", "disabled");
-            resetTemps.setAttribute("disabled", "disabled");
-        } else if (trop_valeur.value == "false") {
-            doubleValeur.setAttribute("class", "");
-            doubleValeur.removeAttribute("disabled");
-            resetValeur.setAttribute("class", "");
-            resetValeur.removeAttribute("disabled");
-            var data = {
-                "niveau_combinaison": combinaison.value,
-                "maxCombinaison": maxCombinaison.value,
-                "nom_orginateur": organisateur.value,
-                "color_red": color_red.value,
-                "color_green": color_green.value,
-                "color_blue": color_blue.value
+    STOP_TIMER.setAttribute("class", "disabled");
+    STOP_TIMER.setAttribute("disabled", "disabled");
+    if (NOM_ORGANISATEUR.value !== "") {
+        if (AUCUNE_VALEUR_DISPO.value === "false") {
+            CHANGER_MISE.setAttribute("class", "");
+            CHANGER_MISE.removeAttribute("disabled");
+            RESET_VALEUR.setAttribute("class", "");
+            RESET_VALEUR.removeAttribute("disabled");
+            let data = {
+                "typeLangue": TYPE_LANGUE.value,
+                "niveauCombinaison": COMBINAISON.value,
+                "maxCombinaison": MAX_COMBINAISON.value,
+                "nomOrganisateur": NOM_ORGANISATEUR.value,
+                "couleurRouge": COULEUR_ROUGE.value,
+                "couleurVert": COULEUR_VERT.value,
+                "couleurBleu": COULEUR_BLEU.value
             };
 
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "changerMise/changer.php",
+                url: "changer.php",
                 data: data,
-                success: function(dataReturn) {
-                    // sécurisation du retour d'information
-                    if (dataReturn["data"]) {
-                        var dataObj = JSON.parse(dataReturn["data"]);
-                        trop_valeur.value = dataObj.trop_valeur;
-                        combinaison.value = dataObj.combinaison;
-                        color_red.value = dataObj.color_red;
-                        color_green.value = dataObj.color_green;
-                        color_blue.value = dataObj.color_blue;
-                        valeurSmall.innerHTML = dataObj.valeurSmall;
-                        valeurBig.innerHTML = dataObj.valeurBig;
-                        valeurSmall.style.color = "rgb(" + color_red.value + "," + color_green.value + "," + color_blue.value + ")";
-                        valeurBig.style.color = "rgb(" + color_red.value + "," + color_green.value + "," + color_blue.value + ")";
+                success: function (dataReturn) {
+                    if (dataReturn["dataAjaxSucces"]) {
+                        let dataObj = JSON.parse(dataReturn["dataAjaxSucces"]);
+                        AUCUNE_VALEUR_DISPO.value = dataObj.aucuneValeurDispo;
+                        COMBINAISON.value = dataObj.combinaison;
+                        COULEUR_ROUGE.value = dataObj.couleurs.couleurRouge;
+                        COULEUR_VERT.value = dataObj.couleurs.couleurVert;
+                        COULEUR_BLEU.value = dataObj.couleurs.couleurBleu;
+                        VALEUR_SMALL.innerHTML = dataObj.nouvelleCombinaison.valeurSmall;
+                        VALEUR_BIG.innerHTML = dataObj.nouvelleCombinaison.valeurBig;
+                        VALEUR_SMALL.style.color = "rgb(" + COULEUR_ROUGE.value + "," + COULEUR_VERT.value + "," + COULEUR_BLEU.value + ")";
+                        VALEUR_BIG.style.color = "rgb(" + COULEUR_ROUGE.value + "," + COULEUR_VERT.value + "," + COULEUR_BLEU.value + ")";
 
-                    } else if (dataReturn["erreur"]) {
-                        var dataErr = JSON.parse(dataReturn["erreur"]);
-                        if (typeLangue.value == "english") {
-                            if (dataErr.situation1) {
-                                alert("Can not access the BD. Please try again later !");
-                            } else if (dataErr.situation2) {
-                                alert("Missing important information. Validate your information !");
-                            } else if (dataErr.situation3) {
-                                alert("This file must be called via an AJAX call !");
-                            }
-                        } else if (typeLangue.value == "francais") {
-                            if (dataErr.situation1) {
-                                alert(dataErr.situation1);
-                            } else if (dataErr.situation2) {
-                                alert(dataErr.situation2);
-                            } else if (dataErr.situation3) {
-                                alert(dataErr.situation3);
-                            }
+                        // Déplacement de la logique si nous avons atteint la dernière valeur
+                        if (AUCUNE_VALEUR_DISPO.value === "true") {
+                            CHANGER_MISE.setAttribute("class", "disabled");
+                            CHANGER_MISE.setAttribute("disabled", "disabled");
+                            RESET_TEMPS.setAttribute("class", "disabled");
+                            RESET_TEMPS.setAttribute("disabled", "disabled");
                         }
+
+                    } else if (dataReturn["dataAjaxErreur"]) {
+                        let dataErr = JSON.parse(dataReturn["dataAjaxErreur"]);
+
+                        alert(dataErr.situation);
                     }
                 }
             });
-        } // Si la derniere valeur est atteinte
-    } // Si le user est vide
+        } else {
+            RESET_TEMPS.setAttribute("class", "disabled");
+            RESET_TEMPS.setAttribute("disabled", "disabled");
+        }
+    }
 }
 
 function playMusique() {
     if (min === 0 && sec < 7) {
-        alertSound.play();
+        ALERT_SOUND.play();
     }
 }
 
-function stop() {
-    stopTimer.addEventListener('click', function(evt) {
-        clearTimeout(comptage); // arrête le coulage du temps
-        reprendTimer.setAttribute("class", "");
-        reprendTimer.removeAttribute("disabled");
-        stopTimer.setAttribute("class", "disabled");
-        stopTimer.setAttribute("disabled", "disabled");
-        temps15min.setAttribute("class", "disabled");
-        temps15min.setAttribute("disabled", "disabled");
-        temps30min.setAttribute("class", "disabled");
-        temps30min.setAttribute("disabled", "disabled");
-    });
-}
-
 function reprendreTemps() {
-    reprendTimer.addEventListener('click', function(evt) {
+    REPREND_TIMER.addEventListener('click', function () {
         clearTimeout(comptage); // arrête le coulage du temps
-        reprendTimer.setAttribute("class", "disabled");
-        reprendTimer.setAttribute("disabled", "disabled");
-        stopTimer.setAttribute("class", "");
-        stopTimer.removeAttribute("disabled");
-        temps15min.setAttribute("class", "");
-        temps15min.removeAttribute("disabled");
-        temps30min.setAttribute("class", "");
-        temps30min.removeAttribute("disabled");
+        REPREND_TIMER.setAttribute("class", "disabled");
+        REPREND_TIMER.setAttribute("disabled", "disabled");
+        STOP_TIMER.setAttribute("class", "");
+        STOP_TIMER.removeAttribute("disabled");
+        TEMPS_15_MIN.setAttribute("class", "");
+        TEMPS_15_MIN.removeAttribute("disabled");
+        TEMPS_30_MIN.setAttribute("class", "");
+        TEMPS_30_MIN.removeAttribute("disabled");
 
         switch (chrono) {
             case 15:
@@ -314,90 +272,138 @@ function reprendreTemps() {
     });
 }
 
+function stop() {
+    STOP_TIMER.addEventListener('click', function () {
+        clearTimeout(comptage); // arrête le coulage du temps
+        REPREND_TIMER.setAttribute("class", "");
+        REPREND_TIMER.removeAttribute("disabled");
+        STOP_TIMER.setAttribute("class", "disabled");
+        STOP_TIMER.setAttribute("disabled", "disabled");
+        TEMPS_15_MIN.setAttribute("class", "disabled");
+        TEMPS_15_MIN.setAttribute("disabled", "disabled");
+        TEMPS_30_MIN.setAttribute("class", "disabled");
+        TEMPS_30_MIN.setAttribute("disabled", "disabled");
+    });
+}
+
 function resetTemp() {
-    resetTemps.addEventListener('click', function(evt) {
+    RESET_TEMPS.addEventListener('click', function () {
         clearTimeout(comptage); // arrête le coulage du temps
         chrono = 0;
         min = "00";
         sec = "00";
-        minutes.style.color = "white";
-        secondes.style.color = "white";
-        minutes.innerHTML = min.toString();
-        secondes.innerHTML = sec.toString();
-        if (typeLangue.value === "francais") {
-            periode.innerHTML = "En attente d'une période de temps...";
-        } else if (typeLangue.value === "english") {
-            periode.innerHTML = "Waiting for a period of time ...";
-        }
-        temps15min.setAttribute("class", "");
-        temps15min.removeAttribute("disabled");
-        temps30min.setAttribute("class", "");
-        temps30min.removeAttribute("disabled");
-        reprendTimer.setAttribute("class", "disabled");
-        reprendTimer.setAttribute("disabled", "disabled");
-        stopTimer.setAttribute("class", "disabled");
-        stopTimer.setAttribute("disabled", "disabled");
-        if (user.value != "" && trop_valeur.value == "false") {
-            doubleValeur.setAttribute("class", "");
-            doubleValeur.removeAttribute("disabled");
+        MINUTES.style.color = "white";
+        SECONDES.style.color = "white";
+        MINUTES.innerHTML = min.toString();
+        SECONDES.innerHTML = sec.toString();
+        if (TYPE_LANGUE.value === "francais") {
+            PERIODE.innerHTML = "Sélectionner votre Période";
+        } else if (TYPE_LANGUE.value === "english") {
+            PERIODE.innerHTML = "Select your Period";
         }
 
+        TEMPS_15_MIN.setAttribute("class", "");
+        TEMPS_15_MIN.removeAttribute("disabled");
+        TEMPS_30_MIN.setAttribute("class", "");
+        TEMPS_30_MIN.removeAttribute("disabled");
+        REPREND_TIMER.setAttribute("class", "disabled");
+        REPREND_TIMER.setAttribute("disabled", "disabled");
+        STOP_TIMER.setAttribute("class", "disabled");
+        STOP_TIMER.setAttribute("disabled", "disabled");
+        RESET_TEMPS.setAttribute("class", "disabled");
+        RESET_TEMPS.setAttribute("disabled", "disabled");
+
+        if (NOM_ORGANISATEUR.value !== "" && AUCUNE_VALEUR_DISPO.value === "false") {
+            CHANGER_MISE.setAttribute("class", "");
+            CHANGER_MISE.removeAttribute("disabled");
+        }
     });
 }
 
+// TODO : Comprendre pourquoi ca marche pas
 function resizeText() {
-    var device = detectZoom.device();
-    var largeur = window.innerWidth;
+    let device = detectZoom.device();
+    let largeur = window.innerWidth;
 
     if (largeur < 1300) {
         if (device > 1.2) {
-            reprendTimer.style.fontSize = "20px";
-            temps_periode.style.fontSize = "30px";
-            type_mises.style.fontSize = "30px";
-            btn_return.style.fontSize = "20px";
-            btn_choisir.style.fontSize = "20px";
+            REPREND_TIMER.style.fontSize = "20px";
+            TEMPS_PERIODE.style.fontSize = "30px";
+            TYPE_MISES.style.fontSize = "30px";
+            BTN_RETURN.style.fontSize = "20px";
+            BTN_CHOISIR.style.fontSize = "20px";
         } else if (device >= 1.1) {
-            reprendTimer.style.fontSize = "25px";
-            temps_periode.style.fontSize = "35px";
-            type_mises.style.fontSize = "35px";
-            btn_return.style.fontSize = "25px";
-            btn_choisir.style.fontSize = "25px";
+            REPREND_TIMER.style.fontSize = "25px";
+            TEMPS_PERIODE.style.fontSize = "35px";
+            TYPE_MISES.style.fontSize = "35px";
+            BTN_RETURN.style.fontSize = "25px";
+            BTN_CHOISIR.style.fontSize = "25px";
         } else if (device >= 1) {
-            reprendTimer.style.fontSize = "30px";
-            temps_periode.style.fontSize = "40px";
-            type_mises.style.fontSize = "40px";
-            btn_return.style.fontSize = "30px";
-            btn_choisir.style.fontSize = "30px";
+            REPREND_TIMER.style.fontSize = "30px";
+            TEMPS_PERIODE.style.fontSize = "40px";
+            TYPE_MISES.style.fontSize = "40px";
+            BTN_RETURN.style.fontSize = "30px";
+            BTN_CHOISIR.style.fontSize = "30px";
         }
     } else if (largeur > 1300) {
         if (device > 1.4) {
-            reprendTimer.style.fontSize = "20px";
-            temps_periode.style.fontSize = "30px";
-            type_mises.style.fontSize = "30px";
-            btn_return.style.fontSize = "20px";
-            btn_choisir.style.fontSize = "20px";
+            REPREND_TIMER.style.fontSize = "20px";
+            TEMPS_PERIODE.style.fontSize = "30px";
+            TYPE_MISES.style.fontSize = "30px";
+            BTN_RETURN.style.fontSize = "20px";
+            BTN_CHOISIR.style.fontSize = "20px";
         } else if (device > 1.2) {
-            reprendTimer.style.fontSize = "30px";
-            temps_periode.style.fontSize = "35px";
-            type_mises.style.fontSize = "35px";
-            btn_return.style.fontSize = "30px";
-            btn_choisir.style.fontSize = "30px";
+            REPREND_TIMER.style.fontSize = "30px";
+            TEMPS_PERIODE.style.fontSize = "35px";
+            TYPE_MISES.style.fontSize = "35px";
+            BTN_RETURN.style.fontSize = "30px";
+            BTN_CHOISIR.style.fontSize = "30px";
         } else if (device > 1.1) {
-            reprendTimer.style.fontSize = "35px";
-            temps_periode.style.fontSize = "40px";
-            type_mises.style.fontSize = "40px";
-            btn_return.style.fontSize = "35px";
-            btn_choisir.style.fontSize = "35px";
+            REPREND_TIMER.style.fontSize = "35px";
+            TEMPS_PERIODE.style.fontSize = "40px";
+            TYPE_MISES.style.fontSize = "40px";
+            BTN_RETURN.style.fontSize = "35px";
+            BTN_CHOISIR.style.fontSize = "35px";
         }
     }
+    modificationSizeValeurs(VALEUR_BIG.innerHTML);
     // 1.1041666269302368 -> 100%
     // 1.2145832777023315 -> 110%
     // 1.3802082538604736 -> 125%
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
-    modificationSizeValeurs(valeurBig.innerHTML);
-    resizeText();
+function modificationSizeValeurs(big) {
+    // Tableau de valeurs de fontSize en fonction de bigNumber
+    const fontSizes = [64, 56, 48, 40];
+
+    // Pré-calcul de la largeur de la fenêtre
+    const windowWidth = window.innerWidth;
+
+    // Arrondi de bigNumber à l'entier le plus proche
+    const bigNumber = Math.floor(parseInt(big));
+
+    // Si la largeur de la fenêtre est inférieure à 768
+    if (windowWidth < 768) {
+        // Détermination de l'index du tableau à partir de bigNumber
+        let index = 0;
+        if (bigNumber >= 1000) {
+            index = 1;
+        }
+        if (bigNumber >= 10000) {
+            index = 2;
+        }
+        if (bigNumber >= 100000) {
+            index = 3;
+        }
+
+        // Mise à jour de la taille de police avec la valeur du tableau
+        VALEUR_SMALL.style.fontSize = `${fontSizes[index]}px`;
+        VALEUR_BIG.style.fontSize = `${fontSizes[index]}px`;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    resizeText(); // TODO : Comprendre pourquoi ca marche pas
     timer15Min();
     timer30Min();
     stop();

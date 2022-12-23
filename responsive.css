@@ -1,87 +1,105 @@
-/* Ce css servira au responsible de la page index et english qui sont mes page d'accueuil en français et en anglais*/
+/* Ce css servira au responsible de la page index et english qui sont mes page d'accueil en français et en anglais */
 
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
     .racineSite {
         -webkit-flex-direction: column;
         flex-direction: column;
         margin: auto;
     }
+
     .racineSite .left,
     .racineSite .middle,
     .racineSite .right {
         width: 100%;
     }
+
     .racineSite .right .logoRight {
         display: none;
     }
+
     .right #photoCell {
         display: block;
     }
+
     .middle .return .cellulaire,
     .cellulaire {
         display: block;
     }
+
     .middle .return .desktop,
     .desktop {
         display: none;
     }
+
     .middle .header {
         flex-direction: column;
         width: 100%;
     }
-    .middle .header>div {
+
+    .middle .header > div {
         width: 100%;
         text-align: center;
         background-color: darkgrey;
         line-height: 30px;
         font-size: 16px;
     }
+
     .middle .center .header .unePassionPhoto {
         width: 100%;
     }
+
     .middle .center ul {
-        margin-left: 0px;
+        margin-left: 0;
     }
-    .middle .photo>.sous_photo {
+
+    .middle .photo > .sous_photo {
         -webkit-flex-direction: column;
         flex-direction: column;
         width: 100%;
     }
-    .middle .cheminement>tbody>tr>.nomcours {
+
+    .middle .cheminement > tbody > tr > .nomcours {
         font-size: 0.775em;
     }
-    .middle .center>.passionResize,
-    .middle .center>.passionResize>.passion {
+
+    .middle .center > .passionResize,
+    .middle .center > .passionResize > .passion {
         display: flex;
         display: -webkit-flex;
         flex-direction: column;
         width: 100%;
     }
+
     .middle .photo .sous_photo .unePassionPhoto {
         width: 100%;
         padding-left: 25px;
         padding-right: 25px;
     }
+
     .middle .photo {
-        font-size: 15.5px;
+        font-size: 16px;
     }
-    .formulaire>.droite {
+
+    .formulaire > .droite {
         flex-direction: column;
         /* Les div enfants de formulaire seront l'un en dessous de l'autre*/
         -webkit-flex-direction: column;
     }
+
     #msg,
     input[type="text"],
     input[type="email"] {
         width: 100%;
     }
+
     label {
         text-align: left;
         width: 100%;
     }
+
     .msgErr {
         margin-left: 5px;
-        margin-top: 0px;
+        margin-top: 0;
         padding-left: 15px;
     }
 }

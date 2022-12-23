@@ -15,7 +15,7 @@ body {
     margin: auto;
 }
 
-.racineSite>div {
+.racineSite > div {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
@@ -35,7 +35,7 @@ body {
     width: 50%;
 }
 
-.left>div {
+.left > div {
     width: 100%;
 }
 
@@ -50,13 +50,13 @@ body {
     margin: 0;
 }
 
-.left>div .liste {
+.left > div .liste {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-.left>div .liste li {
+.left > div .liste li {
     font-weight: bold;
     background-color: darkgrey;
     line-height: 35px;
@@ -65,12 +65,12 @@ body {
     text-align: center;
 }
 
-.left>div .liste li:hover {
+.left > div .liste li:hover {
     background-color: black;
     cursor: pointer;
 }
 
-.left>div .liste li a:hover {
+.left > div .liste li a:hover {
     color: red;
 }
 
@@ -169,7 +169,7 @@ td {
     color: darkgoldenrod;
 }
 
-.middle>div {
+.middle > div {
     width: 100%;
     /* Les div doivent resté display:block */
 }
@@ -190,7 +190,7 @@ td {
     align-items: center;
 }
 
-.middle .header>div,
+.middle .header > div,
 .middle .center .header .unePassionPhoto {
     width: 20%;
     text-align: center;
@@ -214,7 +214,7 @@ td {
     text-decoration: none;
 }
 
-.middle .header>div:hover,
+.middle .header > div:hover,
 .middle .header div a:hover {
     background-color: black;
     color: red;
@@ -247,10 +247,8 @@ td {
 
 .middle .center p,
 .right .field1 p {
-    margin: 0;
     font-size: 18px;
-    margin-left: 25px;
-    margin-right: 25px;
+    margin: 0 25px;
     line-height: 1.5;
     text-align: justify;
 }
@@ -263,11 +261,9 @@ td {
     margin-left: 25px;
 }
 
-
 /* 
 Nouvelle manière d'afficher un legend au milieu
 */
-
 .legendCenter {
     display: table;
     min-width: 0px;
@@ -280,12 +276,15 @@ Nouvelle manière d'afficher un legend au milieu
     color: green;
 }
 
-.middle>.center>.projet>.pageAccueil>center {
+.middle > .center > .projet > .pageAccueil > .lien_centrer {
+    display: flex;
+    display: -webkit-flex;
     margin-bottom: 5px;
+    justify-content: center;
 }
 
-.middle>.center>.projet>.pageAccueil>center>a,
-.middle>.center>p>a {
+.middle > .center > .projet > .pageAccueil > .lien_centrer > a,
+.middle > .center > p > a {
     color: white;
     text-decoration: none;
     background-color: darkgrey;
@@ -295,23 +294,21 @@ Nouvelle manière d'afficher un legend au milieu
     text-align: center;
 }
 
-.middle>.center>.projet>.pageAccueil>center>a:hover,
-.middle>.center>p>a:hover {
+.middle > .center > .projet > .pageAccueil > .lien_centrer > a:hover,
+.middle > .center > p > a:hover {
     background-color: black;
     cursor: pointer;
     color: red;
 }
 
-
 /* Les div à intérieur de la sélection seront misent sur une ligne */
-
 .middle .center div {
     display: flex;
     display: -webkit-flex;
     width: 100%;
 }
 
-.middle .center>div .passion {
+.middle .center > div .passion {
     width: 50%;
 }
 
@@ -356,7 +353,7 @@ span {
     position: relative;
 }
 
-.middle .photo>.sous_photo {
+.middle .photo > .sous_photo {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
@@ -364,7 +361,7 @@ span {
     width: 100%;
 }
 
-.middle .center>.passionResize {
+.middle .center > .passionResize {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -372,7 +369,7 @@ span {
     flex-wrap: wrap;
 }
 
-.middle .center>.passionResize>.passion {
+.middle .center > .passionResize > .passion {
     display: flex;
     display: -webkit-flex;
     flex-direction: column;
@@ -435,7 +432,7 @@ span {
     cursor: pointer;
 }
 
-.right>div {
+.right > div {
     width: 100%;
 }
 
@@ -443,62 +440,39 @@ span {
     width: 100%;
 }
 
-.racineSite>div>div>.pageAccueil,
+.racineSite > div > div > .pageAccueil,
 .racineSite .middle .center .projet .pageAccueil {
     width: 100%;
     margin: 0;
     padding: 0;
 }
 
-.racineSite>div>div>.pageAccueil {
+.racineSite > div > div > .pageAccueil {
     margin-bottom: 20px;
 }
 
-
-/*
-.racineSite .right > div > .pageAccueil {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-*/
-
-.racineSite .right>div>.pageAccueil>p {
+.racineSite .right > div > .pageAccueil > p {
     text-align: justify;
 }
 
-.racineSite>.right>.media,
-.racineSite>.right>.media .sous_Media {
+.racineSite > .right > .media,
+.racineSite > .right > .media .sous_Media {
     width: 100%;
 }
 
-.racineSite>.right>.media .sous_Media {
+.racineSite > .right > .media .sous_Media {
     display: flex;
     display: -webkit-flex;
 }
 
-.racineSite>.right>.media .sous_Media .lienSocial {
+.racineSite > .right > .media .sous_Media .lienSocial {
     width: 25%;
 }
 
-
-/*
-.racineSite .right > .media > .pageAccueil {
-    padding: 0;
-}
-*/
-
-.racineSite .right>.media .sous_Media>.lienSocial>a img {
+.racineSite .right > .media .sous_Media > .lienSocial > a img {
     width: 100%;
     height: auto;
 }
-
-
-/*
-.racineSite .left .sectionMeteo .pageAccueil {
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-*/
 
 .right .info a {
     color: white;
@@ -508,7 +482,7 @@ span {
     font-weight: bold;
     padding: 5px;
     text-align: center;
-    font-family: "Times New Roman"
+    font-family: "Times New Roman", serif;
 }
 
 .right .info a:hover {
@@ -527,7 +501,7 @@ input[type="submit"] {
     font-size: 18px;
     font-weight: bold;
     padding: 5px;
-    font-family: "Times New Roman";
+    font-family: "Times New Roman", serif;
     margin: 0 auto;
 }
 
@@ -537,7 +511,7 @@ input[type="submit"]:hover {
     cursor: pointer;
 }
 
-.msgErr>li {
+.msgErr > li {
     color: red;
     font-size: 16px;
     font-weight: bold;
@@ -558,7 +532,7 @@ input[type="submit"]:hover {
     -webkit-flex-direction: column;
 }
 
-.formulaire>.droite {
+.formulaire > .droite {
     display: flex;
     display: -webkit-flex;
     align-items: flex-start;

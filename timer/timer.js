@@ -403,7 +403,7 @@ function modificationSizeValeurs(big) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    resizeText(); // TODO : Comprendre pourquoi ca marche pas
+    // resizeText(); // TODO : Comprendre pourquoi ca marche pas
     timer15Min();
     timer30Min();
     stop();

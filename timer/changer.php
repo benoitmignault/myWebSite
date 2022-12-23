@@ -62,6 +62,7 @@
 	}
 	
 	/**
+	 * Retourne un échec avec le message d'erreur approprié
 	 * @param $champs
 	 * @return void
 	 */

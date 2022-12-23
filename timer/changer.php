@@ -60,47 +60,66 @@
 	 */
 	function returnOfAjaxSucces($champs) {
 		
-		$return = $champs;
-		$return["data"] = json_encode($return, JSON_FORCE_OBJECT);
+		$return["dataAjaxSucces"] = json_encode($champs, JSON_FORCE_OBJECT);
 		echo json_encode($return, JSON_FORCE_OBJECT);
 	}
 	
 	/**
 	 * Retourne un échec avec le message d'erreur approprié
-	 * @param $champs
+	 * @param $situation
 	 * @return void
 	 */
-	function returnOfAjaxErreur($champs) {
+	function returnOfAjaxErreur($situation) {
 		
-		$return["erreur"] = json_encode($champs, JSON_FORCE_OBJECT);
+		$champsErr['situation'] = $situation;
+		// Il est important de passer un Array
+		$return["dataAjaxErreur"] = json_encode($champsErr, JSON_FORCE_OBJECT);
 		echo json_encode($return, JSON_FORCE_OBJECT);
 	}
 	
-	if (is_ajax()) {
+	/**
+	 * @return void
+	 */
+	function main() {
+		
 		include_once("../includes/fct-connexion-bd.php");
+		include_once("./includes/fct-timer.php");
+		
+		define('CHEMIN_DICTIONNAIRE_TIMER', "../dictionary/timer.json");
+		$dictionnaire = recuperationContenuFichierJson(CHEMIN_DICTIONNAIRE_TIMER);
+		
 		$connMYSQL = connexion();
 		
-		include_once("./includes/fct-timer.php");
 		$champs = initialisationChamps();
 		$champs = remplissageChamps($champs);
 		
-		if (!empty($champs['combinaison']) && !empty($champs['nomOrganisateur'])) {
-			$champs['nouvelleCombinaison'] = selectionSmallBigBlind($connMYSQL, $champs['nomOrganisateur'], $champs['combinaison']);
-			$champs['combinaison']++; // On incrémente pour aller chercher la prochaine combinaison lors du prochain POST
-			
-			// Lorsque nous avons une égalité, c'est signe que nous n'avons plus de prochaines small/big
-			if ($champs['combinaison'] === $champs['maxCombinaison']) {
-				$champs['aucuneValeurDispo'] = true;
+		if (is_ajax()) {
+			if (!empty($champs['combinaison']) && !empty($champs['nomOrganisateur'])) {
+				$champs['nouvelleCombinaison'] = selectionSmallBigBlind($connMYSQL, $champs['nomOrganisateur'], $champs['combinaison']);
+				$champs['combinaison']++; // On incrémente pour aller chercher la prochaine combinaison lors du prochain POST
+				
+				// Lorsque nous avons une égalité, c'est signe que nous n'avons plus de prochaines small/big
+				if ($champs['combinaison'] === $champs['maxCombinaison']) {
+					$champs['aucuneValeurDispo'] = true;
+				}
+				
+				returnOfAjaxSucces($champs);
 			}
-			
-			returnOfAjaxSucces($champs);
+			else {
+				define('SITUATION1', "Il manque des informations cruciales pour récupérer les informations venant de la BD.");
+				
+				$champs['situation'] = traduction(SITUATION1, $dictionnaire);
+				returnOfAjaxErreur($champs['situation']);
+			}
 		}
 		else {
-			$champs["situation1"] = "Il manque des informations cruciales pour récupérer les informations venant de la BD.";
-			returnOfAjaxErreur($champs);
+			define('SITUATION2', "Ce fichier doit être caller via un appel AJAX.");
+			
+			$champs['situation'] = traduction(SITUATION2, $dictionnaire);
+			returnOfAjaxErreur($champs['situation']);
 		}
 	}
-	else {
-		$champs["situation2"] = "Ce fichier doit être caller via un appel AJAX.";
-		returnOfAjaxErreur($champs);
-	}
+	
+	// Appel de la fonction principale
+	main();
+	

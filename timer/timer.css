@@ -21,51 +21,51 @@ body {
 }
 
 .container > div,
-.container > .tableau_bord > form > .choix,
-.container > .tableau_bord > .affichage_choix {
+.container > .tableau-bord > form > .choix,
+.container > .tableau-bord > .affichage_choix {
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
 }
 
-.container > .tableau_bord {
+.container > .tableau-bord {
     width: 30%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.container > .tableau_bord > form,
+.container > .tableau-bord > form,
 .container > .timer > .tableauDesMises,
 .container > .timer > .tableauDuTemps,
-.container > .tableau_bord > .affichage_choix {
+.container > .tableau-bord > .affichage_choix {
     margin-top: 30px;
 }
 
-.container > .tableau_bord > form > .choix > label {
+.container > .tableau-bord > form > .choix > label {
     font-weight: bold;
     font-size: 1.1em;
     color: whitesmoke;
 }
 
-.container > .tableau_bord > form > .choix > #choixOrganisateur {
+.container > .tableau-bord > form > .choix > #choixOrganisateur {
     padding: 5px;
     width: 50%;
     border-radius: 10px;
     margin: auto auto 10px;
 }
 
-.container > .tableau_bord > form > .choix > label {
+.container > .tableau-bord > form > .choix > label {
     width: 100%;
     text-align: center;
     margin-bottom: 5px;
 }
 
-.container > .tableau_bord > form > .choix > .bouton {
+.container > .tableau-bord > form > .choix > .bouton {
     margin: auto;
     width: 50%;
 }
 
-.container > .tableau_bord > .affichage_choix > .tblValeurCouleur {
+.container > .tableau-bord > .affichage_choix > .tblValeurCouleur {
     width: 100%;
     text-align: center;
     font-size: 48px;
@@ -129,13 +129,13 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 }
 
 
-.container > .tableau_bord > .affichage_choix > .tblValeurCouleur td,
-.container > .tableau_bord > .affichage_choix > .tblValeurCouleur th {
+.container > .tableau-bord > .affichage_choix > .tblValeurCouleur td,
+.container > .tableau-bord > .affichage_choix > .tblValeurCouleur th {
     border: 1px solid black;
     padding: 5px;
 }
 
-.container > .tableau_bord > .affichage_choix > .tblValeurCouleur .colorModifie {
+.container > .tableau-bord > .affichage_choix > .tblValeurCouleur .colorModifie {
     color: black;
     background-color: white;
 }
@@ -274,7 +274,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 .boutonRetour > .retour > input,
 .tableauDuTemps button,
 .tableauDesMises button,
-.container > .tableau_bord .choix .bouton {
+.container > .tableau-bord .choix .bouton {
     width: 100%;
     color: white;
     font-weight: bold;
@@ -295,14 +295,14 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     border: solid #8c601f 2px
 }
 
-.container > .tableau_bord .choix .bouton {
+.container > .tableau-bord .choix .bouton {
     width: 40%;
 }
 
 .boutonRetour > .retour > input:hover,
 .tableauDuTemps button:hover,
 .tableauDesMises button:hover,
-.container > .tableau_bord .choix .bouton:hover {
+.container > .tableau-bord .choix .bouton:hover {
     cursor: pointer;
     background-image: -webkit-linear-gradient(top, #56b064, #6679b3);
     background-image: -moz-linear-gradient(top, #56b064, #6679b3);
@@ -316,19 +316,19 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         flex-direction: column;
     }
 
-    .container > .tableau_bord {
+    .container > .tableau-bord {
         width: 100%;
     }
 
-    .container > .tableau_bord > .affichage_choix > .tblValeurCouleur {
+    .container > .tableau-bord > .affichage_choix > .tblValeurCouleur {
         font-size: 38px;
     }
 
-    .container > .tableau_bord > form > .choix > #choixOrganisateur {
+    .container > .tableau-bord > form > .choix > #choixOrganisateur {
         width: 50%;
     }
 
-    .container > .tableau_bord > form > .choix > .bouton {
+    .container > .tableau-bord > form > .choix > .bouton {
         width: 50%;
     }
 

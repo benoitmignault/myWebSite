@@ -441,7 +441,7 @@
     <source src="alert.wav" type="audio/wav">
 </audio>
 <div class="container">
-    <div class="tableau_bord">
+    <div class="tableau-bord">
         <form method="post" action="./timer.php" id="formulaire">
             <div class="choix">
                 <input form="formulaire" type="hidden" id="numberRed" name="couleurRouge"

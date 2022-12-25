@@ -456,7 +456,7 @@
 					<?php } else { ?>
                         value="false"
 					<?php } ?> >
-                <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                <input form="formulaire" type="hidden" id="type-langue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
                 <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
                 <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison"
                        value="<?php echo $champs['maxCombinaison']; ?>">

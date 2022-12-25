@@ -6,7 +6,7 @@ const TYPE_MISES = document.querySelector('.container .timer .tableauDesMises .l
 const RESET_VALEUR = document.querySelector('#reset');
 const RESET_TEMPS = document.querySelector('#ResetTemps');
 
-const TYPE_LANGUE = document.querySelector('#typeLangue');
+const TYPE_LANGUE = document.querySelector('#type-langue');
 
 const TEMPS_15_MIN = document.querySelector('#timer15');
 const TEMPS_30_MIN = document.querySelector('#timer30');

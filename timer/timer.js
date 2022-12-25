@@ -23,7 +23,7 @@ const SECONDES = document.querySelector('.chiffreSec p');
 const PERIODE = document.querySelector('.periode p');
 const ALERT_SOUND = document.querySelector('#alert-sound');
 
-const AUCUNE_VALEUR_DISPO = document.querySelector('#aucuneValeurDispo');
+const AUCUNE_VALEUR_DISPO = document.querySelector('#aucune-valeur-dispo');
 const COMBINAISON = document.querySelector('.combinaison');
 const MAX_COMBINAISON = document.querySelector('.maxCombinaison');
 

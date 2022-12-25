@@ -450,7 +450,7 @@
                        value="<?php echo $champs['couleurs']['couleurVert']; ?>">
                 <input form="formulaire" type="hidden" id="couleur-bleu" name="couleurBleu"
                        value="<?php echo $champs['couleurs']['couleurBleu']; ?>">
-                <input form="formulaire" type="hidden" id="aucuneValeurDispo"
+                <input form="formulaire" type="hidden" id="aucune-valeur-dispo"
 					<?php if ($champsValid['aucuneValeurDispo']) { ?>
                         value="true"
 					<?php } else { ?>

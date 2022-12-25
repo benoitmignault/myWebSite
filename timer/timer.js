@@ -28,9 +28,9 @@ const COMBINAISON = document.querySelector('.combinaison');
 const MAX_COMBINAISON = document.querySelector('.maxCombinaison');
 
 const NOM_ORGANISATEUR = document.querySelector('#choixOrganisateur');
-const COULEUR_ROUGE = document.querySelector('#numberRed');
-const COULEUR_VERT = document.querySelector('#numberGreen');
-const COULEUR_BLEU = document.querySelector('#numberBlue');
+const COULEUR_ROUGE = document.querySelector('#couleur-rouge');
+const COULEUR_VERT = document.querySelector('#couleur-vert');
+const COULEUR_BLEU = document.querySelector('#couleur-bleu');
 
 const BTN_RETURN = document.querySelector('.boutonRetour .retour form .resizeText');
 const BTN_CHOISIR = document.querySelector('.container .tableau-bord form .choix .bouton');

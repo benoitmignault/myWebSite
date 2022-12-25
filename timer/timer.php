@@ -444,11 +444,11 @@
     <div class="tableau-bord">
         <form method="post" action="./timer.php" id="formulaire">
             <div class="choix">
-                <input form="formulaire" type="hidden" id="numberRed" name="couleurRouge"
+                <input form="formulaire" type="hidden" id="couleur-rouge" name="couleurRouge"
                        value="<?php echo $champs['couleurs']['couleurRouge']; ?>">
-                <input form="formulaire" type="hidden" id="numberGreen" name="couleurVert"
+                <input form="formulaire" type="hidden" id="couleur-vert" name="couleurVert"
                        value="<?php echo $champs['couleurs']['couleurVert']; ?>">
-                <input form="formulaire" type="hidden" id="numberBlue" name="couleurBleu"
+                <input form="formulaire" type="hidden" id="couleur-bleu" name="couleurBleu"
                        value="<?php echo $champs['couleurs']['couleurBleu']; ?>">
                 <input form="formulaire" type="hidden" id="aucuneValeurDispo"
 					<?php if ($champsValid['aucuneValeurDispo']) { ?>

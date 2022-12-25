@@ -457,8 +457,8 @@
                         value="false"
 					<?php } ?> >
                 <input form="formulaire" type="hidden" id="type-langue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
-                <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
-                <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison"
+                <input form="formulaire" type="hidden" id="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                <input form="formulaire" type="hidden" id="max-combinaison" name="maxCombinaison"
                        value="<?php echo $champs['maxCombinaison']; ?>">
                 <label class="modificationColor"
                        for="choixOrganisateur"><?php echo traduction("Veuillez choisir votre Organisateur", $dictionnaire); ?></label>

@@ -437,7 +437,7 @@
 
 <body>
 <!-- Fichier alert.wav est une propriété du site web : https://www.memoclic.com/sons-wav/766-sonneries-et-alarmes/page-1.html -->
-<audio id="alertSound">
+<audio id="alert-sound">
     <source src="alert.wav" type="audio/wav">
 </audio>
 <div class="container">

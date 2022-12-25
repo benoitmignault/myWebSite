@@ -21,7 +21,7 @@ const MINUTES = document.querySelector('.chiffreMin p');
 const SECONDES = document.querySelector('.chiffreSec p');
 
 const PERIODE = document.querySelector('.periode p');
-const ALERT_SOUND = document.querySelector('#alertSound');
+const ALERT_SOUND = document.querySelector('#alert-sound');
 
 const AUCUNE_VALEUR_DISPO = document.querySelector('#aucuneValeurDispo');
 const COMBINAISON = document.querySelector('.combinaison');

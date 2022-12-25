@@ -33,7 +33,7 @@ const COULEUR_VERT = document.querySelector('#numberGreen');
 const COULEUR_BLEU = document.querySelector('#numberBlue');
 
 const BTN_RETURN = document.querySelector('.boutonRetour .retour form .resizeText');
-const BTN_CHOISIR = document.querySelector('.container .tableau_bord form .choix .bouton');
+const BTN_CHOISIR = document.querySelector('.container .tableau-bord form .choix .bouton');
 
 let comptage = 0; // la variable un genre de compteur de temps
 let min = 0;

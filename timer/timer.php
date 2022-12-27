@@ -6,7 +6,7 @@
 	 */
 	function initialisationChamps(): array {
 		
-		return ['message' => "", 'typeLangue' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0,
+		return ['message' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0,
 		        'valeurSmall' => 0, 'valeurBig' => 0, 'listeDesOrganisateurs' => array(), 'listeDesValeursCouleurs' => array(),
 		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00"),
 		        'couleurs' => array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255)];
@@ -65,14 +65,12 @@
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			if (isset($_GET['langue'])) {
 				$_SERVER['typeLangue'] = $_GET['langue'];
-				$champs['typeLangue'] = $_GET['langue'];
 			}
 		}
         elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			
 			if (isset($_POST['typeLangue'])) {
 				$_SERVER['typeLangue'] = $_POST['typeLangue'];
-				$champs['typeLangue'] = $_POST['typeLangue'];
 			}
 			
 			if (isset($_POST['choixOrganisateur'])) {
@@ -326,16 +324,15 @@
 	}
 	
 	/**
-	 * Retourne à la page accueil en fonction de la langue pré-sélectionner
-	 * @param $typeLangue
+	 * Retourne à la page accueil en fonction de la langue du système
 	 * @return void
 	 */
-	function redirectionVersAccueil($typeLangue) {
+	function redirectionVersAccueil() {
 		
-		if ($typeLangue == 'francais') {
+		if ($_SERVER['typeLangue'] == 'francais') {
 			header("Location: /index.html");
 		}
-        elseif ($typeLangue == 'english') {
+        elseif ($_SERVER['typeLangue'] == 'english') {
 			header("Location: /english/english.html");
 		}
 		
@@ -346,20 +343,19 @@
 	 * Retourne sur la page du timer + un message avertissement
 	 * @param $dictionnaire
 	 * @param $situation
-	 * @param $typeLangue
 	 * @return void
 	 */
-	function redirectionVersTimer($dictionnaire, $situation, $typeLangue) {
+	function redirectionVersTimer($dictionnaire, $situation) {
 		
 		$message = messageSituation($dictionnaire, $situation);
 		
 		define('FRENCH_URL', "/timer/timer.php?langue=francais");
 		define('ENGLISH_URL', "/timer/timer.php?langue=english");
 		$url = "";
-		if ($typeLangue === 'francais') {
+		if ($_SERVER['typeLangue'] === 'francais') {
 			$url = FRENCH_URL;
 		}
-        elseif ($typeLangue === 'english') {
+        elseif ($_SERVER['typeLangue'] === 'english') {
 			$url = ENGLISH_URL;
 		}
 		
@@ -369,7 +365,8 @@
 	}
 	
 	include_once("../includes/fct-connexion-bd.php");
-	include_once("./includes/fct-timer.php");
+	include_once("../includes/fct-traduction.php");
+	include_once("../includes/fct-timer.php");
 	
 	const CHEMIN_DICTIONNAIRE_TIMER = '../dictionary/timer.json';
 	
@@ -383,17 +380,17 @@
 	
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
+		if ($_SERVER['typeLangue'] !== "francais" && $_SERVER['typeLangue'] !== "english") {
 			redirectionVersPageErreur();
 		}
 	}
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		if ($champs['typeLangue'] !== "francais" && $champs['typeLangue'] !== "english") {
+		if ($_SERVER['typeLangue'] !== "francais" && $_SERVER['typeLangue'] !== "english") {
 			redirectionVersPageErreur();
 		}
         elseif (isset($_POST['btnReturn'])) {
-			redirectionVersAccueil($champs['typeLangue']);
+			redirectionVersAccueil();
 		}
 		else {
 			// Si l'organisateur n'est pas vide, on va chercher ces valeurs / couleurs + sa combinaison en cours
@@ -408,7 +405,7 @@
 			$champs['situation'] = situation($champsValid);
 			
 			if ($champsValid['erreurPossible']) {
-				redirectionVersTimer($dictionnaire, $champs['situation'], $champs['typeLangue']);
+				redirectionVersTimer($dictionnaire, $champs['situation']);
 			}
 		}
 	}
@@ -456,7 +453,7 @@
 					<?php } else { ?>
                         value="false"
 					<?php } ?> >
-                <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $champs['typeLangue']; ?>">
+                <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $_SERVER['typeLangue']; ?>">
                 <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
                 <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison"
                        value="<?php echo $champs['maxCombinaison']; ?>">

@@ -289,7 +289,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 40%;
 }
 
-.boutonRetour > div > input:hover,
+.bouton-retour > div > input:hover,
 .container > .timer > .section-temps button:hover,
 .container > .timer > .section-mises button:hover,
 .container > .tableau-bord .choix .bouton:hover {

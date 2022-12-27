@@ -47,7 +47,7 @@ body {
     color: whitesmoke;
 }
 
-.container > .tableau-bord > form > .choix > #choixOrganisateur {
+.container > .tableau-bord > form > .choix > #choix-organisateur {
     padding: 5px;
     width: 50%;
     border-radius: 10px;
@@ -135,8 +135,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     padding: 5px;
 }
 
-.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .colorModifie {
-    color: black;
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .valeur-style {
     background-color: white;
 }
 
@@ -324,7 +323,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         font-size: 38px;
     }
 
-    .container > .tableau-bord > form > .choix > #choixOrganisateur {
+    .container > .tableau-bord > form > .choix > #choix-organisateur {
         width: 50%;
     }
 

@@ -488,14 +488,14 @@
                 <table class="tbl-valeur-couleur">
                     <thead>
                     <tr>
-                        <th><?php echo traduction("Valeur", $dictionnaire); ?></th>
-                        <th><?php echo traduction("Couleur", $dictionnaire); ?></th>
+                        <th class="valeur-style"><?php echo traduction("Valeur", $dictionnaire); ?></th>
+                        <th class="valeur-style"><?php echo traduction("Couleur", $dictionnaire); ?></th>
                     </tr>
                     </thead>
                     <tbody>
 					<?php foreach ($champs['listeDesValeursCouleurs'] as $uneCombinaison) { ?>
                         <tr>
-                            <td class="colorModifie"><?php echo $uneCombinaison['amount']; ?></td>
+                            <td class="valeur-style"><?php echo $uneCombinaison['amount']; ?></td>
                             <td class="<?php echo $uneCombinaison['color_english']; ?>"></td>
                         </tr>
 					<?php } ?>

@@ -224,22 +224,22 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 50%;
 }
 
-.container > .timer > .section-temps > .lesBoutonsActions {
+.container > .timer > .section-temps > .boutons-temps {
     width: 35%;
 }
 
-.container > .timer > .section-temps > .lesBoutonsActions .min15,
-.container > .timer > .section-temps > .lesBoutonsActions .min30 {
+.container > .timer > .section-temps > .boutons-temps .min15,
+.container > .timer > .section-temps > .boutons-temps .min30 {
     width: 50%;
 }
 
-.container > .timer > .section-temps > .lesBoutonsActions .stop,
-.container > .timer > .section-temps > .lesBoutonsActions .reprend,
-.container > .timer > .section-temps > .lesBoutonsActions .resetTemps {
+.container > .timer > .section-temps > .boutons-temps .stop,
+.container > .timer > .section-temps > .boutons-temps .reprend,
+.container > .timer > .section-temps > .boutons-temps .resetTemps {
     width: 100%;
 }
 
-.container > .timer > .section-temps > .lesBoutonsActions > div {
+.container > .timer > .section-temps > .boutons-temps > div {
     display: -webkit-flex;
     display: flex;
 }
@@ -363,15 +363,15 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     }
 
 
-    .container > .timer > .section-temps .lesBoutonsActions {
+    .container > .timer > .section-temps > .boutons-temps {
         width: 100%;
     }
 
-    .container > .timer > .section-temps > .lesBoutonsActions > div > button {
+    .container > .timer > .section-temps > .boutons-temps > div > button {
         font-size: xx-large;
     }
 
-    .container > .timer > .section-temps > .lesBoutonsActions .reprend #timerReprend {
+    .container > .timer > .section-temps > .boutons-temps .reprend #timerReprend {
         font-size: x-large;
     }
 

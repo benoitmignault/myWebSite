@@ -554,7 +554,7 @@
                     <p>00</p>
                 </div>
             </div>
-            <div class="lesBoutonsActions">
+            <div class="boutons-temps">
                 <div class="min15">
                     <button class="" id="timer15">15</button>
                 </div>

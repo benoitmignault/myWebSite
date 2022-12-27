@@ -425,7 +425,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="timer.css">
     <style>
-        .container > .timer > .affichage-mises > .lesMises > div > .blind {
+        .container > .timer > .affichage-mises > .mises > div > .blind {
             color: <?php echo couleurValeurMise($champs['couleurs']['couleurRouge'], $champs['couleurs']['couleurVert'], $champs['couleurs']['couleurBleu']); ?>
         }
     </style>
@@ -506,7 +506,7 @@
     </div>
     <div class="timer">
         <div class="affichage-mises">
-            <div class="lesMises">
+            <div class="mises">
                 <div class="titre">
                     <p class="resizeText"><?php echo traduction("Mises Possibles", $dictionnaire); ?></p></div>
                 <div class="small">

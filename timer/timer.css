@@ -165,7 +165,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     vertical-align: middle;
 }
 
-.container > .timer > .affichage-mises > .lesMises {
+.container > .timer > .affichage-mises > .mises {
     width: 65%;
 }
 
@@ -173,18 +173,18 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 35%;
 }
 
-.container > .timer > .affichage-mises > .lesMises > .titre {
+.container > .timer > .affichage-mises > .mises > .titre {
     width: 100%;
 }
 
-.container > .timer > .affichage-mises > .lesMises > .small,
-.container > .timer > .affichage-mises > .lesMises > .big,
-.container > .timer > .affichage-mises > .lesMises > .valeurSmall,
-.container > .timer > .affichage-mises > .lesMises > .valeurBig {
+.container > .timer > .affichage-mises > .mises > .small,
+.container > .timer > .affichage-mises > .mises > .big,
+.container > .timer > .affichage-mises > .mises > .valeurSmall,
+.container > .timer > .affichage-mises > .mises > .valeurBig {
     width: 50%;
 }
 
-.container > .timer > .affichage-mises > .lesMises > div > p,
+.container > .timer > .affichage-mises > .mises > div > p,
 .container > .timer > .tableauDuTemps > .temps > div > p {
     text-align: center;
     color: white;
@@ -196,8 +196,8 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 
 .container > .timer > .tableauDuTemps > .temps > .chiffreMin p,
 .container > .timer > .tableauDuTemps > .temps > .chiffreSec p,
-.container > .timer > .affichage-mises > .lesMises > .valeurSmall > .blind,
-.container > .timer > .affichage-mises > .lesMises > .valeurBig > .blind {
+.container > .timer > .affichage-mises > .mises > .valeurSmall > .blind,
+.container > .timer > .affichage-mises > .mises > .valeurBig > .blind {
     font-size: 64px;
 }
 
@@ -347,7 +347,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         flex-direction: column;
     }
 
-    .container > .timer > .affichage-mises > .lesMises,
+    .container > .timer > .affichage-mises > .mises,
     .container > .timer > .affichage-mises > .lesBoutonsMises {
         width: 100%;
     }

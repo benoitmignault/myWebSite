@@ -441,21 +441,21 @@
     <div class="tableau-bord">
         <form method="post" action="./timer.php" id="formulaire">
             <div class="choix">
-                <input form="formulaire" type="hidden" id="couleur-rouge" name="couleurRouge"
+                <input type="hidden" id="couleur-rouge" name="couleurRouge"
                        value="<?php echo $champs['couleurs']['couleurRouge']; ?>">
-                <input form="formulaire" type="hidden" id="couleur-vert" name="couleurVert"
+                <input type="hidden" id="couleur-vert" name="couleurVert"
                        value="<?php echo $champs['couleurs']['couleurVert']; ?>">
-                <input form="formulaire" type="hidden" id="couleur-bleu" name="couleurBleu"
+                <input type="hidden" id="couleur-bleu" name="couleurBleu"
                        value="<?php echo $champs['couleurs']['couleurBleu']; ?>">
-                <input form="formulaire" type="hidden" id="aucune-valeur-dispo"
+                <input type="hidden" id="aucune-valeur-dispo"
 					<?php if ($champsValid['aucuneValeurDispo']) { ?>
                         value="true"
 					<?php } else { ?>
                         value="false"
 					<?php } ?> >
-                <input form="formulaire" type="hidden" id="type-langue" name="typeLangue" value="<?php echo $_SERVER['typeLangue']; ?>">
-                <input form="formulaire" type="hidden" id="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
-                <input form="formulaire" type="hidden" id="max-combinaison" name="maxCombinaison"
+                <input type="hidden" id="type-langue" name="typeLangue" value="<?php echo $_SERVER['typeLangue']; ?>">
+                <input type="hidden" id="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                <input type="hidden" id="max-combinaison" name="maxCombinaison"
                        value="<?php echo $champs['maxCombinaison']; ?>">
                 <label for="choix-organisateur"><?php echo traduction("Veuillez choisir votre Organisateur", $dictionnaire); ?></label>
                 <select id="choix-organisateur" name="choixOrganisateur">

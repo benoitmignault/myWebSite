@@ -76,66 +76,66 @@ body {
 /* 
 Les couleurs des valeurs de jetons seront transformer en classe pour retrouver la bonne couleur en CSS 
 */
-.tblValeurCouleur .black {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .black {
     background-color: black;
 }
 
-.tblValeurCouleur .brown {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .brown {
     background-color: brown;
 }
 
-.tblValeurCouleur .darkblue {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .darkblue {
     background-color: darkblue;
 }
 
-.tblValeurCouleur .darkred {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .darkred {
     background-color: darkred;
 }
 
-.tblValeurCouleur .green {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .green {
     background-color: green;
 }
 
-.tblValeurCouleur .grey {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .grey {
     background-color: grey;
 }
 
-.tblValeurCouleur .lightblue {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .lightblue {
     background-color: lightblue;
 }
 
-.tblValeurCouleur .orange {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .orange {
     background-color: orange;
 }
 
-.tblValeurCouleur .pink {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .pink {
     background-color: pink;
 }
 
-.tblValeurCouleur .purple {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .purple {
     background-color: purple;
 }
 
-.tblValeurCouleur .red {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .red {
     background-color: red;
 }
 
-.tblValeurCouleur .white {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .white {
     background-color: white;
 }
 
-.tblValeurCouleur .yellow {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .yellow {
     background-color: yellow;
 }
 
 
-.container > .tableau-bord > .affichage-choix > .tblValeurCouleur td,
-.container > .tableau-bord > .affichage-choix > .tblValeurCouleur th {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur td,
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur th {
     border: 1px solid black;
     padding: 5px;
 }
 
-.container > .tableau-bord > .affichage-choix > .tblValeurCouleur .colorModifie {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur .colorModifie {
     color: black;
     background-color: white;
 }
@@ -320,7 +320,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         width: 100%;
     }
 
-    .container > .tableau-bord > .affichage-choix > .tblValeurCouleur {
+    .container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur {
         font-size: 38px;
     }
 

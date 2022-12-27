@@ -485,7 +485,7 @@
         </form>
         <div class="affichage-choix">
 			<?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && $champs['situation'] != 1) { ?>
-                <table class="tblValeurCouleur">
+                <table class="tbl-valeur-couleur">
                     <thead>
                     <tr>
                         <th><?php echo traduction("Valeur", $dictionnaire); ?></th>

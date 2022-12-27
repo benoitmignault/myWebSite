@@ -2,8 +2,6 @@ const langue = document.querySelector('#typeLangue');
 const div_Photo = document.querySelector('.photo');
 const div_Center = document.querySelector('.center');
 const listeSections = document.querySelectorAll('.header div a');
-// Doublon de déclaration
-// const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
 const lien = document.querySelector('#liste_language');
 const div_liste = document.querySelector('#hidden');
 const liste = document.querySelector('#enum_Language');

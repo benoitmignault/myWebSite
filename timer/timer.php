@@ -526,7 +526,7 @@
 						<?php } ?> id="changer-mise" form="formulaire"><?php echo traduction("Changer", $dictionnaire); ?>
                     </button>
                 </div>
-                <div class="resetMise">
+                <div>
                     <button form="formulaire" name="btnResetMise"
 						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 2 || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled

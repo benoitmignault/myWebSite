@@ -70,7 +70,7 @@ function affichageSection() {
         } // si je pese sur hautPageDesktop apres avec peser sur la section photo, erreur js
     } else if (hashTag.value === '#photos' || hashTag.value === '#pictures') {
         affichageSectionPhoto();
-    } else if (location.hash !== "#hautPageDesktop" && location.hash !== "#hautPageCellulaire") {
+    } else if (location.hash !== "#haut-page-desktop" && location.hash !== "#haut-page-cellulaire") {
         affichageAccueil();
     }
 }

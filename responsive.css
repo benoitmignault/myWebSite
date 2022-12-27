@@ -1,19 +1,19 @@
 /* Ce css servira au responsible de la page index et english qui sont mes page d'accueil en français et en anglais */
 
 @media screen and (max-width: 768px) {
-    .racineSite {
+    .racine-site {
         -webkit-flex-direction: column;
         flex-direction: column;
         margin: auto;
     }
 
-    .racineSite .left,
-    .racineSite .middle,
-    .racineSite .right {
+    .racine-site .left,
+    .racine-site .middle,
+    .racine-site .right {
         width: 100%;
     }
 
-    .racineSite .right .logoRight {
+    .racine-site .right .logoRight {
         display: none;
     }
 

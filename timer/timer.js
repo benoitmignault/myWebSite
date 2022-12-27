@@ -1,39 +1,39 @@
-const CHANGER_MISE = document.querySelector('#changerMise');
+const CHANGER_MISE = document.querySelector('#changer-mise');
 
-const TEMPS_PERIODE = document.querySelector('.container .timer .tableauDuTemps .temps div .resizeText');
-const TYPE_MISES = document.querySelector('.container .timer .tableauDesMises .lesMises div .resizeText');
+const TEMPS_PERIODE = document.querySelector('.container .timer .section-temps .temps div .resize-text');
+const TYPE_MISES = document.querySelector('.container .timer .section-mises .mises div .resize-text');
 
-const RESET_VALEUR = document.querySelector('#reset');
-const RESET_TEMPS = document.querySelector('#ResetTemps');
+const RESET_VALEUR = document.querySelector('#reset-mise');
+const RESET_TEMPS = document.querySelector('#reset-temps');
 
-const TYPE_LANGUE = document.querySelector('#typeLangue');
+const TYPE_LANGUE = document.querySelector('#type-langue');
 
-const TEMPS_15_MIN = document.querySelector('#timer15');
-const TEMPS_30_MIN = document.querySelector('#timer30');
+const TEMPS_15_MIN = document.querySelector('#timer-15');
+const TEMPS_30_MIN = document.querySelector('#timer-30');
 
-const REPREND_TIMER = document.querySelector('#timerReprend');
-const STOP_TIMER = document.querySelector('#timerStop');
+const REPREND_TIMER = document.querySelector('#timer-reprend');
+const STOP_TIMER = document.querySelector('#timer-stop');
 
-const VALEUR_SMALL = document.querySelector('#valeurSmall');
-const VALEUR_BIG = document.querySelector('#valeurBig');
+const VALEUR_SMALL = document.querySelector('#valeur-small');
+const VALEUR_BIG = document.querySelector('#valeur-big');
 
-const MINUTES = document.querySelector('.chiffreMin p');
-const SECONDES = document.querySelector('.chiffreSec p');
+const MINUTES = document.querySelector('#chiffre-min');
+const SECONDES = document.querySelector('#chiffre-sec');
 
 const PERIODE = document.querySelector('.periode p');
-const ALERT_SOUND = document.querySelector('#alertSound');
+const ALERT_SOUND = document.querySelector('#alert-sound');
 
-const AUCUNE_VALEUR_DISPO = document.querySelector('#aucuneValeurDispo');
-const COMBINAISON = document.querySelector('.combinaison');
-const MAX_COMBINAISON = document.querySelector('.maxCombinaison');
+const AUCUNE_VALEUR_DISPO = document.querySelector('#aucune-valeur-dispo');
+const COMBINAISON = document.querySelector('#combinaison');
+const MAX_COMBINAISON = document.querySelector('#max-combinaison');
 
-const NOM_ORGANISATEUR = document.querySelector('#choixOrganisateur');
-const COULEUR_ROUGE = document.querySelector('#numberRed');
-const COULEUR_VERT = document.querySelector('#numberGreen');
-const COULEUR_BLEU = document.querySelector('#numberBlue');
+const NOM_ORGANISATEUR = document.querySelector('#choix-organisateur');
+const COULEUR_ROUGE = document.querySelector('#couleur-rouge');
+const COULEUR_VERT = document.querySelector('#couleur-vert');
+const COULEUR_BLEU = document.querySelector('#couleur-bleu');
 
-const BTN_RETURN = document.querySelector('.boutonRetour .retour form .resizeText');
-const BTN_CHOISIR = document.querySelector('.container .tableau_bord form .choix .bouton');
+const BTN_RETURN = document.querySelector('#btn-return');
+const BTN_CHOISIR = document.querySelector('#btn-choix-organisateur');
 
 let comptage = 0; // la variable un genre de compteur de temps
 let min = 0;
@@ -290,12 +290,13 @@ function resetTemp() {
     RESET_TEMPS.addEventListener('click', function () {
         clearTimeout(comptage); // arrête le coulage du temps
         chrono = 0;
-        min = "00";
-        sec = "00";
+        min = 0;
+        sec = 0;
         MINUTES.style.color = "white";
         SECONDES.style.color = "white";
-        MINUTES.innerHTML = min.toString();
-        SECONDES.innerHTML = sec.toString();
+        MINUTES.innerHTML = "0" + min.toString();
+        SECONDES.innerHTML = "0" + sec.toString();
+
         if (TYPE_LANGUE.value === "francais") {
             PERIODE.innerHTML = "Sélectionner votre Période";
         } else if (TYPE_LANGUE.value === "english") {

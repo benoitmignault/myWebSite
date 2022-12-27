@@ -6,8 +6,8 @@
 	 */
 	function initialisationChamps(): array {
 		
-		return ['message' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0,
-		        'valeurSmall' => 0, 'valeurBig' => 0, 'listeDesOrganisateurs' => array(), 'listeDesValeursCouleurs' => array(),
+		return ['message' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0, 'valeurSmall' => 0,
+		        'valeurBig' => 0, 'listeDesOrganisateurs' => array(), 'listeDesValeursCouleurs' => array(),
 		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00"),
 		        'couleurs' => array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255)];
 	}
@@ -425,7 +425,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="timer.css">
     <style>
-        .container > .timer > .tableauDesMises > .lesMises > div > .blind {
+        .container > .timer > .section-mises > .mises > div > .blind {
             color: <?php echo couleurValeurMise($champs['couleurs']['couleurRouge'], $champs['couleurs']['couleurVert'], $champs['couleurs']['couleurBleu']); ?>
         }
     </style>
@@ -434,32 +434,31 @@
 
 <body>
 <!-- Fichier alert.wav est une propriété du site web : https://www.memoclic.com/sons-wav/766-sonneries-et-alarmes/page-1.html -->
-<audio id="alertSound">
+<audio id="alert-sound">
     <source src="alert.wav" type="audio/wav">
 </audio>
 <div class="container">
-    <div class="tableau_bord">
+    <div class="tableau-bord">
         <form method="post" action="./timer.php" id="formulaire">
             <div class="choix">
-                <input form="formulaire" type="hidden" id="numberRed" name="couleurRouge"
+                <input type="hidden" id="couleur-rouge" name="couleurRouge"
                        value="<?php echo $champs['couleurs']['couleurRouge']; ?>">
-                <input form="formulaire" type="hidden" id="numberGreen" name="couleurVert"
+                <input type="hidden" id="couleur-vert" name="couleurVert"
                        value="<?php echo $champs['couleurs']['couleurVert']; ?>">
-                <input form="formulaire" type="hidden" id="numberBlue" name="couleurBleu"
+                <input type="hidden" id="couleur-bleu" name="couleurBleu"
                        value="<?php echo $champs['couleurs']['couleurBleu']; ?>">
-                <input form="formulaire" type="hidden" id="aucuneValeurDispo"
+                <input type="hidden" id="aucune-valeur-dispo"
 					<?php if ($champsValid['aucuneValeurDispo']) { ?>
                         value="true"
 					<?php } else { ?>
                         value="false"
 					<?php } ?> >
-                <input form="formulaire" type="hidden" id="typeLangue" name="typeLangue" value="<?php echo $_SERVER['typeLangue']; ?>">
-                <input form="formulaire" type="hidden" class="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
-                <input form="formulaire" type="hidden" class="maxCombinaison" name="maxCombinaison"
+                <input type="hidden" id="type-langue" name="typeLangue" value="<?php echo $_SERVER['typeLangue']; ?>">
+                <input type="hidden" id="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
+                <input type="hidden" id="max-combinaison" name="maxCombinaison"
                        value="<?php echo $champs['maxCombinaison']; ?>">
-                <label class="modificationColor"
-                       for="choixOrganisateur"><?php echo traduction("Veuillez choisir votre Organisateur", $dictionnaire); ?></label>
-                <select id="choixOrganisateur" name="choixOrganisateur">
+                <label for="choix-organisateur"><?php echo traduction("Veuillez choisir votre Organisateur", $dictionnaire); ?></label>
+                <select id="choix-organisateur" name="choixOrganisateur">
 					<?php if ($_SERVER['REQUEST_METHOD'] === 'GET') { ?>
                         <option value="" selected><?php echo traduction("Sélectionner", $dictionnaire); ?></option>
 						<?php foreach ($champs['listeDesOrganisateurs'] as $unOrganisateur) { ?>
@@ -476,7 +475,8 @@
 						<?php } ?>
 					<?php } ?>
                 </select>
-                <input type="submit" name="btnChoixOrganisateur" value="<?php echo traduction("Choisir", $dictionnaire); ?>"
+                <input type="submit" id="btn-choix-organisateur" name="btnChoixOrganisateur"
+                       value="<?php echo traduction("Choisir", $dictionnaire); ?>"
 					<?php if (count($champs['listeDesOrganisateurs']) === 0) { ?>
                         class="bouton disabled" disabled
 					<?php } else { ?>
@@ -484,19 +484,19 @@
 					<?php } ?>>
             </div>
         </form>
-        <div class="affichage_choix">
+        <div class="section-choix">
 			<?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && $champs['situation'] != 1) { ?>
-                <table class="tblValeurCouleur">
+                <table class="tbl-valeur-couleur">
                     <thead>
                     <tr>
-                        <th><?php echo traduction("Valeur", $dictionnaire); ?></th>
-                        <th><?php echo traduction("Couleur", $dictionnaire); ?></th>
+                        <th class="valeur-style"><?php echo traduction("Valeur", $dictionnaire); ?></th>
+                        <th class="valeur-style"><?php echo traduction("Couleur", $dictionnaire); ?></th>
                     </tr>
                     </thead>
                     <tbody>
 					<?php foreach ($champs['listeDesValeursCouleurs'] as $uneCombinaison) { ?>
                         <tr>
-                            <td class="colorModifie"><?php echo $uneCombinaison['amount']; ?></td>
+                            <td class="valeur-style"><?php echo $uneCombinaison['amount']; ?></td>
                             <td class="<?php echo $uneCombinaison['color_english']; ?>"></td>
                         </tr>
 					<?php } ?>
@@ -506,81 +506,81 @@
         </div>
     </div>
     <div class="timer">
-        <div class="tableauDesMises">
-            <div class="lesMises">
+        <div class="section-mises">
+            <div class="mises">
                 <div class="titre">
-                    <p class="resizeText"><?php echo traduction("Mises Possibles", $dictionnaire); ?></p></div>
-                <div class="small">
-                    <p class="resizeText"><?php echo traduction("Petite Mise", $dictionnaire); ?></p></div>
-                <div class="big">
-                    <p class="resizeText"><?php echo traduction("Grosse Mise", $dictionnaire); ?></p></div>
-                <div class="valeurSmall">
-                    <p class="blind" id="valeurSmall"><?php echo $champs['nouvelleCombinaison']['valeurSmall']; ?></p></div>
-                <div class="valeurBig">
-                    <p class="blind" id="valeurBig"><?php echo $champs['nouvelleCombinaison']['valeurBig']; ?></p></div>
+                    <p class="resize-text"><?php echo traduction("Mises Possibles", $dictionnaire); ?></p></div>
+                <div class="petite">
+                    <p class="resize-text"><?php echo traduction("Petite Mise", $dictionnaire); ?></p></div>
+                <div class="grosse">
+                    <p class="resize-text"><?php echo traduction("Grosse Mise", $dictionnaire); ?></p></div>
+                <div class="petite">
+                    <p class="blind" id="valeur-small"><?php echo $champs['nouvelleCombinaison']['valeurSmall']; ?></p></div>
+                <div class="grosse">
+                    <p class="blind" id="valeur-big"><?php echo $champs['nouvelleCombinaison']['valeurBig']; ?></p></div>
             </div>
-            <div class="lesBoutonsMises">
-                <div class="double">
+            <div class="boutons-mises">
+                <div>
                     <button name="btnChangerMise"
 						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champsValid['nomOrganisateurVide'] || $champsValid['aucuneValeurDispo'] || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled
-						<?php } ?> id="changerMise" form="formulaire"><?php echo traduction("Changer", $dictionnaire); ?>
+						<?php } ?> id="changer-mise" form="formulaire"><?php echo traduction("Changer", $dictionnaire); ?>
                     </button>
                 </div>
-                <div class="resetMise">
-                    <button form="formulaire" name="btnResetMise"
+                <div>
+                    <button form="formulaire" name="btnResetMise" id="reset-mise"
 						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 2 || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled
-						<?php } ?> id="reset"><?php echo traduction("Réinitialiser Mise", $dictionnaire); ?>
+						<?php } ?> ><?php echo traduction("Réinitialiser Mise", $dictionnaire); ?>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="tableauDuTemps">
+        <div class="section-temps">
             <div class="temps">
                 <div class="periode">
-                    <p class="resizeText"><?php echo traduction("Sélectionner votre Période", $dictionnaire); ?></p>
+                    <p class="resize-text"><?php echo traduction("Sélectionner votre Période", $dictionnaire); ?></p>
                 </div>
                 <div class="minutes">
-                    <p class="resizeText"><?php echo traduction("Minutes", $dictionnaire); ?></p>
+                    <p class="resize-text"><?php echo traduction("Minutes", $dictionnaire); ?></p>
                 </div>
                 <div class="secondes">
-                    <p class="resizeText"><?php echo traduction("Secondes", $dictionnaire); ?></p>
+                    <p class="resize-text"><?php echo traduction("Secondes", $dictionnaire); ?></p>
                 </div>
-                <div class="chiffreMin">
-                    <p>00</p>
+                <div class="chiffre">
+                    <p id="chiffre-min">00</p>
                 </div>
-                <div class="chiffreSec">
-                    <p>00</p>
+                <div class="chiffre">
+                    <p id="chiffre-sec">00</p>
                 </div>
             </div>
-            <div class="lesBoutonsActions">
-                <div class="min15">
-                    <button class="" id="timer15">15</button>
+            <div class="boutons-temps">
+                <div>
+                    <button class="" id="timer-15">15</button>
                 </div>
-                <div class="min30">
-                    <button class="" id="timer30">30</button>
+                <div>
+                    <button class="" id="timer-30">30</button>
                 </div>
-                <div class="stop">
-                    <button class="disabled" disabled id="timerStop"><?php echo traduction("Arrêt", $dictionnaire); ?></button>
+                <div class="action-temps">
+                    <button class="disabled" disabled id="timer-stop"><?php echo traduction("Arrêt", $dictionnaire); ?></button>
                 </div>
-                <div class="reprend">
-                    <button class="disabled resizeText" disabled
-                            id="timerReprend"><?php echo traduction("Poursuivre", $dictionnaire); ?></button>
-                </div>
-                <div class="resetTemps">
+                <div class="action-temps">
                     <button class="disabled" disabled
-                            id="ResetTemps"><?php echo traduction("Réinitialiser Temps", $dictionnaire); ?></button>
+                            id="timer-reprend"><?php echo traduction("Poursuivre", $dictionnaire); ?></button>
+                </div>
+                <div class="action-temps">
+                    <button class="disabled" disabled
+                            id="reset-temps"><?php echo traduction("Réinitialiser Temps", $dictionnaire); ?></button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <hr>
-<div class="boutonRetour">
-    <div class="retour">
-        <input class="resizeText" type="submit" name="btnReturn" form="formulaire"
+<div class="bouton-retour">
+    <div>
+        <input type="submit" id="btn-return" name="btnReturn" form="formulaire"
                value="<?php echo traduction("Page d'Accueil", $dictionnaire); ?>">
     </div>
 </div>

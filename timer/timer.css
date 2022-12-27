@@ -21,51 +21,51 @@ body {
 }
 
 .container > div,
-.container > .tableau_bord > form > .choix,
-.container > .tableau_bord > .affichage_choix {
+.container > .tableau-bord > form > .choix,
+.container > .tableau-bord > .section-choix {
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
 }
 
-.container > .tableau_bord {
+.container > .tableau-bord {
     width: 30%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.container > .tableau_bord > form,
-.container > .timer > .tableauDesMises,
-.container > .timer > .tableauDuTemps,
-.container > .tableau_bord > .affichage_choix {
+.container > .tableau-bord > form,
+.container > .timer > .section-mises,
+.container > .timer > .section-temps,
+.container > .tableau-bord > .section-choix {
     margin-top: 30px;
 }
 
-.container > .tableau_bord > form > .choix > label {
+.container > .tableau-bord > form > .choix > label {
     font-weight: bold;
     font-size: 1.1em;
     color: whitesmoke;
 }
 
-.container > .tableau_bord > form > .choix > #choixOrganisateur {
+.container > .tableau-bord > form > .choix > #choix-organisateur {
     padding: 5px;
     width: 50%;
     border-radius: 10px;
     margin: auto auto 10px;
 }
 
-.container > .tableau_bord > form > .choix > label {
+.container > .tableau-bord > form > .choix > label {
     width: 100%;
     text-align: center;
     margin-bottom: 5px;
 }
 
-.container > .tableau_bord > form > .choix > .bouton {
+.container > .tableau-bord > form > .choix > .bouton {
     margin: auto;
     width: 50%;
 }
 
-.container > .tableau_bord > .affichage_choix > .tblValeurCouleur {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur {
     width: 100%;
     text-align: center;
     font-size: 48px;
@@ -76,67 +76,66 @@ body {
 /* 
 Les couleurs des valeurs de jetons seront transformer en classe pour retrouver la bonne couleur en CSS 
 */
-.tblValeurCouleur .black {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .black {
     background-color: black;
 }
 
-.tblValeurCouleur .brown {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .brown {
     background-color: brown;
 }
 
-.tblValeurCouleur .darkblue {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .darkblue {
     background-color: darkblue;
 }
 
-.tblValeurCouleur .darkred {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .darkred {
     background-color: darkred;
 }
 
-.tblValeurCouleur .green {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .green {
     background-color: green;
 }
 
-.tblValeurCouleur .grey {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .grey {
     background-color: grey;
 }
 
-.tblValeurCouleur .lightblue {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .lightblue {
     background-color: lightblue;
 }
 
-.tblValeurCouleur .orange {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .orange {
     background-color: orange;
 }
 
-.tblValeurCouleur .pink {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .pink {
     background-color: pink;
 }
 
-.tblValeurCouleur .purple {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .purple {
     background-color: purple;
 }
 
-.tblValeurCouleur .red {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .red {
     background-color: red;
 }
 
-.tblValeurCouleur .white {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .white {
     background-color: white;
 }
 
-.tblValeurCouleur .yellow {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .yellow {
     background-color: yellow;
 }
 
 
-.container > .tableau_bord > .affichage_choix > .tblValeurCouleur td,
-.container > .tableau_bord > .affichage_choix > .tblValeurCouleur th {
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur td,
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur th {
     border: 1px solid black;
     padding: 5px;
 }
 
-.container > .tableau_bord > .affichage_choix > .tblValeurCouleur .colorModifie {
-    color: black;
+.container > .tableau-bord > .section-choix > .tbl-valeur-couleur .valeur-style {
     background-color: white;
 }
 
@@ -145,48 +144,46 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     margin: auto;
 }
 
-.container > .timer > .tableauDesMises,
-.container > .timer > .tableauDuTemps {
+.container > .timer > .section-mises,
+.container > .timer > .section-temps {
     display: -webkit-flex;
     display: flex;
     background-color: black;
     width: 100%;
 }
 
-.container > .timer .tableauDesMises > div,
-.container > .timer .tableauDuTemps > div {
+.container > .timer .section-mises > div,
+.container > .timer .section-temps > div {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
 }
 
-.container > .timer .tableauDesMises > div > div {
+.container > .timer .section-mises > div > div {
     border: 3px outset #b3d9ff;
     vertical-align: middle;
 }
 
-.container > .timer > .tableauDesMises > .lesMises {
+.container > .timer > .section-mises > .mises {
     width: 65%;
 }
 
-.container > .timer > .tableauDesMises > .lesBoutonsMises {
+.container > .timer > .section-mises > .boutons-mises {
     width: 35%;
 }
 
-.container > .timer > .tableauDesMises > .lesMises > .titre {
+.container > .timer > .section-mises > .mises > .titre {
     width: 100%;
 }
 
-.container > .timer > .tableauDesMises > .lesMises > .small,
-.container > .timer > .tableauDesMises > .lesMises > .big,
-.container > .timer > .tableauDesMises > .lesMises > .valeurSmall,
-.container > .timer > .tableauDesMises > .lesMises > .valeurBig {
+.container > .timer > .section-mises > .mises > .petite,
+.container > .timer > .section-mises > .mises > .grosse {
     width: 50%;
 }
 
-.container > .timer > .tableauDesMises > .lesMises > div > p,
-.container > .timer > .tableauDuTemps > .temps > div > p {
+.container > .timer > .section-mises > .mises > div > p,
+.container > .timer > .section-temps > .temps > div > p {
     text-align: center;
     color: white;
     margin: 5px;
@@ -195,64 +192,57 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     font-size: 48px;
 }
 
-.container > .timer > .tableauDuTemps > .temps > .chiffreMin p,
-.container > .timer > .tableauDuTemps > .temps > .chiffreSec p,
-.container > .timer > .tableauDesMises > .lesMises > .valeurSmall > .blind,
-.container > .timer > .tableauDesMises > .lesMises > .valeurBig > .blind {
+.container > .timer > .section-temps > .temps > .chiffre > p,
+.container > .timer > .section-mises > .mises > .petite > .blind,
+.container > .timer > .section-mises > .mises > .grosse > .blind {
     font-size: 64px;
 }
 
-.container > .timer > .tableauDesMises > .lesBoutonsMises > div {
+.container > .timer > .section-mises > .boutons-mises > div {
     display: -webkit-flex;
     display: flex;
     width: 100%;
 }
 
-.container > .timer > .tableauDuTemps > div > div {
+.container > .timer > .section-temps > div > div {
     border: 3px outset MediumSeaGreen;
 }
 
-.container > .timer > .tableauDuTemps > .temps {
+.container > .timer > .section-temps > .temps {
     width: 65%;
 }
 
-.container > .timer > .tableauDuTemps > .temps .periode {
+.container > .timer > .section-temps > .temps > .periode {
     width: 100%;
 }
 
-.container > .timer > .tableauDuTemps > .temps .minutes,
-.container > .timer > .tableauDuTemps > .temps .secondes,
-.container > .timer > .tableauDuTemps > .temps .chiffreMin,
-.container > .timer > .tableauDuTemps > .temps .chiffreSec {
+.container > .timer > .section-temps > .temps > .minutes,
+.container > .timer > .section-temps > .temps > .secondes,
+.container > .timer > .section-temps > .temps > .chiffre {
     width: 50%;
 }
 
-.container > .timer > .tableauDuTemps > .lesBoutonsActions {
+.container > .timer > .section-temps > .boutons-temps {
     width: 35%;
 }
 
-.container > .timer > .tableauDuTemps > .lesBoutonsActions .min15,
-.container > .timer > .tableauDuTemps > .lesBoutonsActions .min30 {
+.container > .timer > .section-temps > .boutons-temps > div {
+    display: -webkit-flex;
+    display: flex;
     width: 50%;
 }
 
-.container > .timer > .tableauDuTemps > .lesBoutonsActions .stop,
-.container > .timer > .tableauDuTemps > .lesBoutonsActions .reprend,
-.container > .timer > .tableauDuTemps > .lesBoutonsActions .resetTemps {
+.container > .timer > .section-temps > .boutons-temps .action-temps {
     width: 100%;
 }
 
-.container > .timer > .tableauDuTemps > .lesBoutonsActions > div {
-    display: -webkit-flex;
-    display: flex;
+.container > .timer > .section-mises > .boutons-mises > div .disabled,
+.container > .timer > .section-temps > .boutons-temps .action-temps > .disabled {
+    opacity: 0.4;
+    cursor: none;
 }
 
-.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.boutonRetour {
+.bouton-retour {
     display: -webkit-flex;
     display: flex;
     flex-wrap: wrap;
@@ -263,18 +253,18 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     border: 3px outset #3385ff;
 }
 
-.boutonRetour {
+.bouton-retour {
     margin-top: 25px;
 }
 
-.boutonRetour > .retour {
+.bouton-retour > div {
     width: 100%;
 }
 
-.boutonRetour > .retour > input,
-.tableauDuTemps button,
-.tableauDesMises button,
-.container > .tableau_bord .choix .bouton {
+.bouton-retour > div > input,
+.container > .timer > .section-temps > .boutons-temps > div > button,
+.container > .timer > .section-mises > .boutons-mises > div > button,
+.container > .tableau-bord .choix .bouton {
     width: 100%;
     color: white;
     font-weight: bold;
@@ -295,14 +285,14 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     border: solid #8c601f 2px
 }
 
-.container > .tableau_bord .choix .bouton {
+.container > .tableau-bord .choix .bouton {
     width: 40%;
 }
 
-.boutonRetour > .retour > input:hover,
-.tableauDuTemps button:hover,
-.tableauDesMises button:hover,
-.container > .tableau_bord .choix .bouton:hover {
+.bouton-retour > div > input:hover,
+.container > .timer > .section-temps > .boutons-temps > div > button:hover,
+.container > .timer > .section-mises > .boutons-mises > div > button:hover,
+.container > .tableau-bord .choix .bouton:hover {
     cursor: pointer;
     background-image: -webkit-linear-gradient(top, #56b064, #6679b3);
     background-image: -moz-linear-gradient(top, #56b064, #6679b3);
@@ -316,19 +306,19 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         flex-direction: column;
     }
 
-    .container > .tableau_bord {
+    .container > .tableau-bord {
         width: 100%;
     }
 
-    .container > .tableau_bord > .affichage_choix > .tblValeurCouleur {
+    .container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur {
         font-size: 38px;
     }
 
-    .container > .tableau_bord > form > .choix > #choixOrganisateur {
+    .container > .tableau-bord > form > .choix > #choix-organisateur {
         width: 50%;
     }
 
-    .container > .tableau_bord > form > .choix > .bouton {
+    .container > .tableau-bord > form > .choix > .bouton {
         width: 50%;
     }
 
@@ -336,55 +326,45 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         width: 100%;
     }
 
-    .container > .timer > .tableauDesMises,
-    .container > .timer > .tableauDuTemps {
-        width: 100%;
-    }
-
-    .container > .timer > .tableauDesMises,
-    .container > .timer > .tableauDuTemps {
+    .container > .timer > .section-mises,
+    .container > .timer > .section-temps {
         width: 100%;
         -webkit-flex-direction: column;
         flex-direction: column;
     }
 
-    .container > .timer > .tableauDesMises > .lesMises,
-    .container > .timer > .tableauDesMises > .lesBoutonsMises {
+    .container > .timer > .section-mises > .mises,
+    .container > .timer > .section-mises > .boutons-mises {
         width: 100%;
     }
 
-    .container > .timer > .tableauDesMises > .lesBoutonsMises > div {
+    .container > .timer > .section-mises > .boutons-mises > div {
         width: 100%;
     }
 
-    .container > .timer > .tableauDuTemps > .temps {
+    .container > .timer > .section-temps > .temps {
         width: 100%;
     }
 
-    .container > .timer > .tableauDuTemps > .temps > div > p {
+    .container > .timer > .section-temps > .temps > div > p {
         font-size: 32px;
     }
 
-
-    .container > .timer > .tableauDuTemps .lesBoutonsActions {
+    .container > .timer > .section-temps > .boutons-temps {
         width: 100%;
     }
 
-    .container > .timer > .tableauDuTemps > .lesBoutonsActions > div > button {
+    .container > .timer > .section-temps > .boutons-temps > div > button {
         font-size: xx-large;
     }
 
-    .container > .timer > .tableauDuTemps > .lesBoutonsActions .reprend #timerReprend {
-        font-size: x-large;
-    }
-
-    .boutonRetour {
+    .bouton-retour {
         width: 100%;
         -webkit-flex-direction: column;
         flex-direction: column;
     }
 
-    .boutonRetour > .retour input {
+    .bouton-retour > div input {
         font-size: large;
     }
 }

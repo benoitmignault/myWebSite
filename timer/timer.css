@@ -169,7 +169,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 65%;
 }
 
-.container > .timer > .section-mises > .lesBoutonsMises {
+.container > .timer > .section-mises > .boutons-mises {
     width: 35%;
 }
 
@@ -177,10 +177,8 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 100%;
 }
 
-.container > .timer > .section-mises > .mises > .small,
-.container > .timer > .section-mises > .mises > .big,
-.container > .timer > .section-mises > .mises > .valeurSmall,
-.container > .timer > .section-mises > .mises > .valeurBig {
+.container > .timer > .section-mises > .mises > .petite,
+.container > .timer > .section-mises > .mises > .grosse{
     width: 50%;
 }
 
@@ -196,12 +194,12 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 
 .container > .timer > .section-temps > .temps > .chiffreMin p,
 .container > .timer > .section-temps > .temps > .chiffreSec p,
-.container > .timer > .section-mises > .mises > .valeurSmall > .blind,
-.container > .timer > .section-mises > .mises > .valeurBig > .blind {
+.container > .timer > .section-mises > .mises > .petite > .blind,
+.container > .timer > .section-mises > .mises > .grosse > .blind {
     font-size: 64px;
 }
 
-.container > .timer > .section-mises > .lesBoutonsMises > div {
+.container > .timer > .section-mises > .boutons-mises > div {
     display: -webkit-flex;
     display: flex;
     width: 100%;
@@ -348,11 +346,11 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     }
 
     .container > .timer > .section-mises > .mises,
-    .container > .timer > .section-mises > .lesBoutonsMises {
+    .container > .timer > .section-mises > .boutons-mises {
         width: 100%;
     }
 
-    .container > .timer > .section-mises > .lesBoutonsMises > div {
+    .container > .timer > .section-mises > .boutons-mises > div {
         width: 100%;
     }
 

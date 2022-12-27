@@ -509,16 +509,16 @@
             <div class="mises">
                 <div class="titre">
                     <p class="resize-text"><?php echo traduction("Mises Possibles", $dictionnaire); ?></p></div>
-                <div class="small">
+                <div class="petite">
                     <p class="resize-text"><?php echo traduction("Petite Mise", $dictionnaire); ?></p></div>
-                <div class="big">
+                <div class="grosse">
                     <p class="resize-text"><?php echo traduction("Grosse Mise", $dictionnaire); ?></p></div>
-                <div class="valeurSmall">
-                    <p class="blind" id="valeurSmall"><?php echo $champs['nouvelleCombinaison']['valeurSmall']; ?></p></div>
-                <div class="valeurBig">
-                    <p class="blind" id="valeurBig"><?php echo $champs['nouvelleCombinaison']['valeurBig']; ?></p></div>
+                <div class="petite">
+                    <p class="blind" id="valeur-small"><?php echo $champs['nouvelleCombinaison']['valeurSmall']; ?></p></div>
+                <div class="grosse">
+                    <p class="blind" id="valeur-big"><?php echo $champs['nouvelleCombinaison']['valeurBig']; ?></p></div>
             </div>
-            <div class="lesBoutonsMises">
+            <div class="boutons-mises">
                 <div class="double">
                     <button name="btnChangerMise"
 						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champsValid['nomOrganisateurVide'] || $champsValid['aucuneValeurDispo'] || $champsValid['aucuneValeurSmallBig']) { ?>

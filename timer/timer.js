@@ -14,8 +14,8 @@ const TEMPS_30_MIN = document.querySelector('#timer30');
 const REPREND_TIMER = document.querySelector('#timerReprend');
 const STOP_TIMER = document.querySelector('#timerStop');
 
-const VALEUR_SMALL = document.querySelector('#valeurSmall');
-const VALEUR_BIG = document.querySelector('#valeurBig');
+const VALEUR_SMALL = document.querySelector('#valeur-small');
+const VALEUR_BIG = document.querySelector('#valeur-big');
 
 const MINUTES = document.querySelector('.chiffreMin p');
 const SECONDES = document.querySelector('.chiffreSec p');

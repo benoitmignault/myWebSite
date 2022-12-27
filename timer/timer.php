@@ -457,8 +457,7 @@
                 <input form="formulaire" type="hidden" id="combinaison" name="combinaison" value="<?php echo $champs['combinaison']; ?>">
                 <input form="formulaire" type="hidden" id="max-combinaison" name="maxCombinaison"
                        value="<?php echo $champs['maxCombinaison']; ?>">
-                <label class="modificationColor"
-                       for="choix-organisateur"><?php echo traduction("Veuillez choisir votre Organisateur", $dictionnaire); ?></label>
+                <label for="choix-organisateur"><?php echo traduction("Veuillez choisir votre Organisateur", $dictionnaire); ?></label>
                 <select id="choix-organisateur" name="choixOrganisateur">
 					<?php if ($_SERVER['REQUEST_METHOD'] === 'GET') { ?>
                         <option value="" selected><?php echo traduction("Sélectionner", $dictionnaire); ?></option>

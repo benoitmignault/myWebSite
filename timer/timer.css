@@ -65,7 +65,7 @@ body {
     width: 50%;
 }
 
-.container > .tableau-bord > .affichage-choix > .tblValeurCouleur {
+.container > .tableau-bord > .affichage-choix > .tbl-valeur-couleur {
     width: 100%;
     text-align: center;
     font-size: 48px;

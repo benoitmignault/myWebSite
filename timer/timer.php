@@ -425,7 +425,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="timer.css">
     <style>
-        .container > .timer > .affichage-mises > .mises > div > .blind {
+        .container > .timer > .section-mises > .mises > div > .blind {
             color: <?php echo couleurValeurMise($champs['couleurs']['couleurRouge'], $champs['couleurs']['couleurVert'], $champs['couleurs']['couleurBleu']); ?>
         }
     </style>
@@ -483,7 +483,7 @@
 					<?php } ?>>
             </div>
         </form>
-        <div class="affichage-choix">
+        <div class="section-choix">
 			<?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && $champs['situation'] != 1) { ?>
                 <table class="tbl-valeur-couleur">
                     <thead>
@@ -505,14 +505,14 @@
         </div>
     </div>
     <div class="timer">
-        <div class="affichage-mises">
+        <div class="section-mises">
             <div class="mises">
                 <div class="titre">
-                    <p class="resizeText"><?php echo traduction("Mises Possibles", $dictionnaire); ?></p></div>
+                    <p class="resize-text"><?php echo traduction("Mises Possibles", $dictionnaire); ?></p></div>
                 <div class="small">
-                    <p class="resizeText"><?php echo traduction("Petite Mise", $dictionnaire); ?></p></div>
+                    <p class="resize-text"><?php echo traduction("Petite Mise", $dictionnaire); ?></p></div>
                 <div class="big">
-                    <p class="resizeText"><?php echo traduction("Grosse Mise", $dictionnaire); ?></p></div>
+                    <p class="resize-text"><?php echo traduction("Grosse Mise", $dictionnaire); ?></p></div>
                 <div class="valeurSmall">
                     <p class="blind" id="valeurSmall"><?php echo $champs['nouvelleCombinaison']['valeurSmall']; ?></p></div>
                 <div class="valeurBig">
@@ -536,16 +536,16 @@
             </div>
         </div>
 
-        <div class="tableauDuTemps">
+        <div class="section-temps">
             <div class="temps">
                 <div class="periode">
-                    <p class="resizeText"><?php echo traduction("Sélectionner votre Période", $dictionnaire); ?></p>
+                    <p class="resize-text"><?php echo traduction("Sélectionner votre Période", $dictionnaire); ?></p>
                 </div>
                 <div class="minutes">
-                    <p class="resizeText"><?php echo traduction("Minutes", $dictionnaire); ?></p>
+                    <p class="resize-text"><?php echo traduction("Minutes", $dictionnaire); ?></p>
                 </div>
                 <div class="secondes">
-                    <p class="resizeText"><?php echo traduction("Secondes", $dictionnaire); ?></p>
+                    <p class="resize-text"><?php echo traduction("Secondes", $dictionnaire); ?></p>
                 </div>
                 <div class="chiffreMin">
                     <p>00</p>
@@ -565,7 +565,7 @@
                     <button class="disabled" disabled id="timerStop"><?php echo traduction("Arrêt", $dictionnaire); ?></button>
                 </div>
                 <div class="reprend">
-                    <button class="disabled resizeText" disabled
+                    <button class="disabled resize-text" disabled
                             id="timerReprend"><?php echo traduction("Poursuivre", $dictionnaire); ?></button>
                 </div>
                 <div class="resetTemps">
@@ -579,7 +579,7 @@
 <hr>
 <div class="boutonRetour">
     <div class="retour">
-        <input class="resizeText" type="submit" name="btnReturn" form="formulaire"
+        <input class="resize-text" type="submit" name="btnReturn" form="formulaire"
                value="<?php echo traduction("Page d'Accueil", $dictionnaire); ?>">
     </div>
 </div>

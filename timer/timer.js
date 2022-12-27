@@ -1,7 +1,7 @@
 const CHANGER_MISE = document.querySelector('#changerMise');
 
-const TEMPS_PERIODE = document.querySelector('.container .timer .tableauDuTemps .temps div .resizeText');
-const TYPE_MISES = document.querySelector('.container .timer .tableauDesMises .mises div .resizeText');
+const TEMPS_PERIODE = document.querySelector('.container .timer .affichage-temps .temps div .resize-text');
+const TYPE_MISES = document.querySelector('.container .timer .affichage-mises .mises div .resize-text');
 
 const RESET_VALEUR = document.querySelector('#reset');
 const RESET_TEMPS = document.querySelector('#ResetTemps');

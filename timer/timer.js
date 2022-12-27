@@ -17,8 +17,8 @@ const STOP_TIMER = document.querySelector('#timer-stop');
 const VALEUR_SMALL = document.querySelector('#valeur-small');
 const VALEUR_BIG = document.querySelector('#valeur-big');
 
-const MINUTES = document.querySelector('#chiffre-min p');
-const SECONDES = document.querySelector('#chiffre-sec p');
+const MINUTES = document.querySelector('#chiffre-min');
+const SECONDES = document.querySelector('#chiffre-sec');
 
 const PERIODE = document.querySelector('.periode p');
 const ALERT_SOUND = document.querySelector('#alert-sound');

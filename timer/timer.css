@@ -192,8 +192,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     font-size: 48px;
 }
 
-.container > .timer > .section-temps > .temps > #chiffre-min p,
-.container > .timer > .section-temps > .temps > #chiffre-sec p,
+.container > .timer > .section-temps > .temps > .chiffre > p,
 .container > .timer > .section-mises > .mises > .petite > .blind,
 .container > .timer > .section-mises > .mises > .grosse > .blind {
     font-size: 64px;
@@ -219,8 +218,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 
 .container > .timer > .section-temps > .temps > .minutes,
 .container > .timer > .section-temps > .temps > .secondes,
-.container > .timer > .section-temps > .temps > #chiffre-min,
-.container > .timer > .section-temps > .temps > #chiffre-sec {
+.container > .timer > .section-temps > .temps > .chiffre {
     width: 50%;
 }
 

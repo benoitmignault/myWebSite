@@ -364,17 +364,13 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         font-size: xx-large;
     }
 
-    .container > .timer > .section-temps > .boutons-temps .reprend #timerReprend {
-        font-size: x-large;
-    }
-
-    .boutonRetour {
+    .bouton-retour {
         width: 100%;
         -webkit-flex-direction: column;
         flex-direction: column;
     }
 
-    .boutonRetour > div input {
+    .bouton-retour > div input {
         font-size: large;
     }
 }

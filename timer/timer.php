@@ -483,7 +483,7 @@
 					<?php } ?>>
             </div>
         </form>
-        <div class="affichage_choix">
+        <div class="affichage-choix">
 			<?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && $champs['situation'] != 1) { ?>
                 <table class="tblValeurCouleur">
                     <thead>

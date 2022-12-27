@@ -244,7 +244,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     cursor: none;
 }
 
-.boutonRetour {
+.bouton-retour {
     display: -webkit-flex;
     display: flex;
     flex-wrap: wrap;
@@ -255,15 +255,15 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     border: 3px outset #3385ff;
 }
 
-.boutonRetour {
+.bouton-retour {
     margin-top: 25px;
 }
 
-.boutonRetour > .retour {
+.bouton-retour > div {
     width: 100%;
 }
 
-.boutonRetour > .retour > input,
+.bouton-retour > div > input,
 .container > .timer > .section-temps button,
 .container > .timer > .section-mises button,
 .container > .tableau-bord .choix .bouton {
@@ -291,7 +291,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 40%;
 }
 
-.boutonRetour > .retour > input:hover,
+.boutonRetour > div > input:hover,
 .container > .timer > .section-temps button:hover,
 .container > .timer > .section-mises button:hover,
 .container > .tableau-bord .choix .bouton:hover {
@@ -376,7 +376,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         flex-direction: column;
     }
 
-    .boutonRetour > .retour input {
+    .boutonRetour > div input {
         font-size: large;
     }
 }

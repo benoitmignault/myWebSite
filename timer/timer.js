@@ -11,8 +11,8 @@ const TYPE_LANGUE = document.querySelector('#type-langue');
 const TEMPS_15_MIN = document.querySelector('#timer-15');
 const TEMPS_30_MIN = document.querySelector('#timer-30');
 
-const REPREND_TIMER = document.querySelector('#timerReprend');
-const STOP_TIMER = document.querySelector('#timerStop');
+const REPREND_TIMER = document.querySelector('#timer-reprend');
+const STOP_TIMER = document.querySelector('#timer-stop');
 
 const VALEUR_SMALL = document.querySelector('#valeur-small');
 const VALEUR_BIG = document.querySelector('#valeur-big');

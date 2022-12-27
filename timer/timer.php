@@ -475,7 +475,8 @@
 						<?php } ?>
 					<?php } ?>
                 </select>
-                <input type="submit" id="btn-choix-organisateur" name="btnChoixOrganisateur" value="<?php echo traduction("Choisir", $dictionnaire); ?>"
+                <input type="submit" id="btn-choix-organisateur" name="btnChoixOrganisateur"
+                       value="<?php echo traduction("Choisir", $dictionnaire); ?>"
 					<?php if (count($champs['listeDesOrganisateurs']) === 0) { ?>
                         class="bouton disabled" disabled
 					<?php } else { ?>
@@ -562,14 +563,14 @@
                     <button class="" id="timer-30">30</button>
                 </div>
                 <div class="action-temps">
-                    <button class="disabled" disabled id="timerStop"><?php echo traduction("Arrêt", $dictionnaire); ?></button>
+                    <button class="disabled" disabled id="timer-stop"><?php echo traduction("Arrêt", $dictionnaire); ?></button>
                 </div>
                 <div class="action-temps">
-                    <button class="disabled resize-text" disabled
-                            id="timerReprend"><?php echo traduction("Poursuivre", $dictionnaire); ?></button>
+                    <button class="disabled" disabled
+                            id="timer-reprend"><?php echo traduction("Poursuivre", $dictionnaire); ?></button>
                 </div>
                 <div class="action-temps">
-                    <button class="disabled resize-text" disabled
+                    <button class="disabled" disabled
                             id="reset-temps"><?php echo traduction("Réinitialiser Temps", $dictionnaire); ?></button>
                 </div>
             </div>
@@ -579,7 +580,7 @@
 <hr>
 <div class="bouton-retour">
     <div>
-        <input class="resize-text" type="submit" id= "btn-return" name="btnReturn" form="formulaire"
+        <input type="submit" id="btn-return" name="btnReturn" form="formulaire"
                value="<?php echo traduction("Page d'Accueil", $dictionnaire); ?>">
     </div>
 </div>

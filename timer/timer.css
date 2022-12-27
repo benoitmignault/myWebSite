@@ -262,7 +262,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 }
 
 .bouton-retour > div > input,
-.container > .timer > .section-temps > .boutons-mises > div > button,
+.container > .timer > .section-temps > .boutons-temps > div > button,
 .container > .timer > .section-mises > .boutons-mises > div > button,
 .container > .tableau-bord .choix .bouton {
     width: 100%;
@@ -290,7 +290,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 }
 
 .bouton-retour > div > input:hover,
-.container > .timer > .section-temps > .boutons-mises > div > button:hover,
+.container > .timer > .section-temps > .boutons-temps > div > button:hover,
 .container > .timer > .section-mises > .boutons-mises > div > button:hover,
 .container > .tableau-bord .choix .bouton:hover {
     cursor: pointer;
@@ -323,11 +323,6 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     }
 
     .container > .timer {
-        width: 100%;
-    }
-
-    .container > .timer > .section-mises,
-    .container > .timer > .section-temps {
         width: 100%;
     }
 

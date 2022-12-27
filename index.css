@@ -40,7 +40,7 @@ body {
 }
 
 .left .logo img,
-.unePassionPhoto a img {
+.une-passion-photo a img {
     width: 100%;
     height: auto;
 }
@@ -191,7 +191,7 @@ td {
 }
 
 .middle .header > div,
-.middle .center .header .unePassionPhoto {
+.middle .center .header .une-passion-photo {
     width: 20%;
     text-align: center;
     background-color: darkgrey;
@@ -199,7 +199,7 @@ td {
     font-size: 18px;
 }
 
-.middle .center .header .unePassionPhoto {
+.middle .center .header .une-passion-photo {
     background-color: darkolivegreen;
     font-size: 16px;
     line-height: 40px;
@@ -377,14 +377,14 @@ span {
     flex-wrap: wrap;
 }
 
-.middle .photo .sous_photo .unePassionPhoto {
+.middle .photo .sous_photo .une-passion-photo {
     width: 50%;
     align-content: center;
     background-color: azure;
     padding: 25px;
 }
 
-.middle .photo .sous_photo .unePassionPhoto:hover {
+.middle .photo .sous_photo .une-passion-photo:hover {
     background-color: black;
 }
 

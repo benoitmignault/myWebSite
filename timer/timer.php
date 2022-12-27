@@ -561,15 +561,15 @@
                 <div>
                     <button class="" id="timer-30">30</button>
                 </div>
-                <div class="stop">
+                <div class="action-temps">
                     <button class="disabled" disabled id="timerStop"><?php echo traduction("Arrêt", $dictionnaire); ?></button>
                 </div>
-                <div class="reprend">
+                <div class="action-temps">
                     <button class="disabled resize-text" disabled
                             id="timerReprend"><?php echo traduction("Poursuivre", $dictionnaire); ?></button>
                 </div>
-                <div class="resetTemps">
-                    <button class="disabled" disabled
+                <div class="action-temps">
+                    <button class="disabled resize-text" disabled
                             id="ResetTemps"><?php echo traduction("Réinitialiser Temps", $dictionnaire); ?></button>
                 </div>
             </div>

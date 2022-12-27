@@ -234,15 +234,14 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 50%;
 }
 
-.container > .timer > .section-temps > .boutons-temps .stop,
-.container > .timer > .section-temps > .boutons-temps .reprend,
-.container > .timer > .section-temps > .boutons-temps .resetTemps {
+.container > .timer > .section-temps > .boutons-temps .action-temps {
     width: 100%;
 }
 
-.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+.container > .timer > .section-mises > .boutons-mises > div .disabled,
+.container > .timer > .section-temps > .boutons-temps .action-temps > .disabled {
+    opacity: 0.4;
+    cursor: none;
 }
 
 .boutonRetour {

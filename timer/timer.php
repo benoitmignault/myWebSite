@@ -555,11 +555,11 @@
                 </div>
             </div>
             <div class="boutons-temps">
-                <div class="min15">
-                    <button class="" id="timer15">15</button>
+                <div>
+                    <button class="" id="timer-15">15</button>
                 </div>
-                <div class="min30">
-                    <button class="" id="timer30">30</button>
+                <div>
+                    <button class="" id="timer-30">30</button>
                 </div>
                 <div class="stop">
                     <button class="disabled" disabled id="timerStop"><?php echo traduction("Arrêt", $dictionnaire); ?></button>

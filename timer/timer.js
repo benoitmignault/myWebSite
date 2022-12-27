@@ -290,12 +290,13 @@ function resetTemp() {
     RESET_TEMPS.addEventListener('click', function () {
         clearTimeout(comptage); // arrête le coulage du temps
         chrono = 0;
-        min = "00";
-        sec = "00";
+        min = 0;
+        sec = 0;
         MINUTES.style.color = "white";
         SECONDES.style.color = "white";
-        MINUTES.innerHTML = min.toString();
-        SECONDES.innerHTML = sec.toString();
+        MINUTES.innerHTML = "0" + min.toString();
+        SECONDES.innerHTML = "0" + sec.toString();
+
         if (TYPE_LANGUE.value === "francais") {
             PERIODE.innerHTML = "Sélectionner votre Période";
         } else if (TYPE_LANGUE.value === "english") {

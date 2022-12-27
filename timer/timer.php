@@ -519,7 +519,7 @@
                     <p class="blind" id="valeur-big"><?php echo $champs['nouvelleCombinaison']['valeurBig']; ?></p></div>
             </div>
             <div class="boutons-mises">
-                <div class="double">
+                <div>
                     <button name="btnChangerMise"
 						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champsValid['nomOrganisateurVide'] || $champsValid['aucuneValeurDispo'] || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled

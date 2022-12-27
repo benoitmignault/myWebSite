@@ -262,8 +262,8 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 }
 
 .bouton-retour > div > input,
-.container > .timer > .section-temps button,
-.container > .timer > .section-mises button,
+.container > .timer > .section-temps > .boutons-mises > div > button,
+.container > .timer > .section-mises > .boutons-mises > div > button,
 .container > .tableau-bord .choix .bouton {
     width: 100%;
     color: white;
@@ -290,8 +290,8 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 }
 
 .bouton-retour > div > input:hover,
-.container > .timer > .section-temps button:hover,
-.container > .timer > .section-mises button:hover,
+.container > .timer > .section-temps > .boutons-mises > div > button:hover,
+.container > .timer > .section-mises > .boutons-mises > div > button:hover,
 .container > .tableau-bord .choix .bouton:hover {
     cursor: pointer;
     background-image: -webkit-linear-gradient(top, #56b064, #6679b3);

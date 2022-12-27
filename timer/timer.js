@@ -27,7 +27,7 @@ const AUCUNE_VALEUR_DISPO = document.querySelector('#aucune-valeur-dispo');
 const COMBINAISON = document.querySelector('#combinaison');
 const MAX_COMBINAISON = document.querySelector('#max-combinaison');
 
-const NOM_ORGANISATEUR = document.querySelector('#choixOrganisateur');
+const NOM_ORGANISATEUR = document.querySelector('#choix-organisateur');
 const COULEUR_ROUGE = document.querySelector('#couleur-rouge');
 const COULEUR_VERT = document.querySelector('#couleur-vert');
 const COULEUR_BLEU = document.querySelector('#couleur-bleu');

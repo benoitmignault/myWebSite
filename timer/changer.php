@@ -83,7 +83,8 @@
 	function main() {
 		
 		include_once("../includes/fct-connexion-bd.php");
-		include_once("./includes/fct-timer.php");
+		include_once("../includes/fct-traduction.php");
+		include_once("../includes/fct-timer.php");
 		
 		define('CHEMIN_DICTIONNAIRE_TIMER', "../dictionary/timer.json");
 		$dictionnaire = recuperationContenuFichierJson(CHEMIN_DICTIONNAIRE_TIMER);

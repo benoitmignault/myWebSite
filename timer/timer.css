@@ -228,8 +228,9 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 35%;
 }
 
-.container > .timer > .section-temps > .boutons-temps .min15,
-.container > .timer > .section-temps > .boutons-temps .min30 {
+.container > .timer > .section-temps > .boutons-temps > div {
+    display: -webkit-flex;
+    display: flex;
     width: 50%;
 }
 
@@ -237,11 +238,6 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 .container > .timer > .section-temps > .boutons-temps .reprend,
 .container > .timer > .section-temps > .boutons-temps .resetTemps {
     width: 100%;
-}
-
-.container > .timer > .section-temps > .boutons-temps > div {
-    display: -webkit-flex;
-    display: flex;
 }
 
 .disabled {

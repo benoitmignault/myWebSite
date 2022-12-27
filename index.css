@@ -276,14 +276,14 @@ Nouvelle manière d'afficher un legend au milieu
     color: green;
 }
 
-.middle > .center > .projet > .page-accueil > .lien_centrer {
+.middle > .center > .projet > .page-accueil > .lien-centrer {
     display: flex;
     display: -webkit-flex;
     margin-bottom: 5px;
     justify-content: center;
 }
 
-.middle > .center > .projet > .page-accueil > .lien_centrer > a,
+.middle > .center > .projet > .page-accueil > .lien-centrer > a,
 .middle > .center > p > a {
     color: white;
     text-decoration: none;
@@ -294,7 +294,7 @@ Nouvelle manière d'afficher un legend au milieu
     text-align: center;
 }
 
-.middle > .center > .projet > .page-accueil > .lien_centrer > a:hover,
+.middle > .center > .projet > .page-accueil > .lien-centrer > a:hover,
 .middle > .center > p > a:hover {
     background-color: black;
     cursor: pointer;

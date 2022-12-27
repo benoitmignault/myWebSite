@@ -35,7 +35,7 @@ body {
 }
 
 .container > .tableau-bord > form,
-.container > .timer > .tableauDesMises,
+.container > .timer > .affichage-mises,
 .container > .timer > .tableauDuTemps,
 .container > .tableau-bord > .affichage-choix {
     margin-top: 30px;
@@ -144,7 +144,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     margin: auto;
 }
 
-.container > .timer > .tableauDesMises,
+.container > .timer > .affichage-mises,
 .container > .timer > .tableauDuTemps {
     display: -webkit-flex;
     display: flex;
@@ -152,7 +152,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 100%;
 }
 
-.container > .timer .tableauDesMises > div,
+.container > .timer .affichage-mises > div,
 .container > .timer .tableauDuTemps > div {
     display: flex;
     display: -webkit-flex;
@@ -160,31 +160,31 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     -webkit-flex-wrap: wrap;
 }
 
-.container > .timer .tableauDesMises > div > div {
+.container > .timer .affichage-mises > div > div {
     border: 3px outset #b3d9ff;
     vertical-align: middle;
 }
 
-.container > .timer > .tableauDesMises > .lesMises {
+.container > .timer > .affichage-mises > .lesMises {
     width: 65%;
 }
 
-.container > .timer > .tableauDesMises > .lesBoutonsMises {
+.container > .timer > .affichage-mises > .lesBoutonsMises {
     width: 35%;
 }
 
-.container > .timer > .tableauDesMises > .lesMises > .titre {
+.container > .timer > .affichage-mises > .lesMises > .titre {
     width: 100%;
 }
 
-.container > .timer > .tableauDesMises > .lesMises > .small,
-.container > .timer > .tableauDesMises > .lesMises > .big,
-.container > .timer > .tableauDesMises > .lesMises > .valeurSmall,
-.container > .timer > .tableauDesMises > .lesMises > .valeurBig {
+.container > .timer > .affichage-mises > .lesMises > .small,
+.container > .timer > .affichage-mises > .lesMises > .big,
+.container > .timer > .affichage-mises > .lesMises > .valeurSmall,
+.container > .timer > .affichage-mises > .lesMises > .valeurBig {
     width: 50%;
 }
 
-.container > .timer > .tableauDesMises > .lesMises > div > p,
+.container > .timer > .affichage-mises > .lesMises > div > p,
 .container > .timer > .tableauDuTemps > .temps > div > p {
     text-align: center;
     color: white;
@@ -196,12 +196,12 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 
 .container > .timer > .tableauDuTemps > .temps > .chiffreMin p,
 .container > .timer > .tableauDuTemps > .temps > .chiffreSec p,
-.container > .timer > .tableauDesMises > .lesMises > .valeurSmall > .blind,
-.container > .timer > .tableauDesMises > .lesMises > .valeurBig > .blind {
+.container > .timer > .affichage-mises > .lesMises > .valeurSmall > .blind,
+.container > .timer > .affichage-mises > .lesMises > .valeurBig > .blind {
     font-size: 64px;
 }
 
-.container > .timer > .tableauDesMises > .lesBoutonsMises > div {
+.container > .timer > .affichage-mises > .lesBoutonsMises > div {
     display: -webkit-flex;
     display: flex;
     width: 100%;
@@ -272,7 +272,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 
 .boutonRetour > .retour > input,
 .tableauDuTemps button,
-.tableauDesMises button,
+.affichage-mises button,
 .container > .tableau-bord .choix .bouton {
     width: 100%;
     color: white;
@@ -300,7 +300,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 
 .boutonRetour > .retour > input:hover,
 .tableauDuTemps button:hover,
-.tableauDesMises button:hover,
+.affichage-mises button:hover,
 .container > .tableau-bord .choix .bouton:hover {
     cursor: pointer;
     background-image: -webkit-linear-gradient(top, #56b064, #6679b3);
@@ -335,24 +335,24 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
         width: 100%;
     }
 
-    .container > .timer > .tableauDesMises,
+    .container > .timer > .affichage-mises,
     .container > .timer > .tableauDuTemps {
         width: 100%;
     }
 
-    .container > .timer > .tableauDesMises,
+    .container > .timer > .affichage-mises,
     .container > .timer > .tableauDuTemps {
         width: 100%;
         -webkit-flex-direction: column;
         flex-direction: column;
     }
 
-    .container > .timer > .tableauDesMises > .lesMises,
-    .container > .timer > .tableauDesMises > .lesBoutonsMises {
+    .container > .timer > .affichage-mises > .lesMises,
+    .container > .timer > .affichage-mises > .lesBoutonsMises {
         width: 100%;
     }
 
-    .container > .timer > .tableauDesMises > .lesBoutonsMises > div {
+    .container > .timer > .affichage-mises > .lesBoutonsMises > div {
         width: 100%;
     }
 

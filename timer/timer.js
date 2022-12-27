@@ -1,10 +1,10 @@
 const CHANGER_MISE = document.querySelector('#changer-mise');
 
-const TEMPS_PERIODE = document.querySelector('.container .timer .affichage-temps .temps div .resize-text');
-const TYPE_MISES = document.querySelector('.container .timer .affichage-mises .mises div .resize-text');
+const TEMPS_PERIODE = document.querySelector('.container .timer .section-temps .temps div .resize-text');
+const TYPE_MISES = document.querySelector('.container .timer .section-mises .mises div .resize-text');
 
-const RESET_VALEUR = document.querySelector('#reset');
-const RESET_TEMPS = document.querySelector('#ResetTemps');
+const RESET_VALEUR = document.querySelector('#reset-mise');
+const RESET_TEMPS = document.querySelector('#reset-temps');
 
 const TYPE_LANGUE = document.querySelector('#type-langue');
 
@@ -32,8 +32,8 @@ const COULEUR_ROUGE = document.querySelector('#couleur-rouge');
 const COULEUR_VERT = document.querySelector('#couleur-vert');
 const COULEUR_BLEU = document.querySelector('#couleur-bleu');
 
-const BTN_RETURN = document.querySelector('.boutonRetour .retour form .resize-text');
-const BTN_CHOISIR = document.querySelector('.container .tableau-bord form .choix .bouton');
+const BTN_RETURN = document.querySelector('#btn-return');
+const BTN_CHOISIR = document.querySelector('#btn-choix-organisateur');
 
 let comptage = 0; // la variable un genre de compteur de temps
 let min = 0;

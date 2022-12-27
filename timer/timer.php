@@ -475,7 +475,7 @@
 						<?php } ?>
 					<?php } ?>
                 </select>
-                <input type="submit" name="btnChoixOrganisateur" value="<?php echo traduction("Choisir", $dictionnaire); ?>"
+                <input type="submit" id="btn-choix-organisateur" name="btnChoixOrganisateur" value="<?php echo traduction("Choisir", $dictionnaire); ?>"
 					<?php if (count($champs['listeDesOrganisateurs']) === 0) { ?>
                         class="bouton disabled" disabled
 					<?php } else { ?>
@@ -527,10 +527,10 @@
                     </button>
                 </div>
                 <div>
-                    <button form="formulaire" name="btnResetMise"
+                    <button form="formulaire" name="btnResetMise" id="reset-mise"
 						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champs['combinaison'] < 2 || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled
-						<?php } ?> id="reset"><?php echo traduction("Réinitialiser Mise", $dictionnaire); ?>
+						<?php } ?> ><?php echo traduction("Réinitialiser Mise", $dictionnaire); ?>
                     </button>
                 </div>
             </div>
@@ -570,16 +570,16 @@
                 </div>
                 <div class="action-temps">
                     <button class="disabled resize-text" disabled
-                            id="ResetTemps"><?php echo traduction("Réinitialiser Temps", $dictionnaire); ?></button>
+                            id="reset-temps"><?php echo traduction("Réinitialiser Temps", $dictionnaire); ?></button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <hr>
-<div class="boutonRetour">
-    <div class="retour">
-        <input class="resize-text" type="submit" name="btnReturn" form="formulaire"
+<div class="bouton-retour">
+    <div>
+        <input class="resize-text" type="submit" id= "btn-return" name="btnReturn" form="formulaire"
                value="<?php echo traduction("Page d'Accueil", $dictionnaire); ?>">
     </div>
 </div>

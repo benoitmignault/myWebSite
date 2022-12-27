@@ -264,7 +264,7 @@ td {
 /* 
 Nouvelle manière d'afficher un legend au milieu
 */
-.legendCenter {
+.legend-center {
     display: table;
     min-width: 0px;
     position: relative;

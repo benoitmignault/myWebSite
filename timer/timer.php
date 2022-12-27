@@ -523,7 +523,7 @@
                     <button name="btnChangerMise"
 						<?php if ($_SERVER['REQUEST_METHOD'] == 'GET' || $champsValid['nomOrganisateurVide'] || $champsValid['aucuneValeurDispo'] || $champsValid['aucuneValeurSmallBig']) { ?>
                             class="disabled" disabled
-						<?php } ?> id="changerMise" form="formulaire"><?php echo traduction("Changer", $dictionnaire); ?>
+						<?php } ?> id="changer-mise" form="formulaire"><?php echo traduction("Changer", $dictionnaire); ?>
                     </button>
                 </div>
                 <div class="resetMise">

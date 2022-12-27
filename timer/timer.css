@@ -178,7 +178,7 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
 }
 
 .container > .timer > .section-mises > .mises > .petite,
-.container > .timer > .section-mises > .mises > .grosse{
+.container > .timer > .section-mises > .mises > .grosse {
     width: 50%;
 }
 
@@ -192,8 +192,8 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     font-size: 48px;
 }
 
-.container > .timer > .section-temps > .temps > .chiffreMin p,
-.container > .timer > .section-temps > .temps > .chiffreSec p,
+.container > .timer > .section-temps > .temps > #chiffre-min p,
+.container > .timer > .section-temps > .temps > #chiffre-sec p,
 .container > .timer > .section-mises > .mises > .petite > .blind,
 .container > .timer > .section-mises > .mises > .grosse > .blind {
     font-size: 64px;
@@ -213,14 +213,14 @@ Les couleurs des valeurs de jetons seront transformer en classe pour retrouver l
     width: 65%;
 }
 
-.container > .timer > .section-temps > .temps .periode {
+.container > .timer > .section-temps > .temps > .periode {
     width: 100%;
 }
 
-.container > .timer > .section-temps > .temps .minutes,
-.container > .timer > .section-temps > .temps .secondes,
-.container > .timer > .section-temps > .temps .chiffreMin,
-.container > .timer > .section-temps > .temps .chiffreSec {
+.container > .timer > .section-temps > .temps > .minutes,
+.container > .timer > .section-temps > .temps > .secondes,
+.container > .timer > .section-temps > .temps > #chiffre-min,
+.container > .timer > .section-temps > .temps > #chiffre-sec {
     width: 50%;
 }
 

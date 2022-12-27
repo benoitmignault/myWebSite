@@ -547,10 +547,10 @@
                 <div class="secondes">
                     <p class="resize-text"><?php echo traduction("Secondes", $dictionnaire); ?></p>
                 </div>
-                <div class="chiffreMin">
+                <div id="chiffre-min">
                     <p>00</p>
                 </div>
-                <div class="chiffreSec">
+                <div id="chiffre-sec">
                     <p>00</p>
                 </div>
             </div>

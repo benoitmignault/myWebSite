@@ -1,4 +1,4 @@
-const langue = document.querySelector('#typeLangue');
+const langue = document.querySelector('#type-langue');
 const div_Photo = document.querySelector('.photo');
 const div_Center = document.querySelector('.center');
 const listeSections = document.querySelectorAll('.header div a');

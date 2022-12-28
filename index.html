@@ -94,7 +94,7 @@
             <fieldset class='page-accueil'>
                 <legend class="legend-center">Nous joindre</legend>
                 <!-- Je retire action="contact/contact.php" method="post" comme on le fait dans l'appel ajax -->
-                <form id="formContact">
+                <form id="form-contact">
                     <div class="formulaire">
                         <div class="droite">
                             <label for="nom">Votre prénom et nom :</label>
@@ -113,7 +113,7 @@
                             <textarea id="msg" name="msg" rows="10" cols="50"></textarea>
                         </div>
                         <div>
-                            <ul class="msgErr"></ul>
+                            <ul id="msg-err"></ul>
                         </div>
                         <div class="btnSend">
                             <input id="btn" type="submit" name="send" value="Envoyer votre commentaire">

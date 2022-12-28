@@ -93,7 +93,7 @@
         width: 100%;
     }
 
-    .msgErr {
+    #msg-err {
         margin-left: 5px;
         margin-top: 0;
         padding-left: 15px;

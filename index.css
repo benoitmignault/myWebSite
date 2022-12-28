@@ -184,7 +184,7 @@ td {
     width: 100%;
 }
 
-.racine-site > .middle .photo-moi {
+.racine-site > .middle > .center > .header {
     align-items: center;
 }
 

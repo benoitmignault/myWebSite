@@ -88,7 +88,7 @@ body {
     display: none;
 }
 
-.left #hidden #enum_Language li {
+.left #hidden #enum-language li {
     font-weight: bold;
     padding-left: 15px;
     height: 15px;
@@ -165,28 +165,28 @@ td {
     flex-direction: column;
 }
 
-#enum_Language li:hover {
+#enum-language li:hover {
     color: darkgoldenrod;
 }
 
 .middle > div {
     width: 100%;
-    /* Les div doivent resté display:block */
 }
 
 .middle #hautPage {
     margin: 0;
 }
 
-.middle .header,
-.middle .headerPhotoMoi {
+/* TODO : À vérifier */
+.middle .center .header,
+.middle .center .headerphoto-moi {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
     width: 100%;
 }
 
-.middle .PhotoMoi {
+.middle .photo-moi {
     align-items: center;
 }
 
@@ -205,7 +205,7 @@ td {
     line-height: 40px;
 }
 
-.middle .header div a {
+.middle .center .header div a {
     padding-left: 25px;
     padding-right: 25px;
     font-weight: bold;

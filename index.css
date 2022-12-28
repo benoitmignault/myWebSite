@@ -508,7 +508,7 @@ input[type="submit"]:hover {
     font-weight: bold;
 }
 
-.courrielSend {
+#msg-courriel {
     color: green;
     font-weight: bold;
     font-size: 18px;

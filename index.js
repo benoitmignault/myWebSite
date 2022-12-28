@@ -57,15 +57,15 @@ function affichageSection() {
     if (tagSection.length) {
         hashTag.value = tagSection.attr('href');
         if (tagSection.attr('href') === '#english') {
-            window.location.replace("english/english.html")
+            window.location.replace("/english/english.html")
         } else if (tagSection.attr('href') === '#french') {
-            window.location.replace("../index.html")
+            window.location.replace("/index.html")
         } else {
             var lien_page = tagSection.data('href');
             $(div_Center).load(lien_page, function () {
                 div_Photo.innerHTML = "";
             });
-        } // si je pese sur hautPageDesktop apres avec peser sur la section photo, erreur js
+        } // si je pèse sur hautPageDesktop apres avec peser sur la section photo, erreur js
     } else if (hashTag.value === '#photos' || hashTag.value === '#pictures') {
         affichageSectionPhoto();
     } else if (location.hash !== "#haut-page-desktop" && location.hash !== "#haut-page-cellulaire") {

@@ -13,12 +13,8 @@
         width: 100%;
     }
 
-    .racine-site .right .logoRight {
+    .racine-site .right .logo-right {
         display: none;
-    }
-
-    .right #photoCell {
-        display: block;
     }
 
     .middle .return .cellulaire,

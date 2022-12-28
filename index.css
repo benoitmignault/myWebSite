@@ -39,7 +39,7 @@ body {
     width: 100%;
 }
 
-.racine-site > .left .logo img,
+.racine-site > .left .logo-left img,
 .une-passion-photo a img {
     width: 100%;
     height: auto;
@@ -431,7 +431,7 @@ span {
     width: 100%;
 }
 
-.racine-site > .right .logoRight img {
+.racine-site > .right .logo-right img {
     width: 100%;
 }
 

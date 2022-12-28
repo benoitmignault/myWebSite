@@ -359,7 +359,7 @@ span {
     width: 100%;
 }
 
-.racine-site > .middle .center > .passionResize {
+.racine-site > .middle .center > .section-passions {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -367,7 +367,7 @@ span {
     flex-wrap: wrap;
 }
 
-.racine-site > .middle .center > .passionResize > .passion {
+.racine-site > .middle .center > .section-passions > .passion {
     display: flex;
     display: -webkit-flex;
     flex-direction: column;

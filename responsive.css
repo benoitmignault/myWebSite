@@ -62,8 +62,8 @@
         font-size: 0.775em;
     }
 
-    .middle .center > .passionResize,
-    .middle .center > .passionResize > .passion {
+    .middle .center > .section-passions,
+    .middle .center > .section-passions > .passion {
         display: flex;
         display: -webkit-flex;
         flex-direction: column;

@@ -57,9 +57,12 @@ function affichageSection() {
     if (tagSection.length) {
         hashTag.value = tagSection.attr('href');
         if (tagSection.attr('href') === '#english') {
-            window.location.replace("/english/english.html")
+            // TODO : vérifier plus tard
+            // Ne pas rajouter / devant le english
+            window.location.replace("english/english.html")
         } else if (tagSection.attr('href') === '#french') {
-            window.location.replace("/index.html")
+            // Ne pas rajouter / devant le english
+            window.location.replace("../index.html")
         } else {
             var lien_page = tagSection.data('href');
             $(div_Center).load(lien_page, function () {

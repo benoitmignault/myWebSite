@@ -158,7 +158,7 @@ td {
     font-weight: bold;
 }
 
-.racine-site > .left .sectionMeteo {
+.racine-site > .left .section-meteo {
     display: flex;
     display: -webkit-flex;
     -webkit-flex-direction: column;

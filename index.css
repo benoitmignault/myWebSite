@@ -26,20 +26,20 @@ body {
     flex-direction: column;
 }
 
-.racine-site .left,
-.racine-site .right {
+.racine-site > .left,
+.racine-site > .right {
     width: 25%;
 }
 
-.racine-site .middle {
+.racine-site > .middle {
     width: 50%;
 }
 
-.left > div {
+.racine-site > .left > div {
     width: 100%;
 }
 
-.left .logo img,
+.racine-site > .left .logo img,
 .une-passion-photo a img {
     width: 100%;
     height: auto;
@@ -50,13 +50,13 @@ body {
     margin: 0;
 }
 
-.left > div .liste {
+.racine-site > .left > div .liste {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-.left > div .liste li {
+.racine-site > .left > div .liste li {
     font-weight: bold;
     background-color: darkgrey;
     line-height: 35px;
@@ -65,12 +65,12 @@ body {
     text-align: center;
 }
 
-.left > div .liste li:hover {
+.racine-site > .left > div .liste li:hover {
     background-color: black;
     cursor: pointer;
 }
 
-.left > div .liste li a:hover {
+.racine-site > .left > div .liste li a:hover {
     color: red;
 }
 
@@ -84,11 +84,11 @@ body {
     margin-right: 25px;
 }
 
-.left #hidden {
+.racine-site > .left #hidden {
     display: none;
 }
 
-.left #hidden #enum-language li {
+.racine-site > .left #hidden #enum-language li {
     font-weight: bold;
     padding-left: 15px;
     height: 15px;
@@ -158,7 +158,7 @@ td {
     font-weight: bold;
 }
 
-.left .sectionMeteo {
+.racine-site > .left .sectionMeteo {
     display: flex;
     display: -webkit-flex;
     -webkit-flex-direction: column;
@@ -169,29 +169,27 @@ td {
     color: darkgoldenrod;
 }
 
-.middle > div {
+.racine-site > .middle > div {
     width: 100%;
 }
 
-.middle #hautPage {
+.racine-site > .middle #hautPage {
     margin: 0;
 }
 
-/* TODO : À vérifier */
-.middle .center .header,
-.middle .center .headerphoto-moi {
+.racine-site > .middle .header {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
     width: 100%;
 }
 
-.middle .photo-moi {
+.racine-site > .middle .photo-moi {
     align-items: center;
 }
 
-.middle .header > div,
-.middle .center .header .une-passion-photo {
+.racine-site > .middle .header > div,
+.racine-site > .middle .header .une-passion-photo {
     width: 20%;
     text-align: center;
     background-color: darkgrey;
@@ -199,13 +197,13 @@ td {
     font-size: 18px;
 }
 
-.middle .center .header .une-passion-photo {
+.racine-site > .middle .header .une-passion-photo {
     background-color: darkolivegreen;
     font-size: 16px;
     line-height: 40px;
 }
 
-.middle .center .header div a {
+.racine-site > .middle .header div a {
     padding-left: 25px;
     padding-right: 25px;
     font-weight: bold;
@@ -214,50 +212,50 @@ td {
     text-decoration: none;
 }
 
-.middle .header > div:hover,
-.middle .header div a:hover {
+.racine-site > .middle .header > div:hover,
+.racine-site > .middle .header div a:hover {
     background-color: black;
     color: red;
     cursor: pointer;
 }
 
-.middle .header div a:hover,
-.middle .header div a:hover {
+.racine-site > .middle .header div a:hover,
+.racine-site > .middle .header div a:hover {
     color: red;
     cursor: pointer;
 }
 
-.middle .center,
-.middle .photo {
+.racine-site > .middle .center,
+.racine-site > .middle .photo {
     background-color: azure;
     font-size: 18px;
 }
 
-.middle .center h3,
-.middle .photo h3 {
+.racine-site > .middle .center h3,
+.racine-site > .middle .photo h3 {
     margin: 0;
     padding-top: 20px;
     padding-bottom: 20px;
     text-align: center;
 }
 
-.middle .center .projet {
+.racine-site > .middle .center .projet {
     margin-bottom: 25px;
 }
 
-.middle .center p,
-.right .field1 p {
+.racine-site > .middle .center p,
+.racine-site > .right .field1 p {
     font-size: 18px;
     margin: 0 25px;
     line-height: 1.5;
     text-align: justify;
 }
 
-.middle .center p {
+.racine-site > .middle .center p {
     margin-bottom: 10px;
 }
 
-.middle .center ul {
+.racine-site > .middle .center ul {
     margin-left: 25px;
 }
 
@@ -276,15 +274,15 @@ Nouvelle manière d'afficher un legend au milieu
     color: green;
 }
 
-.middle > .center > .projet > .page-accueil > .lien-centrer {
+.racine-site > .middle > .center > .projet > .page-accueil > .lien-centrer {
     display: flex;
     display: -webkit-flex;
     margin-bottom: 5px;
     justify-content: center;
 }
 
-.middle > .center > .projet > .page-accueil > .lien-centrer > a,
-.middle > .center > p > a {
+.racine-site > .middle > .center > .projet > .page-accueil > .lien-centrer > a,
+.racine-site > .middle > .center > p > a {
     color: white;
     text-decoration: none;
     background-color: darkgrey;
@@ -294,43 +292,43 @@ Nouvelle manière d'afficher un legend au milieu
     text-align: center;
 }
 
-.middle > .center > .projet > .page-accueil > .lien-centrer > a:hover,
-.middle > .center > p > a:hover {
+.racine-site > .middle > .center > .projet > .page-accueil > .lien-centrer > a:hover,
+.racine-site > .middle > .center > p > a:hover {
     background-color: black;
     cursor: pointer;
     color: red;
 }
 
 /* Les div à intérieur de la sélection seront misent sur une ligne */
-.middle .center div {
+.racine-site > .middle .center div {
     display: flex;
     display: -webkit-flex;
     width: 100%;
 }
 
-.middle .center > div .passion {
+.racine-site > .middle .center > div .passion {
     width: 50%;
 }
 
-.middle .center .cheminement {
+.racine-site > .middle .center .cheminement {
     width: 100%;
     text-align: center;
     border-collapse: collapse;
     border: 2px solid black;
 }
 
-.middle .center .cheminement td,
-.middle .cheminement th {
+.racine-site > .middle .center .cheminement td,
+.racine-site > .middle .cheminement th {
     border: 1px solid black;
     padding: 5px;
 }
 
-.middle .center .cheminement tbody tr:nth-child(odd) {
+.racine-site > .middle .center .cheminement tbody tr:nth-child(odd) {
     /*impaire*/
     background-color: aqua
 }
 
-.middle .center .cheminement tbody tr:nth-child(even) {
+.racine-site > .middle .center .cheminement tbody tr:nth-child(even) {
     /* paire */
     background-color: azure
 }
@@ -344,16 +342,16 @@ span {
     width: 20%;
 }
 
-.middle .center .cheminement .newCertificat:hover {
+.racine-site > .middle .center .cheminement .newCertificat:hover {
     background-color: darkturquoise;
     color: black;
 }
 
-.middle .photo {
+.racine-site > .middle .photo {
     position: relative;
 }
 
-.middle .photo > .sous_photo {
+.racine-site > .middle .photo > .sous_photo {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
@@ -361,7 +359,7 @@ span {
     width: 100%;
 }
 
-.middle .center > .passionResize {
+.racine-site > .middle .center > .passionResize {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -369,7 +367,7 @@ span {
     flex-wrap: wrap;
 }
 
-.middle .center > .passionResize > .passion {
+.racine-site > .middle .center > .passionResize > .passion {
     display: flex;
     display: -webkit-flex;
     flex-direction: column;
@@ -377,39 +375,36 @@ span {
     flex-wrap: wrap;
 }
 
-.middle .photo .sous_photo .une-passion-photo {
+.racine-site > .middle .photo .sous_photo .une-passion-photo {
     width: 50%;
     align-content: center;
     background-color: azure;
     padding: 25px;
 }
 
-.middle .photo .sous_photo .une-passion-photo:hover {
+.racine-site > .middle .photo .sous_photo .une-passion-photo:hover {
     background-color: black;
 }
 
-.middle .center ul li {
+.racine-site > .middle .center ul li {
     margin-bottom: 5px;
 }
 
-.middle .center ul li:hover {
+.racine-site > .middle .center ul li:hover {
     color: cornflowerblue;
 }
 
-.middle .center .cheminement .newCertificat {
+.racine-site > .middle .center .cheminement .newCertificat {
     color: cadetblue;
 }
 
-.middle .separation {
+.racine-site > .middle .separation {
+    background-color: black;
+    height: 4px;
     margin-bottom: 15px;
 }
 
-.middle .separation {
-    background-color: black;
-    height: 4px;
-}
-
-.middle .return a {
+.racine-site > .middle .return a {
     color: white;
     display: block;
     text-decoration: none;
@@ -421,27 +416,27 @@ span {
     text-align: center;
 }
 
-.middle .return .cellulaire,
+.racine-site > .middle .return .cellulaire,
 .cellulaire {
     display: none;
 }
 
-.middle .return a:hover {
+.racine-site > .middle .return a:hover {
     background-color: black;
     color: red;
     cursor: pointer;
 }
 
-.right > div {
+.racine-site > .right > div {
     width: 100%;
 }
 
-.right .logoRight img {
+.racine-site > .right .logoRight img {
     width: 100%;
 }
 
 .racine-site > div > div > .page-accueil,
-.racine-site .middle .center .projet .page-accueil {
+.racine-site > .middle .center .projet .page-accueil {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -451,7 +446,7 @@ span {
     margin-bottom: 20px;
 }
 
-.racine-site .right > div > .page-accueil > p {
+.racine-site > .right > div > .page-accueil > p {
     text-align: justify;
 }
 
@@ -474,7 +469,7 @@ span {
     height: auto;
 }
 
-.right .info a {
+.racine-site > .right .info a {
     color: white;
     text-decoration: none;
     background-color: darkgrey;
@@ -485,13 +480,13 @@ span {
     font-family: "Times New Roman", serif;
 }
 
-.right .info a:hover {
+.racine-site > .right .info a:hover {
     background-color: black;
     cursor: pointer;
     color: red;
 }
 
-.right #photoCell {
+.racine-site > .right #photoCell {
     display: none;
 }
 

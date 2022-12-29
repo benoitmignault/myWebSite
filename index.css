@@ -452,21 +452,21 @@ span {
     text-align: justify;
 }
 
-.racine-site > .right > .media,
-.racine-site > .right > .media .sous_Media {
+.racine-site > .right > .section-media,
+.racine-site > .right > .section-media .media {
     width: 100%;
 }
 
-.racine-site > .right > .media .sous_Media {
+.racine-site > .right > .section-media .media {
     display: flex;
     display: -webkit-flex;
 }
 
-.racine-site > .right > .media .sous_Media .lienSocial {
+.racine-site > .right > .section-media .media .lien-social {
     width: 25%;
 }
 
-.racine-site .right > .media .sous_Media > .lienSocial > a img {
+.racine-site .right > .section-media .media > .lien-social > a img {
     width: 100%;
     height: auto;
 }

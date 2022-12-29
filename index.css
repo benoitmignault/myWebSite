@@ -282,7 +282,8 @@ Nouvelle manière d'afficher un legend au milieu
 }
 
 .racine-site > .middle > .center > .projet > .page-accueil > .lien-centrer > a,
-.racine-site > .middle > .center > p > a {
+.racine-site > .middle > .center > p > a,
+.racine-site > .middle > .center > .section-passions > .passion ul li > a {
     color: white;
     text-decoration: none;
     background-color: darkgrey;
@@ -293,7 +294,8 @@ Nouvelle manière d'afficher un legend au milieu
 }
 
 .racine-site > .middle > .center > .projet > .page-accueil > .lien-centrer > a:hover,
-.racine-site > .middle > .center > p > a:hover {
+.racine-site > .middle > .center > p > a:hover,
+.racine-site > .middle > .center > .section-passions > .passion ul li > a:hover{
     background-color: black;
     cursor: pointer;
     color: red;

@@ -45,9 +45,12 @@ function activationListe() {
     });
 }
 
+/**
+ * Affichage de la section accueil en remettant à vide la section des photos et du hash-tag pour l'historique
+ */
 function affichageAccueil() {
     if (LANGUE.value === "fr") {
-        $(DIV_CENTER).load("pageAccueil/partie_accueil.html");
+        $(DIV_CENTER).load("/pageAccueil/partie_accueil.html");
     } else if (LANGUE.value === "en") {
         $(DIV_CENTER).load("../pageAccueil/partie_accueil_EN.html");
     }
@@ -55,6 +58,9 @@ function affichageAccueil() {
     DIV_PHOTO.innerHTML = "";
 }
 
+/**
+ * Affichage de la section en fonction du lien cliquer
+ */
 function affichageSection() {
     let tagSection = $(LISTE_SECTIONS).filter("[href='" + location.hash + "']");
     if (tagSection.length) {
@@ -102,7 +108,7 @@ function callAjax() {
                 var dataObj = JSON.parse(dataReturn["data"]);
                 CALENDRIER_AJAX.innerHTML = dataObj.tableau_calendrier;
                 // Après l'affichage du calendrier, on call le temps du timer et voilà
-                start_timer();
+                startTimer();
             } else if (dataReturn["erreur"]) {
                 let dataErr = JSON.parse(dataReturn["erreur"]);
                 if (LANGUE.value === "en") {
@@ -123,25 +129,38 @@ function callAjax() {
     });
 }
 
-function start_timer() {
+/**
+ * Affiche l'heure en dessous du calendrier en fonction si ça vient de la page française ou anglaise
+ */
+function startTimer() {
     const insertion_time = document.querySelector('.contenu_ligne_heure_actuel');
     let date_live = new Date();
     let date_affiche;
     if (LANGUE.value === "fr") {
         date_affiche = remplissageZeroFilled(date_live.getHours()) + ":" + remplissageZeroFilled(date_live.getMinutes()) + ":" + remplissageZeroFilled(date_live.getSeconds());
         insertion_time.innerHTML = date_affiche;
-        setTimeout("start_timer()", 1000);
+        setTimeout("startTimer()", 1000);
     } else if (LANGUE.value === "en") {
         date_affiche = formatAMPM(date_live);
         insertion_time.innerHTML = date_affiche;
-        setTimeout("start_timer()", 1000);
+        setTimeout("startTimer()", 1000);
     }
 }
 
+/**
+ * Retourne l'heure ou les minutes ou les secondes avec un 0 devant le chiffre
+ * @param valeur
+ * @returns {string}
+ */
 function remplissageZeroFilled(valeur) {
     return (valeur > 9) ? "" + valeur : "0" + valeur;
 }
 
+/**
+ * Retourne l'heure avec la mention AM ou PM en fonction s'il est midi et plus ou pas
+ * @param date
+ * @returns {string}
+ */
 function formatAMPM(date) {
     let hours = date.getHours();
     let minutes = date.getMinutes();
@@ -155,6 +174,9 @@ function formatAMPM(date) {
     return hours + ':' + minutes + ':' + secondes + ' ' + am_Or_pm;
 }
 
+/**
+ * En fonction de la miniphoto sélectionner, cela va afficher les photos miniatures de la section en question
+ */
 function affichageSectionPhoto() {
     const listePassions = document.querySelectorAll('.middle .center .header .une-passion-photo a');
     let tagSousSection = $(listePassions).filter("[href='" + location.hash + "']");
@@ -184,6 +206,11 @@ function affichageSectionPhoto() {
     });
 }
 
+/**
+ * Le ou la visiteur(e) sur le site web va pouvoir envoyer un courriel à l'admin du site web avec son nom,
+ * le sujet, son courriel pour un retour de l'admin, si nécessaire.
+ * Des messages d'erreurs peuvent subvenir si les différents champs ne sont pas remplis.
+ */
 function envoyerCourriel() {
     $(FORM_CONTACT).submit(function (e) {
         e.preventDefault();
@@ -328,12 +355,12 @@ function envoyerCourriel() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    /* À chaque fois que le HASH_TAG change-t-on appel cet évènement */
+    // À chaque fois que le HASH_TAG change-t-on appel cet évènement
     $(window).on('hashchange', function (event) {
         affichageSection();
     });
 
-    /* Si on inscrit manuellement un HASH_TAG, on call la fct sinon on call la fct de base */
+    // Si on inscrit manuellement un HASH_TAG, on call la fct sinon on call la fct de base
     if (location.hash !== "") {
         affichageSection();
     } else {

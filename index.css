@@ -177,15 +177,12 @@ td {
     margin: 0;
 }
 
-.racine-site > .middle .header {
+.racine-site > .middle .header,
+.racine-site > .middle .center > .header{
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
     width: 100%;
-}
-
-.racine-site > .middle > .center > .header {
-    align-items: center;
 }
 
 .racine-site > .middle .header > div,
@@ -353,7 +350,7 @@ span {
     position: relative;
 }
 
-.racine-site > .middle .photo > .sous_photo {
+.racine-site > .middle .photo > .section-photos {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
@@ -361,7 +358,7 @@ span {
     width: 100%;
 }
 
-.racine-site > .middle .center > .section-passions {
+.racine-site > .middle .center > .header .section-passions {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -377,14 +374,14 @@ span {
     flex-wrap: wrap;
 }
 
-.racine-site > .middle .photo .sous_photo .une-passion-photo {
+.racine-site > .middle .photo .section-photos .une-passion-photo {
     width: 50%;
     align-content: center;
     background-color: azure;
     padding: 25px;
 }
 
-.racine-site > .middle .photo .sous_photo .une-passion-photo:hover {
+.racine-site > .middle .photo .section-photos .une-passion-photo:hover {
     background-color: black;
 }
 

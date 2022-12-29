@@ -12,7 +12,7 @@ const sujet = document.querySelector('#sujet');
 const msgErr = document.querySelector('#msg-err');
 const form = document.querySelector('#form-contact');
 const msgSucces = document.querySelector('#msg-courriel');
-const hashTag = document.querySelector('#hashTag');
+const hashTag = document.querySelector('#hash-tag');
 const calendrierAJAX = document.querySelector('#calendrier-ajax');
 
 function activation_Liste() {

@@ -15,6 +15,9 @@ const MSG_ERR = document.querySelector('#msg-err');
 const HASH_TAG = document.querySelector('#hash-tag');
 const CALENDRIER_AJAX = document.querySelector('#calendrier-ajax');
 
+/**
+ * Retourne la liste des technologies en informatique
+ */
 function activationListe() {
     LIEN.addEventListener('click', function (evt) {
         if (DIV_LISTE.style.display === "") {

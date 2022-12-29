@@ -3,6 +3,10 @@
     -moz-box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     background-color: floralwhite;
@@ -178,7 +182,7 @@ td {
 }
 
 .racine-site > .middle .header,
-.racine-site > .middle .center > .header{
+.racine-site > .middle .center > .header {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -288,7 +292,7 @@ Nouvelle manière d'afficher un legend au milieu
 
 .racine-site > .middle > .center > .projet > .page-accueil > .lien-centrer > a:hover,
 .racine-site > .middle > .center > p > a:hover,
-.racine-site > .middle > .center > .section-passions > .passion ul li > a:hover{
+.racine-site > .middle > .center > .section-passions > .passion ul li > a:hover {
     background-color: black;
     cursor: pointer;
     color: red;

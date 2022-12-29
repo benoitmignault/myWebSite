@@ -1,61 +1,61 @@
-const langue = document.querySelector('#type-langue');
-const div_Photo = document.querySelector('.photo');
-const div_Center = document.querySelector('.center');
-const listeSections = document.querySelectorAll('.header div a');
-const lien = document.querySelector('#liste-language');
-const div_liste = document.querySelector('#hidden');
-const liste = document.querySelector('#enum-language');
-const nomComplet = document.querySelector('#nom');
-const courriel = document.querySelector('#email');
-const message = document.querySelector('#msg');
-const sujet = document.querySelector('#sujet');
-const msgErr = document.querySelector('#msg-err');
-const form = document.querySelector('#form-contact');
-const msgSucces = document.querySelector('#msg-courriel');
-const hashTag = document.querySelector('#hash-tag');
-const calendrierAJAX = document.querySelector('#calendrier-ajax');
+const LANGUE = document.querySelector('#type-langue');
+const DIV_PHOTO = document.querySelector('.photo');
+const DIV_CENTER = document.querySelector('.center');
+const LISTE_SECTIONS = document.querySelectorAll('.header div a');
+const LIEN = document.querySelector('#liste-language');
+const DIV_LISTE = document.querySelector('#hidden');
+const LISTE = document.querySelector('#enum-language');
+const NOM_COMPLET = document.querySelector('#nom');
+const COURRIEL = document.querySelector('#email');
+const MESSAGE = document.querySelector('#msg');
+const SUJET = document.querySelector('#sujet');
+const FORM_CONTACT = document.querySelector('#form-contact');
+const MSG_SUCCES = document.querySelector('#msg-courriel');
+const MSG_ERR = document.querySelector('#msg-err');
+const HASH_TAG = document.querySelector('#hash-tag');
+const CALENDRIER_AJAX = document.querySelector('#calendrier-ajax');
 
-function activation_Liste() {
-    lien.addEventListener('click', function (evt) {
-        if (div_liste.style.display === "") {
-            div_liste.style.display = 'block';
-            liste.innerHTML = "<li>PHP / HTML / CSS</li>";
-            liste.innerHTML += "<li>PYTHON3 / FLASK</li>";
-            liste.innerHTML += "<li>JAVASCRIPT / JQUERY</li>";
-            liste.innerHTML += "<li>C / C++ / MAKEFILE</li>";
-            liste.innerHTML += "<li>SQL / MYSQL / ORACLE</li>";
-            liste.innerHTML += "<li>JAVA</li>";
-            if (langue.value === "en") {
-                liste.innerHTML += "<li>ASSEMBLY IN (Pep8)</li>";
+function activationListe() {
+    LIEN.addEventListener('click', function (evt) {
+        if (DIV_LISTE.style.display === "") {
+            DIV_LISTE.style.display = 'block';
+            LISTE.innerHTML = "<li>PHP / HTML / CSS</li>";
+            LISTE.innerHTML += "<li>PYTHON3 / FLASK</li>";
+            LISTE.innerHTML += "<li>JAVASCRIPT / JQUERY</li>";
+            LISTE.innerHTML += "<li>C / C++ / MAKEFILE</li>";
+            LISTE.innerHTML += "<li>SQL / MYSQL / ORACLE</li>";
+            LISTE.innerHTML += "<li>JAVA</li>";
+            if (LANGUE.value === "en") {
+                LISTE.innerHTML += "<li>ASSEMBLY IN (Pep8)</li>";
             } else {
-                liste.innerHTML += "<li>ASSEMBLEUR EN (Pep8)</li>";
+                LISTE.innerHTML += "<li>ASSEMBLEUR EN (Pep8)</li>";
             }
-            liste.innerHTML += "<li>GIT / GITHUB / GITLAB</li>";
-            liste.innerHTML += "<li>CODEBLOCKS / C / C++</li>";
-            liste.innerHTML += "<li>NETBEANS / JAVA8 </li>";
-            liste.innerHTML += "<li>ANDROID STUDIO / JAVA</li>";
-            liste.innerHTML += "<li>WINDOWS 7 / 10 / UBUNTU</li>";
-        } else if (div_liste.style.display === 'block') {
-            liste.innerHTML = "";
-            div_liste.style.display = "";
+            LISTE.innerHTML += "<li>GIT / GITHUB / GITLAB</li>";
+            LISTE.innerHTML += "<li>CODEBLOCKS / C / C++</li>";
+            LISTE.innerHTML += "<li>NETBEANS / JAVA8 </li>";
+            LISTE.innerHTML += "<li>ANDROID STUDIO / JAVA</li>";
+            LISTE.innerHTML += "<li>WINDOWS 7 / 10 / UBUNTU</li>";
+        } else if (DIV_LISTE.style.display === 'block') {
+            LISTE.innerHTML = "";
+            DIV_LISTE.style.display = "";
         }
     });
 }
 
 function affichageAccueil() {
-    if (langue.value === "fr") {
-        $(div_Center).load("pageAccueil/partie_accueil.html");
-    } else if (langue.value === "en") {
-        $(div_Center).load("../pageAccueil/partie_accueil_EN.html");
+    if (LANGUE.value === "fr") {
+        $(DIV_CENTER).load("pageAccueil/partie_accueil.html");
+    } else if (LANGUE.value === "en") {
+        $(DIV_CENTER).load("../pageAccueil/partie_accueil_EN.html");
     }
-    hashTag.value = "";
-    div_Photo.innerHTML = "";
+    HASH_TAG.value = "";
+    DIV_PHOTO.innerHTML = "";
 }
 
 function affichageSection() {
-    let tagSection = $(listeSections).filter("[href='" + location.hash + "']");
+    let tagSection = $(LISTE_SECTIONS).filter("[href='" + location.hash + "']");
     if (tagSection.length) {
-        hashTag.value = tagSection.attr('href');
+        HASH_TAG.value = tagSection.attr('href');
         if (tagSection.attr('href') === '#english') {
             // TODO : vérifier plus tard
             // Ne pas rajouter / devant le english
@@ -65,11 +65,11 @@ function affichageSection() {
             window.location.replace("../index.html")
         } else {
             var lien_page = tagSection.data('href');
-            $(div_Center).load(lien_page, function () {
-                div_Photo.innerHTML = "";
+            $(DIV_CENTER).load(lien_page, function () {
+                DIV_PHOTO.innerHTML = "";
             });
         } // si je pèse sur hautPageDesktop apres avec peser sur la section photo, erreur js
-    } else if (hashTag.value === '#photos' || hashTag.value === '#pictures') {
+    } else if (HASH_TAG.value === '#photos' || HASH_TAG.value === '#pictures') {
         affichageSectionPhoto();
     } else if (location.hash !== "#haut-page-desktop" && location.hash !== "#haut-page-cellulaire") {
         affichageAccueil();
@@ -78,12 +78,12 @@ function affichageSection() {
 
 function callAjax() {
     let data = {
-        "type_langue": langue.value
+        "type_langue": LANGUE.value
     };
     let url = "";
-    if (langue.value === "fr") {
+    if (LANGUE.value === "fr") {
         url = "/calendrier/calendrier.php";
-    } else if (langue.value === "en") {
+    } else if (LANGUE.value === "en") {
         url = "../calendrier/calendrier.php";
     }
 
@@ -96,22 +96,22 @@ function callAjax() {
             // sécurisation du retour d'information
             if (dataReturn["data"]) {
                 var dataObj = JSON.parse(dataReturn["data"]);
-                calendrierAJAX.innerHTML = dataObj.tableau_calendrier;
+                CALENDRIER_AJAX.innerHTML = dataObj.tableau_calendrier;
                 // Après l'affichage du calendrier, on call le temps du timer et voilà
                 start_timer();
             } else if (dataReturn["erreur"]) {
                 let dataErr = JSON.parse(dataReturn["erreur"]);
-                if (langue.value === "en") {
+                if (LANGUE.value === "en") {
                     if (dataErr.situation1) {
-                        calendrierAJAX.innerHTML = "Warning ! It is missing the value of the language for the display of the web page !";
+                        CALENDRIER_AJAX.innerHTML = "Warning ! It is missing the value of the language for the display of the web page !";
                     } else if (dataErr.situation2) {
-                        calendrierAJAX.innerHTML = "Warning ! This file must be caller via an AJAX call !";
+                        CALENDRIER_AJAX.innerHTML = "Warning ! This file must be caller via an AJAX call !";
                     }
                 } else {
                     if (dataErr.situation1) {
-                        calendrierAJAX.innerHTML = dataErr.situation1;
+                        CALENDRIER_AJAX.innerHTML = dataErr.situation1;
                     } else if (dataErr.situation2) {
-                        calendrierAJAX.innerHTML = dataErr.situation2;
+                        CALENDRIER_AJAX.innerHTML = dataErr.situation2;
                     }
                 }
             }
@@ -123,11 +123,11 @@ function start_timer() {
     const insertion_time = document.querySelector('.contenu_ligne_heure_actuel');
     let date_live = new Date();
     let date_affiche;
-    if (langue.value === "fr") {
+    if (LANGUE.value === "fr") {
         date_affiche = remplissageZeroFilled(date_live.getHours()) + ":" + remplissageZeroFilled(date_live.getMinutes()) + ":" + remplissageZeroFilled(date_live.getSeconds());
         insertion_time.innerHTML = date_affiche;
         setTimeout("start_timer()", 1000);
-    } else if (langue.value === "en") {
+    } else if (LANGUE.value === "en") {
         date_affiche = formatAMPM(date_live);
         insertion_time.innerHTML = date_affiche;
         setTimeout("start_timer()", 1000);
@@ -155,9 +155,9 @@ function affichageSectionPhoto() {
     const listePassions = document.querySelectorAll('.middle .center .header .une-passion-photo a');
     let tagSousSection = $(listePassions).filter("[href='" + location.hash + "']");
     let sousHref = tagSousSection.data('href');
-    $(div_Photo).load(sousHref, function () {
+    $(DIV_PHOTO).load(sousHref, function () {
         const h3 = document.querySelector('.photo h3');
-        if (langue.value === "en") {
+        if (LANGUE.value === "en") {
             switch (sousHref) {
                 case "/pageAccueil/photos/photo_golf/photo_golf.html":
                     h3.innerHTML = "Here is the sub section of the pictures on the golf :";
@@ -180,55 +180,55 @@ function affichageSectionPhoto() {
 }
 
 function envoyerCourriel() {
-    $(form).submit(function (e) {
+    $(FORM_CONTACT).submit(function (e) {
         e.preventDefault();
-        msgSucces.innerHTML = ""; // Une seule ligne est suffisante, car ça dépasse le contexte de la langue de la page web - 13 janvier 2020
-        msgErr.innerHTML = "";
+        MSG_SUCCES.innerHTML = ""; // Une seule ligne est suffisante, car ça dépasse le contexte de la langue de la page web - 13 janvier 2020
+        MSG_ERR.innerHTML = "";
         let erreur = false;
-        let nom = nomComplet.value;
+        let nom = NOM_COMPLET.value;
         let longueurNom = nom.length;
-        let email = courriel.value;
+        let email = COURRIEL.value;
         let longueurEmail = email.length;
-        let msg = message.value;
+        let msg = MESSAGE.value;
         let longueurMsg = msg.length;
-        let objet = sujet.value;
+        let objet = SUJET.value;
         let longueurSujet = objet.length;
 
-        if (nomComplet.value === "") {
-            nomComplet.style.border = "2px solid red";
-            if (langue.value === "fr") {
-                msgErr.innerHTML += "<li>Champ nom et prénom est vide</li>";
+        if (NOM_COMPLET.value === "") {
+            NOM_COMPLET.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>Champ nom et prénom est vide</li>";
             } else {
-                msgErr.innerHTML += "<li>Surname and first name field is empty</li>";
+                MSG_ERR.innerHTML += "<li>Surname and first name field is empty</li>";
             }
             erreur = true;
         } else if (longueurNom > 30) {
-            nomComplet.style.border = "2px solid red";
-            if (langue.value === "fr") {
-                msgErr.innerHTML += "<li>L'information dans le champ nom et prénom est trop long</li>";
+            NOM_COMPLET.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>L'information dans le champ nom et prénom est trop long</li>";
             } else {
-                msgErr.innerHTML += "<li>The information in the first and last name field is too long</li>";
+                MSG_ERR.innerHTML += "<li>The information in the first and last name field is too long</li>";
             }
             erreur = true;
         } else {
-            nomComplet.style.border = "initial";
+            NOM_COMPLET.style.border = "initial";
         }
 
         // si le courriel est vide
         if (courriel.value === "") {
             courriel.style.border = "2px solid red";
-            if (langue.value === "fr") {
-                msgErr.innerHTML += "<li>Champ du courriel est vide</li>";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>Champ du courriel est vide</li>";
             } else {
-                msgErr.innerHTML += "<li>Email field is empty</li>";
+                MSG_ERR.innerHTML += "<li>Email field is empty</li>";
             }
             erreur = true;
         } else if (longueurEmail > 30) {
             courriel.style.border = "2px solid red";
-            if (langue.value === "fr") {
-                msgErr.innerHTML += "<li>L'information dans le champ email est trop long</li>";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>L'information dans le champ email est trop long</li>";
             } else {
-                msgErr.innerHTML += "<li>The information in the email field is too long</li>";
+                MSG_ERR.innerHTML += "<li>The information in the email field is too long</li>";
             }
             erreur = true;
         } else {
@@ -236,45 +236,45 @@ function envoyerCourriel() {
         }
 
         // si le sujet est vide
-        if (sujet.value === "") {
-            sujet.style.border = "2px solid red";
-            if (langue.value === "fr") {
-                msgErr.innerHTML += "<li>Champ du sujet est vide</li>";
+        if (SUJET.value === "") {
+            SUJET.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>Champ du sujet est vide</li>";
             } else {
-                msgErr.innerHTML += "<li>Subject field is empty</li>";
+                MSG_ERR.innerHTML += "<li>Subject field is empty</li>";
             }
             erreur = true;
         } else if (longueurSujet > 30) {
-            sujet.style.border = "2px solid red";
-            if (langue.value === "fr") {
-                msgErr.innerHTML += "<li>L'information dans le champ sujet est trop long</li>";
+            SUJET.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>L'information dans le champ sujet est trop long</li>";
             } else {
-                msgErr.innerHTML += "<li>The information in the subject field is too long</li>";
+                MSG_ERR.innerHTML += "<li>The information in the subject field is too long</li>";
             }
             erreur = true;
         } else {
-            sujet.style.border = "initial";
+            SUJET.style.border = "initial";
         }
 
         // si le message est vide
-        if (message.value === "") {
-            message.style.border = "2px solid red";
-            if (langue.value === "fr") {
-                msgErr.innerHTML += "<li>Champ du message est vide</li>";
+        if (MESSAGE.value === "") {
+            MESSAGE.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>Champ du message est vide</li>";
             } else {
-                msgErr.innerHTML += "<li>Message field is empty</li>";
+                MSG_ERR.innerHTML += "<li>Message field is empty</li>";
             }
             erreur = true;
         } else if (longueurMsg > 250) {
-            message.style.border = "2px solid red";
-            if (langue.value === "fr") {
-                msgErr.innerHTML += "<li>L'information dans le champ message est trop long</li>";
+            MESSAGE.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>L'information dans le champ message est trop long</li>";
             } else {
-                msgErr.innerHTML += "<li>The information in the message field is too long</li>";
+                MSG_ERR.innerHTML += "<li>The information in the message field is too long</li>";
             }
             erreur = true;
         } else {
-            message.style.border = "initial";
+            MESSAGE.style.border = "initial";
         }
 
         if (erreur === false) {
@@ -290,9 +290,9 @@ function envoyerCourriel() {
             let serializedData = $form.serialize();
             let url = "";
             // la variable langue sera interpreter comme un type post comme on le définit dans l'appel Ajax.
-            if (langue.value === "fr") {
+            if (LANGUE.value === "fr") {
                 url = "/contact/contact.php";
-            } else if (langue.value === "en") {
+            } else if (LANGUE.value === "en") {
                 url = "../contact/contact.php";
             }
             request = $.ajax({
@@ -303,19 +303,19 @@ function envoyerCourriel() {
 
             // Callback handler that will be called on success
             request.done(function (response, textStatus, jqXHR) {
-                if (langue.value === "fr") {
-                    msgSucces.innerHTML = "Votre message a été envoyé";
-                } else if (langue.value === "en") {
-                    msgSucces.innerHTML = "Your message has been sent";
+                if (LANGUE.value === "fr") {
+                    MSG_SUCCES.innerHTML = "Votre message a été envoyé";
+                } else if (LANGUE.value === "en") {
+                    MSG_SUCCES.innerHTML = "Your message has been sent";
                 }
             });
 
             // Callback handler that will be called on failure
             request.fail(function (jqXHR, textStatus, errorThrown) {
-                if (langue.value === "fr") {
-                    msgErr.innerHTML += "<li>Un problème avec l'envoi du courriel a été rencontré</li>";
-                } else if (langue.value === "en") {
-                    msgErr.innerHTML += "<li>A problem with sending the email was encountered</li>";
+                if (LANGUE.value === "fr") {
+                    MSG_ERR.innerHTML += "<li>Un problème avec l'envoi du courriel a été rencontré</li>";
+                } else if (LANGUE.value === "en") {
+                    MSG_ERR.innerHTML += "<li>A problem with sending the email was encountered</li>";
                 }
             });
         }
@@ -323,12 +323,12 @@ function envoyerCourriel() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    /* À chaque fois que le hashTag change-t-on appel cet évènement */
+    /* À chaque fois que le HASH_TAG change-t-on appel cet évènement */
     $(window).on('hashchange', function (event) {
         affichageSection();
     });
 
-    /* Si on inscrit manuellement un hasgTag, on call la fct sinon on call la fct de base */
+    /* Si on inscrit manuellement un HASH_TAG, on call la fct sinon on call la fct de base */
     if (location.hash !== "") {
         affichageSection();
     } else {
@@ -336,6 +336,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     callAjax();
-    activation_Liste();
+    activationListe();
     envoyerCourriel();
 });

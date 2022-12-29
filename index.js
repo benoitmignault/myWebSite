@@ -152,26 +152,26 @@ function formatAMPM(date) {
 }
 
 function affichageSectionPhoto() {
-    const listePassions = document.querySelectorAll('.middle .center .header .unePassionPhoto a');
+    const listePassions = document.querySelectorAll('.middle .center .header .une-passion-photo a');
     let tagSousSection = $(listePassions).filter("[href='" + location.hash + "']");
     let sousHref = tagSousSection.data('href');
     $(div_Photo).load(sousHref, function () {
         const h3 = document.querySelector('.photo h3');
         if (langue.value === "en") {
             switch (sousHref) {
-                case "https://benoitmignault.ca/pageAccueil/photos/photo_golf/photo_golf.html":
+                case "/pageAccueil/photos/photo_golf/photo_golf.html":
                     h3.innerHTML = "Here is the sub section of the pictures on the golf :";
                     break;
-                case "https://benoitmignault.ca/pageAccueil/photos/photo_hiver/photo_hiver.html":
+                case "/pageAccueil/photos/photo_hiver/photo_hiver.html":
                     h3.innerHTML = "Here is the sub section of the pictures on the winter :";
                     break;
-                case "https://benoitmignault.ca/pageAccueil/photos/photo_poker/photo_poker.html":
+                case "/pageAccueil/photos/photo_poker/photo_poker.html":
                     h3.innerHTML = "Here is the sub section of the pictures on the poker :";
                     break;
-                case "https://benoitmignault.ca/pageAccueil/photos/photo_ski/photo_ski.html":
+                case "/pageAccueil/photos/photo_ski/photo_ski.html":
                     h3.innerHTML = "Here is the sub section of the pictures on the skiing :";
                     break;
-                case "https://benoitmignault.ca/pageAccueil/photos/photo_velo/photo_velo.html":
+                case "/pageAccueil/photos/photo_velo/photo_velo.html":
                     h3.innerHTML = "Here is the sub section of the pictures on the bike :";
                     break;
             }

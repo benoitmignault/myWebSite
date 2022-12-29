@@ -252,16 +252,12 @@ td {
     margin-bottom: 10px;
 }
 
-.racine-site > .middle .center ul {
-    margin-left: 25px;
-}
-
 /* 
 Nouvelle manière d'afficher un legend au milieu
 */
 .legend-center {
     display: table;
-    min-width: 0px;
+    min-width: 0;
     position: relative;
     margin: auto;
     padding: 5px 10px;

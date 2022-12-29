@@ -342,7 +342,7 @@ span {
     width: 20%;
 }
 
-.racine-site > .middle .center .cheminement .new-certificat:hover {
+.racine-site > .middle .center .cheminement .info-cours:hover {
     background-color: darkturquoise;
     color: black;
 }
@@ -394,7 +394,7 @@ span {
     color: cornflowerblue;
 }
 
-.racine-site > .middle .center .cheminement .new-certificat {
+.racine-site > .middle .center .cheminement .info-cours {
     color: cadetblue;
 }
 

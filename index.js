@@ -64,11 +64,12 @@ function affichageSection() {
             // Ne pas rajouter / devant le english
             window.location.replace("../index.html")
         } else {
-            var lien_page = tagSection.data('href');
-            $(DIV_CENTER).load(lien_page, function () {
+            let lienPage = tagSection.data('href');
+            $(DIV_CENTER).load(lienPage, function () {
                 DIV_PHOTO.innerHTML = "";
             });
-        } // si je pèse sur hautPageDesktop apres avec peser sur la section photo, erreur js
+        } // TODO : Uncaught TypeError: Cannot read properties of undefined (reading 'indexOf')
+        // si je pèse sur hautPageDesktop apres avec peser sur la section photo, erreur js
     } else if (HASH_TAG.value === '#photos' || HASH_TAG.value === '#pictures') {
         affichageSectionPhoto();
     } else if (location.hash !== "#haut-page-desktop" && location.hash !== "#haut-page-cellulaire") {
@@ -155,6 +156,7 @@ function affichageSectionPhoto() {
     const listePassions = document.querySelectorAll('.middle .center .header .une-passion-photo a');
     let tagSousSection = $(listePassions).filter("[href='" + location.hash + "']");
     let sousHref = tagSousSection.data('href');
+    // TODO : Uncaught TypeError: Cannot read properties of undefined (reading 'indexOf')
     $(DIV_PHOTO).load(sousHref, function () {
         const h3 = document.querySelector('.photo h3');
         if (LANGUE.value === "en") {

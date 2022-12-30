@@ -311,13 +311,8 @@ function envoyerCourriel() {
 
             // Serialize the data in the form
             let serializedData = $form.serialize();
-            let url = "";
-            // la variable langue sera interpreter comme un type post comme on le définit dans l'appel Ajax.
-            if (LANGUE.value === "fr") {
-                url = "/contact/contact.php";
-            } else if (LANGUE.value === "en") {
-                url = "../contact/contact.php";
-            }
+            let url = "/contact/contact.php";
+
             request = $.ajax({
                 url: url,
                 type: "post",

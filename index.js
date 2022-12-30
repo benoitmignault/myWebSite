@@ -66,12 +66,10 @@ function affichageSection() {
     if (tagSection.length) {
         HASH_TAG.value = tagSection.attr('href');
         if (tagSection.attr('href') === '#english') {
-            // TODO : vérifier plus tard
-            // Ne pas rajouter / devant le english
-            window.location.replace("english/english.html")
+            window.location.replace("/english/english.html")
         } else if (tagSection.attr('href') === '#french') {
-            // Ne pas rajouter / devant le english
-            window.location.replace("../index.html")
+            
+            window.location.replace("/index.html")
         } else {
             let lienPage = tagSection.data('href');
             $(DIV_CENTER).load(lienPage, function () {

@@ -27,8 +27,15 @@
         display: none;
     }
 
+    .racine-site > .middle > .center > ul{
+        font-size: 18px;
+        margin-right: 25px;
+        line-height: 1.5;
+        text-align: justify;
+    }
+
     .racine-site .middle .header,
-    .racine-site .middle .center .header {
+    .racine-site .middle .center .sous-header {
         flex-direction: column;
         width: 100%;
     }

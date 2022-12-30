@@ -66,6 +66,9 @@ function timer15Min() {
 
 /**
  * Vérifier à chaque cycle de 1000 milliseconde, ce qu'on doit faire durant le cycle de 15 minutes.
+ * Change la couleur en fonction du temps restant.
+ * Call la musique à moins de 7 secondes.
+ * à 00:00, un call Ajax se fera pour changer la mise automatiquement.
  */
 function starting15() {
     if (sec === 0) {
@@ -102,6 +105,9 @@ function starting15() {
     comptage = setTimeout(starting15, 1000);
 }
 
+/**
+ * Est appelé une seule fois et au moment de cliquer sur le bouton 30 minutes.
+ */
 function timer30Min() {
     TEMPS_30_MIN.addEventListener('click', function () {
         miseEnMarcheDuTimer();
@@ -122,6 +128,12 @@ function timer30Min() {
     });
 }
 
+/**
+ * Vérifier à chaque cycle de 1000 milliseconde, ce qu'on doit faire durant le cycle de 15 minutes.
+ * Change la couleur en fonction du temps restant.
+ * Call la musique à moins de 7 secondes.
+ * à 00:00, un call Ajax se fera pour changer la mise automatiquement.
+ */
 function starting30() {
     if (sec === 0) {
         if (min === 0) {
@@ -155,7 +167,9 @@ function starting30() {
     comptage = setTimeout(starting30, 1000);
 }
 
-
+/**
+ * Centralise les changements des boutons lorsque le 15 minutes ou le 30 minutes sont enclenchés.
+ */
 function miseEnMarcheDuTimer() {
 
     clearTimeout(comptage);
@@ -169,7 +183,9 @@ function miseEnMarcheDuTimer() {
     CHANGER_MISE.setAttribute("disabled", "disabled");
 }
 
-
+/**
+ * En fonction du temps restant, un 0 sera ajouté s'il nous reste moins de 10 minutes ou 10 secondes
+ */
 function addZero() {
     if (min < 10) {
         MINUTES.innerHTML = "0" + min.toString();
@@ -184,6 +200,9 @@ function addZero() {
     }
 }
 
+/**
+ * Le moment où on appelle le fichier php « changer.php » pour récupérer la prochaine valeur
+ */
 function callAjax() {
     STOP_TIMER.setAttribute("class", "disabled");
     STOP_TIMER.setAttribute("disabled", "disabled");
@@ -243,12 +262,18 @@ function callAjax() {
     }
 }
 
+/**
+ * Le moment où le Red Alert de StarTrek se fera retentir
+ */
 function playMusique() {
     if (min === 0 && sec < 7) {
         ALERT_SOUND.play();
     }
 }
 
+/**
+ * Reprendre le temps où on l'avait stoppé
+ */
 function reprendreTemps() {
     REPREND_TIMER.addEventListener('click', function () {
         clearTimeout(comptage); // arrête le coulage du temps
@@ -272,6 +297,9 @@ function reprendreTemps() {
     });
 }
 
+/**
+ * Stopper le timer pour faire une pause
+ */
 function stop() {
     STOP_TIMER.addEventListener('click', function () {
         clearTimeout(comptage); // arrête le coulage du temps
@@ -286,6 +314,9 @@ function stop() {
     });
 }
 
+/**
+ * Réinitialiser le timer pour repartir un nouveau cycle de 15 ou 30 minutes
+ */
 function resetTemp() {
     RESET_TEMPS.addEventListener('click', function () {
         clearTimeout(comptage); // arrête le coulage du temps
@@ -321,7 +352,10 @@ function resetTemp() {
     });
 }
 
-// TODO : Comprendre pourquoi ca marche pas
+/**
+ * // TODO : Comprendre pourquoi ca marche pas
+ * @param big
+ */
 function resizeText() {
     let device = detectZoom.device();
     let largeur = window.innerWidth;
@@ -373,6 +407,10 @@ function resizeText() {
     // 1.3802082538604736 -> 125%
 }
 
+/**
+ * // TODO : Comprendre pourquoi ca marche pas
+ * @param big
+ */
 function modificationSizeValeurs(big) {
     // Tableau de valeurs de fontSize en fonction de bigNumber
     const fontSizes = [64, 56, 48, 40];

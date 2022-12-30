@@ -212,18 +212,11 @@ function affichageSectionPhoto() {
 function envoyerCourriel() {
     $(FORM_CONTACT).submit(function (e) {
         e.preventDefault();
-        MSG_SUCCES.innerHTML = ""; // Une seule ligne est suffisante, car ça dépasse le contexte de la langue de la page web - 13 janvier 2020
+        MSG_SUCCES.innerHTML = "";
         MSG_ERR.innerHTML = "";
         let erreur = false;
-        let nom = NOM_COMPLET.value;
-        let longueurNom = nom.length;
-        let email = COURRIEL.value;
-        let longueurEmail = email.length;
-        let msg = MESSAGE.value;
-        let longueurMsg = msg.length;
-        let objet = SUJET.value;
-        let longueurSujet = objet.length;
 
+        // Lorsque le nom est manquant
         if (NOM_COMPLET.value === "") {
             NOM_COMPLET.style.border = "2px solid red";
             if (LANGUE.value === "fr") {

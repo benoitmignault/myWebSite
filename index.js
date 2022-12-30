@@ -334,6 +334,7 @@ function envoyerCourriel() {
             });
 
             // Callback handler that will be called on success
+            // TODO : vérifier si les variables inutilisé sont utile ou pas
             request.done(function (response, textStatus, jqXHR) {
                 if (LANGUE.value === "fr") {
                     MSG_SUCCES.innerHTML = "Votre message a été envoyé";
@@ -343,6 +344,7 @@ function envoyerCourriel() {
             });
 
             // Callback handler that will be called on failure
+            // TODO : vérifier si les variables inutilisé sont utile ou pas
             request.fail(function (jqXHR, textStatus, errorThrown) {
                 if (LANGUE.value === "fr") {
                     MSG_ERR.innerHTML += "<li>Un problème avec l'envoi du courriel a été rencontré</li>";

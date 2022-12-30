@@ -182,7 +182,7 @@ td {
 }
 
 .racine-site > .middle .header,
-.racine-site > .middle .center > .header {
+.racine-site > .middle .center > .sous-header {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -190,7 +190,7 @@ td {
 }
 
 .racine-site > .middle .header > div,
-.racine-site > .middle .header .une-passion-photo {
+.racine-site > .middle .center .sous-header .une-passion-photo {
     width: 20%;
     text-align: center;
     background-color: darkgrey;
@@ -198,13 +198,14 @@ td {
     font-size: 18px;
 }
 
-.racine-site > .middle .header .une-passion-photo {
+.racine-site > .middle .center .sous-header .une-passion-photo {
     background-color: darkolivegreen;
     font-size: 16px;
     line-height: 40px;
 }
 
-.racine-site > .middle .header div a {
+.racine-site > .middle .header div a,
+.racine-site > .middle .center .sous-header div a {
     padding-left: 25px;
     padding-right: 25px;
     font-weight: bold;
@@ -214,14 +215,14 @@ td {
 }
 
 .racine-site > .middle .header > div:hover,
-.racine-site > .middle .header div a:hover {
+.racine-site > .middle .center .sous-header div a:hover {
     background-color: black;
     color: red;
     cursor: pointer;
 }
 
 .racine-site > .middle .header div a:hover,
-.racine-site > .middle .header div a:hover {
+.racine-site > .middle .center .sous-header div a:hover {
     color: red;
     cursor: pointer;
 }
@@ -362,7 +363,7 @@ span {
     width: 100%;
 }
 
-.racine-site > .middle .center > .header .section-passions {
+.racine-site > .middle .center > .sous-header .section-passions {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;

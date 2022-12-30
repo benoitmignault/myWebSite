@@ -444,6 +444,10 @@ span {
 .racine-site > div > div > .page-accueil {
     margin-bottom: 20px;
 }
+.racine-site > .left > .section-meteo > .page-accueil:last-of-type{
+    padding-bottom: 20px;
+}
+
 
 .racine-site > .right > div > .page-accueil > p {
     text-align: justify;

@@ -68,7 +68,7 @@ function affichageSection() {
         if (tagSection.attr('href') === '#english') {
             window.location.replace("/english/english.html")
         } else if (tagSection.attr('href') === '#french') {
-            
+
             window.location.replace("/index.html")
         } else {
             let lienPage = tagSection.data('href');
@@ -225,7 +225,7 @@ function envoyerCourriel() {
                 MSG_ERR.innerHTML += "<li>Surname and first name field is empty</li>";
             }
             erreur = true;
-        } else if (longueurNom > 30) {
+        } else if (NOM_COMPLET.value.length > 30) {
             NOM_COMPLET.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
                 MSG_ERR.innerHTML += "<li>L'information dans le champ nom et prénom est trop long</li>";
@@ -238,16 +238,16 @@ function envoyerCourriel() {
         }
 
         // si le courriel est vide
-        if (courriel.value === "") {
-            courriel.style.border = "2px solid red";
+        if (COURRIEL.value === "") {
+            COURRIEL.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
                 MSG_ERR.innerHTML += "<li>Champ du courriel est vide</li>";
             } else {
                 MSG_ERR.innerHTML += "<li>Email field is empty</li>";
             }
             erreur = true;
-        } else if (longueurEmail > 30) {
-            courriel.style.border = "2px solid red";
+        } else if (COURRIEL.value.length > 30) {
+            COURRIEL.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
                 MSG_ERR.innerHTML += "<li>L'information dans le champ email est trop long</li>";
             } else {
@@ -255,7 +255,7 @@ function envoyerCourriel() {
             }
             erreur = true;
         } else {
-            courriel.style.border = "initial";
+            COURRIEL.style.border = "initial";
         }
 
         // si le sujet est vide
@@ -267,7 +267,7 @@ function envoyerCourriel() {
                 MSG_ERR.innerHTML += "<li>Subject field is empty</li>";
             }
             erreur = true;
-        } else if (longueurSujet > 30) {
+        } else if (SUJET.value.length > 30) {
             SUJET.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
                 MSG_ERR.innerHTML += "<li>L'information dans le champ sujet est trop long</li>";
@@ -288,7 +288,7 @@ function envoyerCourriel() {
                 MSG_ERR.innerHTML += "<li>Message field is empty</li>";
             }
             erreur = true;
-        } else if (longueurMsg > 250) {
+        } else if (MESSAGE.value.length > 250) {
             MESSAGE.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
                 MSG_ERR.innerHTML += "<li>L'information dans le champ message est trop long</li>";

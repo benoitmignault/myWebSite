@@ -105,7 +105,7 @@ function callAjax() {
         success: function (dataReturn) {
             // sécurisation du retour d'information
             if (dataReturn["data"]) {
-                var dataObj = JSON.parse(dataReturn["data"]);
+                let dataObj = JSON.parse(dataReturn["data"]);
                 CALENDRIER_AJAX.innerHTML = dataObj.tableau_calendrier;
                 // Après l'affichage du calendrier, on call le temps du timer et voilà
                 startTimer();

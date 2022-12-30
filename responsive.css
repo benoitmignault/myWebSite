@@ -1,42 +1,46 @@
 /* Ce css servira au responsible de la page index et english qui sont mes page d'accueil en français et en anglais */
 
 @media screen and (max-width: 768px) {
-    .racineSite {
+    .racine-site {
         -webkit-flex-direction: column;
         flex-direction: column;
         margin: auto;
     }
 
-    .racineSite .left,
-    .racineSite .middle,
-    .racineSite .right {
+    .racine-site .left,
+    .racine-site .middle,
+    .racine-site .right {
         width: 100%;
     }
 
-    .racineSite .right .logoRight {
+    .racine-site .right .logo-right {
         display: none;
     }
 
-    .right #photoCell {
-        display: block;
-    }
-
-    .middle .return .cellulaire,
+    .racine-site .middle .return .cellulaire,
     .cellulaire {
         display: block;
     }
 
-    .middle .return .desktop,
+    .racine-site .middle .return .desktop,
     .desktop {
         display: none;
     }
 
-    .middle .header {
+    .racine-site > .middle > .center > ul{
+        font-size: 18px;
+        margin-right: 25px;
+        line-height: 1.5;
+        text-align: justify;
+    }
+
+    .racine-site .middle .header,
+    .racine-site .middle .center .sous-header {
         flex-direction: column;
         width: 100%;
     }
 
-    .middle .header > div {
+    .racine-site .middle .header > div {
         width: 100%;
         text-align: center;
         background-color: darkgrey;
@@ -44,43 +48,43 @@
         font-size: 16px;
     }
 
-    .middle .center .header .unePassionPhoto {
+    .racine-site .middle .center .sous-header .une-passion-photo {
         width: 100%;
     }
 
-    .middle .center ul {
+    .racine-site .middle .center ul {
         margin-left: 0;
     }
 
-    .middle .photo > .sous_photo {
+    .racine-site .middle .photo > .section-photos {
         -webkit-flex-direction: column;
         flex-direction: column;
         width: 100%;
     }
 
-    .middle .cheminement > tbody > tr > .nomcours {
+    .racine-site .middle .cheminement > tbody > tr > .nom-cours {
         font-size: 0.775em;
     }
 
-    .middle .center > .passionResize,
-    .middle .center > .passionResize > .passion {
+    .racine-site .middle .center > .section-passions,
+    .racine-site .middle .center > .section-passions > .passion {
         display: flex;
         display: -webkit-flex;
         flex-direction: column;
         width: 100%;
     }
 
-    .middle .photo .sous_photo .unePassionPhoto {
+    .racine-site .middle .photo .section-photos .une-passion-photo {
         width: 100%;
         padding-left: 25px;
         padding-right: 25px;
     }
 
-    .middle .photo {
+    .racine-site .middle .photo {
         font-size: 16px;
     }
 
-    .formulaire > .droite {
+    .racine-site .formulaire > .droite {
         flex-direction: column;
         /* Les div enfants de formulaire seront l'un en dessous de l'autre*/
         -webkit-flex-direction: column;
@@ -97,7 +101,7 @@
         width: 100%;
     }
 
-    .msgErr {
+    #msg-err {
         margin-left: 5px;
         margin-top: 0;
         padding-left: 15px;

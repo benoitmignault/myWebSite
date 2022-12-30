@@ -245,11 +245,15 @@ td {
 }
 
 .racine-site > .middle .center p,
-.racine-site > .right .field1 p {
+.racine-site > .right > .info > .page-accueil > p {
     font-size: 18px;
     margin: 0 25px;
     line-height: 1.5;
     text-align: justify;
+}
+
+.racine-site > .right > .info > .page-accueil > h3:first-of-type {
+    margin: 15px 25px 0;
 }
 
 .racine-site > .middle .center p {
@@ -444,7 +448,8 @@ span {
 .racine-site > div > div > .page-accueil {
     margin-bottom: 20px;
 }
-.racine-site > .left > .section-meteo > .page-accueil:last-of-type{
+
+.racine-site > .left > .section-meteo > .page-accueil:last-of-type {
     padding-bottom: 20px;
 }
 

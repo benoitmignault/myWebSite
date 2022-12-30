@@ -176,28 +176,29 @@ function formatAMPM(date) {
  * En fonction de la miniphoto sélectionner, cela va afficher les photos miniatures de la section en question
  */
 function affichageSectionPhoto() {
-    const listePassions = document.querySelectorAll('.middle .center .header .une-passion-photo a');
-    let tagSousSection = $(listePassions).filter("[href='" + location.hash + "']");
+    // Cette constante existe seulement si la section Photo est sélectionnée
+    const LISTE_PASSIONS = document.querySelectorAll('.middle .center .sous-header .une-passion-photo a');
+    let tagSousSection = $(LISTE_PASSIONS).filter("[href='" + location.hash + "']");
     let sousHref = tagSousSection.data('href');
     // TODO : Uncaught TypeError: Cannot read properties of undefined (reading 'indexOf')
     $(DIV_PHOTO).load(sousHref, function () {
-        const h3 = document.querySelector('.photo h3');
+        const H3 = document.querySelector('.photo h3');
         if (LANGUE.value === "en") {
             switch (sousHref) {
                 case "/pageAccueil/photos/photo_golf/photo_golf.html":
-                    h3.innerHTML = "Here is the sub section of the pictures on the golf :";
+                    H3.innerHTML = "Here is the sub section of the pictures on the golf :";
                     break;
                 case "/pageAccueil/photos/photo_hiver/photo_hiver.html":
-                    h3.innerHTML = "Here is the sub section of the pictures on the winter :";
+                    H3.innerHTML = "Here is the sub section of the pictures on the winter :";
                     break;
                 case "/pageAccueil/photos/photo_poker/photo_poker.html":
-                    h3.innerHTML = "Here is the sub section of the pictures on the poker :";
+                    H3.innerHTML = "Here is the sub section of the pictures on the poker :";
                     break;
                 case "/pageAccueil/photos/photo_ski/photo_ski.html":
-                    h3.innerHTML = "Here is the sub section of the pictures on the skiing :";
+                    H3.innerHTML = "Here is the sub section of the pictures on the skiing :";
                     break;
                 case "/pageAccueil/photos/photo_velo/photo_velo.html":
-                    h3.innerHTML = "Here is the sub section of the pictures on the bike :";
+                    H3.innerHTML = "Here is the sub section of the pictures on the bike :";
                     break;
             }
         }

@@ -19,7 +19,7 @@ const CALENDRIER_AJAX = document.querySelector('#calendrier-ajax');
  * Retourne la liste des technologies en informatique
  */
 function activationListe() {
-    LIEN.addEventListener('click', function (evt) {
+    LIEN.addEventListener('click', function () {
         if (DIV_LISTE.style.display === "") {
             DIV_LISTE.style.display = 'block';
             LISTE.innerHTML = "<li>PHP / HTML / CSS</li>";
@@ -335,7 +335,8 @@ function envoyerCourriel() {
 
             // Callback handler that will be called on success
             // TODO : vérifier si les variables inutilisé sont utile ou pas
-            request.done(function (response, textStatus, jqXHR) {
+            // response, textStatus, jqXHR
+            request.done(function () {
                 if (LANGUE.value === "fr") {
                     MSG_SUCCES.innerHTML = "Votre message a été envoyé";
                 } else if (LANGUE.value === "en") {
@@ -345,7 +346,8 @@ function envoyerCourriel() {
 
             // Callback handler that will be called on failure
             // TODO : vérifier si les variables inutilisé sont utile ou pas
-            request.fail(function (jqXHR, textStatus, errorThrown) {
+            // jqXHR, textStatus, errorThrown
+            request.fail(function () {
                 if (LANGUE.value === "fr") {
                     MSG_ERR.innerHTML += "<li>Un problème avec l'envoi du courriel a été rencontré</li>";
                 } else if (LANGUE.value === "en") {
@@ -358,7 +360,7 @@ function envoyerCourriel() {
 
 document.addEventListener('DOMContentLoaded', function () {
     // À chaque fois que le HASH_TAG change-t-on appel cet évènement
-    $(window).on('hashchange', function (event) {
+    $(window).on('hashchange', function () {
         affichageSection();
     });
 

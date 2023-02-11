@@ -17,7 +17,7 @@ function typePositionSelected() {
                 citron.value = "0";
                 break;
             case 'autre':
-                gain.value = "-10";
+                gain.value = "-20";
                 citron.value = "";
                 break;
         }
@@ -26,7 +26,7 @@ function typePositionSelected() {
     $(citron).change(function () {
         if (this.value == '1') {
             killer.value = "0";
-            gain.value = "-10";
+            gain.value = "-20";
         } else if (this.value > '1' || this.value < '0') {
             alert("La valeur doit être 1 ou 0 et elle ne peut être négative !");
             this.value = "";

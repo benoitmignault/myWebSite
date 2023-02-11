@@ -596,6 +596,8 @@
 	if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 		session_start();
 		$champs["typeLangue"] = "francais";
+		$connMYSQL = NULL;
+  
 		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue'])) {
 			$connMYSQL = connexionBD();
 			$verificationUser = verificationUser($connMYSQL);
@@ -623,6 +625,8 @@
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		session_start();
 		$champs["typeLangue"] = "francais";
+		$connMYSQL = NULL;
+  
 		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue'])) {
 			$connMYSQL = connexionBD();
 			$verificationUser = verificationUser($connMYSQL);

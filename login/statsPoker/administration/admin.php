@@ -446,14 +446,6 @@
 		return false;
 	}
 	
-	function verifChampPosition($valid_Champ) {
-		
-		if ($valid_Champ['vide_position']) {
-			return true;
-		}
-		return false;
-	}
-	
 	function connexionBD() {
 		
 		// Nouvelle connexion sur hébergement du Studio OL

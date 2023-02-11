@@ -24,7 +24,7 @@ function typePositionSelected() {
     });
 
     $(citron).change(function () {
-        if (this.value == '1') {
+        if (this.value === '1') {
             killer.value = "0";
             gain.value = "-20";
         } else if (this.value > '1' || this.value < '0') {

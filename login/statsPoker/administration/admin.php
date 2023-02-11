@@ -12,12 +12,10 @@
 		        "invalid_Citron" => false];
 	}
 	
-	function initialisationChamps() {
+	function initialisationChamps(): array {
 		
-		$champs = ["typeLangue" => $_SESSION['typeLangue'], "listeJoueur" => "", "gain" => "", "position" => "", "numTournoi" => "",
-		           "date" => "", "newJoueur" => "", "message" => "", "killer" => "", "citron" => ""];
-		
-		return $champs;
+		return ["typeLangue" => $_SESSION['typeLangue'], "listeJoueur" => "", "gain" => "", "position" => "", "numTournoi" => "",
+		        "date" => "", "newJoueur" => "", "message" => "", "killer" => "", "citron" => ""];
 	}
 	
 	function remplissageChamps($champs) {

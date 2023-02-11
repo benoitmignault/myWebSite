@@ -735,8 +735,9 @@ function lienVersTriage($array_Champs){
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     session_start();
-    $array_Champs = initialisation(); 
-
+    $array_Champs = initialisation();
+	$connMYSQL = NULL;
+    
     if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue']) && isset($_COOKIE['POKER'])) {
         $connMYSQL = connexionBD();
         $array_Champs['verificationUser'] = verificationUser($connMYSQL);
@@ -777,6 +778,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
     session_start();
     $array_Champs = initialisation();
+	$connMYSQL = NULL;
 
     if (!isset($_SESSION['user']) || !isset($_SESSION['typeLangue']) || !isset($_SESSION['password']) && !isset($_COOKIE['POKER'])) {
         redirection("francais");

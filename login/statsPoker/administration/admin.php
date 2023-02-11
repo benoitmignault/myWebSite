@@ -2,18 +2,17 @@
 	
 	include("../../../traduction/traduction_admin.php");
 	
-	function initialisation() {
+	function initialisation(): array {
 		
-		$valid_Champ = ["invalid_Gain" => false, "invalid_New" => false, "invalid_Id" => false, "invalid_Date" => false,
-		                "tous_champs_Vide" => false, "longueur_inval_Gain" => false, "longueur_inval_Id" => false,
-		                "longueur_inval_New" => false, "longueur_inval_Date" => false, "vide_Gain" => false, "vide_Joueur" => false,
-		                "vide_position" => false, "vide_Date" => false, "vide_Id" => false, "vide_NewJoueur" => false,
-		                "doublon_new_Joueur" => false, "vide_Killer" => false, "vide_Citron" => false, "longueur_inval_Killer" => false,
-		                "longueur_inval_Citron" => false, "invalid_Killer" => false, "invalid_Citron" => false];
-		return $valid_Champ;
+		return ["invalid_Gain" => false, "invalid_New" => false, "invalid_Id" => false, "invalid_Date" => false,
+		        "tous_champs_Vide" => false, "longueur_inval_Gain" => false, "longueur_inval_Id" => false, "longueur_inval_New" => false,
+		        "longueur_inval_Date" => false, "vide_Gain" => false, "vide_Joueur" => false, "vide_position" => false,
+		        "vide_Date" => false, "vide_Id" => false, "vide_NewJoueur" => false, "doublon_new_Joueur" => false, "vide_Killer" => false,
+		        "vide_Citron" => false, "longueur_inval_Killer" => false, "longueur_inval_Citron" => false, "invalid_Killer" => false,
+		        "invalid_Citron" => false];
 	}
 	
-	function initialisation_Champs() {
+	function initialisationChamps() {
 		
 		$champs = ["typeLangue" => $_SESSION['typeLangue'], "listeJoueur" => "", "gain" => "", "position" => "", "numTournoi" => "",
 		           "date" => "", "newJoueur" => "", "message" => "", "killer" => "", "citron" => ""];

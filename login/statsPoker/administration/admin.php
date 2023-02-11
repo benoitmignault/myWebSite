@@ -641,7 +641,7 @@
 			redirection($champs, $connMYSQL);
 		}
 		else {
-			$champs = initialisation_Champs();
+			$champs = initialisationChamps();
 			$valid_Champ = initialisation();
 			if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueuil'])) {
 				redirection($champs, $connMYSQL);

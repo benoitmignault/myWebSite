@@ -95,7 +95,7 @@
 				if (empty($champs['date'])) {
 					$valid_Champ['vide_Date'] = true;
 				}
-				// Les champs killer, citron et gain peuvent être de zéro, docn je ne peux pas les évoluer individuellement...
+				// Les champs killer, citron et gain peuvent être de zéro, donc je ne peux pas les évoluer individuellement...
 				if ($valid_Champ['vide_Joueur'] && $valid_Champ['vide_Killer'] && $valid_Champ['vide_Citron'] && $valid_Champ['vide_Gain'] && $valid_Champ['vide_position'] && $valid_Champ['vide_Id'] && $valid_Champ['vide_Date']) {
 					$valid_Champ['tous_champs_Vide'] = true;
 				}

@@ -574,7 +574,7 @@
         elseif ($champs['typeLangue'] === "english") {
 			$messageAjout = "The player information {$champs["listeJoueur"]} has been added to the BD.";
 		}
-		$champs = initialisation_Champs();
+		$champs = initialisationChamps();
 		$champs['message'] = $messageAjout;
 		return $champs;
 	}
@@ -598,7 +598,7 @@
         elseif ($champs['typeLangue'] === "english") {
 			$messageAjout = "The player information {$champs["listeJoueur"]} has been added to the BD.";
 		}
-		$champs = initialisation_Champs();
+		$champs = initialisationChamps();
 		$champs['message'] = $messageAjout;
 		return $champs;
 	}
@@ -622,7 +622,7 @@
 			redirection($champs, $connMYSQL);
 		}
 		else {
-			$champs = initialisation_Champs();
+			$champs = initialisationChamps();
 			$valid_Champ = initialisation();
 			$arrayMots = traduction($champs);
 			$listeJoueurs = creationListe($connMYSQL, $arrayMots, $champs);

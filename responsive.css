@@ -62,10 +62,6 @@
         width: 100%;
     }
 
-    .racine-site .middle .cheminement > tbody > tr > .nom-cours {
-        font-size: 0.775em;
-    }
-
     .racine-site .middle .center > .section-passions,
     .racine-site .middle .center > .section-passions > .passion {
         display: flex;
@@ -106,4 +102,16 @@
         margin-top: 0;
         padding-left: 15px;
     }
+
+    .racine-site > .middle .center .note{
+        margin: auto;
+    }
+
+    .info-cours .nom-cours,
+    .gauche:nth-child(2) {
+        width: 60%;
+    }
+
+
+
 }

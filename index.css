@@ -261,6 +261,10 @@ td {
     margin-bottom: 10px;
 }
 
+.racine-site > .middle .center .note {
+    margin-bottom: 0;
+}
+
 /* 
 Nouvelle manière d'afficher un legend au milieu
 */

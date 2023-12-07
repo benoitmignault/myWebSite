@@ -46,9 +46,12 @@ function traductionSituation($champs){
             case 4 : $message = "Le courriel saisie n'existe pas dans nos informations !"; break; 
             case 5 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break; 
             case 6 : $message = "Dans les prochains instant, vous allez recevoir le courriel de réinitialisation avec toutes les informations nécessaire !"; break; 
-            case 7 : $message = "Erreur Système au moment d'envoyer le courriel !"; break; 
+            case 7 : $message = "Erreur Système au moment d'envoyer le courriel !"; break;
+	        case 8 : $message = "Vous avez déjà reçu un courriel, il n'est pas nécessaire de faire une nouvelle demande !"; break;
         }
+        
     } elseif ($champs["typeLangue"] === 'english') {
+        
         switch ($champs['situation']) {
             case 1 : $message = "The «Email» field is empty !"; break; 
             case 2 : $message = "The seized mail is too long for the available space !"; break; 
@@ -56,34 +59,38 @@ function traductionSituation($champs){
             case 4 : $message = "The entered email does not exist in our information !"; break; 
             case 5 : $message = "A communication / manipulation error occurred when sending you the email !"; break; 
             case 6 : $message = "In the next few moments, you will receive the reset email with all the necessary information !"; break; 
-            case 7 : $message = "System error when sending email !"; break;     
+            case 7 : $message = "System error when sending email !"; break;
+	        case 8 : $message = "You have already received an email, there is no need to make a new request !"; break;
         }
     }
+    
     return $message;
 }
 
 function verifChamp($champs, $connMYSQL) {
+    
     // Section de vérification des champs vide  
     if (empty($_POST['email'])){
+        
         $champs['champVide'] = true;
     } else {
         $champs['email'] = $_POST['email'];
         $longueurEmail = strlen($champs['email']);    
         if ($longueurEmail > 50){
+            
             $champs['champTropLong'] = true;
-        } 
+        }
 
         $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
         if (!preg_match($patternEmail, $_POST['email'])) {
+            
             $champs['champInvalid'] = true; 
         } elseif (!(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))){
             // Ajout de cette sécurité / 5 Février 2020
             // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
             $champs['champInvalid'] = true; 
         } else {
-            // Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
-            
-            
+            // 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
             /* Crée une requête préparée */
             $stmt = $connMYSQL->prepare("select user, email, temps_Valide_link  from login where email = ? ");
             

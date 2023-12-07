@@ -81,26 +81,41 @@ function verifChamp($champs, $connMYSQL) {
             // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
             $champs['champInvalid'] = true; 
         } else {
+            // Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
+            
+            
             /* Crée une requête préparée */
-            $stmt = $connMYSQL->prepare("select user, email from login where email =? ");
+            $stmt = $connMYSQL->prepare("select user, email, temps_Valide_link  from login where email = ? ");
+            
             /* Lecture des marqueurs */
             $stmt->bind_param("s", $_POST['email']);
+            
             /* Exécution de la requête */
             $stmt->execute();
+            
             /* Association des variables de résultat */
             $result = $stmt->get_result();
+            
             $row_cnt = $result->num_rows;           
             if ($row_cnt == 0){
+                
                 $champs['emailExistePas'] = true;
-            } else {            
+            } else {
+                
                 $row = $result->fetch_array(MYSQLI_ASSOC);
                 $champs["user"] = $row['user'];
                 $champs["email"] = $row['email'];
+                
+                // Ajout de cette sécurité
+                if (!empty($row['temps_Valide_link'])){
+	                $champs['reset_existant'] = true;
+                }
             }
             /* close statement and connection */
             $stmt->close();
         }
     }
+    
     return $champs;
 }
 

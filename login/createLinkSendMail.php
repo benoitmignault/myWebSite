@@ -355,7 +355,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['send_Link'])) {
             $champs = verifChamp($champs, $connMYSQL);             
-            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs["emailExistePas"]){                
+            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] &&
+                !$champs["emailExistePas"] && !$champs["reset_existant"]){
                 $champs = creationLink($champs, $connMYSQL);
             }
         }     

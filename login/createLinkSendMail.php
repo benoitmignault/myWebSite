@@ -117,7 +117,17 @@ function verifChamp($champs, $connMYSQL) {
                 
                 // Ajout de cette sécurité
                 if (!empty($row['temps_Valide_link'])){
-	                $champs['reset_existant'] = true;
+                    
+                    // On va aussi valider que si le lien est expiré, on va permettre l'envoi d'un novueau lien sinon, on refuse
+	                $current_time = date("Y-m-d H:i:s");
+	                $current_timestamp = strtotime($current_time);
+                 
+	                // Le temps actuel doit être plus petit que le temps prescrit
+	                if ($current_timestamp < ((int)$row['temps_Valide_link'])){
+                        // Alors, on refuse un nouveau lien
+		                $champs['reset_existant'] = true;
+	                }
+                    // Sinon, le lien n'est plus valide, donc on va en donner un nouveau
                 }
             }
             /* close statement and connection */

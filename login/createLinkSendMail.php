@@ -37,8 +37,10 @@ function traduction($champs) {
 }
 
 function traductionSituation($champs){
+    
     $message = "";
     if ($champs["typeLangue"] === 'francais') {
+        
         switch ($champs['situation']) {
             case 1 : $message = "Le champ «Courriel» est vide !"; break; 
             case 2 : $message = "Le courriel saisie est trop long pour l'espace disponible !"; break; 
@@ -130,19 +132,30 @@ function verifChamp($champs, $connMYSQL) {
 function situation($champs){   
     $typeSituation = 0;    
     if ($champs['champVide']){
+        
         $typeSituation = 1; 
     } elseif ($champs['champTropLong']){
+        
         $typeSituation = 2; 
     } elseif ($champs['champInvalid']){
+        
         $typeSituation = 3; 
     } elseif ($champs['emailExistePas']){
-        $typeSituation = 4; 
+        
+        $typeSituation = 4;
+        // Ajout de cette nouvelle situation - 2023-12-06
+    } elseif ($champs['reset_existant']){
+     
+	    $typeSituation = 8;
     } elseif ($champs['erreurManipulationBD']){
+        
         $typeSituation = 5; 
     } elseif ($champs['envoiCourrielSucces']){
+        
         $typeSituation = 6; 
-    } elseif (!$champs['envoiCourrielSucces']){
-        $typeSituation = 7; 
+    } else {
+     
+	    $typeSituation = 7;
     } 
 
     return $typeSituation;
@@ -172,8 +185,10 @@ function creationLink($champs, $connMYSQL){
 
         /* Crée une requête préparée */
         $stmt = $connMYSQL->prepare("update login set reset_link =? , passwordTemp =? where email =? and user =?");
+        
         /* Lecture des marqueurs */
         $stmt->bind_param("ssss", $lien_Reset_PWD, $password_Encrypted, $champs["email"], $champs["user"]);
+        
         /* Exécution de la requête */
         $stmt->execute();
 

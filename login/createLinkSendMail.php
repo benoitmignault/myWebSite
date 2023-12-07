@@ -1,6 +1,8 @@
 <?php
 function initialChamp() {
-    $champInitial = ["user" => "", "email" => "", "champVide" => false, "champInvalid" => false, "champTropLong" => false, "emailExistePas" => false, "situation" => 0, "typeLangue" => "", "erreurManipulationBD" => false, "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false];
+    $champInitial = ["user" => "", "email" => "", "champVide" => false, "champInvalid" => false, "champTropLong" => false,
+                     "emailExistePas" => false, "situation" => 0, "typeLangue" => "", "erreurManipulationBD" => false,
+                     "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false, "reset_existant" => false];
     return $champInitial;
 }
 

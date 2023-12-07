@@ -1,6 +1,8 @@
 <?php
 function initialChamp() {
-    $champInitial = ["user" => "", "email" => "", "champVide" => false, "champInvalid" => false, "champTropLong" => false, "emailExistePas" => false, "situation" => 0, "typeLangue" => "", "erreurManipulationBD" => false, "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false];
+    $champInitial = ["user" => "", "email" => "", "champVide" => false, "champInvalid" => false, "champTropLong" => false,
+                     "emailExistePas" => false, "situation" => 0, "typeLangue" => "", "erreurManipulationBD" => false,
+                     "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false, "reset_existant" => false];
     return $champInitial;
 }
 
@@ -35,8 +37,10 @@ function traduction($champs) {
 }
 
 function traductionSituation($champs){
+    
     $message = "";
     if ($champs["typeLangue"] === 'francais') {
+        
         switch ($champs['situation']) {
             case 1 : $message = "Le champ «Courriel» est vide !"; break; 
             case 2 : $message = "Le courriel saisie est trop long pour l'espace disponible !"; break; 
@@ -44,9 +48,12 @@ function traductionSituation($champs){
             case 4 : $message = "Le courriel saisie n'existe pas dans nos informations !"; break; 
             case 5 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break; 
             case 6 : $message = "Dans les prochains instant, vous allez recevoir le courriel de réinitialisation avec toutes les informations nécessaire !"; break; 
-            case 7 : $message = "Erreur Système au moment d'envoyer le courriel !"; break; 
+            case 7 : $message = "Erreur Système au moment d'envoyer le courriel !"; break;
+	        case 8 : $message = "Vous avez déjà reçu un courriel, il n'est pas nécessaire de faire une nouvelle demande !"; break;
         }
+        
     } elseif ($champs["typeLangue"] === 'english') {
+        
         switch ($champs['situation']) {
             case 1 : $message = "The «Email» field is empty !"; break; 
             case 2 : $message = "The seized mail is too long for the available space !"; break; 
@@ -54,51 +61,70 @@ function traductionSituation($champs){
             case 4 : $message = "The entered email does not exist in our information !"; break; 
             case 5 : $message = "A communication / manipulation error occurred when sending you the email !"; break; 
             case 6 : $message = "In the next few moments, you will receive the reset email with all the necessary information !"; break; 
-            case 7 : $message = "System error when sending email !"; break;     
+            case 7 : $message = "System error when sending email !"; break;
+	        case 8 : $message = "You have already received an email, there is no need to make a new request !"; break;
         }
     }
+    
     return $message;
 }
 
 function verifChamp($champs, $connMYSQL) {
+    
     // Section de vérification des champs vide  
     if (empty($_POST['email'])){
+        
         $champs['champVide'] = true;
     } else {
         $champs['email'] = $_POST['email'];
         $longueurEmail = strlen($champs['email']);    
         if ($longueurEmail > 50){
+            
             $champs['champTropLong'] = true;
-        } 
+        }
 
         $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
         if (!preg_match($patternEmail, $_POST['email'])) {
+            
             $champs['champInvalid'] = true; 
         } elseif (!(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))){
             // Ajout de cette sécurité / 5 Février 2020
             // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
             $champs['champInvalid'] = true; 
         } else {
+            // 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
             /* Crée une requête préparée */
-            $stmt = $connMYSQL->prepare("select user, email from login where email =? ");
+            $stmt = $connMYSQL->prepare("select user, email, temps_Valide_link  from login where email = ? ");
+            
             /* Lecture des marqueurs */
             $stmt->bind_param("s", $_POST['email']);
+            
             /* Exécution de la requête */
             $stmt->execute();
+            
             /* Association des variables de résultat */
             $result = $stmt->get_result();
+            
             $row_cnt = $result->num_rows;           
             if ($row_cnt == 0){
+                
                 $champs['emailExistePas'] = true;
-            } else {            
+            } else {
+                
                 $row = $result->fetch_array(MYSQLI_ASSOC);
                 $champs["user"] = $row['user'];
                 $champs["email"] = $row['email'];
+                
+                // Ajout de cette sécurité
+                if (!empty($row['temps_Valide_link'])){
+	                $champs['reset_existant'] = true;
+                }
             }
             /* close statement and connection */
             $stmt->close();
         }
     }
+    
     return $champs;
 }
 
@@ -106,19 +132,30 @@ function verifChamp($champs, $connMYSQL) {
 function situation($champs){   
     $typeSituation = 0;    
     if ($champs['champVide']){
+        
         $typeSituation = 1; 
     } elseif ($champs['champTropLong']){
+        
         $typeSituation = 2; 
     } elseif ($champs['champInvalid']){
+        
         $typeSituation = 3; 
     } elseif ($champs['emailExistePas']){
-        $typeSituation = 4; 
+        
+        $typeSituation = 4;
+        // Ajout de cette nouvelle situation - 2023-12-06
+    } elseif ($champs['reset_existant']){
+     
+	    $typeSituation = 8;
     } elseif ($champs['erreurManipulationBD']){
+        
         $typeSituation = 5; 
     } elseif ($champs['envoiCourrielSucces']){
+        
         $typeSituation = 6; 
-    } elseif (!$champs['envoiCourrielSucces']){
-        $typeSituation = 7; 
+    } else {
+     
+	    $typeSituation = 7;
     } 
 
     return $typeSituation;
@@ -148,8 +185,10 @@ function creationLink($champs, $connMYSQL){
 
         /* Crée une requête préparée */
         $stmt = $connMYSQL->prepare("update login set reset_link =? , passwordTemp =? where email =? and user =?");
+        
         /* Lecture des marqueurs */
         $stmt->bind_param("ssss", $lien_Reset_PWD, $password_Encrypted, $champs["email"], $champs["user"]);
+        
         /* Exécution de la requête */
         $stmt->execute();
 
@@ -316,7 +355,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['send_Link'])) {
             $champs = verifChamp($champs, $connMYSQL);             
-            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs["emailExistePas"]){                
+            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] &&
+                !$champs["emailExistePas"] && !$champs["reset_existant"]){
                 $champs = creationLink($champs, $connMYSQL);
             }
         }     

@@ -49,7 +49,7 @@ function traductionSituation($champs){
             case 5 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break; 
             case 6 : $message = "Dans les prochains instant, vous allez recevoir le courriel de réinitialisation avec toutes les informations nécessaire !"; break; 
             case 7 : $message = "Erreur Système au moment d'envoyer le courriel !"; break;
-	        case 8 : $message = "Vous avez déjà reçu un courriel, il n'est pas nécessaire de faire une nouvelle demande !"; break;
+	        case 8 : $message = "Vous avez déjà reçu un courriel pour changer votre mot de passe, il n'est pas nécessaire de faire une nouvelle demande !"; break;
         }
         
     } elseif ($champs["typeLangue"] === 'english') {
@@ -62,7 +62,7 @@ function traductionSituation($champs){
             case 5 : $message = "A communication / manipulation error occurred when sending you the email !"; break; 
             case 6 : $message = "In the next few moments, you will receive the reset email with all the necessary information !"; break; 
             case 7 : $message = "System error when sending email !"; break;
-	        case 8 : $message = "You have already received an email, there is no need to make a new request !"; break;
+	        case 8 : $message = "You have already received an email to change your password, there is no need to make a new request !"; break;
         }
     }
     

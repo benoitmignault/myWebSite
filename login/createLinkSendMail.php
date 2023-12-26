@@ -187,7 +187,7 @@ function envoi_courriel_test_gmail() {
     try {
         // Paramètres du serveur SMTP
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
+        $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
         $mail->SMTPAuth   = true;
         $mail->Username   = 'benoit.mignault.ca@gmail.com';
         $mail->Password   = 'A@mYB$0WkY^(>^n%NyHC9"S8';
@@ -209,6 +209,9 @@ function envoi_courriel_test_gmail() {
     } catch (Exception $e) {
         echo "Erreur lors de l'envoi de l'e-mail : {$mail->ErrorInfo}";
     }
+
+    // Fermer la connexion SMTP
+    $mail->smtpClose();
 }
 
 

@@ -1,4 +1,19 @@
 <?php
+
+// Import PHPMailer classes into the global namespace
+// These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+// require '../PHPMailer/src/Exception.php';
+// require '../PHPMailer/src/PHPMailer.php';
+// require '../PHPMailer/src/SMTP.php';
+
+// Load Composer's autoloader
+require '../../vendor/autoload.php';
+
+
 function initialChamp() {
     $champInitial = ["user" => "", "email" => "", "champVide" => false, "champInvalid" => false, "champTropLong" => false,
                      "emailExistePas" => false, "situation" => 0, "typeLangue" => "", "erreurManipulationBD" => false,

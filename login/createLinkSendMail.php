@@ -6,9 +6,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-// require '../PHPMailer/src/Exception.php';
-// require '../PHPMailer/src/PHPMailer.php';
-// require '../PHPMailer/src/SMTP.php';
+//require '../PHPMailer/src/Exception.php';
+//require '../PHPMailer/src/PHPMailer.php';
+//require '../PHPMailer/src/SMTP.php';
 
 // Load Composer's autoloader
 require '../../vendor/autoload.php';
@@ -194,20 +194,19 @@ function envoi_courriel_test_gmail($champs) {
 
     try {
         // Paramètres du serveur SMTP
+        $mail->SMTPDebug = 0;
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
         $mail->SMTPAuth   = true;
         $mail->Username   = 'benoit.mignault.ca@gmail.com';
-        $mail->Password   = 'A@mYB$0WkY^(>^n%NyHC9"S8';
-        // TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;        
-        $mail->Port       = 587;                        
-        // use 465 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_SMTPS`
-
+        $mail->Password   = 'uqmsbfldqabqzvne'; 
+        $mail->SMTPSecure = "tls";        
+        $mail->Port       = 587;  
 
         // Recipients
         $mail->setFrom('benoit.mignault.ca@gmail.com', 'Site Web Benoit Mignault');
         $mail->addAddress('b.mignault@gmail.com', 'Site Web Benoit Mignault');
+        $mail->addAddress('mignault.benoit@courrier.uqam.ca', 'Site Web Benoit Mignault');
 
         // Content
         $mail->isHTML(true);

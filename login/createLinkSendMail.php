@@ -171,6 +171,47 @@ function situation($champs){
     return $typeSituation;
 }
 
+// Création fonction pour créer envoyer un courriel à GMAIL
+function envoi_courriel_test_gmail() {
+    
+    // On doit utiliser PHPMailer pour envoyer un courriel à GMAIL
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
+    // Charger les classes PHPMailer
+    require '../../vendor/autoload.php';
+
+    // Créer une instance de PHPMailer
+    $mail = new PHPMailer(true);
+
+    try {
+        // Paramètres du serveur SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'benoit.mignault.ca@gmail.com';
+        $mail->Password   = 'A@mYB$0WkY^(>^n%NyHC9"S8';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        // Expéditeur et destinataire
+        $mail->setFrom('benoit.mignault.ca@gmail.com', 'Site Web Benoit Mignault');
+        $mail->addAddress('b.mignault@gmail.com', 'Site Web Benoit Mignault');
+
+        // Contenu de l'e-mail
+        $mail->isHTML(true);
+        $mail->Subject = 'Test d\'envoi d\'e-mail avec PHPMailer';
+        $mail->Body    = 'Bonjour, ceci est un test d\'envoi d\'e-mail avec PHPMailer';
+
+        // Envoyer l'e-mail
+        $mail->send();
+        echo 'E-mail envoyé avec succès';
+    } catch (Exception $e) {
+        echo "Erreur lors de l'envoi de l'e-mail : {$mail->ErrorInfo}";
+    }
+}
+
+
 function creationLink($champs, $connMYSQL){  
     /* Crée une requête préparée */
     $stmt = $connMYSQL->prepare("select user, password from login where email =? and user =? ");
@@ -367,7 +408,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $champs = verifChamp($champs, $connMYSQL);             
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] &&
                 !$champs["emailExistePas"] && !$champs["reset_existant"]){
-                $champs = creationLink($champs, $connMYSQL);
+                //$champs = creationLink($champs, $connMYSQL);
+                envoi_courriel_test_gmail();
             }
         }     
 

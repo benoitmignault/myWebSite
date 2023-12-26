@@ -187,16 +187,9 @@ function situation($champs){
 }
 
 // Création fonction pour créer envoyer un courriel à GMAIL
-function envoi_courriel_test_gmail() {
-    
-    // On doit utiliser PHPMailer pour envoyer un courriel à GMAIL
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
+function envoi_courriel_test_gmail($champs) {
 
-    // Charger les classes PHPMailer
-    require '../../vendor/autoload.php';
-
-    // Créer une instance de PHPMailer
+    // Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
 
     try {

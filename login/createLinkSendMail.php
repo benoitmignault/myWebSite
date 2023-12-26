@@ -199,27 +199,32 @@ function envoi_courriel_test_gmail($champs) {
         $mail->SMTPAuth   = true;
         $mail->Username   = 'benoit.mignault.ca@gmail.com';
         $mail->Password   = 'A@mYB$0WkY^(>^n%NyHC9"S8';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        // TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;        
+        $mail->Port       = 587;                        
+        // use 465 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_SMTPS`
 
-        // Expéditeur et destinataire
+
+        // Recipients
         $mail->setFrom('benoit.mignault.ca@gmail.com', 'Site Web Benoit Mignault');
         $mail->addAddress('b.mignault@gmail.com', 'Site Web Benoit Mignault');
 
-        // Contenu de l'e-mail
+        // Content
         $mail->isHTML(true);
         $mail->Subject = 'Test d\'envoi d\'e-mail avec PHPMailer';
         $mail->Body    = 'Bonjour, ceci est un test d\'envoi d\'e-mail avec PHPMailer';
 
         // Envoyer l'e-mail
         $mail->send();
-        echo 'E-mail envoyé avec succès';
+        $champs["envoiCourrielSucces"] = true; 
     } catch (Exception $e) {
         echo "Erreur lors de l'envoi de l'e-mail : {$mail->ErrorInfo}";
     }
 
     // Fermer la connexion SMTP
     $mail->smtpClose();
+
+    return $champs;
 }
 
 
@@ -416,12 +421,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $connMYSQL = connexionBD();
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['send_Link'])) {
+
+            envoi_courriel_test_gmail($champs);
+
+            /*
             $champs = verifChamp($champs, $connMYSQL);             
             if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] &&
                 !$champs["emailExistePas"] && !$champs["reset_existant"]){
-                //$champs = creationLink($champs, $connMYSQL);
-                envoi_courriel_test_gmail();
+                $champs = creationLink($champs, $connMYSQL);
             }
+            */
         }     
 
         $champs["situation"] = situation($champs);          

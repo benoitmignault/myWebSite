@@ -76,7 +76,7 @@ function traduction($array_Champs) {
         $email = "Courriel :";
         $btn_send_Link = "Réinitialiser";
         $btn_return = "Retour à l'accueil";
-    } elseif ($champs["typeLangue"] === 'english') {
+    } elseif ($champs["type_langue"] === 'english') {
         $title = "Reset Request";
         $lang = "en";
         $p1 = "You forgot your password, no problem, we take care of it !";        
@@ -94,10 +94,10 @@ function traduction($array_Champs) {
     return $arrayMots;
 }
 
-function traductionSituation($champs){
+function traductionSituation($array_Champs){
     
     $message = "";
-    if ($champs["typeLangue"] === 'francais') {
+    if ($champs["type_langue"] === 'francais') {
         
         switch ($champs['situation']) {
             case 1 : $message = "Le champ «Courriel» est vide !"; break; 
@@ -110,7 +110,7 @@ function traductionSituation($champs){
 	        case 8 : $message = "Vous avez déjà reçu un courriel pour changer votre mot de passe, il n'est pas nécessaire de faire une nouvelle demande !"; break;
         }
         
-    } elseif ($champs["typeLangue"] === 'english') {
+    } elseif ($champs["type_langue"] === 'english') {
         
         switch ($champs['situation']) {
             case 1 : $message = "The «Email» field is empty !"; break; 
@@ -127,28 +127,27 @@ function traductionSituation($champs){
     return $message;
 }
 
-function verifChamp($champs, $connMYSQL) {
+function verifChamp($array_Champs, $connMYSQL) {
     
     // Section de vérification des champs vide  
-    if (empty($_POST['email'])){
-        
-        $champs['champVide'] = true;
+    if (empty($array_Champs['email'])){
+	    $array_Champs['champVide'] = true;
+     
     } else {
-        $champs['email'] = $_POST['email'];
-        $longueurEmail = strlen($champs['email']);    
-        if ($longueurEmail > 50){
-            
-            $champs['champTropLong'] = true;
+	    $array_Champs['email'] = $_POST['email'];
+        if ($array_Champs['longueur_email'] > 50){
+	
+	        $array_Champs['champ_trop_long'] = true;
         }
 
         $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
         if (!preg_match($patternEmail, $_POST['email'])) {
-            
-            $champs['champInvalid'] = true; 
+	
+	        $array_Champs['champInvalid'] = true;
         } elseif (!(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))){
             // Ajout de cette sécurité / 5 Février 2020
             // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
-            $champs['champInvalid'] = true; 
+	        $array_Champs['champInvalid'] = true;
         } else {
             // 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
             /* Crée une requête préparée */
@@ -165,13 +164,13 @@ function verifChamp($champs, $connMYSQL) {
             
             $row_cnt = $result->num_rows;           
             if ($row_cnt == 0){
-                
-                $champs['emailExistePas'] = true;
+	
+	            $array_Champs['emailExistePas'] = true;
             } else {
                 
                 $row = $result->fetch_array(MYSQLI_ASSOC);
-                $champs["user"] = $row['user'];
-                $champs["email"] = $row['email'];
+	            $array_Champs["user"] = $row['user'];
+	            $array_Champs["email"] = $row['email'];
                 
                 // Ajout de cette sécurité
                 if (!empty($row['temps_Valide_link'])){
@@ -183,7 +182,7 @@ function verifChamp($champs, $connMYSQL) {
 	                // Le temps actuel doit être plus petit que le temps prescrit
 	                if ($current_timestamp < ((int)$row['temps_Valide_link'])){
                         // Alors, on refuse un nouveau lien
-		                $champs['reset_existant'] = true;
+		                $array_Champs['reset_existant'] = true;
 	                }
                     // Sinon, le lien n'est plus valide, donc on va en donner un nouveau
                 }
@@ -215,7 +214,7 @@ function situation($champs){
     } elseif ($champs['reset_existant']){
      
 	    $typeSituation = 8;
-    } elseif ($champs['erreurManipulationBD']){
+    } elseif ($champs['erreur_systeme_bd']){
         
         $typeSituation = 5; 
     } elseif ($champs['envoiCourrielSucces']){
@@ -332,7 +331,7 @@ function creationLink($champs, $connMYSQL){
     $stmt->close();    
 
     if ($row_cnt == 0){
-        $champs["erreurManipulationBD"] = true; 
+        $champs["erreur_systeme_bd"] = true;
     } else {
         date_default_timezone_set('America/New_York');
         $lien_Reset_PWD = $champs["user"] . "/*-+!/$%?&*()" . $champs["email"];
@@ -355,7 +354,7 @@ function creationLink($champs, $connMYSQL){
 
         // On valide que l'insertion des password temporaire et link encryptés s'est bien passé
         if ($row_cnt == 0){
-            $champs["erreurManipulationBD"] = true; 
+            $champs["erreur_systeme_bd"] = true;
         } else {
             // On récupère l'heure au moment de la création du link
             $current_time = date("Y-m-d H:i:s");
@@ -376,15 +375,15 @@ function creationLink($champs, $connMYSQL){
 
             // On valide ici que l'ajout du temps autorisé au changement de PWD a bien marché
             if ($row_cnt == 0){
-                $champs["erreurManipulationBD"] = true; 
+                $champs["erreur_systeme_bd"] = true;
             } else {
                 $champs["password_Temp"] = $password_Temp; 
-                if ($champs["typeLangue"] === 'francais') {
+                if ($champs["type_langue"] === 'francais') {
                     $lien = "Lien pour changer votre mot de passe";
-                } elseif ($champs["typeLangue"] === 'english') {
+                } elseif ($champs["type_langue"] === 'english') {
                     $lien = "Link to change your password";
                 }
-                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";                
+                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["type_langue"]}\">{$lien}</a>";
                 $elementCourriel = preparationEmail($champs);
                 $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                
                 if ($succes) {
@@ -416,14 +415,14 @@ function encryptementPassword($password_Temp) {
 
 function preparationEmail($champs){
     $elementCourriel = ['message' => "", "to" => "", "subject" => "", "headers" => ""];
-    if ($champs["typeLangue"] == "francais"){
+    if ($champs["type_langue"] == "francais"){
         $elementCourriel["message"] = corpMessageFR($champs);        
         $elementCourriel["to"] = "{$champs["email"]}"; 
         $elementCourriel["subject"] = "Changement de mot de passe !";
         $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
         $elementCourriel["headers"] .= "X-Mailer: PHP/" . phpversion() . "\r\n";
         $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
-    } elseif ($champs["typeLangue"] == "english"){
+    } elseif ($champs["type_langue"] == "english"){
         $elementCourriel["message"] = corpMessageEN($champs);
         $elementCourriel["to"] = "{$champs["email"]}"; 
         $elementCourriel["subject"] = "Password change !";
@@ -470,15 +469,18 @@ function redirection($champs) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         header("Location: /erreur/erreur.php");
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['return']) && $champs["typeLangue"] == "francais") {
+        if (isset($_POST['return']) && $champs["type_langue"] == "francais") {
             header("Location: /index.html");
-        } elseif (isset($_POST['return']) && $champs["typeLangue"] == "english") {
+        } elseif (isset($_POST['return']) && $champs["type_langue"] == "english") {
             header("Location: /english/english.html");            
         }
     }
     exit; // pour arrêter l'éxecution du code php
 }
 
+/**
+ * @return false|mysqli
+ */
 function connexionBD(){
     // Nouvelle connexion sur hébergement du Studio OL     
     $host = "localhost";
@@ -492,20 +494,26 @@ function connexionBD(){
     return $connMYSQL;
 }
 
+include_once("../includes/fct-connexion-bd.php");
+
+// Les fonctions communes
+$array_Champs = initialisation();
+$array_Champs = remplisage_champs($array_Champs);
+
+
+// Ce qui arrive lorsqu'on arrive sur la page pour générer un lien de reset de password
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-	$array_Champs = initialisation();
-	remplisage_champs($array_Champs)
-    $array_Champs["typeLangue"] = $_GET['langue'];
-    if ($array_Champs["typeLangue"] != "francais" && $array_Champs["typeLangue"] != "english") {
+    
+    // Si la lagnue n'est pas setter, on va rediriger vers la page Err 404
+    if ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
         redirection($array_Champs);
     } else {
         $arrayMots = traduction($array_Champs);
     }
-}
+} // Fin du GET pour faire afficher la page web
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-	$array_Champs = initialisation();
-	$array_Champs["typeLangue"] = $_POST['langue'];
+    
     if (isset($_POST['return']))  {
         redirection($array_Champs);
     } else {        
@@ -524,8 +532,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	    $array_Champs["situation"] = situation($array_Champs);
         $arrayMots = traduction($array_Champs);
+        
+	    $connMYSQL->close();
     }
-    $connMYSQL->close();
+    
 }
 ?>
 <!DOCTYPE html>
@@ -576,7 +586,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                     </div>
                     <div class="troisBTN">
                         <input class="bouton" type='submit' name='send_Link' value="<?php echo $arrayMots['btn_send_Link']; ?>">
-                        <input type='hidden' name='langue' value="<?php echo $array_Champs['typeLangue']; ?>">
+                        <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                     </div>
                 </form>
             </fieldset>
@@ -589,7 +599,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <div class="btnRetour">
                 <form method="post" action="./createLinkSendMail.php">
                     <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
-                    <input type='hidden' name='langue' value="<?php echo $array_Champs['typeLangue']; ?>">
+                    <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                 </form>
             </div>
         </div>

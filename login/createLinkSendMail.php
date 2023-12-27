@@ -297,6 +297,57 @@ function creation_instance_courriel(){
 }
 
 
+/**
+ * On va créer un lien encrypté envoyer par courriel.
+ * Ensuite un password temporaire envoyer par courriel et sa version encrypté vers ls BD
+ * Pour finir, un temps valide pour 12 heures envoyer vers la BD
+ *
+ * @param object $connMYSQL
+ * @param array $array_Champs
+ * @return array
+ */
+function creation_lien_password_temporaire(object $connMYSQL, array $array_Champs): array{
+	
+    date_default_timezone_set('America/New_York');
+    // Création du lien
+	$lien_temps = $array_Champs['user'] . "/*-+!/$%?&*()" . $array_Champs['email'];
+	$array_Champs["lien_temps"] = encryptement_password($lien_temps);
+	
+    // Création du password temporaire
+	$array_Champs["password_temp"] = generateRandomString(10);
+	$password_secure = encryptement_password($array_Champs["password_temp"]);
+	
+	// On ajoute 12 heures au moment où l'utilisateur créer sa demande
+	$temps_valide_link = strtotime("+12 hour", strtotime(date("Y-m-d H:i:s")));
+    
+    // Préparation de la requête UPDATE
+	$update = "UPDATE login ";
+	$set = "SET reset_link = ? , password_temp = ?, temps_valide_link = ? ";
+	$where = "WHERE user = ?";
+ 
+	// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+	$query = $update . $set . $where;
+ 
+	// Préparation de la requête
+	$stmt = $connMYSQL->prepare($query);
+	try {
+		/* Lecture des marqueurs */
+		$stmt->bind_param("ssis", $array_Champs["lien_temps"], $password_secure, $temps_valide_link, $array_Champs['user']);
+  
+		/* Exécution de la requête */
+		$stmt->execute();
+	} catch (Exception $err){
+        // Récupérer les messages d'erreurs
+		$array_Champs["message_erreur_bd"] = $err->getMessage();
+    } finally {
+		// Fermer la préparation de la requête
+		$stmt->close();
+    }
+    
+    return $array_Champs;
+}
+
+
 
 
 function creationLink($array_Champs, $connMYSQL){

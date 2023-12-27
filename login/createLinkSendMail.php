@@ -24,9 +24,9 @@ function initialisation(): array {
     
     return array("longueur_email" => 0, "situation" => 0, "type_langue" => "", "user" => "", "email" => "",
                  "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false,
-                 "email_inexistant_bd" => false, "erreur_systeme_bd" => false,
+                 "email_inexistant_bd" => false, "erreur_system_bd" => false,
                  "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false,
-                 "reset_existant" => false, "array_mots" => array());
+                 "reset_existant" => false, "liste_mots" => array());
 }
 
 /**
@@ -127,9 +127,9 @@ function traduction_situation(string $type_langue, int $situation): string{
 	        case 8 : $message = "Vous avez déjà reçu un courriel pour changer votre mot de passe, il n'est pas nécessaire de faire une nouvelle demande !"; break;
         }
         
-    } elseif ($champs["type_langue"] === 'english') {
+    } elseif ($type_langue === 'english') {
         
-        switch ($champs['situation']) {
+        switch ($situation) {
             case 1 : $message = "The «Email» field is empty !"; break; 
             case 2 : $message = "The seized mail is too long for the available space !"; break; 
             case 3 : $message = "The seized mail does not follow the form « example@email.com » !"; break; 
@@ -521,11 +521,12 @@ $array_Champs = remplisage_champs($array_Champs);
 // Ce qui arrive lorsqu'on arrive sur la page pour générer un lien de reset de password
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     
-    // Si la lagnue n'est pas setter, on va rediriger vers la page Err 404
+    // Si la langue n'est pas setter, on va rediriger vers la page Err 404
     if ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
         redirection($array_Champs);
     } else {
-        $arrayMots = traduction($array_Champs);
+        // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
+	    $array_Champs["liste_mots"] = traduction_liste_mots($array_Champs["type_langue"], $array_Champs["situation"]);
     }
 } // Fin du GET pour faire afficher la page web
 
@@ -544,11 +545,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 	            $array_Champs = gestion_lien_courriel($array_Champs, $connMYSQL);
                 //$champs = creationLink($champs, $connMYSQL);
             }
-            
         }
 	
 	    $array_Champs["situation"] = situation($array_Champs);
-        $arrayMots = traduction($array_Champs);
+	    $array_Champs["liste_mots"] = traduction_liste_mots($array_Champs["type_langue"], $array_Champs["situation"]);
         
 	    $connMYSQL->close();
     }

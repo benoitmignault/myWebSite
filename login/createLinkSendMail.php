@@ -238,6 +238,54 @@ function envoi_courriel_test_gmail($champs) {
     return $champs;
 }
 
+// Création fonction pour créer envoyer un courriel à GMAIL
+function gestion_lien_courriel($champs, $connMYSQL){
+
+    //  Préparation du lien pour le courriel, avec true pour gérer les exceptions   
+    $mail = creation_instance_courriel();
+
+
+
+    
+
+    return $mail;
+}
+
+//  Création de l'instant et des paramètres de connexions à GMAILs   
+function creation_instance_courriel(){
+
+    //  Préparation du lien pour le courriel, avec true pour gérer les exceptions   
+    $mail = new PHPMailer(true);
+
+    // Paramètres du serveur SMTP
+    $mail->SMTPDebug = 0;
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'benoit.mignault.ca@gmail.com';
+    $mail->Password   = 'uqmsbfldqabqzvne'; 
+    $mail->SMTPSecure = "tls";        
+    $mail->Port       = 587;
+
+    return $mail;
+}
+
+// Validation que le email 
+function verification_existance_user_courriel($champs, $connMYSQL){
+
+    /* Crée une requête préparée */
+    $stmt = $connMYSQL->prepare("select user, password from login where email =? and user =? ");
+    /* Lecture des marqueurs */
+    $stmt->bind_param("ss", $champs["email"], $champs["user"]);
+    /* Exécution de la requête */
+    $stmt->execute();
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+
+    return $result->num_rows;
+}
+
+
 
 function creationLink($champs, $connMYSQL){  
     /* Crée une requête préparée */
@@ -262,7 +310,7 @@ function creationLink($champs, $connMYSQL){
         $password_Encrypted = encryptementPassword($password_Temp);
 
         /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("update login set reset_link =? , passwordTemp =? where email =? and user =?");
+        $stmt = $connMYSQL->prepare("update login set reset_link = ? , passwordTemp = ? where email = ? and user = ?");
         
         /* Lecture des marqueurs */
         $stmt->bind_param("ssss", $lien_Reset_PWD, $password_Encrypted, $champs["email"], $champs["user"]);

@@ -56,50 +56,67 @@ function remplisage_champs(array $array_Champs): array{
 	            $array_Champs['email'] = $_POST['email'];
 	            $array_Champs['longueur_email'] = strlen($array_Champs['email']);;
             }
-			
 		}
-		
     }
  
 	return $array_Champs;
 }
 
-function traduction($array_Champs) {
-    if ($champs["type_langue"] === 'francais') {
-        $lang = "fr";
-        $title = "Demande de Réinitialisation";
-        $p1 = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
-        $li3 = "Cette page permet de réinitialiser votre compte associés aux statistiques de poker.";
-        $li1 = "Veuillez saisir votre courriel.";
-        $li2 = "Ensuite, un courriel vous sera envoyé avec toute les informations relier à votre changement de mot de passe.";
-        $legend = "Réinitialisation !";
-        $email = "Courriel :";
-        $btn_send_Link = "Réinitialiser";
-        $btn_return = "Retour à l'accueil";
-    } elseif ($champs["type_langue"] === 'english') {
-        $title = "Reset Request";
-        $lang = "en";
-        $p1 = "You forgot your password, no problem, we take care of it !";        
-        $li3 = "This page will reset your account associated with poker statistics.";
-        $li1 = "Please enter your email.";
-        $li2 = "Then, a mail will be sent to you with all the information related to your change of password.";              
-        $legend = "Reseting !";
-        $email = "Email :";
-        $btn_send_Link = "Reset";
-        $btn_return = "Return to home page";
+/**
+ * Fonction qui sera utiliser pour traduire le texte dans la page et ainsi que les messages d'erreurs
+ *
+ * @param string $type_langue
+ * @param int $situation
+ * @return string[]
+ */
+function traduction_liste_mots(string $type_langue, int $situation): array {
+    
+    // Initialiser le array de mots traduit
+	$liste_mots = array("lang" => "", 'message' => "", 'title' => "", 'p1' => "", 'li3' => "", 'li1' => "",
+	                    'li2' => "", 'legend' => "", 'email' => "", 'btn_send_Link' => "", 'btn_return' => "");
+    
+    if ($type_langue === 'francais') {
+	    $liste_mots["lang"] = "fr";
+        $liste_mots["title"] = "Demande de Réinitialisation";
+        $liste_mots["p1"] = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
+        $liste_mots["li3"] = "Cette page permet de réinitialiser votre compte associés aux statistiques de poker.";
+        $liste_mots["li1"] = "Veuillez saisir votre courriel.";
+        $liste_mots["li2"] = "Ensuite, un courriel vous sera envoyé avec toute les informations relier à votre changement de mot de passe.";
+        $liste_mots["legend"] = "Réinitialisation !";
+        $liste_mots["email"] = "Courriel :";
+        $liste_mots["btn_send_Link"] = "Réinitialiser";
+        $liste_mots["btn_return"] = "Retour à l'accueil";
+        
+    } elseif ($type_langue === 'english') {
+	    $liste_mots["title"] = "Reset Request";
+        $liste_mots["lang"] = "en";
+        $liste_mots["p1"] = "You forgot your password, no problem, we take care of it !";
+        $liste_mots["li3"] = "This page will reset your account associated with poker statistics.";
+        $liste_mots["li1"] = "Please enter your email.";
+        $liste_mots["li2"] = "Then, a mail will be sent to you with all the information related to your change of password.";
+        $liste_mots["legend"] = "Reseting !";
+        $liste_mots["email"] = "Email :";
+        $liste_mots["btn_send_Link"] = "Reset";
+        $liste_mots["btn_return"] = "Return to home page";
     }
-
-    $messageFinal = traductionSituation($champs);
-    $arrayMots = ["lang" => $lang, 'message' => $messageFinal, 'title' => $title, 'p1' => $p1, 'li3' => $li3, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'email' => $email, 'btn_send_Link' => $btn_send_Link, 'btn_return' => $btn_return];
-    return $arrayMots;
+    
+    // Le message qui sera dans la langue voulu
+	$liste_mots["message"] = traduction_situation($type_langue, $situation);
+	
+    return $liste_mots;
 }
-
-function traductionSituation($array_Champs){
+	
+	/**
+	 * @param string $type_langue
+	 * @param int $situation
+	 * @return string
+	 */
+function traduction_situation(string $type_langue, int $situation): string{
     
     $message = "";
-    if ($champs["type_langue"] === 'francais') {
+	if ($type_langue === 'francais') {
         
-        switch ($champs['situation']) {
+        switch ($situation) {
             case 1 : $message = "Le champ «Courriel» est vide !"; break; 
             case 2 : $message = "Le courriel saisie est trop long pour l'espace disponible !"; break; 
             case 3 : $message = "Le courriel saisie ne respecte pas la forme « exemple@email.com »"; break; 

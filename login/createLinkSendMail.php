@@ -110,9 +110,11 @@ function validation_champs($array_Champs): array{
     // Section de vérification du seul champs dans la page
     if (empty($array_Champs['email'])){
 	    $array_Champs['champ_vide'] = true;
+	    $array_Champs['erreur_presente'] = true;
     } else {
         if ($array_Champs['longueur_email'] > 50){
 	        $array_Champs['champ_trop_long'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
 
         $pattern_email = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";
@@ -132,6 +134,7 @@ function validation_champs($array_Champs): array{
             // Si le champ du user est vide, alors l'association du email n'a rien donné
 	        if (empty($array_Champs['user'])){
                 $array_Champs['email_inexistant_bd'] = true;
+		        $array_Champs['erreur_presente'] = true;
 	        }
             
             // Ajout de cette sécurité
@@ -144,10 +147,13 @@ function validation_champs($array_Champs): array{
                 if ($current_timestamp < $array_Champs['temps_valide_link']){
                     // Alors, on refuse un nouveau lien
                     $array_Champs['reset_existant'] = true;
+	                $array_Champs['erreur_presente'] = true;
                 }
                 // Sinon, le lien n'est plus valide, donc on va en donner un nouveau
             }
             // On va en donner un autre, de tout façon
+        } else {
+	        $array_Champs['erreur_presente'] = true;
         }
     }
     
@@ -534,13 +540,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <li class='info'><?php echo $array_Champs["liste_mots"]['li1']; ?></li>
             </ul>
             <p class='titre un'><?php echo $array_Champs["liste_mots"]['li2']; ?></p>
-
             <fieldset>
                 <legend class="legendCenter"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
                 <form method="post" action="./createLinkSendMail.php">
                     <div class="connexion">
-                        "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false,         "email_inexistant_bd" => false, "erreur_system_bd" => false,
-                        <div class="information <?php if ($array_Champs['champ_vide'] || $array_Champs['champ_trop_long'] || $array_Champs['champ_invalid'] || $array_Champs['emailExistePas']) { echo 'erreur'; } ?>">
+                        <div class="information <?php if ($array_Champs['erreur_presente']) { echo 'erreur'; } ?>">
                             <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
                             <div>
                                 <input placeholder="exemple@email.com" autofocus id="email" type="email" name="email" maxlength="50" value="<?php echo $array_Champs['email']; ?>" />

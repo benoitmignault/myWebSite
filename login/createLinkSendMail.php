@@ -263,28 +263,42 @@ function envoi_courriel_test_gmail($array_Champs) {
 
     return $champs;
 }
+	
+	
+/**
+ * @param array $array_Champs
+ * @param object $connMYSQL
+ * @return PHPMailer
+ */
+function gestion_lien_courriel(array $array_Champs, object $connMYSQL): PHPMailer{
 
-// Création fonction pour créer envoyer un courriel à GMAIL
-function gestion_lien_courriel($champs, $connMYSQL){
-
-    //  Préparation du lien pour le courriel, avec true pour gérer les exceptions   
+    // Création de l'instance
     $mail = creation_instance_courriel();
-
-
-
+	
+	// Récupération des informations de la création du lien et password temporaire
+	$array_Champs = creation_lien_password_temporaire($connMYSQL, $array_Champs);
+    
+    exit;
     
 
     return $mail;
 }
 
-//  Création de l'instant et des paramètres de connexions à GMAILs   
-function creation_instance_courriel(){
+
+/**
+ * Fonction pour créer l'instant de connexion au serveur de courriel GMAIL.
+ * On va utiliser une adresse courriel spéciale prévue à cet effet
+ *
+ *
+ * @return PHPMailer
+ */
+function creation_instance_courriel(): PHPMailer {
 
     //  Préparation du lien pour le courriel, avec true pour gérer les exceptions   
     $mail = new PHPMailer(true);
 
     // Paramètres du serveur SMTP
-    $mail->SMTPDebug = 0;
+    $mail->SMTPDebug = 2; // 2 Pour voir le mode débug des messages erreurs
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
     $mail->SMTPAuth   = true;

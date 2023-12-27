@@ -23,17 +23,18 @@
 function initialisation(): array {
     
     return array("longueur_email" => 0, "situation" => 0, "type_langue" => "", "user" => "", "email" => "",
-                 "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false, "temps_Valide_link" => 0,
+                 "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false, "temps_valide_link" => 0,
                  "email_inexistant_bd" => false, "erreur_system_bd" => false, "erreur_presente" => false,
                  "password_Temp" => "", "lien_Reset_PWD" => "", "envoi_courriel_succes" => false,
                  "reset_existant" => false, "liste_mots" => array());
 }
 
 /**
- * Fonction pour setter les premières informations
+ * Fonction pour setter les premières informations du GET ou POST
+ * Aussi, on va récupérer via le POST, les informations relier au email du user
  *
  * @param array $array_Champs
- * @param $connMYSQL
+ * @param object $connMYSQL
  * @return array
  */
 function remplisage_champs(array $array_Champs, $connMYSQL): array{
@@ -64,7 +65,7 @@ function remplisage_champs(array $array_Champs, $connMYSQL): array{
 					
 					// Allons chercher le user et la valeur du lien s'il existe
 					// 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
-                    $select = "SELECT user, temps_Valide_link ";
+                    $select = "SELECT user, temps_valide_link ";
                     $from = "FROM login ";
                     $where = "WHERE email = ?";
      
@@ -87,7 +88,7 @@ function remplisage_champs(array $array_Champs, $connMYSQL): array{
 					if ($result->num_rows === 1){
 						$row = $result->fetch_array(MYSQLI_ASSOC);
 						$array_Champs["user"] = $row['user'];
-						$array_Champs["temps_Valide_link"] = $row['temps_Valide_link'];
+						$array_Champs["temps_valide_link"] = intval($row['temps_valide_link']);
 					}
                     /* close statement and connection */
                     $stmt->close();

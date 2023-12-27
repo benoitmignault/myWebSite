@@ -567,8 +567,7 @@ function redirection(string $type_langue) {
 	
 	        $array_Champs = validation_champs($array_Champs);
             if (!$array_Champs['erreur_presente']){
-                // $array_Champs = gestion_lien_courriel($array_Champs, $connMYSQL);
-                // $champs = creationLink($champs, $connMYSQL);
+                $array_Champs = gestion_lien_courriel($array_Champs, $connMYSQL);
             }
         
             $array_Champs["situation"] = situation($array_Champs);

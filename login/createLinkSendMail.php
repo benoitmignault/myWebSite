@@ -73,7 +73,7 @@ function traduction_liste_mots(string $type_langue, int $situation): array {
     
     // Initialiser le array de mots traduit
 	$liste_mots = array("lang" => "", 'message' => "", 'title' => "", 'p1' => "", 'li3' => "", 'li1' => "",
-	                    'li2' => "", 'legend' => "", 'email' => "", 'btn_send_Link' => "", 'btn_return' => "");
+	                    'li2' => "", 'legend' => "", 'email' => "", 'btn_envoi_lien' => "", 'btn_return' => "");
     
     if ($type_langue === 'francais') {
 	    $liste_mots["lang"] = "fr";
@@ -84,7 +84,7 @@ function traduction_liste_mots(string $type_langue, int $situation): array {
         $liste_mots["li2"] = "Ensuite, un courriel vous sera envoyé avec toute les informations relier à votre changement de mot de passe.";
         $liste_mots["legend"] = "Réinitialisation !";
         $liste_mots["email"] = "Courriel :";
-        $liste_mots["btn_send_Link"] = "Réinitialiser";
+        $liste_mots["btn_envoi_lien"] = "Réinitialiser";
         $liste_mots["btn_return"] = "Retour à l'accueil";
         
     } elseif ($type_langue === 'english') {
@@ -96,7 +96,7 @@ function traduction_liste_mots(string $type_langue, int $situation): array {
         $liste_mots["li2"] = "Then, a mail will be sent to you with all the information related to your change of password.";
         $liste_mots["legend"] = "Reseting !";
         $liste_mots["email"] = "Email :";
-        $liste_mots["btn_send_Link"] = "Reset";
+        $liste_mots["btn_envoi_lien"] = "Reset";
         $liste_mots["btn_return"] = "Return to home page";
     }
     
@@ -253,7 +253,7 @@ function situation(array $array_Champs): int{
 }
 
 // Création fonction pour créer envoyer un courriel à GMAIL
-function envoi_courriel_test_gmail($champs) {
+function envoi_courriel_test_gmail($array_Champs) {
 
     // Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
@@ -325,7 +325,7 @@ function creation_instance_courriel(){
 }
 
 // Validation que le email 
-function verification_existance_user_courriel($champs, $connMYSQL){
+function verification_existance_user_courriel($array_Champs, $connMYSQL){
 
     /* Crée une requête préparée */
     $stmt = $connMYSQL->prepare("select user, password from login where email =? and user =? ");
@@ -341,7 +341,7 @@ function verification_existance_user_courriel($champs, $connMYSQL){
 
 
 
-function creationLink($champs, $connMYSQL){  
+function creationLink($array_Champs, $connMYSQL){
     /* Crée une requête préparée */
     $stmt = $connMYSQL->prepare("select user, password from login where email =? and user =? ");
     /* Lecture des marqueurs */
@@ -437,7 +437,7 @@ function encryptementPassword($password_Temp) {
     return $password_Encrypted;
 }
 
-function preparationEmail($champs){
+function preparationEmail($array_Champs){
     $elementCourriel = ['message' => "", "to" => "", "subject" => "", "headers" => ""];
     if ($champs["type_langue"] == "francais"){
         $elementCourriel["message"] = corpMessageFR($champs);        
@@ -457,7 +457,7 @@ function preparationEmail($champs){
     return $elementCourriel;
 }
 
-function corpMessageFR($champs){    
+function corpMessageFR($array_Champs){
     $messageFR = '<html><body>';
     $messageFR .= "<p>Bonjour !</p>";
     $messageFR .= "<p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe pour faire de nouvelles consultations des statistiques de poker.</p>";
@@ -473,7 +473,7 @@ function corpMessageFR($champs){
     return $messageFR;
 }
 
-function corpMessageEN($champs){
+function corpMessageEN($array_Champs){
     $messageEN = '<html><body>';
     $messageEN .= "<p>Hello !</p>";
     $messageEN .= "<p>This is a courtesy email to allow you to change your password to make further viewing of poker statistics.</p>";
@@ -528,7 +528,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     
     // Si la langue n'est pas setter, on va rediriger vers la page Err 404
     if ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
-        redirection($array_Champs);
+        redirection(null); // On n'a pas besoin de la variable vue qu'elle ne ressemble à rien de connue
     } else {
         // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
 	    $array_Champs["liste_mots"] = traduction_liste_mots($array_Champs["type_langue"], $array_Champs["situation"]);
@@ -537,12 +537,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     
-    if (isset($_POST['return']))  {
-        redirection($array_Champs);
-    } else {        
-        $connMYSQL = connexionBD();
-        // Si le bouton se connecter est pesé...        
-        if (isset($_POST['send_Link'])) {
+    if (isset($_POST['btn_return']))  {
+        redirection($array_Champs["type_langue"]);
+    } else {
+	    $connMYSQL = connexion();
+        // Si le bouton se connecter est pesé...
+        if (isset($_POST['envoi_lien'])) {
             
             $champs = verifChamp($array_Champs, $connMYSQL);
             if (!$array_Champs["champVide"] && !$array_Champs["champTropLong"] && !$array_Champs["champInvalid"] &&
@@ -554,7 +554,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	    $array_Champs["situation"] = situation($array_Champs);
 	    $array_Champs["liste_mots"] = traduction_liste_mots($array_Champs["type_langue"], $array_Champs["situation"]);
-        
+     
 	    $connMYSQL->close();
     }
     
@@ -607,7 +607,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                         </div>
                     </div>
                     <div class="troisBTN">
-                        <input class="bouton" type='submit' name='send_Link' value="<?php echo $arrayMots['btn_send_Link']; ?>">
+                        <input class="bouton" type='submit' name='envoi_lien' value="<?php echo $arrayMots['btn_envoi_lien']; ?>">
                         <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                     </div>
                 </form>
@@ -620,7 +620,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             </div>
             <div class="btnRetour">
                 <form method="post" action="./createLinkSendMail.php">
-                    <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
+                    <input class="bouton" type="submit" name="btn_return" value="<?php echo $arrayMots['btn_return']; ?>">
                     <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                 </form>
             </div>

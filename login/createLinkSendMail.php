@@ -296,20 +296,6 @@ function creation_instance_courriel(){
     return $mail;
 }
 
-// Validation que le email 
-function verification_existance_user_courriel($array_Champs, $connMYSQL){
-
-    /* Crée une requête préparée */
-    $stmt = $connMYSQL->prepare("select user, password from login where email =? and user =? ");
-    /* Lecture des marqueurs */
-    $stmt->bind_param("ss", $champs["email"], $champs["user"]);
-    /* Exécution de la requête */
-    $stmt->execute();
-    /* Association des variables de résultat */
-    $result = $stmt->get_result();
-
-    return $result->num_rows;
-}
 
 
 

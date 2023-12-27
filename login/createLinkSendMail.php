@@ -387,10 +387,10 @@ function creationLink($array_Champs, $connMYSQL){
         $password_Encrypted = encryptementPassword($password_Temp);
 
         /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("update login set reset_link = ? , passwordTemp = ? where email = ? and user = ?");
+        $stmt = $connMYSQL->prepare("update login set reset_link = ? , passwordTemp = ? where user = ?");
         
         /* Lecture des marqueurs */
-        $stmt->bind_param("ssss", $lien_Reset_PWD, $password_Encrypted, $champs["email"], $champs["user"]);
+        $stmt->bind_param("sss", $lien_Reset_PWD, $password_Encrypted, $champs["user"]);
         
         /* Exécution de la requête */
         $stmt->execute();

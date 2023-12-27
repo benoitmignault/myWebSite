@@ -1,24 +1,32 @@
 <?php
 
 // Import PHPMailer classes into the global namespace
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
 
 // Load Composer's autoloader
-require '../../vendor/autoload.php';
+    // require '../../vendor/autoload.php';
+
+// Lorsque je suis en mode DEV :
+	require '../PHPMailer/src/Exception.php';
+	require '../PHPMailer/src/PHPMailer.php';
+	require '../PHPMailer/src/SMTP.php';
 	
 /**
  * Fonction qui va contenir tous ce dont on aura besoin.
  * Une partie des variables de type string ou integer et une autre partie en boolean
+ * On va ajouter un array pour les mots traduits ou non
  *
  * @return array
  */
 function initialisation(): array {
     
-    return array("user" => "", "email" => "", "champVide" => false, "champInvalid" => false, "champTropLong" => false,
-                 "emailExistePas" => false, "situation" => 0, "typeLangue" => "", "erreurManipulationBD" => false,
-                 "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false, "reset_existant" => false);
+    return array("longueur_email" => 0, "situation" => 0, "type_langue" => "", "user" => "", "email" => "",
+                 "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false,
+                 "email_inexistant_bd" => false, "erreur_systeme_bd" => false,
+                 "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false,
+                 "reset_existant" => false, "array_mots" => array());
 }
 
 /**

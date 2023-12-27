@@ -109,7 +109,7 @@ function verifChamp($champs, $connMYSQL) {
         } else {
             // 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
             /* Crée une requête préparée */
-            $stmt = $connMYSQL->prepare("select user, email, temps_Valide_link  from login where email = ? ");
+            $stmt = $connMYSQL->prepare("select user, temps_Valide_link  from login where email = ? ");
             
             /* Lecture des marqueurs */
             $stmt->bind_param("s", $_POST['email']);

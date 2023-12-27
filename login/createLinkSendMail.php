@@ -1,24 +1,36 @@
 <?php
 
 // Import PHPMailer classes into the global namespace
-// These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-//require '../PHPMailer/src/Exception.php';
-//require '../PHPMailer/src/PHPMailer.php';
-//require '../PHPMailer/src/SMTP.php';
-
 // Load Composer's autoloader
 require '../../vendor/autoload.php';
+	
+/**
+ * Fonction qui va contenir tous ce dont on aura besoin.
+ * Une partie des variables de type string ou integer et une autre partie en boolean
+ *
+ * @return array
+ */
+function initialisation(): array {
+    
+    return array("user" => "", "email" => "", "champVide" => false, "champInvalid" => false, "champTropLong" => false,
+                 "emailExistePas" => false, "situation" => 0, "typeLangue" => "", "erreurManipulationBD" => false,
+                 "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false, "reset_existant" => false);
+}
 
-
-function initialChamp() {
-    $champInitial = ["user" => "", "email" => "", "champVide" => false, "champInvalid" => false, "champTropLong" => false,
-                     "emailExistePas" => false, "situation" => 0, "typeLangue" => "", "erreurManipulationBD" => false,
-                     "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false, "reset_existant" => false];
-    return $champInitial;
+/**
+ * Fonction pour setter les premières informations
+ *
+ * @param array $array_Champs
+ * @return array
+ */
+function remplisage_champs($array_Champs): array{
+	
+ 
+	return $array_Champs;
 }
 
 function traduction($champs) {    
@@ -402,38 +414,37 @@ function connexionBD(){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-    $champs = initialChamp();
-    $champs["typeLangue"] = $_GET['langue'];
-    if ($champs["typeLangue"] != "francais" && $champs["typeLangue"] != "english") {
-        redirection($champs);        
+	$array_Champs = initialisation();
+	remplisage_champs($array_Champs)
+    $array_Champs["typeLangue"] = $_GET['langue'];
+    if ($array_Champs["typeLangue"] != "francais" && $array_Champs["typeLangue"] != "english") {
+        redirection($array_Champs);
     } else {
-        $arrayMots = traduction($champs);
+        $arrayMots = traduction($array_Champs);
     }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $champs = initialChamp();
-    $champs["typeLangue"] = $_POST['langue'];
+	$array_Champs = initialisation();
+	$array_Champs["typeLangue"] = $_POST['langue'];
     if (isset($_POST['return']))  {
-        redirection($champs);
+        redirection($array_Champs);
     } else {        
         $connMYSQL = connexionBD();
         // Si le bouton se connecter est pesé...        
         if (isset($_POST['send_Link'])) {
-
-            envoi_courriel_test_gmail($champs);
-
-            /*
-            $champs = verifChamp($champs, $connMYSQL);             
-            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] &&
-                !$champs["emailExistePas"] && !$champs["reset_existant"]){
-                $champs = creationLink($champs, $connMYSQL);
+            
+            $champs = verifChamp($array_Champs, $connMYSQL);
+            if (!$array_Champs["champVide"] && !$array_Champs["champTropLong"] && !$array_Champs["champInvalid"] &&
+                !$array_Champs["emailExistePas"] && !$array_Champs["reset_existant"]){
+	            $array_Champs = gestion_lien_courriel($array_Champs, $connMYSQL);
+                //$champs = creationLink($champs, $connMYSQL);
             }
-            */
-        }     
-
-        $champs["situation"] = situation($champs);          
-        $arrayMots = traduction($champs);
+            
+        }
+	
+	    $array_Champs["situation"] = situation($array_Champs);
+        $arrayMots = traduction($array_Champs);
     }
     $connMYSQL->close();
 }
@@ -476,30 +487,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <legend class="legendCenter"><?php echo $arrayMots['legend']; ?></legend>
                 <form method="post" action="./createLinkSendMail.php">
                     <div class="connexion">
-                        <div class="information <?php if ($champs['champVide'] || $champs['champTropLong'] || $champs['champInvalid'] || $champs['emailExistePas']) { echo 'erreur'; } ?>">
+                        <div class="information <?php if ($array_Champs['champVide'] || $array_Champs['champTropLong'] || $array_Champs['champInvalid'] || $array_Champs['emailExistePas']) { echo 'erreur'; } ?>">
                             <label for="email"><?php echo $arrayMots['email']; ?></label>
                             <div>
-                                <input placeholder="exemple@email.com" autofocus id="email" type="email" name="email" maxlength="50" value="<?php echo $champs['email']; ?>" />
+                                <input placeholder="exemple@email.com" autofocus id="email" type="email" name="email" maxlength="50" value="<?php echo $array_Champs['email']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
                     </div>
                     <div class="troisBTN">
                         <input class="bouton" type='submit' name='send_Link' value="<?php echo $arrayMots['btn_send_Link']; ?>">
-                        <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
+                        <input type='hidden' name='langue' value="<?php echo $array_Champs['typeLangue']; ?>">
                     </div>
                 </form>
             </fieldset>
         </div>
         <div class="footer">
             <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
-            <div class='avert <?php if ($champs["situation"] != 6) { echo 'erreur'; } ?>'>
+            <div class='avert <?php if ($array_Champs["situation"] != 6) { echo 'erreur'; } ?>'>
                 <p> <?php echo $arrayMots['message']; ?> </p>
             </div>
             <div class="btnRetour">
                 <form method="post" action="./createLinkSendMail.php">
                     <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
-                    <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
+                    <input type='hidden' name='langue' value="<?php echo $array_Champs['typeLangue']; ?>">
                 </form>
             </div>
         </div>

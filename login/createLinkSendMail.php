@@ -25,7 +25,7 @@ function initialisation(): array {
     return array("longueur_email" => 0, "situation" => 0, "type_langue" => "", "user" => "", "email" => "",
                  "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false,
                  "email_inexistant_bd" => false, "erreur_system_bd" => false,
-                 "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false,
+                 "password_Temp" => "", "lien_Reset_PWD" => "", "envoi_courriel_succes" => false,
                  "reset_existant" => false, "liste_mots" => array());
 }
 
@@ -144,6 +144,7 @@ function traduction_situation(string $type_langue, int $situation): string{
     return $message;
 }
 
+
 function verifChamp($array_Champs, $connMYSQL) {
     
     // Section de vérification des champs vide  
@@ -212,33 +213,39 @@ function verifChamp($array_Champs, $connMYSQL) {
     return $champs;
 }
 
-// apres avoir envoyer le courriel, nous allons déterminer le message qui sera affiché à l'usagé
-function situation($champs){   
-    $typeSituation = 0;    
-    if ($champs['champVide']){
+
+/**
+ * Fonction pour déterminer le type de situation d'erreur ou pas qui peut survenir
+ *
+ * @param array $array_Champs
+ * @return int
+ */
+function situation(array $array_Champs): int{
+    
+    if ($array_Champs['champ_vide']){
+	    $typeSituation = 1;
         
-        $typeSituation = 1; 
-    } elseif ($champs['champTropLong']){
+    } elseif ($array_Champs['champ_trop_long']){
+        $typeSituation = 2;
         
-        $typeSituation = 2; 
-    } elseif ($champs['champInvalid']){
+    } elseif ($array_Champs['champ_invalid']){
+        $typeSituation = 3;
         
-        $typeSituation = 3; 
-    } elseif ($champs['emailExistePas']){
-        
+    } elseif ($array_Champs['email_inexistant_bd']){
         $typeSituation = 4;
         // Ajout de cette nouvelle situation - 2023-12-06
-    } elseif ($champs['reset_existant']){
-     
+    } elseif ($array_Champs['reset_existant']){
 	    $typeSituation = 8;
-    } elseif ($champs['erreur_systeme_bd']){
-        
-        $typeSituation = 5; 
-    } elseif ($champs['envoiCourrielSucces']){
-        
-        $typeSituation = 6; 
-    } else {
      
+    } elseif ($array_Champs['erreur_system_bd']){
+        $typeSituation = 5;
+        
+    } elseif ($array_Champs['envoi_courriel_succes']){
+	    // Normalement, ici, ça veut que dire que nous avons un succès
+        $typeSituation = 6;
+        
+    } else {
+        // Rendu ici, on va caller une erreur système
 	    $typeSituation = 7;
     } 
 

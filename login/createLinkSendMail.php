@@ -33,9 +33,10 @@ function initialisation(): array {
  * Fonction pour setter les premières informations
  *
  * @param array $array_Champs
+ * @param $connMYSQL
  * @return array
  */
-function remplisage_champs(array $array_Champs): array{
+function remplisage_champs(array $array_Champs, $connMYSQL): array{
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET'){
         
@@ -50,109 +51,62 @@ function remplisage_champs(array $array_Champs): array{
 			$array_Champs["type_langue"] = $_POST['langue'];
 		}
 		
-		if (isset($_POST['email'])){
-            
-            if (!empty($_POST['email'])){
-	            $array_Champs['email'] = $_POST['email'];
-	            $array_Champs['longueur_email'] = strlen($array_Champs['email']);;
-            }
+        // Nous avons caller le bouton pour créer un lien de reset password
+		if (isset($_POST['btn_envoi_lien'])) {
+			
+            // Si le courriel est présent, on va associer la variable
+			if (isset($_POST['email'])) {
+				
+                // Si le champ du Email n'est pas vide, on l'associe et on va chercher en BD son user et le temps associer au lien, s'il existe
+				if (!empty($_POST['email'])) {
+					$array_Champs['email'] = $_POST['email'];
+					$array_Champs['longueur_email'] = strlen($array_Champs['email']);
+					
+					// Allons chercher le user et la valeur du lien s'il existe
+					// 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
+                    $select = "SELECT user, temps_Valide_link ";
+                    $from = "FROM login ";
+                    $where = "WHERE email = ?";
+     
+					// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+					$query = $select . $from . $where;
+     
+					// Préparation de la requête
+					$stmt = $connMYSQL->prepare($query);
+     
+					/* Lecture des marqueurs */
+					$stmt->bind_param("s", $array_Champs['email']);
+					
+					/* Exécution de la requête */
+					$stmt->execute();
+					
+					/* Association des variables de résultat */
+					$result = $stmt->get_result();
+     
+                    // Il ne peut qu'avoir un seul résultat possible vue l'unicité de la Table SQL
+					if ($result->num_rows === 1){
+						$row = $result->fetch_array(MYSQLI_ASSOC);
+						$array_Champs["user"] = $row['user'];
+						$array_Champs["temps_Valide_link"] = $row['temps_Valide_link'];
+					}
+                    /* close statement and connection */
+                    $stmt->close();
+                }
+			}
 		}
     }
  
 	return $array_Champs;
 }
 
-/**
- * Fonction qui sera utiliser pour traduire le texte dans la page et ainsi que les messages d'erreurs
- *
- * @param string $type_langue
- * @param int $situation
- * @return string[]
- */
-function traduction_liste_mots(string $type_langue, int $situation): array {
-    
-    // Initialiser le array de mots traduit
-	$liste_mots = array("lang" => "", 'message' => "", 'title' => "", 'p1' => "", 'li3' => "", 'li1' => "",
-	                    'li2' => "", 'legend' => "", 'email' => "", 'btn_envoi_lien' => "", 'btn_return' => "");
-    
-    if ($type_langue === 'francais') {
-	    $liste_mots["lang"] = "fr";
-        $liste_mots["title"] = "Demande de Réinitialisation";
-        $liste_mots["p1"] = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
-        $liste_mots["li3"] = "Cette page permet de réinitialiser votre compte associés aux statistiques de poker.";
-        $liste_mots["li1"] = "Veuillez saisir votre courriel.";
-        $liste_mots["li2"] = "Ensuite, un courriel vous sera envoyé avec toute les informations relier à votre changement de mot de passe.";
-        $liste_mots["legend"] = "Réinitialisation !";
-        $liste_mots["email"] = "Courriel :";
-        $liste_mots["btn_envoi_lien"] = "Réinitialiser";
-        $liste_mots["btn_return"] = "Retour à l'accueil";
-        
-    } elseif ($type_langue === 'english') {
-	    $liste_mots["title"] = "Reset Request";
-        $liste_mots["lang"] = "en";
-        $liste_mots["p1"] = "You forgot your password, no problem, we take care of it !";
-        $liste_mots["li3"] = "This page will reset your account associated with poker statistics.";
-        $liste_mots["li1"] = "Please enter your email.";
-        $liste_mots["li2"] = "Then, a mail will be sent to you with all the information related to your change of password.";
-        $liste_mots["legend"] = "Reseting !";
-        $liste_mots["email"] = "Email :";
-        $liste_mots["btn_envoi_lien"] = "Reset";
-        $liste_mots["btn_return"] = "Return to home page";
-    }
-    
-    // Le message qui sera dans la langue voulu
-	$liste_mots["message"] = traduction_situation($type_langue, $situation);
-	
-    return $liste_mots;
-}
-	
-	/**
-	 * @param string $type_langue
-	 * @param int $situation
-	 * @return string
-	 */
-function traduction_situation(string $type_langue, int $situation): string{
-    
-    $message = "";
-	if ($type_langue === 'francais') {
-        
-        switch ($situation) {
-            case 1 : $message = "Le champ «Courriel» est vide !"; break; 
-            case 2 : $message = "Le courriel saisie est trop long pour l'espace disponible !"; break; 
-            case 3 : $message = "Le courriel saisie ne respecte pas la forme « exemple@email.com »"; break; 
-            case 4 : $message = "Le courriel saisie n'existe pas dans nos informations !"; break; 
-            case 5 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break; 
-            case 6 : $message = "Dans les prochains instant, vous allez recevoir le courriel de réinitialisation avec toutes les informations nécessaire !"; break; 
-            case 7 : $message = "Erreur Système au moment d'envoyer le courriel !"; break;
-	        case 8 : $message = "Vous avez déjà reçu un courriel pour changer votre mot de passe, il n'est pas nécessaire de faire une nouvelle demande !"; break;
-        }
-        
-    } elseif ($type_langue === 'english') {
-        
-        switch ($situation) {
-            case 1 : $message = "The «Email» field is empty !"; break; 
-            case 2 : $message = "The seized mail is too long for the available space !"; break; 
-            case 3 : $message = "The seized mail does not follow the form « example@email.com » !"; break; 
-            case 4 : $message = "The entered email does not exist in our information !"; break; 
-            case 5 : $message = "A communication / manipulation error occurred when sending you the email !"; break; 
-            case 6 : $message = "In the next few moments, you will receive the reset email with all the necessary information !"; break; 
-            case 7 : $message = "System error when sending email !"; break;
-	        case 8 : $message = "You have already received an email to change your password, there is no need to make a new request !"; break;
-        }
-    }
-    
-    return $message;
-}
 
-
-function verifChamp($array_Champs, $connMYSQL) {
+function validation_champs($array_Champs, $connMYSQL) {
     
     // Section de vérification des champs vide  
     if (empty($array_Champs['email'])){
 	    $array_Champs['champVide'] = true;
      
-    } else {
-	    $array_Champs['email'] = $_POST['email'];
+    } else
         if ($array_Champs['longueur_email'] > 50){
 	
 	        $array_Champs['champ_trop_long'] = true;
@@ -162,40 +116,18 @@ function verifChamp($array_Champs, $connMYSQL) {
         if (!preg_match($patternEmail, $_POST['email'])) {
 	
 	        $array_Champs['champInvalid'] = true;
-        } elseif (!(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))){
+        } elseif (!(filter_var($array_Champs['email'], FILTER_VALIDATE_EMAIL))){
             // Ajout de cette sécurité / 5 Février 2020
             // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
 	        $array_Champs['champInvalid'] = true;
         } else {
-            // 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
-            /* Crée une requête préparée */
-            $stmt = $connMYSQL->prepare("select user, temps_Valide_link  from login where email = ? ");
             
-            /* Lecture des marqueurs */
-            $stmt->bind_param("s", $_POST['email']);
-            
-            /* Exécution de la requête */
-            $stmt->execute();
-            
-            /* Association des variables de résultat */
-            $result = $stmt->get_result();
-            
-            $row_cnt = $result->num_rows;           
-            if ($row_cnt == 0){
-	
-	            $array_Champs['emailExistePas'] = true;
-            } else {
-                
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-	            $array_Champs["user"] = $row['user'];
-	            $array_Champs["email"] = $row['email'];
                 
                 // Ajout de cette sécurité
                 if (!empty($row['temps_Valide_link'])){
                     
                     // On va aussi valider que si le lien est expiré, on va permettre l'envoi d'un novueau lien sinon, on refuse
-	                $current_time = date("Y-m-d H:i:s");
-	                $current_timestamp = strtotime($current_time);
+	                $current_timestamp = strtotime(date("Y-m-d H:i:s"));
                  
 	                // Le temps actuel doit être plus petit que le temps prescrit
 	                if ($current_timestamp < ((int)$row['temps_Valide_link'])){
@@ -205,12 +137,11 @@ function verifChamp($array_Champs, $connMYSQL) {
                     // Sinon, le lien n'est plus valide, donc on va en donner un nouveau
                 }
             }
-            /* close statement and connection */
-            $stmt->close();
-        }
+            
+        
     }
     
-    return $champs;
+    return $array_Champs;
 }
 
 

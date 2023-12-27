@@ -100,46 +100,55 @@ function remplisage_champs(array $array_Champs, $connMYSQL): array{
 	return $array_Champs;
 }
 
-
-function validation_champs($array_Champs, $connMYSQL) {
+/**
+ * Fonction qui servira à mettre à «True» les variables de contrôles des informations que nous avons associé durant la fonction @see remplisage_champs
+ * @param $array_Champs
+ * @return array
+ */
+function validation_champs($array_Champs): array{
     
-    // Section de vérification des champs vide  
+    // Section de vérification du seul champs dans la page
     if (empty($array_Champs['email'])){
-	    $array_Champs['champVide'] = true;
-     
-    } else
+	    $array_Champs['champ_vide'] = true;
+    } else {
         if ($array_Champs['longueur_email'] > 50){
-	
 	        $array_Champs['champ_trop_long'] = true;
         }
 
-        $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-        if (!preg_match($patternEmail, $_POST['email'])) {
-	
-	        $array_Champs['champInvalid'] = true;
-        } elseif (!(filter_var($array_Champs['email'], FILTER_VALIDATE_EMAIL))){
-            // Ajout de cette sécurité / 5 Février 2020
-            // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
-	        $array_Champs['champInvalid'] = true;
-        } else {
-            
-                
-                // Ajout de cette sécurité
-                if (!empty($row['temps_Valide_link'])){
-                    
-                    // On va aussi valider que si le lien est expiré, on va permettre l'envoi d'un novueau lien sinon, on refuse
-	                $current_timestamp = strtotime(date("Y-m-d H:i:s"));
-                 
-	                // Le temps actuel doit être plus petit que le temps prescrit
-	                if ($current_timestamp < ((int)$row['temps_Valide_link'])){
-                        // Alors, on refuse un nouveau lien
-		                $array_Champs['reset_existant'] = true;
-	                }
-                    // Sinon, le lien n'est plus valide, donc on va en donner un nouveau
-                }
-            }
-            
+        $pattern_email = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";
+        if (!preg_match($pattern_email, $array_Champs['email'])) {
+	        $array_Champs['champ_invalid'] = true;
+        }
         
+	    // Ajout de cette sécurité / 5 Février 2020
+	    // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
+        if (!(filter_var($array_Champs['email'], FILTER_VALIDATE_EMAIL))){
+	        $array_Champs['champ_invalid'] = true;
+        }
+        
+        // Si la variable champ_invalid est à «true», ça ne veut même pas la peine de poursuivre...
+        if (!$array_Champs['champ_invalid']){
+	
+            // Si le champ du user est vide, alors l'association du email n'a rien donné
+	        if (empty($array_Champs['user'])){
+                $array_Champs['email_inexistant_bd'] = true;
+	        }
+            
+            // Ajout de cette sécurité
+            if (!empty($array_Champs['temps_valide_link']) && $array_Champs['temps_valide_link'] > 0){
+                
+                // On va aussi valider que si le lien est expiré, on va permettre l'envoi d'un nouveau lien sinon, on refuse
+                $current_timestamp = strtotime(date("Y-m-d H:i:s"));
+             
+                // Le temps actuel doit être plus petit que le temps prescrit
+                if ($current_timestamp < $array_Champs['temps_valide_link']){
+                    // Alors, on refuse un nouveau lien
+                    $array_Champs['reset_existant'] = true;
+                }
+                // Sinon, le lien n'est plus valide, donc on va en donner un nouveau
+            }
+            // On va en donner un autre, de tout façon
+        }
     }
     
     return $array_Champs;

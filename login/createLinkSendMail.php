@@ -442,22 +442,33 @@ function creationLink($array_Champs, $connMYSQL){
     return $champs;
 }
 
-// Une fonction que j'ai pris sur StackOverFlow
-// https://stackoverflow.com/questions/4356289/php-random-string-generator
-function generateRandomString($length){
+/**
+ * Fonction pour générer une chaine de caractère qui sera utiliser pour le password temporaire
+ *
+ * @param int $length
+ * @return string
+ */
+function generate_random_string(int $length): string {
+    
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
+    $characters_length = strlen($characters);
+    $random_string = '';
     for ($i = 0; $i < $length; $i++) {
-        //$randomString .= $characters[rand(0, $charactersLength - 1)];
-        $randomString .= $characters[random_int(0, $charactersLength - 1)];
+	    $random_string .= $characters[rand(0, $characters_length - 1)];
     }
-    return $randomString;
+    
+    return $random_string;
 }
 
-function encryptementPassword($password_Temp) {
-    $password_Encrypted = password_hash($password_Temp, PASSWORD_BCRYPT);
-    return $password_Encrypted;
+/**
+ * Fonction simplement pour encrypter une information
+ * 
+ * @param string $password_Temp
+ * @return string
+ */
+function encryptement_password(string $password_Temp): string {
+    
+    return password_hash($password_Temp, PASSWORD_BCRYPT);
 }
 
 function preparationEmail($array_Champs){

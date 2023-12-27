@@ -66,41 +66,63 @@ function remplisage_champs(array $array_Champs, $connMYSQL): array{
 					$array_Champs['email'] = $_POST['email'];
 					$array_Champs['longueur_email'] = strlen($array_Champs['email']);
 					
-					// Allons chercher le user et la valeur du lien s'il existe
-					// 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
-                    $select = "SELECT user, temps_valide_link ";
-                    $from = "FROM login ";
-                    $where = "WHERE email = ?";
-     
-					// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
-					$query = $select . $from . $where;
-     
-					// Préparation de la requête
-					$stmt = $connMYSQL->prepare($query);
-     
-					/* Lecture des marqueurs */
-					$stmt->bind_param("s", $array_Champs['email']);
-					
-					/* Exécution de la requête */
-					$stmt->execute();
-					
-					/* Association des variables de résultat */
-					$result = $stmt->get_result();
-     
-                    // Il ne peut qu'avoir un seul résultat possible vue l'unicité de la Table SQL
-					if ($result->num_rows === 1){
-						$row = $result->fetch_array(MYSQLI_ASSOC);
-						$array_Champs["user"] = $row['user'];
-						$array_Champs["temps_valide_link"] = intval($row['temps_valide_link']);
-					}
-                    /* close statement and connection */
-                    $stmt->close();
+					// Récupération des informations
+					$result_info = verification_existance_courriel($array_Champs['email'], $connMYSQL);
+                    
+                    // Attribution des informations
+                    if (count($result_info) > 0){
+	                    $array_Champs["user"] = $result_info['user'];
+	                    $array_Champs["temps_valide_link"] = intval($result_info['temps_valide_link']);
+                    }
                 }
 			}
 		}
     }
  
 	return $array_Champs;
+}
+
+/**
+ * Fonction pour aller chercher l'information concernant la demande de reset de password via l'email.
+ * Je dois associer le résultat à une variable avant de fermer la connexion ouvert pour cette requête
+ * On va retourner le résultat sous forme array rempli ou non
+ *
+ * @param string $email
+ * @param object $connMYSQL
+ * @return array
+ */
+function verification_existance_courriel(string $email, object $connMYSQL): array{
+	
+	// Allons chercher le user et la valeur du lien s'il existe
+	// 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
+	$select = "SELECT user, temps_valide_link ";
+	$from = "FROM login ";
+	$where = "WHERE email = ?";
+	
+	// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+	$query = $select . $from . $where;
+	
+	// Préparation de la requête
+	$stmt = $connMYSQL->prepare($query);
+	
+	/* Lecture des marqueurs */
+	$stmt->bind_param("s", $email);
+	
+	/* Exécution de la requête */
+	$stmt->execute();
+	$result = $stmt->get_result();
+	
+    $result_info = array();
+    
+	// Il ne peut qu'avoir un seul résultat possible vue l'unicité de la Table SQL
+	if ($result->num_rows === 1){
+		$result_info = $result->fetch_array(MYSQLI_ASSOC);
+	}
+ 
+	/* close statement and connection */
+	$stmt->close();
+    
+    return $result_info;
 }
 
 /**

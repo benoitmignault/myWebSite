@@ -501,7 +501,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <!-- Le fichier reset.png est la propriété du site https://pixabay.com/fr/bouton-r%C3%A9initialiser-inscrivez-vous-31199/-->
     <link rel="shortcut icon" href="reset.png">
     <link rel="stylesheet" type="text/css" href="login.css">
-    <title><?php echo $arrayMots['title']; ?></title>
+    <title><?php echo $array_Champs["liste_mots"]['title']; ?></title>
     <style>
         body {
             margin: 0;
@@ -518,19 +518,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 <body>
     <div class="content">
         <div class="center">
-            <p class='titre'><?php echo $arrayMots['p1']; ?></p>
+            <p class='titre'><?php echo $array_Champs["liste_mots"]['p1']; ?></p>
             <ul>
-                <li class='info'><?php echo $arrayMots['li3']; ?></li>
-                <li class='info'><?php echo $arrayMots['li1']; ?></li>
+                <li class='info'><?php echo $array_Champs["liste_mots"]['li3']; ?></li>
+                <li class='info'><?php echo $array_Champs["liste_mots"]['li1']; ?></li>
             </ul>
-            <p class='titre un'><?php echo $arrayMots['li2']; ?></p>
+            <p class='titre un'><?php echo $array_Champs["liste_mots"]['li2']; ?></p>
 
             <fieldset>
-                <legend class="legendCenter"><?php echo $arrayMots['legend']; ?></legend>
+                <legend class="legendCenter"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
                 <form method="post" action="./createLinkSendMail.php">
                     <div class="connexion">
-                        <div class="information <?php if ($array_Champs['champVide'] || $array_Champs['champTropLong'] || $array_Champs['champInvalid'] || $array_Champs['emailExistePas']) { echo 'erreur'; } ?>">
-                            <label for="email"><?php echo $arrayMots['email']; ?></label>
+                        "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false,         "email_inexistant_bd" => false, "erreur_system_bd" => false,
+                        <div class="information <?php if ($array_Champs['champ_vide'] || $array_Champs['champ_trop_long'] || $array_Champs['champ_invalid'] || $array_Champs['emailExistePas']) { echo 'erreur'; } ?>">
+                            <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
                             <div>
                                 <input placeholder="exemple@email.com" autofocus id="email" type="email" name="email" maxlength="50" value="<?php echo $array_Champs['email']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
@@ -538,7 +539,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                         </div>
                     </div>
                     <div class="troisBTN">
-                        <input class="bouton" type='submit' name='envoi_lien' value="<?php echo $arrayMots['btn_envoi_lien']; ?>">
+                        <input class="bouton" type='submit' name='btn_envoi_lien' value="<?php echo $array_Champs["liste_mots"]['btn_envoi_lien']; ?>">
                         <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                     </div>
                 </form>
@@ -547,11 +548,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         <div class="footer">
             <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
             <div class='avert <?php if ($array_Champs["situation"] != 6) { echo 'erreur'; } ?>'>
-                <p> <?php echo $arrayMots['message']; ?> </p>
+                <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
             </div>
             <div class="btnRetour">
                 <form method="post" action="./createLinkSendMail.php">
-                    <input class="bouton" type="submit" name="btn_return" value="<?php echo $arrayMots['btn_return']; ?>">
+                    <input class="bouton" type="submit" name="btn_return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
                     <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                 </form>
             </div>

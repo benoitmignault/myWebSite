@@ -40,7 +40,7 @@ function initialisation(): array {
  * @param object $connMYSQL
  * @return array
  */
-function remplisage_champs(array $array_Champs, $connMYSQL): array{
+function remplisage_champs(array $array_Champs, object $connMYSQL): array{
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET'){
         
@@ -328,7 +328,7 @@ function creation_lien_password_temporaire(object $connMYSQL, array $array_Champ
 	$array_Champs["lien_temps"] = encryptement_password($lien_temps);
 	
     // Création du password temporaire
-	$array_Champs["password_temp"] = generateRandomString(10);
+	$array_Champs["password_temp"] = generate_random_string(10);
 	$password_secure = encryptement_password($array_Champs["password_temp"]);
 	
 	// On ajoute 12 heures au moment où l'utilisateur créer sa demande
@@ -361,9 +361,7 @@ function creation_lien_password_temporaire(object $connMYSQL, array $array_Champ
     return $array_Champs;
 }
 
-
-
-
+// à deleter
 function creationLink($array_Champs, $connMYSQL){
     /* Crée une requête préparée */
     $stmt = $connMYSQL->prepare("select user, password from login where email =? and user =? ");
@@ -408,7 +406,7 @@ function creationLink($array_Champs, $connMYSQL){
             // On converti tout ça dans un gros entier
             $current_timestamp = strtotime($current_time);
             // On ajoute 12 heures pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
-            $temps_Autorise = strtotime("+12 hour", strtotime($current_time));
+            $temps_Autorise = strtotime("+12 hour", strtotime($current_timestamp));
 
             /* Crée une requête préparée */
             $stmt = $connMYSQL->prepare("update login set temps_Valide_link =? where email =? and user =? ");
@@ -462,7 +460,7 @@ function generate_random_string(int $length): string {
 
 /**
  * Fonction simplement pour encrypter une information
- * 
+ *
  * @param string $password_Temp
  * @return string
  */

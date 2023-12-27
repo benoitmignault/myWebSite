@@ -35,14 +35,37 @@ function initialisation(): array {
  * @param array $array_Champs
  * @return array
  */
-function remplisage_champs($array_Champs): array{
+function remplisage_champs(array $array_Champs): array{
 	
+	if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+        
+        if (isset($_GET['langue'])){
+	        $array_Champs["type_langue"] = $_GET['langue'];
+        }
+    }
+    
+	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+		
+		if (isset($_POST['langue'])){
+			$array_Champs["type_langue"] = $_POST['langue'];
+		}
+		
+		if (isset($_POST['email'])){
+            
+            if (!empty($_POST['email'])){
+	            $array_Champs['email'] = $_POST['email'];
+	            $array_Champs['longueur_email'] = strlen($array_Champs['email']);;
+            }
+			
+		}
+		
+    }
  
 	return $array_Champs;
 }
 
-function traduction($champs) {    
-    if ($champs["typeLangue"] === 'francais') {
+function traduction($array_Champs) {
+    if ($champs["type_langue"] === 'francais') {
         $lang = "fr";
         $title = "Demande de Réinitialisation";
         $p1 = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";

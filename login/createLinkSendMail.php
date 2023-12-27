@@ -28,8 +28,8 @@ function initialisation(): array {
     return array("longueur_email" => 0, "situation" => 0, "type_langue" => "", "user" => "", "email" => "",
                  "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false, "temps_valide_link" => 0,
                  "email_inexistant_bd" => false, "erreur_system_bd" => false, "erreur_presente" => false,
-                 "password_Temp" => "", "lien_Reset_PWD" => "", "envoi_courriel_succes" => false,
-                 "reset_existant" => false, "liste_mots" => array());
+                 "password_temp" => "", "lien_temps" => "", "envoi_courriel_succes" => false,
+                 "reset_existant" => false, "message_erreur_bd" => "", "liste_mots" => array());
 }
 
 /**

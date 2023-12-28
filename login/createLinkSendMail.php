@@ -269,7 +269,7 @@ function creation_instance_courriel(): PHPMailer {
     $mail = new PHPMailer(true);
 
     // Paramètres du serveur SMTP
-    $mail->SMTPDebug = 2; // 2 Pour voir le mode debug des messages erreurs
+    $mail->SMTPDebug = 0; // 2 Pour voir le mode debug des messages erreurs
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
     $mail->SMTPAuth   = true;
@@ -277,6 +277,7 @@ function creation_instance_courriel(): PHPMailer {
     $mail->Password   = 'uqmsbfldqabqzvne'; 
     $mail->SMTPSecure = "tls";        
     $mail->Port       = 587;
+	$mail->CharSet    = 'UTF-8';
 
     return $mail;
 }

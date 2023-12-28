@@ -538,7 +538,7 @@ function encryptement_password(string $password_Temp): string {
             </ul>
             <p class='titre un'><?php echo $array_Champs["liste_mots"]['li2']; ?></p>
             <fieldset>
-                <legend class="legendCenter"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
+                <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
                 <form method="post" action="./createLinkSendMail.php">
                     <div class="connexion">
                         <div class="information <?php if ($array_Champs['erreur_presente']) { echo 'erreur'; } ?>">
@@ -549,7 +549,7 @@ function encryptement_password(string $password_Temp): string {
                             </div>
                         </div>
                     </div>
-                    <div class="troisBTN">
+                    <div class="section-reset-btn">
                         <input class="bouton" type='submit' name='btn_envoi_lien' value="<?php echo $array_Champs["liste_mots"]['btn_envoi_lien']; ?>">
                         <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                     </div>
@@ -561,7 +561,7 @@ function encryptement_password(string $password_Temp): string {
             <div class='avert <?php if ($array_Champs["situation"] != 6) { echo 'erreur'; } ?>'>
                 <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
             </div>
-            <div class="btnRetour">
+            <div class="section-retour-btn">
                 <form method="post" action="./createLinkSendMail.php">
                     <input class="bouton" type="submit" name="btn_return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
                     <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">

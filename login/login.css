@@ -55,7 +55,7 @@
 /* 
 Nouvelle manière d'afficher un legend au milieu
 */
-.content > .center > fieldset > .legendCenter {
+.content > .center > fieldset > .legend-center {
     display: table;
     min-width: 0;
     position: relative;
@@ -115,7 +115,7 @@ Nouvelle manière d'afficher un legend au milieu
     margin-right: 10px;
 }
 
-.content > .center > fieldset > form > .troisBTN {
+.content > .center > fieldset > form > .section-reset-btn {
     margin-top: 15px;
     margin-bottom: 15px;
     width: 100%;
@@ -143,7 +143,7 @@ input::placeholder {
     width: 100%;
 }
 
-.content > .footer > .btnRetour > form {
+.content > .footer > .section-retour-btn > form {
     width: 100%;
     display: -webkit-flex;
     display: flex;
@@ -159,11 +159,11 @@ input::placeholder {
     display: none;
 }
 
-.content > .center > fieldset > form > .troisBTN > input {
+.content > .center > fieldset > form > .section-reset-btn > input {
     width: auto;
 }
 
-.content > .footer > .btnRetour > form > input {
+.content > .footer > .section-retour-btn > form > input {
     margin-bottom: 10px;
 }
 
@@ -281,30 +281,30 @@ input::placeholder {
         text-align: center;
     }
 
-    .content > .center > fieldset > form > .troisBTN > input[type="submit"]:nth-child(3) {
+    .content > .center > fieldset > form > .section-reset-btn > input[type="submit"]:nth-child(3) {
         font-size: 17px;
     }
 
-    .content > .center > fieldset > form > .troisBTN {
+    .content > .center > fieldset > form > .section-reset-btn {
         margin-bottom: 0;
     }
 
-    .content > .center > fieldset > form > .troisBTN > input {
+    .content > .center > fieldset > form > .section-reset-btn > input {
         margin-bottom: 10px;
     }
 
-    .content > .footer > .btnRetour > form > input,
-    .content > .footer > .btnRetour > form {
+    .content > .footer > .section-retour-btn > form > input,
+    .content > .footer > .section-retour-btn > form {
         width: 100%;
     }
 
-    .content > .center > fieldset > form > .troisBTN > input,
-    .content > .footer > .btnRetour > form > input {
+    .content > .center > fieldset > form > .section-reset-btn > input,
+    .content > .footer > .section-retour-btn > form > input {
         width: 70%;
         margin: auto auto 10px;
     }
 
-    .content > .footer > .btnRetour > form {
+    .content > .footer > .section-retour-btn > form {
         display: -webkit-flex;
         display: flex;
         justify-content: center;

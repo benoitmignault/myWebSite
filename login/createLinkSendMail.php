@@ -320,22 +320,33 @@ function preparation_contenu_courriel(string $type_langue, string $lien_reset_pw
 	if ($type_langue === 'francais') {
         $lien = "Cliquer ici";
 		$contenu_courriel .= "<html lang=\"fr\">";
-		$contenu_courriel .= "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+		$contenu_courriel .= "<head><title>Changement de Mot de Passe</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
 		$contenu_courriel .= "<body style='font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0; font-size: 16px;'><p>Bonjour !</p>
                               <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
                                  pour faire de nouvelles consultations des statistiques de poker.</p>
                                 <table style='border-collapse: collapse; border: 2px solid #666; padding: 10px;'>
-                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Lien Web :</span> </td><td style='border: 1px solid #666; padding: 10px;'><a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_reset_pwd}&langue={$type_langue}\">{$lien}</a></td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Lien Web :</span> </td><td style='border: 1px solid #666; padding: 10px;'><a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key=$lien_reset_pwd&langue=$type_langue\">$lien</a></td></tr>
                                     <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Nom Utilisateur :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $user . "</td></tr>
-                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Mot de Passe (<span style='color: red'>Temporaire</span>) :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $password_temp . "</td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Mot de Passe (<span style='color: red'>temporaire</span>) :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $password_temp . "</td></tr>
                                     <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Temps accordé pour le changement :</span> </td><td style='border: 1px solid #666; padding: 10px;'>12 heures</td></tr>
                                 </table>";
 		$contenu_courriel .= "<p style='text-align: left'>Bonne journée</p><p style='text-align: left'>L'Équipe de Gestion BenoitMignault.ca</p>";
         
 	} elseif ($type_langue === 'english') {
-		echo "";
+		$lien = "Click here";
+		$contenu_courriel .= "<html lang=\"fr\">";
+		$contenu_courriel .= "<head><title>Password change</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+		$contenu_courriel .= "<body style='font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0; font-size: 16px;'><p>Hello !</p>
+                              <p>This is a courtesy email to allow you to change your password to make new consultations of poker statistics.</p>
+                                <table style='border-collapse: collapse; border: 2px solid #666; padding: 10px;'>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Web link :</span> </td><td style='border: 1px solid #666; padding: 10px;'><a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key=$lien_reset_pwd&langue=$type_langue\">$lien</a></td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Username :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $user . "</td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Password (<span style='color: red'>temporary</span>) :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $password_temp . "</td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Time allowed for change :</span> </td><td style='border: 1px solid #666; padding: 10px;'>12 hours</td></tr>
+                                </table>";
+		$contenu_courriel .= "<p style='text-align: left'>Good day</p><p style='text-align: left'>The Management Team BenoitMignault.ca</p>";
 	}
-	
+ 
 	$contenu_courriel .= '</body></html>';
 	
 	return $contenu_courriel;

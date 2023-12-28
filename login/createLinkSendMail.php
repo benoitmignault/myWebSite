@@ -437,7 +437,7 @@ function encryptement_password(string $password_Temp): string {
  * @param string $type_langue
  * @return void
  */
-function redirection(string $type_langue): void {
+#[NoReturn] function redirection(string $type_langue): void {
     
     // Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {

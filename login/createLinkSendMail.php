@@ -4,17 +4,17 @@
 	include_once("../includes/fct-connexion-bd.php");
     
     // Import PHPMailer classes into the global namespace
-    use PHPMailer\PHPMailer\PHPMailer;
+	use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
     // Load Composer's autoloader
-    // require '../../vendor/autoload.php';
+    require '../../vendor/autoload.php';
 
     // Lorsque je suis en mode DEV :
-	require '../PHPMailer/src/Exception.php';
-	require '../PHPMailer/src/PHPMailer.php';
-	require '../PHPMailer/src/SMTP.php';
+	// require '../PHPMailer/src/Exception.php';
+	// require '../PHPMailer/src/PHPMailer.php';
+	// require '../PHPMailer/src/SMTP.php';
 	
 /**
  * Fonction qui va contenir tous ce dont on aura besoin.

@@ -314,26 +314,28 @@ function preparation_contenu_courriel(string $type_langue, string $lien_reset_pw
 	$contenu_courriel = "";
  
 	if ($type_langue === 'francais') {
+        $lien = "Cliquer ici...";
 		$contenu_courriel .= '<html lang="fr">';
 		$contenu_courriel .= design_css_courriel();
 		$contenu_courriel .= '<p>Bonjour !</p>
                               <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
                                  pour faire de nouvelles consultations des statistiques de poker.</p>
                                 <table>
-                                    <tr><td><span>Lien Web :</span> </td><td>' . $lien_reset_pwd . '</td></tr>
+                                    <tr><td><span>Lien Web :</span> </td><td><a target="_blank" href="https://benoitmignault.ca/login/reset.php?key={$lien_reset_pwd}&langue={$type_langue}">{$lien}</a></td></tr>
                                     <tr><td><span>Nom Utilisateur :</span> </td><td>' . $user . '</td></tr>
                                     <tr><td><span>Mot de Passe (Temporaire) :</span> </td><td>' . $password_temp . '</td></tr>
                                     <tr><td><span>Temps accordé pour le changement :</span> </td><td>12 heures</td></tr>
                                 </table>';
 		
 	} elseif ($type_langue === 'english') {
+		$lien = "Click here...";
 		$contenu_courriel .= '<html lang="en">';
 		$contenu_courriel .= design_css_courriel();
 		$contenu_courriel .= '<p>Bonjour !</p>
                               <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
                                  pour faire de nouvelles consultations des statistiques de poker.</p>
                                 <table>
-                                    <tr><td><span>Lien Web :</span> </td><td>' . $lien_reset_pwd . '</td></tr>
+                                    <tr><td><span>Lien Web :</span> </td><td><a target="_blank" href="https://benoitmignault.ca/login/reset.php?key={$lien_reset_pwd}&langue={$type_langue}">{$lien}</a></td></tr>
                                     <tr><td><span>Nom Utilisateur :</span> </td><td>' . $user . '</td></tr>
                                     <tr><td><span>Mot de Passe (Temporaire) :</span> </td><td>' . $password_temp . '</td></tr>
                                     <tr><td><span>Temps accordé pour le changement :</span> </td><td>12 heures</td></tr>

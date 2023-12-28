@@ -1,11 +1,11 @@
 <?php
     // Les includes nécessaires
-    include("../traduction/traduction_create_link_reset.php");
+	include_once("../traduction/traduction_create_link_reset.php");
 	include_once("../includes/fct-connexion-bd.php");
     
     // Import PHPMailer classes into the global namespace
+	use JetBrains\PhpStorm\NoReturn;
 	use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
     // Load Composer's autoloader

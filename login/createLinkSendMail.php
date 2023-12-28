@@ -1,384 +1,511 @@
 <?php
-function initialChamp() {
-    $champInitial = ["user" => "", "email" => "", "champVide" => false, "champInvalid" => false, "champTropLong" => false,
-                     "emailExistePas" => false, "situation" => 0, "typeLangue" => "", "erreurManipulationBD" => false,
-                     "password_Temp" => "", "lien_Reset_PWD" => "", "envoiCourrielSucces" => false, "reset_existant" => false];
-    return $champInitial;
-}
-
-function traduction($champs) {    
-    if ($champs["typeLangue"] === 'francais') {
-        $lang = "fr";
-        $title = "Demande de Réinitialisation";
-        $p1 = "Vous avez oublié votre mot de passe, pas de problème, on s'en occupe !";
-        $li3 = "Cette page permet de réinitialiser votre compte associés aux statistiques de poker.";
-        $li1 = "Veuillez saisir votre courriel.";
-        $li2 = "Ensuite, un courriel vous sera envoyé avec toute les informations relier à votre changement de mot de passe.";
-        $legend = "Réinitialisation !";
-        $email = "Courriel :";
-        $btn_send_Link = "Réinitialiser";
-        $btn_return = "Retour à l'accueil";
-    } elseif ($champs["typeLangue"] === 'english') {
-        $title = "Reset Request";
-        $lang = "en";
-        $p1 = "You forgot your password, no problem, we take care of it !";        
-        $li3 = "This page will reset your account associated with poker statistics.";
-        $li1 = "Please enter your email.";
-        $li2 = "Then, a mail will be sent to you with all the information related to your change of password.";              
-        $legend = "Reseting !";
-        $email = "Email :";
-        $btn_send_Link = "Reset";
-        $btn_return = "Return to home page";
-    }
-
-    $messageFinal = traductionSituation($champs);
-    $arrayMots = ["lang" => $lang, 'message' => $messageFinal, 'title' => $title, 'p1' => $p1, 'li3' => $li3, 'li1' => $li1, 'li2' => $li2, 'legend' => $legend, 'email' => $email, 'btn_send_Link' => $btn_send_Link, 'btn_return' => $btn_return];
-    return $arrayMots;
-}
-
-function traductionSituation($champs){
+    // Les includes nécessaires
+	include_once("../traduction/traduction_create_link_reset.php");
+	include_once("../includes/fct-connexion-bd.php");
     
-    $message = "";
-    if ($champs["typeLangue"] === 'francais') {
+    // Import PHPMailer classes into the global namespace
+	use JetBrains\PhpStorm\NoReturn;
+	use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
+    // Load Composer's autoloader
+    require '../../vendor/autoload.php';
+
+    // Lorsque je suis en mode DEV :
+	// require '../PHPMailer/src/Exception.php';
+	// require '../PHPMailer/src/PHPMailer.php';
+	// require '../PHPMailer/src/SMTP.php';
+	
+/**
+ * Fonction qui va contenir tous ce dont on aura besoin.
+ * Une partie des variables de type string ou integer et une autre partie en boolean
+ * On va ajouter un array pour les mots traduits ou non
+ *
+ * @return array
+ */
+function initialisation(): array {
+    
+    return array("longueur_email" => 0, "situation" => 0, "type_langue" => "", "user" => "", "email" => "",
+                 "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false, "temps_valide_link" => 0,
+                 "email_inexistant_bd" => false, "erreur_system_bd" => false, "erreur_presente" => false,
+                 "password_temp" => "", "lien_reset_pwd" => "", "envoi_courriel_succes" => false, "envoi_courriel_echec" => false,
+                 "reset_existant" => false, "message_erreur_bd" => "", "liste_mots" => array());
+}
+
+/**
+ * Fonction pour setter les premières informations du GET ou POST
+ * Aussi, on va récupérer via le POST, les informations relier au email du user
+ *
+ * @param array $array_Champs
+ * @param object $connMYSQL
+ * @return array
+ */
+function remplisage_champs(array $array_Champs, object $connMYSQL): array{
+	
+	if ($_SERVER['REQUEST_METHOD'] == 'GET'){
         
-        switch ($champs['situation']) {
-            case 1 : $message = "Le champ «Courriel» est vide !"; break; 
-            case 2 : $message = "Le courriel saisie est trop long pour l'espace disponible !"; break; 
-            case 3 : $message = "Le courriel saisie ne respecte pas la forme « exemple@email.com »"; break; 
-            case 4 : $message = "Le courriel saisie n'existe pas dans nos informations !"; break; 
-            case 5 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break; 
-            case 6 : $message = "Dans les prochains instant, vous allez recevoir le courriel de réinitialisation avec toutes les informations nécessaire !"; break; 
-            case 7 : $message = "Erreur Système au moment d'envoyer le courriel !"; break;
-	        case 8 : $message = "Vous avez déjà reçu un courriel, il n'est pas nécessaire de faire une nouvelle demande !"; break;
-        }
-        
-    } elseif ($champs["typeLangue"] === 'english') {
-        
-        switch ($champs['situation']) {
-            case 1 : $message = "The «Email» field is empty !"; break; 
-            case 2 : $message = "The seized mail is too long for the available space !"; break; 
-            case 3 : $message = "The seized mail does not follow the form « example@email.com » !"; break; 
-            case 4 : $message = "The entered email does not exist in our information !"; break; 
-            case 5 : $message = "A communication / manipulation error occurred when sending you the email !"; break; 
-            case 6 : $message = "In the next few moments, you will receive the reset email with all the necessary information !"; break; 
-            case 7 : $message = "System error when sending email !"; break;
-	        case 8 : $message = "You have already received an email, there is no need to make a new request !"; break;
+        if (isset($_GET['langue'])){
+	        $array_Champs["type_langue"] = $_GET['langue'];
         }
     }
     
-    return $message;
-}
-
-function verifChamp($champs, $connMYSQL) {
-    
-    // Section de vérification des champs vide  
-    if (empty($_POST['email'])){
-        
-        $champs['champVide'] = true;
-    } else {
-        $champs['email'] = $_POST['email'];
-        $longueurEmail = strlen($champs['email']);    
-        if ($longueurEmail > 50){
-            
-            $champs['champTropLong'] = true;
-        }
-
-        $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";    
-        if (!preg_match($patternEmail, $_POST['email'])) {
-            
-            $champs['champInvalid'] = true; 
-        } elseif (!(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))){
-            // Ajout de cette sécurité / 5 Février 2020
-            // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
-            $champs['champInvalid'] = true; 
-        } else {
-            // 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
-            /* Crée une requête préparée */
-            $stmt = $connMYSQL->prepare("select user, email, temps_Valide_link  from login where email = ? ");
-            
-            /* Lecture des marqueurs */
-            $stmt->bind_param("s", $_POST['email']);
-            
-            /* Exécution de la requête */
-            $stmt->execute();
-            
-            /* Association des variables de résultat */
-            $result = $stmt->get_result();
-            
-            $row_cnt = $result->num_rows;           
-            if ($row_cnt == 0){
-                
-                $champs['emailExistePas'] = true;
-            } else {
-                
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-                $champs["user"] = $row['user'];
-                $champs["email"] = $row['email'];
-                
-                // Ajout de cette sécurité
-                if (!empty($row['temps_Valide_link'])){
+	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+		
+		if (isset($_POST['langue'])){
+			$array_Champs["type_langue"] = $_POST['langue'];
+		}
+		
+        // Nous avons caller le bouton pour créer un lien de reset password
+		if (isset($_POST['btn_envoi_lien'])) {
+			
+            // Si le courriel est présent, on va associer la variable
+			if (isset($_POST['email'])) {
+				
+                // Si le champ du Email n'est pas vide, on l'associe et on va chercher en BD son user et le temps associer au lien, s'il existe
+				if (!empty($_POST['email'])) {
+					$array_Champs['email'] = $_POST['email'];
+					$array_Champs['longueur_email'] = strlen($array_Champs['email']);
+					
+					// Récupération des informations
+					$result_info = verification_existance_courriel($array_Champs['email'], $connMYSQL);
                     
-                    // On va aussi valider que si le lien est expiré, on va permettre l'envoi d'un novueau lien sinon, on refuse
-	                $current_time = date("Y-m-d H:i:s");
-	                $current_timestamp = strtotime($current_time);
-                 
-	                // Le temps actuel doit être plus petit que le temps prescrit
-	                if ($current_timestamp < ((int)$row['temps_Valide_link'])){
-                        // Alors, on refuse un nouveau lien
-		                $champs['reset_existant'] = true;
-	                }
-                    // Sinon, le lien n'est plus valide, donc on va en donner un nouveau
+                    // Attribution des informations
+                    if (count($result_info) > 0){
+	                    $array_Champs["user"] = $result_info['user'];
+	                    $array_Champs["temps_valide_link"] = intval($result_info['temps_valide_link']);
+                    }
                 }
+			}
+		}
+    }
+ 
+	return $array_Champs;
+}
+
+/**
+ * Fonction pour aller chercher l'information concernant la demande de reset de password via l'email.
+ * Je dois associer le résultat à une variable avant de fermer la connexion ouvert pour cette requête
+ * On va retourner le résultat sous forme array rempli ou non
+ *
+ * @param string $email
+ * @param object $connMYSQL
+ * @return array
+ */
+function verification_existance_courriel(string $email, object $connMYSQL): array{
+	
+	// Allons chercher le user et la valeur du lien s'il existe
+	// 2023-12-06, Découverte d'une faille de sécurité, je recréer un lien de reset, même si il y a un qui existe....
+	$select = "SELECT user, temps_valide_link ";
+	$from = "FROM login ";
+	$where = "WHERE email = ?";
+	
+	// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+	$query = $select . $from . $where;
+	
+	// Préparation de la requête
+	$stmt = $connMYSQL->prepare($query);
+	
+	/* Lecture des marqueurs */
+	$stmt->bind_param("s", $email);
+	
+	/* Exécution de la requête */
+	$stmt->execute();
+	$result = $stmt->get_result();
+	
+    $result_info = array();
+    
+	// Il ne peut qu'avoir un seul résultat possible vue l'unicité de la Table SQL
+	if ($result->num_rows === 1){
+		$result_info = $result->fetch_array(MYSQLI_ASSOC);
+	}
+ 
+	/* close statement and connection */
+	$stmt->close();
+    
+    return $result_info;
+}
+
+/**
+ * Fonction qui servira à mettre à «True» les variables de contrôles des informations que nous avons associé durant la fonction @see remplisage_champs
+ * @param $array_Champs
+ * @return array
+ */
+function validation_champs($array_Champs): array{
+    
+    // Section de vérification du seul champs dans la page
+    if (empty($array_Champs['email'])){
+	    $array_Champs['champ_vide'] = true;
+	    $array_Champs['erreur_presente'] = true;
+    } else {
+        if ($array_Champs['longueur_email'] > 50){
+	        $array_Champs['champ_trop_long'] = true;
+	        $array_Champs['erreur_presente'] = true;
+        }
+
+        // [:alnum:] -> a-zA-Z0-9
+        // [:alpha:] -> a-zA-Z
+        $pattern_email = "#^[[:alnum:]._-]+@[[:alnum:]._-]+\.[[:alpha:]]{2,4}$#";
+        if (!preg_match($pattern_email, $array_Champs['email'])) {
+	        $array_Champs['champ_invalid'] = true;
+        }
+        
+	    // Ajout de cette sécurité / 5 Février 2020
+	    // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
+        if (!(filter_var($array_Champs['email'], FILTER_VALIDATE_EMAIL))){
+	        $array_Champs['champ_invalid'] = true;
+        }
+        
+        // Si la variable champ_invalid est à «true», ça ne veut même pas la peine de poursuivre...
+        if (!$array_Champs['champ_invalid']){
+	
+            // Si le champ du user est vide, alors l'association du email n'a rien donné
+	        if (empty($array_Champs['user'])){
+                $array_Champs['email_inexistant_bd'] = true;
+		        $array_Champs['erreur_presente'] = true;
+	        }
+            
+            // Ajout de cette sécurité
+            if (!empty($array_Champs['temps_valide_link']) && $array_Champs['temps_valide_link'] > 0){
+                
+                // On va aussi valider que si le lien est expiré, on va permettre l'envoi d'un nouveau lien sinon, on refuse
+                $current_timestamp = strtotime(date("Y-m-d H:i:s"));
+             
+                // Le temps actuel doit être plus petit que le temps prescrit
+                if ($current_timestamp < $array_Champs['temps_valide_link']){
+                    // Alors, on refuse un nouveau lien
+                    $array_Champs['reset_existant'] = true;
+	                $array_Champs['erreur_presente'] = true;
+                }
+                // Sinon, le lien n'est plus valide, donc on va en donner un nouveau
             }
-            /* close statement and connection */
-            $stmt->close();
+            // On va en donner un autre, de tout façon
+        } else {
+	        $array_Champs['erreur_presente'] = true;
         }
     }
     
-    return $champs;
+    return $array_Champs;
 }
 
-// apres avoir envoyer le courriel, nous allons déterminer le message qui sera affiché à l'usagé
-function situation($champs){   
-    $typeSituation = 0;    
-    if ($champs['champVide']){
+
+/**
+ * Fonction pour déterminer le type de situation d'erreur ou pas qui peut survenir
+ *
+ * @param array $array_Champs
+ * @return int
+ */
+function situation(array $array_Champs): int{
+	
+    if ($array_Champs['champ_vide']){
+	    $type_situation = 1;
         
-        $typeSituation = 1; 
-    } elseif ($champs['champTropLong']){
+    } elseif ($array_Champs['champ_trop_long']){
+	    $type_situation = 2;
         
-        $typeSituation = 2; 
-    } elseif ($champs['champInvalid']){
+    } elseif ($array_Champs['champ_invalid']){
+	    $type_situation = 3;
         
-        $typeSituation = 3; 
-    } elseif ($champs['emailExistePas']){
-        
-        $typeSituation = 4;
+    } elseif ($array_Champs['email_inexistant_bd']){
+	    $type_situation = 4;
         // Ajout de cette nouvelle situation - 2023-12-06
-    } elseif ($champs['reset_existant']){
+    } elseif ($array_Champs['reset_existant']){
+	    $type_situation = 8;
      
-	    $typeSituation = 8;
-    } elseif ($champs['erreurManipulationBD']){
+    } elseif ($array_Champs['erreur_system_bd']){
+	    $type_situation = 5;
         
-        $typeSituation = 5; 
-    } elseif ($champs['envoiCourrielSucces']){
+    } elseif ($array_Champs['envoi_courriel_succes']){
+	    // Normalement, ici, ça veut que dire que nous avons un succès
+	    $type_situation = 6;
         
-        $typeSituation = 6; 
     } else {
-     
-	    $typeSituation = 7;
+        // Rendu ici, on va caller une erreur système
+	    $type_situation = 7;
     } 
 
-    return $typeSituation;
+    return $type_situation;
+}
+	
+/**
+ * @param array $array_Champs
+ * @return array
+ */
+function gestion_lien_courriel(array $array_Champs): array{
+ 
+	// Création de l'instance
+	$mail = creation_instance_courriel();
+	try {
+        // Venant de qui et pour qui
+        $mail->setFrom('home@benoitmignault.ca', 'Site Web Benoit Mignault');
+        $mail->addAddress($array_Champs['email'], $array_Champs['user']);
+        
+        // Préparation pour l'object et le corp du message, en fonction de la langue
+		$mail->isHTML(); // par défaut is true
+		$mail->Subject = preparation_object_courriel($array_Champs["type_langue"]);
+        $mail->Body = preparation_contenu_courriel($array_Champs["type_langue"], $array_Champs["lien_reset_pwd"], $array_Champs["user"], $array_Champs["password_temp"]);
+        
+		// Envoyer l'e-mail
+		$mail->send();
+        $array_Champs["envoi_courriel_succes"] = true;
+	} catch (Exception) {
+  
+		$array_Champs["envoi_courriel_echec"] = true;
+		$array_Champs["liste_mots"]["message"] = $mail->ErrorInfo;
+    } finally {
+		// Fermer la connexion SMTP
+		$mail->SmtpClose();
+	}
+    
+    return $array_Champs;
 }
 
-function creationLink($champs, $connMYSQL){  
-    /* Crée une requête préparée */
-    $stmt = $connMYSQL->prepare("select user, password from login where email =? and user =? ");
-    /* Lecture des marqueurs */
-    $stmt->bind_param("ss", $champs["email"], $champs["user"]);
-    /* Exécution de la requête */
-    $stmt->execute();
-    /* Association des variables de résultat */
-    $result = $stmt->get_result();
-    $row_cnt = $result->num_rows;
-    /* close statement and connection */
-    $stmt->close();    
+/**
+ * Fonction pour créer l'instant de connexion au serveur de courriel GMAIL.
+ * On va utiliser une adresse courriel spéciale prévue à cet effet
+ *
+ * @return PHPMailer
+ */
+function creation_instance_courriel(): PHPMailer {
 
-    if ($row_cnt == 0){
-        $champs["erreurManipulationBD"] = true; 
-    } else {
-        date_default_timezone_set('America/New_York');
-        $lien_Reset_PWD = $champs["user"] . "/*-+!/$%?&*()" . $champs["email"];
-        $lien_Reset_PWD = encryptementPassword($lien_Reset_PWD);
-        $password_Temp = generateRandomString(10);
-        $password_Encrypted = encryptementPassword($password_Temp);
+    //  Préparation du lien pour le courriel, avec true pour gérer les exceptions   
+    $mail = new PHPMailer(true);
 
-        /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("update login set reset_link =? , passwordTemp =? where email =? and user =?");
+    // Paramètres du serveur SMTP
+    $mail->SMTPDebug = 0; // 2 Pour voir le mode debug des messages erreurs
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'benoit.mignault.ca@gmail.com';
+    $mail->Password   = 'uqmsbfldqabqzvne'; 
+    $mail->SMTPSecure = "tls";        
+    $mail->Port       = 587;
+	$mail->CharSet    = 'UTF-8';
+
+    return $mail;
+}
+
+/**
+ * Fonction pour déterminer comment on va setter l'object du courriel
+ *
+ * @param string $type_langue
+ * @return string
+ */
+function preparation_object_courriel(string $type_langue): string {
+	
+	$message_object = "";
+	if ($type_langue === 'francais') {
+		$message_object = "Voici votre courriel de changement de mot de passe.";
+		
+	} elseif ($type_langue === 'english') {
+		$message_object = "Here is your password change email.";
+	}
+ 
+    return $message_object;
+}
+
+/**
+ * Fonction pour créer le corps du courriel en fonction de la langue de l'utilisateur et
+ * les informations relier un changement de password.
+ *
+ * @param string $type_langue
+ * @param string $lien_reset_pwd
+ * @param string $user
+ * @param string $password_temp
+ * @return string
+ */
+function preparation_contenu_courriel(string $type_langue, string $lien_reset_pwd, string $user, string $password_temp): string {
+ 
+	$contenu_courriel = "";
+ 
+	if ($type_langue === 'francais') {
+        $lien = "Cliquer ici";
+		$contenu_courriel .= "<html lang=\"fr\">";
+		$contenu_courriel .= "<head><title>Changement de Mot de Passe</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+		$contenu_courriel .= "<body style='font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0; font-size: 16px;'><p>Bonjour !</p>
+                              <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
+                                 pour faire de nouvelles consultations des statistiques de poker.</p>
+                                <table style='border-collapse: collapse; border: 2px solid #666; padding: 10px;'>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Lien Web :</span> </td><td style='border: 1px solid #666; padding: 10px;'><a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key=$lien_reset_pwd&langue=$type_langue\">$lien</a></td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Nom Utilisateur :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $user . "</td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Mot de Passe (<span style='color: red'>temporaire</span>) :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $password_temp . "</td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Temps accordé pour le changement :</span> </td><td style='border: 1px solid #666; padding: 10px;'>12 heures</td></tr>
+                                </table>";
+		$contenu_courriel .= "<p style='text-align: left'>Bonne journée</p><p style='text-align: left'>L'Équipe de Gestion BenoitMignault.ca</p>";
         
-        /* Lecture des marqueurs */
-        $stmt->bind_param("ssss", $lien_Reset_PWD, $password_Encrypted, $champs["email"], $champs["user"]);
-        
-        /* Exécution de la requête */
-        $stmt->execute();
+	} elseif ($type_langue === 'english') {
+		$lien = "Click here";
+		$contenu_courriel .= "<html lang=\"fr\">";
+		$contenu_courriel .= "<head><title>Password change</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+		$contenu_courriel .= "<body style='font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0; font-size: 16px;'><p>Hello !</p>
+                              <p>This is a courtesy email to allow you to change your password to make new consultations of poker statistics.</p>
+                                <table style='border-collapse: collapse; border: 2px solid #666; padding: 10px;'>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Web link :</span> </td><td style='border: 1px solid #666; padding: 10px;'><a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key=$lien_reset_pwd&langue=$type_langue\">$lien</a></td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Username :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $user . "</td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Password (<span style='color: red'>temporary</span>) :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $password_temp . "</td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Time allowed for change :</span> </td><td style='border: 1px solid #666; padding: 10px;'>12 hours</td></tr>
+                                </table>";
+		$contenu_courriel .= "<p style='text-align: left'>Good day</p><p style='text-align: left'>The Management Team BenoitMignault.ca</p>";
+	}
+ 
+	$contenu_courriel .= '</body></html>';
+	
+	return $contenu_courriel;
+}
 
-        $row_cnt = $stmt->affected_rows;
-        /* close statement and connection */
-        $stmt->close();
-
-        // On valide que l'insertion des password temporaire et link encryptés s'est bien passé
-        if ($row_cnt == 0){
-            $champs["erreurManipulationBD"] = true; 
-        } else {
-            // On récupère l'heure au moment de la création du link
-            $current_time = date("Y-m-d H:i:s");
-            // On converti tout ça dans un gros entier
-            $current_timestamp = strtotime($current_time);
-            // On ajoute 12 heures pour donner le temps mais pas toute la vie à l'usagé pour changer ton PWD
-            $temps_Autorise = strtotime("+12 hour", strtotime($current_time));
-
-            /* Crée une requête préparée */
-            $stmt = $connMYSQL->prepare("update login set temps_Valide_link =? where email =? and user =? ");
-            /* Lecture des marqueurs */
-            $stmt->bind_param("iss", $temps_Autorise, $champs["email"], $champs["user"]);
-            /* Exécution de la requête */
-            $stmt->execute();
-            $row_cnt = $stmt->affected_rows;
-            /* close statement and connection */
-            $stmt->close();           
-
-            // On valide ici que l'ajout du temps autorisé au changement de PWD a bien marché
-            if ($row_cnt == 0){
-                $champs["erreurManipulationBD"] = true; 
-            } else {
-                $champs["password_Temp"] = $password_Temp; 
-                if ($champs["typeLangue"] === 'francais') {
-                    $lien = "Lien pour changer votre mot de passe";
-                } elseif ($champs["typeLangue"] === 'english') {
-                    $lien = "Link to change your password";
-                }
-                $champs["lien_Reset_PWD"] = "<a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_Reset_PWD}&langue={$champs["typeLangue"]}\">{$lien}</a>";                
-                $elementCourriel = preparationEmail($champs);
-                $succes = mail($elementCourriel["to"], $elementCourriel["subject"], $elementCourriel["message"], $elementCourriel["headers"]);                
-                if ($succes) {
-                    $champs["envoiCourrielSucces"] = true; 
-                }                             
-            }
-        }
+/**
+ * On va créer un lien encrypté envoyer par courriel.
+ * Ensuite un password temporaire envoyer par courriel et sa version encrypté vers ls BD
+ * Pour finir, un temps valide pour 12 heures envoyer vers la BD
+ *
+ * @param object $connMYSQL
+ * @param array $array_Champs
+ * @return array
+ */
+function creation_lien_password_temporaire(object $connMYSQL, array $array_Champs): array{
+	
+    date_default_timezone_set('America/New_York');
+    // Création du lien
+	$lien_reset_pwd = $array_Champs['user'] . "/*-+!/$%?&*()" . $array_Champs['email'];
+	$array_Champs["lien_reset_pwd"] = encryptement_password($lien_reset_pwd);
+	
+    // Création du password temporaire
+	$array_Champs["password_temp"] = generate_random_string(10);
+	$password_secure = encryptement_password($array_Champs["password_temp"]);
+	
+	// On ajoute 12 heures au moment où l'utilisateur créer sa demande
+	$temps_valide_link = strtotime("+12 hour", strtotime(date("Y-m-d H:i:s")));
+    
+    // Préparation de la requête UPDATE
+	$update = "UPDATE login ";
+	$set = "SET reset_link = ? , password_temp = ?, temps_valide_link = ? ";
+	$where = "WHERE user = ?";
+ 
+	// Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+	$query = $update . $set . $where;
+ 
+	// Préparation de la requête
+	$stmt = $connMYSQL->prepare($query);
+	try {
+		/* Lecture des marqueurs */
+		$stmt->bind_param("ssis", $array_Champs["lien_reset_pwd"], $password_secure, $temps_valide_link, $array_Champs['user']);
+  
+		/* Exécution de la requête */
+		$stmt->execute();
+	} catch (Exception $err){
+        // Récupérer les messages d'erreurs
+		$array_Champs["message_erreur_bd"] = $err->getMessage();
+    } finally {
+		// Fermer la préparation de la requête
+		$stmt->close();
     }
-    return $champs;
+    
+    return $array_Champs;
 }
 
-// Une fonction que j'ai pris sur StackOverFlow
-// https://stackoverflow.com/questions/4356289/php-random-string-generator
-function generateRandomString($length){
+/**
+ * Fonction pour générer une chaine de caractère qui sera utiliser pour le password temporaire
+ *
+ * @param int $length
+ * @return string
+ */
+function generate_random_string(int $length): string {
+    
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
+    $characters_length = strlen($characters);
+    $random_string = '';
     for ($i = 0; $i < $length; $i++) {
-        //$randomString .= $characters[rand(0, $charactersLength - 1)];
-        $randomString .= $characters[random_int(0, $charactersLength - 1)];
+	    $random_string .= $characters[rand(0, $characters_length - 1)];
     }
-    return $randomString;
+    
+    return $random_string;
 }
 
-function encryptementPassword($password_Temp) {
-    $password_Encrypted = password_hash($password_Temp, PASSWORD_BCRYPT);
-    return $password_Encrypted;
+/**
+ * Fonction simplement pour encrypter une information
+ *
+ * @param string $password_Temp
+ * @return string
+ */
+function encryptement_password(string $password_Temp): string {
+    
+    return password_hash($password_Temp, PASSWORD_BCRYPT);
 }
 
-function preparationEmail($champs){
-    $elementCourriel = ['message' => "", "to" => "", "subject" => "", "headers" => ""];
-    if ($champs["typeLangue"] == "francais"){
-        $elementCourriel["message"] = corpMessageFR($champs);        
-        $elementCourriel["to"] = "{$champs["email"]}"; 
-        $elementCourriel["subject"] = "Changement de mot de passe !";
-        $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-        $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
-    } elseif ($champs["typeLangue"] == "english"){
-        $elementCourriel["message"] = corpMessageEN($champs);
-        $elementCourriel["to"] = "{$champs["email"]}"; 
-        $elementCourriel["subject"] = "Password change !";
-        $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-        $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
-    }
-    return $elementCourriel;
-}
-
-function corpMessageFR($champs){    
-    $messageFR = '<html><body>';
-    $messageFR .= "<p>Bonjour !</p>";
-    $messageFR .= "<p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe pour faire de nouvelles consultations des statistiques de poker.</p>";
-    $messageFR .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
-    $messageFR .= "<tr><td><strong>Lien Web :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
-    $messageFR .= "<tr><td><strong>Nom Utilisateur :</strong> </td><td>" . $champs["user"] . "</td></tr>";
-    $messageFR .= "<tr><td><strong>Mot de Passe (Temporaire) :</strong> </td><td>" . $champs["password_Temp"] . "</td></tr>";
-    $messageFR .= "<tr><td><strong>Temps accordé pour le changement :</strong> </td><td>12 heures</td></tr>";    
-    $messageFR .= "</table>";
-    $messageFR .= "<p align=\"left\">Bonne journée</p>";
-    $messageFR .= "<p align=\"middle\">La Direction</p>";
-    $messageFR .= "</body></html>";
-    return $messageFR;
-}
-
-function corpMessageEN($champs){
-    $messageEN = '<html><body>';
-    $messageEN .= "<p>Hello !</p>";
-    $messageEN .= "<p>This is a courtesy email to allow you to change your password to make further viewing of poker statistics.</p>";
-    $messageEN .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
-    $messageEN .= "<tr><td><strong>Web Link :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
-    $messageEN .= "<tr><td><strong>Username :</strong> </td><td>" . $champs["user"] . "</td></tr>";
-    $messageEN .= "<tr><td><strong>Password (Temporary) :</strong> </td><td>" . $champs["password_Temp"] . "</td></tr>";
-    $messageEN .= "<tr><td><strong>Time allowed for change :</strong> </td><td>12 hours</td></tr>";    
-    $messageEN .= "</table>";
-    $messageEN .= "<p align=\"left\">Have a nice day</p>";
-    $messageEN .= "<p align=\"right\">The Direction</p>";
-    $messageEN .= "</body></html>";
-    return $messageEN;
-}
-
-function redirection($champs) {  
+/**
+ * Fonction pour rediriger vers la bonne page page extérieur à la page du reset de password
+ *
+ * @param string $type_langue
+ * @return void
+ */
+#[NoReturn] function redirection(string $type_langue): void {
+    
+    // Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         header("Location: /erreur/erreur.php");
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['return']) && $champs["typeLangue"] == "francais") {
+    }
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        
+        if (isset($_POST['btn_return']) && $type_langue == "francais") {
             header("Location: /index.html");
-        } elseif (isset($_POST['return']) && $champs["typeLangue"] == "english") {
+        }
+        
+        if (isset($_POST['btn_return']) && $type_langue == "english") {
             header("Location: /english/english.html");            
         }
     }
-    exit; // pour arrêter l'éxecution du code php
-}
-
-function connexionBD(){
-    // Nouvelle connexion sur hébergement du Studio OL     
-    $host = "localhost";
-    $user = "benoitmi_benoit";
-    $password = "d-&47mK!9hjGC4L-";
-    $bd = "benoitmi_benoitmignault.ca.mysql";    
-
-    $connMYSQL = mysqli_connect($host, $user, $password, $bd);
-    $connMYSQL->query("set names 'utf8'");
     
-    return $connMYSQL;
+    exit; // pour arrêter l'exécution du code php
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-    $champs = initialChamp();
-    $champs["typeLangue"] = $_GET['langue'];
-    if ($champs["typeLangue"] != "francais" && $champs["typeLangue"] != "english") {
-        redirection($champs);        
-    } else {
-        $arrayMots = traduction($champs);
-    }
-}
+// Les fonctions communes
+    $connMYSQL = connexion();
+    $array_Champs = initialisation();
+    $array_Champs = remplisage_champs($array_Champs, $connMYSQL);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $champs = initialChamp();
-    $champs["typeLangue"] = $_POST['langue'];
-    if (isset($_POST['return']))  {
-        redirection($champs);
-    } else {        
-        $connMYSQL = connexionBD();
-        // Si le bouton se connecter est pesé...        
-        if (isset($_POST['send_Link'])) {
-            $champs = verifChamp($champs, $connMYSQL);             
-            if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] &&
-                !$champs["emailExistePas"] && !$champs["reset_existant"]){
-                $champs = creationLink($champs, $connMYSQL);
+// Ce qui arrive lorsqu'on arrive sur la page pour générer un lien de reset de password
+    if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+    
+        // Si la langue n'est pas setter, on va rediriger vers la page Err 404
+        if ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
+            redirection(""); // On n'a pas besoin de la variable vue qu'elle ne ressemble à rien de connue
+        } else {
+            // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
+            $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+        }
+    } // Fin du GET pour faire afficher la page web
+
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        
+        if (isset($_POST['btn_return']))  {
+            redirection($array_Champs["type_langue"]);
+            
+        } elseif (isset($_POST['btn_envoi_lien'])) {
+	
+	        $array_Champs = validation_champs($array_Champs);
+            if (!$array_Champs['erreur_presente']){
+             
+	            // Récupération des informations de la création du lien et password temporaire
+	            $array_Champs = creation_lien_password_temporaire($connMYSQL, $array_Champs);
+                
+                // Utilisation de cette fonction pour appeler les fonctions nécessaires pour le courriel
+                $array_Champs = gestion_lien_courriel($array_Champs);
             }
-        }     
-
-        $champs["situation"] = situation($champs);          
-        $arrayMots = traduction($champs);
+            
+            // Si nous avons eu une erreur dans l'envoi du courriel, nous allons récupérer le message d'erreur spécifique
+            if (!$array_Champs["envoi_courriel_echec"]){
+	            $array_Champs["situation"] = situation($array_Champs);
+            }
+            
+            $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+        }
     }
-    $connMYSQL->close();
-}
+    // Fermeture de la connexion sur les BD du serveur
+	$connMYSQL->close();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $arrayMots['lang']; ?>">
+<html lang="<?php echo $array_Champs["liste_mots"]['lang']; ?>">
 
 <head>
     <meta charset="utf-8">
@@ -387,7 +514,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <!-- Le fichier reset.png est la propriété du site https://pixabay.com/fr/bouton-r%C3%A9initialiser-inscrivez-vous-31199/-->
     <link rel="shortcut icon" href="reset.png">
     <link rel="stylesheet" type="text/css" href="login.css">
-    <title><?php echo $arrayMots['title']; ?></title>
+    <title><?php echo $array_Champs["liste_mots"]['title']; ?></title>
     <style>
         body {
             margin: 0;
@@ -404,41 +531,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 <body>
     <div class="content">
         <div class="center">
-            <p class='titre'><?php echo $arrayMots['p1']; ?></p>
+            <p class='titre'><?php echo $array_Champs["liste_mots"]['p1']; ?></p>
             <ul>
-                <li class='info'><?php echo $arrayMots['li3']; ?></li>
-                <li class='info'><?php echo $arrayMots['li1']; ?></li>
+                <li class='info'><?php echo $array_Champs["liste_mots"]['li3']; ?></li>
+                <li class='info'><?php echo $array_Champs["liste_mots"]['li1']; ?></li>
             </ul>
-            <p class='titre un'><?php echo $arrayMots['li2']; ?></p>
-
+            <p class='titre un'><?php echo $array_Champs["liste_mots"]['li2']; ?></p>
             <fieldset>
-                <legend class="legendCenter"><?php echo $arrayMots['legend']; ?></legend>
+                <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
                 <form method="post" action="./createLinkSendMail.php">
                     <div class="connexion">
-                        <div class="information <?php if ($champs['champVide'] || $champs['champTropLong'] || $champs['champInvalid'] || $champs['emailExistePas']) { echo 'erreur'; } ?>">
-                            <label for="email"><?php echo $arrayMots['email']; ?></label>
+                        <div class="information <?php if ($array_Champs['erreur_presente']) { echo 'erreur'; } ?>">
+                            <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
                             <div>
-                                <input placeholder="exemple@email.com" autofocus id="email" type="email" name="email" maxlength="50" value="<?php echo $champs['email']; ?>" />
+                                <input placeholder="exemple@email.com" autofocus id="email" type="email" name="email" maxlength="50" value="<?php echo $array_Champs['email']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
                     </div>
-                    <div class="troisBTN">
-                        <input class="bouton" type='submit' name='send_Link' value="<?php echo $arrayMots['btn_send_Link']; ?>">
-                        <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
+                    <div class="section-reset-btn">
+                        <input class="bouton" type='submit' name='btn_envoi_lien' value="<?php echo $array_Champs["liste_mots"]['btn_envoi_lien']; ?>">
+                        <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                     </div>
                 </form>
             </fieldset>
         </div>
         <div class="footer">
             <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
-            <div class='avert <?php if ($champs["situation"] != 6) { echo 'erreur'; } ?>'>
-                <p> <?php echo $arrayMots['message']; ?> </p>
+            <div class='avert <?php if ($array_Champs["situation"] != 6) { echo 'erreur'; } ?>'>
+                <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
             </div>
-            <div class="btnRetour">
+            <div class="section-retour-btn">
                 <form method="post" action="./createLinkSendMail.php">
-                    <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
-                    <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
+                    <input class="bouton" type="submit" name="btn_return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
+                    <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                 </form>
             </div>
         </div>

@@ -305,7 +305,7 @@ function preparation_object_courriel(string $type_langue): string {
 
 /**
  * Fonction pour créer le corps du courriel en fonction de la langue de l'utilisateur et
- * les informations relier u changement de password.
+ * les informations relier un changement de password.
  *
  * @param string $type_langue
  * @param string $lien_reset_pwd

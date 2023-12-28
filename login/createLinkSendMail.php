@@ -238,7 +238,8 @@ function gestion_lien_courriel(array $array_Champs): array{
         $mail->addAddress($array_Champs['email'], $array_Champs['user']);
         
         // Préparation pour l'object et le corp du message, en fonction de la langue
-        $mail->Subject = preparation_object_courriel($array_Champs["type_langue"]);
+		$mail->isHTML(true);
+		$mail->Subject = preparation_object_courriel($array_Champs["type_langue"]);
         $mail->Body = preparation_contenu_courriel($array_Champs["type_langue"], $array_Champs["lien_reset_pwd"], $array_Champs["user"], $array_Champs["password_temp"]);
         
 		// Envoyer l'e-mail

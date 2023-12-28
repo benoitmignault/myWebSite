@@ -469,34 +469,27 @@ function encryptement_password(string $password_Temp): string {
     return password_hash($password_Temp, PASSWORD_BCRYPT);
 }
 
-function preparationEmail($array_Champs){
-    $elementCourriel = ['message' => "", "to" => "", "subject" => "", "headers" => ""];
-    if ($champs["type_langue"] == "francais"){
-        $elementCourriel["message"] = corpMessageFR($champs);        
-        $elementCourriel["to"] = "{$champs["email"]}"; 
-        $elementCourriel["subject"] = "Changement de mot de passe !";
-        $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-        $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
-    } elseif ($champs["type_langue"] == "english"){
-        $elementCourriel["message"] = corpMessageEN($champs);
-        $elementCourriel["to"] = "{$champs["email"]}"; 
-        $elementCourriel["subject"] = "Password change !";
-        $elementCourriel["headers"] = "From: home@benoitmignault.ca \r\n";
-        $elementCourriel["headers"] .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-        $elementCourriel["headers"] .= "Content-Type: text/html; charset=UTF-8 \r\n";
-    }
-    return $elementCourriel;
-}
+$html = "<html>
+            <body bgcolor=\"#D3D3D3\" topmargin=\"0\">
+            <p>Bonjour {$donnee_select[prenom]} {$donnee_select[nom]} !</p>
+            <p>Vous venez de recevoir un courriel, parce que vous avez utilisé l'outil «Information sur Inventaire TMO (VTL & FIZZ)».</p>
+            <p>Accessible via notre intranet du potentiel (LIG) : <a href=  >Notre Intranet</a></p>
+            <p>Une fois connecter ! L'outil est disponible via ce lien : <a href=  >Notre Outil</a></p>
+            <p align=\"left\">Bonne journée</p>
+            <p align=\"middle\">L'Équipe d'AnalysePotentiel</p>
+        </body></html>";
+
+
 
 function corpMessageFR($array_Champs){
+    
     $messageFR = '<html><body>';
     $messageFR .= "<p>Bonjour !</p>";
     $messageFR .= "<p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe pour faire de nouvelles consultations des statistiques de poker.</p>";
     $messageFR .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
-    $messageFR .= "<tr><td><strong>Lien Web :</strong> </td><td>" . $champs["lien_Reset_PWD"] . "</td></tr>";
-    $messageFR .= "<tr><td><strong>Nom Utilisateur :</strong> </td><td>" . $champs["user"] . "</td></tr>";
-    $messageFR .= "<tr><td><strong>Mot de Passe (Temporaire) :</strong> </td><td>" . $champs["password_Temp"] . "</td></tr>";
+    $messageFR .= "<tr><td><strong>Lien Web :</strong> </td><td>" . $array_Champs["lien_Reset_PWD"] . "</td></tr>";
+    $messageFR .= "<tr><td><strong>Nom Utilisateur :</strong> </td><td>" . $array_Champs["user"] . "</td></tr>";
+    $messageFR .= "<tr><td><strong>Mot de Passe (Temporaire) :</strong> </td><td>" . $array_Champs["password_Temp"] . "</td></tr>";
     $messageFR .= "<tr><td><strong>Temps accordé pour le changement :</strong> </td><td>12 heures</td></tr>";    
     $messageFR .= "</table>";
     $messageFR .= "<p align=\"left\">Bonne journée</p>";

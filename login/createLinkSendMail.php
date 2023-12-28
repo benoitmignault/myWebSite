@@ -295,7 +295,6 @@ function gestion_lien_courriel(array $array_Champs): PHPMailer{
  * Fonction pour créer l'instant de connexion au serveur de courriel GMAIL.
  * On va utiliser une adresse courriel spéciale prévue à cet effet
  *
- *
  * @return PHPMailer
  */
 function creation_instance_courriel(): PHPMailer {
@@ -596,7 +595,12 @@ function redirection(string $type_langue) {
 	
 	        $array_Champs = validation_champs($array_Champs);
             if (!$array_Champs['erreur_presente']){
-                $array_Champs = gestion_lien_courriel($array_Champs, $connMYSQL);
+             
+	            // Récupération des informations de la création du lien et password temporaire
+	            $array_Champs = creation_lien_password_temporaire($connMYSQL, $array_Champs);
+                
+                // Utilisation de cette fonction pour appeller les fonctions nécessaires pour le courriel
+                $array_Champs = gestion_lien_courriel($array_Champs);
             }
         
             $array_Champs["situation"] = situation($array_Champs);

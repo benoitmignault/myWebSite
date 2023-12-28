@@ -316,55 +316,27 @@ function preparation_contenu_courriel(string $type_langue, string $lien_reset_pw
 	$contenu_courriel = "";
  
 	if ($type_langue === 'francais') {
-        $lien = "Cliquer ici...";
-		$contenu_courriel .= '<html lang="fr">';
-		$contenu_courriel .= design_css_courriel();
-		$contenu_courriel .= '<p>Bonjour !</p>
+        $lien = "Cliquer ici";
+		$contenu_courriel .= "<html lang=\"fr\">";
+		$contenu_courriel .= "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+		$contenu_courriel .= "<body style='font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0; font-size: 16px;'><p>Bonjour !</p>
                               <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
                                  pour faire de nouvelles consultations des statistiques de poker.</p>
-                                <table>
-                                    <tr><td><span>Lien Web :</span> </td><td><a target="_blank" href="https://benoitmignault.ca/login/reset.php?key={$lien_reset_pwd}&langue={$type_langue}">{$lien}</a></td></tr>
-                                    <tr><td><span>Nom Utilisateur :</span> </td><td>' . $user . '</td></tr>
-                                    <tr><td><span>Mot de Passe (Temporaire) :</span> </td><td>' . $password_temp . '</td></tr>
-                                    <tr><td><span>Temps accordé pour le changement :</span> </td><td>12 heures</td></tr>
-                                </table>';
-		
+                                <table style='border-collapse: collapse; border: 2px solid #666; padding: 10px;'>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Lien Web :</span> </td><td style='border: 1px solid #666; padding: 10px;'><a target=\"_blank\" href=\"https://benoitmignault.ca/login/reset.php?key={$lien_reset_pwd}&langue={$type_langue}\">{$lien}</a></td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Nom Utilisateur :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $user . "</td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Mot de Passe (<span style='color: red'>Temporaire</span>) :</span> </td><td style='border: 1px solid #666; padding: 10px;'>" . $password_temp . "</td></tr>
+                                    <tr><td style='border: 1px solid #666; padding: 10px;'><span style='font-weight: bold;'>Temps accordé pour le changement :</span> </td><td style='border: 1px solid #666; padding: 10px;'>12 heures</td></tr>
+                                </table>";
+		$contenu_courriel .= "<p style='text-align: left'>Bonne journée</p><p style='text-align: left'>L'Équipe de Gestion BenoitMignault.ca</p>";
+        
 	} elseif ($type_langue === 'english') {
-		$lien = "Click here...";
-		$contenu_courriel .= '<html lang="en">';
-		$contenu_courriel .= design_css_courriel();
-		$contenu_courriel .= '<p>Bonjour !</p>
-                              <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
-                                 pour faire de nouvelles consultations des statistiques de poker.</p>
-                                <table>
-                                    <tr><td><span>Lien Web :</span> </td><td><a target="_blank" href="https://benoitmignault.ca/login/reset.php?key={$lien_reset_pwd}&langue={$type_langue}">{$lien}</a></td></tr>
-                                    <tr><td><span>Nom Utilisateur :</span> </td><td>' . $user . '</td></tr>
-                                    <tr><td><span>Mot de Passe (Temporaire) :</span> </td><td>' . $password_temp . '</td></tr>
-                                    <tr><td><span>Temps accordé pour le changement :</span> </td><td>12 heures</td></tr>
-                                </table>';
+		echo "";
 	}
 	
 	$contenu_courriel .= '</body></html>';
 	
 	return $contenu_courriel;
-}
-	
-/**
- * Fonction qui détermine le design du CSS commun au deux langues
- * @return string
- */
-function design_css_courriel(): string {
-    
-    return '<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <style>
-                    body { font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0 }
-                    table { border-collapse: collapse; width: 100%; border-color: #666; }
-                    table, th, td { border: 1px solid #666; padding: 10px; }
-                    th { background-color: #f2f2f2; }
-                    span { font-weight: bold; }
-                    p { text-align: left; }
-                  </style><title></title>
-             </head><body>';
 }
 
 /**

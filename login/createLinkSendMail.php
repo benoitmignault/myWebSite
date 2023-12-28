@@ -264,18 +264,25 @@ function envoi_courriel_test_gmail($array_Champs) {
 }
 	
 	
-/**
- * @param array $array_Champs
- * @param object $connMYSQL
- * @return PHPMailer
- */
-function gestion_lien_courriel(array $array_Champs, object $connMYSQL): PHPMailer{
+	/**
+	 * @param array $array_Champs
+	 * @return PHPMailer
+	 * @throws Exception
+	 */
+function gestion_lien_courriel(array $array_Champs): PHPMailer{
 
     // Création de l'instance
     $mail = creation_instance_courriel();
 	
-	// Récupération des informations de la création du lien et password temporaire
-	$array_Champs = creation_lien_password_temporaire($connMYSQL, $array_Champs);
+	// Venant de qui et pour qui
+	$mail->setFrom('home@benoitmignault.ca', 'Site Web Benoit Mignault');
+	$mail->addAddress($array_Champs['email'], $array_Champs['user']);
+    
+    // Préparation pour l'object et le corp du message, en fonction de la langue
+    
+	$mail->Subject = preparation_object_courriel($array_Champs["type_langue"]);
+	$mail->Body    = 'Bonjour, ceci est un test d\'envoi d\'e-mail avec PHPMailer';
+    
     
     exit;
     
@@ -308,6 +315,27 @@ function creation_instance_courriel(): PHPMailer {
 
     return $mail;
 }
+
+/**
+ * Fonction pour déterminer comment on va setter l'object du courriel
+ *
+ * @param string $type_langue
+ * @return string
+ */
+function preparation_object_courriel(string $type_langue): string{
+	
+	$message_object = "";
+	if ($type_langue === 'francais') {
+		$message_object = "Voici votre courriel de changement de mot de passe.";
+		
+	} elseif ($type_langue === 'english') {
+		$message_object = "Here is your password change email.";
+	}
+ 
+    return $message_object;
+}
+
+
 
 
 /**

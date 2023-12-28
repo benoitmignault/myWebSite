@@ -142,7 +142,9 @@ function validation_champs($array_Champs): array{
 	        $array_Champs['erreur_presente'] = true;
         }
 
-        $pattern_email = "#^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$#";
+        // [:alnum:] -> a-zA-Z0-9
+        // [:alpha:] -> a-zA-Z
+        $pattern_email = "#^[[:alnum:]._-]+@[[:alnum:]._-]+\.[[:alpha:]]{2,4}$#";
         if (!preg_match($pattern_email, $array_Champs['email'])) {
 	        $array_Champs['champ_invalid'] = true;
         }

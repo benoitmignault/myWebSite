@@ -242,9 +242,8 @@ function envoi_courriel_test_gmail($array_Champs) {
         $mail->Port       = 587;  
 
         // Recipients
-        $mail->setFrom('benoit.mignault.ca@gmail.com', 'Site Web Benoit Mignault');
+        $mail->setFrom('home@benoitmignault.ca', 'Site Web Benoit Mignault');
         $mail->addAddress('b.mignault@gmail.com', 'Site Web Benoit Mignault');
-        $mail->addAddress('mignault.benoit@courrier.uqam.ca', 'Site Web Benoit Mignault');
 
         // Content
         $mail->isHTML(true);

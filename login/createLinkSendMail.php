@@ -28,7 +28,7 @@ function initialisation(): array {
     return array("longueur_email" => 0, "situation" => 0, "type_langue" => "", "user" => "", "email" => "",
                  "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false, "temps_valide_link" => 0,
                  "email_inexistant_bd" => false, "erreur_system_bd" => false, "erreur_presente" => false,
-                 "password_temp" => "", "lien_temps" => "", "envoi_courriel_succes" => false,
+                 "password_temp" => "", "lien_reset_pwd" => "", "envoi_courriel_succes" => false, "envoi_courriel_echec" => false,
                  "reset_existant" => false, "message_erreur_bd" => "", "liste_mots" => array());
 }
 
@@ -193,103 +193,68 @@ function validation_champs($array_Champs): array{
  * @return int
  */
 function situation(array $array_Champs): int{
-    
+	
     if ($array_Champs['champ_vide']){
-	    $typeSituation = 1;
+	    $type_situation = 1;
         
     } elseif ($array_Champs['champ_trop_long']){
-        $typeSituation = 2;
+	    $type_situation = 2;
         
     } elseif ($array_Champs['champ_invalid']){
-        $typeSituation = 3;
+	    $type_situation = 3;
         
     } elseif ($array_Champs['email_inexistant_bd']){
-        $typeSituation = 4;
+	    $type_situation = 4;
         // Ajout de cette nouvelle situation - 2023-12-06
     } elseif ($array_Champs['reset_existant']){
-	    $typeSituation = 8;
+	    $type_situation = 8;
      
     } elseif ($array_Champs['erreur_system_bd']){
-        $typeSituation = 5;
+	    $type_situation = 5;
         
     } elseif ($array_Champs['envoi_courriel_succes']){
 	    // Normalement, ici, ça veut que dire que nous avons un succès
-        $typeSituation = 6;
+	    $type_situation = 6;
         
     } else {
         // Rendu ici, on va caller une erreur système
-	    $typeSituation = 7;
+	    $type_situation = 7;
     } 
 
-    return $typeSituation;
+    return $type_situation;
 }
-
-// Création fonction pour créer envoyer un courriel à GMAIL
-function envoi_courriel_test_gmail($array_Champs) {
-
-    // Create an instance; passing `true` enables exceptions
-    $mail = new PHPMailer(true);
-
-    try {
-        // Paramètres du serveur SMTP
-        $mail->SMTPDebug = 0;
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'benoit.mignault.ca@gmail.com';
-        $mail->Password   = 'uqmsbfldqabqzvne'; 
-        $mail->SMTPSecure = "tls";        
-        $mail->Port       = 587;  
-
-        // Recipients
+	
+/**
+ * @param array $array_Champs
+ * @return array
+ */
+function gestion_lien_courriel(array $array_Champs): array{
+ 
+	// Création de l'instance
+	$mail = creation_instance_courriel();
+	try {
+        // Venant de qui et pour qui
         $mail->setFrom('home@benoitmignault.ca', 'Site Web Benoit Mignault');
-        $mail->addAddress('b.mignault@gmail.com', 'Site Web Benoit Mignault');
-
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = 'Test d\'envoi d\'e-mail avec PHPMailer';
-        $mail->Body    = 'Bonjour, ceci est un test d\'envoi d\'e-mail avec PHPMailer';
-
-        // Envoyer l'e-mail
-        $mail->send();
-        $champs["envoiCourrielSucces"] = true; 
-    } catch (Exception $e) {
-        echo "Erreur lors de l'envoi de l'e-mail : {$mail->ErrorInfo}";
-    }
-
-    // Fermer la connexion SMTP
-    $mail->smtpClose();
-
-    return $champs;
+        $mail->addAddress($array_Champs['email'], $array_Champs['user']);
+        
+        // Préparation pour l'object et le corp du message, en fonction de la langue
+        $mail->Subject = preparation_object_courriel($array_Champs["type_langue"]);
+        $mail->Body = preparation_contenu_courriel($array_Champs["type_langue"], $array_Champs["lien_reset_pwd"], $array_Champs["user"], $array_Champs["password_temp"]);
+        
+		// Envoyer l'e-mail
+		$mail->send();
+        $array_Champs["envoi_courriel_succes"] = true;
+	} catch (Exception) {
+  
+		$array_Champs["envoi_courriel_echec"] = true;
+		$array_Champs["liste_mots"]["message"] = $mail->ErrorInfo;
+    } finally {
+		// Fermer la connexion SMTP
+		$mail->SmtpClose();
+	}
+    
+    return $array_Champs;
 }
-	
-	
-	/**
-	 * @param array $array_Champs
-	 * @return PHPMailer
-	 * @throws Exception
-	 */
-function gestion_lien_courriel(array $array_Champs): PHPMailer{
-
-    // Création de l'instance
-    $mail = creation_instance_courriel();
-	
-	// Venant de qui et pour qui
-	$mail->setFrom('home@benoitmignault.ca', 'Site Web Benoit Mignault');
-	$mail->addAddress($array_Champs['email'], $array_Champs['user']);
-    
-    // Préparation pour l'object et le corp du message, en fonction de la langue
-    
-	$mail->Subject = preparation_object_courriel($array_Champs["type_langue"]);
-	$mail->Body    = 'Bonjour, ceci est un test d\'envoi d\'e-mail avec PHPMailer';
-    
-    
-    exit;
-    
-
-    return $mail;
-}
-
 
 /**
  * Fonction pour créer l'instant de connexion au serveur de courriel GMAIL.
@@ -303,7 +268,7 @@ function creation_instance_courriel(): PHPMailer {
     $mail = new PHPMailer(true);
 
     // Paramètres du serveur SMTP
-    $mail->SMTPDebug = 2; // 2 Pour voir le mode débug des messages erreurs
+    $mail->SMTPDebug = 2; // 2 Pour voir le mode debug des messages erreurs
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
     $mail->SMTPAuth   = true;
@@ -321,7 +286,7 @@ function creation_instance_courriel(): PHPMailer {
  * @param string $type_langue
  * @return string
  */
-function preparation_object_courriel(string $type_langue): string{
+function preparation_object_courriel(string $type_langue): string {
 	
 	$message_object = "";
 	if ($type_langue === 'francais') {
@@ -350,8 +315,8 @@ function creation_lien_password_temporaire(object $connMYSQL, array $array_Champ
 	
     date_default_timezone_set('America/New_York');
     // Création du lien
-	$lien_temps = $array_Champs['user'] . "/*-+!/$%?&*()" . $array_Champs['email'];
-	$array_Champs["lien_temps"] = encryptement_password($lien_temps);
+	$lien_reset_pwd = $array_Champs['user'] . "/*-+!/$%?&*()" . $array_Champs['email'];
+	$array_Champs["lien_reset_pwd"] = encryptement_password($lien_reset_pwd);
 	
     // Création du password temporaire
 	$array_Champs["password_temp"] = generate_random_string(10);
@@ -372,7 +337,7 @@ function creation_lien_password_temporaire(object $connMYSQL, array $array_Champ
 	$stmt = $connMYSQL->prepare($query);
 	try {
 		/* Lecture des marqueurs */
-		$stmt->bind_param("ssis", $array_Champs["lien_temps"], $password_secure, $temps_valide_link, $array_Champs['user']);
+		$stmt->bind_param("ssis", $array_Champs["lien_reset_pwd"], $password_secure, $temps_valide_link, $array_Champs['user']);
   
 		/* Exécution de la requête */
 		$stmt->execute();
@@ -572,7 +537,6 @@ function redirection(string $type_langue) {
     $array_Champs = initialisation();
     $array_Champs = remplisage_champs($array_Champs, $connMYSQL);
 
-
 // Ce qui arrive lorsqu'on arrive sur la page pour générer un lien de reset de password
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     
@@ -587,7 +551,7 @@ function redirection(string $type_langue) {
 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    
+        
         if (isset($_POST['btn_return']))  {
             redirection($array_Champs["type_langue"]);
             
@@ -599,17 +563,20 @@ function redirection(string $type_langue) {
 	            // Récupération des informations de la création du lien et password temporaire
 	            $array_Champs = creation_lien_password_temporaire($connMYSQL, $array_Champs);
                 
-                // Utilisation de cette fonction pour appeller les fonctions nécessaires pour le courriel
+                // Utilisation de cette fonction pour appeler les fonctions nécessaires pour le courriel
                 $array_Champs = gestion_lien_courriel($array_Champs);
             }
-        
-            $array_Champs["situation"] = situation($array_Champs);
+            
+            // Si nous avons eu une erreur dans l'envoi du courriel, nous allons récupérer le message d'erreur spécifique
+            if (!$array_Champs["envoi_courriel_echec"]){
+	            $array_Champs["situation"] = situation($array_Champs);
+            }
+            
             $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
-         
-            $connMYSQL->close();
         }
-        
     }
+    // Fermeture de la connexion sur les BD du serveur
+	$connMYSQL->close();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $array_Champs["liste_mots"]['lang']; ?>">

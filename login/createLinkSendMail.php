@@ -299,8 +299,69 @@ function preparation_object_courriel(string $type_langue): string {
     return $message_object;
 }
 
-
-
+/**
+ * Fonction pour créer le corps du courriel en fonction de la langue de l'utilisateur et
+ * les informations relier u changement de password.
+ *
+ * @param string $type_langue
+ * @param string $lien_reset_pwd
+ * @param string $user
+ * @param string $password_temp
+ * @return string
+ */
+function preparation_contenu_courriel(string $type_langue, string $lien_reset_pwd, string $user, string $password_temp): string {
+ 
+	$contenu_courriel = "";
+ 
+	if ($type_langue === 'francais') {
+		$contenu_courriel .= '<html lang="fr">';
+		$contenu_courriel .= design_css_courriel();
+		$contenu_courriel .= '<p>Bonjour !</p>
+                              <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
+                                 pour faire de nouvelles consultations des statistiques de poker.</p>
+                                <table>
+                                    <tr><td><span>Lien Web :</span> </td><td>' . $lien_reset_pwd . '</td></tr>
+                                    <tr><td><span>Nom Utilisateur :</span> </td><td>' . $user . '</td></tr>
+                                    <tr><td><span>Mot de Passe (Temporaire) :</span> </td><td>' . $password_temp . '</td></tr>
+                                    <tr><td><span>Temps accordé pour le changement :</span> </td><td>12 heures</td></tr>
+                                </table>';
+		
+	} elseif ($type_langue === 'english') {
+		$contenu_courriel .= '<html lang="en">';
+		$contenu_courriel .= design_css_courriel();
+		$contenu_courriel .= '<p>Bonjour !</p>
+                              <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
+                                 pour faire de nouvelles consultations des statistiques de poker.</p>
+                                <table>
+                                    <tr><td><span>Lien Web :</span> </td><td>' . $lien_reset_pwd . '</td></tr>
+                                    <tr><td><span>Nom Utilisateur :</span> </td><td>' . $user . '</td></tr>
+                                    <tr><td><span>Mot de Passe (Temporaire) :</span> </td><td>' . $password_temp . '</td></tr>
+                                    <tr><td><span>Temps accordé pour le changement :</span> </td><td>12 heures</td></tr>
+                                </table>';
+	}
+	
+	$contenu_courriel .= '</body></html>';
+	
+	return $contenu_courriel;
+}
+	
+/**
+ * Fonction qui détermine le design du CSS commun au deux langues
+ * @return string
+ */
+function design_css_courriel(): string {
+    
+    return '<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                    body { font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0 }
+                    table { border-collapse: collapse; width: 100%; border-color: #666; }
+                    table, th, td { border: 1px solid #666; padding: 10px; }
+                    th { background-color: #f2f2f2; }
+                    span { font-weight: bold; }
+                    p { text-align: left; }
+                  </style><title></title>
+             </head><body>';
+}
 
 /**
  * On va créer un lien encrypté envoyer par courriel.

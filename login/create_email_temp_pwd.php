@@ -187,7 +187,6 @@
         return $array_Champs;
     }
     
-    
     /**
      * Fonction pour déterminer le type de situation d'erreur ou pas qui peut survenir
      *

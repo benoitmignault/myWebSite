@@ -82,7 +82,7 @@
 		switch ($situation) {
 			case 1 : $message = "Tous les champs sont vides !"; break;
 			case 2 : $message = "Votre nouveau mot de passe serait bon, mais le mot de passe temporaire ne concorde pas avec nos informations !"; break;
-			case 3 : $message = "Votre confirmation de mot de passe n'est pas égal,<br>mais votre mot de passe temporaire concorde avec nos informations !"; break;
+			case 3 : $message = "Votre confirmation de mot de passe n'est pas égale,<br>mais votre mot de passe temporaire concorde avec nos informations !"; break;
 			case 4 : $message = "Votre mot de passe temporaire concorde avec nos informations,<br>mais les champs pour le nouveau mot de passe sont vides !"; break;
 			case 5 : $message = "Votre mot de passe temporaire est vide mais votre nouveau mot de passe serait bon !"; break;
 			case 6 : $message = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des champs pour le nouveau mot de passe seraient vides !"; break;

@@ -29,7 +29,7 @@
                      "champ_vide" => false, "champ_invalid" => false, "champ_trop_long" => false, "temps_valide_link" => 0,
                      "email_inexistant_bd" => false, "erreur_system_bd" => false, "erreur_presente" => false,
                      "password_temp" => "", "lien_reset_pwd" => "", "envoi_courriel_succes" => false, "envoi_courriel_echec" => false,
-                     "reset_existant" => false, "message_erreur_bd" => "", "liste_mots" => array());
+                     "reset_existant" => false, "message_erreur_bd" => "", "invalid_language" => false, "liste_mots" => array());
     }
     
     /**
@@ -43,14 +43,14 @@
     function remplisage_champs(array $array_Champs, object $connMYSQL): array{
         
         if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-            
+            // Exceptionnellement, on va faire une validation ici
             if (isset($_GET['langue'])){
                 $array_Champs["type_langue"] = $_GET['langue'];
             }
         }
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            
+	        // Exceptionnellement, on va faire une validation ici
             if (isset($_POST['langue'])){
                 $array_Champs["type_langue"] = $_POST['langue'];
             }
@@ -78,7 +78,11 @@
                 }
             }
         }
-     
+        // Validation commune pour le Get & Post, à propos de la langue
+        if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
+	        $array_Champs["invalid_language"] = true;
+        }
+        
         return $array_Champs;
     }
     
@@ -432,11 +436,13 @@
     
     /**
      * Fonction pour rediriger vers la bonne page page extérieur à la page du reset de password
+     * En fonction aussi si le type de langue est valide
      *
      * @param string $type_langue
+     * @param bool $invalid_language
      * @return void
      */
-    #[NoReturn] function redirection(string $type_langue): void {
+    #[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
         
         // Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -445,12 +451,17 @@
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
-            if (isset($_POST['btn_return']) && $type_langue === "francais") {
-                header("Location: /index.html");
-            }
-            
-            if (isset($_POST['btn_return']) && $type_langue === "english") {
-                header("Location: /english/english.html");
+            if ($invalid_language){
+	            header("Location: /erreur/erreur.php");
+             
+            } else {
+	            if (isset($_POST['btn_return']) && $type_langue === "francais") {
+		            header("Location: /index.html");
+	            }
+	
+	            if (isset($_POST['btn_return']) && $type_langue === "english") {
+		            header("Location: /english/english.html");
+	            }
             }
         }
         
@@ -466,8 +477,8 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     
         // Si la langue n'est pas setter, on va rediriger vers la page Err 404
-        if ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
-            redirection(""); // On n'a pas besoin de la variable vue qu'elle ne ressemble à rien de connue
+        if ($array_Champs["invalid_language"]) {
+            redirection("", false); // On n'a pas besoin des variables
         } else {
             // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
             $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
@@ -477,7 +488,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         
         if (isset($_POST['btn_return']))  {
-            redirection($array_Champs["type_langue"]);
+            redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]);
             
         } elseif (isset($_POST['btn_envoi_lien'])) {
 	

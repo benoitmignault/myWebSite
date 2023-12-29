@@ -439,17 +439,17 @@
     #[NoReturn] function redirection(string $type_langue): void {
         
         // Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             header("Location: /erreur/erreur.php");
         }
         
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
-            if (isset($_POST['btn_return']) && $type_langue == "francais") {
+            if (isset($_POST['btn_return']) && $type_langue === "francais") {
                 header("Location: /index.html");
             }
             
-            if (isset($_POST['btn_return']) && $type_langue == "english") {
+            if (isset($_POST['btn_return']) && $type_langue === "english") {
                 header("Location: /english/english.html");
             }
         }

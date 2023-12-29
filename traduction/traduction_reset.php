@@ -1,39 +1,54 @@
 <?php
 	
-	
-	function traduction($champs) {
-		if ($champs["typeLangue"] === 'francais') {
-			$lang = "fr";
-			$title = "Mot de passe en changement !";
-			$p1 = "Vous pouvez maintenant changer votre du mot de passe !";
-			$li1 = "Veuillez inscrire votre mot de passe temporaire.";
-			$li2 = "Veuillez choisir un nouveau mot de passe et le confirmer dans le 3e champs contenant des lettres et chiffres seulement.";
-			$li3 = "Votre nouveau mot de passe doit être différent de l'ancien, pour des raisons de sécurité.";
-			$legend = "Saisir de quoi de nouveau !";
-			$mdp_Temp = "Mot de passe temporaire :";
-			$mdp_1 = "Nouveau mot de passe :";
-			$mdp_2 = "Confirmer votre mot de passe :";
-			$btn_create_New_PWD = "Enregistrer...";
-			$page_Login = "Se Connecter";
-			$return = "Retour à l'accueil";
-		} elseif ($champs["typeLangue"] === 'english') {
-			$title = "Password is changing !";
-			$lang = "en";
-			$p1 = "You can now change your password !";
-			$li1 = "Please enter your temporary password.";
-			$li2 = "Please choose a new password and confirm it in the 3rd field containing letters and numbers only.";
-			$li3 = "Your new password must be different from the old one, for security reasons !";
-			$legend = "Write something new !";
-			$mdp_Temp = "Temporary password :";
-			$mdp_1 = "New Password :";
-			$mdp_2 = "Confirm your password :";
-			$btn_create_New_PWD = "Reset password...";
-			$page_Login = "Sign in";
-			$return = "Home Page";
+	/**
+	 * Fonction qui sera utiliser pour traduire le texte dans la page et ainsi que les messages d'erreurs
+	 *
+	 * @param string $type_langue
+	 * @param int $situation
+	 * @return string[]
+	 */
+	function traduction(string $type_langue, int $situation): array {
+		
+		// Initialiser le array de mots traduit
+		$liste_mots = array("lang" => "", "message" => "", "title" => "", "p1" => "", "li1" => "", "li2" => "", "li3" => "",
+		                    "legend" => "", "mdp_Temp" => "", "mdp_1" => "", "mdp_2" => "", "btn_create_New_PWD" => "",
+		                    "btn_login" => "", "btn_return" => "");
+				
+		if ($type_langue === 'francais') {
+			$liste_mots["lang"] = "fr";
+			$liste_mots["title"] = "Mot de passe en changement !";
+			$liste_mots["p1"] = "Vous pouvez maintenant changer votre du mot de passe !";
+			$liste_mots["li1"] = "Veuillez inscrire votre mot de passe temporaire.";
+			$liste_mots["li2"] = "Veuillez choisir un nouveau mot de passe et le confirmer dans le 3e champs contenant des lettres et chiffres seulement.";
+			$liste_mots["li3"] = "Votre nouveau mot de passe doit être différent de l'ancien, pour des raisons de sécurité.";
+			$liste_mots["legend"] = "Saisir de quoi de nouveau !";
+			$liste_mots["mdp_Temp"] = "Mot de passe temporaire :";
+			$liste_mots["mdp_1"] = "Nouveau mot de passe :";
+			$liste_mots["mdp_2"] = "Confirmer votre mot de passe :";
+			$liste_mots["btn_create_New_PWD"] = "Enregistrer...";
+			$liste_mots["page_Login"] = "Se Connecter";
+			$liste_mots["return"] = "Retour à l'accueil";
+			
+		} elseif ($type_langue === 'english') {
+			$liste_mots["title"] = "Password is changing !";
+			$liste_mots["lang"] = "en";
+			$liste_mots["p1"] = "You can now change your password !";
+			$liste_mots["li1"] = "Please enter your temporary password.";
+			$liste_mots["li2"] = "Please choose a new password and confirm it in the 3rd field containing letters and numbers only.";
+			$liste_mots["li3"] = "Your new password must be different from the old one, for security reasons !";
+			$liste_mots["legend"] = "Write something new !";
+			$liste_mots["mdp_Temp"] = "Temporary password :";
+			$liste_mots["mdp_1"] = "New Password :";
+			$liste_mots["mdp_2"] = "Confirm your password :";
+			$liste_mots["btn_create_New_PWD"] = "Reset password...";
+			$liste_mots["page_Login"] = "Sign in";
+			$liste_mots["return"] = "Home Page";
 		}
-		$messageFinal = traductionSituation($champs);
-		$arrayMots = ["lang" => $lang, "message" => $messageFinal, "title" => $title, "p1" => $p1, "li1" => $li1, "li2" => $li2, "li3" => $li3, "legend" => $legend, "mdp_Temp" => $mdp_Temp, "mdp_1" => $mdp_1, "mdp_2" => $mdp_2, "btn_create_New_PWD" => $btn_create_New_PWD, "btn_login" => $page_Login, "btn_return" => $return];
-		return $arrayMots;
+		
+		// Le message qui sera dans la langue voulu
+		$liste_mots["message"] = traduction_situation($type_langue, $situation);
+		
+		return $liste_mots;
 	}
 	
 	

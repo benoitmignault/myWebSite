@@ -45,6 +45,7 @@
 	}
 	
 	/**
+	 * Fonction pour sélectionner le message de la situation unique possible, que ça soit en français ou anglais
 	 * @param string $type_langue
 	 * @param int $situation
 	 * @return string

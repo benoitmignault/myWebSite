@@ -70,44 +70,58 @@
 		return $message_situation;
 	}
 	
-	
-	function traductionSituationFR($champs){
-		$messageFrench = "";
-		switch ($champs['situation']) {
-			case 1 : $messageFrench = "Tous les champs sont vides !"; break;
-			case 2 : $messageFrench = "Votre nouveau mot de passe serait bon, mais le mot de passe temporaire ne concorde pas avec nos informations !"; break;
-			case 3 : $messageFrench = "Votre confirmation de mot de passe n'est pas égal,<br>mais votre mot de passe temporaire concorde avec nos informations !"; break;
-			case 4 : $messageFrench = "Votre mot de passe temporaire concorde avec nos informations,<br>mais les champs pour le nouveau mot de passe sont vides !"; break;
-			case 5 : $messageFrench = "Votre mot de passe temporaire est vide mais votre nouveau mot de passe serait bon !"; break;
-			case 6 : $messageFrench = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des champs pour le nouveau mot de passe seraient vides !"; break;
-			case 7 : $messageFrench = "Votre nouveau et temporaire mot de passe seraient bon,<br>mais vous avez dépassé le temps limite autorisé à changer de mot de passe."; break;
-			case 8 : $messageFrench = "Votre nouveau mot de passe a été enregistré avec succès !<br>Nous vous invitons à vous diriger vers la page de connexion ou retourner à la page d'accueil."; break;
-			case 9 : $messageFrench = "Votre mot de passe temporaire ne concorde pas avec nos informations et la confirmation du nouveau mot de passe n'est pas égal !"; break;
-			case 10 : $messageFrench = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des deux champs du nouveau mot de passe est invalide !"; break;
-			case 11 : $messageFrench = "Votre mot de passe temporaire ne concorde pas avec nos informations et un des deux champs du nouveau mot de passe est invalide !"; break;
-			case 12 : $messageFrench = "Votre nouveau mot de passe ne doit pas être égal à celui que vous aviez avant !"; break;
-			case 13 : $messageFrench = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break;
+	/**
+	 * Fonction qui va aller chercher le message en français correspondant à la situation
+	 *
+	 * @param int $situation
+	 * @return string
+	 */
+	function traduction_situation_francais(int $situation): string {
+		
+		$message = "";
+		switch ($situation) {
+			case 1 : $message = "Tous les champs sont vides !"; break;
+			case 2 : $message = "Votre nouveau mot de passe serait bon, mais le mot de passe temporaire ne concorde pas avec nos informations !"; break;
+			case 3 : $message = "Votre confirmation de mot de passe n'est pas égal,<br>mais votre mot de passe temporaire concorde avec nos informations !"; break;
+			case 4 : $message = "Votre mot de passe temporaire concorde avec nos informations,<br>mais les champs pour le nouveau mot de passe sont vides !"; break;
+			case 5 : $message = "Votre mot de passe temporaire est vide mais votre nouveau mot de passe serait bon !"; break;
+			case 6 : $message = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des champs pour le nouveau mot de passe seraient vides !"; break;
+			case 7 : $message = "Votre nouveau et temporaire mot de passe seraient bon,<br>mais vous avez dépassé le temps limite autorisé à changer de mot de passe."; break;
+			case 8 : $message = "Votre nouveau mot de passe a été enregistré avec succès !<br>Nous vous invitons à vous diriger vers la page de connexion ou retourner à la page d'accueil."; break;
+			case 9 : $message = "Votre mot de passe temporaire ne concorde pas avec nos informations et la confirmation du nouveau mot de passe n'est pas égal !"; break;
+			case 10 : $message = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des deux champs du nouveau mot de passe est invalide !"; break;
+			case 11 : $message = "Votre mot de passe temporaire ne concorde pas avec nos informations et un des deux champs du nouveau mot de passe est invalide !"; break;
+			case 12 : $message = "Votre nouveau mot de passe ne doit pas être égal à celui que vous aviez avant !"; break;
+			case 13 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break;
 		}
-		return $messageFrench;
+		
+		return $message;
 	}
 	
-	
-	function traductionSituationEN($champs){
-		$messageEnglish = "";
-		switch ($champs['situation']) {
-			case 1 : $messageEnglish = "All fields are empty !"; break;
-			case 2 : $messageEnglish = "Your new password would be good, but the temporary password does not match our information !"; break;
-			case 3 : $messageEnglish = "Your password confirmation is not equal,<br>but your temporary password matches our information !"; break;
-			case 4 : $messageEnglish = "Your temporary password matches our information,<br>but the fields for the new password are empty !"; break;
-			case 5 : $messageEnglish = "Your temporary password is empty but your new password would be good !"; break;
-			case 6 : $messageEnglish = "Your temporary password matches our information, <br> but one of the fields for the new password would be empty !"; break;
-			case 7 : $messageEnglish = "Your new and temporary password would be good,<br>but you have exceeded the time allowed to change your password."; break;
-			case 8 : $messageEnglish = "Your new password has been successfully registered !<br>We invite you to go to the login page or return to the home page."; break;
-			case 9 : $messageEnglish = "Your temporary password does not match our information and the confirmation of the new password is not equal !"; break;
-			case 10 : $messageEnglish = "Your temporary password matches our information, but one of the two fields of the new password is invalid !"; break;
-			case 11 : $messageEnglish = "Your temporary password does not match our information and one of the two fields of the new password is invalid !"; break;
-			case 12 : $messageEnglish = "Your new password must not be equal to the one you had before !"; break;
-			case 13 : $messageEnglish = "A communication / manipulation error occurred when sending you the email !"; break;
+	/**
+	 * Fonction qui va aller chercher le message en anglais correspondant à la situation
+	 *
+	 * @param int $situation
+	 * @return string
+	 */
+	function traduction_situation_anglais(int $situation): string {
+		
+		$message = "";
+		switch ($situation) {
+			case 1 : $message = "All fields are empty !"; break;
+			case 2 : $message = "Your new password would be good, but the temporary password does not match our information !"; break;
+			case 3 : $message = "Your password confirmation is not equal,<br>but your temporary password matches our information !"; break;
+			case 4 : $message = "Your temporary password matches our information,<br>but the fields for the new password are empty !"; break;
+			case 5 : $message = "Your temporary password is empty but your new password would be good !"; break;
+			case 6 : $message = "Your temporary password matches our information, <br> but one of the fields for the new password would be empty !"; break;
+			case 7 : $message = "Your new and temporary password would be good,<br>but you have exceeded the time allowed to change your password."; break;
+			case 8 : $message = "Your new password has been successfully registered !<br>We invite you to go to the login page or return to the home page."; break;
+			case 9 : $message = "Your temporary password does not match our information and the confirmation of the new password is not equal !"; break;
+			case 10 : $message = "Your temporary password matches our information, but one of the two fields of the new password is invalid !"; break;
+			case 11 : $message = "Your temporary password does not match our information and one of the two fields of the new password is invalid !"; break;
+			case 12 : $message = "Your new password must not be equal to the one you had before !"; break;
+			case 13 : $message = "A communication / manipulation error occurred when sending you the email !"; break;
 		}
-		return $messageEnglish;
+		
+		return $message;
 	}

@@ -51,15 +51,23 @@
 		return $liste_mots;
 	}
 	
-	
-	function traductionSituation($champs){
-		$messageEnPreparation = "";
-		if ($champs["typeLangue"] === 'francais') {
-			$messageEnPreparation = traductionSituationFR($champs);
-		} elseif ($champs["typeLangue"] === 'english') {
-			$messageEnPreparation = traductionSituationEN($champs);
+	/**
+	 * Fonction pour sélectionner le message de la situation unique possible, que ça soit en français ou anglais
+	 * @param string $type_langue
+	 * @param int $situation
+	 * @return string
+	 */
+	function traduction_situation(string $type_langue, int $situation): string{
+		
+		$message_situation = "";
+		if ($type_langue === 'francais') {
+			$message_situation = traduction_situation_francais($situation);
+			
+		} elseif ($type_langue === 'english') {
+			$message_situation = traduction_situation_anglais($situation);
 		}
-		return $messageEnPreparation;
+		
+		return $message_situation;
 	}
 	
 	

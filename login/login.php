@@ -329,9 +329,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // si le bouton éffacer est pesé...
         } elseif (isset($_POST['reset'])) {
             if ($champs["typeLangue"] === 'english') {
-                header("Location: /login/createLinkSendMail.php?langue=english");
+                header("Location: /login/create_email_temp_pwd.php?langue=english");
             } elseif ($champs["typeLangue"] === 'francais') {
-                header("Location: /login/createLinkSendMail.php?langue=francais");
+                header("Location: /login/create_email_temp_pwd.php?langue=francais");
             }
             exit;
         }

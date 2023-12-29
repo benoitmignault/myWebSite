@@ -10,10 +10,10 @@
 	 *
 	 * @return array
 	 */
-    function initialChamp() {
+	function initialisation(): array {
         
-        return array("type_langue" => "", "situation" => 0, "password_temp" => "", "pwd_1_new" => "", "pwd_2_new" => "", "lien_crypter" => "", 
-                 "erreur_manip_bd" => false, "create_user_succes" => false, 
+        return array("type_langue" => "", "situation" => 0, "champ_pwd_temp" => "", "champ_pwd_1_new" => "", "champ_pwd_2_new" => "", "champ_lien_crypter" => "", 
+                 "erreur_manip_bd" => false, "create_user_succes" => false, "lien_crypter_bd" => "", "pwd_temp_bd" => "", "token_time_bd" => 0,
                  "champ_pwd_1_trop_long" => false, "champ_pwd_2_trop_long" => false, "champ_pwd_temp_trop_long" => false, "champs_pwd_trop_long" => false, 
                  "champ_pwd_temp_invalid" => false, "champ_pwd_1_invalid" => false, "champ_pwd_2_invalid" => false, "champs_pwd_invalid" => false, "pwd_old_new_diff" => false, 
                  "champ_pwd_new_none_equal" => false, "champ_pwd_temp_none_equal" => false, "champs_pwd_none_equal" => false,
@@ -21,8 +21,17 @@
                  "token_time_used" => 0, "token_time_expired" => false, "lien_crypter_good" => false, 
                  "liste_mots" => array());
 }
-    
-    function remplissageChamps($array_Champs){
+	/**
+	 * Fonction pour setter les premières informations du GET ou POST
+	 * Ensuite, Via la fonction ... on va aller récup
+	 *
+	 * @param array $array_Champs
+	 * @param object $connMYSQL
+	 * @return array
+	 */
+	function remplisage_champs(array $array_Champs, object $connMYSQL): array{
+        
+        
         if ($_SERVER['REQUEST_METHOD'] === 'GET'){
             if (isset($_GET['langue'])){
                 $array_Champs["type_langue"] = $_GET['langue'];
@@ -31,7 +40,7 @@
             }
     
             if (isset($_GET['key'])){
-                $array_Champs["lien_crypter"] = $_GET['key'];
+                $array_Champs["champ_lien_crypter"] = $_GET['key'];
             }
     
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -41,19 +50,19 @@
                 $array_Champs["invalid_language"] = true;
             }
     
-            if (isset($_POST['lien_crypter'])){
-                $array_Champs["lien_crypter"] = $_POST['lien_crypter'];
+            if (isset($_POST['champ_lien_crypter'])){
+                $array_Champs["champ_lien_crypter"] = $_POST['champ_lien_crypter'];
             }
-            if (isset($_POST['password_temp'])){
-                $array_Champs["password_temp"] = $_POST['password_temp'];
-            }
-    
-            if (isset($_POST['pwd_1_new'])){
-                $array_Champs["pwd_1_new"] = $_POST['pwd_1_new'];
+            if (isset($_POST['champ_pwd_temp'])){
+                $array_Champs["champ_pwd_temp"] = $_POST['champ_pwd_temp'];
             }
     
-            if (isset($_POST['pwd_2_new'])){
-                $array_Champs["pwd_2_new"] = $_POST['pwd_2_new'];
+            if (isset($_POST['champ_pwd_1_new'])){
+                $array_Champs["champ_pwd_1_new"] = $_POST['champ_pwd_1_new'];
+            }
+    
+            if (isset($_POST['champ_pwd_2_new'])){
+                $array_Champs["champ_pwd_2_new"] = $_POST['champ_pwd_2_new'];
             }
             date_default_timezone_set('America/New_York');
             $current_time = date("Y-m-d H:i:s");
@@ -65,15 +74,15 @@
     
     function verifChamp($array_Champs, $connMYSQL) {
         // Section de vérification des champs vide
-        if (empty($array_Champs['password_temp'])){
+        if (empty($array_Champs['champ_pwd_temp'])){
             $array_Champs['champ_pwd_temp_empty'] = true;
         }
     
-        if (empty($array_Champs['pwd_1_new'])){
+        if (empty($array_Champs['champ_pwd_1_new'])){
             $array_Champs['champ_pwd_1_empty'] = true;
         }
     
-        if (empty($array_Champs['pwd_2_new'])){
+        if (empty($array_Champs['champ_pwd_2_new'])){
             $array_Champs['champ_pwd_2_empty'] = true;
         }
     
@@ -81,22 +90,22 @@
             $array_Champs['champs_pwd_empty'] = true;
         }
     
-        if ( (strcmp($array_Champs["pwd_1_new"],$array_Champs["pwd_2_new"]) != 0) && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] ) {
+        if ( (strcmp($array_Champs["champ_pwd_1_new"],$array_Champs["champ_pwd_2_new"]) != 0) && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] ) {
             $array_Champs["champ_pwd_new_none_equal"] = true;
         }
     
-        $sql = "select password, passwordTemp, temps_Valide_link from login where reset_link = '{$array_Champs["lien_crypter"]}'";
+        $sql = "select password, passwordTemp, temps_Valide_link from login where reset_link = '{$array_Champs["champ_lien_crypter"]}'";
         $result = $connMYSQL->query($sql);
         $row_cnt = $result->num_rows;
         if ($row_cnt !== 0){
             foreach ($result as $row) {
-                if (!password_verify($array_Champs['password_temp'], $row['passwordTemp'])){
+                if (!password_verify($array_Champs['champ_pwd_temp'], $row['passwordTemp'])){
                     $array_Champs['champ_pwd_temp_none_equal'] = true;
                 }
     
                 // Si le nouveau password est égal dans les deux champs c'est
                 if (!$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty']){
-                    if (!password_verify($array_Champs['pwd_1_new'], $row['password'])){
+                    if (!password_verify($array_Champs['champ_pwd_1_new'], $row['password'])){
                         $array_Champs['pwd_old_new_diff'] = true;
                     }
                 }
@@ -114,9 +123,9 @@
             $array_Champs["champs_pwd_none_equal"] = true;
         }
         // Section pour vérifier la validité de la longueur des champs passwords
-        $longueurPWDTemp = strlen($array_Champs['password_temp']);
-        $longueurPWD1 = strlen($array_Champs['pwd_1_new']);
-        $longueurPWD2 = strlen($array_Champs['pwd_1_new']);
+        $longueurPWDTemp = strlen($array_Champs['champ_pwd_temp']);
+        $longueurPWD1 = strlen($array_Champs['champ_pwd_1_new']);
+        $longueurPWD2 = strlen($array_Champs['champ_pwd_1_new']);
     
         if ($longueurPWDTemp > 25) {
             $array_Champs['champ_pwd_temp_trop_long'] = true;
@@ -136,14 +145,14 @@
         // Section pour valider si il y a des caractères invalides dans les champs password
         $patternPass = "#^[0-9a-zA-Z]([0-9a-zA-Z]{0,23})[0-9a-zA-Z]$#";
     
-        if (!preg_match($patternPass, $array_Champs['password_temp']) && !$array_Champs['champ_pwd_temp_empty']) {
+        if (!preg_match($patternPass, $array_Champs['champ_pwd_temp']) && !$array_Champs['champ_pwd_temp_empty']) {
             $array_Champs['champ_pwd_temp_invalid'] = true;
         }
     
-        if (!preg_match($patternPass, $array_Champs['pwd_1_new']) && !$array_Champs['champ_pwd_1_empty']) {
+        if (!preg_match($patternPass, $array_Champs['champ_pwd_1_new']) && !$array_Champs['champ_pwd_1_empty']) {
             $array_Champs['champ_pwd_1_invalid'] = true;
         }
-        if (!preg_match($patternPass, $array_Champs['pwd_2_new']) && !$array_Champs['champ_pwd_2_empty']) {
+        if (!preg_match($patternPass, $array_Champs['champ_pwd_2_new']) && !$array_Champs['champ_pwd_2_empty']) {
             $array_Champs['champ_pwd_2_invalid'] = true;
         }
     
@@ -192,7 +201,7 @@
         $stmt = $connMYSQL->prepare("select reset_link from login where reset_link =? ");
     
         /* Lecture des marqueurs */
-        $stmt->bind_param("s", $array_Champs["lien_crypter"]);
+        $stmt->bind_param("s", $array_Champs["champ_lien_crypter"]);
     
         /* Exécution de la requête */
         $stmt->execute();
@@ -211,14 +220,14 @@
     
     function changementPassword($array_Champs, $connMYSQL){
         // Remise à NULL pour les
-        $newPWDencrypt = encryptementPassword($array_Champs["pwd_1_new"]);
+        $newPWDencrypt = encryptementPassword($array_Champs["champ_pwd_1_new"]);
     
         /* Crée une requête préparée */
         $stmt = $connMYSQL->prepare("update login set password =? , reset_link =? , passwordTemp =?, temps_Valide_link =? where reset_link =? ");
         /* Lecture des marqueurs */
         $zero = 0; // Je dois créer une variable qui va contenir la valeur 0
         $stringVide = NUll;
-        $stmt->bind_param("sssis", $newPWDencrypt,$stringVide,$stringVide,$zero,$array_Champs["lien_crypter"]);
+        $stmt->bind_param("sssis", $newPWDencrypt,$stringVide,$stringVide,$zero,$array_Champs["champ_lien_crypter"]);
         /* Exécution de la requête */
         $status = $stmt->execute();
     
@@ -227,10 +236,10 @@
         } else {
             $array_Champs['create_user_succes'] = true;
             // Remise à leur valeur initial, car le changement de mot de passe est terminé et le lien n'est plus valide
-            $array_Champs['password_temp'] = "";
-            $array_Champs['pwd_1_new'] = "";
-            $array_Champs['pwd_2_new'] = "";
-            $array_Champs['lien_crypter'] = "";
+            $array_Champs['champ_pwd_temp'] = "";
+            $array_Champs['champ_pwd_1_new'] = "";
+            $array_Champs['champ_pwd_2_new'] = "";
+            $array_Champs['champ_lien_crypter'] = "";
             $array_Champs['token_time_used'] = 0;
         }
     
@@ -240,8 +249,8 @@
         return $array_Champs;
     }
     
-    function encryptementPassword($password_temp) {
-        $password_Encrypted = password_hash($password_temp, PASSWORD_BCRYPT);
+    function encryptementPassword($champ_pwd_temp) {
+        $password_Encrypted = password_hash($champ_pwd_temp, PASSWORD_BCRYPT);
         return $password_Encrypted;
     }
     
@@ -265,7 +274,7 @@
                 header("Location: /erreur/erreur.php");
             }
         }
-        exit; // pour arrêter l'éxecution du code php
+        exit; // pour arrêter l'exécution du code php
     }
 	
 	// Les fonctions communes
@@ -276,9 +285,7 @@
     
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-        $array_Champs = initialChamp();
-        $array_Champs = remplissageChamps($array_Champs);
-        $connMYSQL = connexionBD();
+        
         $array_Champs = verif_link_BD($array_Champs, $connMYSQL);
         if ($array_Champs["invalid_language"]){
             redirection($array_Champs);
@@ -291,9 +298,8 @@
     }
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-        $array_Champs = initialChamp();
-        $array_Champs = remplissageChamps($array_Champs);
-        $connMYSQL = connexionBD();
+        
+        
         if ($array_Champs["invalid_language"]){
             redirection($array_Champs);
         } elseif (isset($_POST['return']) || isset($_POST['page_Login'])){
@@ -353,23 +359,23 @@
                 <form method="post" action="./reset.php">
                     <div class="connexion">
                         <div class="information <?php if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_temp_trop_long'] || $array_Champs["champ_pwd_temp_empty"] || $array_Champs['champ_pwd_temp_none_equal']) { echo 'erreur';} ?>">
-                            <label for="password_temp"><?php echo $arrayMots['mdp_Temp']; ?></label>
+                            <label for="champ_pwd_temp"><?php echo $arrayMots['mdp_Temp']; ?></label>
                             <div>
-                                <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> autofocus id="password_temp" type='password' maxlength="25" name="password_temp" value="<?php echo $array_Champs['password_temp']; ?>" />
+                                <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> autofocus id="champ_pwd_temp" type='password' maxlength="25" name="champ_pwd_temp" value="<?php echo $array_Champs['champ_pwd_temp']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
                         <div class="information <?php if (( $_SERVER['REQUEST_METHOD'] === 'POST' && !$array_Champs['pwd_old_new_diff'] ) || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs["champ_pwd_1_empty"] || $array_Champs["champ_pwd_new_none_equal"]) { echo 'erreur';} ?>">
-                            <label for="pwd_1_new"><?php echo $arrayMots['mdp_1']; ?></label>
+                            <label for="champ_pwd_1_new"><?php echo $arrayMots['mdp_1']; ?></label>
                             <div>
-                                <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> id="pwd_1_new" type='password' maxlength="25" name="pwd_1_new" value="<?php echo $array_Champs['pwd_1_new']; ?>" />
+                                <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> id="champ_pwd_1_new" type='password' maxlength="25" name="champ_pwd_1_new" value="<?php echo $array_Champs['champ_pwd_1_new']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
                         <div class="information <?php if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' && !$array_Champs['pwd_old_new_diff'] ) || $array_Champs['champ_pwd_2_invalid'] || $array_Champs['champ_pwd_2_trop_long'] || $array_Champs["champ_pwd_2_empty"] || $array_Champs["champ_pwd_new_none_equal"]) { echo 'erreur';} ?>">
-                            <label for="pwd_2_new"><?php echo $arrayMots['mdp_2']; ?></label>
+                            <label for="champ_pwd_2_new"><?php echo $arrayMots['mdp_2']; ?></label>
                             <div>
-                                <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> id="pwd_2_new" type='password' maxlength="25" name="pwd_2_new" value="<?php echo $array_Champs['pwd_2_new']; ?>" />
+                                <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> id="champ_pwd_2_new" type='password' maxlength="25" name="champ_pwd_2_new" value="<?php echo $array_Champs['champ_pwd_2_new']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
@@ -377,7 +383,7 @@
                     <div class="troisBTN">
                         <input <?php if ($array_Champs['create_user_succes']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> type='submit' name='create_New_PWD' value="<?php echo $arrayMots['btn_create_New_PWD']; ?>">
                         <input type='hidden' name='type_langue' value="<?php echo $array_Champs['type_langue']; ?>">
-                        <input type='hidden' name='lien_crypter' value="<?php echo $array_Champs['lien_crypter']; ?>">
+                        <input type='hidden' name='champ_lien_crypter' value="<?php echo $array_Champs['champ_lien_crypter']; ?>">
                     </div>
                 </form>
             </fieldset>

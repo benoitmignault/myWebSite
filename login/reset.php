@@ -2,145 +2,153 @@
 	// Les includes nécessaires
 	include_once("../traduction/traduction_create_link_reset.php");
 	include_once("../includes/fct-connexion-bd.php");
-
+	
+	/**
+	 * Fonction qui va contenir tous ce dont on aura besoin.
+	 * Une partie des variables de type string ou integer et une autre partie en boolean
+	 * On va ajouter un array pour les mots traduits ou non
+	 *
+	 * @return array
+	 */
     function initialChamp() {
-    $champInitial = ["erreurManipulationBD" => false, "creationUserSuccess" => false, "champsPWD_New_NonEgal" => false, "champTropLongPWD_2" => false, 
-    "champTropLongPWD_1" => false, "champTropLongPWD_Temp" => false, "champInvalidPWD" => false, "champInvalidPWD_Temp" => false, 
-    "champInvalidPWD_2" => false, "champInvalidPWD_1" => false, "champPWD_Temp_NonEgal" => false, "champsPWD_NonEgal" => false, 
-    "champsVidePWD" => false, "champVidePWD_1" => false, "champVidePWD_2" => false, "champVidePWD_Temp" => false, "invalid_Language" => false, 
-    "token_Time_Used" => 0, "token_Time_Expired" => false, "champTropLong" => false, "lien_Crypte_Good" => false, "lien_Crypte" => "", 
-    "situation" => 0, "typeLangue" => "", "password_Temp" => "", "new_Password_1" => "", "new_Password_2" => "", "ancien_Nouveau_PWD_Diff" => false];
-
-    return $champInitial;
+        
+        return array("type_langue" => "", "situation" => 0, "password_temp" => "", "pwd_1_new" => "", "pwd_2_new" => "", "lien_crypter" => "", 
+                 "erreur_manip_bd" => false, "create_user_succes" => false, 
+                 "champ_pwd_1_trop_long" => false, "champ_pwd_2_trop_long" => false, "champ_pwd_temp_trop_long" => false, "champs_pwd_trop_long" => false, 
+                 "champ_pwd_temp_invalid" => false, "champ_pwd_1_invalid" => false, "champ_pwd_2_invalid" => false, "champs_pwd_invalid" => false, "pwd_old_new_diff" => false, 
+                 "champ_pwd_new_none_equal" => false, "champ_pwd_temp_none_equal" => false, "champs_pwd_none_equal" => false,
+                 "champ_pwd_1_empty" => false, "champ_pwd_2_empty" => false, "champ_pwd_temp_empty" => false, "champs_pwd_empty" => false, "invalid_language" => false,
+                 "token_time_used" => 0, "token_time_expired" => false, "lien_crypter_good" => false, 
+                 "liste_mots" => array());
 }
     
     function remplissageChamps($array_Champs){
         if ($_SERVER['REQUEST_METHOD'] === 'GET'){
             if (isset($_GET['langue'])){
-                $array_Champs["typeLangue"] = $_GET['langue'];
+                $array_Champs["type_langue"] = $_GET['langue'];
             } else {
-                $array_Champs["invalid_Language"] = true;
+                $array_Champs["invalid_language"] = true;
             }
     
             if (isset($_GET['key'])){
-                $array_Champs["lien_Crypte"] = $_GET['key'];
+                $array_Champs["lien_crypter"] = $_GET['key'];
             }
     
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST'){
-            if (isset($_POST['typeLangue'])){
-                $array_Champs["typeLangue"] = $_POST['typeLangue'];
+            if (isset($_POST['type_langue'])){
+                $array_Champs["type_langue"] = $_POST['type_langue'];
             } else {
-                $array_Champs["invalid_Language"] = true;
+                $array_Champs["invalid_language"] = true;
             }
     
-            if (isset($_POST['lien_Crypte'])){
-                $array_Champs["lien_Crypte"] = $_POST['lien_Crypte'];
+            if (isset($_POST['lien_crypter'])){
+                $array_Champs["lien_crypter"] = $_POST['lien_crypter'];
             }
-            if (isset($_POST['password_Temp'])){
-                $array_Champs["password_Temp"] = $_POST['password_Temp'];
-            }
-    
-            if (isset($_POST['new_Password_1'])){
-                $array_Champs["new_Password_1"] = $_POST['new_Password_1'];
+            if (isset($_POST['password_temp'])){
+                $array_Champs["password_temp"] = $_POST['password_temp'];
             }
     
-            if (isset($_POST['new_Password_2'])){
-                $array_Champs["new_Password_2"] = $_POST['new_Password_2'];
+            if (isset($_POST['pwd_1_new'])){
+                $array_Champs["pwd_1_new"] = $_POST['pwd_1_new'];
+            }
+    
+            if (isset($_POST['pwd_2_new'])){
+                $array_Champs["pwd_2_new"] = $_POST['pwd_2_new'];
             }
             date_default_timezone_set('America/New_York');
             $current_time = date("Y-m-d H:i:s");
             $current_timestamp = strtotime($current_time);
-            $array_Champs["token_Time_Used"] = $current_timestamp;
+            $array_Champs["token_time_used"] = $current_timestamp;
         }
         return $array_Champs;
     }
     
     function verifChamp($array_Champs, $connMYSQL) {
         // Section de vérification des champs vide
-        if (empty($array_Champs['password_Temp'])){
-            $array_Champs['champVidePWD_Temp'] = true;
+        if (empty($array_Champs['password_temp'])){
+            $array_Champs['champ_pwd_temp_empty'] = true;
         }
     
-        if (empty($array_Champs['new_Password_1'])){
-            $array_Champs['champVidePWD_1'] = true;
+        if (empty($array_Champs['pwd_1_new'])){
+            $array_Champs['champ_pwd_1_empty'] = true;
         }
     
-        if (empty($array_Champs['new_Password_2'])){
-            $array_Champs['champVidePWD_2'] = true;
+        if (empty($array_Champs['pwd_2_new'])){
+            $array_Champs['champ_pwd_2_empty'] = true;
         }
     
-        if ($array_Champs['champVidePWD_Temp'] || $array_Champs['champVidePWD_1'] || $array_Champs['champVidePWD_2']){
-            $array_Champs['champsVidePWD'] = true;
+        if ($array_Champs['champ_pwd_temp_empty'] || $array_Champs['champ_pwd_1_empty'] || $array_Champs['champ_pwd_2_empty']){
+            $array_Champs['champs_pwd_empty'] = true;
         }
     
-        if ( (strcmp($array_Champs["new_Password_1"],$array_Champs["new_Password_2"]) != 0) && !$array_Champs['champVidePWD_1'] && !$array_Champs['champVidePWD_2'] ) {
-            $array_Champs["champsPWD_New_NonEgal"] = true;
+        if ( (strcmp($array_Champs["pwd_1_new"],$array_Champs["pwd_2_new"]) != 0) && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] ) {
+            $array_Champs["champ_pwd_new_none_equal"] = true;
         }
     
-        $sql = "select password, passwordTemp, temps_Valide_link from login where reset_link = '{$array_Champs["lien_Crypte"]}'";
+        $sql = "select password, passwordTemp, temps_Valide_link from login where reset_link = '{$array_Champs["lien_crypter"]}'";
         $result = $connMYSQL->query($sql);
         $row_cnt = $result->num_rows;
         if ($row_cnt !== 0){
             foreach ($result as $row) {
-                if (!password_verify($array_Champs['password_Temp'], $row['passwordTemp'])){
-                    $array_Champs['champPWD_Temp_NonEgal'] = true;
+                if (!password_verify($array_Champs['password_temp'], $row['passwordTemp'])){
+                    $array_Champs['champ_pwd_temp_none_equal'] = true;
                 }
     
                 // Si le nouveau password est égal dans les deux champs c'est
-                if (!$array_Champs["champsPWD_New_NonEgal"] && !$array_Champs['champVidePWD_1'] && !$array_Champs['champVidePWD_2']){
-                    if (!password_verify($array_Champs['new_Password_1'], $row['password'])){
-                        $array_Champs['ancien_Nouveau_PWD_Diff'] = true;
+                if (!$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty']){
+                    if (!password_verify($array_Champs['pwd_1_new'], $row['password'])){
+                        $array_Champs['pwd_old_new_diff'] = true;
                     }
                 }
     
                 // Validation que le temps accordé au link soit toujours valide
-                if ($array_Champs["token_Time_Used"] > ((int)$row['temps_Valide_link'])){
-                    $array_Champs["token_Time_Expired"] = true;
+                if ($array_Champs["token_time_used"] > ((int)$row['temps_Valide_link'])){
+                    $array_Champs["token_time_expired"] = true;
                 }
             }
         } else {
-            $array_Champs['erreurManipulationBD'] = true;
+            $array_Champs['erreur_manip_bd'] = true;
         }
     
-        if ($array_Champs['champPWD_Temp_NonEgal'] || $array_Champs["champsPWD_New_NonEgal"]){
-            $array_Champs["champsPWD_NonEgal"] = true;
+        if ($array_Champs['champ_pwd_temp_none_equal'] || $array_Champs["champ_pwd_new_none_equal"]){
+            $array_Champs["champs_pwd_none_equal"] = true;
         }
         // Section pour vérifier la validité de la longueur des champs passwords
-        $longueurPWDTemp = strlen($array_Champs['password_Temp']);
-        $longueurPWD1 = strlen($array_Champs['new_Password_1']);
-        $longueurPWD2 = strlen($array_Champs['new_Password_1']);
+        $longueurPWDTemp = strlen($array_Champs['password_temp']);
+        $longueurPWD1 = strlen($array_Champs['pwd_1_new']);
+        $longueurPWD2 = strlen($array_Champs['pwd_1_new']);
     
         if ($longueurPWDTemp > 25) {
-            $array_Champs['champTropLongPWD_Temp'] = true;
+            $array_Champs['champ_pwd_temp_trop_long'] = true;
         }
     
         if ($longueurPWD1 > 25) {
-            $array_Champs['champTropLongPWD_1'] = true;
+            $array_Champs['champ_pwd_1_trop_long'] = true;
         }
     
         if ($longueurPWD2 > 25) {
-            $array_Champs['champTropLongPWD_2'] = true;
+            $array_Champs['champ_pwd_2_trop_long'] = true;
         }
     
-        if ($array_Champs['champTropLongPWD_Temp'] || $array_Champs['champTropLongPWD_1'] || $array_Champs['champTropLongPWD_2']){
-            $array_Champs['champTropLong'] = true;
+        if ($array_Champs['champ_pwd_temp_trop_long'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs['champ_pwd_2_trop_long']){
+            $array_Champs['champs_pwd_trop_long'] = true;
         }
         // Section pour valider si il y a des caractères invalides dans les champs password
         $patternPass = "#^[0-9a-zA-Z]([0-9a-zA-Z]{0,23})[0-9a-zA-Z]$#";
     
-        if (!preg_match($patternPass, $array_Champs['password_Temp']) && !$array_Champs['champVidePWD_Temp']) {
-            $array_Champs['champInvalidPWD_Temp'] = true;
+        if (!preg_match($patternPass, $array_Champs['password_temp']) && !$array_Champs['champ_pwd_temp_empty']) {
+            $array_Champs['champ_pwd_temp_invalid'] = true;
         }
     
-        if (!preg_match($patternPass, $array_Champs['new_Password_1']) && !$array_Champs['champVidePWD_1']) {
-            $array_Champs['champInvalidPWD_1'] = true;
+        if (!preg_match($patternPass, $array_Champs['pwd_1_new']) && !$array_Champs['champ_pwd_1_empty']) {
+            $array_Champs['champ_pwd_1_invalid'] = true;
         }
-        if (!preg_match($patternPass, $array_Champs['new_Password_2']) && !$array_Champs['champVidePWD_2']) {
-            $array_Champs['champInvalidPWD_2'] = true;
+        if (!preg_match($patternPass, $array_Champs['pwd_2_new']) && !$array_Champs['champ_pwd_2_empty']) {
+            $array_Champs['champ_pwd_2_invalid'] = true;
         }
     
-        if ($array_Champs['champInvalidPWD_Temp'] || $array_Champs['champInvalidPWD_1'] || $array_Champs['champInvalidPWD_2']){
-            $array_Champs['champInvalidPWD'] = true;
+        if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_2_invalid']){
+            $array_Champs['champs_pwd_invalid'] = true;
         }
         
         return $array_Champs;
@@ -148,31 +156,31 @@
     
     function situation($array_Champs){
         $typeSituation = 0;
-        if ($array_Champs['champVidePWD_Temp'] && $array_Champs['champVidePWD_1'] && $array_Champs['champVidePWD_2']) {
+        if ($array_Champs['champ_pwd_temp_empty'] && $array_Champs['champ_pwd_1_empty'] && $array_Champs['champ_pwd_2_empty']) {
             $typeSituation = 1;
-        } elseif ($array_Champs['champPWD_Temp_NonEgal'] && !$array_Champs["champsPWD_New_NonEgal"] && !$array_Champs['champsVidePWD'] && !$array_Champs['champInvalidPWD'] && !$array_Champs['ancien_Nouveau_PWD_Diff']){
+        } elseif ($array_Champs['champ_pwd_temp_none_equal'] && !$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid'] && !$array_Champs['pwd_old_new_diff']){
             $typeSituation = 2;
-        } elseif (!$array_Champs['champPWD_Temp_NonEgal'] && $array_Champs["champsPWD_New_NonEgal"] && !$array_Champs['champsVidePWD'] && !$array_Champs['champInvalidPWD'] && !$array_Champs['ancien_Nouveau_PWD_Diff']){
+        } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid'] && !$array_Champs['pwd_old_new_diff']){
             $typeSituation = 3;
-        } elseif (!$array_Champs['champPWD_Temp_NonEgal'] && $array_Champs['champVidePWD_1'] && $array_Champs['champVidePWD_2']){
+        } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champ_pwd_1_empty'] && $array_Champs['champ_pwd_2_empty']){
             $typeSituation = 4;
-        } elseif ($array_Champs['champVidePWD_Temp'] && !$array_Champs["champsPWD_New_NonEgal"] && !$array_Champs['champInvalidPWD'] && !$array_Champs['ancien_Nouveau_PWD_Diff']){
+        } elseif ($array_Champs['champ_pwd_temp_empty'] && !$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_invalid'] && !$array_Champs['pwd_old_new_diff']){
             $typeSituation = 5;
-        } elseif (!$array_Champs['champPWD_Temp_NonEgal'] && $array_Champs['champsVidePWD']){
+        } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_empty']){
             $typeSituation = 6;
-        } elseif (!$array_Champs["champsVidePWD"] && !$array_Champs["champsPWD_NonEgal"] && $array_Champs["token_Time_Expired"] && !$array_Champs["champTropLong"] && !$array_Champs["champInvalidPWD"]){
+        } elseif (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && $array_Champs["token_time_expired"] && !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"]){
             $typeSituation = 7;
-        } elseif (!$array_Champs['ancien_Nouveau_PWD_Diff'] && !$array_Champs['champVidePWD_1'] && !$array_Champs['champVidePWD_2'] && !$array_Champs['champPWD_Temp_NonEgal']){
+        } elseif (!$array_Champs['pwd_old_new_diff'] && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] && !$array_Champs['champ_pwd_temp_none_equal']){
             $typeSituation = 12;
-        } elseif ($array_Champs['creationUserSuccess'] && $array_Champs['ancien_Nouveau_PWD_Diff']){
+        } elseif ($array_Champs['create_user_succes'] && $array_Champs['pwd_old_new_diff']){
             $typeSituation = 8;
-        } elseif ($array_Champs['champPWD_Temp_NonEgal'] && $array_Champs["champsPWD_New_NonEgal"] && !$array_Champs['champsVidePWD'] && !$array_Champs['champInvalidPWD']){
+        } elseif ($array_Champs['champ_pwd_temp_none_equal'] && $array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid']){
             $typeSituation = 9;
-        } elseif (!$array_Champs['champPWD_Temp_NonEgal'] && $array_Champs['champInvalidPWD']){
+        } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_invalid']){
             $typeSituation = 10;
-        } elseif ($array_Champs['champPWD_Temp_NonEgal'] && $array_Champs['champInvalidPWD']){
+        } elseif ($array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_invalid']){
             $typeSituation = 11;
-        } elseif ($array_Champs['erreurManipulationBD']){
+        } elseif ($array_Champs['erreur_manip_bd']){
             $typeSituation = 13;
         }
     
@@ -184,7 +192,7 @@
         $stmt = $connMYSQL->prepare("select reset_link from login where reset_link =? ");
     
         /* Lecture des marqueurs */
-        $stmt->bind_param("s", $array_Champs["lien_Crypte"]);
+        $stmt->bind_param("s", $array_Champs["lien_crypter"]);
     
         /* Exécution de la requête */
         $stmt->execute();
@@ -196,34 +204,34 @@
         $stmt->close();
     
         if ($result->num_rows == 1){
-            $array_Champs["lien_Crypte_Good"] = true;
+            $array_Champs["lien_crypter_good"] = true;
         }
         return $array_Champs;
     }
     
     function changementPassword($array_Champs, $connMYSQL){
         // Remise à NULL pour les
-        $newPWDencrypt = encryptementPassword($array_Champs["new_Password_1"]);
+        $newPWDencrypt = encryptementPassword($array_Champs["pwd_1_new"]);
     
         /* Crée une requête préparée */
         $stmt = $connMYSQL->prepare("update login set password =? , reset_link =? , passwordTemp =?, temps_Valide_link =? where reset_link =? ");
         /* Lecture des marqueurs */
         $zero = 0; // Je dois créer une variable qui va contenir la valeur 0
         $stringVide = NUll;
-        $stmt->bind_param("sssis", $newPWDencrypt,$stringVide,$stringVide,$zero,$array_Champs["lien_Crypte"]);
+        $stmt->bind_param("sssis", $newPWDencrypt,$stringVide,$stringVide,$zero,$array_Champs["lien_crypter"]);
         /* Exécution de la requête */
         $status = $stmt->execute();
     
         if ($status === false) {
             trigger_error($stmt->error, E_USER_ERROR);
         } else {
-            $array_Champs['creationUserSuccess'] = true;
+            $array_Champs['create_user_succes'] = true;
             // Remise à leur valeur initial, car le changement de mot de passe est terminé et le lien n'est plus valide
-            $array_Champs['password_Temp'] = "";
-            $array_Champs['new_Password_1'] = "";
-            $array_Champs['new_Password_2'] = "";
-            $array_Champs['lien_Crypte'] = "";
-            $array_Champs['token_Time_Used'] = 0;
+            $array_Champs['password_temp'] = "";
+            $array_Champs['pwd_1_new'] = "";
+            $array_Champs['pwd_2_new'] = "";
+            $array_Champs['lien_crypter'] = "";
+            $array_Champs['token_time_used'] = 0;
         }
     
         /* close statement and connection */
@@ -232,28 +240,28 @@
         return $array_Champs;
     }
     
-    function encryptementPassword($password_Temp) {
-        $password_Encrypted = password_hash($password_Temp, PASSWORD_BCRYPT);
+    function encryptementPassword($password_temp) {
+        $password_Encrypted = password_hash($password_temp, PASSWORD_BCRYPT);
         return $password_Encrypted;
     }
     
     function redirection($array_Champs) {
         if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-            if ($array_Champs["invalid_Language"] || !$array_Champs["lien_Crypte_Good"]) {
+            if ($array_Champs["invalid_language"] || !$array_Champs["lien_crypter_good"]) {
                 header("Location: /erreur/erreur.php");
             }
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
             // Les deux premiers IF sont pour la page d'acceuil
             // Les deux derniers IF sont pour la page login
-            if (isset($_POST['return']) && $array_Champs["typeLangue"] == "francais") {
+            if (isset($_POST['return']) && $array_Champs["type_langue"] == "francais") {
                 header("Location: /index.html");
-            } elseif (isset($_POST['return']) && $array_Champs["typeLangue"] == "english") {
+            } elseif (isset($_POST['return']) && $array_Champs["type_langue"] == "english") {
                 header("Location: /english/english.html");
-            } elseif (isset($_POST['page_Login']) && $array_Champs["typeLangue"] == "francais") {
+            } elseif (isset($_POST['page_Login']) && $array_Champs["type_langue"] == "francais") {
                 header("Location: /login/login.php?langue=francais");
-            } elseif (isset($_POST['page_Login']) && $array_Champs["typeLangue"] == "english") {
+            } elseif (isset($_POST['page_Login']) && $array_Champs["type_langue"] == "english") {
                 header("Location: /login/login.php?langue=english");
-            } elseif (!$array_Champs["lien_Crypte_Good"] || $array_Champs["invalid_Language"]){
+            } elseif (!$array_Champs["lien_crypter_good"] || $array_Champs["invalid_language"]){
                 header("Location: /erreur/erreur.php");
             }
         }
@@ -272,9 +280,9 @@
         $array_Champs = remplissageChamps($array_Champs);
         $connMYSQL = connexionBD();
         $array_Champs = verif_link_BD($array_Champs, $connMYSQL);
-        if ($array_Champs["invalid_Language"]){
+        if ($array_Champs["invalid_language"]){
             redirection($array_Champs);
-        } elseif (!$array_Champs["lien_Crypte_Good"]){
+        } elseif (!$array_Champs["lien_crypter_good"]){
             redirection($array_Champs);
         } else {
             $arrayMots = traduction($array_Champs);
@@ -286,18 +294,18 @@
         $array_Champs = initialChamp();
         $array_Champs = remplissageChamps($array_Champs);
         $connMYSQL = connexionBD();
-        if ($array_Champs["invalid_Language"]){
+        if ($array_Champs["invalid_language"]){
             redirection($array_Champs);
         } elseif (isset($_POST['return']) || isset($_POST['page_Login'])){
             redirection($array_Champs);
         } elseif (isset($_POST['create_New_PWD'])){
             $array_Champs = verif_link_BD($array_Champs, $connMYSQL);
-            if (!$array_Champs["lien_Crypte_Good"]) {
+            if (!$array_Champs["lien_crypter_good"]) {
                 redirection($array_Champs);
             } else {
                 $array_Champs = verifChamp($array_Champs, $connMYSQL);
     
-                if (!$array_Champs["champsVidePWD"] && !$array_Champs["champsPWD_NonEgal"] && !$array_Champs["token_Time_Expired"] && !$array_Champs["champTropLong"] && !$array_Champs["champInvalidPWD"] && $array_Champs["ancien_Nouveau_PWD_Diff"]){
+                if (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && !$array_Champs["token_time_expired"] && !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"] && $array_Champs["pwd_old_new_diff"]){
                     $array_Champs = changementPassword($array_Champs, $connMYSQL);
                 }
             }
@@ -340,36 +348,36 @@
                 <li class='info'><?php echo $arrayMots['li2']; ?></li>
                 <li class='info'><?php echo $arrayMots['li3']; ?></li>
             </ul>
-            <fieldset class="<?php if ($array_Champs['creationUserSuccess']) { echo "changerAvecSucces"; } ?>">
+            <fieldset class="<?php if ($array_Champs['create_user_succes']) { echo "changerAvecSucces"; } ?>">
                 <legend class="legendCenter"><?php echo $arrayMots['legend']; ?></legend>
                 <form method="post" action="./reset.php">
                     <div class="connexion">
-                        <div class="information <?php if ($array_Champs['champInvalidPWD_Temp'] || $array_Champs['champTropLongPWD_Temp'] || $array_Champs["champVidePWD_Temp"] || $array_Champs['champPWD_Temp_NonEgal']) { echo 'erreur';} ?>">
-                            <label for="password_Temp"><?php echo $arrayMots['mdp_Temp']; ?></label>
+                        <div class="information <?php if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_temp_trop_long'] || $array_Champs["champ_pwd_temp_empty"] || $array_Champs['champ_pwd_temp_none_equal']) { echo 'erreur';} ?>">
+                            <label for="password_temp"><?php echo $arrayMots['mdp_Temp']; ?></label>
                             <div>
-                                <input <?php if ($array_Champs['creationUserSuccess']) { echo "disabled"; } ?> autofocus id="password_Temp" type='password' maxlength="25" name="password_Temp" value="<?php echo $array_Champs['password_Temp']; ?>" />
+                                <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> autofocus id="password_temp" type='password' maxlength="25" name="password_temp" value="<?php echo $array_Champs['password_temp']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
-                        <div class="information <?php if (( $_SERVER['REQUEST_METHOD'] === 'POST' && !$array_Champs['ancien_Nouveau_PWD_Diff'] ) || $array_Champs['champInvalidPWD_1'] || $array_Champs['champTropLongPWD_1'] || $array_Champs["champVidePWD_1"] || $array_Champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
-                            <label for="new_Password_1"><?php echo $arrayMots['mdp_1']; ?></label>
+                        <div class="information <?php if (( $_SERVER['REQUEST_METHOD'] === 'POST' && !$array_Champs['pwd_old_new_diff'] ) || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs["champ_pwd_1_empty"] || $array_Champs["champ_pwd_new_none_equal"]) { echo 'erreur';} ?>">
+                            <label for="pwd_1_new"><?php echo $arrayMots['mdp_1']; ?></label>
                             <div>
-                                <input <?php if ($array_Champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_1" type='password' maxlength="25" name="new_Password_1" value="<?php echo $array_Champs['new_Password_1']; ?>" />
+                                <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> id="pwd_1_new" type='password' maxlength="25" name="pwd_1_new" value="<?php echo $array_Champs['pwd_1_new']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
-                        <div class="information <?php if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' && !$array_Champs['ancien_Nouveau_PWD_Diff'] ) || $array_Champs['champInvalidPWD_2'] || $array_Champs['champTropLongPWD_2'] || $array_Champs["champVidePWD_2"] || $array_Champs["champsPWD_New_NonEgal"]) { echo 'erreur';} ?>">
-                            <label for="new_Password_2"><?php echo $arrayMots['mdp_2']; ?></label>
+                        <div class="information <?php if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' && !$array_Champs['pwd_old_new_diff'] ) || $array_Champs['champ_pwd_2_invalid'] || $array_Champs['champ_pwd_2_trop_long'] || $array_Champs["champ_pwd_2_empty"] || $array_Champs["champ_pwd_new_none_equal"]) { echo 'erreur';} ?>">
+                            <label for="pwd_2_new"><?php echo $arrayMots['mdp_2']; ?></label>
                             <div>
-                                <input <?php if ($array_Champs['creationUserSuccess']) { echo "disabled"; } ?> id="new_Password_2" type='password' maxlength="25" name="new_Password_2" value="<?php echo $array_Champs['new_Password_2']; ?>" />
+                                <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> id="pwd_2_new" type='password' maxlength="25" name="pwd_2_new" value="<?php echo $array_Champs['pwd_2_new']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
                     </div>
                     <div class="troisBTN">
-                        <input <?php if ($array_Champs['creationUserSuccess']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> type='submit' name='create_New_PWD' value="<?php echo $arrayMots['btn_create_New_PWD']; ?>">
-                        <input type='hidden' name='typeLangue' value="<?php echo $array_Champs['typeLangue']; ?>">
-                        <input type='hidden' name='lien_Crypte' value="<?php echo $array_Champs['lien_Crypte']; ?>">
+                        <input <?php if ($array_Champs['create_user_succes']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> type='submit' name='create_New_PWD' value="<?php echo $arrayMots['btn_create_New_PWD']; ?>">
+                        <input type='hidden' name='type_langue' value="<?php echo $array_Champs['type_langue']; ?>">
+                        <input type='hidden' name='lien_crypter' value="<?php echo $array_Champs['lien_crypter']; ?>">
                     </div>
                 </form>
             </fieldset>
@@ -383,7 +391,7 @@
                 <form method="post" action="./reset.php">
                     <input class="bouton" type="submit" name="page_Login" value="<?php echo $arrayMots['btn_login']; ?>">
                     <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
-                    <input type='hidden' name='typeLangue' value="<?php echo $array_Champs['typeLangue']; ?>">
+                    <input type='hidden' name='type_langue' value="<?php echo $array_Champs['type_langue']; ?>">
                 </form>
             </div>
         </div>

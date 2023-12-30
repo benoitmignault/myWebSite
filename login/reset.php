@@ -324,11 +324,17 @@
     
         return $array_Champs;
     }
-    
-    function encryptementPassword($champ_pwd_temp) {
 	
-	    return password_hash($champ_pwd_temp, PASSWORD_BCRYPT);
-    }
+	/**
+	 * Fonction simplement pour encrypter une information
+	 *
+	 * @param string $password_Temp
+	 * @return string
+	 */
+	function encryptement_password(string $password_Temp): string {
+		
+		return password_hash($password_Temp, PASSWORD_BCRYPT);
+	}
     
 	/**
 	 * Fonction pour rediriger vers la bonne page page extérieur à la page du reset de password

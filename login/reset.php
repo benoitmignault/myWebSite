@@ -143,10 +143,7 @@
 		    $array_Champs["invalid_language"] = true;
             // On peut commencer à valider le restant
 	    } else {
-		    //$array_Champs["pwd_temp_crypte_bd"] = $result_info["password_temp"];
-		    //$array_Champs["pwd_old_crypte_bd"] = $result_info["password"];
-		    //$array_Champs["temps_valide_link_bd"] = $result_info["temps_valide_link"];
-		
+      
 		    // Si le moment présent est plus grand que le moment du lien valide, on doit arrêter ici
 		    if ($array_Champs["token_time_used"] > $array_Champs["temps_valide_link_bd"]){
 			    $array_Champs["token_time_expired"] = true;
@@ -154,6 +151,11 @@
                 
                 // On doit maintenant de faire les validations de contrôles pour le POST, seulement.
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    
+                    // Première des choses, on valide que nous avons encore de quoi venant de la BD
+                    if (!empty($array_Champs["pwd_temp_crypte_bd"]) && !empty($array_Champs["pwd_old_crypte_bd"]) && !empty($array_Champs["temps_valide_link_bd"])){
+	                    $array_Champs["lien_crypter_still_good"] = true;
+                    }
 	
 	                // Sinon, on valide les champs vides
 	                if (empty($array_Champs['champ_pwd_temp'])){

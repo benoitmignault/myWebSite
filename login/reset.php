@@ -325,35 +325,28 @@
 	$connMYSQL = connexion();
 	$array_Champs = initialisation();
 	$array_Champs = remplisage_champs($array_Champs, $connMYSQL);
-    
-    
-    
+	   
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         
-        // Vérif du lien en premier
-        // Vérif de la langue par la suite
-        
-        if ($array_Champs["invalid_language"]){
-            redirection($array_Champs);
-        } elseif (!$array_Champs["lien_crypter_good"]){
+        if ($array_Champs["invalid_language"] || !$array_Champs["lien_crypter_good"]){
             redirection($array_Champs);
         } else {
             $arrayMots = traduction($array_Champs);
         }
-        $connMYSQL->close();
     }
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	    // Vérif du lien en premier
 	    // Vérif de la langue par la suite
-        if ($array_Champs["invalid_language"]){
+        if ($array_Champs["invalid_language"] || !$array_Champs["lien_crypter_good"]){
             redirection($array_Champs);
             
+            // On retourne à la page de connexion des stats de poker ou à la page accueil
         } elseif (isset($_POST['return']) || isset($_POST['page_Login'])){
             redirection($array_Champs);
             
-        } elseif (isset($_POST['create_New_PWD'])){
+        } elseif (isset($_POST['create_new_pwd'])){
             
             if (!$array_Champs["lien_crypter_good"]) {
                 redirection($array_Champs);

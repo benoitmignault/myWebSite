@@ -93,9 +93,9 @@
      *
 	 * @param $champ_lien_crypter
 	 * @param $connMYSQL
-	 * @return array|mixed
+	 * @return array
 	 */
-	function recuperation_info_user_bd($champ_lien_crypter, $connMYSQL){
+	function recuperation_info_user_bd($champ_lien_crypter, $connMYSQL): array{
 		
 		// On doit récupérer les infos par rapport au lien crypter
 		$select = "SELECT password, password_temp, temps_valide_link ";

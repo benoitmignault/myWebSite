@@ -17,7 +17,7 @@
                  "champ_pwd_1_trop_long" => false, "champ_pwd_2_trop_long" => false, "champ_pwd_temp_trop_long" => false, "champs_pwd_trop_long" => false, 
                  "champ_pwd_temp_invalid" => false, "champ_pwd_1_invalid" => false, "champ_pwd_2_invalid" => false, "champs_pwd_invalid" => false, "pwd_old_new_diff" => false, 
                  "champ_pwd_new_none_equal" => false, "champ_pwd_temp_none_equal" => false, "champs_pwd_none_equal" => false,
-                 "champ_pwd_1_empty" => false, "champ_pwd_2_empty" => false, "champ_pwd_temp_empty" => false, "champs_pwd_empty" => false, "invalid_language" => false,
+                 "champ_pwd_1_empty" => false, "champ_pwd_2_empty" => false, "champ_pwd_temp_empty" => false, "champs_pwd_empty" => false, "invalid_langue" => false,
                  "token_time_used" => 0, "token_time_expired" => false, "lien_crypter_still_good" => false, "erreur_presente" => false,
                  "liste_mots" => array());
     }
@@ -138,9 +138,9 @@
 	 */
 	function validation_champs($array_Champs): array{
 	
-	    // Validation commune pour le Get & Post, à propos de la langue, une exception
+	    // Validation commune pour le Get & Post, à propos de la langue
 	    if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
-		    $array_Champs["invalid_language"] = true;
+		    $array_Champs["invalid_langue"] = true;
             // On peut commencer à valider le restant
 	    } else {
       
@@ -333,13 +333,13 @@
 	 * En fonction aussi si le type de langue est valide
 	 *
 	 * @param string $type_langue
-	 * @param bool $invalid_language
+	 * @param bool $invalid_langue
      * @param bool $lien_crypter_still_good
 	 * @return void
 	 */
-	#[NoReturn] function redirection(string $type_langue, bool $invalid_language, bool $lien_crypter_still_good): void {
+	#[NoReturn] function redirection(string $type_langue, bool $invalid_langue, bool $lien_crypter_still_good): void {
         if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-            if ($invalid_language || !$lien_crypter_still_good) {
+            if ($invalid_langue || !$lien_crypter_still_good) {
                 header("Location: /erreur/erreur.php");
             }
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -353,7 +353,7 @@
                 header("Location: /login/login.php?langue=francais");
             } elseif (isset($_POST['page_login']) && $type_langue == "english") {
                 header("Location: /login/login.php?langue=english");
-            } elseif (!$lien_crypter_still_good || $invalid_language){
+            } elseif (!$lien_crypter_still_good || $invalid_langue){
                 header("Location: /erreur/erreur.php");
             }
         }
@@ -372,8 +372,8 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         
         // Si la langue n'est pas setter on sort de la page en indiquant Err 404
-        if ($array_Champs["invalid_language"]){
-	        redirection("", $array_Champs["invalid_language"], $array_Champs["lien_crypter_still_good"]);
+        if ($array_Champs["invalid_langue"]){
+	        redirection("", $array_Champs["invalid_langue"], $array_Champs["lien_crypter_still_good"]);
         } else {
 	        // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
 	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
@@ -383,8 +383,8 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
         // possibilité d'aller vers une redirection, soit bonne ou mauvaise
-        if (isset($_POST['return']) || isset($_POST['page_login']) || $array_Champs["invalid_language"] || !$array_Champs["lien_crypter_still_good"]){
-            redirection($array_Champs["type_langue"], $array_Champs["invalid_language"], $array_Champs["lien_crypter_still_good"]);
+        if (isset($_POST['return']) || isset($_POST['page_login']) || $array_Champs["invalid_langue"] || !$array_Champs["lien_crypter_still_good"]){
+            redirection($array_Champs["type_langue"], $array_Champs["invalid_langue"], $array_Champs["lien_crypter_still_good"]);
             
             // Nous avons appuyer sur le bouton changement de password
         } elseif (isset($_POST['create_new_pwd'])){

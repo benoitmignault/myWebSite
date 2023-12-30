@@ -150,79 +150,84 @@
 		    if ($array_Champs["token_time_used"] > $array_Champs["temps_valide_link_bd"]){
 			    $array_Champs["token_time_expired"] = true;
 		    } else {
-			    // Sinon, on valide les champs vides
-			    if (empty($array_Champs['champ_pwd_temp'])){
-				    $array_Champs['champ_pwd_temp_empty'] = true;
-				
-				    // Sinon, on peut aller faire la comparaison des password temporaires
-			    } elseif (!password_verify($array_Champs['champ_pwd_temp'], $array_Champs["pwd_temp_crypte_bd"])){
-				    $array_Champs['champ_pwd_temp_none_equal'] = true;
-			    }
-       
-			    if (empty($array_Champs['champ_pwd_1_new'])){
-				    $array_Champs['champ_pwd_1_empty'] = true;
-			    }
-			
-			    if (empty($array_Champs['champ_pwd_2_new'])){
-				    $array_Champs['champ_pwd_2_empty'] = true;
-			    }
-			
-			    // Si un des trois champs de password est vide, on allume le flag
-			    if ($array_Champs['champ_pwd_temp_empty'] || $array_Champs['champ_pwd_1_empty'] || $array_Champs['champ_pwd_2_empty']){
-				    $array_Champs['champs_pwd_empty'] = true;
-			    }
-       
-			    // Si le nouveau password n'est pas répété identiquement
-			    if ( (strcmp($array_Champs["champ_pwd_1_new"], $array_Champs["champ_pwd_2_new"]) != 0) &&
-                      !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] ) {
-				    $array_Champs["champ_pwd_new_none_equal"] = true;
-                    
-                    // Sinon, on aller vérifier que le nouveau password n'est pas égal à l'ancien par hasard
-			    } elseif (!password_verify($array_Champs['champ_pwd_1_new'], $array_Champs['pwd_old_crypte_bd'])){
-                    // Si c'est vrai que ce n'est pas pareil :
-					    $array_Champs['pwd_old_new_diff'] = true;
+                
+                // On doit maintenant de faire les validations de contrôles pour le POST, seulement.
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	
+	                // Sinon, on valide les champs vides
+	                if (empty($array_Champs['champ_pwd_temp'])){
+		                $array_Champs['champ_pwd_temp_empty'] = true;
+		
+		                // Sinon, on peut aller faire la comparaison des password temporaires
+	                } elseif (!password_verify($array_Champs['champ_pwd_temp'], $array_Champs["pwd_temp_crypte_bd"])){
+		                $array_Champs['champ_pwd_temp_none_equal'] = true;
+	                }
+	
+	                if (empty($array_Champs['champ_pwd_1_new'])){
+		                $array_Champs['champ_pwd_1_empty'] = true;
+	                }
+	
+	                if (empty($array_Champs['champ_pwd_2_new'])){
+		                $array_Champs['champ_pwd_2_empty'] = true;
+	                }
+	
+	                // Si un des trois champs de password est vide, on allume le flag
+	                if ($array_Champs['champ_pwd_temp_empty'] || $array_Champs['champ_pwd_1_empty'] || $array_Champs['champ_pwd_2_empty']){
+		                $array_Champs['champs_pwd_empty'] = true;
+	                }
+	
+	                // Si le nouveau password n'est pas répété identiquement
+	                if ( (strcmp($array_Champs["champ_pwd_1_new"], $array_Champs["champ_pwd_2_new"]) != 0) &&
+		                !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] ) {
+		                $array_Champs["champ_pwd_new_none_equal"] = true;
+		
+		                // Sinon, on aller vérifier que le nouveau password n'est pas égal à l'ancien par hasard
+	                } elseif (!password_verify($array_Champs['champ_pwd_1_new'], $array_Champs['pwd_old_crypte_bd'])){
+		                // Si c'est vrai que ce n'est pas pareil :
+		                $array_Champs['pwd_old_new_diff'] = true;
+	                }
+	
+	                if ($array_Champs['champ_pwd_temp_none_equal'] || $array_Champs["champ_pwd_new_none_equal"]){
+		                $array_Champs["champs_pwd_none_equal"] = true;
+	                }
+	
+	                // Section pour vérifier la validité de la longueur des champs passwords
+	                if (strlen($array_Champs['champ_pwd_temp']) > 10) {
+		                $array_Champs['champ_pwd_temp_trop_long'] = true;
+	                }
+	
+	                if (strlen($array_Champs['champ_pwd_1_new']) > 25) {
+		                $array_Champs['champ_pwd_1_trop_long'] = true;
+	                }
+	
+	                // Correction du bug, découvert 2023-12-29, champ_pwd_1_new était présent au lieu de champ_pwd_2_new
+	                if (strlen($array_Champs['champ_pwd_2_new']) > 25) {
+		                $array_Champs['champ_pwd_2_trop_long'] = true;
+	                }
+	
+	                if ($array_Champs['champ_pwd_temp_trop_long'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs['champ_pwd_2_trop_long']){
+		                $array_Champs['champs_pwd_trop_long'] = true;
+	                }
+	
+	                // Section pour valider si il y a des caractères invalides dans les champs password
+	                $pattern_valid_pass = "#^[[:alnum:]][[:alnum:]]{6,23}[[:alnum:]]$#";
+	
+	                if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_temp']) && !$array_Champs['champ_pwd_temp_empty']) {
+		                $array_Champs['champ_pwd_temp_invalid'] = true;
+	                }
+	
+	                if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_1_new']) && !$array_Champs['champ_pwd_1_empty']) {
+		                $array_Champs['champ_pwd_1_invalid'] = true;
+	                }
+	
+	                if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_2_new']) && !$array_Champs['champ_pwd_2_empty']) {
+		                $array_Champs['champ_pwd_2_invalid'] = true;
+	                }
+	
+	                if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_2_invalid']){
+		                $array_Champs['champs_pwd_invalid'] = true;
+	                }
                 }
-			
-			    if ($array_Champs['champ_pwd_temp_none_equal'] || $array_Champs["champ_pwd_new_none_equal"]){
-				    $array_Champs["champs_pwd_none_equal"] = true;
-			    }
-			
-			    // Section pour vérifier la validité de la longueur des champs passwords
-			    if (strlen($array_Champs['champ_pwd_temp']) > 10) {
-				    $array_Champs['champ_pwd_temp_trop_long'] = true;
-			    }
-			
-			    if (strlen($array_Champs['champ_pwd_1_new']) > 25) {
-				    $array_Champs['champ_pwd_1_trop_long'] = true;
-			    }
-			
-                // Correction du bug, découvert 2023-12-29, champ_pwd_1_new était présent au lieu de champ_pwd_2_new
-			    if (strlen($array_Champs['champ_pwd_2_new']) > 25) {
-				    $array_Champs['champ_pwd_2_trop_long'] = true;
-			    }
-			
-			    if ($array_Champs['champ_pwd_temp_trop_long'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs['champ_pwd_2_trop_long']){
-				    $array_Champs['champs_pwd_trop_long'] = true;
-			    }
-       
-			    // Section pour valider si il y a des caractères invalides dans les champs password
-			    $pattern_valid_pass = "#^[[:alnum:]][[:alnum:]]{6,23}[[:alnum:]]$#";
-			
-			    if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_temp']) && !$array_Champs['champ_pwd_temp_empty']) {
-				    $array_Champs['champ_pwd_temp_invalid'] = true;
-			    }
-			
-			    if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_1_new']) && !$array_Champs['champ_pwd_1_empty']) {
-				    $array_Champs['champ_pwd_1_invalid'] = true;
-			    }
-       
-			    if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_2_new']) && !$array_Champs['champ_pwd_2_empty']) {
-				    $array_Champs['champ_pwd_2_invalid'] = true;
-			    }
-			
-			    if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_2_invalid']){
-				    $array_Champs['champs_pwd_invalid'] = true;
-			    }
 		    }
         }
         

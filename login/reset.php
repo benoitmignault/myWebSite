@@ -288,27 +288,58 @@
             
         } elseif ($array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_invalid']){
             $typeSituation = 11;
+            
+        } elseif ($array_Champs['erreur_system_bd']){
+	        $typeSituation = 13;
         }
     
         return $typeSituation;
     }
-    
-    
-    function changementPassword($array_Champs, $connMYSQL){
-        // Remise à NULL pour les
-        $newPWDencrypt = encryptementPassword($array_Champs["champ_pwd_1_new"]);
-    
-        /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("update login set password =? , reset_link =? , passwordTemp =?, temps_Valide_link =? where reset_link =? ");
-        /* Lecture des marqueurs */
-        $zero = 0; // Je dois créer une variable qui va contenir la valeur 0
-        $stringVide = NUll;
-        $stmt->bind_param("sssis", $newPWDencrypt, $stringVide, $stringVide, $zero, $array_Champs["champ_lien_crypter"]);
-        /* Exécution de la requête */
-        $status = $stmt->execute();
-    
+	
+	/**
+	 * Fonction simplement pour encrypter une information
+	 *
+	 * @param string $password_Temp
+	 * @return string
+	 */
+	function encryptement_password(string $password_Temp): string {
+		
+		return password_hash($password_Temp, PASSWORD_BCRYPT);
+	}
+ 
+	/**
+     * Une fois que tous a été valider, on peut aller mettre à jour le nouveau password
+     *
+	 * @param array $array_Champs
+	 * @param object $connMYSQL
+	 * @return array
+	 */
+    function changement_password(array $array_Champs, object $connMYSQL): array{
+	
+	    // On commence par encrypter le password et remettre à null et 0 les autres champs
+	    $pwd_new_encrypter = encryptement_password($array_Champs["champ_pwd_1_new"]);
+	    $zero = 0; // Je dois créer une variable qui va contenir la valeur 0
+	    $valeur_null = null;
+     
+	    // On va devoir updater le nouveau password
+	    $update = "UPDATE login ";
+	    $set = "set password = ?, reset_link = ?, password_temp = ?, temps_valide_link = ? ";
+	    $where = "WHERE reset_link = ?";
+	
+	    // Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+	    $query = $update . $set . $where;
+	
+	    // Préparation de la requête
+	    $stmt = $connMYSQL->prepare($query);
+	
+	    /* Lecture des marqueurs */
+	    $stmt->bind_param("sssis", $pwd_new_encrypter, $valeur_null, $valeur_null, $zero, $array_Champs["champ_lien_crypter"]);
+	
+	    /* Exécution de la requête */
+	    $status = $stmt->execute();
+        
         if ($status === false) {
-            trigger_error($stmt->error, E_USER_ERROR);
+	        $array_Champs['erreur_system_bd'] = true;
         } else {
             $array_Champs['create_user_succes'] = true;
             // Remise à leur valeur initial, car le changement de mot de passe est terminé et le lien n'est plus valide

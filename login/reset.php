@@ -140,95 +140,90 @@
 	    // Validation commune pour le Get & Post, à propos de la langue, une exception
 	    if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
 		    $array_Champs["invalid_language"] = true;
-	    }
-        
-        
-        
-        // Section de vérification des champs vide
-        if (empty($array_Champs['champ_pwd_temp'])){
-            $array_Champs['champ_pwd_temp_empty'] = true;
-        }
-    
-        if (empty($array_Champs['champ_pwd_1_new'])){
-            $array_Champs['champ_pwd_1_empty'] = true;
-        }
-    
-        if (empty($array_Champs['champ_pwd_2_new'])){
-            $array_Champs['champ_pwd_2_empty'] = true;
-        }
-    
-        if ($array_Champs['champ_pwd_temp_empty'] || $array_Champs['champ_pwd_1_empty'] || $array_Champs['champ_pwd_2_empty']){
-            $array_Champs['champs_pwd_empty'] = true;
-        }
-    
-        if ( (strcmp($array_Champs["champ_pwd_1_new"],$array_Champs["champ_pwd_2_new"]) != 0) && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] ) {
-            $array_Champs["champ_pwd_new_none_equal"] = true;
-        }
-    
-        $sql = "select password, passwordTemp, temps_Valide_link from login where reset_link = '{$array_Champs["champ_lien_crypter"]}'";
-        $result = $connMYSQL->query($sql);
-        $row_cnt = $result->num_rows;
-        if ($row_cnt !== 0){
-            foreach ($result as $row) {
-                if (!password_verify($array_Champs['champ_pwd_temp'], $row['passwordTemp'])){
-                    $array_Champs['champ_pwd_temp_none_equal'] = true;
+            // On peut commencer à valider le restant
+	    } else {
+		    //$array_Champs["pwd_temp_crypte_bd"] = $result_info["password_temp"];
+		    //$array_Champs["pwd_old_crypte_bd"] = $result_info["password"];
+		    //$array_Champs["temps_valide_link_bd"] = $result_info["temps_valide_link"];
+		
+		    // Si le moment présent est plus grand que le moment du lien valide, on doit arrêter ici
+		    if ($array_Champs["token_time_used"] > $array_Champs["temps_valide_link_bd"]){
+			    $array_Champs["token_time_expired"] = true;
+		    } else {
+			    // Sinon, on valide les champs vides
+			    if (empty($array_Champs['champ_pwd_temp'])){
+				    $array_Champs['champ_pwd_temp_empty'] = true;
+				
+				    // Sinon, on peut aller faire la comparaison des password temporaires
+			    } elseif (!password_verify($array_Champs['champ_pwd_temp'], $array_Champs["pwd_temp_crypte_bd"])){
+				    $array_Champs['champ_pwd_temp_none_equal'] = true;
+			    }
+       
+			    if (empty($array_Champs['champ_pwd_1_new'])){
+				    $array_Champs['champ_pwd_1_empty'] = true;
+			    }
+			
+			    if (empty($array_Champs['champ_pwd_2_new'])){
+				    $array_Champs['champ_pwd_2_empty'] = true;
+			    }
+			
+			    // Si un des trois champs de password est vide, on allume le flag
+			    if ($array_Champs['champ_pwd_temp_empty'] || $array_Champs['champ_pwd_1_empty'] || $array_Champs['champ_pwd_2_empty']){
+				    $array_Champs['champs_pwd_empty'] = true;
+			    }
+       
+			    // Si le nouveau password n'est pas répété identiquement
+			    if ( (strcmp($array_Champs["champ_pwd_1_new"], $array_Champs["champ_pwd_2_new"]) != 0) &&
+                      !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] ) {
+				    $array_Champs["champ_pwd_new_none_equal"] = true;
+                    
+                    // Sinon, on aller vérifier que le nouveau password n'est pas égal à l'ancien par hasard
+			    } elseif (!password_verify($array_Champs['champ_pwd_1_new'], $array_Champs['pwd_old_crypte_bd'])){
+                    // Si c'est vrai que ce n'est pas pareil :
+					    $array_Champs['pwd_old_new_diff'] = true;
                 }
-    
-                // Si le nouveau password est égal dans les deux champs c'est
-                if (!$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty']){
-                    if (!password_verify($array_Champs['champ_pwd_1_new'], $row['password'])){
-                        $array_Champs['pwd_old_new_diff'] = true;
-                    }
-                }
-    
-                // Validation que le temps accordé au link soit toujours valide
-                if ($array_Champs["token_time_used"] > ((int)$row['temps_Valide_link'])){
-                    $array_Champs["token_time_expired"] = true;
-                }
-            }
-        } else {
-            $array_Champs['erreur_manip_bd'] = true;
-        }
-    
-        if ($array_Champs['champ_pwd_temp_none_equal'] || $array_Champs["champ_pwd_new_none_equal"]){
-            $array_Champs["champs_pwd_none_equal"] = true;
-        }
-        // Section pour vérifier la validité de la longueur des champs passwords
-        $longueurPWDTemp = strlen($array_Champs['champ_pwd_temp']);
-        $longueurPWD1 = strlen($array_Champs['champ_pwd_1_new']);
-        $longueurPWD2 = strlen($array_Champs['champ_pwd_1_new']);
-    
-        if ($longueurPWDTemp > 25) {
-            $array_Champs['champ_pwd_temp_trop_long'] = true;
-        }
-    
-        if ($longueurPWD1 > 25) {
-            $array_Champs['champ_pwd_1_trop_long'] = true;
-        }
-    
-        if ($longueurPWD2 > 25) {
-            $array_Champs['champ_pwd_2_trop_long'] = true;
-        }
-    
-        if ($array_Champs['champ_pwd_temp_trop_long'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs['champ_pwd_2_trop_long']){
-            $array_Champs['champs_pwd_trop_long'] = true;
-        }
-        // Section pour valider si il y a des caractères invalides dans les champs password
-        $patternPass = "#^[0-9a-zA-Z]([0-9a-zA-Z]{0,23})[0-9a-zA-Z]$#";
-    
-        if (!preg_match($patternPass, $array_Champs['champ_pwd_temp']) && !$array_Champs['champ_pwd_temp_empty']) {
-            $array_Champs['champ_pwd_temp_invalid'] = true;
-        }
-    
-        if (!preg_match($patternPass, $array_Champs['champ_pwd_1_new']) && !$array_Champs['champ_pwd_1_empty']) {
-            $array_Champs['champ_pwd_1_invalid'] = true;
-        }
-        if (!preg_match($patternPass, $array_Champs['champ_pwd_2_new']) && !$array_Champs['champ_pwd_2_empty']) {
-            $array_Champs['champ_pwd_2_invalid'] = true;
-        }
-    
-        if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_2_invalid']){
-            $array_Champs['champs_pwd_invalid'] = true;
+			
+			    if ($array_Champs['champ_pwd_temp_none_equal'] || $array_Champs["champ_pwd_new_none_equal"]){
+				    $array_Champs["champs_pwd_none_equal"] = true;
+			    }
+			
+			    // Section pour vérifier la validité de la longueur des champs passwords
+			    if (strlen($array_Champs['champ_pwd_temp']) > 10) {
+				    $array_Champs['champ_pwd_temp_trop_long'] = true;
+			    }
+			
+			    if (strlen($array_Champs['champ_pwd_1_new']) > 25) {
+				    $array_Champs['champ_pwd_1_trop_long'] = true;
+			    }
+			
+                // Correction du bug, découvert 2023-12-29, champ_pwd_1_new était présent au lieu de champ_pwd_2_new
+			    if (strlen($array_Champs['champ_pwd_2_new']) > 25) {
+				    $array_Champs['champ_pwd_2_trop_long'] = true;
+			    }
+			
+			    if ($array_Champs['champ_pwd_temp_trop_long'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs['champ_pwd_2_trop_long']){
+				    $array_Champs['champs_pwd_trop_long'] = true;
+			    }
+       
+			    // Section pour valider si il y a des caractères invalides dans les champs password
+			    $pattern_valid_pass = "#^[[:alnum:]][[:alnum:]]{6,23}[[:alnum:]]$#";
+			
+			    if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_temp']) && !$array_Champs['champ_pwd_temp_empty']) {
+				    $array_Champs['champ_pwd_temp_invalid'] = true;
+			    }
+			
+			    if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_1_new']) && !$array_Champs['champ_pwd_1_empty']) {
+				    $array_Champs['champ_pwd_1_invalid'] = true;
+			    }
+       
+			    if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_2_new']) && !$array_Champs['champ_pwd_2_empty']) {
+				    $array_Champs['champ_pwd_2_invalid'] = true;
+			    }
+			
+			    if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_2_invalid']){
+				    $array_Champs['champs_pwd_invalid'] = true;
+			    }
+		    }
         }
         
         return $array_Champs;

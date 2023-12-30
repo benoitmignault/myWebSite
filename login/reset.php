@@ -18,9 +18,10 @@
                  "champ_pwd_temp_invalid" => false, "champ_pwd_1_invalid" => false, "champ_pwd_2_invalid" => false, "champs_pwd_invalid" => false, "pwd_old_new_diff" => false, 
                  "champ_pwd_new_none_equal" => false, "champ_pwd_temp_none_equal" => false, "champs_pwd_none_equal" => false,
                  "champ_pwd_1_empty" => false, "champ_pwd_2_empty" => false, "champ_pwd_temp_empty" => false, "champs_pwd_empty" => false, "invalid_language" => false,
-                 "token_time_used" => 0, "token_time_expired" => false, "lien_crypter_good" => false, "erreur_presente" => false,
+                 "token_time_used" => 0, "token_time_expired" => false, "lien_crypter_still_good" => false, "erreur_presente" => false,
                  "liste_mots" => array());
-}
+    }
+    
 	/**
 	 * Fonction pour setter les premières informations du GET ou POST
 	 * Ensuite, Via la fonction ... on va aller récup
@@ -331,12 +332,12 @@
 	 *
 	 * @param string $type_langue
 	 * @param bool $invalid_language
-     * @param bool $lien_crypter_good
+     * @param bool $lien_crypter_still_good
 	 * @return void
 	 */
-	#[NoReturn] function redirection(string $type_langue, bool $invalid_language, bool $lien_crypter_good): void {
+	#[NoReturn] function redirection(string $type_langue, bool $invalid_language, bool $lien_crypter_still_good): void {
         if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-            if ($invalid_language || !$lien_crypter_good) {
+            if ($invalid_language || !$lien_crypter_still_good) {
                 header("Location: /erreur/erreur.php");
             }
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -346,11 +347,11 @@
                 header("Location: /index.html");
             } elseif (isset($_POST['return']) && $type_langue == "english") {
                 header("Location: /english/english.html");
-            } elseif (isset($_POST['page_Login']) && $type_langue == "francais") {
+            } elseif (isset($_POST['page_login']) && $type_langue == "francais") {
                 header("Location: /login/login.php?langue=francais");
-            } elseif (isset($_POST['page_Login']) && $type_langue == "english") {
+            } elseif (isset($_POST['page_login']) && $type_langue == "english") {
                 header("Location: /login/login.php?langue=english");
-            } elseif (!$lien_crypter_good || $invalid_language){
+            } elseif (!$lien_crypter_still_good || $invalid_language){
                 header("Location: /erreur/erreur.php");
             }
         }
@@ -370,7 +371,7 @@
         
         // Si la langue n'est pas setter on sort de la page en indiquant Err 404
         if ($array_Champs["invalid_language"]){
-	        redirection("", $array_Champs["invalid_language"], $array_Champs["lien_crypter_good"]);
+	        redirection("", $array_Champs["invalid_language"], $array_Champs["lien_crypter_still_good"]);
         } else {
 	        // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
 	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
@@ -379,9 +380,9 @@
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
-        // $ possibilité d'aller vers une redirection, soit bonne ou mauvaise
-        if (isset($_POST['return']) || isset($_POST['page_Login']) || $array_Champs["invalid_language"] || !$array_Champs["lien_crypter_good"]){
-            redirection($array_Champs["type_langue"], $array_Champs["invalid_language"], $array_Champs["lien_crypter_good"]);
+        // possibilité d'aller vers une redirection, soit bonne ou mauvaise
+        if (isset($_POST['return']) || isset($_POST['page_login']) || $array_Champs["invalid_language"] || !$array_Champs["lien_crypter_still_good"]){
+            redirection($array_Champs["type_langue"], $array_Champs["invalid_language"], $array_Champs["lien_crypter_still_good"]);
             
             // Nous avons appuyer sur le bouton changement de password
         } elseif (isset($_POST['create_new_pwd'])){
@@ -472,7 +473,7 @@
             </div>
             <div class="section-retour-btn">
                 <form method="post" action="./reset.php">
-                    <input class="bouton" type="submit" name="page_Login" value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
+                    <input class="bouton" type="submit" name="page_login" value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
                     <input class="bouton" type="submit" name="return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
                     <input type='hidden' name='type_langue' value="<?php echo $array_Champs['type_langue']; ?>">
                 </form>

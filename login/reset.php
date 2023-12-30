@@ -430,7 +430,7 @@
                         </div>
                     </div>
                     <div class="troisBTN">
-                        <input <?php if ($array_Champs['create_user_succes']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> type='submit' name='create_New_PWD' value="<?php echo $array_Champs["liste_mots"]['btn_create_New_PWD']; ?>">
+                        <input <?php if ($array_Champs['create_user_succes']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> type='submit' name='create_new_pwd' value="<?php echo $array_Champs["liste_mots"]['btn_create_new_pwd']; ?>">
                         <input type='hidden' name='type_langue' value="<?php echo $array_Champs['type_langue']; ?>">
                         <input type='hidden' name='champ_lien_crypter' value="<?php echo $array_Champs['champ_lien_crypter']; ?>">
                     </div>

@@ -11,7 +11,7 @@
 		
 		// Initialiser le array de mots traduit
 		$liste_mots = array("lang" => "", "message" => "", "title" => "", "p1" => "", "li1" => "", "li2" => "", "li3" => "",
-		                    "legend" => "", "mdp_Temp" => "", "mdp_1" => "", "mdp_2" => "", "btn_create_New_PWD" => "",
+		                    "legend" => "", "mdp_Temp" => "", "mdp_1" => "", "mdp_2" => "", "btn_create_new_pwd" => "",
 		                    "btn_login" => "", "btn_return" => "");
 				
 		if ($type_langue === 'francais') {
@@ -25,7 +25,7 @@
 			$liste_mots["mdp_Temp"] = "Mot de passe temporaire :";
 			$liste_mots["mdp_1"] = "Nouveau mot de passe :";
 			$liste_mots["mdp_2"] = "Confirmer votre mot de passe :";
-			$liste_mots["btn_create_New_PWD"] = "Enregistrer...";
+			$liste_mots["btn_create_new_pwd"] = "Enregistrer...";
 			$liste_mots["page_Login"] = "Se Connecter";
 			$liste_mots["return"] = "Retour à l'accueil";
 			
@@ -40,7 +40,7 @@
 			$liste_mots["mdp_Temp"] = "Temporary password :";
 			$liste_mots["mdp_1"] = "New Password :";
 			$liste_mots["mdp_2"] = "Confirm your password :";
-			$liste_mots["btn_create_New_PWD"] = "Reset password...";
+			$liste_mots["btn_create_new_pwd"] = "Reset password...";
 			$liste_mots["page_Login"] = "Sign in";
 			$liste_mots["return"] = "Home Page";
 		}

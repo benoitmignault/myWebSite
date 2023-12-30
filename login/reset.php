@@ -322,10 +322,8 @@
     }
     
     function encryptementPassword($champ_pwd_temp) {
-        
-        $password_Encrypted = password_hash($champ_pwd_temp, PASSWORD_BCRYPT);
-        
-        return $password_Encrypted;
+	
+	    return password_hash($champ_pwd_temp, PASSWORD_BCRYPT);
     }
     
 	/**

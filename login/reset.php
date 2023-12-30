@@ -64,13 +64,72 @@
             if (isset($_POST['champ_pwd_2_new'])){
                 $array_Champs["champ_pwd_2_new"] = $_POST['champ_pwd_2_new'];
             }
+            
             date_default_timezone_set('America/New_York');
-            $current_time = date("Y-m-d H:i:s");
-            $current_timestamp = strtotime($current_time);
-            $array_Champs["token_time_used"] = $current_timestamp;
+            // Optimisation, en une seule étape
+            $array_Champs["token_time_used"] = strtotime(date("Y-m-d H:i:s"));
+            
+            
+            
         }
+		
+		// Validation commune pour le Get & Post, à propos de la langue
+		if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
+			$array_Champs["invalid_language"] = true;
+		}
+        
+        
+        
         return $array_Champs;
     }
+	
+	
+	/**
+     * Fonction qui sera utilisée via @see remplisage_champs pour aller récupérer
+     * - l'ancien password
+     * - le lien sécurisé
+     * - le temps restant à la validité au processus de changement de password.
+     * Retournera le résultat, si le lien est valide, sinon retournera le array vide.
+     *
+	 * @param $champ_lien_crypter
+	 * @param $connMYSQL
+	 * @return array|mixed
+	 */
+	function recuperation_info_user_bd($champ_lien_crypter, $connMYSQL){
+		
+		// On doit récupérer les infos par rapport au lien crypter
+		$select = "SELECT password, password_temp, temps_valide_link ";
+		$from = "FROM login ";
+		$where = "WHERE reset_link = ?";
+  
+        // Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+        $query = $select . $from . $where;
+		
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		
+		/* Lecture des marqueurs */
+		$stmt->bind_param("s", $champ_lien_crypter);
+		
+		/* Exécution de la requête */
+		$stmt->execute();
+		$result = $stmt->get_result();
+		
+		$result_info = array();
+		
+		// Il ne peut qu'avoir un seul résultat possible vue l'unicité de la Table SQL
+		if ($result->num_rows === 1){
+			$result_info = $result->fetch_array(MYSQLI_ASSOC);
+		}
+		
+		/* close statement and connection */
+		$stmt->close();
+		
+		return $result_info;
+	}
+    
+    
+    
     
     function verifChamp($array_Champs, $connMYSQL) {
         // Section de vérification des champs vide

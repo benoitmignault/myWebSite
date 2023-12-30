@@ -360,8 +360,8 @@
             $array_Champs["situation"] = situation($array_Champs);
             $arrayMots = traduction($array_Champs);
         }
-        $connMYSQL->close();
     }
+	$connMYSQL->close();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $array_Champs["liste_mots"]['lang']; ?>">

@@ -48,7 +48,13 @@
 	        $array_Champs["pwd_temp_crypte_bd"] = $result_info["password_temp"];
             $array_Champs["pwd_old_crypte_bd"] = $result_info["password"];
             $array_Champs["temps_valide_link_bd"] = $result_info["temps_valide_link"];
-	
+	           
+	        date_default_timezone_set('America/New_York');
+         
+	        // Optimisation, en une seule étape
+	        // Action commune, une fois que nous avons nos informations de la BD
+	        $array_Champs["token_time_used"] = strtotime(date("Y-m-d H:i:s"));
+         
 	        if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 		        // Il est important de vérifier le type de langue en arrivant sur la page web
 		        if (isset($_GET['langue'])){
@@ -72,18 +78,12 @@
 		        if (isset($_POST['champ_pwd_2_new'])){
 			        $array_Champs["champ_pwd_2_new"] = $_POST['champ_pwd_2_new'];
 		        }
-		
-		        date_default_timezone_set('America/New_York');
-		        // Optimisation, en une seule étape
-                // La valeur en nombre de seconde du temps que nous
-		        $array_Champs["token_time_used"] = strtotime(date("Y-m-d H:i:s"));
 	        }
         } // Sinon, le lien n'existe pas dans la BD
         
         return $array_Champs;
     }
-	
-	
+		
 	/**
      * Fonction qui sera utilisée via @see remplisage_champs pour aller récupérer
      * - l'ancien password

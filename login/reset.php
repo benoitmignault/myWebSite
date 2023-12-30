@@ -31,56 +31,64 @@
 	 * @return array
 	 */
 	function remplisage_champs(array $array_Champs, object $connMYSQL): array{
-        
-        // Avant d'associer nos informations à nos variables, on valide si le lien est bon
-        // Qu'on soit dans le GET ou POST, il faut aller chercher l'information
-		if (isset($_GET['key'])){
-			$array_Champs["champ_lien_crypter"] = $_GET['key'];
-   
-		} elseif (isset($_POST['champ_lien_crypter'])){
-			$array_Champs["champ_lien_crypter"] = $_POST['champ_lien_crypter'];
+  
+		if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+			// Il est important de vérifier le type de langue en arrivant sur la page web
+			if (isset($_GET['langue'])){
+				$array_Champs["type_langue"] = $_GET['langue'];
+			}
+            
+            // Si nous avons dans le GET, nous allons avoir un lien à valider
+			if (isset($_GET['key'])){
+				$array_Champs["champ_lien_crypter"] = $_GET['key'];
+			}
 		}
         
-        // On fera appel une seul fois à la fonction, le pourquoi qu'on doit assigner l'information plus haut
-		$result_info = recuperation_info_user_bd($array_Champs["champ_lien_crypter"], $connMYSQL);
-        
-        // Il nous faut exactement 3 résultat pour nos trois champs
-        if (count($result_info) === 3){
-	        $array_Champs["pwd_temp_crypte_bd"] = $result_info["password_temp"];
-            $array_Champs["pwd_old_crypte_bd"] = $result_info["password"];
-            $array_Champs["temps_valide_link_bd"] = $result_info["temps_valide_link"];
-	           
-	        date_default_timezone_set('America/New_York');
-         
-	        // Optimisation, en une seule étape
-	        // Action commune, une fois que nous avons nos informations de la BD
-	        $array_Champs["token_time_used"] = strtotime(date("Y-m-d H:i:s"));
-         
-	        if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-		        // Il est important de vérifier le type de langue en arrivant sur la page web
-		        if (isset($_GET['langue'])){
-			        $array_Champs["type_langue"] = $_GET['langue'];
-		        }
-	        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
-	        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-		        if (isset($_POST['type_langue'])){
-			        $array_Champs["type_langue"] = $_POST['type_langue'];
-		        }
-		
-		        if (isset($_POST['champ_pwd_temp'])){
-			        $array_Champs["champ_pwd_temp"] = $_POST['champ_pwd_temp'];
-		        }
-		
-		        if (isset($_POST['champ_pwd_1_new'])){
-			        $array_Champs["champ_pwd_1_new"] = $_POST['champ_pwd_1_new'];
-		        }
-		
-		        if (isset($_POST['champ_pwd_2_new'])){
-			        $array_Champs["champ_pwd_2_new"] = $_POST['champ_pwd_2_new'];
-		        }
+	        if (isset($_POST['type_langue'])){
+		        $array_Champs["type_langue"] = $_POST['type_langue'];
 	        }
-        } // Sinon, le lien n'existe pas dans la BD
+            
+            // Si nous venons de peser sur le bouton de changement de password
+            if (isset($_POST['create_new_pwd'])){
+	
+	            if (isset($_POST['champ_lien_crypter'])){
+		            $array_Champs["champ_lien_crypter"] = $_POST['champ_lien_crypter'];
+	            }
+             
+	            date_default_timezone_set('America/New_York');
+	            // Optimisation, en une seule étape
+	            // Action commune, une fois que nous avons nos informations de la BD
+	            $array_Champs["token_time_used"] = strtotime(date("Y-m-d H:i:s"));
+	
+	            if (isset($_POST['champ_pwd_temp'])){
+		            $array_Champs["champ_pwd_temp"] = $_POST['champ_pwd_temp'];
+	            }
+	
+	            if (isset($_POST['champ_pwd_1_new'])){
+		            $array_Champs["champ_pwd_1_new"] = $_POST['champ_pwd_1_new'];
+	            }
+	
+	            if (isset($_POST['champ_pwd_2_new'])){
+		            $array_Champs["champ_pwd_2_new"] = $_POST['champ_pwd_2_new'];
+	            }
+            }
+        }
+        
+        // Si nous avons un lien, on va aller le valider dans la BD
+        if (!empty($array_Champs["champ_lien_crypter"])){
+         
+	        // On fera appel une seul fois à la fonction, le pourquoi qu'on doit assigner l'information plus haut
+	        $result_info = recuperation_info_user_bd($array_Champs["champ_lien_crypter"], $connMYSQL);
+	
+	        // Il nous faut exactement 3 résultat pour nos trois champs
+	        if (count($result_info) === 3){
+		        $array_Champs["pwd_temp_crypte_bd"] = $result_info["password_temp"];
+		        $array_Champs["pwd_old_crypte_bd"] = $result_info["password"];
+		        $array_Champs["temps_valide_link_bd"] = $result_info["temps_valide_link"];
+	        } // Sinon, le lien n'existe pas dans la BD
+        }
         
         return $array_Champs;
     }
@@ -141,97 +149,93 @@
 	    // Validation commune pour le Get & Post, à propos de la langue
 	    if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
 		    $array_Champs["invalid_langue"] = true;
-            // On peut commencer à valider le restant
-	    } else {
-      
-		    // Si le moment présent est plus grand que le moment du lien valide, on doit arrêter ici
-		    if ($array_Champs["token_time_used"] > $array_Champs["temps_valide_link_bd"]){
-			    $array_Champs["token_time_expired"] = true;
-		    } else {
+        }
+		
+        // Validation commune pour le GET & POST si nous avons encore des informations de la BD
+        if (!empty($array_Champs["pwd_temp_crypte_bd"]) && !empty($array_Champs["pwd_old_crypte_bd"]) && !empty($array_Champs["temps_valide_link_bd"])){
+            $array_Champs["lien_crypter_still_good"] = true;
+        }
+        
+        // Validation commune pour le GET & POST si nous avons encore encore le temps pour le changement du password
+        if ($array_Champs["token_time_used"] > $array_Champs["temps_valide_link_bd"]){
+            $array_Champs["token_time_expired"] = true;
+        }
                 
-                // On doit maintenant de faire les validations de contrôles pour le POST, seulement.
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    
-                    // Première des choses, on valide que nous avons encore de quoi venant de la BD
-                    if (!empty($array_Champs["pwd_temp_crypte_bd"]) && !empty($array_Champs["pwd_old_crypte_bd"]) && !empty($array_Champs["temps_valide_link_bd"])){
-	                    $array_Champs["lien_crypter_still_good"] = true;
-                    }
+        // On doit maintenant de faire les validations de contrôles pour le POST, seulement.
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	
-	                // Sinon, on valide les champs vides
-	                if (empty($array_Champs['champ_pwd_temp'])){
-		                $array_Champs['champ_pwd_temp_empty'] = true;
-		
-		                // Sinon, on peut aller faire la comparaison des password temporaires
-	                } elseif (!password_verify($array_Champs['champ_pwd_temp'], $array_Champs["pwd_temp_crypte_bd"])){
-		                $array_Champs['champ_pwd_temp_none_equal'] = true;
-	                }
+	        // Sinon, on valide les champs vides
+	        if (empty($array_Champs['champ_pwd_temp'])) {
+		        $array_Champs['champ_pwd_temp_empty'] = true;
+                
+                // Sinon, on peut aller faire la comparaison des password temporaires
+	        } elseif (!password_verify($array_Champs['champ_pwd_temp'], $array_Champs["pwd_temp_crypte_bd"])) {
+		        $array_Champs['champ_pwd_temp_none_equal'] = true;
+	        }
 	
-	                if (empty($array_Champs['champ_pwd_1_new'])){
-		                $array_Champs['champ_pwd_1_empty'] = true;
-	                }
+	        if (empty($array_Champs['champ_pwd_1_new'])) {
+		        $array_Champs['champ_pwd_1_empty'] = true;
+	        }
 	
-	                if (empty($array_Champs['champ_pwd_2_new'])){
-		                $array_Champs['champ_pwd_2_empty'] = true;
-	                }
+	        if (empty($array_Champs['champ_pwd_2_new'])) {
+		        $array_Champs['champ_pwd_2_empty'] = true;
+	        }
 	
-	                // Si un des trois champs de password est vide, on allume le flag
-	                if ($array_Champs['champ_pwd_temp_empty'] || $array_Champs['champ_pwd_1_empty'] || $array_Champs['champ_pwd_2_empty']){
-		                $array_Champs['champs_pwd_empty'] = true;
-	                }
+	        // Si un des trois champs de password est vide, on allume le flag
+	        if ($array_Champs['champ_pwd_temp_empty'] || $array_Champs['champ_pwd_1_empty'] || $array_Champs['champ_pwd_2_empty']) {
+		        $array_Champs['champs_pwd_empty'] = true;
+	        }
 	
-	                // Si le nouveau password n'est pas répété identiquement
-	                if ( (strcmp($array_Champs["champ_pwd_1_new"], $array_Champs["champ_pwd_2_new"]) != 0) &&
-		                !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] ) {
-		                $array_Champs["champ_pwd_new_none_equal"] = true;
-		
-		                // Sinon, on aller vérifier que le nouveau password n'est pas égal à l'ancien par hasard
-	                } elseif (!password_verify($array_Champs['champ_pwd_1_new'], $array_Champs['pwd_old_crypte_bd'])){
-		                // Si c'est vrai que ce n'est pas pareil :
-		                $array_Champs['pwd_old_new_diff'] = true;
-	                }
+	        // Si le nouveau password n'est pas répété identiquement
+	        if ((strcmp($array_Champs["champ_pwd_1_new"], $array_Champs["champ_pwd_2_new"]) != 0) && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty']) {
+		        $array_Champs["champ_pwd_new_none_equal"] = true;
+          
+		        // Sinon, on va aller vérifier que le nouveau password n'est pas égal à l'ancien par hasard
+	        } elseif (!password_verify($array_Champs['champ_pwd_1_new'], $array_Champs['pwd_old_crypte_bd'])) {
+		        // Si c'est vrai que ce n'est pas pareil, donc tout va bien
+		        $array_Champs['pwd_old_new_diff'] = true;
+	        }
 	
-	                if ($array_Champs['champ_pwd_temp_none_equal'] || $array_Champs["champ_pwd_new_none_equal"]){
-		                $array_Champs["champs_pwd_none_equal"] = true;
-	                }
+	        if ($array_Champs['champ_pwd_temp_none_equal'] || $array_Champs["champ_pwd_new_none_equal"]) {
+		        $array_Champs["champs_pwd_none_equal"] = true;
+	        }
 	
-	                // Section pour vérifier la validité de la longueur des champs passwords
-	                if (strlen($array_Champs['champ_pwd_temp']) > 10) {
-		                $array_Champs['champ_pwd_temp_trop_long'] = true;
-	                }
+	        // Section pour vérifier la validité de la longueur des champs passwords
+	        if (strlen($array_Champs['champ_pwd_temp']) > 10) {
+		        $array_Champs['champ_pwd_temp_trop_long'] = true;
+	        }
 	
-	                if (strlen($array_Champs['champ_pwd_1_new']) > 25) {
-		                $array_Champs['champ_pwd_1_trop_long'] = true;
-	                }
+	        if (strlen($array_Champs['champ_pwd_1_new']) > 25) {
+		        $array_Champs['champ_pwd_1_trop_long'] = true;
+	        }
 	
-	                // Correction du bug, découvert 2023-12-29, champ_pwd_1_new était présent au lieu de champ_pwd_2_new
-	                if (strlen($array_Champs['champ_pwd_2_new']) > 25) {
-		                $array_Champs['champ_pwd_2_trop_long'] = true;
-	                }
+	        // Correction du bug, découvert 2023-12-29, champ_pwd_1_new était présent au lieu de champ_pwd_2_new
+	        if (strlen($array_Champs['champ_pwd_2_new']) > 25) {
+		        $array_Champs['champ_pwd_2_trop_long'] = true;
+	        }
 	
-	                if ($array_Champs['champ_pwd_temp_trop_long'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs['champ_pwd_2_trop_long']){
-		                $array_Champs['champs_pwd_trop_long'] = true;
-	                }
+	        if ($array_Champs['champ_pwd_temp_trop_long'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs['champ_pwd_2_trop_long']) {
+		        $array_Champs['champs_pwd_trop_long'] = true;
+	        }
 	
-	                // Section pour valider si il y a des caractères invalides dans les champs password
-	                $pattern_valid_pass = "#^[[:alnum:]][[:alnum:]]{6,23}[[:alnum:]]$#";
+	        // Section pour valider si il y a des caractères invalides dans les champs password
+	        $pattern_valid_pass = "#^[[:alnum:]][[:alnum:]]{6,23}[[:alnum:]]$#";
 	
-	                if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_temp']) && !$array_Champs['champ_pwd_temp_empty']) {
-		                $array_Champs['champ_pwd_temp_invalid'] = true;
-	                }
+	        if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_temp']) && !$array_Champs['champ_pwd_temp_empty']) {
+		        $array_Champs['champ_pwd_temp_invalid'] = true;
+	        }
 	
-	                if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_1_new']) && !$array_Champs['champ_pwd_1_empty']) {
-		                $array_Champs['champ_pwd_1_invalid'] = true;
-	                }
+	        if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_1_new']) && !$array_Champs['champ_pwd_1_empty']) {
+		        $array_Champs['champ_pwd_1_invalid'] = true;
+	        }
 	
-	                if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_2_new']) && !$array_Champs['champ_pwd_2_empty']) {
-		                $array_Champs['champ_pwd_2_invalid'] = true;
-	                }
+	        if (!preg_match($pattern_valid_pass, $array_Champs['champ_pwd_2_new']) && !$array_Champs['champ_pwd_2_empty']) {
+		        $array_Champs['champ_pwd_2_invalid'] = true;
+	        }
 	
-	                if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_2_invalid']){
-		                $array_Champs['champs_pwd_invalid'] = true;
-	                }
-                }
-		    }
+	        if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_2_invalid']) {
+		        $array_Champs['champs_pwd_invalid'] = true;
+	        }
         }
         
         return $array_Champs;
@@ -336,25 +340,29 @@
 	 * @return void
 	 */
 	#[NoReturn] function redirection(string $type_langue, bool $invalid_langue, bool $lien_crypter_still_good): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-            if ($invalid_langue || !$lien_crypter_still_good) {
-                header("Location: /erreur/erreur.php");
-            }
-        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            // Les deux premiers IF sont pour la page d'acceuil
+        
+        // Situation commune pour GET & POST
+		if ($invalid_langue || !$lien_crypter_still_good) {
+			header("Location: /erreur/erreur.php");
+		}
+        
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            // Les deux premiers IF sont pour la page d'accueil
             // Les deux derniers IF sont pour la page login
-            if (isset($_POST['return']) && $type_langue == "francais") {
+            if (isset($_POST['return']) && $type_langue === "francais") {
                 header("Location: /index.html");
-            } elseif (isset($_POST['return']) && $type_langue == "english") {
+                
+            } elseif (isset($_POST['return']) && $type_langue === "english") {
                 header("Location: /english/english.html");
-            } elseif (isset($_POST['page_login']) && $type_langue == "francais") {
+                
+            } elseif (isset($_POST['page_login']) && $type_langue === "francais") {
                 header("Location: /login/login.php?langue=francais");
-            } elseif (isset($_POST['page_login']) && $type_langue == "english") {
+                
+            } elseif (isset($_POST['page_login']) && $type_langue === "english") {
                 header("Location: /login/login.php?langue=english");
-            } elseif (!$lien_crypter_still_good || $invalid_langue){
-                header("Location: /erreur/erreur.php");
             }
         }
+        
         exit; // pour arrêter l'exécution du code php
     }
 	
@@ -364,8 +372,6 @@
 	$array_Champs = remplisage_champs($array_Champs, $connMYSQL);
     // En raison des validations qu'on doit faire dans le GET aussi, on va mettre la fct de vérification ici pour les actions
 	$array_Champs = validation_champs($array_Champs);
-    
-    
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         
@@ -379,17 +385,25 @@
     } // Fin du GET pour faire afficher la page web
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-	
-        // possibilité d'aller vers une redirection, soit bonne ou mauvaise
-        if (isset($_POST['return']) || isset($_POST['page_login']) || $array_Champs["invalid_langue"] || !$array_Champs["lien_crypter_still_good"]){
+     
+        // Nous avons deux scénarios possibles : Aller vers un autre endroit du site web ou demander le changement de password. || !$array_Champs["lien_crypter_still_good"]
+        
+        if (isset($_POST['return']) || isset($_POST['page_login']) ){
             redirection($array_Champs["type_langue"], $array_Champs["invalid_langue"], $array_Champs["lien_crypter_still_good"]);
             
             // Nous avons appuyer sur le bouton changement de password
         } elseif (isset($_POST['create_new_pwd'])){
-	
-	        
-    
-            if (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && !$array_Champs["token_time_expired"] && !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"] && $array_Champs["pwd_old_new_diff"]){
+            
+            /* Les conditions pour changer le password :
+             * 1 - Les champs ne sont pas vide
+             * 2 - ?
+             * 3 - Le lien n'a pas expiré au niveau du temps valide
+             * 4 - Les passwords respect les longueurs
+             * 5 - Les passwords ne contient pas de caractères invalides
+             * 6 - Le vieux et nouveau password ne sont pas identique
+             */
+            if (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && !$array_Champs["token_time_expired"] &&
+                !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"] && $array_Champs["pwd_old_new_diff"]){
                 $array_Champs = changementPassword($array_Champs, $connMYSQL);
             }
             

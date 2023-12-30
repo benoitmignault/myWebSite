@@ -421,7 +421,7 @@
                 <li class='info'><?php echo $array_Champs["liste_mots"]['li3']; ?></li>
             </ul>
             <fieldset class="<?php if ($array_Champs['create_user_succes']) { echo "changerAvecSucces"; } ?>">
-                <legend class="legendCenter"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
+                <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
                 <form method="post" action="./reset.php">
                     <div class="connexion">
                         <div class="information <?php if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_temp_trop_long'] || $array_Champs["champ_pwd_temp_empty"] || $array_Champs['champ_pwd_temp_none_equal']) { echo 'erreur';} ?>">
@@ -446,7 +446,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="troisBTN">
+                    <div class="section-reset-btn">
                         <input <?php if ($array_Champs['create_user_succes']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> type='submit' name='create_new_pwd' value="<?php echo $array_Champs["liste_mots"]['btn_create_new_pwd']; ?>">
                         <input type='hidden' name='type_langue' value="<?php echo $array_Champs['type_langue']; ?>">
                         <input type='hidden' name='champ_lien_crypter' value="<?php echo $array_Champs['champ_lien_crypter']; ?>">
@@ -459,7 +459,7 @@
             <div class='avert <?php if ($array_Champs["situation"] != 8) { echo 'erreur'; } ?>'>
                 <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
             </div>
-            <div class="btnRetour">
+            <div class="section-retour-btn">
                 <form method="post" action="./reset.php">
                     <input class="bouton" type="submit" name="page_Login" value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
                     <input class="bouton" type="submit" name="return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">

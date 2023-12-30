@@ -127,10 +127,23 @@
 		
 		return $result_info;
 	}
-    
-    
-    
-    function verifChamp($array_Champs, $connMYSQL) {
+	
+	/**
+	 * Fonction qui servira à mettre à «True» les variables de contrôles des informations
+     * que nous avons associé durant la fonction @see remplisage_champs
+     *
+	 * @param $array_Champs
+	 * @return array
+	 */
+	function validation_champs($array_Champs): array{
+	
+	    // Validation commune pour le Get & Post, à propos de la langue, une exception
+	    if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
+		    $array_Champs["invalid_language"] = true;
+	    }
+        
+        
+        
         // Section de vérification des champs vide
         if (empty($array_Champs['champ_pwd_temp'])){
             $array_Champs['champ_pwd_temp_empty'] = true;
@@ -291,7 +304,15 @@
         return $password_Encrypted;
     }
     
-    function redirection($array_Champs) {
+	/**
+	 * Fonction pour rediriger vers la bonne page page extérieur à la page du reset de password
+	 * En fonction aussi si le type de langue est valide
+	 *
+	 * @param string $type_langue
+	 * @param bool $invalid_language
+	 * @return void
+	 */
+	#[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
         if ($_SERVER['REQUEST_METHOD'] === 'GET'){
             if ($array_Champs["invalid_language"] || !$array_Champs["lien_crypter_good"]) {
                 header("Location: /erreur/erreur.php");
@@ -318,40 +339,39 @@
 	$connMYSQL = connexion();
 	$array_Champs = initialisation();
 	$array_Champs = remplisage_champs($array_Champs, $connMYSQL);
-	   
+    // En raison des validations qu'on doit faire dans le GET aussi, on va mettre la fct de vérification ici pour les actions
+	$array_Champs = validation_champs($array_Champs);
+    
+    
+    
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         
-        if ($array_Champs["invalid_language"] || !$array_Champs["lien_crypter_good"]){
-            redirection($array_Champs);
+        // Si la langue n'est pas setter on sort de la page en indiquant Err 404
+        if ($array_Champs["invalid_language"]){
+	        redirection("", $array_Champs["invalid_language"]);
         } else {
-            $arrayMots = traduction($array_Champs);
+	        // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
+	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
         }
-    }
+    } // Fin du GET pour faire afficher la page web
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
-	    // Vérif du lien en premier
-	    // Vérif de la langue par la suite
-        if ($array_Champs["invalid_language"] || !$array_Champs["lien_crypter_good"]){
-            redirection($array_Champs);
+        // $ possibilité d'aller vers une redirection, soit bonne ou mauvaise
+        if (isset($_POST['return']) || isset($_POST['page_Login']) || $array_Champs["invalid_language"] || !$array_Champs["lien_crypter_good"]){
+            redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]);
             
-            // On retourne à la page de connexion des stats de poker ou à la page accueil
-        } elseif (isset($_POST['return']) || isset($_POST['page_Login'])){
-            redirection($array_Champs);
-            
+            // Nous avons appuyer sur le bouton changement de password
         } elseif (isset($_POST['create_new_pwd'])){
-            
-            if (!$array_Champs["lien_crypter_good"]) {
-                redirection($array_Champs);
-            } else {
-                $array_Champs = verifChamp($array_Champs, $connMYSQL);
+	
+	        
     
-                if (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && !$array_Champs["token_time_expired"] && !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"] && $array_Champs["pwd_old_new_diff"]){
-                    $array_Champs = changementPassword($array_Champs, $connMYSQL);
-                }
+            if (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && !$array_Champs["token_time_expired"] && !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"] && $array_Champs["pwd_old_new_diff"]){
+                $array_Champs = changementPassword($array_Champs, $connMYSQL);
             }
+            
             $array_Champs["situation"] = situation($array_Champs);
-            $arrayMots = traduction($array_Champs);
+	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
         }
     }
 	$connMYSQL->close();

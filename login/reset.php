@@ -43,8 +43,8 @@
         // On fera appel une seul fois à la fonction, le pourquoi qu'on doit assigner l'information plus haut
 		$result_info = recuperation_info_user_bd($array_Champs["champ_lien_crypter"], $connMYSQL);
         
-        // Si nous avons un résultat, pas 0, pas 2 et plus mais bien 1, nous sommes ok, sinon, on sortira de la fonction.
-        if (count($result_info) === 1){
+        // Il nous faut exactement 3 résultat pour nos trois champs
+        if (count($result_info) === 3){
             // Une des rare validation dans cette fonction...
 	        $array_Champs["lien_crypter_good"] = true;
 	        $array_Champs["pwd_temp_crypte_bd"] = $result_info["password_temp"];

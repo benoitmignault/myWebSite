@@ -231,32 +231,45 @@
     
     function situation($array_Champs){
         $typeSituation = 0;
-        if ($array_Champs['champ_pwd_temp_empty'] && $array_Champs['champ_pwd_1_empty'] && $array_Champs['champ_pwd_2_empty']) {
+        
+        if ($array_Champs['token_time_expired']){
+	        $typeSituation = 14;
+         
+        } elseif ($array_Champs['champ_pwd_temp_empty'] && $array_Champs['champ_pwd_1_empty'] && $array_Champs['champ_pwd_2_empty']) {
             $typeSituation = 1;
+            
         } elseif ($array_Champs['champ_pwd_temp_none_equal'] && !$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid'] && !$array_Champs['pwd_old_new_diff']){
             $typeSituation = 2;
+            
         } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid'] && !$array_Champs['pwd_old_new_diff']){
             $typeSituation = 3;
+            
         } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champ_pwd_1_empty'] && $array_Champs['champ_pwd_2_empty']){
             $typeSituation = 4;
+            
         } elseif ($array_Champs['champ_pwd_temp_empty'] && !$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_invalid'] && !$array_Champs['pwd_old_new_diff']){
             $typeSituation = 5;
+            
         } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_empty']){
             $typeSituation = 6;
+            
         } elseif (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && $array_Champs["token_time_expired"] && !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"]){
             $typeSituation = 7;
+            
         } elseif (!$array_Champs['pwd_old_new_diff'] && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] && !$array_Champs['champ_pwd_temp_none_equal']){
             $typeSituation = 12;
+            
         } elseif ($array_Champs['create_user_succes'] && $array_Champs['pwd_old_new_diff']){
             $typeSituation = 8;
+            
         } elseif ($array_Champs['champ_pwd_temp_none_equal'] && $array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid']){
             $typeSituation = 9;
+            
         } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_invalid']){
             $typeSituation = 10;
+            
         } elseif ($array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_invalid']){
             $typeSituation = 11;
-        } elseif ($array_Champs['erreur_manip_bd']){
-            $typeSituation = 13;
         }
     
         return $typeSituation;

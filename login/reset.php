@@ -18,7 +18,7 @@
                  "champ_pwd_temp_invalid" => false, "champ_pwd_1_invalid" => false, "champ_pwd_2_invalid" => false, "champs_pwd_invalid" => false, "pwd_old_new_diff" => false, 
                  "champ_pwd_new_none_equal" => false, "champ_pwd_temp_none_equal" => false, "champs_pwd_none_equal" => false,
                  "champ_pwd_1_empty" => false, "champ_pwd_2_empty" => false, "champ_pwd_temp_empty" => false, "champs_pwd_empty" => false, "invalid_language" => false,
-                 "token_time_used" => 0, "token_time_expired" => false, "lien_crypter_good" => false, 
+                 "token_time_used" => 0, "token_time_expired" => false, "lien_crypter_good" => false, "erreur_presente" => false,
                  "liste_mots" => array());
 }
 	/**

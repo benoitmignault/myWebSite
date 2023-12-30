@@ -92,6 +92,7 @@
 			case 10 : $message = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des deux champs du nouveau mot de passe est invalide !"; break;
 			case 11 : $message = "Votre mot de passe temporaire ne concorde pas avec nos informations et un des deux champs du nouveau mot de passe est invalide !"; break;
 			case 12 : $message = "Votre nouveau mot de passe ne doit pas être égal à celui que vous aviez avant !"; break;
+			case 13 : $message = "Lors de la mise à jour du mot de passe associé à votre compte, il y a une erreur système. Veuillez envoyer un courriel à home@benoitmignault.ca, pour plus d'assistance !"; break;
 			case 14 : $message = "Votre temps accordé pour changer votre mot de passe est écoulé. Veuillez refaire une nouvelle demande de changement !"; break;
 		}
 		
@@ -120,7 +121,8 @@
 			case 10 : $message = "Your temporary password matches our information, but one of the two fields of the new password is invalid !"; break;
 			case 11 : $message = "Your temporary password does not match our information and one of the two fields of the new password is invalid !"; break;
 			case 12 : $message = "Your new password must not be equal to the one you had before !"; break;
-			case 13 : $message = "A communication / manipulation error occurred when sending you the email !"; break;
+			case 13 : $message = "While updating the password associated with your account, there was a system error. Please email home@benoitmignault.ca, for further assistance !"; break;
+			case 14 : $message = "Your time allowed to change your password has expired. Please make a new change request !"; break;
 		}
 		
 		return $message;

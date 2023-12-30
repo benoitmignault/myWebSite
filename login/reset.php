@@ -248,52 +248,54 @@
 	 * @return int
 	 */
 	function situation(array $array_Champs): int{
-        $typeSituation = 0;
         
+        // On prépare la situation à gérer
+        $type_situation = 0;
+		
         if ($array_Champs['token_time_expired']){
-	        $typeSituation = 14;
+	        $type_situation = 14;
          
         } elseif ($array_Champs['champ_pwd_temp_empty'] && $array_Champs['champ_pwd_1_empty'] && $array_Champs['champ_pwd_2_empty']) {
-            $typeSituation = 1;
+	        $type_situation = 1;
             
-        } elseif ($array_Champs['champ_pwd_temp_none_equal'] && !$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid'] && !$array_Champs['pwd_old_new_diff']){
-            $typeSituation = 2;
+        } elseif ($array_Champs['champ_pwd_temp_none_equal'] && !$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid'] && $array_Champs['pwd_old_new_diff']){
+	        $type_situation = 2;
             
-        } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid'] && !$array_Champs['pwd_old_new_diff']){
-            $typeSituation = 3;
+        } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid']){
+	        $type_situation = 3;
             
         } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champ_pwd_1_empty'] && $array_Champs['champ_pwd_2_empty']){
-            $typeSituation = 4;
+	        $type_situation = 4;
             
         } elseif ($array_Champs['champ_pwd_temp_empty'] && !$array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_invalid'] && !$array_Champs['pwd_old_new_diff']){
-            $typeSituation = 5;
+	        $type_situation = 5;
             
         } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_empty']){
-            $typeSituation = 6;
+	        $type_situation = 6;
             
         } elseif (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && $array_Champs["token_time_expired"] && !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"]){
-            $typeSituation = 7;
+	        $type_situation = 7;
             
         } elseif (!$array_Champs['pwd_old_new_diff'] && !$array_Champs['champ_pwd_1_empty'] && !$array_Champs['champ_pwd_2_empty'] && !$array_Champs['champ_pwd_temp_none_equal']){
-            $typeSituation = 12;
+	        $type_situation = 12;
             
         } elseif ($array_Champs['create_user_succes'] && $array_Champs['pwd_old_new_diff']){
-            $typeSituation = 8;
+	        $type_situation = 8;
             
         } elseif ($array_Champs['champ_pwd_temp_none_equal'] && $array_Champs["champ_pwd_new_none_equal"] && !$array_Champs['champs_pwd_empty'] && !$array_Champs['champs_pwd_invalid']){
-            $typeSituation = 9;
+	        $type_situation = 9;
             
         } elseif (!$array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_invalid']){
-            $typeSituation = 10;
+	        $type_situation = 10;
             
         } elseif ($array_Champs['champ_pwd_temp_none_equal'] && $array_Champs['champs_pwd_invalid']){
-            $typeSituation = 11;
+	        $type_situation = 11;
             
         } elseif ($array_Champs['erreur_system_bd']){
-	        $typeSituation = 13;
+	        $type_situation = 13;
         }
     
-        return $typeSituation;
+        return $type_situation;
     }
 	
 	/**

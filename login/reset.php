@@ -100,11 +100,11 @@
      * - le temps restant à la validité au processus de changement de password.
      * Retournera le résultat, si le lien est valide, sinon retournera le array vide.
      *
-	 * @param $champ_lien_crypter
-	 * @param $connMYSQL
+	 * @param string $champ_lien_crypter
+	 * @param object $connMYSQL
 	 * @return array
 	 */
-	function recuperation_info_user_bd($champ_lien_crypter, $connMYSQL): array{
+	function recuperation_info_user_bd(string $champ_lien_crypter, object $connMYSQL): array{
 		
 		// On doit récupérer les infos par rapport au lien crypter
 		$select = "SELECT password, password_temp, temps_valide_link ";
@@ -355,17 +355,6 @@
     
         return $array_Champs;
     }
-	
-	/**
-	 * Fonction simplement pour encrypter une information
-	 *
-	 * @param string $password_Temp
-	 * @return string
-	 */
-	function encryptement_password(string $password_Temp): string {
-		
-		return password_hash($password_Temp, PASSWORD_BCRYPT);
-	}
     
 	/**
 	 * Fonction pour rediriger vers la bonne page page extérieur à la page du reset de password
@@ -441,7 +430,7 @@
              */
             if (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && !$array_Champs["token_time_expired"] &&
                 !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"] && $array_Champs["pwd_old_new_diff"]){
-                $array_Champs = changementPassword($array_Champs, $connMYSQL);
+                $array_Champs = changement_password($array_Champs, $connMYSQL);
             }
             
             $array_Champs["situation"] = situation($array_Champs);

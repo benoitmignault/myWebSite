@@ -45,8 +45,6 @@
         
         // Il nous faut exactement 3 résultat pour nos trois champs
         if (count($result_info) === 3){
-            // Une des rare validation dans cette fonction...
-	        $array_Champs["lien_crypter_good"] = true;
 	        $array_Champs["pwd_temp_crypte_bd"] = $result_info["password_temp"];
             $array_Champs["pwd_old_crypte_bd"] = $result_info["password"];
             $array_Champs["temps_valide_link_bd"] = $result_info["temps_valide_link"];
@@ -80,13 +78,7 @@
                 // La valeur en nombre de seconde du temps que nous
 		        $array_Champs["token_time_used"] = strtotime(date("Y-m-d H:i:s"));
 	        }
-        }
-		
-        // Si la vérification dans la BD auparavant n'a donné aucun résultat, invalid_language sera true automatique
-		// Validation commune pour le Get & Post, à propos de la langue, une exception
-		if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
-			$array_Champs["invalid_language"] = true;
-		}
+        } // Sinon, le lien n'existe pas dans la BD
         
         return $array_Champs;
     }

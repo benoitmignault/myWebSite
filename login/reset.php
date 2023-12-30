@@ -402,7 +402,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         
         // Si la langue n'est pas setter on sort de la page en indiquant Err 404
-        if ($array_Champs["invalid_langue"]){
+        if ($array_Champs["invalid_langue"] || !$array_Champs["lien_crypter_still_good"]){
 	        redirection("", $array_Champs["invalid_langue"], $array_Champs["lien_crypter_still_good"]);
         } else {
 	        // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...

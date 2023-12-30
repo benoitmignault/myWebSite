@@ -375,7 +375,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li class='info'><?php echo $arrayMots['li3']; ?></li>
             </ul>
             <fieldset>
-                <legend class="legendCenter"><?php echo $arrayMots['legend']; ?></legend>
+                <legend class="legend-center"><?php echo $arrayMots['legend']; ?></legend>
                 <form method="post" action="./login.php">
                     <div class="connexion">
                         <div class="information <?php if ($champs['sameUserPWD'] || $champs['champVideUser'] || $champs['champInvalidUser'] || $champs['duplicatUser'] || $champs['badUser'] || $champs['champTropLongUser']) { echo 'erreur'; } ?>">
@@ -400,7 +400,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
                     </div>
-                    <div class="troisBTN">
+                    <div class="section-reset-btn">
                         <input class="bouton" type='submit' name='login' value="<?php echo $arrayMots['btn_login']; ?>">
                         <input class="bouton" type='submit' name='signUp' value="<?php echo $arrayMots['btn_signUp']; ?>">
                         <input class="bouton" type='submit' name='reset' value="<?php echo $arrayMots['btn_reset']; ?>">
@@ -413,7 +413,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class='avert <?php if ($champs["situation"] != 16) { echo 'erreur'; } ?>'>
                 <p> <?php echo $arrayMots['message']; ?> </p>
             </div>
-            <div class="btnRetour">
+            <div class="section-retour-btn">
                 <form method="post" action="./login.php">
                     <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
                     <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">

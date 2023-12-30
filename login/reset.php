@@ -13,7 +13,7 @@
 	function initialisation(): array {
         
         return array("type_langue" => "", "situation" => 0, "champ_pwd_temp" => "", "champ_pwd_1_new" => "", "champ_pwd_2_new" => "", "champ_lien_crypter" => "", 
-                 "erreur_manip_bd" => false, "create_user_succes" => false, "lien_crypter_bd" => "", "pwd_temp_bd" => "", "token_time_bd" => 0,
+                 "erreur_manip_bd" => false, "create_user_succes" => false, "pwd_temp_crypte_bd" => "", "temps_valide_link_bd" => 0, "pwd_old_crypte_bd" => "",
                  "champ_pwd_1_trop_long" => false, "champ_pwd_2_trop_long" => false, "champ_pwd_temp_trop_long" => false, "champs_pwd_trop_long" => false, 
                  "champ_pwd_temp_invalid" => false, "champ_pwd_1_invalid" => false, "champ_pwd_2_invalid" => false, "champs_pwd_invalid" => false, "pwd_old_new_diff" => false, 
                  "champ_pwd_new_none_equal" => false, "champ_pwd_temp_none_equal" => false, "champs_pwd_none_equal" => false,

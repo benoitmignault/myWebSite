@@ -54,6 +54,7 @@
 		elseif ($champs["typeLangue"] === 'english') {
 			$messageEnPreparation = traductionSituationEN($champs);
 		}
+		
 		return $messageEnPreparation;
 	}
 	

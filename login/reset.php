@@ -196,27 +196,6 @@
         return $typeSituation;
     }
     
-    function verif_link_BD($array_Champs, $connMYSQL){
-        /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("select reset_link from login where reset_link =? ");
-    
-        /* Lecture des marqueurs */
-        $stmt->bind_param("s", $array_Champs["champ_lien_crypter"]);
-    
-        /* Exécution de la requête */
-        $stmt->execute();
-    
-        /* Association des variables de résultat */
-        $result = $stmt->get_result();
-    
-        // Close statement
-        $stmt->close();
-    
-        if ($result->num_rows == 1){
-            $array_Champs["lien_crypter_good"] = true;
-        }
-        return $array_Champs;
-    }
     
     function changementPassword($array_Champs, $connMYSQL){
         // Remise à NULL pour les

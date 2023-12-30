@@ -233,8 +233,14 @@
         
         return $array_Champs;
     }
-    
-    function situation($array_Champs){
+	
+	/**
+	 * Fonction pour déterminer le type de situation d'erreur ou pas qui peut survenir
+	 *
+	 * @param array $array_Champs
+	 * @return int
+	 */
+	function situation(array $array_Champs): int{
         $typeSituation = 0;
         
         if ($array_Champs['token_time_expired']){

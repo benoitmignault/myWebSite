@@ -371,7 +371,7 @@
     }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $arrayMots['lang']; ?>">
+<html lang="<?php echo $array_Champs["liste_mots"]['lang']; ?>">
 
 <head>
     <meta charset="utf-8">
@@ -380,7 +380,7 @@
     <!-- Le fichier reset.png est la propriété du site https://pixabay.com/fr/bouton-r%C3%A9initialiser-inscrivez-vous-31199/-->
     <link rel="shortcut icon" href="reset.png">
     <link rel="stylesheet" type="text/css" href="login.css">
-    <title><?php echo $arrayMots['title']; ?></title>
+    <title><?php echo $array_Champs["liste_mots"]['title']; ?></title>
     <style>
         body {
             margin: 0;
@@ -397,32 +397,32 @@
 <body>
     <div class="content">
         <div class="center">
-            <p class='titre'><?php echo $arrayMots['p1']; ?></p>
+            <p class='titre'><?php echo $array_Champs["liste_mots"]['p1']; ?></p>
             <ul>
-                <li class='info'><?php echo $arrayMots['li1']; ?></li>
-                <li class='info'><?php echo $arrayMots['li2']; ?></li>
-                <li class='info'><?php echo $arrayMots['li3']; ?></li>
+                <li class='info'><?php echo $array_Champs["liste_mots"]['li1']; ?></li>
+                <li class='info'><?php echo $array_Champs["liste_mots"]['li2']; ?></li>
+                <li class='info'><?php echo $array_Champs["liste_mots"]['li3']; ?></li>
             </ul>
             <fieldset class="<?php if ($array_Champs['create_user_succes']) { echo "changerAvecSucces"; } ?>">
-                <legend class="legendCenter"><?php echo $arrayMots['legend']; ?></legend>
+                <legend class="legendCenter"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
                 <form method="post" action="./reset.php">
                     <div class="connexion">
                         <div class="information <?php if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_temp_trop_long'] || $array_Champs["champ_pwd_temp_empty"] || $array_Champs['champ_pwd_temp_none_equal']) { echo 'erreur';} ?>">
-                            <label for="champ_pwd_temp"><?php echo $arrayMots['mdp_Temp']; ?></label>
+                            <label for="champ_pwd_temp"><?php echo $array_Champs["liste_mots"]['mdp_Temp']; ?></label>
                             <div>
                                 <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> autofocus id="champ_pwd_temp" type='password' maxlength="25" name="champ_pwd_temp" value="<?php echo $array_Champs['champ_pwd_temp']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
                         <div class="information <?php if (( $_SERVER['REQUEST_METHOD'] === 'POST' && !$array_Champs['pwd_old_new_diff'] ) || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_1_trop_long'] || $array_Champs["champ_pwd_1_empty"] || $array_Champs["champ_pwd_new_none_equal"]) { echo 'erreur';} ?>">
-                            <label for="champ_pwd_1_new"><?php echo $arrayMots['mdp_1']; ?></label>
+                            <label for="champ_pwd_1_new"><?php echo $array_Champs["liste_mots"]['mdp_1']; ?></label>
                             <div>
                                 <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> id="champ_pwd_1_new" type='password' maxlength="25" name="champ_pwd_1_new" value="<?php echo $array_Champs['champ_pwd_1_new']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
                         <div class="information <?php if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' && !$array_Champs['pwd_old_new_diff'] ) || $array_Champs['champ_pwd_2_invalid'] || $array_Champs['champ_pwd_2_trop_long'] || $array_Champs["champ_pwd_2_empty"] || $array_Champs["champ_pwd_new_none_equal"]) { echo 'erreur';} ?>">
-                            <label for="champ_pwd_2_new"><?php echo $arrayMots['mdp_2']; ?></label>
+                            <label for="champ_pwd_2_new"><?php echo $array_Champs["liste_mots"]['mdp_2']; ?></label>
                             <div>
                                 <input <?php if ($array_Champs['create_user_succes']) { echo "disabled"; } ?> id="champ_pwd_2_new" type='password' maxlength="25" name="champ_pwd_2_new" value="<?php echo $array_Champs['champ_pwd_2_new']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
@@ -430,7 +430,7 @@
                         </div>
                     </div>
                     <div class="troisBTN">
-                        <input <?php if ($array_Champs['create_user_succes']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> type='submit' name='create_New_PWD' value="<?php echo $arrayMots['btn_create_New_PWD']; ?>">
+                        <input <?php if ($array_Champs['create_user_succes']) { echo "class=\"bouton disabled\" disabled"; } else { echo "class=\"bouton\""; }?> type='submit' name='create_New_PWD' value="<?php echo $array_Champs["liste_mots"]['btn_create_New_PWD']; ?>">
                         <input type='hidden' name='type_langue' value="<?php echo $array_Champs['type_langue']; ?>">
                         <input type='hidden' name='champ_lien_crypter' value="<?php echo $array_Champs['champ_lien_crypter']; ?>">
                     </div>
@@ -440,12 +440,12 @@
         <div class="footer">
             <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
             <div class='avert <?php if ($array_Champs["situation"] != 8) { echo 'erreur'; } ?>'>
-                <p> <?php echo $arrayMots['message']; ?> </p>
+                <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
             </div>
             <div class="btnRetour">
                 <form method="post" action="./reset.php">
-                    <input class="bouton" type="submit" name="page_Login" value="<?php echo $arrayMots['btn_login']; ?>">
-                    <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
+                    <input class="bouton" type="submit" name="page_Login" value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
+                    <input class="bouton" type="submit" name="return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
                     <input type='hidden' name='type_langue' value="<?php echo $array_Champs['type_langue']; ?>">
                 </form>
             </div>

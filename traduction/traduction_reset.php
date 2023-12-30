@@ -19,30 +19,30 @@
 			$liste_mots["title"] = "Mot de passe en changement !";
 			$liste_mots["p1"] = "Vous pouvez maintenant changer votre du mot de passe !";
 			$liste_mots["li1"] = "Veuillez inscrire votre mot de passe temporaire.";
-			$liste_mots["li2"] = "Veuillez choisir un nouveau mot de passe et le confirmer dans le 3e champs contenant des lettres et chiffres seulement.";
+			$liste_mots["li2"] = "Veuillez choisir un nouveau mot de passe contenant des lettres et chiffres seulement.";
 			$liste_mots["li3"] = "Votre nouveau mot de passe doit être différent de l'ancien, pour des raisons de sécurité.";
 			$liste_mots["legend"] = "Saisir de quoi de nouveau !";
 			$liste_mots["mdp_Temp"] = "Mot de passe temporaire :";
 			$liste_mots["mdp_1"] = "Nouveau mot de passe :";
 			$liste_mots["mdp_2"] = "Confirmer votre mot de passe :";
 			$liste_mots["btn_create_new_pwd"] = "Enregistrer...";
-			$liste_mots["page_Login"] = "Se Connecter";
-			$liste_mots["return"] = "Retour à l'accueil";
+			$liste_mots["btn_login"] = "Se Connecter";
+			$liste_mots["btn_return"] = "Retour à l'accueil";
 			
 		} elseif ($type_langue === 'english') {
 			$liste_mots["title"] = "Password is changing !";
 			$liste_mots["lang"] = "en";
 			$liste_mots["p1"] = "You can now change your password !";
 			$liste_mots["li1"] = "Please enter your temporary password.";
-			$liste_mots["li2"] = "Please choose a new password and confirm it in the 3rd field containing letters and numbers only.";
+			$liste_mots["li2"] = "Please choose a new password containing letters and numbers only.";
 			$liste_mots["li3"] = "Your new password must be different from the old one, for security reasons !";
 			$liste_mots["legend"] = "Write something new !";
 			$liste_mots["mdp_Temp"] = "Temporary password :";
 			$liste_mots["mdp_1"] = "New Password :";
 			$liste_mots["mdp_2"] = "Confirm your password :";
 			$liste_mots["btn_create_new_pwd"] = "Reset password...";
-			$liste_mots["page_Login"] = "Sign in";
-			$liste_mots["return"] = "Home Page";
+			$liste_mots["btn_login"] = "Sign in";
+			$liste_mots["btn_return"] = "Home Page";
 		}
 		
 		// Le message qui sera dans la langue voulu

@@ -82,6 +82,7 @@
 	        }
         }
 		
+        // Si la vérification dans la BD auparavant n'a donné aucun résultat, invalid_language sera true automatique
 		// Validation commune pour le Get & Post, à propos de la langue, une exception
 		if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
 			$array_Champs["invalid_language"] = true;

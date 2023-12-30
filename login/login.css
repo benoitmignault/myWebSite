@@ -9,7 +9,7 @@
     -webkit-flex-direction: column;
     flex-direction: column;
     background-color: #F0FFF0;
-    width: 50%;
+    width: 60%;
     border: 3px solid black;
     margin: 150px auto auto;
 }
@@ -226,6 +226,8 @@ input::placeholder {
     color: red;
     text-align: center;
     font-weight: bold;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 @media screen and (max-width:768px) {

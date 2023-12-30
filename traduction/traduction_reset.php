@@ -92,7 +92,7 @@
 			case 10 : $message = "Votre mot de passe temporaire concorde avec nos informations,<br>mais un des deux champs du nouveau mot de passe est invalide !"; break;
 			case 11 : $message = "Votre mot de passe temporaire ne concorde pas avec nos informations et un des deux champs du nouveau mot de passe est invalide !"; break;
 			case 12 : $message = "Votre nouveau mot de passe ne doit pas être égal à celui que vous aviez avant !"; break;
-			case 13 : $message = "Une erreur de communication/manipulation est survenu au moment de vous envoyer le courriel !"; break;
+			case 14 : $message = "Votre temps accordé pour changer votre mot de passe est écoulé. Veuillez refaire une nouvelle demande de changement !"; break;
 		}
 		
 		return $message;

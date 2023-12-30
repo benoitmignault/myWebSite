@@ -19,7 +19,7 @@
                  "champ_pwd_new_none_equal" => false, "champ_pwd_temp_none_equal" => false, "champs_pwd_none_equal" => false,
                  "champ_pwd_1_empty" => false, "champ_pwd_2_empty" => false, "champ_pwd_temp_empty" => false, "champs_pwd_empty" => false, "invalid_langue" => false,
                  "token_time_used" => 0, "token_time_expired" => false, "lien_crypter_still_good" => false, "erreur_presente" => false,
-                 "liste_mots" => array());
+                 "erreur_system_bd" => false, "liste_mots" => array());
     }
     
 	/**

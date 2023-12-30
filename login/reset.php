@@ -272,7 +272,7 @@
         /* Lecture des marqueurs */
         $zero = 0; // Je dois créer une variable qui va contenir la valeur 0
         $stringVide = NUll;
-        $stmt->bind_param("sssis", $newPWDencrypt,$stringVide,$stringVide,$zero,$array_Champs["champ_lien_crypter"]);
+        $stmt->bind_param("sssis", $newPWDencrypt, $stringVide, $stringVide, $zero, $array_Champs["champ_lien_crypter"]);
         /* Exécution de la requête */
         $status = $stmt->execute();
     
@@ -295,7 +295,9 @@
     }
     
     function encryptementPassword($champ_pwd_temp) {
+        
         $password_Encrypted = password_hash($champ_pwd_temp, PASSWORD_BCRYPT);
+        
         return $password_Encrypted;
     }
     

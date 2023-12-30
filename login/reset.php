@@ -31,54 +31,61 @@
 	 */
 	function remplisage_champs(array $array_Champs, object $connMYSQL): array{
         
+        // Avant d'associer nos informations à nos variables, on valide si le lien est bon
+        // Qu'on soit dans le GET ou POST, il faut aller chercher l'information
+		if (isset($_GET['key'])){
+			$array_Champs["champ_lien_crypter"] = $_GET['key'];
+   
+		} elseif (isset($_POST['champ_lien_crypter'])){
+			$array_Champs["champ_lien_crypter"] = $_POST['champ_lien_crypter'];
+		}
         
-        if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-            if (isset($_GET['langue'])){
-                $array_Champs["type_langue"] = $_GET['langue'];
-            } else {
-                $array_Champs["invalid_language"] = true;
-            }
-    
-            if (isset($_GET['key'])){
-                $array_Champs["champ_lien_crypter"] = $_GET['key'];
-            }
-    
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST'){
-            if (isset($_POST['type_langue'])){
-                $array_Champs["type_langue"] = $_POST['type_langue'];
-            } else {
-                $array_Champs["invalid_language"] = true;
-            }
-    
-            if (isset($_POST['champ_lien_crypter'])){
-                $array_Champs["champ_lien_crypter"] = $_POST['champ_lien_crypter'];
-            }
-            if (isset($_POST['champ_pwd_temp'])){
-                $array_Champs["champ_pwd_temp"] = $_POST['champ_pwd_temp'];
-            }
-    
-            if (isset($_POST['champ_pwd_1_new'])){
-                $array_Champs["champ_pwd_1_new"] = $_POST['champ_pwd_1_new'];
-            }
-    
-            if (isset($_POST['champ_pwd_2_new'])){
-                $array_Champs["champ_pwd_2_new"] = $_POST['champ_pwd_2_new'];
-            }
-            
-            date_default_timezone_set('America/New_York');
-            // Optimisation, en une seule étape
-            $array_Champs["token_time_used"] = strtotime(date("Y-m-d H:i:s"));
-            
-            
-            
+        // On fera appel une seul fois à la fonction, le pourquoi qu'on doit assigner l'information plus haut
+		$result_info = recuperation_info_user_bd($array_Champs["champ_lien_crypter"], $connMYSQL);
+        
+        // Si nous avons un résultat, pas 0, pas 2 et plus mais bien 1, nous sommes ok, sinon, on sortira de la fonction.
+        if (count($result_info) === 1){
+            // Une des rare validation dans cette fonction...
+	        $array_Champs["lien_crypter_good"] = true;
+	        $array_Champs["pwd_temp_crypte_bd"] = $result_info["password_temp"];
+            $array_Champs["pwd_old_crypte_bd"] = $result_info["password"];
+            $array_Champs["temps_valide_link_bd"] = $result_info["temps_valide_link"];
+	
+	        if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+		        // Il est important de vérifier le type de langue en arrivant sur la page web
+		        if (isset($_GET['langue'])){
+			        $array_Champs["type_langue"] = $_GET['langue'];
+		        }
+	        }
+	
+	        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+		        if (isset($_POST['type_langue'])){
+			        $array_Champs["type_langue"] = $_POST['type_langue'];
+		        }
+		
+		        if (isset($_POST['champ_pwd_temp'])){
+			        $array_Champs["champ_pwd_temp"] = $_POST['champ_pwd_temp'];
+		        }
+		
+		        if (isset($_POST['champ_pwd_1_new'])){
+			        $array_Champs["champ_pwd_1_new"] = $_POST['champ_pwd_1_new'];
+		        }
+		
+		        if (isset($_POST['champ_pwd_2_new'])){
+			        $array_Champs["champ_pwd_2_new"] = $_POST['champ_pwd_2_new'];
+		        }
+		
+		        date_default_timezone_set('America/New_York');
+		        // Optimisation, en une seule étape
+                // La valeur en nombre de seconde du temps que nous
+		        $array_Champs["token_time_used"] = strtotime(date("Y-m-d H:i:s"));
+	        }
         }
 		
-		// Validation commune pour le Get & Post, à propos de la langue
+		// Validation commune pour le Get & Post, à propos de la langue, une exception
 		if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
 			$array_Champs["invalid_language"] = true;
 		}
-        
-        
         
         return $array_Champs;
     }
@@ -127,7 +134,6 @@
 		
 		return $result_info;
 	}
-    
     
     
     
@@ -324,7 +330,9 @@
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         
-        $array_Champs = verif_link_BD($array_Champs, $connMYSQL);
+        // Vérif du lien en premier
+        // Vérif de la langue par la suite
+        
         if ($array_Champs["invalid_language"]){
             redirection($array_Champs);
         } elseif (!$array_Champs["lien_crypter_good"]){
@@ -336,14 +344,17 @@
     }
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-        
-        
+	
+	    // Vérif du lien en premier
+	    // Vérif de la langue par la suite
         if ($array_Champs["invalid_language"]){
             redirection($array_Champs);
+            
         } elseif (isset($_POST['return']) || isset($_POST['page_Login'])){
             redirection($array_Champs);
+            
         } elseif (isset($_POST['create_New_PWD'])){
-            $array_Champs = verif_link_BD($array_Champs, $connMYSQL);
+            
             if (!$array_Champs["lien_crypter_good"]) {
                 redirection($array_Champs);
             } else {

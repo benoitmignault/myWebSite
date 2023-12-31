@@ -1,6 +1,7 @@
 <?php
-	
-	include("../../../traduction/traduction_admin.php");
+	// Les includes nécessaires
+	include_once("../../../traduction/traduction_admin.php");
+	include_once("../../../includes/fct-connexion-bd.php");
 	
 	function initialisation(): array {
 		
@@ -444,20 +445,6 @@
 		return false;
 	}
 	
-	function connexionBD() {
-		
-		// Nouvelle connexion sur hébergement du Studio OL
-		$host = "localhost";
-		$user = "benoitmi_benoit";
-		$password = "d-&47mK!9hjGC4L-";
-		$bd = "benoitmi_benoitmignault.ca.mysql";
-		
-		$connMYSQL = mysqli_connect($host, $user, $password, $bd);
-		$connMYSQL->query("set names 'utf8'");
-		
-		return $connMYSQL;
-	}
-	
 	function verificationUser($connMYSQL) {
 		
 		// Optimisation de la vérification si le user existe dans la BD
@@ -593,68 +580,65 @@
 		return $champs;
 	}
 	
+	// Les fonctions communes
+	$connMYSQL = connexion();
+ 
 	if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 		session_start();
 		$champs["typeLangue"] = "francais";
-		$connMYSQL = NULL;
   
 		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue'])) {
-			$connMYSQL = connexionBD();
 			$verificationUser = verificationUser($connMYSQL);
-		}
-		else {
+   
+		} else {
 			redirection($champs, $connMYSQL);
 		}
 		
 		// on vérifier si notre user existe en bonne éduforme
 		if (!$verificationUser) {
 			redirection($champs, $connMYSQL);
-		}
-        elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
+   
+		}  elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
 			redirection($champs, $connMYSQL);
-		}
-		else {
+   
+		} else {
 			$champs = initialisationChamps();
 			$valid_Champ = initialisation();
 			$arrayMots = traduction($champs);
 			$listeJoueurs = creationListe($connMYSQL, $arrayMots, $champs);
 		}
-		$connMYSQL->close();
 	}
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		session_start();
 		$champs["typeLangue"] = "francais";
-		$connMYSQL = NULL;
   
 		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue'])) {
-			$connMYSQL = connexionBD();
 			$verificationUser = verificationUser($connMYSQL);
-		}
-		else {
+   
+		} else {
 			redirection($champs, $connMYSQL);
 		}
 		
 		// on vérifier si notre user existe en bonne éduforme
 		if (!$verificationUser) {
 			redirection($champs, $connMYSQL);
-		}
-        elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
+   
+		} elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
 			redirection($champs, $connMYSQL);
-		}
-		else {
+   
+		} else {
 			$champs = initialisationChamps();
 			$valid_Champ = initialisation();
+   
 			if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueuil'])) {
 				redirection($champs, $connMYSQL);
 				
-			}
-            elseif (isset($_POST['effacer'])) {
+			} elseif (isset($_POST['effacer'])) {
 				$champs = situation($champs, $valid_Champ);
 				$verif_tous_flag = verificationTout_Champs($valid_Champ);
 				
-			}
-            elseif (isset($_POST['ajouter'])) {
+			} elseif (isset($_POST['ajouter'])) {
 				$champs = remplissageChamps($champs);
 				$valid_Champ = validation($champs, $valid_Champ, $connMYSQL);
 				$champs = situation($champs, $valid_Champ);
@@ -663,8 +647,7 @@
 				}
 				$verif_tous_flag = verificationTout_Champs($valid_Champ);
 				
-			}
-            elseif (isset($_POST['ajouterNouveau'])) {
+			} elseif (isset($_POST['ajouterNouveau'])) {
 				$champs = remplissageChamps($champs);
 				$valid_Champ = validation($champs, $valid_Champ, $connMYSQL);
 				$champs = situation($champs, $valid_Champ);
@@ -673,11 +656,12 @@
 				}
 				$verif_tous_flag = verificationTout_Champs($valid_Champ);
 			}
+   
 			$arrayMots = traduction($champs);
 			$listeJoueurs = creationListe($connMYSQL, $arrayMots, $champs);
 		}
-		$connMYSQL->close();
 	}
+	$connMYSQL->close();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $arrayMots['lang']; ?>">

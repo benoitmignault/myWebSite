@@ -8,9 +8,9 @@
 		
 		// Nouvelle connexion sur hébergement du Studio OL
 		$host = "localhost";
-		$user = "benoitmi_benoit";
-		$password = "d-&47mK!9hjGC4L-";
-		$bd = "benoitmi_benoitmignault.ca.mysql";
+		$user = "confidential information";
+		$password = "confidential information";
+		$bd = "confidential information";
 		
 		$connMYSQL = mysqli_connect($host, $user, $password, $bd);
 		$connMYSQL->query("set names 'utf8'");

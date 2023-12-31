@@ -1,15 +1,18 @@
 <?php
 	
 	/**
-	 * Retourne la variable instance de connexion à la BD~
-	 * @return false|mysqli|void
+	 * Retourne la variable instance de connexion à la BD
+	 * Afin de garder de manière sécuritaire, la BD, nous allons inclure les informations de connexions dans un fichier.
+	 * Ce fichier va rester sur le local ou envoyer vers le site web mais pas sur GirHub.
+	 *
+	 * @return mysqli
 	 */
-	function connexion() {
+	function connexion():mysqli {
 		
 		// Nouvelle connexion sur hébergement du Studio OL
 		$host = "localhost";
 		
-		// Initialisation des variables
+		// Initialisation des variables, pour éviter des fausses erreurs de IntelliJ
 		$user = "";
 		$password = "";
 		$bd = "";

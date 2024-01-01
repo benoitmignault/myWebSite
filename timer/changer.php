@@ -1,4 +1,8 @@
 <?php
+	// Les includes nécessaires
+	include_once("../includes/fct-connexion-bd.php");
+	include_once("../includes/fct-traduction.php");
+	include_once("../includes/fct-timer.php");
 	
 	header("Content-type: application/json; charset=utf-8");
 	

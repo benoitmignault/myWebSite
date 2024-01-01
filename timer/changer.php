@@ -17,17 +17,19 @@
 	
 	/**
 	 * Retourne un array de variables qui seront utilisées pour l'appel Ajax du Timer lors d'un changement de mise
+	 *
 	 * @return array
 	 */
 	function initialisationChamps(): array {
 		
-		return ['situation' => "", 'maxCombinaison' => 0, 'nomOrganisateur' => "", 'combinaison' => 0, "aucuneValeur" => false,
+		return array('situation' => "", 'maxCombinaison' => 0, 'nomOrganisateur' => "", 'combinaison' => 0, "aucuneValeur" => false,
 		        'aucuneValeurDispo' => false, 'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00"),
-		        'couleurs' => array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255)];
+		        'couleurs' => array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255));
 	}
 	
 	/**
 	 * Remplissage des variables qui seront utilisées pour l'appel Ajax du Timer lors d'un changement de mise
+	 *
 	 * @param $champs
 	 * @return array
 	 */

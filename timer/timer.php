@@ -40,18 +40,10 @@
 		
 		$message = "";
 		switch ($situation) {
-			case 1:
-				$message = traduction(SITUATION_1, $dictionnaire);
-				break;
-			case 2:
-				$message = traduction(SITUATION_2, $dictionnaire);
-				break;
-			case 3:
-				$message = traduction(SITUATION_3, $dictionnaire);
-				break;
-			case 4:
-				$message = traduction(SITUATION_4, $dictionnaire);
-				break;
+			case 1: $message = traduction(SITUATION_1, $dictionnaire); break;
+			case 2: $message = traduction(SITUATION_2, $dictionnaire); break;
+			case 3: $message = traduction(SITUATION_3, $dictionnaire); break;
+			case 4: $message = traduction(SITUATION_4, $dictionnaire); break;
 		}
 		
 		return $message;
@@ -59,6 +51,7 @@
 	
 	/**
 	 * Remplissage des variables en fonction de quels boutons a été sélectionné
+     *
 	 * @param $connMYSQL
 	 * @param $champs
 	 * @return array
@@ -66,11 +59,12 @@
 	function remplissageChamps($connMYSQL, $champs): array {
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+   
 			if (isset($_GET['langue'])) {
 				$_SERVER['typeLangue'] = $_GET['langue'];
 			}
-		}
-        elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+   
+		} elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			
 			if (isset($_POST['typeLangue'])) {
 				$_SERVER['typeLangue'] = $_POST['typeLangue'];
@@ -82,8 +76,8 @@
 			
 			if (isset($_POST['btnChoixOrganisateur'])) {
 				$champs['maxCombinaison'] = recupererMaxCombinaison($connMYSQL, $champs['nomOrganisateur']);
-			}
-            elseif (isset($_POST['btnChangerMise'])) {
+    
+			} elseif (isset($_POST['btnChangerMise'])) {
 				
 				if (isset($_POST['maxCombinaison'])) {
 					$champs['maxCombinaison'] = intval($_POST['maxCombinaison']);
@@ -91,8 +85,8 @@
 				
 				$champs['combinaison'] = intval($_POST['combinaison']);
 				$champs['couleurs'] = remplissageCouleurs();
-			}
-            elseif (isset($_POST['btnResetMise'])) {
+    
+			} elseif (isset($_POST['btnResetMise'])) {
 				// En raison d'un bug, nous allons récupéré la valeur Max pour permettre à la validation aucuneValeurSmallBig d'être ok
 				$champs['maxCombinaison'] = recupererMaxCombinaison($connMYSQL, $champs['nomOrganisateur']);
 				$champs['combinaison'] = 0;
@@ -105,6 +99,7 @@
 	
 	/**
 	 * Retourne la liste des organisateurs
+     *
 	 * @param $connMYSQL
 	 * @return array
 	 */
@@ -145,6 +140,7 @@
 	
 	/**
 	 * Retourne la liste des valeurs des couleurs de jetons de l'organisateur
+     *
 	 * @param $connMYSQL
 	 * @param $nomOrganisateur
 	 * @return array
@@ -195,6 +191,7 @@
 	
 	/**
 	 * Retourne le nombre maximale de combinaisons possible
+     *
 	 * @param $connMYSQL
 	 * @param $nomOrganisateur
 	 * @return int
@@ -240,6 +237,7 @@
 	
 	/**
 	 * Vérifier que tous c'est bien passé
+     *
 	 * @param $champs , on passera la variable au complet, car beaucoup de choses seront utilisées.
 	 * @param $champsValid , on passera la variable au complet, car beaucoup de choses seront utilisées.
 	 * @return array de valeurs true & false
@@ -281,6 +279,7 @@
 	
 	/**
 	 * Retourne un chiffre pour une situation donnée qui sera affecté un message et envoyer en message AlertBox, au moment opportun
+     *
 	 * @param $champsValid
 	 * @return int
 	 */
@@ -306,6 +305,7 @@
 	
 	/**
 	 * Retourne la couleur dynamiquement pour les valeurs «Small» et «Big» blind.
+     *
 	 * @param $couleurRouge
 	 * @param $couleurVert
 	 * @param $couleurBleu
@@ -318,6 +318,7 @@
 	
 	/**
 	 * Redirection vers la page d'erreur, car il y a eu un problème avec la page du timer
+     *
 	 * @return void
 	 */
 	function redirectionVersPageErreur() {
@@ -328,14 +329,15 @@
 	
 	/**
 	 * Retourne à la page accueil en fonction de la langue du système
+     *
 	 * @return void
 	 */
 	function redirectionVersAccueil() {
 		
 		if ($_SERVER['typeLangue'] == 'francais') {
 			header("Location: /index.html");
-		}
-        elseif ($_SERVER['typeLangue'] == 'english') {
+   
+		} elseif ($_SERVER['typeLangue'] == 'english') {
 			header("Location: /english/english.html");
 		}
 		
@@ -344,6 +346,7 @@
 	
 	/**
 	 * Retourne sur la page du timer + un message avertissement
+     *
 	 * @param $dictionnaire
 	 * @param $situation
 	 * @return void
@@ -355,10 +358,11 @@
 		define('FRENCH_URL', "/timer/timer.php?langue=francais");
 		define('ENGLISH_URL', "/timer/timer.php?langue=english");
 		$url = "";
+        
 		if ($_SERVER['typeLangue'] === 'francais') {
 			$url = FRENCH_URL;
-		}
-        elseif ($_SERVER['typeLangue'] === 'english') {
+   
+		} elseif ($_SERVER['typeLangue'] === 'english') {
 			$url = ENGLISH_URL;
 		}
 		

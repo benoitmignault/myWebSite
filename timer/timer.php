@@ -2,28 +2,31 @@
 	
 	/**
 	 * Retourne un array de variables qui seront utilisées pour le timer
+     *
 	 * @return array
 	 */
 	function initialisationChamps(): array {
 		
-		return ['message' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0, 'valeurSmall' => 0,
+		return array('message' => "", 'nomOrganisateur' => "", 'situation' => 0, 'combinaison' => 0, 'maxCombinaison' => 0, 'valeurSmall' => 0,
 		        'valeurBig' => 0, 'listeDesOrganisateurs' => array(), 'listeDesValeursCouleurs' => array(),
 		        'nouvelleCombinaison' => array('valeurSmall' => "00", 'valeurBig' => "00"),
-		        'couleurs' => array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255)];
+		        'couleurs' => array('couleurRouge' => 255, 'couleurVert' => 255, 'couleurBleu' => 255));
 	}
 	
 	/**
 	 * Retourne un array de variables toutes à false pour commencer qui seront les chiens de garde du bon fonctionnement
+     *
 	 * @return false[]
 	 */
 	function initialisationChampsValidation(): array {
 		
-		return ['nomOrganisateurVide' => false, 'aucuneValeurSmallBig' => false, 'aucuneValeurCouleur' => false,
-		        'aucuneValeurDispo' => false, 'aucunOrganisateur' => false, 'erreurPossible' => false];
+		return array('nomOrganisateurVide' => false, 'aucuneValeurSmallBig' => false, 'aucuneValeurCouleur' => false,
+		        'aucuneValeurDispo' => false, 'aucunOrganisateur' => false, 'erreurPossible' => false);
 	}
 	
 	/**
 	 * Retourne le message en fonction de la situation trouver dans le dictionnaire et la traduire au besoin.
+     *
 	 * @param $dictionnaire
 	 * @param $situation
 	 * @return string

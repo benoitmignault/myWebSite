@@ -26,8 +26,8 @@
 		// Vérification de la connexion
 		if ($connMYSQL->connect_error) {
 			die('Erreur de connexion (' . $connMYSQL->connect_errno . ') ' . $connMYSQL->connect_error);
-		}
-		else {
+			
+		} else {
 			return $connMYSQL;
 		}
 	}

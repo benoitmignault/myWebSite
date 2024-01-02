@@ -273,13 +273,21 @@
         //  Préparation du lien pour le courriel, avec true pour gérer les exceptions
         $mail = new PHPMailer(true);
     
+        // Initialisation des variables, pour éviter des fausses erreurs de IntelliJ
+        // Venant du fichier info-connexion-email.php
+		$user_email = "";
+		$password_email = "";
+
+        // Les includes nécessaires
+        include_once("../includes/info-connexion-email.php");
+        
         // Paramètres du serveur SMTP
         $mail->SMTPDebug = 0; // 2 Pour voir le mode debug des messages erreurs
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'benoit.mignault.ca@gmail.com';
-        $mail->Password   = 'uqmsbfldqabqzvne';
+        $mail->Username   = $user_email;
+        $mail->Password   = $password_email;
         $mail->SMTPSecure = "tls";
         $mail->Port       = 587;
         $mail->CharSet    = 'UTF-8';

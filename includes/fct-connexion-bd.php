@@ -9,16 +9,17 @@
 	 */
 	function connexion():mysqli {
 		
+		// Les includes nécessaires
+		include_once("info-connexion-bd.php");
+		
 		// Nouvelle connexion sur hébergement du Studio OL
 		$host = "localhost";
 		
 		// Initialisation des variables, pour éviter des fausses erreurs de IntelliJ
+		// Venant du fichier info-connexion-bd.php
 		$user = "";
 		$password = "";
-		$bd = "";
-		
-		// Les includes nécessaires
-		include_once("info-connexion-bd.php");
+		$bd = "";		
 		
 		$connMYSQL = mysqli_connect($host, $user, $password, $bd);
 		$connMYSQL->query("set names 'utf8'");

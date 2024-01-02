@@ -121,9 +121,7 @@ h2 {
 }
 
 .container > form > .formulaire_joueur > div > .avert {
-    margin: 0;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     font-size: 20px;
     color: green;
     font-weight: bold;
@@ -132,9 +130,7 @@ h2 {
 }
 
 .container > form > .formulaire_joueur > div > .erreur {
-    margin: 0;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     font-size: 20px;
     color: red;
     font-weight: bold;
@@ -169,7 +165,7 @@ h2 {
 }
 
 .container > form > .footer > .btn_footer:last-of-type {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .bouton {
@@ -179,10 +175,10 @@ h2 {
     background-image: -ms-linear-gradient(top, #507d99, #96cceb);
     background-image: -o-linear-gradient(top, #507d99, #96cceb);
     background-image: linear-gradient(to bottom, #507d99, #96cceb);
-    -webkit-border-radius: 28;
-    -moz-border-radius: 28;
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
     border-radius: 28px;
-    font-family: Georgia;
+    font-family: Georgia, sans-serif;
     color: #ffffff;
     font-size: 18px;
     padding: 10px 10px 10px 10px;
@@ -263,7 +259,7 @@ label:hover {
 
     .bouton {
         font-size: 22px;
-        padding: 0px;
+        padding: 0;
     }
 
     .container > form > .formulaire_joueur > .bas_formulaire > .bouton:first-of-type {

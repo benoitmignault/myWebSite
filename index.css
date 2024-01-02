@@ -162,11 +162,27 @@ td {
     font-weight: bold;
 }
 
-.racine-site > .left .section-meteo {
+.racine-site > .left > .section-meteo {
     display: flex;
     display: -webkit-flex;
     -webkit-flex-direction: column;
     flex-direction: column;
+    justify-content: center;
+}
+
+.racine-site > .left > .section-meteo > .page-accueil {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.racine-site > .left > .section-meteo > .page-accueil > p {
+    color: red;
+    font-weight: bold;
+}
+
+.racine-site > .left > .section-meteo > .page-accueil > a {
+    display: inline-block;
+    margin-bottom: 15px;
 }
 
 #enum-language li:hover {
@@ -453,11 +469,6 @@ span {
 .racine-site > div > div > .page-accueil {
     margin-bottom: 20px;
 }
-
-.racine-site > .left > .section-meteo > .page-accueil:last-of-type {
-    padding-bottom: 20px;
-}
-
 
 .racine-site > .right > div > .page-accueil > p {
     text-align: justify;

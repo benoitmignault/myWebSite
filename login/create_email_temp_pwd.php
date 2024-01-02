@@ -278,7 +278,7 @@
 		$user_email = "";
 		$password_email = "";
 
-        // Les includes nécessaires
+        // Les includes nécessaires, l'include doit etre après la déclaration des variables qui seront utilisées
         include_once("../includes/info-connexion-email.php");
         
         // Paramètres du serveur SMTP

@@ -9,9 +9,6 @@
 	 */
 	function connexion():mysqli {
 		
-		// Les includes nécessaires
-		include_once("info-connexion-bd.php");
-		
 		// Nouvelle connexion sur hébergement du Studio OL
 		$host = "localhost";
 		
@@ -19,7 +16,10 @@
 		// Venant du fichier info-connexion-bd.php
 		$user = "";
 		$password = "";
-		$bd = "";		
+		$bd = "";
+		
+		// Les includes nécessaires pour associer les informations des variables plus haut
+		include_once("info-connexion-bd.php");
 		
 		$connMYSQL = mysqli_connect($host, $user, $password, $bd);
 		$connMYSQL->query("set names 'utf8'");

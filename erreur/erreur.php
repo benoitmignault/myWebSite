@@ -1,12 +1,14 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['returnFR'])) {
-        header("Location: /index.html");
-    } elseif (isset($_POST['returnEN'])) {
-        header("Location: /english/english.html");
+    // Seul action possible est de revenir à la page accueil soit en français ou en anglais.
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['accueil-francais'])) {
+            header("Location: /index.html");
+            
+        } elseif (isset($_POST['accueil-anglais'])) {
+            header("Location: /english/english.html");
+        }
+        exit;
     }
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,12 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-    <div class="erreur404">
-        <div id="explication">
-            <button class="btnErreur" id="francais" type="button">Explication</button>
+    <div class="erreur-404">
+        <div id="section-information">
+            <button class="btn-erreur" id="btn-affichage" type="button">Explication</button>
         </div>
         <!-- Fichier 404-notfound.jpg est une propriété du site https://www.flickr.com/photos/guspim/2280690094/ sous licence libre -->
-        <div class="photoErreur">
+        <div class="photo-erreur">
             <img src="erreur-background.jpg" alt="" title="Erreur 404">
         </div>
     </div>

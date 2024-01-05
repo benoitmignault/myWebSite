@@ -1,7 +1,9 @@
 <?php
 	// Les includes nécessaires
-	include_once("../traduction/traduction_reset.php");
-	include_once("../includes/fct-connexion-bd.php");
+	use JetBrains\PhpStorm\NoReturn;
+	
+	include_once("../../traduction/traduction-reset.php");
+	include_once("../../includes/fct-connexion-bd.php");
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.
@@ -384,10 +386,10 @@
                 header("Location: /english/english.html");
                 
             } elseif (isset($_POST['page_login']) && $type_langue === "francais") {
-                header("Location: /login/login.php?langue=francais");
+                header("Location: /login-user/login-user.php?langue=francais");
                 
             } elseif (isset($_POST['page_login']) && $type_langue === "english") {
-                header("Location: /login/login.php?langue=english");
+                header("Location: /login-user/login-user.php?langue=english");
             }
         }
         
@@ -449,14 +451,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Envoi du courriel avec le lien">
     <!-- Le fichier reset.png est la propriété du site https://pixabay.com/fr/bouton-r%C3%A9initialiser-inscrivez-vous-31199/-->
-    <link rel="shortcut icon" href="reset.png">
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="shortcut icon" href="reset-pwd-icone.png">
+    <link rel="stylesheet" type="text/css" href="../login-user.css">
     <title><?php echo $array_Champs["liste_mots"]['title']; ?></title>
     <style>
         body {
             margin: 0;
             /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
-            background-image: url("photologin.jpg");
+            background-image: url("../login-background.jpg");
             background-position: center;
             background-attachment: fixed;
             background-size: 100%;
@@ -474,9 +476,9 @@
                 <li class='info'><?php echo $array_Champs["liste_mots"]['li2']; ?></li>
                 <li class='info'><?php echo $array_Champs["liste_mots"]['li3']; ?></li>
             </ul>
-            <fieldset class="<?php if ($array_Champs['create_user_succes']) { echo "changerAvecSucces"; } ?>">
+            <fieldset class="<?php if ($array_Champs['create_user_succes']) { echo "changer-avec-succes"; } ?>">
                 <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
-                <form method="post" action="./reset.php">
+                <form id="form" method="post" action="reset-pwd.php">
                     <div class="connexion">
                         <div class="information <?php if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_temp_trop_long'] || $array_Champs["champ_pwd_temp_empty"] || $array_Champs['champ_pwd_temp_none_equal']) { echo 'erreur';} ?>">
                             <label for="champ_pwd_temp"><?php echo $array_Champs["liste_mots"]['mdp_Temp']; ?></label>
@@ -514,11 +516,8 @@
                 <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
             </div>
             <div class="section-retour-btn">
-                <form method="post" action="./reset.php">
-                    <input class="bouton" type="submit" name="page_login" value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
-                    <input class="bouton" type="submit" name="return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
-                    <input type='hidden' name='type_langue' value="<?php echo $array_Champs['type_langue']; ?>">
-                </form>
+                <input form="form" class="bouton" type="submit" name="page_login" value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
+                <input form="form" class="bouton" type="submit" name="return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
             </div>
         </div>
     </div>

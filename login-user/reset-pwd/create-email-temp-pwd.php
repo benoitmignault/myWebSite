@@ -1,6 +1,6 @@
 <?php
     // Les includes nécessaires
-	include_once("../../traduction/traduction-create-link-reset.php");
+	include_once("../../traduction/traduction-create-email-temps-pwd.php");
 	include_once("../../includes/fct-connexion-bd.php");
     
     // Import PHPMailer classes into the global namespace

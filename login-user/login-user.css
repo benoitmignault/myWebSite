@@ -143,7 +143,7 @@ input::placeholder {
     width: 100%;
 }
 
-.content > .footer > .section-retour-btn > form {
+.content > .footer > .section-retour-btn {
     width: 100%;
     display: -webkit-flex;
     display: flex;
@@ -155,7 +155,7 @@ input::placeholder {
     margin-bottom: 0;
 }
 
-.content > .center > .changerAvecSucces {
+.content > .center > .changer-avec-succes {
     display: none;
 }
 
@@ -163,7 +163,7 @@ input::placeholder {
     width: auto;
 }
 
-.content > .footer > .section-retour-btn > form > input {
+.content > .footer > .section-retour-btn > input {
     margin-bottom: 10px;
 }
 
@@ -295,18 +295,18 @@ input::placeholder {
         margin-bottom: 10px;
     }
 
-    .content > .footer > .section-retour-btn > form > input,
-    .content > .footer > .section-retour-btn > form {
+    .content > .footer > .section-retour-btn > input,
+    .content > .footer > .section-retour-btn{
         width: 100%;
     }
 
     .content > .center > fieldset > form > .section-reset-btn > input,
-    .content > .footer > .section-retour-btn > form > input {
+    .content > .footer > .section-retour-btn > input {
         width: 70%;
         margin: auto auto 10px;
     }
 
-    .content > .footer > .section-retour-btn > form {
+    .content > .footer > .section-retour-btn > {
         display: -webkit-flex;
         display: flex;
         justify-content: center;

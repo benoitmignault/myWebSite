@@ -2,7 +2,7 @@
 	// Les includes nécessaires
 	use JetBrains\PhpStorm\NoReturn;
 	
-	include_once("../../traduction/traduction-reset.php");
+	include_once("../../traduction/traduction-reset-pwd.php");
 	include_once("../../includes/fct-connexion-bd.php");
 	
 	/**

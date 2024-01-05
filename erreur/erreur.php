@@ -1,4 +1,6 @@
 <?php
+    // TODO Ajuster le design en ajoutant les icones du site web comme la page accueil
+    
     // Seul action possible est de revenir à la page accueil soit en français ou en anglais.
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['accueil-francais'])) {

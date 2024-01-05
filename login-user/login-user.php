@@ -1,16 +1,18 @@
 <?php
 	// Les includes nécessaires
-	include_once("../traduction/traduction_login.php");
+	include_once("../traduction/traduction-login-user.php");
 	include_once("../includes/fct-connexion-bd.php");
 
     // il va falloir ajouter une valid duplicateEmail
     function initialChamp() {
+        
         $champs = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideEmail" => false, "duplicate" => false, "duplicatUser" => false, "duplicatEmail" => false, "champInvalid" => false,
         "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false, "creationUserSuccess" => false, "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
         return $champs;
     }
     
     function verifChamp($champs, $connMYSQL) {
+        
         if (isset($_POST['signUp']) || isset($_POST['login'])){
             $champs["user"] = strtolower($_POST['user']);
             $champs["password"] = $_POST['password'];
@@ -71,8 +73,10 @@
         if (!preg_match($patternPass, $champs['password'])) {
             $champs['champInvalidPassword'] = true;
         }
-    
-        $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";
+        
+	    // [:alnum:] -> a-zA-Z0-9
+	    // [:alpha:] -> a-zA-Z
+	    $patternEmail = "#^[[:alnum:]._-]+@[[:alnum:]._-]+\.[[:alpha:]]{2,4}$#";
         if (!preg_match($patternEmail, $champs['email']) && isset($_POST['signUp'])) {
             $champs['champInvalidEmail'] = true;
         }
@@ -107,11 +111,7 @@
             /* Association des variables de résultat */
             $result = $stmt->get_result();
             $row_cnt = $result->num_rows;
-    
-            // Close statement
-            $stmt->close();
-    
-            $row_cnt = $result->num_rows; // si il y a des résultats, on va vérifier lequeles est un duplicate
+            
             if ($row_cnt !== 0){
                 foreach ($result as $row) {
                     if ($row['user'] === $champs['user']) {
@@ -123,6 +123,9 @@
                     }
                 }
             }
+            
+	        // Close statement
+	        $stmt->close();
         }
     
         if ($champs['duplicatEmail'] || $champs['duplicatUser']){
@@ -134,6 +137,7 @@
     
     // Ajouter une situation ou plusieurs si le email est deja utilise par quelqu'un autre
     function situation($champs) {
+        
         $typeSituation = 0;
         // Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexionUser
         if (!$champs['champVideUser'] && $champs['champVidePassword'] && $champs['champVideEmail'] && isset($_POST['signUp'])) {
@@ -180,6 +184,7 @@
     }
     
     function creationUser($champs, $connMYSQL) {
+        
         $passwordCrypter = encryptementPassword($champs['password']);
         // Prepare an insert statement
         $sql = "INSERT INTO login (user, password, email) VALUES (?,?,?)";
@@ -195,6 +200,7 @@
     
         // Close statement
         $stmt->close();
+        
         return $champs;
     }
     
@@ -202,11 +208,14 @@
     // https://stackoverflow.com/questions/30279321/how-to-use-password-hash
     // On ne doit pas jouer avec le salt....
     function encryptementPassword(string $password) {
+        
         $passwordCrypter = password_hash($password, PASSWORD_BCRYPT);
+        
         return $passwordCrypter;
     }
     
     function connexionUser($champs, $connMYSQL) {
+        
         /* Crée une requête préparée */
         $stmt = $connMYSQL->prepare("select user, password from login where user =? ");
     
@@ -237,7 +246,7 @@
                 $date = date("Y-m-d H:i:s");
     
                 if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/admin.php");
+                    header("Location: ./statsPoker/administration/gestion-stat.php");
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques
                     // Prepare an insert statement
@@ -280,7 +289,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $champs = initialChamp();
         $champs["typeLangue"] = $_POST['langue'];
-        if (isset($_POST['return'])) {
+        if (isset($_POST['btn-return'])) {
             if ($champs["typeLangue"] === 'english') {
                 header("Location: /english/english.html");
             } elseif ($champs["typeLangue"] === 'francais') {
@@ -322,9 +331,9 @@
                 // si le bouton éffacer est pesé...
             } elseif (isset($_POST['reset'])) {
                 if ($champs["typeLangue"] === 'english') {
-                    header("Location: /login/create_email_temp_pwd.php?langue=english");
+                    header("Location: ./reset-pwd/create-email-temp-pwd.php?langue=english");
                 } elseif ($champs["typeLangue"] === 'francais') {
-                    header("Location: /login/create_email_temp_pwd.php?langue=francais");
+                    header("Location: ./reset-pwd/create-email-temp-pwd.php?langue=francais");
                 }
                 exit;
             }
@@ -342,19 +351,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Page de connexion">
     <!-- Le fichier login.png est la propriété du site https://pixabay.com/fr/ic%C3%B4nes-symboles-bouton-842844/ mais en utilisation libre-->
-    <link rel="shortcut icon" href="login.png">
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="shortcut icon" href="login-user-icone.png">
+    <link rel="stylesheet" type="text/css" href="login-user.css">
     <title><?php echo $arrayMots['title']; ?></title>
     <style>
         body {
             margin: 0;
             /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
-            background-image: url("photologin.jpg");
+            background-image: url("login-background.jpg");
             background-position: center;
             background-attachment: fixed;
             background-size: 100%;
         }
-
     </style>
 </head>
 
@@ -407,8 +415,8 @@
                 <p> <?php echo $arrayMots['message']; ?> </p>
             </div>
             <div class="section-retour-btn">
-                <form method="post" action="./login.php">
-                    <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
+                <form method="post" action="login-user.php">
+                    <input class="bouton" type="submit" name="btn-return" value="<?php echo $arrayMots['btn_return']; ?>">
                     <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
                 </form>
             </div>

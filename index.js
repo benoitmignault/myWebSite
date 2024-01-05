@@ -18,7 +18,8 @@ const CALENDRIER_AJAX = document.querySelector('#calendrier-ajax');
 /**
  * Retourne la liste des technologies en informatique
  */
-function activationListe() {
+function activation_liste() {
+
     LIEN.addEventListener('click', function () {
         if (DIV_LISTE.style.display === "") {
             DIV_LISTE.style.display = 'block';
@@ -48,11 +49,12 @@ function activationListe() {
 /**
  * Affichage de la section accueil en remettant à vide la section des photos et du hash-tag pour l'historique
  */
-function affichageAccueil() {
+function affichage_accueil() {
+
     if (LANGUE.value === "fr") {
-        $(DIV_CENTER).load("/pageAccueil/partie_accueil.html");
+        $(DIV_CENTER).load("/section/section-accueil.html");
     } else if (LANGUE.value === "en") {
-        $(DIV_CENTER).load("../pageAccueil/partie_accueil_EN.html");
+        $(DIV_CENTER).load("../section/section-accueil-english.html");
     }
     HASH_TAG.value = "";
     DIV_PHOTO.innerHTML = "";
@@ -61,33 +63,79 @@ function affichageAccueil() {
 /**
  * Affichage de la section en fonction du lien cliquer
  */
-function affichageSection() {
-    let tagSection = $(LISTE_SECTIONS).filter("[href='" + location.hash + "']");
-    if (tagSection.length) {
-        HASH_TAG.value = tagSection.attr('href');
-        if (tagSection.attr('href') === '#english') {
-            window.location.replace("/english/english.html")
-        } else if (tagSection.attr('href') === '#french') {
+function affichage_section() {
 
+    let tag_section = $(LISTE_SECTIONS).filter("[href='" + location.hash + "']");
+    if (tag_section.length) {
+        HASH_TAG.value = tag_section.attr('href');
+        if (tag_section.attr('href') === '#english') {
+            window.location.replace("/english/english.html")
+
+        } else if (tag_section.attr('href') === '#french') {
             window.location.replace("/index.html")
+
         } else {
-            let lienPage = tagSection.data('href');
+            let lienPage = tag_section.data('href');
             $(DIV_CENTER).load(lienPage, function () {
+                document.title = recupere_formate_titre_section(tag_section.attr('href'));
                 DIV_PHOTO.innerHTML = "";
             });
         } // TODO : Uncaught TypeError: Cannot read properties of undefined (reading 'indexOf')
         // si je pèse sur hautPageDesktop apres avec peser sur la section photo, erreur js
     } else if (HASH_TAG.value === '#photos' || HASH_TAG.value === '#pictures') {
-        affichageSectionPhoto();
+        affichage_section_photo();
     } else if (location.hash !== "#haut-page-desktop" && location.hash !== "#haut-page-cellulaire") {
-        affichageAccueil();
+        affichage_accueil();
     }
 }
 
-function callAjax() {
+/**
+ * Retourne un titre formaté pour la section où nous nous trouvons
+ */
+function recupere_formate_titre_section(tag_section){
+
+    let titre_formate = "";
+    switch (tag_section){
+        // Il va avoir deux cases par section vue que ce n,est pas les mêmes en anglais qu'en français
+        case "#accueil": case "#home":
+            if (LANGUE.value === "fr") {
+                titre_formate = "Accueil";
+            } else if (LANGUE.value === "en") {
+                titre_formate = "Home";
+            }
+            break;
+        case "#projets": case "#projects":
+            if (LANGUE.value === "fr") {
+                titre_formate = "Projets";
+            } else if (LANGUE.value === "en") {
+                titre_formate = "Projects";
+            }
+            break;
+        case "#photos": case "#pictures":
+            if (LANGUE.value === "fr") {
+                titre_formate = "Photos";
+            } else if (LANGUE.value === "en") {
+                titre_formate = "Pictures";
+            }
+            break;
+        case "#aPropos": case "#aboutMe":
+            if (LANGUE.value === "fr") {
+                titre_formate = "À propos";
+            } else if (LANGUE.value === "en") {
+                titre_formate = "About me";
+            }
+            break;
+    }
+
+    return titre_formate;
+}
+
+function recupere_calendrier_call_ajax() {
+
     let data = {
         "type_langue": LANGUE.value
     };
+
     let url = "";
     if (LANGUE.value === "fr") {
         url = "/calendrier/calendrier.php";
@@ -106,7 +154,7 @@ function callAjax() {
                 let dataObj = JSON.parse(dataReturn["data"]);
                 CALENDRIER_AJAX.innerHTML = dataObj.tableau_calendrier;
                 // Après l'affichage du calendrier, on call le temps du timer et voilà
-                startTimer();
+                start_timer();
             } else if (dataReturn["erreur"]) {
                 let dataErr = JSON.parse(dataReturn["erreur"]);
                 if (LANGUE.value === "en") {
@@ -130,18 +178,19 @@ function callAjax() {
 /**
  * Affiche l'heure en dessous du calendrier en fonction si ça vient de la page française ou anglaise
  */
-function startTimer() {
+function start_timer() {
+
     const insertion_time = document.querySelector('.contenu_ligne_heure_actuel');
     let date_live = new Date();
     let date_affiche;
     if (LANGUE.value === "fr") {
-        date_affiche = remplissageZeroFilled(date_live.getHours()) + ":" + remplissageZeroFilled(date_live.getMinutes()) + ":" + remplissageZeroFilled(date_live.getSeconds());
+        date_affiche = remplissage_zero(date_live.getHours()) + ":" + remplissage_zero(date_live.getMinutes()) + ":" + remplissage_zero(date_live.getSeconds());
         insertion_time.innerHTML = date_affiche;
-        setTimeout("startTimer()", 1000);
+        setTimeout("start_timer()", 1000);
     } else if (LANGUE.value === "en") {
-        date_affiche = formatAMPM(date_live);
+        date_affiche = format_AM_PM(date_live);
         insertion_time.innerHTML = date_affiche;
-        setTimeout("startTimer()", 1000);
+        setTimeout("start_timer()", 1000);
     }
 }
 
@@ -150,7 +199,8 @@ function startTimer() {
  * @param valeur
  * @returns {string}
  */
-function remplissageZeroFilled(valeur) {
+function remplissage_zero(valeur) {
+
     return (valeur > 9) ? "" + valeur : "0" + valeur;
 }
 
@@ -159,7 +209,8 @@ function remplissageZeroFilled(valeur) {
  * @param date
  * @returns {string}
  */
-function formatAMPM(date) {
+function format_AM_PM(date) {
+
     let hours = date.getHours();
     let minutes = date.getMinutes();
     let secondes = date.getSeconds();
@@ -175,7 +226,8 @@ function formatAMPM(date) {
 /**
  * En fonction de la miniphoto sélectionner, cela va afficher les photos miniatures de la section en question
  */
-function affichageSectionPhoto() {
+function affichage_section_photo() {
+
     // Cette constante existe seulement si la section Photo est sélectionnée
     const LISTE_PASSIONS = document.querySelectorAll('.middle .center .sous-header .une-passion-photo a');
     let tagSousSection = $(LISTE_PASSIONS).filter("[href='" + location.hash + "']");
@@ -185,19 +237,19 @@ function affichageSectionPhoto() {
         const H3 = document.querySelector('.photo h3');
         if (LANGUE.value === "en") {
             switch (sousHref) {
-                case "/pageAccueil/photos/photo_golf/photo_golf.html":
+                case "/section/section-photos/section-photos-golf.html":
                     H3.innerHTML = "Here is the sub section of the pictures on the golf :";
                     break;
-                case "/pageAccueil/photos/photo_hiver/photo_hiver.html":
+                case "/section/section-photos/section-photos-hiver.html":
                     H3.innerHTML = "Here is the sub section of the pictures on the winter :";
                     break;
-                case "/pageAccueil/photos/photo_poker/photo_poker.html":
+                case "/section/section-photos/section-photos-poker.html":
                     H3.innerHTML = "Here is the sub section of the pictures on the poker :";
                     break;
-                case "/pageAccueil/photos/photo_ski/photo_ski.html":
+                case "/section/section-photos/section-photos-ski.html":
                     H3.innerHTML = "Here is the sub section of the pictures on the skiing :";
                     break;
-                case "/pageAccueil/photos/photo_velo/photo_velo.html":
+                case "/section/section-photos/section-photos-velo.html":
                     H3.innerHTML = "Here is the sub section of the pictures on the bike :";
                     break;
             }
@@ -210,7 +262,8 @@ function affichageSectionPhoto() {
  * le sujet, son courriel pour un retour de l'admin, si nécessaire.
  * Des messages d'erreurs peuvent subvenir si les différents champs ne sont pas remplis.
  */
-function envoyerCourriel() {
+function envoyer_courriel() {
+
     $(FORM_CONTACT).submit(function (e) {
         e.preventDefault();
         MSG_SUCCES.innerHTML = "";
@@ -346,19 +399,20 @@ function envoyerCourriel() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+
     // À chaque fois que le HASH_TAG change-t-on appel cet évènement
     $(window).on('hashchange', function () {
-        affichageSection();
+        affichage_section();
     });
 
     // Si on inscrit manuellement un HASH_TAG, on call la fct sinon on call la fct de base
     if (location.hash !== "") {
-        affichageSection();
+        affichage_section();
     } else {
-        affichageAccueil();
+        affichage_accueil();
     }
 
-    callAjax();
-    activationListe();
-    envoyerCourriel();
+    recupere_calendrier_call_ajax();
+    activation_liste();
+    envoyer_courriel();
 });

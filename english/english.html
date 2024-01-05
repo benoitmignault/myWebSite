@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/index.css">
     <link rel="stylesheet" type="text/css" href="/responsive.css">
-    <title>Web site of Benoit Mignault</title>
+    <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -18,7 +18,7 @@
         <p class="cellulaire" id="haut-page-cellulaire"></p>
         <div class="logo-left">
             <a href="/english/english.html">
-                <img src="/pageAccueil/photos/logo.jpg" alt="my logo" title="The picture of my web site"/>
+                <img src="/section/section-photos/photos/logo.jpg" alt="my logo" title="The picture of my web site"/>
             </a>
         </div>
         <div>
@@ -36,11 +36,11 @@
                 <legend class="legend-center">Quick link of my projects</legend>
                 <ul class="liste">
                     <li><a href="/calculatrice/calcul.php?langue=english">Calculator projet</a></li>
-                    <li><a href="/login/login.php?langue=english">Poker statistics</a></li>
-                    <li><a href="/login/create_email_temp_pwd.php?langue=english">Change your «Password» to get access to poker
-                        statistics</a>
+                    <li><a href="/login-user/login-user.php?langue=english">Poker statistics</a></li>
+                    <li><a href="/login-user/reset-pwd/create-email-temp-pwd.php?langue=english">
+                        Change your «Password» to get access to poker statistics</a>
                     </li>
-                    <li><a href="/login_Organisateur/login_Organisateur.php?langue=english">Management of a poker tournament</a></li>
+                    <li><a href="/login-organisateur/login-organisateur.php?langue=english">Management of a poker tournament</a></li>
                     <li><a href="/timer/timer.php?langue=english">Tool for poker time and bets (Scoreboard)</a></li>
                 </ul>
             </fieldset>
@@ -64,10 +64,10 @@
     <div class="middle">
         <p class="desktop" id="haut-page-desktop"></p>
         <div class="header">
-            <div><a href="#home" data-href="/pageAccueil/partie_accueil_EN.html">Home</a></div>
-            <div><a href="#projects" data-href="/pageAccueil/partie_projets_EN.html">Projects</a></div>
-            <div><a href="#pictures" data-href="/pageAccueil/partie_photos_EN.html">Pictures</a></div>
-            <div><a href="#aboutMe" data-href="/pageAccueil/partie_aPropos_EN.html">About me</a></div>
+            <div><a href="#home" data-href="/section/section-accueil-english.html">Home</a></div>
+            <div><a href="#projects" data-href="/section/section-projets-english.html">Projects</a></div>
+            <div><a href="#pictures" data-href="/section/section-photos-english.html">Pictures</a></div>
+            <div><a href="#aboutMe" data-href="/section/section-a-propos-english.html">About me</a></div>
             <div><a href="#french" data-href="/index.html">Français</a></div>
             <input id="hash-tag" type="hidden" value="">
         </div>
@@ -81,7 +81,7 @@
     <div class="right">
         <div class="logo-right">
             <a href="/english/english.html">
-                <img src="/pageAccueil/photos/logo.jpg" alt="my logo" title="The picture of my web site"/>
+                <img src="/section/section-photos/photos/logo.jpg" alt="my logo" title="The picture of my web site"/>
             </a>
         </div>
         <div class="info">
@@ -139,22 +139,22 @@
                 <div class="media">
                     <div class="lien-social">
                         <a target="_blank" href="https://www.facebook.com/Benoit.Le.Golfeur/">
-                            <img src="/pageAccueil/photos/photo_media/facebook.jpg" alt="facebook" title="link to facebook">
+                            <img src="/section/section-photos/photos/media/facebook.jpg" alt="facebook" title="link to facebook">
                         </a>
                     </div>
                     <div class="lien-social">
                         <a target="_blank" href="https://www.instagram.com/ben.le.golfeur/">
-                            <img src="/pageAccueil/photos/photo_media/instagram.png" alt="instagram" title="link to instagram">
+                            <img src="/section/section-photos/photos/media/instagram.png" alt="instagram" title="link to instagram">
                         </a>
                     </div>
                     <div class="lien-social">
                         <a target="_blank" href="https://www.linkedin.com/in/benoit-le-golfeur-programmeur-web/">
-                            <img src="/pageAccueil/photos/photo_media/linkedin.jpg" alt="linkedin" title="link to linkedin">
+                            <img src="/section/section-photos/photos/media/linkedin.jpg" alt="linkedin" title="link to linkedin">
                         </a>
                     </div>
                     <div class="lien-social">
                         <a target="_blank" href="https://twitter.com/frantz256255">
-                            <img src="/pageAccueil/photos/photo_media/twitter.jpg" alt="twitter" title="link to twitter">
+                            <img src="/section/section-photos/photos/media/twitter.jpg" alt="twitter" title="link to twitter">
                         </a>
                     </div>
                 </div>
@@ -177,12 +177,15 @@
         px.type = 'text/javascript';
         px.async = true;
         px.id = i;
-        px.src = ('https:' === d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/js/btn/pelm.js?orig=en_ca';
+        // N'est plus disponible, donc on va cacher l'information pour évite run bug Javascript
+        // px.src = ('https:' === d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/js/btn/pelm.js?orig=en_ca';
         var s = d.getElementsByTagName('script')[0];
 
         var py = d.createElement('link');
         py.rel = 'stylesheet'
-        py.href = ('https:' === d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/styles/btn/styles.css'
+
+        // N'est plus disponible, donc on va cacher l'information pour évite run bug Javascript
+        // py.href = ('https:' === d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/styles/btn/styles.css'
 
         s.parentNode.insertBefore(px, s);
         s.parentNode.insertBefore(py, s);

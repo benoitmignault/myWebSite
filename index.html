@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="/index.css">
     <link rel="stylesheet" type="text/css" href="/responsive.css">
-    <title>Site web Benoit Mignault</title>
+    <title>Accueil</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -17,7 +17,7 @@
     <div class="left">
         <p class="cellulaire" id="haut-page-cellulaire"></p>
         <div class="logo-left">
-            <a href="/index.html"><img src="/pageAccueil/photos/logo.jpg" alt="mon logo" title="l'image de mon site"/></a>
+            <a href="/index.html"><img src="/section/section-photos/photos/logo.jpg" alt="mon logo" title="l'image de mon site"/></a>
         </div>
         <div>
             <fieldset class="page-accueil">
@@ -36,10 +36,10 @@
                 <legend class="legend-center">Lien rapide de mes projets</legend>
                 <ul class="liste">
                     <li><a href="/calculatrice/calcul.php?langue=francais">Calculatrice</a></li>
-                    <li><a href="/login/login.php?langue=francais">Statistiques de poker</a></li>
-                    <li><a href="/login/create_email_temp_pwd.php?langue=francais">Changer votre « Mot de passe » pour ravoir accès aux
-                        statistiques de poker</a></li>
-                    <li><a href="/login_Organisateur/login_Organisateur.php?langue=francais">Gestion d'un tournoi de poker</a></li>
+                    <li><a href="/login-user/login-user.php?langue=francais">Statistiques de poker</a></li>
+                    <li><a href="/login-user/reset-pwd/create-email-temp-pwd.php?langue=francais">
+                            Changer votre « Mot de passe » pour ravoir accès aux statistiques de poker</a></li>
+                    <li><a href="/login-organisateur/login-organisateur.php?langue=francais">Gestion d'un tournoi de poker</a></li>
                     <li><a href="/timer/timer.php?langue=francais">Tableau de bord de poker</a></li>
                 </ul>
             </fieldset>
@@ -63,10 +63,10 @@
     <div class="middle">
         <p class="desktop" id="haut-page-desktop"></p>
         <div class="header">
-            <div><a href="#accueil" data-href="/pageAccueil/partie_accueil.html">Accueil</a></div>
-            <div><a href="#projets" data-href="/pageAccueil/partie_projets.html">Projets</a></div>
-            <div><a href="#photos" data-href="/pageAccueil/partie_photos.html">Photos</a></div>
-            <div><a href="#aPropos" data-href="/pageAccueil/partie_aPropos.html">À propos</a></div>
+            <div><a href="#accueil" data-href="/section/section-accueil.html">Accueil</a></div>
+            <div><a href="#projets" data-href="/section/section-projets.html">Projets</a></div>
+            <div><a href="#photos" data-href="/section/section-photos.html">Photos</a></div>
+            <div><a href="#aPropos" data-href="/section/section-a-propos.html">À propos</a></div>
             <div><a href="#english" data-href="/english/english.html">English</a></div>
             <input id="hash-tag" type="hidden" value="">
         </div>
@@ -79,7 +79,7 @@
     </div>
     <div class="right">
         <div class="logo-right">
-            <a href="/index.html"><img src="/pageAccueil/photos/logo.jpg" alt="mon logo" title="l'image de mon site"/></a>
+            <a href="/index.html"><img src="/section/section-photos/photos/logo.jpg" alt="mon logo" title="l'image de mon site"/></a>
         </div>
         <div class="info">
             <fieldset class='page-accueil'>
@@ -136,22 +136,22 @@
                 <div class="media">
                     <div class="lien-social">
                         <a target="_blank" href="https://www.facebook.com/Benoit.Le.Golfeur/">
-                            <img src="/pageAccueil/photos/photo_media/facebook.jpg" alt="facebook" title="lien vers facebook">
+                            <img src="/section/section-photos/photos/media/facebook.jpg" alt="facebook" title="lien vers facebook">
                         </a>
                     </div>
                     <div class="lien-social">
                         <a target="_blank" href="https://www.instagram.com/ben.le.golfeur/">
-                            <img src="/pageAccueil/photos/photo_media/instagram.png" alt="instagram" title="lien vers instagram">
+                            <img src="/section/section-photos/photos/media/instagram.png" alt="instagram" title="lien vers instagram">
                         </a>
                     </div>
                     <div class="lien-social">
                         <a target="_blank" href="https://www.linkedin.com/in/benoit-le-golfeur-programmeur-web/">
-                            <img src="/pageAccueil/photos/photo_media/linkedin.jpg" alt="linkedin" title="lien vers linkedin">
+                            <img src="/section/section-photos/photos/media/linkedin.jpg" alt="linkedin" title="lien vers linkedin">
                         </a>
                     </div>
                     <div class="lien-social">
                         <a target="_blank" href="https://twitter.com/frantz256255">
-                            <img src="/pageAccueil/photos/photo_media/twitter.jpg" alt="twitter" title="lien vers twitter">
+                            <img src="/section/section-photos/photos/media/twitter.jpg" alt="twitter" title="lien vers twitter">
                         </a>
                     </div>
                 </div>
@@ -175,12 +175,14 @@
         px.type = 'text/javascript';
         px.async = true;
         px.id = i;
-        px.src = ('https:' === d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/js/btn/pelm.js?orig=fr_ca';
+        // N'est plus disponible, donc on va cacher l'information pour évite run bug Javascript
+        //px.src = ('https:' === d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/js/btn/pelm.js?orig=fr_ca';
         var s = d.getElementsByTagName('script')[0];
 
         var py = d.createElement('link');
         py.rel = 'stylesheet'
-        py.href = ('https:' === d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/styles/btn/styles.css'
+        // N'est plus disponible, donc on va cacher l'information pour évite run bug Javascript
+        //py.href = ('https:' === d.location.protocol ? 'https:' : 'http:') + '//widget.twnmm.com/styles/btn/styles.css'
 
         s.parentNode.insertBefore(px, s);
         s.parentNode.insertBefore(py, s);

@@ -2,10 +2,12 @@
     box-sizing: border-box;  
     -moz-box-sizing: border-box;    
 }
+
 body{
     margin:0;
 }
-.erreur404{
+
+.erreur-404{
     margin: auto;
     width: 70%; 
     display: flex; 
@@ -15,66 +17,76 @@ body{
     -webkit-flex-direction:column; 
     flex-direction:column; 
 }
-.erreur404 #explication{
+
+.erreur-404 #section-information{
     width: 100%; 
     background-color: #F0FFF0;
     text-align: center;
 }
-.erreur404 > div > p{
+
+.erreur-404 > div > p{
     font-size: 20px;
     margin-top:10px;
     margin-bottom:10px;
     text-align: center; 
     width: 100%;
 }
-.erreur404 > div > table{
+
+.erreur-404 > div > table{
     width: 100%;
     text-align: center;    
     border-collapse: collapse;
     border: 2px solid black;
 }
-.erreur404 > div > table .section,
-.erreur404 > div > table .bonLien{
+
+.erreur-404 > div > table .section,
+.erreur-404 > div > table .bon-lien{
     border: 1px solid black;
     padding: 8px;
 }
 
-.erreur404 > div > table .section{
+.erreur-404 > div > table .section{
     width: 40%;
 }
-.erreur404 > div > table .bonLien{
+
+.erreur-404 > div > table .bon-lien{
     width: 60%;
     text-align: left;
     padding-left: 20px;
 }
-.erreur404 > div > table th:nth-child(2){    
+
+.erreur-404 > div > table th:nth-child(2){
     text-align: center;
-    padding-left: 0px;
+    padding-left: 0;
 }
-.erreur404 .photoErreur{
+
+.erreur-404 .photo-erreur{
     width: 100%;
 }
-.erreur404 .photoErreur img{
+
+.erreur-404 .photo-erreur img{
     width: 100%; 
     height: auto;  
 }
-.erreur404 #explication .btnErreur{
+
+.erreur-404 #section-information .btn-erreur{
     background: #d934c6;
     background-image: -webkit-linear-gradient(top, #d934c6, #6ab82b);
     background-image: -moz-linear-gradient(top, #d934c6, #6ab82b);
     background-image: -ms-linear-gradient(top, #d934c6, #6ab82b);
     background-image: -o-linear-gradient(top, #d934c6, #6ab82b);
     background-image: linear-gradient(to bottom, #d934c6, #6ab82b);
-    -webkit-border-radius: 28;
-    -moz-border-radius: 28;
-    margin:10px;
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    margin: 10px;
     border-radius: 28px;
-    font-family: Georgia;
+    font-family: Georgia, sans-serif;
     color: #ffffff;
     font-size: 20px;
     padding: 10px 20px 10px 20px;  
 }
-.erreur404 #explication .btnErreur:hover {
+
+.erreur-404 #section-information .btn-erreur:hover {
     background: #7cfc3c;
     background-image: -webkit-linear-gradient(top, #7cfc3c, #d93484);
     background-image: -moz-linear-gradient(top, #7cfc3c, #d93484);
@@ -83,9 +95,9 @@ body{
     background-image: linear-gradient(to bottom, #7cfc3c, #d93484);  
     cursor: pointer;
 }
+
 @media screen and (max-width:768px) {
-    .erreur404{
+    .erreur-404{
         width: 100%;
     }
-
 }

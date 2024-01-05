@@ -1,10 +1,11 @@
-const btn = document.querySelector('#francais');
-const explain = document.querySelector('#explication');
+// Bouton pour faire afficher l'information
+const BTN = document.querySelector('#btn-affichage');
+// Les sections explications dans les deux langues
+const EXPLAIN = document.querySelector('#section-information');
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', function() {
 
-    btn.addEventListener('click', function(evt) {
-        $(explain).load("explication.html");
+    BTN.addEventListener('click', function() {
+        $(EXPLAIN).load("erreur-explication.html");
     });
-
 });

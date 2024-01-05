@@ -332,9 +332,9 @@
                 // si le bouton éffacer est pesé...
             } elseif (isset($_POST['reset'])) {
                 if ($champs["typeLangue"] === 'english') {
-                    header("Location: ./reset-pwd/create-email-temp-pwd.php?langue=english");
+                    header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=english");
                 } elseif ($champs["typeLangue"] === 'francais') {
-                    header("Location: ./reset-pwd/create-email-temp-pwd.php?langue=francais");
+                    header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=francais");
                 }
                 exit;
             }

@@ -1,7 +1,7 @@
 <?php
 	// Les includes nécessaires
-	include_once("../traduction/traduction-login-user.php");
-	include_once("../includes/fct-connexion-bd.php");
+	include_once("../../traduction/traduction-create-user-poker-stats.php");
+	include_once("../../includes/fct-connexion-bd.php");
 
     // il va falloir ajouter une valid duplicateEmail
     function initialChamp() {
@@ -237,7 +237,7 @@
                 $date = date("Y-m-d H:i:s");
     
                 if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/gestion-stat.php");
+                    header("Location: ./statsPoker/administration/gestion-stats.php");
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques
                     // Prepare an insert statement
@@ -319,13 +319,13 @@
                 if (!$champs["champVide"] && !$champs["champTropLong"] && !$champs["champInvalid"] && !$champs['sameUserPWD'] && !$champs['duplicate']) {
                     $champs = creationUser($champs, $connMYSQL);
                 }
-                // si le bouton éffacer est pesé...
+                // si le bouton effacer est pesé...
             } elseif (isset($_POST['reset'])) {
-                if ($champs["typeLangue"] === 'english') {
-                    header("Location: /login/create_email_temp_pwd.php?langue=english");
-                } elseif ($champs["typeLangue"] === 'francais') {
-                    header("Location: /login/create_email_temp_pwd.php?langue=francais");
-                }
+	            if ($champs["typeLangue"] === 'english') {
+		            header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=english");
+	            } elseif ($champs["typeLangue"] === 'francais') {
+		            header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=francais");
+	            }
                 exit;
             }
             $champs["situation"] = situation($champs); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
@@ -342,78 +342,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Page de connexion">
     <!-- Le fichier login.png est la propriété du site https://pixabay.com/fr/ic%C3%B4nes-symboles-bouton-842844/ mais en utilisation libre-->
-    <link rel="shortcut icon" href="login.png">
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="shortcut icon" href="../login-user-icone.png">
+    <link rel="stylesheet" type="text/css" href="../login-user.css">
     <title><?php echo $arrayMots['title']; ?></title>
     <style>
         body {
             margin: 0;
             /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
-            background-image: url("photologin.jpg");
+            background-image: url("../login-background.jpg");
             background-position: center;
             background-attachment: fixed;
             background-size: 100%;
         }
-
     </style>
 </head>
 
 <body>
-    <div class="content">
-        <div class="center">
-            <p class='titre'><?php echo $arrayMots['p1']; ?></p>
-            <ul>
-                <li class='info'><?php echo $arrayMots['li1']; ?></li>
-                <li class='info'><?php echo $arrayMots['li2']; ?></li>
-                <li class='info'><?php echo $arrayMots['li3']; ?></li>
-            </ul>
-            <fieldset>
-                <legend class="legend-center"><?php echo $arrayMots['legend']; ?></legend>
-                <form method="post" action="./login.php">
-                    <div class="connexion">
-                        <div class="information <?php if ($champs['sameUserPWD'] || $champs['champVideUser'] || $champs['champInvalidUser'] || $champs['duplicatUser'] || $champs['badUser'] || $champs['champTropLongUser']) { echo 'erreur'; } ?>">
-                            <label for="user"><?php echo $arrayMots['usager']; ?></label>
-                            <div>
-                                <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champs['user']; ?>" />
-                                <span class="obligatoire">&nbsp;*</span>
-                            </div>
-                        </div>
-                        <div class="information <?php if ($champs['sameUserPWD'] || $champs['badPassword'] || $champs['champVidePassword'] || $champs['champInvalidPassword'] || $champs['champTropLongPassword']) { echo 'erreur';} ?>">
-                            <label for="password"><?php echo $arrayMots['mdp']; ?></label>
-                            <div>
-                                <input id="password" type='password' maxlength="25" name="password" value="<?php echo $champs['password']; ?>" />
-                                <span class="obligatoire">&nbsp;*</span>
-                            </div>
-                        </div>
-                        <div class="information <?php if (!isset($_POST['login']) && ($champs['duplicatEmail'] || $champs['champVideEmail'] || $champs['champInvalidEmail'] || $champs['champTropLongEmail'])) { echo 'erreur';} ?>">
-                            <label for="email"><?php echo $arrayMots['email']; ?></label>
-                            <div>
-                                <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champs['email']; ?>" />
-                                <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
-                            </div>
+<div class="content">
+    <div class="center">
+        <p class='titre'><?php echo $arrayMots['p1']; ?></p>
+        <ul>
+            <li class='info'><?php echo $arrayMots['li1']; ?></li>
+            <li class='info'><?php echo $arrayMots['li2']; ?></li>
+            <li class='info'><?php echo $arrayMots['li3']; ?></li>
+        </ul>
+        <fieldset>
+            <legend class="legend-center"><?php echo $arrayMots['legend']; ?></legend>
+            <form id="form" method="post" action="../login-user.php">
+                <div class="connexion">
+                    <div class="information <?php if ($champs['sameUserPWD'] || $champs['champVideUser'] || $champs['champInvalidUser'] || $champs['duplicatUser'] || $champs['badUser'] || $champs['champTropLongUser']) { echo 'erreur'; } ?>">
+                        <label for="user"><?php echo $arrayMots['usager']; ?></label>
+                        <div>
+                            <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $champs['user']; ?>" />
+                            <span class="obligatoire">&nbsp;*</span>
                         </div>
                     </div>
-                    <div class="section-reset-btn">
-                        <input class="bouton" type='submit' name='login' value="<?php echo $arrayMots['btn_login']; ?>">
-                        <input class="bouton" type='submit' name='signUp' value="<?php echo $arrayMots['btn_signUp']; ?>">
-                        <input class="bouton" type='submit' name='reset' value="<?php echo $arrayMots['btn_reset']; ?>">
-                        <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
+                    <div class="information <?php if ($champs['sameUserPWD'] || $champs['badPassword'] || $champs['champVidePassword'] || $champs['champInvalidPassword'] || $champs['champTropLongPassword']) { echo 'erreur';} ?>">
+                        <label for="password"><?php echo $arrayMots['mdp']; ?></label>
+                        <div>
+                            <input id="password" type='password' maxlength="25" name="password" value="<?php echo $champs['password']; ?>" />
+                            <span class="obligatoire">&nbsp;*</span>
+                        </div>
                     </div>
-                </form>
-            </fieldset>
-        </div>
-        <div class="footer">
-            <div class='avert <?php if ($champs["situation"] != 16) { echo 'erreur'; } ?>'>
-                <p> <?php echo $arrayMots['message']; ?> </p>
-            </div>
-            <div class="section-retour-btn">
-                <form method="post" action="./login.php">
-                    <input class="bouton" type="submit" name="return" value="<?php echo $arrayMots['btn_return']; ?>">
+                    <div class="information <?php if (!isset($_POST['login']) && ($champs['duplicatEmail'] || $champs['champVideEmail'] || $champs['champInvalidEmail'] || $champs['champTropLongEmail'])) { echo 'erreur';} ?>">
+                        <label for="email"><?php echo $arrayMots['email']; ?></label>
+                        <div>
+                            <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $champs['email']; ?>" />
+                            <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-reset-btn">
+                    <input class="bouton" type='submit' name='login' value="<?php echo $arrayMots['btn_login']; ?>">
+                    <input class="bouton" type='submit' name='signUp' value="<?php echo $arrayMots['btn_signUp']; ?>">
+                    <input class="bouton" type='submit' name='reset' value="<?php echo $arrayMots['btn_reset']; ?>">
                     <input type='hidden' name='langue' value="<?php echo $champs['typeLangue']; ?>">
-                </form>
-            </div>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+    <div class="footer">
+        <div class='avert <?php if ($champs["situation"] != 16) { echo 'erreur'; } ?>'>
+            <p> <?php echo $arrayMots['message']; ?> </p>
+        </div>
+        <div class="section-retour-btn">
+            <input form="form" class="bouton" type="submit" name="btn_return" value="<?php echo $arrayMots['btn_return']; ?>">
         </div>
     </div>
+</div>
 </body>
 
 </html>

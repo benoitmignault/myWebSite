@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Erreur de page">
-    <link rel="shortcut icon" href="icone404.jpg">
+    <link rel="shortcut icon" href="erreur-icone.jpg">
     <link rel="stylesheet" type="text/css" href="erreur.css">
     <title>Erreur !</title>
 </head>
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <!-- Fichier 404-notfound.jpg est une propriété du site https://www.flickr.com/photos/guspim/2280690094/ sous licence libre -->
         <div class="photoErreur">
-            <img src="./404-notfound.jpg" alt="" title="Erreur 404">
+            <img src="erreur-background.jpg" alt="" title="Erreur 404">
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

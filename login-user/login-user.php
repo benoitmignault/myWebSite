@@ -247,7 +247,7 @@
                 $date = date("Y-m-d H:i:s");
     
                 if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/gestion-stat.php");
+                    header("Location: ./statsPoker/administration/gestion-stats.php");
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques
                     // Prepare an insert statement

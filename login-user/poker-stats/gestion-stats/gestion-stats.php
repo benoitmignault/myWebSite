@@ -1,6 +1,6 @@
 <?php
 	// Les includes nécessaires
-	include_once("../../../traduction/traduction_admin.php");
+	include_once("../../../traduction/traduction-gestion-stats.php");
 	include_once("../../../includes/fct-connexion-bd.php");
 	
 	function initialisation(): array {
@@ -669,8 +669,8 @@
 <head>
     <meta charset="utf-8">
     <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
-    <link rel="shortcut icon" href="admin.png">
-    <link rel="stylesheet" type="text/css" href="admin.css">
+    <link rel="shortcut icon" href="gestion-stats-icone.png">
+    <link rel="stylesheet" type="text/css" href="gestion-stats.css">
     <link rel="stylesheet" type="text/css" href="date.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $arrayMots['title']; ?></title>
@@ -679,7 +679,7 @@
             margin: 0;
             /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ 
                 sous licence libre */
-            background-image: url("background.jpg");
+            background-image: url("gestion-stats-background.jpg");
             background-position: center;
             background-attachment: fixed;
             background-size: 100%;
@@ -692,7 +692,7 @@
 <h1><?php echo $arrayMots['h1']; ?></h1>
 <div class="container">
     <h2><?php echo $arrayMots['h3']; ?></h2>
-    <form method="post" action="admin.php" id="formAjoutDataJoueur">
+    <form method="post" action="gestion-stats.php" id="formAjoutDataJoueur">
         <div class='formulaire_joueur'>
             <div class="joueur <?php if (verifChampJoueur($valid_Champ)) {
 				echo "erreur";
@@ -770,7 +770,7 @@
             </div>
         </div>
     </form>
-    <form method="post" action="admin.php">
+    <form method="post" action="gestion-stats.php">
         <div class="formulaire_Nouveau">
             <div class="<?php if (verifChampNouveau($valid_Champ)) {
 				echo "erreur";
@@ -783,7 +783,7 @@
             </div>
         </div>
     </form>
-    <form method="post" action="admin.php">
+    <form method="post" action="gestion-stats.php">
         <div class="footer">
             <div class="btn_footer">
                 <input class="bouton" type="submit" name="stats" value="<?php echo $arrayMots['btn_loginPoker']; ?>">
@@ -800,7 +800,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-<script src="admin.js"></script>
+<script src="gestion-stats.js"></script>
 <script src="date.js"></script>
 </body>
 

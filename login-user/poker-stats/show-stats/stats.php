@@ -373,6 +373,7 @@
                             </tr>
                         </thead> <tbody>";
         }
+        
         $requeteSql = "";
         $orderBy = "";
     

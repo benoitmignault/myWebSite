@@ -65,18 +65,19 @@ function affichage_accueil() {
  */
 function affichage_section() {
 
-    let tagSection = $(LISTE_SECTIONS).filter("[href='" + location.hash + "']");
-    if (tagSection.length) {
-        HASH_TAG.value = tagSection.attr('href');
-        if (tagSection.attr('href') === '#english') {
+    let tag_section = $(LISTE_SECTIONS).filter("[href='" + location.hash + "']");
+    if (tag_section.length) {
+        HASH_TAG.value = tag_section.attr('href');
+        if (tag_section.attr('href') === '#english') {
             window.location.replace("/english/english.html")
 
-        } else if (tagSection.attr('href') === '#french') {
+        } else if (tag_section.attr('href') === '#french') {
             window.location.replace("/index.html")
 
         } else {
-            let lienPage = tagSection.data('href');
+            let lienPage = tag_section.data('href');
             $(DIV_CENTER).load(lienPage, function () {
+                document.title = recupere_formate_titre_section(tag_section.attr('href'));
                 DIV_PHOTO.innerHTML = "";
             });
         } // TODO : Uncaught TypeError: Cannot read properties of undefined (reading 'indexOf')
@@ -86,6 +87,47 @@ function affichage_section() {
     } else if (location.hash !== "#haut-page-desktop" && location.hash !== "#haut-page-cellulaire") {
         affichage_accueil();
     }
+}
+
+/**
+ * Retourne un titre formaté pour la section où nous nous trouvons
+ */
+function recupere_formate_titre_section(tag_section){
+
+    let titre_formate = "";
+    switch (tag_section){
+        // Il va avoir deux cases par section vue que ce n,est pas les mêmes en anglais qu'en français
+        case "#accueil": case "#home":
+            if (LANGUE.value === "fr") {
+                titre_formate = "Accueil";
+            } else if (LANGUE.value === "en") {
+                titre_formate = "Home";
+            }
+            break;
+        case "#projets": case "#projects":
+            if (LANGUE.value === "fr") {
+                titre_formate = "Projets";
+            } else if (LANGUE.value === "en") {
+                titre_formate = "Projects";
+            }
+            break;
+        case "#photos": case "#pictures":
+            if (LANGUE.value === "fr") {
+                titre_formate = "Photos";
+            } else if (LANGUE.value === "en") {
+                titre_formate = "Pictures";
+            }
+            break;
+        case "#aPropos": case "#aboutMe":
+            if (LANGUE.value === "fr") {
+                titre_formate = "À propos";
+            } else if (LANGUE.value === "en") {
+                titre_formate = "About me";
+            }
+            break;
+    }
+
+    return titre_formate;
 }
 
 function recupere_calendrier_call_ajax() {

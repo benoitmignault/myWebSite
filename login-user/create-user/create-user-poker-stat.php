@@ -1,6 +1,6 @@
 <?php
 	// Les includes nécessaires
-	include_once("../traduction/traduction_login.php");
+	include_once("../traduction/traduction-login-user.php");
 	include_once("../includes/fct-connexion-bd.php");
 
     // il va falloir ajouter une valid duplicateEmail
@@ -237,7 +237,7 @@
                 $date = date("Y-m-d H:i:s");
     
                 if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/admin.php");
+                    header("Location: ./statsPoker/administration/gestion-stat.php");
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques
                     // Prepare an insert statement

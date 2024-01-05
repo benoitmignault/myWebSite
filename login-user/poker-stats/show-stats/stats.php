@@ -1,6 +1,6 @@
 <?php
 	// Les includes nécessaires
-	include_once("../../traduction/traduction_poker.php");
+	include_once("../../traduction/traduction-stats.php");
 	include_once("../../includes/fct-connexion-bd.php");
     
     function initialisation(){

@@ -13,10 +13,14 @@ const FORM_CONTACT = document.querySelector('#form-contact');
 const MSG_SUCCES = document.querySelector('#msg-courriel');
 const MSG_ERR = document.querySelector('#msg-err');
 const HASH_TAG = document.querySelector('#hash-tag');
+// Uniquement pour faire varier le titre de la page en cours
+const HASH_TAG_SECOND = document.querySelector('#hash-tag-second');
 const CALENDRIER_AJAX = document.querySelector('#calendrier-ajax');
 
 /**
  * Retourne la liste des technologies en informatique
+ *
+ * @returns {void}
  */
 function activation_liste() {
 
@@ -48,6 +52,8 @@ function activation_liste() {
 
 /**
  * Affichage de la section accueil en remettant à vide la section des photos et du hash-tag pour l'historique
+ *
+ * @returns {void}
  */
 function affichage_accueil() {
 
@@ -62,12 +68,23 @@ function affichage_accueil() {
 
 /**
  * Affichage de la section en fonction du lien cliquer
+ *
+ * @returns {void}
  */
 function affichage_section() {
 
+    // Récupère la liste des 5 sections à faire afficher
     let tag_section = $(LISTE_SECTIONS).filter("[href='" + location.hash + "']");
-    if (tag_section.length) {
+    //console.log(location.hash);
+    //console.log(tag_section.length);
+
+    // Nous avons sélectionné le hashtag principal, entre accueil, projet, photo, a-propos et english/french
+    if (tag_section.length === 1) {
+        // Récupère le hasg tag sélectionné
         HASH_TAG.value = tag_section.attr('href');
+        console.log(HASH_TAG.value);
+        //HASH_TAG_PRINCIPAL = location.hash;
+        // Les href english ou french est pour switcher de l'anglais à francais et vice versa
         if (tag_section.attr('href') === '#english') {
             window.location.replace("/english/english.html")
 
@@ -75,59 +92,137 @@ function affichage_section() {
             window.location.replace("/index.html")
 
         } else {
+            // Dans « data » on retrouve le module HTML qu'on veut faire afficher
             let lienPage = tag_section.data('href');
             $(DIV_CENTER).load(lienPage, function () {
-                document.title = recupere_formate_titre_section(tag_section.attr('href'));
                 DIV_PHOTO.innerHTML = "";
+                HASH_TAG_SECOND.value = ""; // Important de remettre ça à NULL
+                document.title = recupere_formate_titre_section();
             });
-        } // TODO : Uncaught TypeError: Cannot read properties of undefined (reading 'indexOf')
+        }
         // si je pèse sur hautPageDesktop apres avec peser sur la section photo, erreur js
     } else if (HASH_TAG.value === '#photos' || HASH_TAG.value === '#pictures') {
+        // On affiche le sous hashtag avec le hashtag principal
+        //console.log(HASH_TAG.value);
+        // On affiche les photos de la section cliquée
         affichage_section_photo();
+        // Si le hash-tag est différent des outils pour remonter en haut du site, on affiche la section accueil
     } else if (location.hash !== "#haut-page-desktop" && location.hash !== "#haut-page-cellulaire") {
         affichage_accueil();
     }
 }
 
 /**
- * Retourne un titre formaté pour la section où nous nous trouvons
+ * En fonction de la miniphoto sélectionner, cela va afficher les photos miniatures de la section en question
+ *
+ * @returns {void}
  */
-function recupere_formate_titre_section(tag_section){
+function affichage_section_photo() {
 
-    let titre_formate = "";
-    switch (tag_section){
-        // Il va avoir deux cases par section vue que ce n,est pas les mêmes en anglais qu'en français
+    // Cette constante existe seulement si la section Photo est sélectionnée
+    const LISTE_PASSIONS = document.querySelectorAll('.middle .center .sous-header .une-passion-photo a');
+
+    // On filtre sur là sous section des photos choisies, sauf quand on remonte la page
+    let tag_sous_section = $(LISTE_PASSIONS).filter("[href='" + location.hash + "']");
+
+    // Si là sous section est égale à 1, on affiche les photos de la sous section
+    if (tag_sous_section.length === 1){
+        // On récupère le lien vers le fichier HTML qui contient tous les liens des photos
+        let sousHref = tag_sous_section.data('href');
+
+        // On change la valeur du hash-tag second, seulement s'il y a de quoi
+        HASH_TAG_SECOND.value = tag_sous_section.attr('href');
+
+        // Maintenant, on load la section des photos sélectionnées
+        $(DIV_PHOTO).load(sousHref, function () {
+            // Modifier le titre de la page en fonction de quelle section de photo, on fait afficher
+            document.title = recupere_formate_titre_section();
+
+            // Si nous avons l'anglais, on va réajuster le titre de sous section
+            if (LANGUE.value === "en") {
+                const H3 = document.querySelector('.photo h3');
+                // Traduction du titre
+                switch (sousHref) {
+                    case "/section/section-photos/section-photos-golf.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the golf :";
+                        break;
+                    case "/section/section-photos/section-photos-hiver.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the winter :";
+                        break;
+                    case "/section/section-photos/section-photos-poker.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the poker :";
+                        break;
+                    case "/section/section-photos/section-photos-ski.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the skiing :";
+                        break;
+                    case "/section/section-photos/section-photos-velo.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the bike :";
+                        break;
+                }
+            }
+        });
+    }
+    // Sinon, on ne fait rien, car nous avons encore les photos
+}
+
+/**
+ * Retourne un titre formaté pour la section où nous nous trouvons
+ *
+ * @returns {string}
+ */
+function recupere_formate_titre_section(){
+
+    let titre_ajuste = "";
+    switch (HASH_TAG.value){
+        // Il va avoir deux cases par section vue que se n'est pas les mêmes en anglais qu'en français
         case "#accueil": case "#home":
             if (LANGUE.value === "fr") {
-                titre_formate = "Accueil";
+                titre_ajuste = "Accueil";
             } else if (LANGUE.value === "en") {
-                titre_formate = "Home";
+                titre_ajuste = "Home";
             }
             break;
         case "#projets": case "#projects":
             if (LANGUE.value === "fr") {
-                titre_formate = "Projets";
+                titre_ajuste = "Projets";
             } else if (LANGUE.value === "en") {
-                titre_formate = "Projects";
+                titre_ajuste = "Projects";
             }
             break;
         case "#photos": case "#pictures":
             if (LANGUE.value === "fr") {
-                titre_formate = "Photos";
+                switch (HASH_TAG_SECOND.value){
+                    case "#poker": titre_ajuste = "Photos-poker"; break;
+                    case "#golf": titre_ajuste = "Photos-golf"; break;
+                    case "#velo": titre_ajuste = "Photos-velo"; break;
+                    case "#hiver": titre_ajuste = "Photos-hiver"; break;
+                    case "#ski": titre_ajuste = "Photos-ski"; break;
+                    // HASH_TAG_SECOND.value est NULL
+                    default : titre_ajuste = "Photos";
+                }
+
             } else if (LANGUE.value === "en") {
-                titre_formate = "Pictures";
+                switch (HASH_TAG_SECOND.value){
+                    case "#poker": titre_ajuste = "Pictures-poker"; break;
+                    case "#golf": titre_ajuste = "Pictures-golf"; break;
+                    case "#bike": titre_ajuste = "Pictures-bike"; break;
+                    case "#winter": titre_ajuste = "Pictures-winter"; break;
+                    case "#skiing": titre_ajuste = "Pictures-skiing"; break;
+                    // HASH_TAG_SECOND.value est NULL
+                    default : titre_ajuste = "Pictures";
+                }
             }
             break;
-        case "#aPropos": case "#aboutMe":
+        case "#propos": case "#about":
             if (LANGUE.value === "fr") {
-                titre_formate = "À propos";
+                titre_ajuste = "À propos";
             } else if (LANGUE.value === "en") {
-                titre_formate = "About me";
+                titre_ajuste = "About me";
             }
             break;
     }
 
-    return titre_formate;
+    return titre_ajuste;
 }
 
 function recupere_calendrier_call_ajax() {
@@ -177,6 +272,8 @@ function recupere_calendrier_call_ajax() {
 
 /**
  * Affiche l'heure en dessous du calendrier en fonction si ça vient de la page française ou anglaise
+ *
+ * @returns {void}
  */
 function start_timer() {
 
@@ -196,7 +293,8 @@ function start_timer() {
 
 /**
  * Retourne l'heure ou les minutes ou les secondes avec un 0 devant le chiffre
- * @param valeur
+ *
+ * @param {number} valeur
  * @returns {string}
  */
 function remplissage_zero(valeur) {
@@ -206,7 +304,8 @@ function remplissage_zero(valeur) {
 
 /**
  * Retourne l'heure avec la mention AM ou PM en fonction s'il est midi et plus ou pas
- * @param date
+ *
+ * @param {Date} date
  * @returns {string}
  */
 function format_AM_PM(date) {
@@ -224,43 +323,11 @@ function format_AM_PM(date) {
 }
 
 /**
- * En fonction de la miniphoto sélectionner, cela va afficher les photos miniatures de la section en question
- */
-function affichage_section_photo() {
-
-    // Cette constante existe seulement si la section Photo est sélectionnée
-    const LISTE_PASSIONS = document.querySelectorAll('.middle .center .sous-header .une-passion-photo a');
-    let tagSousSection = $(LISTE_PASSIONS).filter("[href='" + location.hash + "']");
-    let sousHref = tagSousSection.data('href');
-    // TODO : Uncaught TypeError: Cannot read properties of undefined (reading 'indexOf')
-    $(DIV_PHOTO).load(sousHref, function () {
-        const H3 = document.querySelector('.photo h3');
-        if (LANGUE.value === "en") {
-            switch (sousHref) {
-                case "/section/section-photos/section-photos-golf.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the golf :";
-                    break;
-                case "/section/section-photos/section-photos-hiver.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the winter :";
-                    break;
-                case "/section/section-photos/section-photos-poker.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the poker :";
-                    break;
-                case "/section/section-photos/section-photos-ski.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the skiing :";
-                    break;
-                case "/section/section-photos/section-photos-velo.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the bike :";
-                    break;
-            }
-        }
-    });
-}
-
-/**
  * Le ou la visiteur(e) sur le site web va pouvoir envoyer un courriel à l'admin du site web avec son nom,
  * le sujet, son courriel pour un retour de l'admin, si nécessaire.
  * Des messages d'erreurs peuvent subvenir si les différents champs ne sont pas remplis.
+ *
+ * @returns {void}
  */
 function envoyer_courriel() {
 

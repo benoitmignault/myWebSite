@@ -272,6 +272,8 @@ function recupere_calendrier_call_ajax() {
 
 /**
  * Affiche l'heure en dessous du calendrier en fonction si ça vient de la page française ou anglaise
+ *
+ * @returns {void}
  */
 function start_timer() {
 
@@ -291,7 +293,8 @@ function start_timer() {
 
 /**
  * Retourne l'heure ou les minutes ou les secondes avec un 0 devant le chiffre
- * @param valeur
+ *
+ * @param {number} valeur
  * @returns {string}
  */
 function remplissage_zero(valeur) {
@@ -301,7 +304,8 @@ function remplissage_zero(valeur) {
 
 /**
  * Retourne l'heure avec la mention AM ou PM en fonction s'il est midi et plus ou pas
- * @param date
+ *
+ * @param {Date} date
  * @returns {string}
  */
 function format_AM_PM(date) {

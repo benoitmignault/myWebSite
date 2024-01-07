@@ -12,12 +12,15 @@ const SUJET = document.querySelector('#sujet');
 const FORM_CONTACT = document.querySelector('#form-contact');
 const MSG_SUCCES = document.querySelector('#msg-courriel');
 const MSG_ERR = document.querySelector('#msg-err');
-let HASH_TAG = document.querySelector('#hash-tag');
-let HASH_TAG_SECOND = document.querySelector('#hash-tag-second');
+const HASH_TAG = document.querySelector('#hash-tag');
+// Uniquement pour faire varier le titre de la page en cours
+const HASH_TAG_SECOND = document.querySelector('#hash-tag-second');
 const CALENDRIER_AJAX = document.querySelector('#calendrier-ajax');
 
 /**
  * Retourne la liste des technologies en informatique
+ *
+ * @returns {void}
  */
 function activation_liste() {
 

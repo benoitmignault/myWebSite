@@ -113,59 +113,116 @@ function affichage_section() {
 }
 
 /**
+ * En fonction de la miniphoto sélectionner, cela va afficher les photos miniatures de la section en question
+ *
+ * @returns {void}
+ */
+function affichage_section_photo() {
+
+    // Cette constante existe seulement si la section Photo est sélectionnée
+    const LISTE_PASSIONS = document.querySelectorAll('.middle .center .sous-header .une-passion-photo a');
+
+    // On filtre sur là sous section des photos choisies, sauf quand on remonte la page
+    let tag_sous_section = $(LISTE_PASSIONS).filter("[href='" + location.hash + "']");
+
+    // Si là sous section est égale à 1, on affiche les photos de la sous section
+    if (tag_sous_section.length === 1){
+        // On récupère le lien vers le fichier HTML qui contient tous les liens des photos
+        let sousHref = tag_sous_section.data('href');
+
+        // On change la valeur du hash-tag second, seulement s'il y a de quoi
+        HASH_TAG_SECOND.value = tag_sous_section.attr('href');
+
+        // Maintenant, on load la section des photos sélectionnées
+        $(DIV_PHOTO).load(sousHref, function () {
+            // Modifier le titre de la page en fonction de quelle section de photo, on fait afficher
+            document.title = recupere_formate_titre_section();
+
+            // Si nous avons l'anglais, on va réajuster le titre de sous section
+            if (LANGUE.value === "en") {
+                const H3 = document.querySelector('.photo h3');
+                // Traduction du titre
+                switch (sousHref) {
+                    case "/section/section-photos/section-photos-golf.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the golf :";
+                        break;
+                    case "/section/section-photos/section-photos-hiver.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the winter :";
+                        break;
+                    case "/section/section-photos/section-photos-poker.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the poker :";
+                        break;
+                    case "/section/section-photos/section-photos-ski.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the skiing :";
+                        break;
+                    case "/section/section-photos/section-photos-velo.html":
+                        H3.innerHTML = "Here is the sub section of the pictures on the bike :";
+                        break;
+                }
+            }
+        });
+    }
+    // Sinon, on ne fait rien, car nous avons encore les photos
+}
+
+/**
  * Retourne un titre formaté pour la section où nous nous trouvons
+ *
+ * @returns {string}
  */
 function recupere_formate_titre_section(){
 
-    let titre_formate = "";
+    let titre_ajuste = "";
     switch (HASH_TAG.value){
-        // Il va avoir deux cases par section vue que ce n,est pas les mêmes en anglais qu'en français
+        // Il va avoir deux cases par section vue que se n'est pas les mêmes en anglais qu'en français
         case "#accueil": case "#home":
             if (LANGUE.value === "fr") {
-                titre_formate = "Accueil";
+                titre_ajuste = "Accueil";
             } else if (LANGUE.value === "en") {
-                titre_formate = "Home";
+                titre_ajuste = "Home";
             }
             break;
         case "#projets": case "#projects":
             if (LANGUE.value === "fr") {
-                titre_formate = "Projets";
+                titre_ajuste = "Projets";
             } else if (LANGUE.value === "en") {
-                titre_formate = "Projects";
+                titre_ajuste = "Projects";
             }
             break;
         case "#photos": case "#pictures":
             if (LANGUE.value === "fr") {
                 switch (HASH_TAG_SECOND.value){
-                    case "#poker": titre_formate = "Photos-poker"; break;
-                    case "#golf": titre_formate = "Photos-golf"; break;
-                    case "#velo": titre_formate = "Photos-velo"; break;
-                    case "#hiver": titre_formate = "Photos-hiver"; break;
-                    case "#ski": titre_formate = "Photos-ski"; break;
-                    default : titre_formate = "Photos";
+                    case "#poker": titre_ajuste = "Photos-poker"; break;
+                    case "#golf": titre_ajuste = "Photos-golf"; break;
+                    case "#velo": titre_ajuste = "Photos-velo"; break;
+                    case "#hiver": titre_ajuste = "Photos-hiver"; break;
+                    case "#ski": titre_ajuste = "Photos-ski"; break;
+                    // HASH_TAG_SECOND.value est NULL
+                    default : titre_ajuste = "Photos";
                 }
 
             } else if (LANGUE.value === "en") {
                 switch (HASH_TAG_SECOND.value){
-                    case "#poker": titre_formate = "Pictures-poker"; break;
-                    case "#golf": titre_formate = "Pictures-golf"; break;
-                    case "#bike": titre_formate = "Pictures-bike"; break;
-                    case "#winter": titre_formate = "Pictures-winter"; break;
-                    case "#skiing": titre_formate = "Pictures-skiing"; break;
-                    default : titre_formate = "Pictures";
+                    case "#poker": titre_ajuste = "Pictures-poker"; break;
+                    case "#golf": titre_ajuste = "Pictures-golf"; break;
+                    case "#bike": titre_ajuste = "Pictures-bike"; break;
+                    case "#winter": titre_ajuste = "Pictures-winter"; break;
+                    case "#skiing": titre_ajuste = "Pictures-skiing"; break;
+                    // HASH_TAG_SECOND.value est NULL
+                    default : titre_ajuste = "Pictures";
                 }
             }
             break;
-        case "#aPropos": case "#aboutMe":
+        case "#propos": case "#about":
             if (LANGUE.value === "fr") {
-                titre_formate = "À propos";
+                titre_ajuste = "À propos";
             } else if (LANGUE.value === "en") {
-                titre_formate = "About me";
+                titre_ajuste = "About me";
             }
             break;
     }
 
-    return titre_formate;
+    return titre_ajuste;
 }
 
 function recupere_calendrier_call_ajax() {

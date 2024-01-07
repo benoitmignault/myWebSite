@@ -66,9 +66,18 @@ function affichage_accueil() {
  */
 function affichage_section() {
 
+    // Récupère la liste des 5 sections à faire afficher
     let tag_section = $(LISTE_SECTIONS).filter("[href='" + location.hash + "']");
-    if (tag_section.length) {
+    //console.log(location.hash);
+    //console.log(tag_section.length);
+
+    // Nous avons sélectionné le hashtag principal, entre accueil, projet, photo, a-propos et english/french
+    if (tag_section.length === 1) {
+        // Récupère le hasg tag sélectionné
         HASH_TAG.value = tag_section.attr('href');
+        console.log(HASH_TAG.value);
+        //HASH_TAG_PRINCIPAL = location.hash;
+        // Les href english ou french est pour switcher de l'anglais à francais et vice versa
         if (tag_section.attr('href') === '#english') {
             window.location.replace("/english/english.html")
 
@@ -76,15 +85,22 @@ function affichage_section() {
             window.location.replace("/index.html")
 
         } else {
+            // Dans « data » on retrouve le module HTML qu'on veut faire afficher
             let lienPage = tag_section.data('href');
             $(DIV_CENTER).load(lienPage, function () {
-                document.title = recupere_formate_titre_section(tag_section.attr('href'));
                 DIV_PHOTO.innerHTML = "";
+                HASH_TAG_SECOND.value = ""; // Important de remettre ça à NULL
+                document.title = recupere_formate_titre_section();
+                //console.log(document.title);
             });
-        } // TODO : Uncaught TypeError: Cannot read properties of undefined (reading 'indexOf')
+        }
         // si je pèse sur hautPageDesktop apres avec peser sur la section photo, erreur js
     } else if (HASH_TAG.value === '#photos' || HASH_TAG.value === '#pictures') {
+        // On affiche le sous hashtag avec le hashtag principal
+        //console.log(HASH_TAG.value);
+        // On affiche les photos de la section cliquée
         affichage_section_photo();
+        // Si le hash-tag est différent des outils pour remonter en haut du site, on affiche la section accueil
     } else if (location.hash !== "#haut-page-desktop" && location.hash !== "#haut-page-cellulaire") {
         affichage_accueil();
     }

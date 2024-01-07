@@ -323,48 +323,11 @@ function format_AM_PM(date) {
 }
 
 /**
- * En fonction de la miniphoto sélectionner, cela va afficher les photos miniatures de la section en question
- */
-function affichage_section_photo() {
-
-    // Cette constante existe seulement si la section Photo est sélectionnée
-    const LISTE_PASSIONS = document.querySelectorAll('.middle .center .sous-header .une-passion-photo a');
-    let tagSousSection = $(LISTE_PASSIONS).filter("[href='" + location.hash + "']");
-    // On récupère le lien vers le fichier HTML qui contient tous les liens des photos
-    let sousHref = tagSousSection.data('href');
-    HASH_TAG_SECOND.value = tagSousSection.attr('href');
-    console.log(HASH_TAG_SECOND.value);
-    // TODO : Uncaught TypeError: Cannot read properties of undefined (reading 'indexOf')
-    $(DIV_PHOTO).load(sousHref, function () {
-        const H3 = document.querySelector('.photo h3');
-        // Modifier le titre de la page en fonction de quelle section de photo, on fait afficher
-        document.title = recupere_formate_titre_section();
-        if (LANGUE.value === "en") {
-            switch (sousHref) {
-                case "/section/section-photos/section-photos-golf.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the golf :";
-                    break;
-                case "/section/section-photos/section-photos-hiver.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the winter :";
-                    break;
-                case "/section/section-photos/section-photos-poker.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the poker :";
-                    break;
-                case "/section/section-photos/section-photos-ski.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the skiing :";
-                    break;
-                case "/section/section-photos/section-photos-velo.html":
-                    H3.innerHTML = "Here is the sub section of the pictures on the bike :";
-                    break;
-            }
-        }
-    });
-}
-
-/**
  * Le ou la visiteur(e) sur le site web va pouvoir envoyer un courriel à l'admin du site web avec son nom,
  * le sujet, son courriel pour un retour de l'admin, si nécessaire.
  * Des messages d'erreurs peuvent subvenir si les différents champs ne sont pas remplis.
+ *
+ * @returns {void}
  */
 function envoyer_courriel() {
 

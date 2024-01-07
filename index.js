@@ -52,6 +52,8 @@ function activation_liste() {
 
 /**
  * Affichage de la section accueil en remettant à vide la section des photos et du hash-tag pour l'historique
+ *
+ * @returns {void}
  */
 function affichage_accueil() {
 
@@ -66,6 +68,8 @@ function affichage_accueil() {
 
 /**
  * Affichage de la section en fonction du lien cliquer
+ *
+ * @returns {void}
  */
 function affichage_section() {
 
@@ -94,7 +98,6 @@ function affichage_section() {
                 DIV_PHOTO.innerHTML = "";
                 HASH_TAG_SECOND.value = ""; // Important de remettre ça à NULL
                 document.title = recupere_formate_titre_section();
-                //console.log(document.title);
             });
         }
         // si je pèse sur hautPageDesktop apres avec peser sur la section photo, erreur js

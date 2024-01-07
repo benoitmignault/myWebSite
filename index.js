@@ -109,10 +109,10 @@ function affichage_section() {
 /**
  * Retourne un titre formaté pour la section où nous nous trouvons
  */
-function recupere_formate_titre_section(tag_section){
+function recupere_formate_titre_section(){
 
     let titre_formate = "";
-    switch (tag_section){
+    switch (HASH_TAG.value){
         // Il va avoir deux cases par section vue que ce n,est pas les mêmes en anglais qu'en français
         case "#accueil": case "#home":
             if (LANGUE.value === "fr") {
@@ -130,9 +130,24 @@ function recupere_formate_titre_section(tag_section){
             break;
         case "#photos": case "#pictures":
             if (LANGUE.value === "fr") {
-                titre_formate = "Photos";
+                switch (HASH_TAG_SECOND.value){
+                    case "#poker": titre_formate = "Photos-poker"; break;
+                    case "#golf": titre_formate = "Photos-golf"; break;
+                    case "#velo": titre_formate = "Photos-velo"; break;
+                    case "#hiver": titre_formate = "Photos-hiver"; break;
+                    case "#ski": titre_formate = "Photos-ski"; break;
+                    default : titre_formate = "Photos";
+                }
+
             } else if (LANGUE.value === "en") {
-                titre_formate = "Pictures";
+                switch (HASH_TAG_SECOND.value){
+                    case "#poker": titre_formate = "Pictures-poker"; break;
+                    case "#golf": titre_formate = "Pictures-golf"; break;
+                    case "#bike": titre_formate = "Pictures-bike"; break;
+                    case "#winter": titre_formate = "Pictures-winter"; break;
+                    case "#skiing": titre_formate = "Pictures-skiing"; break;
+                    default : titre_formate = "Pictures";
+                }
             }
             break;
         case "#aPropos": case "#aboutMe":

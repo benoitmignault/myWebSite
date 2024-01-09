@@ -1,48 +1,53 @@
 <?php
 	
-	function traduction($champs): array {
+	/**
+	 * Fonction qui sera utiliser pour traduire le texte dans la page et ainsi que les messages d'erreurs
+	 *
+	 * @param string $type_langue
+	 * @param int $situation
+	 * @return string[]
+	 */
+	function traduction(string $type_langue, int $situation): array {
 		
-		if ($champs["typeLangue"] === 'francais') {
-			$lang = "fr";
-			$title = "Connexion";
-			$p1 = "Bienvenue à la page de connexion des statistiques du poker entre amis !";
-			$li1 = "Vous devez vous authentifier, pour faire afficher les statistiques désirées";
-			$li2 = "Si vous n'avez pas de compte, veuillez vous en créer un.";
-			$li3 = "Veuillez spécifier un nom d'utilisateur et un courriel unique.";
-			$legend = "Connexion !";
-			$email = "Courriel :";
-			$emailInfo = "Pour créer un compte seulement !";
-			$usager = "Nom d'utilisateur :";
-			$mdp = "Mot de passe :";
-			$btn_login = "Se Connecter";
-			$btn_signUp = "S'inscrire";
-			$btn_reset = "Mot de passe oublié ?";
-			$btn_return = "Retour à l'accueil";
+		$liste_mots = array("lang" => "", 'emailInfo' => "", 'title' => "", 'email' => "", 'p1' => "", 'li1' => "",
+		                     'li2' => "", 'li3' => "", 'legend' => "", 'usager' => "", 'mdp' => "", 'btn_login' => "",
+		                     'btn_signUp' => "", 'btn_reset' => "", 'btn_return' => "", 'message' => "");
+		
+		if ($type_langue === 'francais') {
+			$liste_mots["lang"] = "fr";
+			$liste_mots["title"] = "Connexion - utilisateur";
+			$liste_mots["p1"] = "Bienvenue à la page de connexion des statistiques du poker entre amis !";
+			$liste_mots["li1"] = "Vous devez vous authentifier, pour faire afficher les statistiques désirées";
+			$liste_mots["li2"] = "Si vous n'avez pas de compte, veuillez vous en créer un.";
+			$liste_mots["li3"] = "Veuillez spécifier un nom d'utilisateur et un courriel unique.";
+			$liste_mots["legend"] = "Connexion";
+			$liste_mots["usager"] = "Nom d'utilisateur :";
+			$liste_mots["pwd"] = "Mot de passe :";
+			$liste_mots["btn_login"] = "Se Connecter";
+			$liste_mots["btn_sign_up"] = "S'inscrire";
+			$liste_mots["btn_reset"] = "Mot de passe oublié ?";
+			$liste_mots["btn_return"] = "Accueil";
 			
-		}
-		elseif ($champs["typeLangue"] === 'english') {
-			$lang = "en";
-			$title = "Connection";
-			$p1 = "Welcome to the login page to see the statistic of poker between friends !";
-			$li1 = "You must authenticate, to display the desired statistics";
-			$li2 = "If you do not have an account, please create one.";
-			$li3 = "Please specify a username and a unique email.";
-			$legend = "Connection !";
-			$usager = "Username :";
-			$mdp = "Password :";
-			$btn_login = "Login";
-			$email = "Email :";
-			$btn_signUp = "Sign Up";
-			$emailInfo = "To create an username only!";
-			$btn_reset = "Forgot password ?";
-			$btn_return = "Return to home page";
+		} elseif ($type_langue === 'english') {
+			$liste_mots["lang"] = "en";
+			$liste_mots["title"] = "Logging - user";
+			$liste_mots["p1"] = "Welcome to the login page to see the statistic of poker between friends !";
+			$liste_mots["li1"] = "You must authenticate, to display the desired statistics";
+			$liste_mots["li2"] = "If you do not have an account, please create one.";
+			$liste_mots["li3"] = "Please specify a username and a unique email.";
+			$liste_mots["legend"] = "Logging";
+			$liste_mots["usager"] = "Username :";
+			$liste_mots["pwd"] = "Password :";
+			$liste_mots["btn_login"] = "Login";
+			$liste_mots["btn_sign_up"] = "Sign Up";
+			$liste_mots["btn_reset"] = "Forgot password ?";
+			$liste_mots["btn_return"] = "Home";
 		}
 		
-		$messageFinal = traductionSituation($champs);
+		// Le message qui sera dans la langue voulu
+		$liste_mots["message"] = traduction_situation($type_langue, $situation);
 		
-		return ["lang" => $lang, 'emailInfo' => $emailInfo, 'title' => $title, 'email' => $email, 'p1' => $p1, 'li1' => $li1,
-		        'li2' => $li2, 'li3' => $li3, 'legend' => $legend, 'usager' => $usager, 'mdp' => $mdp, 'btn_login' => $btn_login,
-		        'btn_signUp' => $btn_signUp, 'btn_reset' => $btn_reset, 'btn_return' => $btn_return, 'message' => $messageFinal];
+		return $liste_mots;
 	}
 	
 	function traductionSituation($champs): string {

@@ -184,27 +184,6 @@
         return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
     }
     
-    function creationUser($champs, $connMYSQL) {
-        
-        $passwordCrypter = encryptementPassword($champs['password']);
-        // Prepare an insert statement
-        $sql = "INSERT INTO login (user, password, email) VALUES (?,?,?)";
-        $stmt = $connMYSQL->prepare($sql);
-    
-        // Bind variables to the prepared statement as parameters
-        $stmt->bind_param('sss', $champs['user'], $passwordCrypter, $champs['email']);
-        $stmt->execute();
-    
-        if ($stmt->affected_rows == 1){
-            $champs['creationUserSuccess'] = true;
-        }
-    
-        // Close statement
-        $stmt->close();
-        
-        return $champs;
-    }
-    
     // Selon une recommandation :
     // https://stackoverflow.com/questions/30279321/how-to-use-password-hash
     // On ne doit pas jouer avec le salt....

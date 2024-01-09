@@ -50,86 +50,46 @@
 		return $liste_mots;
 	}
 	
-	function traductionSituation($champs): string {
+	/**
+	 * Fonction pour sélectionner le message de la situation unique possible, que ça soit en français ou anglais
+	 * @param string $type_langue
+	 * @param int $situation
+	 * @return string
+	 */
+	function traduction_situation(string $type_langue, int $situation): string{
 		
-		$messageEnPreparation = "";
-		if ($champs["typeLangue"] === 'francais') {
-			$messageEnPreparation = traductionSituationFR($champs);
-		}
-		elseif ($champs["typeLangue"] === 'english') {
-			$messageEnPreparation = traductionSituationEN($champs);
+		$message_situation = "";
+		if ($type_langue === 'francais') {
+			$message_situation = traduction_situation_francais($situation);
+			
+		} elseif ($type_langue === 'english') {
+			$message_situation = traduction_situation_anglais($situation);
 		}
 		
-		return $messageEnPreparation;
+		return $message_situation;
 	}
 	
-	// Il faudra un message si le email est deja utiliser lors de la creation du compte
-	function traductionSituationFR($champs): string {
+	/**
+	 * Fonction qui va aller chercher le message en français correspondant à la situation
+	 *
+	 * @param int $situation
+	 * @return string
+	 */
+	function traduction_situation_francais(int $situation): string {
 		
-		$messageFrench = "";
-		switch ($champs['situation']) {
-			case 1 :
-				$messageFrench = "Au moment de créer votre compte, vous n'avez rien saisie dans les champs «Mot de passe» et «Courriel» !";
-				break;
-			case 2 :
-				$messageFrench = "Au moment de créer votre compte, vous n'avez rien saisie dans le champs «courriel» !";
-				break;
-			case 3 :
-				$messageFrench = "Au moment de créer votre compte, vous n'avez rien saisie dans le champs «nom d'utilisateur» !";
-				break;
-			case 4 :
-				$messageFrench = "Au moment de créer votre compte, vous n'avez rien saisie dans le champs «mot de passe» !";
-				break;
-			case 5 :
-				$messageFrench = "Au moment de créer votre compte, vous n'avez rien saisie dans les champs «nom d'utilisateur» et «mot de passe» !";
-				break;
-			case 6 :
-				$messageFrench = "Au moment de créer votre compte, vous n'avez rien saisie dans les champs «nom d'utilisateur» et «courriel» !";
-				break;
-			case 7 :
-				$messageFrench = "Au moment de vous connectez, vous n'avez rien saisie dans le champ «mot de passe» !";
-				break;
-			case 8 :
-				$messageFrench = "Au moment de vous connectez, vous n'avez rien saisie dans le champ «nom d'utilisateur» !";
-				break;
-			case 9 :
-				$messageFrench = "Au moment de vous connectez, le nom d'utilisateur saisie n'existe pas !";
-				break;
-			case 10 :
-				$messageFrench = "Au moment de vous connectez, votre mot de passe saisie est invalide avec votre utilisateur !<br>
-        Si vous avez oublié votre mot de passe, veuillez appuyer sur le bouton «Mot de passe oublié ?» et suivre les instructions.";
-				break;
-			case 11 :
-				$messageFrench = "Au moment de créer votre compte, les champs «nom d'utilisateur» et «mot de passe» doivent être différent !";
-				break;
-			case 12 :
-				$messageFrench = "Au moment de créer votre compte, le nom d'utilisateur choisi est déjà utilisé par quelqu'un d'autre !";
-				break;
-			case 13 :
-				$messageFrench = "Attention les tous les champs sont vides !";
-				break;
-			case 14 :
-				$messageFrench = "Attention les longueurs permises en nombre de caractères pour les champs suivants sont :<br>
-        «nom d'utilisateur» &rarr; 15<br> «mot de passe» &rarr; 25<br> «courriel» &rarr; 50 !";
-				break;
-			case 15 :
-				$messageFrench = "Attention les champs peuvent contenir seulement des caractères alphanumériques !";
-				break;
-			case 16 :
-				$messageFrench = "Félicitation ! Votre compte a été crée avec succès !";
-				break;
-			case 17 :
-				$messageFrench = "Attention le courriel ne respecte la forme standard soit : exemple@courriel.com !";
-				break;
-			case 18 :
-				$messageFrench = "Au moment de créer votre compte, le courriel ne doit pas être utiliser déjà par quelqu'un !";
-				break;
-			case 34 :
-				$messageFrench = "Attention ! Au moment je crée votre le compte, il y a eu une erreur système. Veuillez recommencer !";
-				break;
+		$message = "";
+		switch ($situation) {
+			case 7 : $message = "Au moment de vous connectez, vous n'avez rien saisie dans le champ «mot de passe» !"; break;
+			case 8 : $message = "Au moment de vous connectez, vous n'avez rien saisie dans le champ «nom d'utilisateur» !";	break;
+			case 9 : $message = "Au moment de vous connectez, le nom d'utilisateur saisie n'existe pas !"; break;
+			case 10 : $message = "Au moment de vous connecter, votre mot de passe saisie est invalide avec votre utilisateur !<br>
+        		Si vous avez oublié votre mot de passe, veuillez appuyer sur le bouton «Mot de passe oublié ?» et suivre les instructions."; break;
+			case 13 : $message = "Attention les tous les champs sont vides !"; break;
+			case 15 : $message = "Attention les champs peuvent contenir seulement des caractères alphanumériques !"; break;
+			case 16 : $message = "Félicitation ! Votre compte a été crée avec succès !"; break;
 		}
 		
-		return $messageFrench;
+		return $message;
 	}
 	
 	// Il faudra un message si le email est deja utiliser lors de la creation du compte

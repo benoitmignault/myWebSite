@@ -3,13 +3,22 @@
 	include_once("../traduction/traduction-login-user.php");
 	include_once("../includes/fct-connexion-bd.php");
 	
-	// il va falloir ajouter une valid duplicateEmail
-	function initialChamp() {
+	/**
+	 * Fonction qui va contenir tous ce dont on aura besoin.
+	 * Une partie des variables de type string ou integer et une autre partie en boolean
+	 * On va ajouter un array pour les mots traduits ou non
+	 *
+	 * @return array
+	 */
+	function initialisation(): array {
 		
-		$champs = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideEmail" => false, "duplicate" => false, "duplicatUser" => false, "duplicatEmail" => false, "champInvalid" => false,
-		           "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false, "creationUserSuccess" => false, "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
-		
-		return $champs;
+		return array("champVide" => false, "champVideUser" => false, "champVidePassword" => false,
+                     "champInvalid" => false,
+		             "champInvalidUser" => false, "champInvalidPassword" => false, "badUser" => false,
+                     "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false,
+                     "badPassword" => false,
+                     "password" => "", "situation" => 0, "user" => "", "typeLangue" => "",
+                     "idCreationUser" => 0);
 	}
     
     function verifChamp($champs, $connMYSQL) {

@@ -92,72 +92,25 @@
 		return $message;
 	}
 	
-	// Il faudra un message si le email est deja utiliser lors de la creation du compte
-	function traductionSituationEN($champs): string {
+	/**
+	 * Fonction qui va aller chercher le message en anglais correspondant à la situation
+	 *
+	 * @param int $situation
+	 * @return string
+	 */
+	function traduction_situation_anglais(int $situation): string {
 		
-		$messageEnglish = "";
-		switch ($champs['situation']) {
-			case 1 :
-				$messageEnglish = "At the time of creating your account, you have not entered anything in the fields «Password» and «Email» !";
-				break;
-			case 2 :
-				$messageEnglish = "At the time of creating your account, you have not entered anything in the «Email» field !";
-				break;
-			case 3 :
-				$messageEnglish = "At the time of creating your account, you have not entered anything in the «Username» field !";
-				break;
-			case 4 :
-				$messageEnglish = "At the time of creating your account, you have not entered anything in the «Password» field !";
-				break;
-			case 5 :
-				$messageEnglish = "At the time of creating your account, you have not entered anything in the fields «Username» and «Password» !";
-				break;
-			case 6 :
-				$messageEnglish = "At the time of creating your account, you have not entered anything in the «Username» and «Email» fields ! ";
-				break;
-			case 7 :
-				$messageEnglish = "When you log in, you have not entered anything in the «Password» field !";
-				break;
-			case 8 :
-				$messageEnglish = "When you log in, you have not entered anything in the «Username» field !";
-				break;
-			case 9 :
-				$messageEnglish = "When you log in, the «username» entered does not exist !";
-				break;
-			case 10 :
-				$messageEnglish = "When you log in, your «password» entered is invalid with your user !<br>
-        If you have forgotten your password, please press the «Forgot password ?» button and follow the instructions.";
-				break;
-			case 11 :
-				$messageEnglish = "When creating your account, the fields «Username» and «Password» must be different !";
-				break;
-			case 12 :
-				$messageEnglish = "When creating your account, the chosen «username» is already used by someone else !";
-				break;
-			case 13 :
-				$messageEnglish = "Be careful, all the fields are empty !";
-				break;
-			case 14 :
-				$messageEnglish = "Warning, the lengths allowed in number of characters for the following fields are :<br>
-        «Username» &rarr; 15<br> «Password» &rarr; 25<br> «Email» &rarr; 50 !";
-				break;
-			case 15 :
-				$messageEnglish = "Warning, the fields can only contain alphanumeric characters !";
-				break;
-			case 16 :
-				$messageEnglish = "Congratulations ! Your account has been successfully created !";
-				break;
-			case 17 :
-				$messageEnglish = "Warning, the email does not respect the standard form : example@courriel.com !";
-				break;
-			case 18 :
-				$messageEnglish = "When creating your account, the email should not be used by anyone already !";
-				break;
-			case 34 :
-				$messageEnglish = "Warning ! When I created your account, there was a system error. Please try again !";
-				break;
+		$message = "";
+		switch ($situation) {
+			case 7 : $message = "When you log in, you have not entered anything in the «Password» field !"; break;
+			case 8 : $message = "When you log in, you have not entered anything in the «Username» field !"; break;
+			case 9 : $message = "When you log in, the «username» entered does not exist !"; break;
+			case 10 : $message = "When you log in, your «password» entered is invalid with your user !<br>
+        If you have forgotten your password, please press the «Forgot password ?» button and follow the instructions."; break;
+			case 13 : $message = "Be careful, all the fields are empty !"; break;
+			case 15 : $message = "Warning, the fields can only contain alphanumeric characters !"; break;
+			case 16 : $message = "Congratulations ! Your account has been successfully created !"; break;
 		}
 		
-		return $messageEnglish;
+		return $message;
 	}
-	

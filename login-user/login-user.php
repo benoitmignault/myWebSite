@@ -25,10 +25,9 @@
 	 * Aussi, on va récupérer via le POST, les informations relier au email du user
 	 *
 	 * @param array $array_Champs
-	 * @param object $connMYSQL
 	 * @return array
 	 */
-	function remplisage_champs(array $array_Champs, object $connMYSQL): array{
+	function remplisage_champs(array $array_Champs): array{
 		
         // C,est la seule variable qui sera affectée par le GET
 		if ($_SERVER['REQUEST_METHOD'] == 'GET'){
@@ -56,8 +55,6 @@
 			        $array_Champs["password"] = strtolower($_POST['password']);
 		        }
 	        }
-	        
-         
         }
         
 		// Validation commune pour le Get & Post, à propos de la langue

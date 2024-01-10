@@ -291,20 +291,54 @@
         return $array_Champs;
     }
 	
+	/**
+	 * Fonction pour rediriger vers la bonne page page extérieur à la page du reset de password
+	 * En fonction aussi si le type de langue est valide
+	 *
+	 * @param string $type_langue
+	 * @param bool $invalid_language
+	 * @return void
+	 */
+	#[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
+		
+		// Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
+		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+			header("Location: /erreur/erreur.php");
+		}
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			
+			if ($invalid_language){
+				header("Location: /erreur/erreur.php");
+				
+			} else {
+                // La connexion aux statistique a réussi soit avec un user admin ou un user normal
+                // Une demande de création de compte est demandé
+                // Une demande de changement de password est demandé
+                // Une demande pour quitte rla page de connexion
+			}
+		}
+		
+		exit; // pour arrêter l'exécution du code php
+	}
+ 
+ 
+ 
 	// Les fonctions communes
 	$connMYSQL = connexion();
 	$array_Champs = initialisation();
-	$array_Champs = remplisage_champs($array_Champs, $connMYSQL);
+	$array_Champs = remplisage_champs($array_Champs);
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    
-        if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "english") {
-            header("Location: /erreur/erreur.php");
-            exit;
-        } else {
-            $arrayMots = traduction($array_Champs);
-        }
-    }
+	
+	    // Si la langue n'est pas setter, on va rediriger vers la page Err 404
+	    if ($array_Champs["invalid_language"]) {
+		    redirection("", false); // On n'a pas besoin des variables
+	    } else {
+		    // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
+		    $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+	    }
+    } // Fin du GET pour faire afficher la page web
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         

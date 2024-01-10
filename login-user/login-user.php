@@ -349,22 +349,18 @@
 	
 	    // Si la langue n'est pas setter, on va rediriger vers la page Err 404
 	    if ($array_Champs["invalid_language"]) {
-		    redirection("", false); // On n'a pas besoin des variables
+		    redirection("", false); // On n'a pas besoin de cette variable
 	    } else {
 		    // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
 		    $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
 	    }
     } // Fin du GET pour faire afficher la page web
-    
+	
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	    
+        if (isset($_POST['btn_sign_up']) || isset($_POST['btn_return']) || isset($_POST['btn_reset'])) {
+	        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]); // On n'a pas besoin de cette variable
         
-        if (isset($_POST['btn-return'])) {
-            if ($array_Champs["type_langue"] === 'english') {
-                header("Location: /english/english.html");
-            } elseif ($array_Champs["type_langue"] === 'francais') {
-                header("Location: /index.html");
-            }
-            exit;
         } else {
             $array_Champs = verifChamp($array_Champs, $connMYSQL);
             // Si le bouton se connecter est pesé...
@@ -391,20 +387,6 @@
                 if (!$array_Champs["champs_vide"] && !$array_Champs["champs_trop_long"] && !$array_Champs["champs_invalid"] ) {
                     $array_Champs = connexionUser($array_Champs, $connMYSQL);
                 }
-                // si le bouton s'inscrire est pesé...
-            } elseif (isset($_POST['btn_sign_up'])) {
-                // Ajout de la validation si duplicate est à false en raison de unicité du user et email
-                if (!$array_Champs["champs_vide"] && !$array_Champs["champs_trop_long"] && !$array_Champs["champs_invalid"] && !$array_Champs['sameUserPWD'] && !$array_Champs['duplicate']) {
-                    $array_Champs = creationUser($array_Champs, $connMYSQL);
-                }
-                // si le bouton éffacer est pesé...
-            } elseif (isset($_POST['reset'])) {
-                if ($array_Champs["type_langue"] === 'english') {
-                    header("Location: /btn_login-user/reset-pwd/create-email-temp-pwd.php?langue=english");
-                } elseif ($array_Champs["type_langue"] === 'francais') {
-                    header("Location: /btn_login-user/reset-pwd/create-email-temp-pwd.php?langue=francais");
-                }
-                exit;
             }
             $array_Champs["situation"] = situation($array_Champs); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
             $arrayMots = traduction($array_Champs);  // Affichage des mots en français ou en anglais selon le paramètre du get de départ et suivi dans le post par la suite
@@ -444,7 +426,7 @@
             </ul>
             <fieldset>
                 <legend class="legend-center"><?php echo $arrayMots['legend']; ?></legend>
-                <form method="post" action="btn_login-user.php">
+                <form method="post" action="login-user.php">
                     <div class="connexion">
                         <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['champ_vide_user'] || $array_Champs['champ_invalid_user'] || $array_Champs['duplicatUser'] || $array_Champs['user_not_found'] || $array_Champs['champ_trop_long_user']) { echo 'erreur'; } ?>">
                             <label for="user"><?php echo $arrayMots['usager']; ?></label>
@@ -460,19 +442,12 @@
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
-                        <div class="information <?php if (!isset($_POST['btn_login']) && ($array_Champs['duplicatEmail'] || $array_Champs['champVideEmail'] || $array_Champs['champInvalidEmail'] || $array_Champs['champTropLongEmail'])) { echo 'erreur';} ?>">
-                            <label for="email"><?php echo $arrayMots['email']; ?></label>
-                            <div>
-                                <input placeholder="<?php echo $arrayMots['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $array_Champs['email']; ?>" />
-                                <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
-                            </div>
-                        </div>
                     </div>
                     <div class="section-reset-btn">
                         <input class="bouton" type='submit' name='btn_login' value="<?php echo $arrayMots['btn_login']; ?>">
                         <input class="bouton" type='submit' name='btn_sign_up' value="<?php echo $arrayMots['btn_signUp']; ?>">
                         <input class="bouton" id="faire_menage_total" type="reset" value="Effacer...">
-                        <input class="bouton" type='submit' name='reset' value="<?php echo $arrayMots['btn_reset']; ?>">
+                        <input class="bouton" type='submit' name='btn_reset' value="<?php echo $arrayMots['btn_reset']; ?>">
                         <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                     </div>
                 </form>
@@ -484,7 +459,7 @@
             </div>
             <div class="section-retour-btn">
                 <form method="post" action="login-user.php">
-                    <input class="bouton" type="submit" name="btn-return" value="<?php echo $arrayMots['btn_return']; ?>">
+                    <input class="bouton" type="submit" name="btn_return" value="<?php echo $arrayMots['btn_return']; ?>">
                     <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                 </form>
             </div>

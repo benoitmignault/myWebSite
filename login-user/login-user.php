@@ -29,7 +29,7 @@
 	 * @param array $array_Champs
 	 * @return array
 	 */
-	function remplisage_champs(array $array_Champs): array{
+	function remplissage_champs(array $array_Champs): array{
 		
         // C,est la seule variable qui sera affectée par le GET
 		if ($_SERVER['REQUEST_METHOD'] == 'GET'){
@@ -321,12 +321,10 @@
 		exit; // pour arrêter l'exécution du code php
 	}
  
- 
- 
 	// Les fonctions communes
 	$connMYSQL = connexion();
 	$array_Champs = initialisation();
-	$array_Champs = remplisage_champs($array_Champs);
+	$array_Champs = remplissage_champs($array_Champs);
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	

@@ -76,7 +76,7 @@ Nouvelle manière d'afficher un legend au milieu
 
 .content > .center > fieldset > form > .connexion {
     width: 55%;
-    margin: auto;
+    margin: auto auto 25px;
     display: flex;
     display: -webkit-flex;
     -webkit-flex-direction: column;
@@ -244,6 +244,7 @@ input::placeholder {
 
     .content > .center > fieldset > form > .connexion {
         width: 100%;
+        margin-bottom: 15px;
     }
 
     .content > .center > fieldset > form > .connexion > .information {

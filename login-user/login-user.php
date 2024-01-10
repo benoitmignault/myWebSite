@@ -175,7 +175,6 @@
         return $array_Champs;
     }
     
-    // Ajouter une situation ou plusieurs si le email est deja utilise par quelqu'un autre
     function situation($array_Champs) {
         
         $typeSituation = 0;

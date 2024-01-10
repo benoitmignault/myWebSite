@@ -308,32 +308,30 @@
 			
 			if ($invalid_language){
 				header("Location: /erreur/erreur.php");
-				
-			} else {
+    
+				// Une demande de création de compte est demandé
+			} elseif (isset($_POST['btn_sign_up'])) {
                 
+                // Une demande de changement de password sur le compte d'un usage
+            } elseif (isset($_POST['btn_reset_pwd'])) {
                 
-                
-                //
-                if (isset($_POST['btn_sign_up'])) {
-	                // Une demande de création de compte est demandé
-                } elseif (isset($_POST['btn_reset'])) {
-                    if ($type_langue === 'english') {
-                        header("Location: /btn_login-user/reset-pwd/create-email-temp-pwd.php?langue=english");
-                    } elseif ($type_langue === 'francais') {
-                        header("Location: /btn_login-user/reset-pwd/create-email-temp-pwd.php?langue=francais");
-                    }
-	                
-                } elseif (isset($_POST['btn_return'])) {
-	                // Une demande pour quitter la page de connexion, pour retourner à accueil
-	                if ($type_langue === 'english') {
-		                header("Location: /english/english.html");
-	                } elseif ($type_langue === 'francais') {
-		                header("Location: /index.html");
-	                }
-                } elseif (isset($_POST['btn_login'])) {
-	                // La connexion aux statistique a réussi soit avec un user admin ou un user normal
+                // En fonction de la langue
+                if ($type_langue === 'english') {
+                    header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=english");
+                } elseif ($type_langue === 'francais') {
+                    header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=francais");
                 }
-			}
+                
+				// Une demande pour quitter la page de connexion, pour revenir à l'accueil
+            } elseif (isset($_POST['btn_return'])) {
+            
+				// En fonction de la langue
+                if ($type_langue === 'english') {
+                    header("Location: /english/english.html");
+                } elseif ($type_langue === 'francais') {
+                    header("Location: /index.html");
+                }
+            }
 		}
 		
 		exit; // On va sortir ici, après avoir loader la bonne page web

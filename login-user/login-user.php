@@ -311,14 +311,33 @@
 				header("Location: /erreur/erreur.php");
 				
 			} else {
-                // La connexion aux statistique a réussi soit avec un user admin ou un user normal
-                // Une demande de création de compte est demandé
-                // Une demande de changement de password est demandé
-                // Une demande pour quitte rla page de connexion
+                
+                
+                
+                //
+                if (isset($_POST['btn_sign_up'])) {
+	                // Une demande de création de compte est demandé
+                } elseif (isset($_POST['btn_reset'])) {
+                    if ($type_langue === 'english') {
+                        header("Location: /btn_login-user/reset-pwd/create-email-temp-pwd.php?langue=english");
+                    } elseif ($type_langue === 'francais') {
+                        header("Location: /btn_login-user/reset-pwd/create-email-temp-pwd.php?langue=francais");
+                    }
+	                
+                } elseif (isset($_POST['btn_return'])) {
+	                // Une demande pour quitter la page de connexion, pour retourner à accueil
+	                if ($type_langue === 'english') {
+		                header("Location: /english/english.html");
+	                } elseif ($type_langue === 'francais') {
+		                header("Location: /index.html");
+	                }
+                } elseif (isset($_POST['btn_login'])) {
+	                // La connexion aux statistique a réussi soit avec un user admin ou un user normal
+                }
 			}
 		}
 		
-		exit; // pour arrêter l'exécution du code php
+		exit; // On va sortir ici, après avoir loader la bonne page web
 	}
  
 	// Les fonctions communes

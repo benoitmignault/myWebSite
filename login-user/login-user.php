@@ -12,17 +12,62 @@
 	 */
 	function initialisation(): array {
 		
-		return array("user" => "", "password" => "", "situation" => 0, "type_langue" => "",
+		return array("user" => "", "password" => "", "situation" => 0, "type_langue" => "", "invalid_language" => false,
                      "champs_vide" => false, "champ_vide_user" => false, "champ_vide_pwd" => false,
                      "champs_invalid" => false, "champ_invalid_user" => false, "champ_invalid_pwd" => false, 
                      "user_not_found" => false, "pwd_not_found" => false, "user_admin" => false,
                      "champs_trop_long" => false, "champ_trop_long_user" => false, "champ_trop_long_pwd" => false,
                      "erreur_presente" => false, "id_user" => 0, "liste_mots" => array());
 	}
-
-
-
-
+	
+	/**
+	 * Fonction pour setter les premières informations du GET ou POST
+	 * Aussi, on va récupérer via le POST, les informations relier au email du user
+	 *
+	 * @param array $array_Champs
+	 * @param object $connMYSQL
+	 * @return array
+	 */
+	function remplisage_champs(array $array_Champs, object $connMYSQL): array{
+		
+        // C,est la seule variable qui sera affectée par le GET
+		if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+			
+            // Exceptionnellement, on va faire une validation ici
+			if (isset($_GET['langue'])){
+				$array_Champs["type_langue"] = $_GET['langue'];
+			}
+		}
+	
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+	
+	        // Exceptionnellement, on va faire une validation ici
+	        if (isset($_POST['langue'])){
+		        $array_Champs["type_langue"] = $_POST['langue'];
+	        }
+	
+	        if (isset($_POST['btn_login'])){
+		
+		        if (isset($_POST['user'])){
+			        $array_Champs["user"] = strtolower($_POST['user']);
+		        }
+          
+		        if (isset($_POST['password'])){
+			        $array_Champs["password"] = strtolower($_POST['password']);
+		        }
+	        }
+	        
+         
+        }
+        
+		// Validation commune pour le Get & Post, à propos de la langue
+		// Bug - Anglais au lieu de English, corrigé le 2 janvier
+		if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "english"){
+			$array_Champs["invalid_language"] = true;
+		}
+        
+		return $array_Champs;
+    }
 
     
     function verifChamp($array_Champs, $connMYSQL) {
@@ -248,10 +293,10 @@
 	
 	// Les fonctions communes
 	$connMYSQL = connexion();
+	$array_Champs = initialisation();
+	$array_Champs = remplisage_champs($array_Champs, $connMYSQL);
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $array_Champs = initialChamp(); // est un tableau avec tous les flag erreurs possibles et les infos du user, pwd et le type de situation
-        $array_Champs["type_langue"] = $_GET['langue'];
     
         if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "english") {
             header("Location: /erreur/erreur.php");
@@ -262,8 +307,7 @@
     }
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $array_Champs = initialChamp();
-        $array_Champs["type_langue"] = $_POST['langue'];
+        
         if (isset($_POST['btn-return'])) {
             if ($array_Champs["type_langue"] === 'english') {
                 header("Location: /english/english.html");
@@ -332,7 +376,7 @@
         body {
             margin: 0;
             /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
-            background-image: url("btn_login-background.jpg");
+            background-image: url("login-background.jpg");
             background-position: center;
             background-attachment: fixed;
             background-size: 100%;
@@ -377,6 +421,7 @@
                     <div class="section-reset-btn">
                         <input class="bouton" type='submit' name='btn_login' value="<?php echo $arrayMots['btn_login']; ?>">
                         <input class="bouton" type='submit' name='btn_sign_up' value="<?php echo $arrayMots['btn_signUp']; ?>">
+                        <input class="bouton" id="faire_menage_total" type="reset" value="Effacer...">
                         <input class="bouton" type='submit' name='reset' value="<?php echo $arrayMots['btn_reset']; ?>">
                         <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                     </div>

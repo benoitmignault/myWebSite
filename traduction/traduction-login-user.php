@@ -11,7 +11,7 @@
 		
 		$liste_mots = array("lang" => "", 'emailInfo' => "", 'title' => "", 'email' => "", 'p1' => "", 'li1' => "",
 		                     'li2' => "", 'li3' => "", 'legend' => "", 'usager' => "", 'mdp' => "", 'btn_login' => "",
-		                     'btn_signUp' => "", 'btn_reset' => "", 'btn_return' => "", 'message' => "");
+		                     "btn_effacer" => "", 'btn_signUp' => "", 'btn_reset' => "", 'btn_return' => "", 'message' => "");
 		
 		if ($type_langue === 'francais') {
 			$liste_mots["lang"] = "fr";
@@ -25,7 +25,8 @@
 			$liste_mots["pwd"] = "Mot de passe :";
 			$liste_mots["btn_login"] = "Se Connecter";
 			$liste_mots["btn_sign_up"] = "S'inscrire";
-			$liste_mots["btn_reset"] = "Mot de passe oublié ?";
+			$liste_mots["btn_reset_pwd"] = "Mot de passe oublié ?";
+			$liste_mots["btn_reset"] = "Effacer";
 			$liste_mots["btn_return"] = "Accueil";
 			
 		} elseif ($type_langue === 'english') {
@@ -40,7 +41,8 @@
 			$liste_mots["pwd"] = "Password :";
 			$liste_mots["btn_login"] = "Login";
 			$liste_mots["btn_sign_up"] = "Sign Up";
-			$liste_mots["btn_reset"] = "Forgot password ?";
+			$liste_mots["btn_reset"] = "Erase";
+			$liste_mots["btn_reset_pwd"] = "Forgot password ?";
 			$liste_mots["btn_return"] = "Home";
 		}
 		

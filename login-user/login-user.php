@@ -222,16 +222,17 @@
         }
         return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
     }
-    
-    // Selon une recommandation :
-    // https://stackoverflow.com/questions/30279321/how-to-use-password-hash
-    // On ne doit pas jouer avec le salt....
-    function encryptementPassword(string $password) {
-        
-        $passwordCrypter = password_hash($password, PASSWORD_BCRYPT);
-        
-        return $passwordCrypter;
-    }
+	
+	/**
+	 * Fonction simplement pour encrypter une information
+	 *
+	 * @param string $password
+	 * @return string
+	 */
+	function encryptement_password(string $password): string {
+		
+		return password_hash($password, PASSWORD_BCRYPT);
+	}
     
     function connexionUser($array_Champs, $connMYSQL) {
         

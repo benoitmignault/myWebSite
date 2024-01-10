@@ -67,19 +67,14 @@
         
 		return $array_Champs;
     }
-
-    
-    function validation_champs($array_Champs, $connMYSQL) {
+	
+	/**
+	 * Fonction qui servira à mettre à «True» les variables de contrôles des informations que nous avons associé durant la fonction @see remplisage_champs
+	 * @param $array_Champs
+	 * @return array
+	 */
+    function validation_champs($array_Champs): array {
         
-        if (isset($_POST['btn_sign_up']) || isset($_POST['btn_login'])){
-            $array_Champs["user"] = strtolower($_POST['user']);
-            $array_Champs["password"] = $_POST['password'];
-        }
-    
-        if (isset($_POST['btn_sign_up'])){
-            $array_Champs["email"] = $_POST['email'];
-        }
-    
         if (empty($array_Champs['user'])){
             $array_Champs['champ_vide_user'] = true;
         }
@@ -87,89 +82,28 @@
         if (empty($array_Champs['password'])){
             $array_Champs['champ_vide_pwd'] = true;
         }
-    
-        // Cette validation doit exclure si on pèse sur le bouton btn_login
-        if (empty($array_Champs['email']) && isset($_POST['btn_sign_up'])){
-            $array_Champs['champVideEmail'] = true;
-        }
-    
-        // Simplification des array_Champs vide pour plutard...
-        if (($array_Champs['champ_vide_user'] || $array_Champs['champ_vide_pwd'] || $array_Champs['champVideEmail'])){
+        
+        // Activation de la variable de contrôle, si on a un des champs vides
+        if ($array_Champs['champ_vide_user'] || $array_Champs['champ_vide_pwd']){
             $array_Champs['champs_vide'] = true;
         }
     
-        $longueur_user = strlen($array_Champs['user']);
-        $longueur_pwd = strlen($array_Champs['password']);
-    
-        if ($longueur_user > 15) {
-            $array_Champs['champ_trop_long_user'] = true;
-        }
-    
-        if ($longueur_pwd > 25){
-            $array_Champs['champ_trop_long_pwd'] = true;
-        }    
-    
-        // Simplification des array_Champs trop long pour plutard...
-        if ($array_Champs['champ_trop_long_user'] || $array_Champs['champ_trop_long_pwd']){
-            $array_Champs['champs_trop_long'] = true;
-        }
-    
-        // On ne doit pas avoir de caractères spéciaux dans l'username
-        // ajout du underscore pour le user name
-        $pattern_user = "#^[0-9a-z]([0-9a-z_]{0,13})[0-9a-z]$#";
+        // On ne doit pas avoir de caractères spéciaux dans le champ user, avant d'en faire la vérification dans la BD
+        
+        $pattern_user = "#^[0-9a-z][0-9a-z_]{1,13}[0-9a-z]$#";
         if (!preg_match($pattern_user, $array_Champs['user'])) {
             $array_Champs['champ_invalid_user'] = true;
         }
     
         // On ne doit pas avoir de caractères spéciaux dans le mot de passe
-        $pattern_pwd = "#^[0-9a-zA-Z]([0-9a-zA-Z]{0,23})[0-9a-zA-Z]$#";
+        $pattern_pwd = "#^[0-9a-z][0-9a-z]{1,23}[0-9a-z]$#";
         if (!preg_match($pattern_pwd, $array_Champs['password'])) {
             $array_Champs['champ_invalid_pwd'] = true;
         }
-    
-        if (($array_Champs['champ_invalid_user'] || $array_Champs['champ_invalid_pwd'] || $array_Champs['champInvalidEmail'])){
+        
+	    // Activation de la variable de contrôle, si on a un des champs invalides
+        if ($array_Champs['champ_invalid_user'] || $array_Champs['champ_invalid_pwd']){
             $array_Champs['champs_invalid'] = true;
-        }
-    
-        if (!$array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && $array_Champs['user'] == $array_Champs['password']){
-            $array_Champs['sameUserPWD'] = true;
-        }
-    
-        // Instauration de la validation si le user et ou email est dejà existant seulement si on veut créer un user
-        if (isset($_POST['btn_sign_up'])){
-            // Retourner un message erreur si la BD a eu un problème !
-    
-            // Optimisation pour avoir directement la valeur qui nous intéreste
-            $stmt = $connMYSQL->prepare("select user, email from btn_login where user =? OR email =? ");
-    
-            /* Lecture des marqueurs */
-            $stmt->bind_param("ss", $array_Champs['user'], $array_Champs['email']);
-    
-            /* Exécution de la requête */
-            $stmt->execute();
-    
-            /* Association des variables de résultat */
-            $result = $stmt->get_result();
-            $row_cnt = $result->num_rows;
-            
-            if ($row_cnt !== 0){
-                foreach ($result as $row) {
-                    if ($row['user'] === $array_Champs['user']) {
-                        $array_Champs['duplicatUser'] = true;
-                    }
-    
-                    if ($row['email'] === $array_Champs['email']) {
-                        $array_Champs['duplicatEmail'] = true;
-                    }
-                }
-            }
-            
-	        // Close statement
-	        $stmt->close();
-        }
-    
-        if ($array_Champs['duplicatEmail'] || $array_Champs['duplicatUser']){
-            $array_Champs['duplicate'] = true;
         }
     
         return $array_Champs;

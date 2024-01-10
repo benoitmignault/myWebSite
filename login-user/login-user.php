@@ -68,7 +68,7 @@
     }
 
     
-    function verifChamp($array_Champs, $connMYSQL) {
+    function validation_champs($array_Champs, $connMYSQL) {
         
         if (isset($_POST['btn_sign_up']) || isset($_POST['btn_login'])){
             $array_Champs["user"] = strtolower($_POST['user']);
@@ -349,21 +349,17 @@
 	    // Si la langue n'est pas setter, on va rediriger vers la page Err 404
 	    if ($array_Champs["invalid_language"]) {
 		    redirection("", false); // On n'a pas besoin de cette variable
-	    } else {
-		    // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
-		    $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
 	    }
     } // Fin du GET pour faire afficher la page web
 	
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	    
-        if (isset($_POST['btn_sign_up']) || isset($_POST['btn_return']) || isset($_POST['btn_reset'])) {
+        if (isset($_POST['btn_sign_up']) || isset($_POST['btn_return']) || isset($_POST['btn_reset_pwd'])) {
 	        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]); // On n'a pas besoin de cette variable
-        
-        } else {
-            $array_Champs = verifChamp($array_Champs, $connMYSQL);
-            // Si le bouton se connecter est pesé...
-            if (isset($_POST['btn_login'])) {
+	
+	        // Si le bouton se connecter est pesé...
+        } elseif (isset($_POST['btn_login'])) {
+	            $array_Champs = validation_champs($array_Champs, $connMYSQL);
                 // Comme j'ai instauré une foreign key entre la table login_stat_poker vers btn_login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
                 /* Crée une requête préparée */
                 $stmt = $connMYSQL->prepare("select id from btn_login where user =?");

@@ -18,7 +18,6 @@
                      "champs_vide" => false, "champ_vide_user" => false, "champ_vide_pwd" => false,
                      "champs_invalid" => false, "champ_invalid_user" => false, "champ_invalid_pwd" => false, 
                      "user_not_found" => false, "pwd_not_found" => false, "user_admin" => false,
-                     "champs_trop_long" => false, "champ_trop_long_user" => false, "champ_trop_long_pwd" => false,
                      "erreur_presente" => false, "id_user" => 0, "liste_mots" => array());
 	}
 	
@@ -305,7 +304,7 @@
 		}
 		
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			
+   
 			if ($invalid_language){
 				header("Location: /erreur/erreur.php");
     

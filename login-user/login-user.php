@@ -30,10 +30,9 @@
 	 */
 	function remplissage_champs(array $array_Champs): array{
 		
-        // C,est la seule variable qui sera affectée par le GET
+        // C'est la seule variable qui sera affectée par le GET
 		if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-			
-            // Exceptionnellement, on va faire une validation ici
+   
 			if (isset($_GET['langue'])){
 				$array_Champs["type_langue"] = $_GET['langue'];
 			}
@@ -49,15 +48,18 @@
 	        if (isset($_POST['btn_login'])){
 		
 		        if (isset($_POST['user'])){
+                    // On met tous en minuscule pour gérer la suite des choses
 			        $array_Champs["user"] = strtolower($_POST['user']);
 		        }
           
 		        if (isset($_POST['password'])){
+			        // On met tous en minuscule pour gérer la suite des choses
 			        $array_Champs["password"] = strtolower($_POST['password']);
 		        }
 	        }
         }
         
+		// Exceptionnellement, on va faire une validation ici
 		// Validation commune pour le Get & Post, à propos de la langue
 		if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "english"){
 			$array_Champs["invalid_language"] = true;

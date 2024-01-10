@@ -177,7 +177,7 @@
     function situation($array_Champs) {
         
         $typeSituation = 0;
-        // Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexionUser
+        // Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexion_user
         if (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])) {
             $typeSituation = 1;
         } elseif (!$array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
@@ -194,7 +194,7 @@
             $typeSituation = 7;
         } elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && isset($_POST['btn_login'])){
             $typeSituation = 8;
-            // Fin : Section où nous n'avons pas entré dans les fonctions creationUser et connexionUser
+            // Fin : Section où nous n'avons pas entré dans les fonctions creationUser et connexion_user
         } elseif ($array_Champs['user_not_found'] && isset($_POST['btn_login'])) {
             $typeSituation = 9;
         } elseif ($array_Champs['pwd_not_found'] && isset($_POST['btn_login'])) {
@@ -232,7 +232,7 @@
 		return password_hash($password, PASSWORD_BCRYPT);
 	}
     
-    function connexionUser($array_Champs, $connMYSQL) {
+    function connexion_user($array_Champs, $connMYSQL) {
         
         /* Crée une requête préparée */
         $stmt = $connMYSQL->prepare("select user, password from btn_login where user =? ");
@@ -380,17 +380,20 @@
     
                 $array_Champs["id_user"] = $row["id"];	// Assignation de la valeur
                 if (!$array_Champs["champs_vide"] && !$array_Champs["champs_trop_long"] && !$array_Champs["champs_invalid"] ) {
-                    $array_Champs = connexionUser($array_Champs, $connMYSQL);
+                    $array_Champs = connexion_user($array_Champs, $connMYSQL);
                 }
-            }
-            $array_Champs["situation"] = situation($array_Champs); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
-            $arrayMots = traduction($array_Champs);  // Affichage des mots en français ou en anglais selon le paramètre du get de départ et suivi dans le post par la suite
+	        // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
+            $array_Champs["situation"] = situation($array_Champs);
         }
     }
+    // On va faire la traduction, à la fin des GEt & POST
+	// La variable de situation est encore à 0 pour le GET, donc aucun message
+	$array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+ 
 	$connMYSQL->close();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $arrayMots['lang']; ?>">
+<html lang="<?php echo $array_Champs["liste_mots"]['lang']; ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

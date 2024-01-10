@@ -1,6 +1,6 @@
 <?php
 	// Les includes nécessaires
-	include_once("../traduction/traduction-btn_login-user.php");
+	include_once("../traduction/traduction-login-user.php");
 	include_once("../includes/fct-connexion-bd.php");
 	
 	/**
@@ -388,7 +388,7 @@
                 <p> <?php echo $arrayMots['message']; ?> </p>
             </div>
             <div class="section-retour-btn">
-                <form method="post" action="btn_login-user.php">
+                <form method="post" action="login-user.php">
                     <input class="bouton" type="submit" name="btn-return" value="<?php echo $arrayMots['btn_return']; ?>">
                     <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                 </form>

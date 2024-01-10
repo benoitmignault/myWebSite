@@ -60,7 +60,6 @@
         }
         
 		// Validation commune pour le Get & Post, à propos de la langue
-		// Bug - Anglais au lieu de English, corrigé le 2 janvier
 		if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "english"){
 			$array_Champs["invalid_language"] = true;
 		}

@@ -228,64 +228,37 @@
         
         return $array_Champs;
     }
-    
 	
-    
-    function connexion_user($array_Champs) {
+	
+	/**
+     * Fonction pour rediriger le user vers la bonne page web, après toutes les validations
+     *
+	 * @param array $array_Champs
+	 * @return void
+	 */
+	#[NoReturn] function connexion_user(array $array_Champs): void {
         
-        /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("select user, password from btn_login where user =? ");
-    
-        /* Lecture des marqueurs */
-        $stmt->bind_param("s", $array_Champs['user']);
-    
-        /* Exécution de la requête */
-        $stmt->execute();
-    
-        /* Association des variables de résultat */
-        $result = $stmt->get_result();
-        $row = $result->fetch_array(MYSQLI_ASSOC);
-        $row_cnt = $result->num_rows;
-    
-        /* close statement and connection */
-        $stmt->close();
-    
-        if ($row_cnt == 1){
-            if (password_verify($array_Champs['password'], $row['password'])) {
-                session_start();
-                $_SESSION['user'] = $array_Champs['user'];
-                $_SESSION['password'] = $array_Champs['password'];
-                $_SESSION['type_langue'] = $array_Champs["type_langue"];
-                date_default_timezone_set('America/New_York');
-                // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
-                // Je set un cookie pour améliorer la sécurité pour vérifier que l'user est bien là...2018-12-28
-                setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
-                $date = date("Y-m-d H:i:s");
-    
-                if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/gestion-stats.php");
-                } else {
-                    // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques
-                    // Prepare an insert statement
-                    $sql = "INSERT INTO login_stat_poker (user, date, id_user) VALUES (?,?,?)";
-                    $stmt = $connMYSQL->prepare($sql);
-    
-                    // Bind variables to the prepared statement as parameters
-                    $stmt->bind_param('ssi', $array_Champs['user'], $date, $array_Champs['id_user']);
-                    $stmt->execute();
-    
-                    // Close statement
-                    $stmt->close();
-                    header("Location: ./statsPoker/poker.php");
-                }
-                exit;
-           
+        // Ouverture du cookie pour laisser une heure de consultation des statistiques de poker
+        session_start();
+        $_SESSION['user'] = $array_Champs['user'];
+        $_SESSION['password'] = $array_Champs['password'];
+        $_SESSION['type_langue'] = $array_Champs["type_langue"];
+        
+        // Si nous avons un user autre qu'un admin, on démarre le cookie, sinon on va attendre pour l'admin
+        if (!$array_Champs['user_admin']){
+	        setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
+            
+            // Redirection d'un user normal
+	        header("Location: /login-user/poker-stats/show-stats/stats.php");
+        } else {
+            // Redirection d'un admin pour faire l'ajout des statistiques de poker
+	        header("Location: /login-user/poker-stats/gestion-stats/gestion-stats.php");
+        }
+        
+		exit;
     }
 	
-	
-	
-	
-	
+	// À valider
 	function situation_erreur($array_Champs) {
 		
 		$typeSituation = 0;

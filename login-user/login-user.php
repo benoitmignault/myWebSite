@@ -188,9 +188,14 @@
         // On compare le password saisie avec celui qui était dans la BD avec le user
         return password_verify($password, $password_bd);
     }
-    
-    
-    
+		
+	/**
+     * Fonction qui sera utilisée pour ajouter un log dans la table pour voir qui se connecter sur la page des statistiques de poker
+     *
+	 * @param mysqli $connMYSQL
+	 * @param array $array_Champs
+	 * @return array
+	 */
     function requete_SQL_ajout_log_connexion(mysqli $connMYSQL, array $array_Champs): array {
 	    
         // Ici, on va saisir une entrée dans la BD pour savoir qui se connecte aux statistiques de poker
@@ -209,7 +214,7 @@
 	    } catch (Exception $err){
 		    // Récupérer les messages d'erreurs
 		    $array_Champs["message_erreur_bd"] = $err->getMessage();
-            
+      
 		    // Sera utilisée pour faire afficher le message erreur spécial
 		    $array_Champs["erreur_system_bd"] = true;
 	    } finally {

@@ -14,7 +14,7 @@
 	 */
 	function initialisation(): array {
 		
-		return array("user" => "", "password" => "", "situation" => 0, "type_langue" => "", "invalid_language" => false,
+		return array("user" => "", "password" => "", "password_bd" => "", "situation" => 0, "type_langue" => "", "invalid_language" => false,
                      "champs_vide" => false, "champ_vide_user" => false, "champ_vide_pwd" => false,
                      "champs_invalid" => false, "champ_invalid_user" => false, "champ_invalid_pwd" => false, 
                      "user_not_found" => false, "pwd_not_found" => false, "user_admin" => false,

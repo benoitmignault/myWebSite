@@ -420,14 +420,14 @@
                 <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
                 <form method="post" action="login-user.php">
                     <div class="connexion">
-                        <div class="information <?php if ($array_Champs['champ_vide_user'] || $array_Champs['champ_invalid_user'] || $array_Champs['user_not_found'] || $array_Champs['champ_trop_long_user']) { echo 'erreur'; } ?>">
+                        <div class="information <?php if ($array_Champs['champ_vide_user'] || $array_Champs['champ_invalid_user'] || $array_Champs['user_not_found']) { echo 'erreur'; } ?>">
                             <label for="user"><?php echo $array_Champs["liste_mots"]['usager']; ?></label>
                             <div>
                                 <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $array_Champs['user']; ?>" />
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
-                        <div class="information <?php if ($array_Champs['pwd_not_found'] || $array_Champs['champ_vide_pwd'] || $array_Champs['champ_invalid_pwd'] || $array_Champs['champ_trop_long_pwd']) { echo 'erreur';} ?>">
+                        <div class="information <?php if ($array_Champs['pwd_not_found'] || $array_Champs['champ_vide_pwd'] || $array_Champs['champ_invalid_pwd']) { echo 'erreur';} ?>">
                             <label for="password"><?php echo $array_Champs["liste_mots"]['pwd']; ?></label>
                             <div>
                                 <input id="password" type='password' maxlength="25" name="password" value="<?php echo $array_Champs['password']; ?>" />

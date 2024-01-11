@@ -140,10 +140,14 @@
 		
 		/* Association des variables de résultat */
 		$result = $stmt->get_result();
-  
+		
+		// Close statement
+		$stmt->close();
+		
 		// Retourne l'information des informations de connexion, si existant...
 		return recuperation_info_connexion($connMYSQL, $result, $array_Champs);
     }
+    
 	/**
 	 * Fonction pour récupérer les informations du user en prévision de la connexion, si tout est valide.
      * Cette fonction sera @see requete_SQL_verification_user

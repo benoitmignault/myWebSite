@@ -212,7 +212,6 @@
             
 		    // Sera utilisée pour faire afficher le message erreur spécial
 		    $array_Champs["erreur_system_bd"] = true;
-      
 	    } finally {
 		    // Fermer la préparation de la requête
 		    $stmt->close();

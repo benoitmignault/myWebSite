@@ -346,14 +346,20 @@
 	    }
     } // Fin du GET pour faire afficher la page web
 	
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	    
         if (isset($_POST['btn_sign_up']) || isset($_POST['btn_return']) || isset($_POST['btn_reset_pwd'])) {
 	        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]); // On n'a pas besoin de cette variable
 	
 	        // Si le bouton se connecter est pesé...
         } elseif (isset($_POST['btn_login'])) {
-	            $array_Champs = validation_champs($array_Champs, $connMYSQL);
+                // On passe à travers les champs pour vérifier les informations
+	            $array_Champs = validation_champs($array_Champs);
+                
+                // On va vérifier que le user et password existe bel et bien
+                $array_Champs = requete_SQL_verification_user($array_Champs, $connMYSQL);
+                
+                exit;
                 // Comme j'ai instauré une foreign key entre la table login_stat_poker vers btn_login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
                 /* Crée une requête préparée */
                 $stmt = $connMYSQL->prepare("select id from btn_login where user =?");

@@ -417,23 +417,22 @@
 	                // On va vérifier si le password est le même que celui en BD
 	                $array_Champs['pwd_not_found'] = validation_password_bd($array_Champs["password"], $array_Champs["password_bd"]);
                 }
-	
+                
                 // Comme le password a été trouvé, on peut maintenant rediriger le user vers la page des stats de poker ou la page de gestion
                 if (!$array_Champs['pwd_not_found']){
-                
-                
+                 
+	                date_default_timezone_set('America/New_York');
+                    // Si le user n'est pas admin pour ajouter des statistiques de poker, on va ajouter tout de suite le log de stat
+	                if (!$array_Champs['user_admin']){
+		                $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
+	                }
+                    
+                    // Maintenant, on peut connecter le user à la page nécessaire
+	                connexion_user($array_Champs);
                 }
                 
-                
-                var_dump($array_Champs);
-                exit;
-                
-                
-                if (!$array_Champs["champs_vide"] && !$array_Champs["champs_trop_long"] && !$array_Champs["champs_invalid"] ) {
-                    $array_Champs = connexion_user($array_Champs, $connMYSQL);
-                }
-	        // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
-            $array_Champs["situation"] = situation_erreur($array_Champs);
+	            // Si nous arrivons ici, nous avons un problème, donc une situation d'erreur avec un message approprié
+                $array_Champs["situation"] = situation_erreur($array_Champs);
         }
     }
     // On va faire la traduction, à la fin des GEt & POST

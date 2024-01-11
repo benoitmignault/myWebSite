@@ -7,7 +7,7 @@
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.
-	 * Une partie des variables de type string ou integer et une autre partie en boolean
+	 * Une partie des variables de type string ou int et une autre partie en boolean
 	 * On va ajouter un array pour les mots traduits ou non
 	 *
 	 * @return array
@@ -261,51 +261,44 @@
 		exit;
     }
 	
-	// À valider
-	function situation_erreur($array_Champs) {
+	/**
+     * On passe à travers tout les scénarios possible d'erreur
+     *
+	 * @param array $array_Champs
+	 * @return int
+	 */
+	function situation_erreur(array $array_Champs): int {
 		
 		$type_situation = 0;
-		// Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexion_user
-		if (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])) {
-			$type_situation = 1;
-		} elseif (!$array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-			$type_situation = 2;
-		} elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && !$array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-			$type_situation = 3;
-		} elseif (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && !$array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-			$type_situation = 4;
-		} elseif ($array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && !$array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-			$type_situation = 5;
-		} elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-			$type_situation = 6;
-		} elseif (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && isset($_POST['btn_login'])){
-			$type_situation = 7;
-		} elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && isset($_POST['btn_login'])){
-			$type_situation = 8;
-			// Fin : Section où nous n'avons pas entré dans les fonctions creationUser et connexion_user
-		} elseif ($array_Champs['user_not_found'] && isset($_POST['btn_login'])) {
-			$type_situation = 9;
-		} elseif ($array_Champs['pwd_not_found'] && isset($_POST['btn_login'])) {
-			$type_situation = 10;
-		} elseif ($array_Champs['sameUserPWD'] && isset($_POST['btn_sign_up'])) {
-			$type_situation = 11;
-		} elseif ($array_Champs['duplicatUser'] && isset($_POST['btn_sign_up'])) {
-			$type_situation = 12;
-		} elseif ($array_Champs['duplicatEmail'] && isset($_POST['btn_sign_up'])) {
-			$type_situation = 18;
-		} elseif ($array_Champs['champs_vide']) {
-			$type_situation = 13;
-		} elseif ($array_Champs['champInvalidEmail']) {
-			$type_situation = 17;
-		} elseif ($array_Champs['champs_trop_long']) {
-			$type_situation = 14;
-		} elseif ($array_Champs['champs_invalid']) {
-			$type_situation = 15;
-		} elseif ($array_Champs['creationUserSuccess'] && isset($_POST['btn_sign_up']) ) {
-			$type_situation = 16;
-		} elseif (!$array_Champs['creationUserSuccess'] && isset($_POST['btn_sign_up']) ) {
-			$type_situation = 34;
-		}
+        
+        if ($array_Champs["champs_vide"]){
+	        $type_situation = 1;
+         
+        } elseif ($array_Champs["champ_vide_user"] && !$array_Champs["champ_vide_pwd"]){
+	        $type_situation = 2;
+         
+        } elseif (!$array_Champs["champ_vide_user"] && $array_Champs["champ_vide_pwd"]){
+	        $type_situation = 3;
+	
+        } elseif ($array_Champs["user_not_found"]){
+	        $type_situation = 4;
+	
+        } elseif ($array_Champs["champs_invalid"]){
+	        $type_situation = 5;
+	
+        } elseif ($array_Champs["champ_invalid_user"] && !$array_Champs["champ_invalid_pwd"]){
+	        $type_situation = 6;
+	
+        } elseif (!$array_Champs["champ_invalid_user"] && $array_Champs["champ_invalid_pwd"]){
+	        $type_situation = 7;
+	
+        } elseif ($array_Champs["pwd_not_found"]){
+	        $type_situation = 8;
+	
+        } elseif ($array_Champs["erreur_system_bd"]){
+	        $type_situation = 9;
+        }
+        
 		return $type_situation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
 	}
 	

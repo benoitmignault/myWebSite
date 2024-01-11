@@ -102,14 +102,14 @@
 		
 		$message = "";
 		switch ($situation) {
-			case 7 : $message = "When you log in, you have not entered anything in the «Password» field !"; break;
-			case 8 : $message = "When you log in, you have not entered anything in the «Username» field !"; break;
-			case 9 : $message = "When you log in, the «username» entered does not exist !"; break;
-			case 10 : $message = "When you log in, your «password» entered is invalid with your user !<br>
-        If you have forgotten your password, please press the «Forgot password ?» button and follow the instructions."; break;
-			case 13 : $message = "Be careful, all the fields are empty !"; break;
-			case 15 : $message = "Warning, the fields can only contain alphanumeric characters !"; break;
-			case 16 : $message = "Congratulations ! Your account has been successfully created !"; break;
+			case 1 : $message = "All fields are empty, please enter something !"; break;
+			case 2 : $message = "The « Username » field cannot be empty! "; break;
+			case 3 : $message = "The « Password » field cannot be empty !";	break;
+			case 4 : $message = "Username does not exist in our database !"; break;
+			case 5 : $message = "All fields are invalid, please enter something valid !"; break;
+			case 6 : $message = "The username is invalid !"; break;
+			case 7 : $message = "The password is invalid !"; break;
+			case 8 : $message = "The username exists, but the password entered is not the one we have in our database !"; break;
 		}
 		
 		return $message;

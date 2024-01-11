@@ -359,38 +359,41 @@
     } // Fin du GET pour faire afficher la page web
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	    
+        
         if (isset($_POST['btn_sign_up']) || isset($_POST['btn_return']) || isset($_POST['btn_reset_pwd'])) {
 	        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]); // On n'a pas besoin de cette variable
 	
 	        // Si le bouton se connecter est pesé...
         } elseif (isset($_POST['btn_login'])) {
+            
                 // On passe à travers les champs pour vérifier les informations
 	            $array_Champs = validation_champs($array_Champs);
                 
-                // On va vérifier que le user et password existe bel et bien
-                $array_Champs = requete_SQL_verification_user($array_Champs, $connMYSQL);
+                // On vérifie que nous n'avons pas d'erreur dans les validations
+                if (!$array_Champs['erreur_presente']){
+                 
+	                // On va vérifier que le user existe bel et bien et retourne des informations relier au user
+	                $array_Champs = requete_SQL_verification_user($connMYSQL, $array_Champs);
+                }
+	
+                // Avant d'aller plus loin, on valide que le user existe bien
+                if (!$array_Champs['user_not_found']){
+                 
+	                // On va vérifier si le password est le même que celui en BD
+	                $array_Champs['pwd_not_found'] = validation_password_bd($array_Champs["password"], $array_Champs["password_bd"]);
+                }
+	
+                // Comme le password a été trouvé, on peut maintenant rediriger le user vers la page des stats de poker ou la page de gestion
+                if (!$array_Champs['pwd_not_found']){
                 
+                
+                }
+                
+                
+                var_dump($array_Champs);
                 exit;
-                // Comme j'ai instauré une foreign key entre la table login_stat_poker vers btn_login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-                /* Crée une requête préparée */
-                $stmt = $connMYSQL->prepare("select id from btn_login where user =?");
-    
-                /* Lecture des marqueurs */
-                $stmt->bind_param("s", $array_Champs["user"]);
-    
-                /* Exécution de la requête */
-                $stmt->execute();
-    
-                /* Association des variables de résultat */
-                $result = $stmt->get_result();
-    
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-    
-                // Close statement
-                $stmt->close();
-    
-                $array_Champs["id_user"] = $row["id"];	// Assignation de la valeur
+                
+                
                 if (!$array_Champs["champs_vide"] && !$array_Champs["champs_trop_long"] && !$array_Champs["champs_invalid"] ) {
                     $array_Champs = connexion_user($array_Champs, $connMYSQL);
                 }

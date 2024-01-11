@@ -92,7 +92,6 @@
         }
     
         // On ne doit pas avoir de caractères spéciaux dans le champ user, avant d'en faire la vérification dans la BD
-        
         $pattern_user = "#^[0-9a-z][0-9a-z_]{1,13}[0-9a-z]$#";
         if (!preg_match($pattern_user, $array_Champs['user'])) {
             $array_Champs['champ_invalid_user'] = true;
@@ -117,11 +116,11 @@
 	 * Fonction qui servira à valider si le user existe existant avec le bon password
 	 * On va aussi valider si le l'user est un user admin ou pas, pour savoir dans quelle page diriger le user
      *
-	 * @param array $array_Champs
 	 * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
+     * @param array $array_Champs
 	 * @return array
 	 */
-	function requete_SQL_verification_user(array $array_Champs, mysqli $connMYSQL): array {
+	function requete_SQL_verification_user(mysqli $connMYSQL, array $array_Champs): array {
 		
 		$select = "SELECT ID, PASSWORD, ADMIN ";
 		$from = "FROM login ";

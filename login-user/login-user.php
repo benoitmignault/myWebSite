@@ -233,7 +233,6 @@
         return $array_Champs;
     }
 	
-	
 	/**
      * Fonction pour rediriger le user vers la bonne page web, après toutes les validations
      *
@@ -460,7 +459,7 @@
                                 <span class="obligatoire">&nbsp;*</span>
                             </div>
                         </div>
-                        <div class="information <?php if ($array_Champs['pwd_not_found'] || $array_Champs['champ_vide_pwd'] || $array_Champs['champ_invalid_pwd']) { echo 'erreur';} ?>">
+                        <div class="information <?php if ($array_Champs['champ_vide_pwd'] || $array_Champs['champ_invalid_pwd'] || $array_Champs['pwd_not_found']) { echo 'erreur';} ?>">
                             <label for="password"><?php echo $array_Champs["liste_mots"]['pwd']; ?></label>
                             <div>
                                 <input id="password" type='password' maxlength="25" name="password" value="<?php echo $array_Champs['password']; ?>" />

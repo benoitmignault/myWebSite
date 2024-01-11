@@ -176,8 +176,19 @@
         
         return $array_Champs;
     }
+	
+	/**
+     * Fonction pour valider que le password est celui qui est dans la BD en faisant une comparaison avec l'encryption
+     *
+	 * @param string $password
+	 * @param string $password_bd
+	 * @return bool
+	 */
+	function validation_password_bd(string $password, string $password_bd): bool {
     
-    
+        // On compare le password saisie avec celui qui était dans la BD avec le user
+        return password_verify($password, $password_bd);
+    }
     
     
     

@@ -69,7 +69,9 @@
     }
 	
 	/**
-	 * Fonction qui servira à mettre à «True» les variables de contrôles des informations que nous avons associé durant la fonction @see remplisage_champs
+	 * Fonction qui servira à mettre à «True» les variables de contrôles des informations
+     * que nous avons associé durant la fonction @see remplissage_champs
+     *
 	 * @param $array_Champs
 	 * @return array
 	 */

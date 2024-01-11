@@ -18,7 +18,7 @@
                      "champs_vide" => false, "champ_vide_user" => false, "champ_vide_pwd" => false,
                      "champs_invalid" => false, "champ_invalid_user" => false, "champ_invalid_pwd" => false, 
                      "user_not_found" => false, "pwd_not_found" => false, "user_admin" => false,
-                     "erreur_presente" => false, "id_user" => 0, "liste_mots" => array());
+                     "erreur_system_bd" => false, "erreur_presente" => false, "id_user" => 0, "liste_mots" => array());
 	}
 	
 	/**
@@ -209,6 +209,10 @@
 	    } catch (Exception $err){
 		    // Récupérer les messages d'erreurs
 		    $array_Champs["message_erreur_bd"] = $err->getMessage();
+            
+		    // Sera utilisée pour faire afficher le message erreur spécial
+		    $array_Champs["erreur_system_bd"] = true;
+      
 	    } finally {
 		    // Fermer la préparation de la requête
 		    $stmt->close();

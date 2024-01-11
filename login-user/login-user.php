@@ -495,5 +495,8 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="login-user.js"></script>
 </body>
 </html>

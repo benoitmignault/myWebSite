@@ -92,7 +92,7 @@
         }
     
         // On ne doit pas avoir de caractères spéciaux dans le champ user, avant d'en faire la vérification dans la BD
-        $pattern_user = "#^[0-9a-z][0-9a-z_]{1,13}[0-9a-z]$#";
+        $pattern_user = "#^[0-9a-z][0-9a-z]{1,13}[0-9a-z]$#";
         if (!preg_match($pattern_user, $array_Champs['user'])) {
             $array_Champs['champ_invalid_user'] = true;
         }

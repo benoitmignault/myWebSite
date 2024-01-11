@@ -31,15 +31,11 @@
     text-align: center;
 }
 
-.content > .center > .un {
-    padding-top: 0;
-}
-
 .content > .center > ul {
     margin: 0;
 }
 
-.content > .center > ul li.info {
+.content > .center > ul > .info {
     font-size: 19px;
     margin-bottom: 8px;
 }
@@ -209,18 +205,6 @@ input::placeholder {
     background-color: #FCDEDE;
 }
 
-.erreur input[type="email"] {
-    border-color: red;
-    background-color: #FCDEDE;
-}
-
-.avert > p {
-    font-size: 20px;
-    color: green;
-    text-align: center;
-    font-weight: bold;
-}
-
 .erreur > p {
     font-size: 20px;
     color: red;
@@ -257,7 +241,7 @@ input::placeholder {
         padding-left: 30px;
     }
 
-    .content > .center > ul li.info {
+    .content > .center > ul > .info {
         font-size: 17px;
     }
 

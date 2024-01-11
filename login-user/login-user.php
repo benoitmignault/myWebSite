@@ -311,7 +311,7 @@
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques
                     // Prepare an insert statement
-                    $sql = "INSERT INTO login_stat_poker (user,date,id_user) VALUES (?,?,?)";
+                    $sql = "INSERT INTO login_stat_poker (user, date, id_user) VALUES (?,?,?)";
                     $stmt = $connMYSQL->prepare($sql);
     
                     // Bind variables to the prepared statement as parameters

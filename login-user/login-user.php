@@ -201,7 +201,11 @@
         // Ici, on va saisir une entrée dans la BD pour savoir qui se connecte aux statistiques de poker
 	    $date = date("Y-m-d H:i:s");
 	    
-	    $query = "INSERT INTO login_stat_poker (user, date, id_user) VALUES (?, ?, ?)";
+        $insert = "INSERT INTO";
+        $table = " login_stat_poker ";
+        $colonnes = "(user, date, id_user) ";
+        $values = "VALUES (?, ?, ?)";
+	    $query = $insert . $table . $colonnes . $values;
      
 	    // Préparation de la requête
 	    $stmt = $connMYSQL->prepare($query);

@@ -378,39 +378,39 @@
 	
 	        // Si le bouton se connecter est pesé...
         } elseif (isset($_POST['btn_login'])) {
+	        
+            // On passe à travers les champs pour vérifier les informations
+            $array_Champs = validation_champs($array_Champs);
             
-                // On passe à travers les champs pour vérifier les informations
-	            $array_Champs = validation_champs($array_Champs);
+            // On vérifie que nous n'avons pas d'erreur dans les validations
+            if (!$array_Champs['erreur_presente']){
+             
+                // On va vérifier que le user existe bel et bien et retourner ses informations
+                $array_Champs = requete_SQL_verification_user($connMYSQL, $array_Champs);
                 
-                // On vérifie que nous n'avons pas d'erreur dans les validations
-                if (!$array_Champs['erreur_presente']){
-                 
-	                // On va vérifier que le user existe bel et bien et retourne des informations relier au user
-	                $array_Champs = requete_SQL_verification_user($connMYSQL, $array_Champs);
-                }
-	
-                // Avant d'aller plus loin, on valide que le user existe bien
-                if (!$array_Champs['user_not_found']){
-                 
-	                // On va vérifier si le password est le même que celui en BD
-	                $array_Champs['pwd_not_found'] = validation_password_bd($array_Champs["password"], $array_Champs["password_bd"]);
-                }
-                
-                // Comme le password a été trouvé, on peut maintenant rediriger le user vers la page des stats de poker ou la page de gestion
-                if (!$array_Champs['pwd_not_found']){
-                 
-	                date_default_timezone_set('America/New_York');
-                    // Si le user n'est pas admin pour ajouter des statistiques de poker, on va ajouter tout de suite le log de stat
-	                if (!$array_Champs['user_admin']){
-		                $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
-	                }
-                    
-                    // Maintenant, on peut connecter le user à la page nécessaire
-	                connexion_user($array_Champs);
-                }
-                
-	            // Si nous arrivons ici, nous avons un problème, donc une situation d'erreur avec un message approprié
-                $array_Champs["situation"] = situation_erreur($array_Champs);
+	            // Avant d'aller plus loin, on valide que le user existe bien
+	            if (!$array_Champs['user_not_found']){
+		
+		            // On va vérifier si le password est le même que celui en BD
+		            $array_Champs['pwd_not_found'] = validation_password_bd($array_Champs["password"], $array_Champs["password_bd"]);
+		
+		            // Comme le password a été trouvé, on peut maintenant rediriger le user vers la page des stats de poker ou la page de gestion
+		            if (!$array_Champs['pwd_not_found']){
+			
+			            date_default_timezone_set('America/New_York');
+			            // Si le user n'est pas admin pour ajouter des statistiques de poker, on va ajouter tout de suite le log de stat
+			            if (!$array_Champs['user_admin']){
+				            $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
+			            }
+			
+			            // Maintenant, on peut connecter le user à la page nécessaire
+			            connexion_user($array_Champs);
+		            }
+	            }
+            }
+            
+            // Si nous arrivons ici, nous avons un problème, donc une situation d'erreur avec un message approprié
+            $array_Champs["situation"] = situation_erreur($array_Champs);
         }
     }
     // On va faire la traduction, à la fin des GEt & POST

@@ -104,12 +104,81 @@
 	    // Activation de la variable de contrôle, si on a un des champs invalides
         if ($array_Champs['champ_invalid_user'] || $array_Champs['champ_invalid_pwd']){
             $array_Champs['champs_invalid'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
     
         return $array_Champs;
     }
+	
+	/**
+	 * Fonction qui servira à valider si le user existe existant avec le bon password
+	 * On va aussi valider si le l'user est un user admin ou pas, pour savoir dans quelle page diriger le user
+     *
+	 * @param array $array_Champs
+	 * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
+	 * @return array
+	 */
+	function requete_SQL_verification_user(array $array_Champs, mysqli $connMYSQL): array {
+		
+		$select = "SELECT ID, PASSWORD, ADMIN ";
+		$from = "FROM login ";
+        $where = "WHERE user = ?";
+		
+		// Préparation de la requête SQL avec les parties nécessaires
+		$query = $select . $from . $where;
+  
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		
+		/* Lecture des marqueurs */
+		$stmt->bind_param("s", $array_Champs['user']);
+		
+		/* Exécution de la requête */
+		$stmt->execute();
+		
+		/* Association des variables de résultat */
+		$result = $stmt->get_result();
+  
+		// Retourne l'information des informations de connexion, si existant...
+		return recuperation_info_connexion($connMYSQL, $result, $array_Champs);
+    }
+	/**
+	 * Fonction pour récupérer les informations du user en prévision de la connexion, si tout est valide.
+     * Cette fonction sera @see requete_SQL_verification_user
+	 *
+	 * @param mysqli $connMYSQL -> Doit être présent pour utiliser les notions de MYSQLi
+     * @param object $result -> Le résultat de la requête SQL via la table « login »
+     * @param array $array_Champs
+	 * @return array
+	 */
+	function recuperation_info_connexion(mysqli $connMYSQL, object $result, array $array_Champs): array {
+				
+        // Récupération de la seule ligne possible contenu un array
+		$row = $result->fetch_array(MYSQLI_ASSOC);
+		
+		// Le tableau existe et n'est pas nul
+		if (isset($row) && is_array($row)) {
+            
+            // Assignation des informations pour la connexion
+			$array_Champs['id_user'] = $row["ID"];
+            $array_Champs['password_bd'] = $row["PASSWORD"];
+            
+            if (intval($row["ADMIN"]) === 1){
+	            $array_Champs['user_admin'] = true;
+            }
+		} else {
+            // Le user n'est pas été trouvé, car le résultat est NULL
+			$array_Champs['user_not_found'] = true;
+        }
+        
+        return $array_Champs;
+    }
     
-    function situation($array_Champs) {
+    
+    
+    
+    
+    function situation_erreur($array_Champs) {
         
         $typeSituation = 0;
         // Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexion_user

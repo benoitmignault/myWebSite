@@ -221,61 +221,9 @@
         return $array_Champs;
     }
     
-    
-    
-    
-    
-    
-    function situation_erreur($array_Champs) {
-        
-        $typeSituation = 0;
-        // Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexion_user
-        if (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])) {
-            $typeSituation = 1;
-        } elseif (!$array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-            $typeSituation = 2;
-        } elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && !$array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-            $typeSituation = 3;
-        } elseif (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && !$array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-            $typeSituation = 4;
-        } elseif ($array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && !$array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-            $typeSituation = 5;
-        } elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
-            $typeSituation = 6;
-        } elseif (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && isset($_POST['btn_login'])){
-            $typeSituation = 7;
-        } elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && isset($_POST['btn_login'])){
-            $typeSituation = 8;
-            // Fin : Section où nous n'avons pas entré dans les fonctions creationUser et connexion_user
-        } elseif ($array_Champs['user_not_found'] && isset($_POST['btn_login'])) {
-            $typeSituation = 9;
-        } elseif ($array_Champs['pwd_not_found'] && isset($_POST['btn_login'])) {
-            $typeSituation = 10;
-        } elseif ($array_Champs['sameUserPWD'] && isset($_POST['btn_sign_up'])) {
-            $typeSituation = 11;
-        } elseif ($array_Champs['duplicatUser'] && isset($_POST['btn_sign_up'])) {
-            $typeSituation = 12;
-        } elseif ($array_Champs['duplicatEmail'] && isset($_POST['btn_sign_up'])) {
-            $typeSituation = 18;
-        } elseif ($array_Champs['champs_vide']) {
-            $typeSituation = 13;
-        } elseif ($array_Champs['champInvalidEmail']) {
-            $typeSituation = 17;
-        } elseif ($array_Champs['champs_trop_long']) {
-            $typeSituation = 14;
-        } elseif ($array_Champs['champs_invalid']) {
-            $typeSituation = 15;
-        } elseif ($array_Champs['creationUserSuccess'] && isset($_POST['btn_sign_up']) ) {
-            $typeSituation = 16;
-        } elseif (!$array_Champs['creationUserSuccess'] && isset($_POST['btn_sign_up']) ) {
-            $typeSituation = 34;
-        }
-        return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
-    }
-	
 	
     
-    function connexion_user($array_Champs, $connMYSQL) {
+    function connexion_user($array_Champs) {
         
         /* Crée une requête préparée */
         $stmt = $connMYSQL->prepare("select user, password from btn_login where user =? ");
@@ -323,14 +271,59 @@
                     header("Location: ./statsPoker/poker.php");
                 }
                 exit;
-            } else {
-                $array_Champs['pwd_not_found'] = true;
-            }
-        } else {
-            $array_Champs['user_not_found'] = true;
-        }
-        return $array_Champs;
+           
     }
+	
+	
+	
+	
+	
+	function situation_erreur($array_Champs) {
+		
+		$typeSituation = 0;
+		// Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexion_user
+		if (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])) {
+			$typeSituation = 1;
+		} elseif (!$array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
+			$typeSituation = 2;
+		} elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && !$array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
+			$typeSituation = 3;
+		} elseif (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && !$array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
+			$typeSituation = 4;
+		} elseif ($array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && !$array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
+			$typeSituation = 5;
+		} elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && $array_Champs['champVideEmail'] && isset($_POST['btn_sign_up'])){
+			$typeSituation = 6;
+		} elseif (!$array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd'] && isset($_POST['btn_login'])){
+			$typeSituation = 7;
+		} elseif ($array_Champs['champ_vide_user'] && !$array_Champs['champ_vide_pwd'] && isset($_POST['btn_login'])){
+			$typeSituation = 8;
+			// Fin : Section où nous n'avons pas entré dans les fonctions creationUser et connexion_user
+		} elseif ($array_Champs['user_not_found'] && isset($_POST['btn_login'])) {
+			$typeSituation = 9;
+		} elseif ($array_Champs['pwd_not_found'] && isset($_POST['btn_login'])) {
+			$typeSituation = 10;
+		} elseif ($array_Champs['sameUserPWD'] && isset($_POST['btn_sign_up'])) {
+			$typeSituation = 11;
+		} elseif ($array_Champs['duplicatUser'] && isset($_POST['btn_sign_up'])) {
+			$typeSituation = 12;
+		} elseif ($array_Champs['duplicatEmail'] && isset($_POST['btn_sign_up'])) {
+			$typeSituation = 18;
+		} elseif ($array_Champs['champs_vide']) {
+			$typeSituation = 13;
+		} elseif ($array_Champs['champInvalidEmail']) {
+			$typeSituation = 17;
+		} elseif ($array_Champs['champs_trop_long']) {
+			$typeSituation = 14;
+		} elseif ($array_Champs['champs_invalid']) {
+			$typeSituation = 15;
+		} elseif ($array_Champs['creationUserSuccess'] && isset($_POST['btn_sign_up']) ) {
+			$typeSituation = 16;
+		} elseif (!$array_Champs['creationUserSuccess'] && isset($_POST['btn_sign_up']) ) {
+			$typeSituation = 34;
+		}
+		return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
+	}
 	
 	/**
 	 * Fonction pour rediriger vers la bonne page page extérieur à la page du reset de password

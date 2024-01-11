@@ -377,7 +377,7 @@
                     $array_Champs = connexion_user($array_Champs, $connMYSQL);
                 }
 	        // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
-            $array_Champs["situation"] = situation($array_Champs);
+            $array_Champs["situation"] = situation_erreur($array_Champs);
         }
     }
     // On va faire la traduction, à la fin des GEt & POST

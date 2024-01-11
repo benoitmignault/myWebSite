@@ -17,7 +17,7 @@
 		return array("user" => "", "password" => "", "password_bd" => "", "situation" => 0, "type_langue" => "", "invalid_language" => false,
                      "champs_vide" => false, "champ_vide_user" => false, "champ_vide_pwd" => false,
                      "champs_invalid" => false, "champ_invalid_user" => false, "champ_invalid_pwd" => false, 
-                     "user_not_found" => false, "pwd_not_found" => false, "user_admin" => false,
+                     "user_not_found" => false, "pwd_not_found" => false, "user_admin" => false, "message_erreur_bd" => "",
                      "erreur_system_bd" => false, "erreur_presente" => false, "id_user" => 0, "liste_mots" => array());
 	}
 	
@@ -410,6 +410,13 @@
             
             // Si nous arrivons ici, nous avons un problème, donc une situation d'erreur avec un message approprié
             $array_Champs["situation"] = situation_erreur($array_Champs);
+            
+            // Dans l'éventualité que nous avons une situation spécial avec les connexions à la BD, on va setter le message, ici
+	        if ($array_Champs["situation"] === 9){
+                
+                // C'est un message déjà en anglais, mais comme il n'arrivera pas souvent, on ne fera aucune traduction
+		        $array_Champs["liste_mots"]["message"] = $array_Champs["message_erreur_bd"];
+            }
         }
     }
     // On va faire la traduction, à la fin des GEt & POST

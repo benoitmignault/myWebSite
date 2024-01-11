@@ -86,6 +86,7 @@
         // Activation de la variable de contrôle, si on a un des champs vides
         if ($array_Champs['champ_vide_user'] || $array_Champs['champ_vide_pwd']){
             $array_Champs['champs_vide'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
     
         // On ne doit pas avoir de caractères spéciaux dans le champ user, avant d'en faire la vérification dans la BD

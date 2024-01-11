@@ -226,16 +226,7 @@
         return $typeSituation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
     }
 	
-	/**
-	 * Fonction simplement pour encrypter une information
-	 *
-	 * @param string $password
-	 * @return string
-	 */
-	function encryptement_password(string $password): string {
-		
-		return password_hash($password, PASSWORD_BCRYPT);
-	}
+	
     
     function connexion_user($array_Champs, $connMYSQL) {
         

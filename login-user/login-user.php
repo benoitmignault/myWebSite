@@ -191,6 +191,37 @@
     
     
     
+    function requete_SQL_ajout_log_connexion(mysqli $connMYSQL, array $array_Champs): array {
+	    
+        // Ici, on va saisir une entrée dans la BD pour savoir qui se connecte aux statistiques de poker
+	    $date = date("Y-m-d H:i:s");
+	    
+	    $query = "INSERT INTO login_stat_poker (user, date, id_user) VALUES (?, ?, ?)";
+     
+	    // Préparation de la requête
+	    $stmt = $connMYSQL->prepare($query);
+	    try {
+		    /* Lecture des marqueurs */
+		    $stmt->bind_param('ssi', $array_Champs["user"],$date, $array_Champs["id_user"]);
+		
+		    /* Exécution de la requête */
+		    $stmt->execute();
+	    } catch (Exception $err){
+		    // Récupérer les messages d'erreurs
+		    $array_Champs["message_erreur_bd"] = $err->getMessage();
+	    } finally {
+		    // Fermer la préparation de la requête
+		    $stmt->close();
+	    }
+        
+        return $array_Champs;
+    }
+    
+    
+    
+    
+    
+    
     function situation_erreur($array_Champs) {
         
         $typeSituation = 0;

@@ -79,14 +79,14 @@
 		
 		$message = "";
 		switch ($situation) {
-			case 7 : $message = "Au moment de vous connectez, vous n'avez rien saisie dans le champ «mot de passe» !"; break;
-			case 8 : $message = "Au moment de vous connectez, vous n'avez rien saisie dans le champ «nom d'utilisateur» !";	break;
-			case 9 : $message = "Au moment de vous connectez, le nom d'utilisateur saisie n'existe pas !"; break;
-			case 10 : $message = "Au moment de vous connecter, votre mot de passe saisie est invalide avec votre utilisateur !<br>
-        		Si vous avez oublié votre mot de passe, veuillez appuyer sur le bouton « Mot de passe oublié ? » et suivre les instructions."; break;
-			case 13 : $message = "Attention les tous les champs sont vides !"; break;
-			case 15 : $message = "Attention les champs peuvent contenir seulement des caractères alphanumériques !"; break;
-			case 16 : $message = "Félicitation ! Votre compte a été crée avec succès !"; break;
+			case 1 : $message = "Tous les champs sont vides, veuillez saisir quelque chose !"; break;
+			case 2 : $message = "Le champ « Nom d'utilisateur » ne peut pas être vide !"; break;
+			case 3 : $message = "Le champ « Mot de passe » ne peut pas être vide !";	break;
+			case 4 : $message = "Le nom d'utilisateur n'existe pas dans nos informations !"; break;
+			case 5 : $message = "Tous les champs sont invalides, veuillez saisir quelque chose de valide !"; break;
+			case 6 : $message = "Le nom d'utilisateur est invalide !"; break;
+			case 7 : $message = "Le mot de passe est invalide !"; break;
+			case 8 : $message = "Le nom d'utilisateur existe, mais le mot de passe saisi n'est pas celui que nous avons dans nos informations !"; break;
 		}
 		
 		return $message;

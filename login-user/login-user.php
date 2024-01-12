@@ -486,9 +486,11 @@
             </fieldset>
         </div>
         <div class="footer">
-            <div class='<?php if ($array_Champs["situation"] !== 0) { echo 'erreur'; } ?>'>
+            <?php if ($array_Champs["situation"] !== 0) { ?>
+            <div class='erreur'>
                 <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
             </div>
+	        <?php } ?>
             <div class="section-retour-btn">
                 <form method="post" action="login-user.php">
                     <input class="bouton" type="submit" name="btn_return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">

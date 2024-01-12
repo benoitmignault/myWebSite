@@ -261,7 +261,7 @@ input::placeholder {
 
     .content > .center > fieldset > form > .connexion > .information > div > input {
         width: 70%;
-        margin: auto;
+        margin-left: 13%;
     }
 
     input::placeholder {
@@ -305,7 +305,7 @@ input::placeholder {
         justify-content: center;
     }
 
-    .erreur p {
+    .content > .footer > .erreur > p {
         margin: 10px;
     }
 }

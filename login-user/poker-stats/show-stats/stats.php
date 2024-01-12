@@ -178,11 +178,11 @@
         // https://pixabay.com/fr/m%C3%A9daille-argent-conception-2163349/
         // https://pixabay.com/fr/m%C3%A9daille-bronze-conception-2163351/
         if ($nom_Champion === "Frederic V" OR $nom_Champion === "Richard") {
-            $icone = "<img src=\"./photo/medaile_or.jpg\" alt=\"or\" title=\"or\">";
+            $icone = "<img src=\"medaile-or.jpg\" alt=\"or\" title=\"or\">";
         } elseif ($nom_Champion === "Frederic" OR $nom_Champion === "Maxime") {
-            $icone = "<img src=\"./photo/medaile_argent.jpg\" alt=\"argent\" title=\"argent\">";
+            $icone = "<img src=\"medaile-argent.jpg\" alt=\"argent\" title=\"argent\">";
         } elseif ($nom_Champion === "Marc-Andre" OR $nom_Champion === "Jean-Philippe") {
-            $icone = "<img src=\"./photo/medaile_bronze.jpg\" alt=\"bronze\" title=\"bronze\">";
+            $icone = "<img src=\"medaile-bronze.jpg\" alt=\"bronze\" title=\"bronze\">";
         } else {
             $icone = "";
         }
@@ -814,14 +814,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Statistique du poker">
         <!-- Le fichier poker.png est la propriété du site : https://pixabay.com/fr/cartes-diamant-diamants-favoris-2029819/ mais sous licence gratuite -->
-        <link rel="shortcut icon" href="./photo/poker.png">
-        <link rel="stylesheet" type="text/css" href="poker.css">
+        <link rel="shortcut icon" href="stats-icone.png">
+        <link rel="stylesheet" type="text/css" href="stats.css">
         <title><?php echo $arrayMots['titre']; ?></title>
         <style>
             body {
                 margin: 0;
                 /* Fichier photoPoker.jpg est une propriété du site https://www.flickr.com/photos/nostri-imago/7497137910 sous licence libre */
-                background-image: url("./photo/photoPoker.jpg");
+                background-image: url("background-stats.jpg");
                 background-position: center;
                 background-attachment: fixed;
                 background-size: 100%;
@@ -900,7 +900,6 @@
                                 <?php if ($array_Champs['method'] == 4) { ?>
                                     <li><?php echo $arrayMots['info_trie_method4_gain']; ?></li>
                                     <li><?php echo $arrayMots['info_trie_method4_ratio']; ?></li>
-                                
                                 <?php } elseif ($array_Champs['method'] == 7) { ?>
                                     <li><?php echo $arrayMots['info_trie_method7_killer']; ?></li>
                                     <li><?php echo $arrayMots['info_trie_method7_ratio']; ?></li>

@@ -490,16 +490,17 @@
 				$date = date("Y-m-d H:i:s");
 				
 				// Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques
-				$insert = "INSERT INTO login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
-				$insert .= "('" . $_SESSION['user'] . "', '" . $date . "', NULL, '" . $id . "')";
+				$insert = "INSERT INTO login_stat_poker (user, date, id_user) VALUES ";
+				$insert .= "('" . $_SESSION['user'] . "', '" . $date . "', '" . $id . "')";
 				$connMYSQL->query($insert);
-				header("Location: /login/statsPoker/poker.php");
+				header("Location: /login-user/poker-stats/show-stats/stats.php");
 			}
             elseif (isset($_POST['login'])) {
-				header("Location: /login/login.php?langue={$champs["typeLangue"]}");
+				header("Location: /login-user/login-user.php?langue={$champs["typeLangue"]}");
+	   
 				delete_Session();
 			}
-            elseif (isset($_POST['accueuil'])) {
+            elseif (isset($_POST['accueil'])) {
 				if ($champs["typeLangue"] == 'english') {
 					header("Location: /english/english.html");
 				}

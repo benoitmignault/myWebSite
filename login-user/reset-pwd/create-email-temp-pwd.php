@@ -393,7 +393,7 @@
         $set = "SET reset_link = ? , password_temp = ?, temps_valide_link = ? ";
         $where = "WHERE user = ?";
      
-        // Préparation de la requête SQL avec un alias pour la colonne sélectionnée
+        // Préparation de la requête SQL avec les parties nécessaires
         $query = $update . $set . $where;
      
         // Préparation de la requête

@@ -31,15 +31,11 @@
     text-align: center;
 }
 
-.content > .center > .un {
-    padding-top: 0;
-}
-
 .content > .center > ul {
     margin: 0;
 }
 
-.content > .center > ul li.info {
+.content > .center > ul > .info {
     font-size: 19px;
     margin-bottom: 8px;
 }
@@ -76,7 +72,7 @@ Nouvelle manière d'afficher un legend au milieu
 
 .content > .center > fieldset > form > .connexion {
     width: 55%;
-    margin: auto;
+    margin: auto auto 25px;
     display: flex;
     display: -webkit-flex;
     -webkit-flex-direction: column;
@@ -152,7 +148,12 @@ input::placeholder {
     flex-direction: row;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    margin-bottom: 0;
+
+}
+
+.content > .footer > .section-retour-btn{
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 .content > .center > .changer-avec-succes {
@@ -209,18 +210,6 @@ input::placeholder {
     background-color: #FCDEDE;
 }
 
-.erreur input[type="email"] {
-    border-color: red;
-    background-color: #FCDEDE;
-}
-
-.avert > p {
-    font-size: 20px;
-    color: green;
-    text-align: center;
-    font-weight: bold;
-}
-
 .erreur > p {
     font-size: 20px;
     color: red;
@@ -244,6 +233,7 @@ input::placeholder {
 
     .content > .center > fieldset > form > .connexion {
         width: 100%;
+        margin-bottom: 15px;
     }
 
     .content > .center > fieldset > form > .connexion > .information {
@@ -256,7 +246,7 @@ input::placeholder {
         padding-left: 30px;
     }
 
-    .content > .center > ul li.info {
+    .content > .center > ul > .info {
         font-size: 17px;
     }
 
@@ -271,7 +261,7 @@ input::placeholder {
 
     .content > .center > fieldset > form > .connexion > .information > div > input {
         width: 70%;
-        margin: auto;
+        margin-left: 13%;
     }
 
     input::placeholder {
@@ -300,21 +290,22 @@ input::placeholder {
         width: 100%;
     }
 
+    .content > .footer > .section-retour-btn{
+        margin-top: 15px;
+    }
+
     .content > .center > fieldset > form > .section-reset-btn > input,
     .content > .footer > .section-retour-btn > input {
         width: 70%;
-        margin: auto auto 10px;
     }
 
-    .content > .footer > .section-retour-btn > {
+    .content > .footer > .section-retour-btn {
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        -webkit-flex-direction: column;
-        flex-direction: column;
     }
 
-    .erreur p {
+    .content > .footer > .erreur > p {
         margin: 10px;
     }
 }

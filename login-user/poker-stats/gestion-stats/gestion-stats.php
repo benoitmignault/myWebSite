@@ -631,7 +631,7 @@
 			$champs = initialisationChamps();
 			$valid_Champ = initialisation();
    
-			if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueuil'])) {
+			if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueil'])) {
 				redirection($champs, $connMYSQL);
 				
 			} elseif (isset($_POST['effacer'])) {
@@ -792,7 +792,7 @@
                 <input class="bouton" type="submit" name="login" value="<?php echo $arrayMots['btn_login']; ?>">
             </div>
             <div class="btn_footer">
-                <input class="bouton" type="submit" name="accueuil" value="<?php echo $arrayMots['btn_return']; ?>">
+                <input class="bouton" type="submit" name="accueil" value="<?php echo $arrayMots['btn_return']; ?>">
             </div>
         </div>
     </form>

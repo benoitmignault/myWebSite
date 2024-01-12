@@ -54,7 +54,7 @@
           
 		        if (isset($_POST['password'])){
 			        // On met tous en minuscule pour gérer la suite des choses
-			        $array_Champs["password"] = strtolower($_POST['password']);
+			        $array_Champs["password"] = $_POST['password'];
 		        }
 	        }
         }
@@ -100,7 +100,7 @@
         }
     
         // On ne doit pas avoir de caractères spéciaux dans le mot de passe
-        $pattern_pwd = "#^[0-9a-z][0-9a-z]{1,23}[0-9a-z]$#";
+        $pattern_pwd = "#^[0-9A-Za-z][0-9A-Za-z]{1,23}[0-9A-Za-z]$#";
         if (!preg_match($pattern_pwd, $array_Champs['password'])) {
             $array_Champs['champ_invalid_pwd'] = true;
 	        $array_Champs['erreur_presente'] = true;

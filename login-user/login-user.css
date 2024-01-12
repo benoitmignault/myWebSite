@@ -148,7 +148,12 @@ input::placeholder {
     flex-direction: row;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    margin-bottom: 0;
+
+}
+
+.content > .footer > .section-retour-btn{
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 .content > .center > .changer-avec-succes {
@@ -285,18 +290,19 @@ input::placeholder {
         width: 100%;
     }
 
+    .content > .footer > .section-retour-btn{
+        margin-top: 15px;
+    }
+
     .content > .center > fieldset > form > .section-reset-btn > input,
     .content > .footer > .section-retour-btn > input {
         width: 70%;
-        margin: auto auto 10px;
     }
 
-    .content > .footer > .section-retour-btn > {
+    .content > .footer > .section-retour-btn {
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        -webkit-flex-direction: column;
-        flex-direction: column;
     }
 
     .erreur p {

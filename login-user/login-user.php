@@ -156,7 +156,7 @@
 		// Retourne l'information des informations de connexion, si existant...
 		return recuperation_info_connexion($connMYSQL, $result, $array_Champs);
     }
-    
+	
 	/**
 	 * Fonction pour récupérer les informations du user en prévision de la connexion, si tout est valide.
      * Cette fonction sera @see requete_SQL_verification_user
@@ -395,8 +395,9 @@
 		            // On va vérifier si le password est le même que celui en BD
 		            $array_Champs['pwd_not_found'] = validation_password_bd($array_Champs["password"], $array_Champs["password_bd"]);
 		
-                    var_dump(password_hash($array_Champs["password"], PASSWORD_BCRYPT));
-                    var_dump($array_Champs["password_bd"]);exit;
+                    //var_dump(password_hash($array_Champs["password"], PASSWORD_BCRYPT));
+                    //var_dump($array_Champs["password_bd"]);exit;
+		            
 		            // Comme le password a été trouvé, on peut maintenant rediriger le user vers la page des stats de poker ou la page de gestion
 		            if (!$array_Champs['pwd_not_found']){
 			

@@ -178,11 +178,11 @@
         // https://pixabay.com/fr/m%C3%A9daille-argent-conception-2163349/
         // https://pixabay.com/fr/m%C3%A9daille-bronze-conception-2163351/
         if ($nom_Champion === "Frederic V" OR $nom_Champion === "Richard") {
-            $icone = "<img src=\"./photo/medaile_or.jpg\" alt=\"or\" title=\"or\">";
+            $icone = "<img src=\"medaile-or.jpg\" alt=\"or\" title=\"or\">";
         } elseif ($nom_Champion === "Frederic" OR $nom_Champion === "Maxime") {
-            $icone = "<img src=\"./photo/medaile_argent.jpg\" alt=\"argent\" title=\"argent\">";
+            $icone = "<img src=\"medaile-argent.jpg\" alt=\"argent\" title=\"argent\">";
         } elseif ($nom_Champion === "Marc-Andre" OR $nom_Champion === "Jean-Philippe") {
-            $icone = "<img src=\"./photo/medaile_bronze.jpg\" alt=\"bronze\" title=\"bronze\">";
+            $icone = "<img src=\"medaile-bronze.jpg\" alt=\"bronze\" title=\"bronze\">";
         } else {
             $icone = "";
         }
@@ -622,25 +622,25 @@
     function redirection($typeLangue) {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             delete_Session();
-            header("Location: https://benoitmignault.ca/erreur/erreur.php");
+            header("Location: /erreur/erreur.php");
     
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
             delete_Session();
             if (isset($_POST['return'])) {
                 if ($typeLangue == 'english') {
-                    header("Location: https://benoitmignault.ca/login/login.php?langue=english");
+                    header("Location: /login-user/login-user.php?langue=english");
                 } else {
-                    header("Location: https://benoitmignault.ca/login/login.php?langue=francais");
+                    header("Location: /login-user/login-user.php?langue=francais");
                 }
             } elseif (isset($_POST['home'])) {
                 if ($typeLangue == 'english') {
-                    header("Location: https://benoitmignault.ca/english/english.html");
+                    header("Location: /english/english.html");
     
                 } else {
-                    header("Location: https://benoitmignault.ca/index.html");
+                    header("Location: /index.html");
                 }
             } else {
-                header("Location: https://benoitmignault.ca/erreur/erreur.php");
+                header("Location: /erreur/erreur.php");
             }
         }
         exit; // pour arrêter l'éxecution du code php
@@ -716,9 +716,9 @@
         $href = "";
     
         if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){
-            $href = "poker.php?triRatio=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
+            $href = "stats.php?triRatio=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
         } elseif (isset($_GET['triRatio'])) {
-            $href = "poker.php?triOriginal=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
+            $href = "stats.php?triOriginal=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
         }
     
         return $href;
@@ -814,14 +814,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Statistique du poker">
         <!-- Le fichier poker.png est la propriété du site : https://pixabay.com/fr/cartes-diamant-diamants-favoris-2029819/ mais sous licence gratuite -->
-        <link rel="shortcut icon" href="./photo/poker.png">
-        <link rel="stylesheet" type="text/css" href="poker.css">
+        <link rel="shortcut icon" href="stats-icone.png">
+        <link rel="stylesheet" type="text/css" href="stats.css">
         <title><?php echo $arrayMots['titre']; ?></title>
         <style>
             body {
                 margin: 0;
                 /* Fichier photoPoker.jpg est une propriété du site https://www.flickr.com/photos/nostri-imago/7497137910 sous licence libre */
-                background-image: url("./photo/photoPoker.jpg");
+                background-image: url("background-stats.jpg");
                 background-position: center;
                 background-attachment: fixed;
                 background-size: 100%;
@@ -836,7 +836,7 @@
             <div class="info_method">
                 <fieldset>
                     <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
-                    <form method='post' action='poker.php#endroitResultat'>
+                    <form method='post' action='stats.php#endroitResultat'>
                         <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $array_Champs['afficher']; ?>">
                         <input id="info_langue" type="hidden" name="langue_Info" value="<?php echo $array_Champs['typeLangue']; ?>">
                         <table>
@@ -900,7 +900,6 @@
                                 <?php if ($array_Champs['method'] == 4) { ?>
                                     <li><?php echo $arrayMots['info_trie_method4_gain']; ?></li>
                                     <li><?php echo $arrayMots['info_trie_method4_ratio']; ?></li>
-                                
                                 <?php } elseif ($array_Champs['method'] == 7) { ?>
                                     <li><?php echo $arrayMots['info_trie_method7_killer']; ?></li>
                                     <li><?php echo $arrayMots['info_trie_method7_ratio']; ?></li>
@@ -938,7 +937,7 @@
                 </fieldset>
             </div>
             <div class='btnRetour'>
-                <form method="post" action="poker.php">
+                <form method="post" action="stats.php">
                     <input class='bouton' type="submit" name="return" value="<?php echo $arrayMots['btnLogin']; ?>">
                     <input class='bouton' type="submit" name="home" value="<?php echo $arrayMots['btnReturn']; ?>">
                 </form>
@@ -946,6 +945,6 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="poker.js"></script>
+        <script src="stats.js"></script>
     </body>
 </html>

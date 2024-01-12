@@ -622,25 +622,25 @@
     function redirection($typeLangue) {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             delete_Session();
-            header("Location: https://benoitmignault.ca/erreur/erreur.php");
+            header("Location: /erreur/erreur.php");
     
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
             delete_Session();
             if (isset($_POST['return'])) {
                 if ($typeLangue == 'english') {
-                    header("Location: https://benoitmignault.ca/login/login.php?langue=english");
+                    header("Location: /login-user/login-user.php?langue=english");
                 } else {
-                    header("Location: https://benoitmignault.ca/login/login.php?langue=francais");
+                    header("Location: /login-user/login-user.php?langue=francais");
                 }
             } elseif (isset($_POST['home'])) {
                 if ($typeLangue == 'english') {
-                    header("Location: https://benoitmignault.ca/english/english.html");
+                    header("Location: /english/english.html");
     
                 } else {
-                    header("Location: https://benoitmignault.ca/index.html");
+                    header("Location: /index.html");
                 }
             } else {
-                header("Location: https://benoitmignault.ca/erreur/erreur.php");
+                header("Location: /erreur/erreur.php");
             }
         }
         exit; // pour arrêter l'éxecution du code php

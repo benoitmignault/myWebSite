@@ -247,11 +247,11 @@
                 $date = date("Y-m-d H:i:s");
     
                 if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/gestion-stats.php");
+                    header("Location: /login-user/poker-stats/gestion-stats/gestion-stats.php");
                 } else {
                     // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques
                     // Prepare an insert statement
-                    $sql = "INSERT INTO login_stat_poker (user,date,idCreationUser) VALUES (?,?,?)";
+                    $sql = "INSERT INTO login_stat_poker (user, date, id_user) VALUES (?,?,?)";
                     $stmt = $connMYSQL->prepare($sql);
     
                     // Bind variables to the prepared statement as parameters
@@ -260,7 +260,7 @@
     
                     // Close statement
                     $stmt->close();
-                    header("Location: ./statsPoker/poker.php");
+	                header("Location: /login-user/poker-stats/show-stats/stats.php");
                 }
                 exit;
             } else {

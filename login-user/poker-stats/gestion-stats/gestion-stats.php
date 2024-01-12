@@ -490,16 +490,17 @@
 				$date = date("Y-m-d H:i:s");
 				
 				// Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques
-				$insert = "INSERT INTO login_stat_poker (user,date,id_login,idCreationUser) VALUES ";
-				$insert .= "('" . $_SESSION['user'] . "', '" . $date . "', NULL, '" . $id . "')";
+				$insert = "INSERT INTO login_stat_poker (user, date, id_user) VALUES ";
+				$insert .= "('" . $_SESSION['user'] . "', '" . $date . "', '" . $id . "')";
 				$connMYSQL->query($insert);
-				header("Location: /login/statsPoker/poker.php");
+				header("Location: /login-user/poker-stats/show-stats/stats.php");
 			}
             elseif (isset($_POST['login'])) {
-				header("Location: /login/login.php?langue={$champs["typeLangue"]}");
+				header("Location: /login-user/login-user.php?langue={$champs["typeLangue"]}");
+	   
 				delete_Session();
 			}
-            elseif (isset($_POST['accueuil'])) {
+            elseif (isset($_POST['accueil'])) {
 				if ($champs["typeLangue"] == 'english') {
 					header("Location: /english/english.html");
 				}
@@ -631,7 +632,7 @@
 			$champs = initialisationChamps();
 			$valid_Champ = initialisation();
    
-			if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueuil'])) {
+			if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueil'])) {
 				redirection($champs, $connMYSQL);
 				
 			} elseif (isset($_POST['effacer'])) {
@@ -792,7 +793,7 @@
                 <input class="bouton" type="submit" name="login" value="<?php echo $arrayMots['btn_login']; ?>">
             </div>
             <div class="btn_footer">
-                <input class="bouton" type="submit" name="accueuil" value="<?php echo $arrayMots['btn_return']; ?>">
+                <input class="bouton" type="submit" name="accueil" value="<?php echo $arrayMots['btn_return']; ?>">
             </div>
         </div>
     </form>

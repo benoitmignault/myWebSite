@@ -79,34 +79,36 @@
         
         if (empty($array_Champs['user'])){
             $array_Champs['champ_vide_user'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
     
         if (empty($array_Champs['password'])){
             $array_Champs['champ_vide_pwd'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
         
         // Activation de la variable de contrôle, si on a un des champs vides
-        if ($array_Champs['champ_vide_user'] || $array_Champs['champ_vide_pwd']){
+        if ($array_Champs['champ_vide_user'] && $array_Champs['champ_vide_pwd']){
             $array_Champs['champs_vide'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
     
         // On ne doit pas avoir de caractères spéciaux dans le champ user, avant d'en faire la vérification dans la BD
         $pattern_user = "#^[0-9a-z][0-9a-z]{1,13}[0-9a-z]$#";
         if (!preg_match($pattern_user, $array_Champs['user'])) {
             $array_Champs['champ_invalid_user'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
     
         // On ne doit pas avoir de caractères spéciaux dans le mot de passe
         $pattern_pwd = "#^[0-9a-z][0-9a-z]{1,23}[0-9a-z]$#";
         if (!preg_match($pattern_pwd, $array_Champs['password'])) {
             $array_Champs['champ_invalid_pwd'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
         
 	    // Activation de la variable de contrôle, si on a un des champs invalides
-        if ($array_Champs['champ_invalid_user'] || $array_Champs['champ_invalid_pwd']){
+        if ($array_Champs['champ_invalid_user'] && $array_Champs['champ_invalid_pwd']){
             $array_Champs['champs_invalid'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
     
         return $array_Champs;
@@ -386,13 +388,15 @@
              
                 // On va vérifier que le user existe bel et bien et retourner ses informations
                 $array_Champs = requete_SQL_verification_user($connMYSQL, $array_Champs);
-                
+	            //var_dump($array_Champs); exit;
 	            // Avant d'aller plus loin, on valide que le user existe bien
 	            if (!$array_Champs['user_not_found']){
 		
 		            // On va vérifier si le password est le même que celui en BD
 		            $array_Champs['pwd_not_found'] = validation_password_bd($array_Champs["password"], $array_Champs["password_bd"]);
 		
+                    var_dump(password_hash($array_Champs["password"], PASSWORD_BCRYPT));
+                    var_dump($array_Champs["password_bd"]);exit;
 		            // Comme le password a été trouvé, on peut maintenant rediriger le user vers la page des stats de poker ou la page de gestion
 		            if (!$array_Champs['pwd_not_found']){
 			

@@ -455,6 +455,7 @@
             <ul>
                 <li class='info'><?php echo $array_Champs["liste_mots"]['li1']; ?></li>
                 <li class='info'><?php echo $array_Champs["liste_mots"]['li2']; ?></li>
+                <li class='info'><?php echo $array_Champs["liste_mots"]['li3']; ?></li>
             </ul>
             <fieldset>
                 <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>

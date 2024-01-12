@@ -388,28 +388,25 @@
              
                 // On va vérifier que le user existe bel et bien et retourner ses informations
                 $array_Champs = requete_SQL_verification_user($connMYSQL, $array_Champs);
-	            //var_dump($array_Champs); exit;
+				
 	            // Avant d'aller plus loin, on valide que le user existe bien
 	            if (!$array_Champs['user_not_found']){
-		
-		            // On va vérifier si le password est le même que celui en BD
-		            $array_Champs['pwd_not_found'] = validation_password_bd($array_Champs["password"], $array_Champs["password_bd"]);
-		
-                    //var_dump(password_hash($array_Champs["password"], PASSWORD_BCRYPT));
-                    //var_dump($array_Champs["password_bd"]);exit;
-		            
+              
 		            // Comme le password a été trouvé, on peut maintenant rediriger le user vers la page des stats de poker ou la page de gestion
-		            if (!$array_Champs['pwd_not_found']){
+		            if (validation_password_bd($array_Champs["password"], $array_Champs["password_bd"])){
 			
 			            date_default_timezone_set('America/New_York');
 			            // Si le user n'est pas admin pour ajouter des statistiques de poker, on va ajouter tout de suite le log de stat
 			            if (!$array_Champs['user_admin']){
 				            $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
 			            }
-			
+               
 			            // Maintenant, on peut connecter le user à la page nécessaire
 			            connexion_user($array_Champs);
-		            }
+		            } else {
+                        // Si le résultat de la fonction direct dans le IF est faux, alors la variable ici est vrai
+			            $array_Champs['pwd_not_found'] = true;
+                    }
 	            }
             }
             

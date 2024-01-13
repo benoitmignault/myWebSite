@@ -16,12 +16,21 @@ function effacement_complet() {
 
 function effacer_tous_les_champs() {
 
+    // Validation pour cleaner le champ
+    if (champs_user.value !== ""){
+        champs_user.defaultValue = "";
+    }
+
+    // Validation pour cleaner le champ
+    if (champs_password.value !== ""){
+        champs_password.defaultValue  = "";
+    }
+
     // Réinitialiser les styles à leur état initial
     champs_user.style.borderWidth = "1px";
     champs_user.style.borderColor = "rgb(133, 133, 133";
     champs_user.style.backgroundColor = "white";
     champs_user.style.padding = "2px 2px 2px 2px";
-    champs_user.focus();
 
     champs_password.style.borderWidth = "1px";
     champs_password.style.borderColor = "rgb(133, 133, 133";
@@ -31,6 +40,9 @@ function effacer_tous_les_champs() {
     if (message_erreur != null){
         message_erreur.remove();
     }
+
+    // On remet le focus sur le champ username
+    champs_user.focus();
 }
 
 document.addEventListener('DOMContentLoaded', function (event) {

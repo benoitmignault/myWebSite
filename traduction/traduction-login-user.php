@@ -5,7 +5,7 @@
 	 *
 	 * @param string $type_langue
 	 * @param int $situation
-	 * @return string[]
+	 * @return array
 	 */
 	function traduction(string $type_langue, int $situation): array {
 		

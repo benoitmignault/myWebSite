@@ -333,8 +333,14 @@
     
 				// Une demande de création de compte est demandé
 			} elseif (isset($_POST['btn_sign_up'])) {
-                
-                // Une demande de changement de password sur le compte d'un usage
+    
+				// En fonction de la langue
+				if ($type_langue === 'english') {
+					header("Location: /login-user/create-user/create-user-poker-stats.php?langue=english");
+				} elseif ($type_langue === 'francais') {
+					header("Location: /login-user/create-user/create-user-poker-stats.php?langue=francais");
+				}
+            
             } elseif (isset($_POST['btn_reset_pwd'])) {
                 
                 // En fonction de la langue

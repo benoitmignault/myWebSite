@@ -329,87 +329,91 @@
                 exit;
             }
             $array_Champs["situation"] = situation($array_Champs); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
-            $arrayMots = traduction($array_Champs);  // Affichage des mots en français ou en anglais selon le paramètre du get de départ et suivi dans le post par la suite
+	        // On va faire la traduction, à la fin des GEt & POST
+	        // La variable de situation est encore à 0 pour le GET, donc aucun message
+	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
         }
     }
 	$connMYSQL->close();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $array_Champs["liste_mots"]['lang']; ?>">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Page de connexion">
-    <!-- Le fichier login.png est la propriété du site https://pixabay.com/fr/ic%C3%B4nes-symboles-bouton-842844/ mais en utilisation libre-->
-    <link rel="shortcut icon" href="../login-user-icone.png">
-    <link rel="stylesheet" type="text/css" href="../login-user.css">
-    <title><?php echo $array_Champs["liste_mots"]['title']; ?></title>
-    <style>
-        body {
-            margin: 0;
-            /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
-            background-image: url("../login-background.jpg");
-            background-position: center;
-            background-attachment: fixed;
-            background-size: 100%;
-        }
-    </style>
-</head>
-
-<body>
-<div class="content">
-    <div class="center">
-        <p class='titre'><?php echo $array_Champs["liste_mots"]['p1']; ?></p>
-        <ul>
-            <li class='info'><?php echo $array_Champs["liste_mots"]['li1']; ?></li>
-            <li class='info'><?php echo $array_Champs["liste_mots"]['li2']; ?></li>
-            <li class='info'><?php echo $array_Champs["liste_mots"]['li3']; ?></li>
-        </ul>
-        <fieldset>
-            <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
-            <form id="form" method="post" action="../login-user.php">
-                <div class="connexion">
-                    <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['champVideUser'] || $array_Champs['champInvalidUser'] || $array_Champs['duplicatUser'] || $array_Champs['badUser'] || $array_Champs['champTropLongUser']) { echo 'erreur'; } ?>">
-                        <label for="user"><?php echo $array_Champs["liste_mots"]['usager']; ?></label>
-                        <div>
-                            <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $array_Champs['user']; ?>" />
-                            <span class="obligatoire">&nbsp;*</span>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Page de connexion">
+        <!-- Le fichier login.png est la propriété du site https://pixabay.com/fr/ic%C3%B4nes-symboles-bouton-842844/ mais en utilisation libre-->
+        <link rel="shortcut icon" href="../login-user-icone.png">
+        <link rel="stylesheet" type="text/css" href="../login-user.css">
+        <title><?php echo $array_Champs["liste_mots"]['title']; ?></title>
+        <style>
+            body {
+                margin: 0;
+                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/syst%C3%A8me-r%C3%A9seau-actualit%C3%A9s-connexion-2457651/ sous licence libre */
+                background-image: url("../login-background.jpg");
+                background-position: center;
+                background-attachment: fixed;
+                background-size: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <div class="center">
+                <p class='titre'><?php echo $array_Champs["liste_mots"]['p1']; ?></p>
+                <ul>
+                    <li class='info'><?php echo $array_Champs["liste_mots"]['li1']; ?></li>
+                    <li class='info'><?php echo $array_Champs["liste_mots"]['li2']; ?></li>
+                    <li class='info'><?php echo $array_Champs["liste_mots"]['li3']; ?></li>
+                </ul>
+                <fieldset>
+                    <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
+                    <form id="form" method="post" action="create-user-poker-stats.php">
+                        <div class="connexion">
+                            <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['champVideUser'] || $array_Champs['champInvalidUser'] || $array_Champs['duplicatUser'] || $array_Champs['badUser'] || $array_Champs['champTropLongUser']) { echo 'erreur'; } ?>">
+                                <label for="user"><?php echo $array_Champs["liste_mots"]['usager']; ?></label>
+                                <div>
+                                    <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $array_Champs['user']; ?>" />
+                                    <span class="obligatoire">&nbsp;*</span>
+                                </div>
+                            </div>
+                            <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
+                                <label for="password"><?php echo $array_Champs["liste_mots"]['mdp']; ?></label>
+                                <div>
+                                    <input id="password" type='password' maxlength="25" name="password" value="<?php echo $array_Champs['password']; ?>" />
+                                    <span class="obligatoire">&nbsp;*</span>
+                                </div>
+                            </div>
+                            <div class="information <?php if (!isset($_POST['login']) && ($array_Champs['duplicatEmail'] || $array_Champs['champVideEmail'] || $array_Champs['champInvalidEmail'] || $array_Champs['champTropLongEmail'])) { echo 'erreur';} ?>">
+                                <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
+                                <div>
+                                    <input placeholder="<?php echo $array_Champs["liste_mots"]['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $array_Champs['email']; ?>" />
+                                    <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
-                        <label for="password"><?php echo $array_Champs["liste_mots"]['mdp']; ?></label>
-                        <div>
-                            <input id="password" type='password' maxlength="25" name="password" value="<?php echo $array_Champs['password']; ?>" />
-                            <span class="obligatoire">&nbsp;*</span>
+                        <div class="section-reset-btn">
+                            <input class="bouton" type='submit' name='btn_sign_up' value="<?php echo $array_Champs["liste_mots"]['btn_sign_up']; ?>">
+                            <input class="bouton" id="faire_menage_total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_reset']; ?>">
+                            <input class="bouton" type='submit' name='btn_login' value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
+                            <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                         </div>
+                    </form>
+                </fieldset>
+            </div>
+            <div class="footer">
+	            <?php if ($array_Champs["situation"] !== 0) { ?>
+                    <div class='erreur'>
+                        <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
                     </div>
-                    <div class="information <?php if (!isset($_POST['login']) && ($array_Champs['duplicatEmail'] || $array_Champs['champVideEmail'] || $array_Champs['champInvalidEmail'] || $array_Champs['champTropLongEmail'])) { echo 'erreur';} ?>">
-                        <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
-                        <div>
-                            <input placeholder="<?php echo $array_Champs["liste_mots"]['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $array_Champs['email']; ?>" />
-                            <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
-                        </div>
-                    </div>
+	            <?php } ?>
+                <div class="section-retour-btn">
+                    <input form="form" class="bouton" type="submit" name="btn_return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
                 </div>
-                <div class="section-reset-btn">
-                    <input class="bouton" type='submit' name='btn_sign_up' value="<?php echo $array_Champs["liste_mots"]['btn_sign_up']; ?>">
-                    <input class="bouton" id="faire_menage_total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_reset']; ?>">
-                    <input class="bouton" type='submit' name='btn_login' value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
-                    <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
-                </div>
-            </form>
-        </fieldset>
-    </div>
-    <div class="footer">
-        <div class='avert <?php if ($array_Champs["situation"] != 16) { echo 'erreur'; } ?>'>
-            <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
+            </div>
         </div>
-        <div class="section-retour-btn">
-            <input form="form" class="bouton" type="submit" name="btn_return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
-        </div>
-    </div>
-</div>
-</body>
-
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="../login-user.js"></script>
+    </body>
 </html>

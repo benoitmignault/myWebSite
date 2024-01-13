@@ -1,6 +1,6 @@
 <?php
 	// Les includes nécessaires
-	include_once("../../traduction/traduction-create-user-poker-stats.php");
+	include_once("../../traduction/traduction-login-user.php");
 	include_once("../../includes/fct-connexion-bd.php");
 
     // il va falloir ajouter une valid duplicateEmail

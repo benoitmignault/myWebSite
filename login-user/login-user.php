@@ -465,7 +465,7 @@
                 </ul>
                 <fieldset>
                     <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
-                    <form method="post" action="login-user.php">
+                    <form id="form" method="post" action="login-user.php">
                         <div class="connexion">
                             <div class="information <?php if ($array_Champs['champ_vide_user'] || $array_Champs['champ_invalid_user'] || $array_Champs['user_not_found']) { echo 'erreur'; } ?>">
                                 <label for="user"><?php echo $array_Champs["liste_mots"]['usager']; ?></label>
@@ -499,10 +499,7 @@
                 </div>
                 <?php } ?>
                 <div class="section-retour-btn">
-                    <form method="post" action="login-user.php">
-                        <input class="bouton" type="submit" name="btn_return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
-                        <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
-                    </form>
+                    <input form="form" class="bouton" type="submit" name="btn_return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
                 </div>
             </div>
         </div>

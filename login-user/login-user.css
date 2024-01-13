@@ -226,9 +226,19 @@ input::placeholder {
     }
 
     .content > .center > fieldset {
-        margin: 0;
         padding: 0;
         width: 100%;
+    }
+
+    .content > .center > ul{
+        margin: 0;
+        padding-left: 25px;
+        text-align: justify;
+    }
+
+    .content > .center > ul > .info {
+        font-size: 17px;
+        margin: 0 20px 10px 5px;
     }
 
     .content > .center > fieldset > form > .connexion {
@@ -241,14 +251,7 @@ input::placeholder {
         justify-content: center;
     }
 
-    .content > .center > ul {
-        margin: 0;
-        padding-left: 30px;
-    }
 
-    .content > .center > ul > .info {
-        font-size: 17px;
-    }
 
     .information,
     .erreur {
@@ -273,7 +276,7 @@ input::placeholder {
         text-align: center;
     }
 
-    .content > .center > fieldset > form > .section-reset-btn > input[type="submit"]:nth-child(3) {
+    .content > .center > fieldset > form > .section-reset-btn > input[type="submit"]:nth-child(4) {
         font-size: 17px;
     }
 

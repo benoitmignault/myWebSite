@@ -202,66 +202,13 @@
     // https://stackoverflow.com/questions/30279321/how-to-use-password-hash
     // On ne doit pas jouer avec le salt....
     function encryptementPassword(string $password) {
-        $passwordCrypter = password_hash($password, PASSWORD_BCRYPT);
-        return $passwordCrypter;
+        
+        return password_hash($password, PASSWORD_BCRYPT);
     }
     
-    function connexionUser($array_Champs, $connMYSQL) {
-        /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("select user, password from login where user =? ");
     
-        /* Lecture des marqueurs */
-        $stmt->bind_param("s", $array_Champs['user']);
     
-        /* Exécution de la requête */
-        $stmt->execute();
     
-        /* Association des variables de résultat */
-        $result = $stmt->get_result();
-        $row = $result->fetch_array(MYSQLI_ASSOC);
-        $row_cnt = $result->num_rows;
-    
-        /* close statement and connection */
-        $stmt->close();
-    
-        if ($row_cnt == 1){
-            if (password_verify($array_Champs['password'], $row['password'])) {
-                session_start();
-                $_SESSION['user'] = $array_Champs['user'];
-                $_SESSION['password'] = $array_Champs['password'];
-                $_SESSION['typeLangue'] = $array_Champs["typeLangue"];
-                date_default_timezone_set('America/New_York');
-                // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
-                // Je set un cookie pour améliorer la sécurité pour vérifier que l'user est bien là...2018-12-28
-                setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
-                $date = date("Y-m-d H:i:s");
-    
-                if ($row['user'] === "admin") {
-                    header("Location: ./statsPoker/administration/gestion-stats.php");
-                } else {
-                    // Ici, on va saisir une entree dans la BD pour les autres users qui vont vers les statistiques
-                    // Prepare an insert statement
-                    $sql = "INSERT INTO login_stat_poker (user,date,idCreationUser) VALUES (?,?,?)";
-                    $stmt = $connMYSQL->prepare($sql);
-    
-                    // Bind variables to the prepared statement as parameters
-                    $stmt->bind_param('ssi', $array_Champs['user'], $date, $array_Champs['idCreationUser']);
-                    $stmt->execute();
-    
-                    // Close statement
-                    $stmt->close();
-                    header("Location: ./statsPoker/poker.php");
-                }
-                exit;
-            } else {
-                $array_Champs['badPassword'] = true;
-            }
-        } else {
-            $array_Champs['badUser'] = true;
-        }
-        return $array_Champs;
-    }
-	
 	// Les fonctions communes
 	$connMYSQL = connexion();
     

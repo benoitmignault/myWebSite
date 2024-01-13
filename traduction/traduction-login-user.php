@@ -10,7 +10,7 @@
 	function traduction(string $type_langue, int $situation): array {
 		
 		$liste_mots = array("lang" => "", 'title' => "", 'p1' => "", 'li1' => "",
-		                     'li2' => "", 'legend' => "", 'usager' => "", 'pwd' => "", 'btn_login' => "",
+		                     'li2' => "", 'li3' => "", 'legend' => "", 'usager' => "", 'pwd' => "", 'btn_login' => "",
 		                     "btn_reset" => "", 'btn_sign_up' => "", 'btn_reset_pwd' => "", 'btn_return' => "", 'message' => "");
 		
 		if ($type_langue === 'francais') {

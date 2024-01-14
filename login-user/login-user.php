@@ -23,7 +23,7 @@
 	
 	/**
 	 * Fonction pour setter les premières informations du GET ou POST
-	 * Aussi, on va récupérer via le POST, les informations relier au email du user
+	 * Aussi, on va récupérer via le POST, les informations relier au username et du password
 	 *
 	 * @param array $array_Champs
 	 * @return array

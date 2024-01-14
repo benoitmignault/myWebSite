@@ -276,21 +276,41 @@
 		} finally {
 			/* Association des variables de résultat */
 			$result = $stmt->get_result();
-			
-            // Validation si un résultat existe, si oui, donc erreur de tentative de création
-			if ($result->fetch_array(MYSQLI_ASSOC) !== null && is_array($result->fetch_array(MYSQLI_ASSOC))){
-				$array_Champs["user_already_exist"] = true;
-            }
-            
+   
 			// Close statement
 			$stmt->close();
 		}
 		
-		return $array_Champs;
+		// Retourne l'information des informations si le user ou email existent déjà
+		return recuperation_info($connMYSQL, $result, $array_Champs);
 	}
 	
+	/**
+	 * Fonction pour récupérer les informations du user et du courriel, existant peut-être
+	 * Cette fonction sera @see requete_SQL_verif_user_email_existant
+	 *
+	 * @param mysqli $connMYSQL -> Doit être présent pour utiliser les notions de MYSQLi
+	 * @param object $result -> Le résultat de la requête SQL via la table « login »
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function recuperation_info(mysqli $connMYSQL, object $result, array $array_Champs): array {
+		
+		// Récupération des résultats possibles
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        
+            // Il peut avoir jusqu'à un max de deux résultats
+            if ($row["USER"] === $array_Champs['user']){
+	            $array_Champs["duplicate_user"] = true;
+            }
 	
-	
+	        if ($row["EMAIL"] === $array_Champs['email']){
+		        $array_Champs["duplicate_email"] = true;
+	        }
+        }
+		
+		return $array_Champs;
+	}
 	
 	
 	

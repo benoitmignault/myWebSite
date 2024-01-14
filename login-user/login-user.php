@@ -341,6 +341,7 @@
 					header("Location: /login-user/create-user/create-user-poker-stats.php?langue=francais");
 				}
             
+                // Une demande pour faire une demande de changement de password
             } elseif (isset($_POST['btn_reset_pwd'])) {
                 
                 // En fonction de la langue
@@ -379,7 +380,8 @@
     } // Fin du GET pour faire afficher la page web
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
+		
+		// Un de ces boutons là, nous ferons sortir de la page web actuel. 
         if (isset($_POST['btn_sign_up']) || isset($_POST['btn_return']) || isset($_POST['btn_reset_pwd'])) {
 	        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]); // On n'a pas besoin de cette variable
 	

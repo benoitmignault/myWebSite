@@ -237,8 +237,67 @@
     
         return $array_Champs;
     }
-    
-    // Ajouter une situation ou plusieurs si le email est deja utilise par quelqu'un autre
+	
+	
+	/**
+	 * Fonction qui servira à valider si le user existe existant avec le bon password
+	 * On va aussi valider si le l'user est un user admin ou pas, pour savoir dans quelle page diriger le user
+	 *
+	 * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function requete_SQL_verif_user_existant(mysqli $connMYSQL, array $array_Champs): array {
+		
+		$select = "SELECT USER ";
+		$from = "FROM login ";
+		$where = "WHERE user = ?";
+		
+		// Préparation de la requête SQL avec les parties nécessaires
+		$query = $select . $from . $where;
+		
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		try {
+			/* Lecture des marqueurs */
+			$stmt->bind_param("s", $array_Champs["user"]);
+			
+			/* Exécution de la requête */
+			$stmt->execute();
+		} catch (Exception $err){
+			// Récupérer les messages d'erreurs
+			$array_Champs["message_erreur_bd"] = $err->getMessage();
+			
+			// Sera utilisée pour faire afficher le message erreur spécial
+			$array_Champs["erreur_system_bd"] = true;
+		} finally {
+			/* Association des variables de résultat */
+			$result = $stmt->get_result();
+			
+            // Validation si un résultat existe, si oui, donc erreur de tentative de création
+			if ($result->fetch_array(MYSQLI_ASSOC) !== null && is_array($result->fetch_array(MYSQLI_ASSOC))){
+				$array_Champs["user_already_exist"] = true;
+            }
+            
+			// Close statement
+			$stmt->close();
+		}
+		
+		return $array_Champs;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// Ajouter une situation ou plusieurs si le email est deja utilise par quelqu'un autre
     function situation($array_Champs) {
         $typeSituation = 0;
         // Début : Section où nous n'avons pas entré dans les fonctions creationUser et connexionUser
@@ -342,7 +401,8 @@
 				} elseif ($type_langue === 'francais') {
 					header("Location: /login-user/login-user.php?langue=francais");
 				}
-				
+    
+				// Une demande pour quitter la page de connexion, pour revenir à l'accueil
 			} elseif (isset($_POST['btn_return'])) {
 				
 				// En fonction de la langue
@@ -350,6 +410,16 @@
 					header("Location: /english/english.html");
 				} elseif ($type_langue === 'francais') {
 					header("Location: /index.html");
+				}
+				
+				// Une demande pour faire une demande de changement de password
+			} elseif (isset($_POST['btn_reset_pwd'])) {
+				
+				// En fonction de la langue
+				if ($type_langue === 'english') {
+					header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=english");
+				} elseif ($type_langue === 'francais') {
+					header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=francais");
 				}
 			}
 		}
@@ -372,7 +442,8 @@
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	
-        if (isset($_POST['btn_login']) || isset($_POST['btn_return'])) {
+        // Un de ces boutons là, nous ferons sortir de la page web actuel.
+        if (isset($_POST['btn_login']) || isset($_POST['btn_return']) || isset($_POST['btn_reset_pwd'])) {
             redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]); // On n'a pas besoin de cette variable
             
             // Si le bouton se connecter est pesé...
@@ -380,9 +451,14 @@
 	
 	        // On passe à travers les champs pour vérifier les informations
 	        $array_Champs = validation_champs($array_Champs);
+	
+            // On valide que l'user n'existe pas, si oui
+	        $array_Champs["user_already_exist"] = requete_SQL_verif_user_existant($connMYSQL, $array_Champs);
          
-         
-         
+            if (!$array_Champs["user_already_exist"]){
+                
+                //
+            }
         }
         
         
@@ -515,6 +591,7 @@
                             <input class="bouton" type='submit' name='btn_sign_up' value="<?php echo $array_Champs["liste_mots"]['btn_sign_up']; ?>">
                             <input class="bouton" id="faire_menage_total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_reset']; ?>">
                             <input class="bouton" type='submit' name='btn_login' value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
+                            <input class="bouton" type='submit' name='btn_reset_pwd' value="<?php echo $array_Champs["liste_mots"]['btn_reset_pwd']; ?>">
                             <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">
                         </div>
                     </form>

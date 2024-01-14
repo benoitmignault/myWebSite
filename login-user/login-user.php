@@ -312,7 +312,7 @@
 	}
 	
 	/**
-	 * Fonction pour rediriger vers la bonne page page extérieur à la page du reset de password
+	 * Fonction pour rediriger vers la bonne page extérieur à la page du reset de password
 	 * En fonction aussi si le type de langue est valide
 	 *
 	 * @param string $type_langue

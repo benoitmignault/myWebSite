@@ -335,6 +335,13 @@
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>
+                            <div class="information <?php if (!isset($_POST['login']) && ($array_Champs['duplicatEmail'] || $array_Champs['champVideEmail'] || $array_Champs['champInvalidEmail'] || $array_Champs['champTropLongEmail'])) { echo 'erreur';} ?>">
+                                <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
+                                <div>
+                                    <input placeholder="<?php echo $array_Champs["liste_mots"]['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $array_Champs['email']; ?>" />
+                                    <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
+                                </div>
+                            </div>
                             <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
                                 <label for="password"><?php echo $array_Champs["liste_mots"]['mdp']; ?></label>
                                 <div>
@@ -342,11 +349,11 @@
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>
-                            <div class="information <?php if (!isset($_POST['login']) && ($array_Champs['duplicatEmail'] || $array_Champs['champVideEmail'] || $array_Champs['champInvalidEmail'] || $array_Champs['champTropLongEmail'])) { echo 'erreur';} ?>">
-                                <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
+                            <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
+                                <label for="password"><?php echo $array_Champs["liste_mots"]['mdp']; ?></label>
                                 <div>
-                                    <input placeholder="<?php echo $array_Champs["liste_mots"]['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $array_Champs['email']; ?>" />
-                                    <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
+                                    <input id="password_conf" type='password' maxlength="25" name="password_conf" value="<?php echo $array_Champs['password_conf']; ?>" />
+                                    <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>
                         </div>

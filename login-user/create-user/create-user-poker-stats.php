@@ -513,31 +513,31 @@
                     <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>
                     <form id="form" method="post" action="create-user-poker-stats.php">
                         <div class="connexion">
-                            <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['champVideUser'] || $array_Champs['champInvalidUser'] || $array_Champs['duplicatUser'] || $array_Champs['badUser'] || $array_Champs['champTropLongUser']) { echo 'erreur'; } ?>">
+                            <div class="information <?php if ($array_Champs['champ_vide_user'] || $array_Champs['champs_user_pwd_equal'] || $array_Champs['champ_invalid_user'] || $array_Champs['duplicate_user'] || $array_Champs['champ_trop_long_user']) { echo 'erreur'; } ?>">
                                 <label for="user"><?php echo $array_Champs["liste_mots"]['usager']; ?></label>
                                 <div>
-                                    <input autofocus id="user" type="text" name="user" maxlength="15" value="<?php echo $array_Champs['user']; ?>" />
+                                    <input autofocus id="user" type="text" name="user" maxlength="15" placeholder="<?php echo $array_Champs["liste_mots"]['info_valid_user_pwd']; ?>" value="<?php echo $array_Champs['user']; ?>" />
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>
-                            <div class="information <?php if (($array_Champs['duplicatEmail'] || $array_Champs['champVideEmail'] || $array_Champs['champInvalidEmail'] || $array_Champs['champTropLongEmail'])) { echo 'erreur';} ?>">
+                            <div class="information <?php if (($array_Champs['champ_vide_email'] || $array_Champs['duplicate_email'] || $array_Champs['champ_invalid_email'] || $array_Champs['champ_trop_long_email'])) { echo 'erreur';} ?>">
                                 <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
                                 <div>
-                                    <input id="email" type='email' name="email" maxlength="50" placeholder="<?php echo $array_Champs["liste_mots"]['exemple_email']; ?>" value="<?php echo $array_Champs['email']; ?>" />
-                                    <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
-                                </div>
-                            </div>
-                            <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
-                                <label for="password"><?php echo $array_Champs["liste_mots"]['pwd']; ?></label>
-                                <div>
-                                    <input id="password" type='password' name="password" maxlength="25" placeholder="<?php echo $array_Champs["liste_mots"]['exemple_pwd']; ?>" value="<?php echo $array_Champs['password']; ?>" />
+                                    <input id="email" type='email' name="email" maxlength="50" placeholder="<?php echo $array_Champs["liste_mots"]['info_valid_email']; ?>" value="<?php echo $array_Champs['email']; ?>" />
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>
-                            <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
+                            <div class="information <?php if ($array_Champs['champs_user_pwd_equal'] || $array_Champs['champs_pwd_not_equal'] || $array_Champs['champ_vide_pwd'] || $array_Champs['champ_invalid_pwd'] || $array_Champs['champ_trop_long_pwd']) { echo 'erreur';} ?>">
+                                <label for="password"><?php echo $array_Champs["liste_mots"]['pwd']; ?></label>
+                                <div>
+                                    <input id="password" type='password' name="password" maxlength="25" placeholder="<?php echo $array_Champs["liste_mots"]['info_valid_user_pwd']; ?>" value="<?php echo $array_Champs['password']; ?>" />
+                                    <span class="obligatoire">&nbsp;*</span>
+                                </div>
+                            </div>
+                            <div class="information <?php if ($array_Champs['champs_user_pwd_equal'] || $array_Champs['champs_pwd_not_equal'] || $array_Champs['champ_vide_pwd_conf'] || $array_Champs['champ_invalid_pwd_conf'] || $array_Champs['champ_trop_long_pwd_conf']) { echo 'erreur';} ?>">
                                 <label for="password"><?php echo $array_Champs["liste_mots"]['pwd_conf']; ?></label>
                                 <div>
-                                    <input id="password_conf" type='password' name="password_conf" maxlength="25" placeholder="<?php echo $array_Champs["liste_mots"]['exemple_pwd']; ?>" value="<?php echo $array_Champs['password_conf']; ?>" />
+                                    <input id="password_conf" type='password' name="password_conf" maxlength="25" placeholder="<?php echo $array_Champs["liste_mots"]['info_valid_user_pwd']; ?>" value="<?php echo $array_Champs['password_conf']; ?>" />
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>

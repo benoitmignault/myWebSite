@@ -468,15 +468,15 @@
                 
                 //  $array_Champs = creationUser($array_Champs, $connMYSQL);
             }
-            
-            
-            $array_Champs["situation"] = situation($array_Champs); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
-	        // On va faire la traduction, à la fin des GEt & POST
-	        // La variable de situation est encore à 0 pour le GET, donc aucun message
-	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+	
+	        // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
+            $array_Champs["situation"] = situation($array_Champs);
         }
     }
-    
+	// On va faire la traduction, à la fin des GEt & POST
+	// La variable de situation est encore à 0 pour le GET, donc aucun message
+	$array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+	
 	$connMYSQL->close();
 ?>
 <!DOCTYPE html>

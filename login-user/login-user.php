@@ -381,7 +381,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		
-		// Un de ces boutons là, nous ferons sortir de la page web actuel. 
+		// Un de ces boutons là, nous ferons sortir de la page web actuel.
         if (isset($_POST['btn_sign_up']) || isset($_POST['btn_return']) || isset($_POST['btn_reset_pwd'])) {
 	        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]); // On n'a pas besoin de cette variable
 	

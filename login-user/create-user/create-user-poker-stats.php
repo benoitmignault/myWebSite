@@ -541,14 +541,14 @@
                             <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
                                 <label for="password"><?php echo $array_Champs["liste_mots"]['pwd']; ?></label>
                                 <div>
-                                    <input id="password" type='password' name="password" maxlength="25" value="<?php echo $array_Champs['password']; ?>" />
+                                    <input id="password" type='password' name="password" maxlength="25" placeholder="<?php echo $array_Champs["liste_mots"]['exemple_pwd']; value="<?php echo $array_Champs['password']; ?>" />
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>
                             <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
                                 <label for="password"><?php echo $array_Champs["liste_mots"]['pwd_conf']; ?></label>
                                 <div>
-                                    <input id="password_conf" type='password' name="password_conf" maxlength="25" value="<?php echo $array_Champs['password_conf']; ?>" />
+                                    <input id="password_conf" type='password' name="password_conf" maxlength="25" placeholder="<?php echo $array_Champs["liste_mots"]['exemple_pwd']; value="<?php echo $array_Champs['password_conf']; ?>" />
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>

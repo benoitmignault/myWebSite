@@ -17,26 +17,14 @@
 	function initialisation(): array {
 		
 		return array("user" => "", "email" => "", "password" => "", "password_conf" => "", "situation" => 0, "type_langue" => "",
-                     "invalid_language" => false, "champs_vide" => false, "champ_vide_user" => false, "champ_vide_email" => false,
-                     "champ_vide_pwd" => false, "champ_vide_pwd_conf" => false, "champ_trop_long_user" => false, "champ_trop_long_email" => false,
-                     "champ_trop_long_pwd" => false, "champ_trop_long_pwd_conf" => false, "champs_trop_long" => false,
-		             "champs_invalid" => false, "champ_invalid_user" => false, "champ_invalid_pwd" => false, "champ_invalid_email" => false,
-                        "same_user_pwd" => false, "duplicat_user" => false, "duplicat_email" => false, "duplicate" => false,
-		             "user_already_exist" => false, 
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     "pwd_not_found" => false, "user_admin" => false, "message_erreur_bd" => "",
-		             "erreur_system_bd" => false, "erreur_presente" => false, "id_user" => 0, "liste_mots" => array());
+                     "invalid_language" => false, "message_erreur_bd" => "", "erreur_system_bd" => false, "erreur_presente" => false,
+                     "champ_vide_user" => false, "champ_vide_email" => false, "champ_vide_pwd" => false, "champ_vide_pwd_conf" => false,
+                     "champ_trop_long_user" => false, "champ_trop_long_email" => false, "champ_trop_long_pwd" => false, "champ_trop_long_pwd_conf" => false,
+                     "champ_trop_court_user" => false, "champ_trop_court_pwd" => false, "champ_trop_court_pwd_conf" => false,
+                     "champ_invalid_user" => false, "champ_invalid_email" => false, "champ_invalid_pwd" => false, "champ_invalid_pwd_conf" => false,
+                     "champs_vide" => false, "champs_trop_long" => false, "champs_trop_court" => false, "champs_invalid" => false,
+                     "champs_pwd_not_equal" => false, "champs_user_pwd_equal" => false, "duplicate_user" => false, "duplicate_email" => false,
+                     "duplicates" => false, "create_user_success" => false, "liste_mots" => array());
 	}
 	
 	/**

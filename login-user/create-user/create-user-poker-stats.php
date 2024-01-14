@@ -99,162 +99,162 @@
 		
 		return $array_Champs;
 	}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    function verifChamp($array_Champs, $connMYSQL) {
-        if (isset($_POST['signUp']) || isset($_POST['login'])){
-            $array_Champs["user"] = strtolower($_POST['user']);
-            $array_Champs["password"] = $_POST['password'];
-        }
-    
-        if (isset($_POST['signUp'])){
-            $array_Champs["email"] = $_POST['email'];
-        }
-    
+	
+	/**
+	 * Fonction qui servira à mettre à «True» les variables de contrôles des informations
+	 * que nous avons associé durant la fonction @see remplissage_champs
+     *
+     * @param mysqli $connMYSQL
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function validation_champs(mysqli $connMYSQL, array $array_Champs): array {
+        
         if (empty($array_Champs['user'])){
-            $array_Champs['champVideUser'] = true;
+            $array_Champs['champ_vide_user'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
-    
+		
+		if (empty($array_Champs['email']) ){
+			$array_Champs['champ_vide_email'] = true;
+			$array_Champs['erreur_presente'] = true;
+		}
+        
         if (empty($array_Champs['password'])){
-            $array_Champs['champVidePassword'] = true;
+            $array_Champs['champ_vide_pwd'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
+		
+		if (empty($array_Champs['password_conf'])){
+			$array_Champs['champ_vide_pwd_conf'] = true;
+			$array_Champs['erreur_presente'] = true;
+		}
+		
+		// Activation de la variable de contrôle
+		if ($array_Champs['champ_vide_user'] && $array_Champs['champ_vide_email'] &&
+            $array_Champs['champ_vide_pwd'] && $array_Champs['champ_vide_pwd_conf']){
+			$array_Champs['champs_vide'] = true;
+		}
+        
+        // Vérification des longueurs
+        $longueur_user = strlen($array_Champs['user']);
+        $longueur_email = strlen($array_Champs['email']);
+        $longueur_pwd = strlen($array_Champs['password']);
+        $longueur_pwd_conf = strlen($array_Champs['password_conf']);
+        
     
-        // Cette validation doit exclure si on pèse sur le bouton login
-        if (empty($array_Champs['email']) && isset($_POST['signUp'])){
-            $array_Champs['champVideEmail'] = true;
+        if ($longueur_user > 15) {
+            $array_Champs['champ_trop_long_user'] = true;
+            
+        } elseif ($longueur_user < 4) {
+            $array_Champs['champ_trop_court_user'] = true;
+	    }
+        
+		if ($longueur_email > 50){
+			$array_Champs['champ_trop_long_email'] = true;
+		}
+        
+        if ($longueur_pwd > 25){
+            $array_Champs['champ_trop_long_pwd'] = true;
+	
+        } elseif ($longueur_pwd < 8) {
+	        $array_Champs['champ_trop_court_pwd'] = true;
         }
-    
-        // Simplification des array_Champs vide pour plutard...
-        if (($array_Champs['champVideUser'] || $array_Champs['champVidePassword'] || $array_Champs['champVideEmail'])){
-            $array_Champs['champVide'] = true;
+		
+		if ($longueur_pwd_conf > 25){
+			$array_Champs['champ_trop_long_pwd_conf'] = true;
+			
+		} elseif ($longueur_pwd_conf < 8) {
+			$array_Champs['champ_trop_court_pwd_conf'] = true;
+		}
+        
+        if ($array_Champs['champ_trop_long_user'] || $array_Champs['champ_trop_long_email'] ||
+            $array_Champs['champ_trop_long_pwd'] || $array_Champs['champ_trop_long_pwd_conf']){
+            
+            $array_Champs['champs_trop_long'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
-    
-        $longueurUser = strlen($array_Champs['user']);
-        $longueurPassword = strlen($array_Champs['password']);
-        $longueurEmail = strlen($array_Champs['email']);
-    
-        if ($longueurUser > 15) {
-            $array_Champs['champTropLongUser'] = true;
-        }
-    
-        if ($longueurPassword > 25){
-            $array_Champs['champTropLongPassword'] = true;
-        }
-    
-        if ($longueurEmail > 50 && isset($_POST['signUp']) ){
-            $array_Champs['champTropLongEmail'] = true;
-        }
-    
-        // Simplification des array_Champs trop long pour plutard...
-        if ($array_Champs['champTropLongUser'] || $array_Champs['champTropLongPassword'] || $array_Champs['champTropLongEmail']){
-            $array_Champs['champTropLong'] = true;
+		
+		if ($array_Champs['champ_trop_court_user'] || $array_Champs['champ_trop_court_pwd'] || $array_Champs['champ_trop_court_pwd_conf']) {
+			
+            $array_Champs['champs_trop_court'] = true;
+			$array_Champs['erreur_presente'] = true;
         }
     
         // On ne doit pas avoir de caractères spéciaux dans l'username
-        // ajout du underscore pour le user name
-        $patternUser = "#^[0-9a-z]([0-9a-z_]{0,13})[0-9a-z]$#";
-        if (!preg_match($patternUser, $array_Champs['user'])) {
-            $array_Champs['champInvalidUser'] = true;
-        }
-    
+		$pattern_user = "#^[0-9a-z][0-9a-z]{1,13}[0-9a-z]$#";
+		if (!preg_match($pattern_user, $array_Champs['user'])) {
+			$array_Champs['champ_invalid_user'] = true;
+		}
+		
+		$pattern_email = "#^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$#";
+		if (!preg_match($pattern_email, $array_Champs['email'])) {
+			$array_Champs['champ_invalid_email'] = true;
+   
+			// https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
+		} elseif (!(filter_var($array_Champs['email'], FILTER_VALIDATE_EMAIL))){
+			$array_Champs['champ_invalid_email'] = true;
+		}
+        
         // On ne doit pas avoir de caractères spéciaux dans le mot de passe
-        $patternPass = "#^[0-9a-zA-Z]([0-9a-zA-Z]{0,23})[0-9a-zA-Z]$#";
-        if (!preg_match($patternPass, $array_Champs['password'])) {
-            $array_Champs['champInvalidPassword'] = true;
+        $pattern_pwd = "#^[0-9a-zA-Z][0-9a-zA-Z]{0,23}[0-9a-zA-Z]$#";
+        if (!preg_match($pattern_pwd, $array_Champs['password'])) {
+            $array_Champs['champ_invalid_pwd'] = true;
         }
+		
+		if (!preg_match($pattern_pwd, $array_Champs['password_conf'])) {
+			$array_Champs['champ_invalid_pwd_conf'] = true;
+		}
     
-        $patternEmail = "#^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$#";
-        if (!preg_match($patternEmail, $array_Champs['email']) && isset($_POST['signUp'])) {
-            $array_Champs['champInvalidEmail'] = true;
+        if ($array_Champs['champ_invalid_user'] || $array_Champs['champ_invalid_email'] ||
+            $array_Champs['champ_invalid_pwd'] || $array_Champs['champ_invalid_pwd_conf']){
+            
+            $array_Champs['champs_invalid'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
-    
-        // Ajout de cette sécurité / 5 Février 2020
-        // https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
-        if (!(filter_var($array_Champs['email'], FILTER_VALIDATE_EMAIL)) && isset($_POST['signUp']) ){
-            $array_Champs['champInvalidEmail'] = true;
-        }
-    
-        if (($array_Champs['champInvalidUser'] || $array_Champs['champInvalidPassword'] || $array_Champs['champInvalidEmail'])){
-            $array_Champs['champInvalid'] = true;
-        }
-    
-        if (!$array_Champs['champVideUser'] && !$array_Champs['champVidePassword'] && $array_Champs['user'] == $array_Champs['password']){
-            $array_Champs['sameUserPWD'] = true;
-        }
-    
-        // Instauration de la validation si le user et ou email est dejà existant seulement si on veut créer un user
-        if (isset($_POST['signUp'])){
-            // Retourner un message erreur si la BD a eu un problème !
-    
-            // Optimisation pour avoir directement la valeur qui nous intéreste
-            $stmt = $connMYSQL->prepare("select user, email from login where user =? OR email =? ");
-    
-            /* Lecture des marqueurs */
-            $stmt->bind_param("ss", $array_Champs['user'], $array_Champs['email']);
-    
-            /* Exécution de la requête */
-            $stmt->execute();
-    
-            /* Association des variables de résultat */
-            $result = $stmt->get_result();
-            $row_cnt = $result->num_rows;
-    
-            // Close statement
-            $stmt->close();
-    
-            $row_cnt = $result->num_rows; // si il y a des résultats, on va vérifier lequeles est un duplicate
-            if ($row_cnt !== 0){
-                foreach ($result as $row) {
-                    if ($row['user'] === $array_Champs['user']) {
-                        $array_Champs['duplicatUser'] = true;
-                    }
-    
-                    if ($row['email'] === $array_Champs['email']) {
-                        $array_Champs['duplicatEmail'] = true;
-                    }
-                }
+        
+        // Si les password ne sont pas vides, valider qu'ils sont pareil, sinon erreur
+        if (!$array_Champs['champ_vide_pwd'] && !$array_Champs['champ_vide_pwd_conf']){
+            
+            if ($array_Champs['password'] !== $array_Champs['password_conf']){
+	            $array_Champs['champs_pwd_not_equal'] = true;
+                $array_Champs['erreur_presente'] = true;
             }
         }
-    
-        if ($array_Champs['duplicatEmail'] || $array_Champs['duplicatUser']){
-            $array_Champs['duplicate'] = true;
+        
+        // Si l'erreur des password non identique cest fausse, on valide qu'on aurait peut-être écrit l'username et password pareil
+        if (!$array_Champs['champs_pwd_not_equal']){
+            
+            if ($array_Champs['user'] === $array_Champs['password']){
+	            $array_Champs['champs_user_pwd_equal'] = true;
+	            $array_Champs['erreur_presente'] = true;
+            }
+        }
+		
+        // On peut seulement mettre à vrai deux variables de contrôles + les erreurs de BD
+		$array_Champs = requete_SQL_verif_user_email_existant($connMYSQL, $array_Champs);
+		
+        if ($array_Champs['duplicate_user'] || $array_Champs['duplicate_email']){
+            $array_Champs['duplicates'] = true;
+	        $array_Champs['erreur_presente'] = true;
         }
     
         return $array_Champs;
     }
 	
-	
 	/**
-	 * Fonction qui servira à valider si le user existe existant avec le bon password
-	 * On va aussi valider si le l'user est un user admin ou pas, pour savoir dans quelle page diriger le user
+	 * Fonction qui servira à valider si l'user OU l'email existent dans la BD
+     * Cette fonction sera @see validation_champs
 	 *
-	 * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
+	 * @param mysqli $connMYSQL
 	 * @param array $array_Champs
 	 * @return array
 	 */
-	function requete_SQL_verif_user_existant(mysqli $connMYSQL, array $array_Champs): array {
+	function requete_SQL_verif_user_email_existant(mysqli $connMYSQL, array $array_Champs) : array {
 		
-		$select = "SELECT USER ";
+		$select = "SELECT USER, EMAIL ";
 		$from = "FROM login ";
-		$where = "WHERE user = ?";
+		$where = "WHERE user = ? OR email = ?";
 		
 		// Préparation de la requête SQL avec les parties nécessaires
 		$query = $select . $from . $where;

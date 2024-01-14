@@ -12,7 +12,7 @@
 		$liste_mots = array("lang" => "", 'title' => "", 'p1' => "", 'li1' => "",
 		                     'li2' => "", 'li3' => "", 'legend' => "", 'usager' => "", 'pwd' => "", 'btn_login' => "",
 		                     "btn_reset" => "", 'btn_sign_up' => "", 'btn_reset_pwd' => "", 'btn_return' => "", 'message' => "",
-							 "exemple_email" => "", "pwd_conf" => "");
+							 "exemple_email" => "", "pwd_conf" => "", "email" => "");
 		
 		if ($type_langue === 'francais') {
 			$liste_mots["lang"] = "fr";
@@ -31,9 +31,10 @@
 			$liste_mots["btn_return"] = "Accueil";
 			
 			// Les mots traduits pour la page de création du user
-			$liste_mots["exemple_email"] = "exemple@domaine.com";
-			$liste_mots["pwd_conf"] = "Confirmation de Password :";
-			$liste_mots["exemple_pwd"] = "lettre & chiffre acceptés";
+			$liste_mots["email"] = "Courriel :";
+			$liste_mots["pwd_conf"] = "Mot de passe de confirmation :";
+			$liste_mots["info_valid_email"] = "exemple@domaine.com";
+			$liste_mots["info_valid_user_pwd"] = "lettre & chiffre acceptés";
 			
 			
 		} elseif ($type_langue === 'english') {
@@ -53,9 +54,10 @@
 			$liste_mots["btn_return"] = "Home";
 			
 			// Les mots traduits pour la page de création du user
-			$liste_mots["exemple_email"] = "example@domain.com";
+			$liste_mots["email"] = "Email :";
 			$liste_mots["pwd_conf"] = "Password confirmation :";
-			$liste_mots["exemple_pwd"] = "letter & number accepted";
+			$liste_mots["info_valid_email"] = "example@domain.com";
+			$liste_mots["info_valid_user_pwd"] = "letter & number accepted";
 		}
 		
 		// Le message qui sera dans la langue voulu

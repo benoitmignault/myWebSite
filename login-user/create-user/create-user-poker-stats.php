@@ -1,5 +1,7 @@
 <?php
-	// Les includes nécessaires
+	// Pour éviter de dupliquer des fichiers de back-end, on va utiliser les fichiers css, js de login-user
+    
+    // Les includes nécessaires
 	use JetBrains\PhpStorm\NoReturn;
  
 	include_once("../../traduction/traduction-login-user.php");
@@ -338,7 +340,7 @@
                             <div class="information <?php if (!isset($_POST['login']) && ($array_Champs['duplicatEmail'] || $array_Champs['champVideEmail'] || $array_Champs['champInvalidEmail'] || $array_Champs['champTropLongEmail'])) { echo 'erreur';} ?>">
                                 <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
                                 <div>
-                                    <input placeholder="<?php echo $array_Champs["liste_mots"]['emailInfo']; ?>" id="email" type='email' maxlength="50" name="email" value="<?php echo $array_Champs['email']; ?>" />
+                                    <input id="email" placeholder="<?php echo $array_Champs["liste_mots"]['exemple_email']; ?>" type='email' maxlength="50" name="email" value="<?php echo $array_Champs['email']; ?>" />
                                     <span class="obligatoire">&nbsp;&nbsp;&nbsp;</span>
                                 </div>
                             </div>

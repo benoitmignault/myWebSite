@@ -461,9 +461,10 @@
         } elseif (isset($_POST['btn_sign_up'])) {
 	
 	        // On passe à travers les champs pour vérifier les informations
-	        $array_Champs = validation_champs($array_Champs);
+	        $array_Champs = validation_champs($connMYSQL, $array_Champs);
          
-            if (!$array_Champs["user_already_exist"]){
+            // Tant que nous n'avons pas d'erreur, on poursuit vers la création du user
+            if (!$array_Champs["erreur_presente"]){
                 
                 //  $array_Champs = creationUser($array_Champs, $connMYSQL);
             }

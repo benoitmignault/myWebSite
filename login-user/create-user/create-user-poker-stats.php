@@ -473,6 +473,11 @@
             $array_Champs["situation"] = situation($array_Champs);
         }
     }
+    
+    
+    // TODO Ne pas oublier de changer les informations dans la page web
+    
+    
 	// On va faire la traduction, à la fin des GEt & POST
 	// La variable de situation est encore à 0 pour le GET, donc aucun message
 	$array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);

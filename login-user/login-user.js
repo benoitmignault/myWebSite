@@ -5,7 +5,7 @@ const champs_user = document.querySelector('#user');
 const champs_password = document.querySelector('#password');
 
 // champ pour la création des users seulement
-const champs_password_conf = document.querySelector('#password_conf');
+const champs_password_conf = document.querySelector('#password-conf');
 const champs_email = document.querySelector('#email');
 
 // La section du ou des messages d'erreurs

@@ -344,22 +344,10 @@
 		exit; // On va sortir ici, après avoir loader la bonne page web
 	}
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-	// Les fonctions communes
+ 	// Les fonctions communes
 	$connMYSQL = connexion();
 	$array_Champs = initialisation();
 	$array_Champs = remplissage_champs($array_Champs);
-    
-    
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
      
@@ -370,6 +358,25 @@
     } // Fin du GET pour faire afficher la page web
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	
+        if (isset($_POST['btn_login']) || isset($_POST['btn_return'])) {
+            redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]); // On n'a pas besoin de cette variable
+            
+            // Si le bouton se connecter est pesé...
+        } elseif (isset($_POST['btn_sign_up'])) {
+	
+	        // On passe à travers les champs pour vérifier les informations
+	        $array_Champs = validation_champs($array_Champs);
+         
+         
+         
+        }
+        
+        
+        
+        
+        
+        
         $array_Champs = initialChamp();
         $array_Champs["typeLangue"] = $_POST['langue'];
         if (isset($_POST['return'])) {

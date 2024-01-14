@@ -33,6 +33,7 @@
 			// Les mots traduits pour la page de création du user
 			$liste_mots["exemple_email"] = "exemple@domaine.com";
 			$liste_mots["pwd_conf"] = "Confirmation de Password :";
+			$liste_mots["exemple_pwd"] = "lettre & chiffre acceptés";
 			
 			
 		} elseif ($type_langue === 'english') {
@@ -54,6 +55,7 @@
 			// Les mots traduits pour la page de création du user
 			$liste_mots["exemple_email"] = "example@domain.com";
 			$liste_mots["pwd_conf"] = "Password confirmation :";
+			$liste_mots["exemple_pwd"] = "letter & number accepted";
 		}
 		
 		// Le message qui sera dans la langue voulu

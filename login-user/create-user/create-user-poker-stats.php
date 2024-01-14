@@ -469,82 +469,25 @@
         if (isset($_POST['btn_login']) || isset($_POST['btn_return']) || isset($_POST['btn_reset_pwd'])) {
             redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]); // On n'a pas besoin de cette variable
             
-            // Si le bouton se connecter est pesé...
+            // Si le bouton création de user est pesé...
         } elseif (isset($_POST['btn_sign_up'])) {
 	
 	        // On passe à travers les champs pour vérifier les informations
 	        $array_Champs = validation_champs($array_Champs);
-	
-            // On valide que l'user n'existe pas, si oui
-	        $array_Champs["user_already_exist"] = requete_SQL_verif_user_existant($connMYSQL, $array_Champs);
          
             if (!$array_Champs["user_already_exist"]){
                 
-                //
+                //  $array_Champs = creationUser($array_Champs, $connMYSQL);
             }
-        }
-        
-        
-        
-        
-        
-        
-        $array_Champs = initialChamp();
-        $array_Champs["typeLangue"] = $_POST['langue'];
-        if (isset($_POST['return'])) {
-            if ($array_Champs["typeLangue"] === 'english') {
-                header("Location: /english/english.html");
-            } elseif ($array_Champs["typeLangue"] === 'francais') {
-                header("Location: /index.html");
-            }
-            exit;
-        } else {
-            $array_Champs = verifChamp($array_Champs, $connMYSQL);
-            // Si le bouton se connecter est pesé...
-            if (isset($_POST['login'])) {
-                // Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-                /* Crée une requête préparée */
-                $stmt = $connMYSQL->prepare("select id from login where user =?");
-    
-                /* Lecture des marqueurs */
-                $stmt->bind_param("s", $array_Champs["user"]);
-    
-                /* Exécution de la requête */
-                $stmt->execute();
-    
-                /* Association des variables de résultat */
-                $result = $stmt->get_result();
-    
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-    
-                // Close statement
-                $stmt->close();
-    
-                $array_Champs["idCreationUser"] = $row["id"];	// Assignation de la valeur
-                if (!$array_Champs["champVide"] && !$array_Champs["champTropLong"] && !$array_Champs["champInvalid"] ) {
-                    $array_Champs = connexionUser($array_Champs, $connMYSQL);
-                }
-                // si le bouton s'inscrire est pesé...
-            } elseif (isset($_POST['signUp'])) {
-                // Ajout de la validation si duplicate est à false en raison de unicité du user et email
-                if (!$array_Champs["champVide"] && !$array_Champs["champTropLong"] && !$array_Champs["champInvalid"] && !$array_Champs['sameUserPWD'] && !$array_Champs['duplicate']) {
-                    $array_Champs = creationUser($array_Champs, $connMYSQL);
-                }
-                // si le bouton effacer est pesé...
-            } elseif (isset($_POST['reset'])) {
-	            if ($array_Champs["typeLangue"] === 'english') {
-		            header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=english");
-	            } elseif ($array_Champs["typeLangue"] === 'francais') {
-		            header("Location: /login-user/reset-pwd/create-email-temp-pwd.php?langue=francais");
-	            }
-                exit;
-            }
+            
+            
             $array_Champs["situation"] = situation($array_Champs); // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
 	        // On va faire la traduction, à la fin des GEt & POST
 	        // La variable de situation est encore à 0 pour le GET, donc aucun message
 	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
         }
     }
+    
 	$connMYSQL->close();
 ?>
 <!DOCTYPE html>

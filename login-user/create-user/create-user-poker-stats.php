@@ -1,16 +1,25 @@
 <?php
 	// Les includes nécessaires
 	use JetBrains\PhpStorm\NoReturn;
-    
+ 
 	include_once("../../traduction/traduction-login-user.php");
 	include_once("../../includes/fct-connexion-bd.php");
-
-    // il va falloir ajouter une valid duplicateEmail
-    function initialChamp() {
-        $array_Champs = ["champVide" => false, "champVideUser" => false, "champVidePassword" => false, "champVideEmail" => false, "duplicate" => false, "duplicatUser" => false, "duplicatEmail" => false, "champInvalid" => false,
-        "champInvalidUser" => false, "champInvalidPassword" => false, "champInvalidEmail" => false, "badUser" => false, "champTropLong" => false, "champTropLongUser" => false, "champTropLongPassword" => false, "champTropLongEmail" => false, "badPassword" => false, "creationUserSuccess" => false, "password" => "", "situation" => 0, "email" => "", "user" => "", "typeLangue" => "", "sameUserPWD" => false, "idCreationUser" => 0];
-        return $array_Champs;
-    }
+	
+	/**
+	 * Fonction qui va contenir tous ce dont on aura besoin.
+	 * Une partie des variables de type string ou int et une autre partie en boolean
+	 * On va ajouter un array pour les mots traduits ou non
+	 *
+	 * @return array
+	 */
+	function initialisation(): array {
+		
+		return array("user" => "", "password" => "", "situation" => 0, "type_langue" => "", "invalid_language" => false,
+		             "champs_vide" => false, "champ_vide_user" => false, "champ_vide_pwd" => false,
+		             "champs_invalid" => false, "champ_invalid_user" => false, "champ_invalid_pwd" => false,
+		             "user_not_found" => false, "pwd_not_found" => false, "user_admin" => false, "message_erreur_bd" => "",
+		             "erreur_system_bd" => false, "erreur_presente" => false, "id_user" => 0, "liste_mots" => array());
+	}
     
     function verifChamp($array_Champs, $connMYSQL) {
         if (isset($_POST['signUp']) || isset($_POST['login'])){

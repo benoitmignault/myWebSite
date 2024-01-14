@@ -218,24 +218,76 @@
         
         return password_hash($password, PASSWORD_BCRYPT);
     }
-    
-    
-    
-    
+	
+	
+	/**
+	 * Fonction pour rediriger vers la bonne page extérieur à la page du reset de password
+	 * En fonction aussi si le type de langue est valide
+	 *
+	 * @param string $type_langue
+	 * @param bool $invalid_language
+	 * @return void
+	 */
+	#[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
+		
+		// Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
+		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+			header("Location: /erreur/erreur.php");
+		}
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			
+			if ($invalid_language){
+				header("Location: /erreur/erreur.php");
+				
+				// Une demande de retour à la page de connexion
+			} elseif (isset($_POST['btn_login'])) {
+				
+				// En fonction de la langue
+				if ($type_langue === 'english') {
+					header("Location: /login-user/login-user.php?langue=english");
+				} elseif ($type_langue === 'francais') {
+					header("Location: /login-user/login-user.php?langue=francais");
+				}
+				
+			} elseif (isset($_POST['btn_return'])) {
+				
+				// En fonction de la langue
+				if ($type_langue === 'english') {
+					header("Location: /english/english.html");
+				} elseif ($type_langue === 'francais') {
+					header("Location: /index.html");
+				}
+			}
+		}
+		
+		exit; // On va sortir ici, après avoir loader la bonne page web
+	}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 	// Les fonctions communes
 	$connMYSQL = connexion();
+	$array_Champs = initialisation();
+	$array_Champs = remplissage_champs($array_Champs);
+    
+    
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $array_Champs = initialChamp(); // est un tableau avec tous les flag erreurs possibles et les infos du user, pwd et le type de situation
-        $array_Champs["typeLangue"] = $_GET['langue'];
-    
-        if ($array_Champs["typeLangue"] != "francais" && $array_Champs["typeLangue"] != "english") {
-            header("Location: /erreur/erreur.php");
-            exit;
-        } else {
-            $arrayMots = traduction($array_Champs);
-        }
-    }
+     
+	    // Si la langue n'est pas setter, on va rediriger vers la page Err 404
+	    if ($array_Champs["invalid_language"]) {
+		    redirection("", false); // On n'a pas besoin de cette variable
+	    }
+    } // Fin du GET pour faire afficher la page web
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $array_Champs = initialChamp();
@@ -337,7 +389,7 @@
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>
-                            <div class="information <?php if (!isset($_POST['login']) && ($array_Champs['duplicatEmail'] || $array_Champs['champVideEmail'] || $array_Champs['champInvalidEmail'] || $array_Champs['champTropLongEmail'])) { echo 'erreur';} ?>">
+                            <div class="information <?php if (($array_Champs['duplicatEmail'] || $array_Champs['champVideEmail'] || $array_Champs['champInvalidEmail'] || $array_Champs['champTropLongEmail'])) { echo 'erreur';} ?>">
                                 <label for="email"><?php echo $array_Champs["liste_mots"]['email']; ?></label>
                                 <div>
                                     <input id="email" placeholder="<?php echo $array_Champs["liste_mots"]['exemple_email']; ?>" type='email' maxlength="50" name="email" value="<?php echo $array_Champs['email']; ?>" />
@@ -345,14 +397,14 @@
                                 </div>
                             </div>
                             <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
-                                <label for="password"><?php echo $array_Champs["liste_mots"]['mdp']; ?></label>
+                                <label for="password"><?php echo $array_Champs["liste_mots"]['pwd']; ?></label>
                                 <div>
                                     <input id="password" type='password' maxlength="25" name="password" value="<?php echo $array_Champs['password']; ?>" />
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>
                             <div class="information <?php if ($array_Champs['sameUserPWD'] || $array_Champs['badPassword'] || $array_Champs['champVidePassword'] || $array_Champs['champInvalidPassword'] || $array_Champs['champTropLongPassword']) { echo 'erreur';} ?>">
-                                <label for="password"><?php echo $array_Champs["liste_mots"]['mdp']; ?></label>
+                                <label for="password"><?php echo $array_Champs["liste_mots"]['pwd_conf']; ?></label>
                                 <div>
                                     <input id="password_conf" type='password' maxlength="25" name="password_conf" value="<?php echo $array_Champs['password_conf']; ?>" />
                                     <span class="obligatoire">&nbsp;*</span>

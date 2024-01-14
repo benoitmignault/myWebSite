@@ -11,7 +11,8 @@
 		
 		$liste_mots = array("lang" => "", 'title' => "", 'p1' => "", 'li1' => "",
 		                     'li2' => "", 'li3' => "", 'legend' => "", 'usager' => "", 'pwd' => "", 'btn_login' => "",
-		                     "btn_reset" => "", 'btn_sign_up' => "", 'btn_reset_pwd' => "", 'btn_return' => "", 'message' => "");
+		                     "btn_reset" => "", 'btn_sign_up' => "", 'btn_reset_pwd' => "", 'btn_return' => "", 'message' => "",
+							 "exemple_email" => "");
 		
 		if ($type_langue === 'francais') {
 			$liste_mots["lang"] = "fr";
@@ -29,6 +30,10 @@
 			$liste_mots["btn_reset_pwd"] = "Mot de passe oublié ?";
 			$liste_mots["btn_return"] = "Accueil";
 			
+			// Les mots traduits pour la page de création du user
+			$liste_mots["exemple_email"] = "exemple@domaine.com";
+			
+			
 		} elseif ($type_langue === 'english') {
 			$liste_mots["lang"] = "en";
 			$liste_mots["title"] = "Logging - user";
@@ -44,6 +49,9 @@
 			$liste_mots["btn_reset"] = "Erase";
 			$liste_mots["btn_reset_pwd"] = "Forgot password ?";
 			$liste_mots["btn_return"] = "Home";
+			
+			// Les mots traduits pour la page de création du user
+			$liste_mots["exemple_email"] = "example@domain.com";
 		}
 		
 		// Le message qui sera dans la langue voulu

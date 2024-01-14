@@ -16,12 +16,92 @@
 	 */
 	function initialisation(): array {
 		
-		return array("user" => "", "password" => "", "situation" => 0, "type_langue" => "", "invalid_language" => false,
+		return array("user" => "", "email" => "", "password" => "", "password_conf" => "", "situation" => 0, "type_langue" => "", "invalid_language" => false,
 		             "champs_vide" => false, "champ_vide_user" => false, "champ_vide_pwd" => false,
 		             "champs_invalid" => false, "champ_invalid_user" => false, "champ_invalid_pwd" => false,
 		             "user_not_found" => false, "pwd_not_found" => false, "user_admin" => false, "message_erreur_bd" => "",
 		             "erreur_system_bd" => false, "erreur_presente" => false, "id_user" => 0, "liste_mots" => array());
 	}
+	
+	/**
+	 * Fonction pour setter les premières informations du GET ou POST
+	 * Aussi, on va récupérer via le POST, les informations suivantes :
+     * - username
+     * - email
+     * - password
+     * - password confirmation
+     *
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function remplissage_champs(array $array_Champs): array{
+		
+		// C'est la seule variable qui sera affectée par le GET
+		if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+			
+			if (isset($_GET['langue'])){
+				$array_Champs["type_langue"] = $_GET['langue'];
+			}
+		}
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+			
+			// Exceptionnellement, on va faire une validation ici
+			if (isset($_POST['langue'])){
+				$array_Champs["type_langue"] = $_POST['langue'];
+			}
+			
+			if (isset($_POST['btn_sign_up'])){
+				
+				if (isset($_POST['user'])){
+					// On met tous en minuscule pour gérer la suite des choses
+					$array_Champs["user"] = strtolower($_POST['user']);
+				}
+				
+				if (isset($_POST['email'])){
+					// On met tous en minuscule pour gérer la suite des choses
+					$array_Champs["email"] = $_POST['email'];
+				}
+				
+				if (isset($_POST['password'])){
+					// On met tous en minuscule pour gérer la suite des choses
+					$array_Champs["password"] = $_POST['password'];
+				}
+    
+				if (isset($_POST['password_conf'])){
+					// On met tous en minuscule pour gérer la suite des choses
+					$array_Champs["password_conf"] = $_POST['password_conf'];
+				}
+			}
+		}
+		
+		// Exceptionnellement, on va faire une validation ici
+		// Validation commune pour le Get & Post, à propos de la langue
+		if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "english"){
+			$array_Champs["invalid_language"] = true;
+		}
+		
+		return $array_Champs;
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     function verifChamp($array_Champs, $connMYSQL) {
         if (isset($_POST['signUp']) || isset($_POST['login'])){

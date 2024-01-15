@@ -289,10 +289,12 @@
             // Il peut avoir jusqu'à un max de deux résultats
             if ($row["USER"] === $array_Champs['user']){
 	            $array_Champs["duplicate_user"] = true;
+	            $array_Champs['erreur_presente'] = true;
             }
 	
 	        if ($row["EMAIL"] === $array_Champs['email']){
 		        $array_Champs["duplicate_email"] = true;
+		        $array_Champs['erreur_presente'] = true;
 	        }
         }
 		

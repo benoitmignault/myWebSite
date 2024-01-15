@@ -222,9 +222,8 @@
         // On peut seulement mettre à vrai deux variables de contrôles + les erreurs de BD
 		$array_Champs = requete_SQL_verif_user_email_existant($connMYSQL, $array_Champs);
 		
-        if ($array_Champs['duplicate_user'] || $array_Champs['duplicate_email']){
+        if ($array_Champs['duplicate_user'] && $array_Champs['duplicate_email']){
             $array_Champs['duplicates'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
     
         return $array_Champs;

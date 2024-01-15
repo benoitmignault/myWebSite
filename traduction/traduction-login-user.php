@@ -17,11 +17,12 @@
 		if ($type_langue === 'francais') {
 			$liste_mots["lang"] = "fr";
 			$liste_mots["title"] = "Connexion - utilisateur";
-			$liste_mots["p1"] = "Bienvenue à la page de connexion des statistiques du poker entre amis !";
+			$liste_mots["p1"] = "Connectez-vous pour explorer les données, fascinantes";
+			$liste_mots["p2"] = "Vous êtes sur le point d'accéder à la page des statistiques des tournois de poker amicales";
 			$liste_mots["li1"] = "Connectez vous pour voir les statistiques";
 			$liste_mots["li2"] = "Veuillez vous créer un compte pour consulter les statistiques, si vous n'en avez pas";
 			$liste_mots["li3"] = "Avez-vous oublié votre mot de passe, si oui, on s'en occupe";
-			$liste_mots["legend"] = "Saisir vos informations";
+			$liste_mots["legend"] = "Vos informations de connexion";
 			$liste_mots["usager"] = "Nom d'utilisateur :";
 			$liste_mots["pwd"] = "Mot de passe :";
 			$liste_mots["btn_login"] = "Connexion";
@@ -35,16 +36,22 @@
 			$liste_mots["pwd_conf"] = "Mot de passe de confirmation :";
 			$liste_mots["info_valid_email"] = "exemple@domaine.com";
 			$liste_mots["info_valid_user_pwd"] = "lettre & chiffre acceptés";
-			
+			$liste_mots["titre_create"] = "Creation - utilisateur";
+			$liste_mots["p1_create"] = "Bienvenue sur la page d'inscription !";
+			$liste_mots["p2_create"] = "Créez votre compte ici pour accéder aux statistiques détaillées des tournois de poker entre amis";
+			$liste_mots["li1_create"] = "Pour créer votre compte, vous avez besoin :";
+			$liste_mots["li2_create"] = "Nom d'utilisateur, courriel et d'un mot de passe";
+			$liste_mots["li3_create"] = "Une fois votre compte créer, vous pouvez revenir sur la page de « Connexion »";
 			
 		} elseif ($type_langue === 'english') {
 			$liste_mots["lang"] = "en";
 			$liste_mots["title"] = "Logging - user";
-			$liste_mots["p1"] = "Welcome to the login page to see the statistic of poker between friends !";
+			$liste_mots["p1"] = "Log in to explore the fascinating data";
+			$liste_mots["p2"] = "You are about to access the friendly poker tournament statistics page";
 			$liste_mots["li1"] = "Login to see statistics";
 			$liste_mots["li2"] = "Please create an account to view the statistics, if you do not have one";
 			$liste_mots["li3"] = "Have you forgotten your password, if so, we'll take care of it";
-			$liste_mots["legend"] = "Enter your information";
+			$liste_mots["legend"] = "Your login information";
 			$liste_mots["usager"] = "Username :";
 			$liste_mots["pwd"] = "Password :";
 			$liste_mots["btn_login"] = "Login";
@@ -58,6 +65,12 @@
 			$liste_mots["pwd_conf"] = "Password confirmation :";
 			$liste_mots["info_valid_email"] = "example@domain.com";
 			$liste_mots["info_valid_user_pwd"] = "letter & number accepted";
+			$liste_mots["titre_create"] = "Creation - user";
+			$liste_mots["p1_create"] = "Welcome to the registration page !";
+			$liste_mots["p2_create"] = "Create your account here to access detailed statistics of poker tournaments with friends";
+			$liste_mots["li1_create"] = "To create your account, you need :";
+			$liste_mots["li2_create"] = "Username, email and password";
+			$liste_mots["li3_create"] = "Once your account has been created, you can return to the « Login » page";
 		}
 		
 		// Le message qui sera dans la langue voulu

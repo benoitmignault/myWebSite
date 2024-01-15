@@ -24,11 +24,18 @@
 }
 
 .content > .center > .titre {
-    margin: 0;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    font-size: 24px;
+    margin: 0 0 15px;
+    font-size: 22px;
     text-align: center;
+}
+
+.content > .center > .titre:first-of-type{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.content > .center > .titre:last-of-type{
+    margin-bottom: 15px;
 }
 
 .content > .center > ul {
@@ -198,6 +205,11 @@ input::placeholder {
     background-image: -o-linear-gradient(top, #99ccff, #004d99);
     background-image: linear-gradient(to bottom, #99ccff, #004d99);
     cursor: pointer;
+}
+
+.bouton:active {
+    box-shadow: 0 0 10px #14422e;
+    transform: translateY(5px);
 }
 
 .erreur input[type="text"] {

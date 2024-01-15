@@ -493,7 +493,7 @@
         <!-- Le fichier login.png est la propriété du site https://pixabay.com/fr/ic%C3%B4nes-symboles-bouton-842844/ mais en utilisation libre-->
         <link rel="shortcut icon" href="../login-user-icone.png">
         <link rel="stylesheet" type="text/css" href="../login-user.css">
-        <title><?php echo $array_Champs["liste_mots"]['title']; ?></title>
+        <title><?php echo $array_Champs["liste_mots"]['titre_create']; ?></title>
         <style>
             body {
                 margin: 0;
@@ -508,11 +508,12 @@
     <body>
         <div class="content">
             <div class="center">
-                <p class='titre'><?php echo $array_Champs["liste_mots"]['p1']; ?></p>
+                <p class='titre'><?php echo $array_Champs["liste_mots"]['p1_create']; ?></p>
+                <p class='titre'><?php echo $array_Champs["liste_mots"]['p2_create']; ?></p>
                 <ul>
-                    <li class='info'><?php echo $array_Champs["liste_mots"]['li1']; ?></li>
-                    <li class='info'><?php echo $array_Champs["liste_mots"]['li2']; ?></li>
-                    <li class='info'><?php echo $array_Champs["liste_mots"]['li3']; ?></li>
+                    <li class='info'><?php echo $array_Champs["liste_mots"]['li1_create']; ?></li>
+                    <li class='info'><?php echo $array_Champs["liste_mots"]['li2_create']; ?></li>
+                    <li class='info'><?php echo $array_Champs["liste_mots"]['li3_create']; ?></li>
                 </ul>
                 <fieldset>
                     <legend class="legend-center"><?php echo $array_Champs["liste_mots"]['legend']; ?></legend>

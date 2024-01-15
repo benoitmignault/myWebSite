@@ -251,7 +251,7 @@
 		$stmt = $connMYSQL->prepare($query);
 		try {
 			/* Lecture des marqueurs */
-			$stmt->bind_param("s", $array_Champs['user'], $array_Champs['email']);
+			$stmt->bind_param("ss", $array_Champs['user'], $array_Champs['email']);
 			
 			/* Exécution de la requête */
 			$stmt->execute();

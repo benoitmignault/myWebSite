@@ -460,6 +460,7 @@
         <div class="content">
             <div class="center">
                 <p class='titre'><?php echo $array_Champs["liste_mots"]['p1']; ?></p>
+                <p class='titre'><?php echo $array_Champs["liste_mots"]['p2']; ?></p>
                 <ul>
                     <li class='info'><?php echo $array_Champs["liste_mots"]['li1']; ?></li>
                     <li class='info'><?php echo $array_Champs["liste_mots"]['li2']; ?></li>

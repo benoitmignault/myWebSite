@@ -301,7 +301,24 @@
 	}
 	
 	
-	
+	function creationUser($array_Champs, $connMYSQL) {
+		$passwordCrypter = encryptementPassword($array_Champs['password']);
+		// Prepare an insert statement
+		$sql = "INSERT INTO login (user, password, email) VALUES (?,?,?)";
+		$stmt = $connMYSQL->prepare($sql);
+		
+		// Bind variables to the prepared statement as parameters
+		$stmt->bind_param('sss', $array_Champs['user'], $passwordCrypter, $array_Champs['email']);
+		$stmt->execute();
+		
+		if ($stmt->affected_rows == 1){
+			$array_Champs['creationUserSuccess'] = true;
+		}
+		
+		// Close statement
+		$stmt->close();
+		return $array_Champs;
+	}
 	
 	
 	

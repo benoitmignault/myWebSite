@@ -497,15 +497,15 @@
             // Tant que nous n'avons pas d'erreur, on poursuit vers la création du user
             if (!$array_Champs["erreur_presente"]){
                 
-                //  $array_Champs = creationUser($array_Champs, $connMYSQL);
+                $array_Champs = creation_user($connMYSQL, $array_Champs);
             }
 	
 	        // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
-            $array_Champs["situation"] = situation($array_Champs);
+            //$array_Champs["situation"] = situation($array_Champs);
         }
     }
     
-	// On va faire la traduction, à la fin des GEt & POST
+	// On va faire la traduction, à la fin des GET & POST
 	// La variable de situation est encore à 0 pour le GET, donc aucun message
 	$array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
 	

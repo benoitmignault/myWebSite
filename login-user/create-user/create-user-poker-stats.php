@@ -570,7 +570,7 @@
                             <div class="information <?php if ($array_Champs['champs_user_pwd_equal'] || $array_Champs['champs_pwd_not_equal'] || $array_Champs['champ_vide_pwd_conf'] || $array_Champs['champ_invalid_pwd_conf'] || $array_Champs['champ_trop_long_pwd_conf']) { echo 'erreur';} ?>">
                                 <label for="password"><?php echo $array_Champs["liste_mots"]['pwd_conf']; ?></label>
                                 <div>
-                                    <input id="password_conf" type='password' name="password_conf" maxlength="25" placeholder="<?php echo $array_Champs["liste_mots"]['info_valid_user_pwd']; ?>" value="<?php echo $array_Champs['password_conf']; ?>" />
+                                    <input id="password-conf" type='password' name="password_conf" maxlength="25" placeholder="<?php echo $array_Champs["liste_mots"]['info_valid_user_pwd']; ?>" value="<?php echo $array_Champs['password_conf']; ?>" />
                                     <span class="obligatoire">&nbsp;*</span>
                                 </div>
                             </div>

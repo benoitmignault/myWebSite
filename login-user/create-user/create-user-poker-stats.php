@@ -300,23 +300,50 @@
 		return $array_Champs;
 	}
 	
-	
-	function creationUser($array_Champs, $connMYSQL) {
-		$passwordCrypter = encryptementPassword($array_Champs['password']);
-		// Prepare an insert statement
-		$sql = "INSERT INTO login (user, password, email) VALUES (?,?,?)";
-		$stmt = $connMYSQL->prepare($sql);
+	/**
+     * Fonction qui une fois rendu ici, on va pouvoir créer notre nouvel utilisateur pour accéder aux stats de poker
+     *
+	 * @param mysqli $connMYSQL
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function creation_user(mysqli $connMYSQL, array $array_Champs): array {
 		
-		// Bind variables to the prepared statement as parameters
-		$stmt->bind_param('sss', $array_Champs['user'], $passwordCrypter, $array_Champs['email']);
-		$stmt->execute();
+		$insert = "INSERT INTO";
+		$table = " login ";
+		$colonnes = "(user, password, email, admin) ";
+		$values = "VALUES (?, ?, ?, ?)";
+		$query = $insert . $table . $colonnes . $values;
 		
-		if ($stmt->affected_rows == 1){
-			$array_Champs['creationUserSuccess'] = true;
+        // Sécurisation du password encrypté
+		$pwd_crypter = encryptement_password($array_Champs['password']);
+        
+        // Assignation d'une valeur de variable pour savoir si le user sera admin, mais seulement le propriétaire est admin
+        $admin = false;
+  
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		try {
+			/* Lecture des marqueurs */
+			$stmt->bind_param('sssi', $array_Champs["user"],$pwd_crypter, $array_Champs['email'], $admin);
+			
+			/* Exécution de la requête */
+			$stmt->execute();
+		} catch (Exception $err){
+			// Récupérer les messages d'erreurs
+			$array_Champs["message_erreur_bd"] = $err->getMessage();
+			
+			// Sera utilisée pour faire afficher le message erreur spécial
+			$array_Champs["erreur_system_bd"] = true;
+		} finally {
+            // Vérification qu'on a créé un record
+			if ($stmt->affected_rows === 1){
+				$array_Champs['create_user_success'] = true;
+			}
+			// Fermer la préparation de la requête
+			$stmt->close();
 		}
 		
-		// Close statement
-		$stmt->close();
 		return $array_Champs;
 	}
 	

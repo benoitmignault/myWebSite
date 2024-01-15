@@ -129,7 +129,6 @@
         $longueur_email = strlen($array_Champs['email']);
         $longueur_pwd = strlen($array_Champs['password']);
         $longueur_pwd_conf = strlen($array_Champs['password_conf']);
-        
     
         if ($longueur_user > 15) {
             $array_Champs['champ_trop_long_user'] = true;

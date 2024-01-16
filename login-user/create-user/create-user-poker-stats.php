@@ -488,14 +488,6 @@
 		    redirection("", false); // On n'a pas besoin de cette variable
 	    }
     } // Fin du GET pour faire afficher la page web
-	
-	/**
-	 * test256255
-     * benoit256255@gmail.com
-     * Baseball123
-     * Baseball123
-	 */
-    
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	

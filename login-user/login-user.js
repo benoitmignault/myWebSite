@@ -14,6 +14,9 @@ const message_erreur = document.querySelector('.footer .erreur')
 // Les boutons actions possibles dans la page
 const faire_menage_total = document.querySelector('#faire_menage_total');
 
+// Sélectionnez tous les éléments avec la classe d'erreur
+const error_elements = document.querySelectorAll('.erreur input');
+
 /**
  * Fonction pour effacer les
  */
@@ -56,7 +59,7 @@ function effacer_tous_les_champs() {
 
 /**
  * Fonction pour remettre les attributs de base pour tous les champs.
- * Peu importe ce qui se passe avec le dit champ
+ * Peu importe ce qui se passe avec ledit champ
  *
  * @param champ -> l'input qui sera transformé
  */
@@ -74,9 +77,21 @@ function reinitialisation_champ(champ){
 }
 
 /**
+ * Fonction pour remettre sur le 1er champ qui tombe en erreur avec des informations manquantes
+ */
+function surveillance_focus_a_changer() {
+
+    // Si des éléments d'erreur existent, déplacez le focus sur le premier
+    if (error_elements.length > 0) {
+        error_elements[0].focus();
+    }
+}
+
+/**
  * Une fois que la page est chargée, on fera appel aux fonctions ci-dessous
  */
 document.addEventListener('DOMContentLoaded', function () {
 
     effacement_complet();
+    surveillance_focus_a_changer();
 });

@@ -387,9 +387,6 @@
         } elseif ($array_Champs['champs_trop_long']) {
 	        $type_situation = 18;
          
-        } elseif ($array_Champs['champs_trop_court']) {
-	        $type_situation = 22;
-	
         } elseif ($array_Champs['champs_invalid']) {
 	        $type_situation = 19;
          
@@ -399,6 +396,9 @@
         } elseif ($array_Champs['duplicate_email'] && !$array_Champs['duplicate_user']) {
 	        $type_situation = 21;
          
+        } elseif ($array_Champs['champs_trop_court']) {
+	        $type_situation = 22;
+	
         } elseif ($array_Champs['duplicates']) {
 	        $type_situation = 23;
         }

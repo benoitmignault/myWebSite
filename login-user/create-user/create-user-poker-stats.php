@@ -593,11 +593,15 @@
                 </fieldset>
             </div>
             <div class="footer">
-	            <?php if ($array_Champs["situation"] !== 0) { ?>
+	            <?php if ($array_Champs["situation"] > 0 && $array_Champs["situation"] !== 10) { ?>
                     <div class='erreur'>
                         <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
                     </div>
-	            <?php } ?>
+	            <?php } elseif ($array_Champs["situation"] === 10) { ?>
+                    <div class='succes'>
+                    <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
+                    </div>
+                <?php } ?>
                 <div class="section-retour-btn">
                     <input form="form" class="bouton" type="submit" name="btn_return" value="<?php echo $array_Champs["liste_mots"]['btn_return']; ?>">
                 </div>

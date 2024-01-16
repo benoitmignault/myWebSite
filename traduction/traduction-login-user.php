@@ -154,6 +154,21 @@
 			case 6 : $message = "The username is invalid !"; break;
 			case 7 : $message = "The password is invalid !"; break;
 			case 8 : $message = "The username exists, but the password entered is not the one we have in our database !"; break;
+			
+			// Maintenant, ici nous aurons les situations pour la gestion dans la création des users
+			case 10 : $message = "Your account has been successfully created in our system. You can log in via the « Login » button"; break;
+			case 12 : $message = "When creating your account, you forgot to enter your email !"; break;
+			case 13 : $message = "When creating your account, you failed to enter and confirm your password !"; break;
+			case 14 : $message = "When creating your account, you forgot to enter your password or confirm it a second time !"; break;
+			case 15 : $message = "When creating your account, you forgot to enter your username !"; break;
+			case 16 : $message = "When creating your account, you did not enter the same information in the password fields !"; break;
+			case 17 : $message = "When creating your account, you cannot use the same information for your username and password !"; break;
+			case 18 : $message = "When creating your account, you entered information that exceeded the upper limit tolerated by our system !"; break;
+			case 19 : $message = "When creating your account, you entered information that was invalid by our system !"; break;
+			case 20 : $message = "When creating your account, you entered a username already used by another member of the site !"; break;
+			case 21 : $message = "When creating your account, you entered an email already used by another member of the site !"; break;
+			case 22 : $message = "When creating your account, you entered information that exceeded the lower limit by our system !"; break;
+			case 23 : $message = "When creating your account, you entered a username and email already used by another member of the site !"; break;
 		}
 		
 		return $message;

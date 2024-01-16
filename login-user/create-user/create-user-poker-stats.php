@@ -514,9 +514,9 @@
                 
                 $array_Champs = creation_user($connMYSQL, $array_Champs);
             }
-	
+            
 	        // Ici on va modifier la valeur de la variable situation pour faire afficher le message approprié
-            //$array_Champs["situation"] = situation($array_Champs);
+            $array_Champs["situation"] = situation_erreur($array_Champs);
         }
     }
     

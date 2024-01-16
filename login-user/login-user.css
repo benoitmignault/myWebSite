@@ -212,12 +212,9 @@ input::placeholder {
     transform: translateY(5px);
 }
 
-.erreur input[type="text"] {
-    border-color: red;
-    background-color: #FCDEDE;
-}
-
-.erreur input[type="password"] {
+.erreur input[type="email"],
+.erreur input[type="text"],
+.erreur input[type="password"]{
     border-color: red;
     background-color: #FCDEDE;
 }

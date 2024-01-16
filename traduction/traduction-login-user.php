@@ -116,6 +116,21 @@
 			case 6 : $message = "Le nom d'utilisateur est invalide !"; break;
 			case 7 : $message = "Le mot de passe est invalide !"; break;
 			case 8 : $message = "Le nom d'utilisateur existe, mais le mot de passe saisi n'est pas celui que nous avons dans nos informations !"; break;
+		
+			// Maintenant, ici nous aurons les situations pour la gestion dans la création des users
+			case 10 : $message = "Votre compte a bien été créé, dans notre système. Vous pouvez vous connecter via le bouton « Connexion »"; break;
+			case 12 : $message = "Au moment de créer votre compte, vous avez omis de saisir votre courriel !"; break;
+			case 13 : $message = "Au moment de créer votre compte, vous avez omis de saisir votre mot de passe et de le confirmer !"; break;
+			case 14 : $message = "Au moment de créer votre compte, vous avez omis de saisir votre mot de passe ou de le confirmer une 2e fois !"; break;
+			case 15 : $message = "Au moment de créer votre compte, vous avez omis de saisir votre nom d'utilisateur !"; break;
+			case 16 : $message = "Au moment de créer votre compte, vous n'avez pas saisi la même information dans les champs mot de passes !"; break;
+			case 17 : $message = "Au moment de créer votre compte, vous ne pouvez pas utiliser la même information pour votre nom d'utilisateur et mot de passe !"; break;
+			case 18 : $message = "Au moment de créer votre compte, vous avez saisi une information qui excédait la limite supérieure tolérée par notre système !"; break;
+			case 19 : $message = "Au moment de créer votre compte, vous avez saisi une information qui était invalide par notre système !"; break;
+			case 20 : $message = "Au moment de créer votre compte, vous avez saisi un nom d'utilisateur déjà utilisé par un autre membre du site !"; break;
+			case 21 : $message = "Au moment de créer votre compte, vous avez saisi un courriel déjà utilisé par un autre membre du site !"; break;
+			case 22 : $message = "Au moment de créer votre compte, vous avez saisi une information qui excédait la limite inférieure par notre système !"; break;
+			case 23 : $message = "Au moment de créer votre compte, vous avez saisi un nom d'utilisateur et un courriel déjà utilisés par un autre membre du site !"; break;
 		}
 		
 		return $message;

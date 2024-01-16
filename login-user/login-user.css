@@ -228,6 +228,15 @@ input::placeholder {
     margin-right: 15px;
 }
 
+.succes > p {
+    font-size: 20px;
+    color: darkgreen;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
 @media screen and (max-width:768px) {
     .content {
         width: 100%;

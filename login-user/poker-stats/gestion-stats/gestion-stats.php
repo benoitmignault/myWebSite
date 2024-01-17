@@ -605,7 +605,7 @@
 		} else {
 			$champs = initialisationChamps();
 			$valid_Champ = initialisation();
-			$arrayMots = traduction($champs);
+			$arrayMots = traduction($champs["type_langue"]);
 			$listeJoueurs = creationListe($connMYSQL, $arrayMots, $champs);
 		}
 	}
@@ -658,7 +658,7 @@
 				$verif_tous_flag = verificationTout_Champs($valid_Champ);
 			}
    
-			$arrayMots = traduction($champs);
+			$arrayMots = traduction($champs["type_langue"]);
 			$listeJoueurs = creationListe($connMYSQL, $arrayMots, $champs);
 		}
 	}

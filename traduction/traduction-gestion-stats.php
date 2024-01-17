@@ -1,8 +1,14 @@
 <?php
 	
-	function traduction($champs): array {
+	/**
+	 * Fonction qui sera utiliser pour traduire le texte dans la page
+	 *
+	 * @param string $type_langue
+	 * @return array
+	 */
+	function traduction(string $type_langue): array {
 		
-		if ($champs["typeLangue"] === 'francais') {
+		if ($type_langue === 'francais') {
 			$btn_new = "Ajouter le nouveau joueur";
 			$lang = "fr";
 			$newJoueur = "Nouveau joueur";
@@ -25,8 +31,7 @@
 			$btn_login = "Retour à page de connexion";
 			$btn_return = "Retour à l'accueil";
 			
-		}
-		elseif ($champs["typeLangue"] === 'english') {
+		} elseif ($type_langue === 'english') {
 			$btn_new = "Add the new player";
 			$lang = "en";
 			$newJoueur = "New player :";

@@ -15,7 +15,7 @@
 	
 	function initialisationChamps(): array {
 		
-		return ["typeLangue" => $_SESSION['typeLangue'], "listeJoueur" => "", "gain" => "", "position" => "", "numTournoi" => "",
+		return ["type_langue" => $_SESSION['type_langue'], "listeJoueur" => "", "gain" => "", "position" => "", "numTournoi" => "",
 		        "date" => "", "newJoueur" => "", "message" => "", "killer" => "", "citron" => ""];
 	}
 	
@@ -181,7 +181,7 @@
 		
 		if (isset($_POST['ajouter'])) {
 			// Nous commençons par la section si la page est en anglais
-			if ($champs['typeLangue'] === "francais") {
+			if ($champs['type_langue'] === "francais") {
 				if ($valid_Champ['tous_champs_Vide']) {
 					$champs['message'] .= "Tous les champs sont vide.<br>";
 				}
@@ -257,7 +257,7 @@
 				}
 				// nous sommes rendu à la section si la page est en anglais
 			}
-            elseif ($champs['typeLangue'] === "english") {
+            elseif ($champs['type_langue'] === "english") {
 				if ($valid_Champ['tous_champs_Vide']) {
 					$champs['message'] .= "All fields are empty.<br>";
 				}
@@ -334,7 +334,7 @@
 			}
 		}
         elseif (isset($_POST['ajouterNouveau'])) {
-			if ($champs['typeLangue'] === "francais") {
+			if ($champs['type_langue'] === "francais") {
 				if ($valid_Champ['vide_NewJoueur']) {
 					$champs['message'] .= "Le champ du nouveau joueur est vide.<br>";
 				}
@@ -350,7 +350,7 @@
 					}
 				}
 			}
-            elseif ($champs['typeLangue'] === "english") {
+            elseif ($champs['type_langue'] === "english") {
 				if ($valid_Champ['vide_NewJoueur']) {
 					$champs['message'] .= "The new player's field is empty.<br>";
 				}
@@ -368,10 +368,10 @@
 			}
 		}
         elseif (isset($_POST['effacer'])) {
-			if ($champs['typeLangue'] === "francais") {
+			if ($champs['type_langue'] === "francais") {
 				$champs['message'] = "Tous les champs ont été remis à null et tous les flag de validations ont été remis à faux.<br>";
 			}
-            elseif ($champs['typeLangue'] === "english") {
+            elseif ($champs['type_langue'] === "english") {
 				$champs['message'] = "All fields have been reset and all validation flags have been overwritten.<br>";
 			}
 		}
@@ -496,12 +496,12 @@
 				header("Location: /login-user/poker-stats/show-stats/stats.php");
 			}
             elseif (isset($_POST['login'])) {
-				header("Location: /login-user/login-user.php?langue={$champs["typeLangue"]}");
+				header("Location: /login-user/login-user.php?langue={$champs["type_langue"]}");
 	   
 				delete_Session();
 			}
             elseif (isset($_POST['accueil'])) {
-				if ($champs["typeLangue"] == 'english') {
+				if ($champs["type_langue"] == 'english') {
 					header("Location: /english/english.html");
 				}
 				else {
@@ -546,10 +546,10 @@
 		// Close statement
 		$stmt->close();
 		
-		if ($champs['typeLangue'] === "francais") {
+		if ($champs['type_langue'] === "francais") {
 			$messageAjout = "Les informations du joueur {$champs["listeJoueur"]} a été ajouté à la BD.";
 		}
-        elseif ($champs['typeLangue'] === "english") {
+        elseif ($champs['type_langue'] === "english") {
 			$messageAjout = "The player information {$champs["listeJoueur"]} has been added to the BD.";
 		}
 		$champs = initialisationChamps();
@@ -570,10 +570,10 @@
 		// Close statement
 		$stmt->close();
 		
-		if ($champs['typeLangue'] === "francais") {
+		if ($champs['type_langue'] === "francais") {
 			$messageAjout = "Le nouveau joueur {$champs["listeJoueur"]} a été ajouté à la BD.";
 		}
-        elseif ($champs['typeLangue'] === "english") {
+        elseif ($champs['type_langue'] === "english") {
 			$messageAjout = "The player information {$champs["listeJoueur"]} has been added to the BD.";
 		}
 		$champs = initialisationChamps();
@@ -586,9 +586,9 @@
  
 	if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 		session_start();
-		$champs["typeLangue"] = "francais";
+		$champs["type_langue"] = "francais";
   
-		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue'])) {
+		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue'])) {
 			$verificationUser = verificationUser($connMYSQL);
    
 		} else {
@@ -599,22 +599,22 @@
 		if (!$verificationUser) {
 			redirection($champs, $connMYSQL);
    
-		}  elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
+		}  elseif ($champs["type_langue"] !== "francais" && $champs["type_langue"] !== "english") {
 			redirection($champs, $connMYSQL);
    
 		} else {
 			$champs = initialisationChamps();
 			$valid_Champ = initialisation();
-			$arrayMots = traduction($champs);
+			$arrayMots = traduction($champs["type_langue"]);
 			$listeJoueurs = creationListe($connMYSQL, $arrayMots, $champs);
 		}
 	}
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		session_start();
-		$champs["typeLangue"] = "francais";
+		$champs["type_langue"] = "francais";
   
-		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue'])) {
+		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue'])) {
 			$verificationUser = verificationUser($connMYSQL);
    
 		} else {
@@ -625,7 +625,7 @@
 		if (!$verificationUser) {
 			redirection($champs, $connMYSQL);
    
-		} elseif ($champs["typeLangue"] !== "francais" && $champs["typeLangue"] !== "english") {
+		} elseif ($champs["type_langue"] !== "francais" && $champs["type_langue"] !== "english") {
 			redirection($champs, $connMYSQL);
    
 		} else {
@@ -658,7 +658,7 @@
 				$verif_tous_flag = verificationTout_Champs($valid_Champ);
 			}
    
-			$arrayMots = traduction($champs);
+			$arrayMots = traduction($champs["type_langue"]);
 			$listeJoueurs = creationListe($connMYSQL, $arrayMots, $champs);
 		}
 	}

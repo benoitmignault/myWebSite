@@ -4,13 +4,13 @@
 	include_once("../../../includes/fct-connexion-bd.php");
     
     function initialisation(){
-        $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");
+        $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "type_langue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");
         
         return $array_Champs;
     }
     
     function remplissage_Champs($array_Champs){
-        $array_Champs['typeLangue'] = $_SESSION['typeLangue'];
+        $array_Champs['type_langue'] = $_SESSION['type_langue'];
         $array_Champs['user'] = $_SESSION['user'];
     
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -619,7 +619,7 @@
         return $tableau;
     }
     
-    function redirection($typeLangue) {
+    function redirection($type_langue) {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             delete_Session();
             header("Location: /erreur/erreur.php");
@@ -627,13 +627,13 @@
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
             delete_Session();
             if (isset($_POST['return'])) {
-                if ($typeLangue == 'english') {
+                if ($type_langue == 'english') {
                     header("Location: /login-user/login-user.php?langue=english");
                 } else {
                     header("Location: /login-user/login-user.php?langue=francais");
                 }
             } elseif (isset($_POST['home'])) {
-                if ($typeLangue == 'english') {
+                if ($type_langue == 'english') {
                     header("Location: /english/english.html");
     
                 } else {
@@ -731,23 +731,23 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         
-        if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue']) && isset($_COOKIE['POKER'])) {
+        if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
             $array_Champs['verificationUser'] = verificationUser($connMYSQL);
         } else {
-            redirection($array_Champs['typeLangue']);
+            redirection($array_Champs['type_langue']);
         }
         
         // on vérifier si notre user existe en bonne éduforme
         if (!$array_Champs['verificationUser'] ) {
-            redirection($array_Champs['typeLangue']);
+            redirection($array_Champs['type_langue']);
         } else {
             $array_Champs = remplissage_Champs($array_Champs);
     
-            if ($array_Champs['typeLangue'] !== "francais" && $array_Champs['typeLangue'] !== "english") {
+            if ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
                 redirection("francais");
                 
             } else {
-                $arrayMots = traduction($array_Champs['typeLangue'], $array_Champs['user']);
+                $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
     
                 // Insérer ici les triages en conséquence
                 if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
@@ -766,7 +766,7 @@
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
-        if (!isset($_SESSION['user']) || !isset($_SESSION['typeLangue']) || !isset($_SESSION['password']) && !isset($_COOKIE['POKER'])) {
+        if (!isset($_SESSION['user']) || !isset($_SESSION['type_langue']) || !isset($_SESSION['password']) && !isset($_COOKIE['POKER'])) {
             redirection("francais");
             
         } else {
@@ -774,12 +774,12 @@
             $array_Champs = remplissage_Champs($array_Champs);
     
             if (!$verificationUser) {
-                redirection($array_Champs['typeLangue']);
-            } elseif ($array_Champs['typeLangue'] !== "francais" && $array_Champs['typeLangue'] !== "english") {
+                redirection($array_Champs['type_langue']);
+            } elseif ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
                 redirection("francais");
                 
             } else {
-                $arrayMots = traduction($array_Champs['typeLangue'], $array_Champs['user']);
+                $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
                 
                 if (isset($_POST['method'])) {
                     addStatAffichageUser($connMYSQL, $array_Champs['user'] );
@@ -792,7 +792,7 @@
                     $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
                     
                 } else {
-                    redirection($array_Champs['typeLangue']);
+                    redirection($array_Champs['type_langue']);
                 }
                 // Faire afficher l'information si elle est présise..
                 $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
@@ -838,7 +838,7 @@
                     <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
                     <form method='post' action='stats.php#endroitResultat'>
                         <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $array_Champs['afficher']; ?>">
-                        <input id="info_langue" type="hidden" name="langue_Info" value="<?php echo $array_Champs['typeLangue']; ?>">
+                        <input id="info_langue" type="hidden" name="langue_Info" value="<?php echo $array_Champs['type_langue']; ?>">
                         <table>
                             <thead>
                                 <tr>
@@ -864,7 +864,7 @@
                                     <td><input class='bouton' type='submit' name='method' value="3"></td>
                                 </tr>
                                 <tr>
-                                    <td class="methode"><?php echo $arrayMots['method4']; if ($array_Champs['typeLangue'] == "francais") { echo " (Nb Présence et +)"; } elseif ($array_Champs['typeLangue'] == "english") { echo " (Number attendance and +)"; } ?></td>
+                                    <td class="methode"><?php echo $arrayMots['method4']; if ($array_Champs['type_langue'] == "francais") { echo " (Nb Présence et +)"; } elseif ($array_Champs['type_langue'] == "english") { echo " (Number attendance and +)"; } ?></td>
                                     <td><select id="nb_Presence" name="nombre_Presences"><?php foreach ($liste_Joueur_method4 as $value) { echo $value; } ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value="4"></td>
                                 </tr>

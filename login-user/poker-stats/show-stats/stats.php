@@ -1,16 +1,16 @@
 <?php
 	// Les includes nécessaires
-	include_once("../../traduction/traduction-stats.php");
-	include_once("../../includes/fct-connexion-bd.php");
+	include_once("../../../traduction/traduction-stats.php");
+	include_once("../../../includes/fct-connexion-bd.php");
     
     function initialisation(){
-        $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "typeLangue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");
+        $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "type_langue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");
         
         return $array_Champs;
     }
     
     function remplissage_Champs($array_Champs){
-        $array_Champs['typeLangue'] = $_SESSION['typeLangue'];
+        $array_Champs['type_langue'] = $_SESSION['type_langue'];
         $array_Champs['user'] = $_SESSION['user'];
     
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -178,11 +178,11 @@
         // https://pixabay.com/fr/m%C3%A9daille-argent-conception-2163349/
         // https://pixabay.com/fr/m%C3%A9daille-bronze-conception-2163351/
         if ($nom_Champion === "Frederic V" OR $nom_Champion === "Richard") {
-            $icone = "<img src=\"./photo/medaile_or.jpg\" alt=\"or\" title=\"or\">";
+            $icone = "<img src=\"medaile-or.jpg\" alt=\"or\" title=\"or\">";
         } elseif ($nom_Champion === "Frederic" OR $nom_Champion === "Maxime") {
-            $icone = "<img src=\"./photo/medaile_argent.jpg\" alt=\"argent\" title=\"argent\">";
+            $icone = "<img src=\"medaile-argent.jpg\" alt=\"argent\" title=\"argent\">";
         } elseif ($nom_Champion === "Marc-Andre" OR $nom_Champion === "Jean-Philippe") {
-            $icone = "<img src=\"./photo/medaile_bronze.jpg\" alt=\"bronze\" title=\"bronze\">";
+            $icone = "<img src=\"medaile-bronze.jpg\" alt=\"bronze\" title=\"bronze\">";
         } else {
             $icone = "";
         }
@@ -619,28 +619,28 @@
         return $tableau;
     }
     
-    function redirection($typeLangue) {
+    function redirection($type_langue) {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             delete_Session();
-            header("Location: https://benoitmignault.ca/erreur/erreur.php");
+            header("Location: /erreur/erreur.php");
     
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
             delete_Session();
             if (isset($_POST['return'])) {
-                if ($typeLangue == 'english') {
-                    header("Location: https://benoitmignault.ca/login/login.php?langue=english");
+                if ($type_langue == 'english') {
+                    header("Location: /login-user/login-user.php?langue=english");
                 } else {
-                    header("Location: https://benoitmignault.ca/login/login.php?langue=francais");
+                    header("Location: /login-user/login-user.php?langue=francais");
                 }
             } elseif (isset($_POST['home'])) {
-                if ($typeLangue == 'english') {
-                    header("Location: https://benoitmignault.ca/english/english.html");
+                if ($type_langue == 'english') {
+                    header("Location: /english/english.html");
     
                 } else {
-                    header("Location: https://benoitmignault.ca/index.html");
+                    header("Location: /index.html");
                 }
             } else {
-                header("Location: https://benoitmignault.ca/erreur/erreur.php");
+                header("Location: /erreur/erreur.php");
             }
         }
         exit; // pour arrêter l'éxecution du code php
@@ -716,9 +716,9 @@
         $href = "";
     
         if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['triOriginal']) ){
-            $href = "poker.php?triRatio=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
+            $href = "stats.php?triRatio=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
         } elseif (isset($_GET['triRatio'])) {
-            $href = "poker.php?triOriginal=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
+            $href = "stats.php?triOriginal=desc&method={$array_Champs['method']}&nombre_Presences={$array_Champs['nombre_Presences']}";
         }
     
         return $href;
@@ -731,23 +731,23 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         
-        if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['typeLangue']) && isset($_COOKIE['POKER'])) {
+        if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
             $array_Champs['verificationUser'] = verificationUser($connMYSQL);
         } else {
-            redirection($array_Champs['typeLangue']);
+            redirection($array_Champs['type_langue']);
         }
         
         // on vérifier si notre user existe en bonne éduforme
         if (!$array_Champs['verificationUser'] ) {
-            redirection($array_Champs['typeLangue']);
+            redirection($array_Champs['type_langue']);
         } else {
             $array_Champs = remplissage_Champs($array_Champs);
     
-            if ($array_Champs['typeLangue'] !== "francais" && $array_Champs['typeLangue'] !== "english") {
+            if ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
                 redirection("francais");
                 
             } else {
-                $arrayMots = traduction($array_Champs['typeLangue'], $array_Champs['user']);
+                $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
     
                 // Insérer ici les triages en conséquence
                 if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
@@ -766,7 +766,7 @@
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
-        if (!isset($_SESSION['user']) || !isset($_SESSION['typeLangue']) || !isset($_SESSION['password']) && !isset($_COOKIE['POKER'])) {
+        if (!isset($_SESSION['user']) || !isset($_SESSION['type_langue']) || !isset($_SESSION['password']) && !isset($_COOKIE['POKER'])) {
             redirection("francais");
             
         } else {
@@ -774,12 +774,12 @@
             $array_Champs = remplissage_Champs($array_Champs);
     
             if (!$verificationUser) {
-                redirection($array_Champs['typeLangue']);
-            } elseif ($array_Champs['typeLangue'] !== "francais" && $array_Champs['typeLangue'] !== "english") {
+                redirection($array_Champs['type_langue']);
+            } elseif ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
                 redirection("francais");
                 
             } else {
-                $arrayMots = traduction($array_Champs['typeLangue'], $array_Champs['user']);
+                $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
                 
                 if (isset($_POST['method'])) {
                     addStatAffichageUser($connMYSQL, $array_Champs['user'] );
@@ -792,7 +792,7 @@
                     $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
                     
                 } else {
-                    redirection($array_Champs['typeLangue']);
+                    redirection($array_Champs['type_langue']);
                 }
                 // Faire afficher l'information si elle est présise..
                 $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
@@ -814,14 +814,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Statistique du poker">
         <!-- Le fichier poker.png est la propriété du site : https://pixabay.com/fr/cartes-diamant-diamants-favoris-2029819/ mais sous licence gratuite -->
-        <link rel="shortcut icon" href="./photo/poker.png">
-        <link rel="stylesheet" type="text/css" href="poker.css">
+        <link rel="shortcut icon" href="stats-icone.png">
+        <link rel="stylesheet" type="text/css" href="stats.css">
         <title><?php echo $arrayMots['titre']; ?></title>
         <style>
             body {
                 margin: 0;
                 /* Fichier photoPoker.jpg est une propriété du site https://www.flickr.com/photos/nostri-imago/7497137910 sous licence libre */
-                background-image: url("./photo/photoPoker.jpg");
+                background-image: url("background-stats.jpg");
                 background-position: center;
                 background-attachment: fixed;
                 background-size: 100%;
@@ -836,9 +836,9 @@
             <div class="info_method">
                 <fieldset>
                     <legend class="legendCenter"> <?php echo $arrayMots['legend1']; ?></legend>
-                    <form method='post' action='poker.php#endroitResultat'>
+                    <form method='post' action='stats.php#endroitResultat'>
                         <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $array_Champs['afficher']; ?>">
-                        <input id="info_langue" type="hidden" name="langue_Info" value="<?php echo $array_Champs['typeLangue']; ?>">
+                        <input id="info_langue" type="hidden" name="langue_Info" value="<?php echo $array_Champs['type_langue']; ?>">
                         <table>
                             <thead>
                                 <tr>
@@ -864,7 +864,7 @@
                                     <td><input class='bouton' type='submit' name='method' value="3"></td>
                                 </tr>
                                 <tr>
-                                    <td class="methode"><?php echo $arrayMots['method4']; if ($array_Champs['typeLangue'] == "francais") { echo " (Nb Présence et +)"; } elseif ($array_Champs['typeLangue'] == "english") { echo " (Number attendance and +)"; } ?></td>
+                                    <td class="methode"><?php echo $arrayMots['method4']; if ($array_Champs['type_langue'] == "francais") { echo " (Nb Présence et +)"; } elseif ($array_Champs['type_langue'] == "english") { echo " (Number attendance and +)"; } ?></td>
                                     <td><select id="nb_Presence" name="nombre_Presences"><?php foreach ($liste_Joueur_method4 as $value) { echo $value; } ?></select></td>
                                     <td><input class='bouton' type='submit' name='method' value="4"></td>
                                 </tr>
@@ -900,7 +900,6 @@
                                 <?php if ($array_Champs['method'] == 4) { ?>
                                     <li><?php echo $arrayMots['info_trie_method4_gain']; ?></li>
                                     <li><?php echo $arrayMots['info_trie_method4_ratio']; ?></li>
-                                
                                 <?php } elseif ($array_Champs['method'] == 7) { ?>
                                     <li><?php echo $arrayMots['info_trie_method7_killer']; ?></li>
                                     <li><?php echo $arrayMots['info_trie_method7_ratio']; ?></li>
@@ -938,7 +937,7 @@
                 </fieldset>
             </div>
             <div class='btnRetour'>
-                <form method="post" action="poker.php">
+                <form method="post" action="stats.php">
                     <input class='bouton' type="submit" name="return" value="<?php echo $arrayMots['btnLogin']; ?>">
                     <input class='bouton' type="submit" name="home" value="<?php echo $arrayMots['btnReturn']; ?>">
                 </form>
@@ -946,6 +945,6 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="poker.js"></script>
+        <script src="stats.js"></script>
     </body>
 </html>

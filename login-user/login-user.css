@@ -8,7 +8,7 @@
     display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
-    background-color: #F0FFF0;
+    background-color: #99ccff;
     width: 60%;
     border: 3px solid black;
     margin: 150px auto auto;
@@ -24,22 +24,25 @@
 }
 
 .content > .center > .titre {
-    margin: 0;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    font-size: 24px;
+    margin: 0 0 15px;
+    font-size: 22px;
     text-align: center;
 }
 
-.content > .center > .un {
-    padding-top: 0;
+.content > .center > .titre:first-of-type{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.content > .center > .titre:last-of-type{
+    margin-bottom: 15px;
 }
 
 .content > .center > ul {
     margin: 0;
 }
 
-.content > .center > ul li.info {
+.content > .center > ul > .info {
     font-size: 19px;
     margin-bottom: 8px;
 }
@@ -76,7 +79,7 @@ Nouvelle manière d'afficher un legend au milieu
 
 .content > .center > fieldset > form > .connexion {
     width: 55%;
-    margin: auto;
+    margin: auto auto 25px;
     display: flex;
     display: -webkit-flex;
     -webkit-flex-direction: column;
@@ -152,7 +155,12 @@ input::placeholder {
     flex-direction: row;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    margin-bottom: 0;
+
+}
+
+.content > .footer > .section-retour-btn{
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 .content > .center > .changer-avec-succes {
@@ -168,12 +176,12 @@ input::placeholder {
 }
 
 .bouton {
-    background: #8deba8;
-    background-image: -webkit-linear-gradient(top, #8deba8, #18420b);
-    background-image: -moz-linear-gradient(top, #8deba8, #18420b);
-    background-image: -ms-linear-gradient(top, #8deba8, #18420b);
-    background-image: -o-linear-gradient(top, #8deba8, #18420b);
-    background-image: linear-gradient(to bottom, #8deba8, #18420b);
+    background: #004d99;
+    background-image: -webkit-linear-gradient(top, #004d99, #99ccff);
+    background-image: -moz-linear-gradient(top, #004d99, #99ccff);
+    background-image: -ms-linear-gradient(top, #004d99, #99ccff);
+    background-image: -o-linear-gradient(top, #004d99, #99ccff);
+    background-image: linear-gradient(to bottom, #004d99, #99ccff);
     -webkit-border-radius: 21px;
     -moz-border-radius: 21px;
     border-radius: 21px;
@@ -190,40 +198,39 @@ input::placeholder {
 }
 
 .bouton:hover {
-    background: #355c37;
-    background-image: -webkit-linear-gradient(top, #355c37, #80cf87);
-    background-image: -moz-linear-gradient(top, #355c37, #80cf87);
-    background-image: -ms-linear-gradient(top, #355c37, #80cf87);
-    background-image: -o-linear-gradient(top, #355c37, #80cf87);
-    background-image: linear-gradient(to bottom, #355c37, #80cf87);
+    background: #005bb5;
+    background-image: -webkit-linear-gradient(top, #99ccff, #004d99);
+    background-image: -moz-linear-gradient(top, #99ccff, #004d99);
+    background-image: -ms-linear-gradient(top, #99ccff, #004d99);
+    background-image: -o-linear-gradient(top, #99ccff, #004d99);
+    background-image: linear-gradient(to bottom, #99ccff, #004d99);
     cursor: pointer;
 }
 
-.erreur input[type="text"] {
-    border-color: red;
-    background-color: #FCDEDE;
+.bouton:active {
+    box-shadow: 0 0 10px #14422e;
+    transform: translateY(5px);
 }
 
-.erreur input[type="password"] {
+.erreur input[type="email"],
+.erreur input[type="text"],
+.erreur input[type="password"]{
     border-color: red;
     background-color: #FCDEDE;
-}
-
-.erreur input[type="email"] {
-    border-color: red;
-    background-color: #FCDEDE;
-}
-
-.avert > p {
-    font-size: 20px;
-    color: green;
-    text-align: center;
-    font-weight: bold;
 }
 
 .erreur > p {
     font-size: 20px;
     color: red;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.succes > p {
+    font-size: 20px;
+    color: darkgreen;
     text-align: center;
     font-weight: bold;
     margin-left: 15px;
@@ -237,27 +244,29 @@ input::placeholder {
     }
 
     .content > .center > fieldset {
-        margin: 0;
         padding: 0;
         width: 100%;
     }
 
+    .content > .center > ul{
+        margin: 0;
+        padding-left: 25px;
+        text-align: justify;
+    }
+
+    .content > .center > ul > .info {
+        font-size: 17px;
+        margin: 0 20px 10px 5px;
+    }
+
     .content > .center > fieldset > form > .connexion {
         width: 100%;
+        margin-bottom: 15px;
     }
 
     .content > .center > fieldset > form > .connexion > .information {
         width: 100%;
         justify-content: center;
-    }
-
-    .content > .center > ul {
-        margin: 0;
-        padding-left: 30px;
-    }
-
-    .content > .center > ul li.info {
-        font-size: 17px;
     }
 
     .information,
@@ -271,7 +280,7 @@ input::placeholder {
 
     .content > .center > fieldset > form > .connexion > .information > div > input {
         width: 70%;
-        margin: auto;
+        margin-left: 13%;
     }
 
     input::placeholder {
@@ -283,7 +292,7 @@ input::placeholder {
         text-align: center;
     }
 
-    .content > .center > fieldset > form > .section-reset-btn > input[type="submit"]:nth-child(3) {
+    .content > .center > fieldset > form > .section-reset-btn > input[type="submit"]:nth-child(4) {
         font-size: 17px;
     }
 
@@ -300,21 +309,22 @@ input::placeholder {
         width: 100%;
     }
 
+    .content > .footer > .section-retour-btn{
+        margin-top: 15px;
+    }
+
     .content > .center > fieldset > form > .section-reset-btn > input,
     .content > .footer > .section-retour-btn > input {
         width: 70%;
-        margin: auto auto 10px;
     }
 
-    .content > .footer > .section-retour-btn > {
+    .content > .footer > .section-retour-btn {
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        -webkit-flex-direction: column;
-        flex-direction: column;
     }
 
-    .erreur p {
+    .content > .footer > .erreur > p {
         margin: 10px;
     }
 }

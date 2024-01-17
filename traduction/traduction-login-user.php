@@ -45,16 +45,16 @@
 			
 		} elseif ($type_langue === 'english') {
 			$liste_mots["lang"] = "en";
-			$liste_mots["title"] = "Logging - user";
+			$liste_mots["title"] = "Sign In";
 			$liste_mots["p1"] = "Log in to explore the fascinating data";
 			$liste_mots["p2"] = "You are about to access the friendly poker tournament statistics page";
-			$liste_mots["li1"] = "Login to see statistics";
+			$liste_mots["li1"] = "Sign In to see the statistics";
 			$liste_mots["li2"] = "Please create an account to view the statistics, if you do not have one";
 			$liste_mots["li3"] = "Have you forgotten your password, if so, we'll take care of it";
 			$liste_mots["legend"] = "Your login information";
 			$liste_mots["usager"] = "Username :";
 			$liste_mots["pwd"] = "Password :";
-			$liste_mots["btn_login"] = "Login";
+			$liste_mots["btn_login"] = "Sign In";
 			$liste_mots["btn_sign_up"] = "Sign Up";
 			$liste_mots["btn_reset"] = "Erase";
 			$liste_mots["btn_reset_pwd"] = "Forgot password ?";
@@ -65,12 +65,12 @@
 			$liste_mots["pwd_conf"] = "Password confirmation :";
 			$liste_mots["info_valid_email"] = "example@domain.com";
 			$liste_mots["info_valid_user_pwd"] = "letter & number accepted";
-			$liste_mots["titre_create"] = "Creation - user";
+			$liste_mots["titre_create"] = "Sign Up";
 			$liste_mots["p1_create"] = "Welcome to the registration page !";
 			$liste_mots["p2_create"] = "Create your account here to access detailed statistics of poker tournaments with friends";
 			$liste_mots["li1_create"] = "To create your account, you need :";
 			$liste_mots["li2_create"] = "Username, email and password";
-			$liste_mots["li3_create"] = "Once your account has been created, you can return to the « Login » page";
+			$liste_mots["li3_create"] = "Once your account has been created, you can return to the « Sign In » page";
 		}
 		
 		// Le message qui sera dans la langue voulu

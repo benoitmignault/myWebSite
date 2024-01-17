@@ -256,9 +256,11 @@
         $_SESSION['password'] = $array_Champs['password'];
         $_SESSION['type_langue'] = $array_Champs["type_langue"];
         
+        // On va quand même créer le cookie vue qu'on va dans une zone sensible, soit l'insertion de DATA
+		setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
+        
         // Si nous avons un user autre qu'un admin, on démarre le cookie, sinon on va attendre pour l'admin
         if (!$array_Champs['user_admin']){
-	        setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
             
             // Redirection d'un user normal
 	        header("Location: /login-user/poker-stats/show-stats/stats.php");

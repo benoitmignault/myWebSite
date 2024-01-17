@@ -23,7 +23,7 @@
 			$liste_mots["legend"] = "Réinitialisation !";
 			$liste_mots["email"] = "Courriel :";
 			$liste_mots["btn_envoi_lien"] = "Réinitialiser";
-			$liste_mots["btn_return"] = "Retour à l'accueil";
+			$liste_mots["btn_return"] = "Accueil";
 			
 		} elseif ($type_langue === 'english') {
 			$liste_mots["title"] = "Reset Request";
@@ -32,10 +32,10 @@
 			$liste_mots["li3"] = "This page will reset your account associated with poker statistics.";
 			$liste_mots["li1"] = "Please enter your email.";
 			$liste_mots["li2"] = "Then, a mail will be sent to you with all the information related to your change of password.";
-			$liste_mots["legend"] = "Reseting !";
+			$liste_mots["legend"] = "Resetting !";
 			$liste_mots["email"] = "Email :";
 			$liste_mots["btn_envoi_lien"] = "Reset";
-			$liste_mots["btn_return"] = "Return to home page";
+			$liste_mots["btn_return"] = "Home";
 		}
 		
 		// Le message qui sera dans la langue voulu

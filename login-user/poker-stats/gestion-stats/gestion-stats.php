@@ -688,104 +688,99 @@
         </style>
     </head>
     <body>
-    <h1><?php echo $arrayMots['h1']; ?></h1>
-    <div class="content">
-        <h2><?php echo $arrayMots['h3']; ?></h2>
-        <form method="post" action="gestion-stats.php" id="formAjoutDataJoueur">
-            <div class='formulaire_joueur'>
-                <div class="joueur <?php if (verifChampJoueur($valid_Champ)) {
-                    echo "erreur";
-                } ?>">
-                    <label for="joueur"><?php echo $arrayMots['joueur']; ?></label>
-                    <select id="joueur" name="listeJoueur">
-                        <?php echo $listeJoueurs; ?>
-                    </select>
+        <h1><?php echo $arrayMots['h1']; ?></h1>
+        <div class="content">
+            <h2><?php echo $arrayMots['h3']; ?></h2>
+            <form method="post" action="gestion-stats.php" id="formAjoutDataJoueur">
+                <div class='formulaire_joueur'>
+                    <div class="joueur <?php if (verifChampJoueur($valid_Champ)) { echo "erreur"; } ?>">
+                        <label for="joueur"><?php echo $arrayMots['joueur']; ?></label>
+                        <select id="joueur" name="listeJoueur"><?php echo $listeJoueurs; ?></select>
+                    </div>
+                    <div class="position">
+                        <p class="labelPos"><?php echo $arrayMots['resultat']; ?></p>
+                        <div>
+                            <label for="victoire"><?php echo $arrayMots['victoire']; ?></label>
+                            <input type="radio" <?php if ($champs['position'] === "victoire") { echo "checked"; } ?>
+                                   name="position" id="victoire" value="victoire">
+                        </div>
+                        <div>
+                            <label for="fini2e"><?php echo $arrayMots['fini2e']; ?></label>
+                            <input type="radio" <?php if ($champs['position'] === "fini2e") { echo "checked"; } ?>
+                                   name="position" id="fini2e" value="fini2e">
+                        </div>
+                        <div>
+                            <label for="autre"><?php echo $arrayMots['autre']; ?></label>
+                            <input type="radio" <?php if ($champs['position'] === "autre") { echo "checked"; } ?>
+                                   name="position" id="autre" value="autre">
+                        </div>
+                    </div>
+                    <div class="gain <?php if (verifChampGain($valid_Champ)) { echo "erreur";} ?>">
+                        <label for="gain"><?php echo $arrayMots['gain']; ?></label>
+                        <input maxlength="4" type="text" id="gain" name="gain" value="<?php echo $champs['gain'] ?>">
+                    </div>
+                    <div class="numero <?php if (verifChampId($valid_Champ)) { echo "erreur"; } ?>">
+                        <label for="numTournoi"><?php echo $arrayMots['noId']; ?></label>
+                        <input maxlength="4" type="text" id="numTournoi" name="numTournoi" value="<?php echo $champs['numTournoi'] ?>">
+                    </div>
+                    <div class="date <?php if (verifChampDate($valid_Champ)) { echo "erreur"; } ?>">
+                        <div class="form-row animate-2">
+                            <label for="date">Date :</label>
+                            <input type="date" id="date" value="<?php echo $champs['date'] ?>" name="date" required=""
+                                   data-date='{"startView": 2, "openOnMouseFocus": true}'>
+                        </div>
+                    </div>
+                    <div class="killer <?php if (verifChampKiller($valid_Champ)) { echo "erreur"; } ?>">
+                        <label for="killer"><?php echo $arrayMots['killer']; ?></label>
+                        <input maxlength="4" type="text" id="killer" name="killer" value="<?php echo $champs['killer'] ?>">
+                    </div>
+                    <div class="citron <?php if (verifChampCitron($valid_Champ)) { echo "erreur"; } ?>">
+                        <label for="citron"><?php echo $arrayMots['citron']; ?></label>
+                        <input maxlength="4" type="text" id="citron" name="citron" value="<?php echo $champs['citron'] ?>">
+                    </div>
+                    <div class="bas_formulaire">
+                        <input class="bouton" type="submit" name="ajouter" value="<?php echo $arrayMots['btn_add']; ?>">
+                        <input class="bouton" type="submit" name="effacer" value="<?php echo $arrayMots['btn_erase']; ?>">
+                    </div>
+                    <div class="bas_formulaire">
+                        <p class="<?php if ((isset($_POST['effacer']) || isset($_POST['ajouter']) || isset($_POST['ajouterNouveau'])) && $verif_tous_flag === true) {
+                            echo "avert";
+                        }
+                        else {
+                            echo "erreur";
+                        } ?>"> <?php echo $champs['message']; ?> </p>
+                    </div>
                 </div>
-                <div class="position">
-                    <p class="labelPos"><?php echo $arrayMots['resultat']; ?></p>
-                    <div>
-                        <label for="victoire"><?php echo $arrayMots['victoire']; ?></label>
-                        <input type="radio" <?php if ($champs['position'] === "victoire") { echo "checked"; } ?>
-                               name="position" id="victoire" value="victoire">
-                        
+            </form>
+            <form method="post" action="gestion-stats.php">
+                <div class="formulaire_Nouveau">
+                    <div class="<?php if (verifChampNouveau($valid_Champ)) { echo "erreur"; } ?>">
+                        <label for="newJoueur"><?php echo $arrayMots['newJoueur']; ?></label>
+                        <input maxlength="25" type="text" id="newJoueur" name="newJoueur" value="<?php echo $champs['newJoueur'] ?>">
                     </div>
                     <div>
-                        <label for="fini2e"><?php echo $arrayMots['fini2e']; ?></label>
-                        <input type="radio" <?php if ($champs['position'] === "fini2e") { echo "checked"; } ?>
-                               name="position" id="fini2e" value="fini2e">
-                    </div>
-                    <div>
-                        <label for="autre"><?php echo $arrayMots['autre']; ?></label>
-                        <input type="radio" <?php if ($champs['position'] === "autre") { echo "checked"; } ?>
-                               name="position" id="autre" value="autre">
+                        <input class="bouton" type="submit" name="ajouterNouveau" value="<?php echo $arrayMots['btn_new']; ?>">
                     </div>
                 </div>
-                <div class="gain <?php if (verifChampGain($valid_Champ)) { echo "erreur";} ?>">
-                    <label for="gain"><?php echo $arrayMots['gain']; ?></label>
-                    <input maxlength="4" type="text" id="gain" name="gain" value="<?php echo $champs['gain'] ?>">
-                </div>
-                <div class="numero <?php if (verifChampId($valid_Champ)) { echo "erreur"; } ?>">
-                    <label for="numTournoi"><?php echo $arrayMots['noId']; ?></label>
-                    <input maxlength="4" type="text" id="numTournoi" name="numTournoi" value="<?php echo $champs['numTournoi'] ?>">
-                </div>
-                <div class="date <?php if (verifChampDate($valid_Champ)) { echo "erreur"; } ?>">
-                    <div class="form-row animate-2">
-                        <label for="date">Date :</label>
-                        <input type="date" id="date" value="<?php echo $champs['date'] ?>" name="date" required=""
-                               data-date='{"startView": 2, "openOnMouseFocus": true}'>
+            </form>
+            <form method="post" action="gestion-stats.php">
+                <div class="footer">
+                    <div class="btn_footer">
+                        <input class="bouton" type="submit" name="stats" value="<?php echo $arrayMots['btn_loginPoker']; ?>">
+                    </div>
+                    <div class="btn_footer">
+                        <input class="bouton" type="submit" name="login" value="<?php echo $arrayMots['btn_login']; ?>">
+                    </div>
+                    <div class="btn_footer">
+                        <input class="bouton" type="submit" name="accueil" value="<?php echo $arrayMots['btn_return']; ?>">
                     </div>
                 </div>
-                <div class="killer <?php if (verifChampKiller($valid_Champ)) { echo "erreur"; } ?>">
-                    <label for="killer"><?php echo $arrayMots['killer']; ?></label>
-                    <input maxlength="4" type="text" id="killer" name="killer" value="<?php echo $champs['killer'] ?>">
-                </div>
-                <div class="citron <?php if (verifChampCitron($valid_Champ)) { echo "erreur"; } ?>">
-                    <label for="citron"><?php echo $arrayMots['citron']; ?></label>
-                    <input maxlength="4" type="text" id="citron" name="citron" value="<?php echo $champs['citron'] ?>">
-                </div>
-                <div class="bas_formulaire">
-                    <input class="bouton" type="submit" name="ajouter" value="<?php echo $arrayMots['btn_add']; ?>">
-                    <input class="bouton" type="submit" name="effacer" value="<?php echo $arrayMots['btn_erase']; ?>">
-                </div>
-                <div class="bas_formulaire">
-                    <p class="<?php if ((isset($_POST['effacer']) || isset($_POST['ajouter']) || isset($_POST['ajouterNouveau'])) && $verif_tous_flag === true) {
-                        echo "avert";
-                    }
-                    else {
-                        echo "erreur";
-                    } ?>"> <?php echo $champs['message']; ?> </p>
-                </div>
-            </div>
-        </form>
-        <form method="post" action="gestion-stats.php">
-            <div class="formulaire_Nouveau">
-                <div class="<?php if (verifChampNouveau($valid_Champ)) { echo "erreur"; } ?>">
-                    <label for="newJoueur"><?php echo $arrayMots['newJoueur']; ?></label>
-                    <input maxlength="25" type="text" id="newJoueur" name="newJoueur" value="<?php echo $champs['newJoueur'] ?>">
-                </div>
-                <div>
-                    <input class="bouton" type="submit" name="ajouterNouveau" value="<?php echo $arrayMots['btn_new']; ?>">
-                </div>
-            </div>
-        </form>
-        <form method="post" action="gestion-stats.php">
-            <div class="footer">
-                <div class="btn_footer">
-                    <input class="bouton" type="submit" name="stats" value="<?php echo $arrayMots['btn_loginPoker']; ?>">
-                </div>
-                <div class="btn_footer">
-                    <input class="bouton" type="submit" name="login" value="<?php echo $arrayMots['btn_login']; ?>">
-                </div>
-                <div class="btn_footer">
-                    <input class="bouton" type="submit" name="accueil" value="<?php echo $arrayMots['btn_return']; ?>">
-                </div>
-            </div>
-        </form>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-    <script src="gestion-stats.js"></script>
-    <script src="date.js"></script>
+            </form>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+        <script src="gestion-stats.js"></script>
+        <script src="date.js"></script>
     </body>
 </html>

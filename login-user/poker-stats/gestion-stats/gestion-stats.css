@@ -29,7 +29,7 @@ h2 {
     -webkit-flex-direction: column;
     flex-direction: column;
     width: 60%;
-    border-radius: 10px;
+    border-radius: 15px;
     background-color: #f2f2f2;
     padding: 15px;
     margin: auto;
@@ -45,9 +45,16 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 15px;
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;
+    border: 1px solid black;
 }
+
+.content > form > .formulaire_joueur > .position{
+    background-color: #b0b0b0;
+
+}
+
 
 .content > form > .formulaire_joueur .joueur,
 .content > form > .formulaire_joueur .erreur {

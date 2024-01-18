@@ -215,7 +215,6 @@ label:hover {
     h2,
     h1 {
         font-size: 22px;
-        text-align: justify;
     }
 
     h1 {
@@ -242,10 +241,15 @@ label:hover {
         margin-top: 5px;
     }
 
+    .content > form > .formulaire_joueur > .position,
     .content > form > .formulaire_joueur > .joueur,
     .content > form > .formulaire_joueur > .erreur {
         width: 100%;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    .content > form > .formulaire_joueur > .joueur > select{
+        width: 100%;
     }
 
     .content > form > .formulaire_joueur > .gain,
@@ -281,26 +285,27 @@ label:hover {
         font-size: 18px;
     }
 
+    .content > form > .formulaire_joueur > .bas_formulaire,
     .content > .formulaire_Nouveau > div > input[type=text],
     .content > .formulaire_Nouveau > div > input[type=submit],
-    .content > .footer > .btn_footer > input {
+    .content > .footer > input[type=submit] {
         width: 100%;
     }
 
+    .content > form > .formulaire_joueur > .bas_formulaire > input[type=submit],
     .content > .formulaire_Nouveau > div > input[type=submit],
-    .content > .footer > .btn_footer > input {
+    .content > .footer > input[type=submit]  {
         font-size: 19px;
         padding-top: 5px;
         padding-bottom: 5px;
     }
 
+    .content > .footer > input[type=submit]{
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
 
-
-
-
-
-
-
-
-
+    .content > .footer > input[type=submit]:last-of-type{
+        margin-bottom: 0;
+    }
 }

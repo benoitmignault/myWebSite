@@ -66,14 +66,8 @@ label:hover {
     margin-top: -9px;
 }
 
-.content > form > .formulaire_joueur .joueur > select {
-    padding: 5px;
-    width: 75%;
-    border-radius: 10px;
-}
-
 .content > form > .formulaire_joueur > .date {
-    width: 33%;
+    width: 100%;
 }
 
 .content > form > .formulaire_joueur > .date > div > .ws-date,

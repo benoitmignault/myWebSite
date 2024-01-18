@@ -706,22 +706,20 @@
             <div class="position">
                 <p class="labelPos"><?php echo $arrayMots['resultat']; ?></p>
                 <div>
-                    <input type="radio" <?php if ($champs['position'] === "victoire") {
-						echo "checked";
-					} ?> name="position" id="victoire" value="victoire">
                     <label for="victoire"><?php echo $arrayMots['victoire']; ?></label>
+                    <input type="radio" <?php if ($champs['position'] === "victoire") { echo "checked"; } ?>
+                           name="position" id="victoire" value="victoire">
+                    
                 </div>
                 <div>
-                    <input type="radio" <?php if ($champs['position'] === "fini2e") {
-						echo "checked";
-					} ?> name="position" id="fini2e" value="fini2e">
                     <label for="fini2e"><?php echo $arrayMots['fini2e']; ?></label>
+                    <input type="radio" <?php if ($champs['position'] === "fini2e") { echo "checked"; } ?>
+                           name="position" id="fini2e" value="fini2e">
                 </div>
                 <div>
-                    <input type="radio" <?php if ($champs['position'] === "autre") {
-						echo "checked";
-					} ?> name="position" id="autre" value="autre">
                     <label for="autre"><?php echo $arrayMots['autre']; ?></label>
+                    <input type="radio" <?php if ($champs['position'] === "autre") { echo "checked"; } ?>
+                           name="position" id="autre" value="autre">
                 </div>
             </div>
             <div class="gain <?php if (verifChampGain($valid_Champ)) {

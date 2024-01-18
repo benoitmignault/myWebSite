@@ -51,7 +51,7 @@ h2 {
 }
 
 .content > .footer{
-    padding-bottom: 15px;
+    padding-bottom: 10px;
 }
 
 .content > form > .formulaire_joueur > .position{
@@ -125,11 +125,8 @@ h2 {
 }
 
 .content > form > .formulaire_joueur > .bas_formulaire {
-    width: 100%;
-}
-
-.content > form > .formulaire_joueur > .bas_formulaire > input {
-    width: 20%;
+    width: 50%;
+    padding-bottom: 10px;
 }
 
 .content > form > .formulaire_joueur > div > .avert {
@@ -157,10 +154,6 @@ h2 {
 
 .content > .formulaire_Nouveau > div > input[type=text] {
     width: 30%;
-}
-
-.content > .formulaire_Nouveau > div > input[type=submit] {
-    width: 40%;
 }
 
 .content > .footer {

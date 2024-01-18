@@ -726,8 +726,7 @@
                     <div class="date <?php if (verifChampDate($valid_Champ)) { echo "erreur"; } ?>">
                         <div class="form-row animate-2">
                             <label for="date">Date :</label>
-                            <input type="date" id="date" value="<?php echo $champs['date'] ?>" name="date" required=""
-                                   data-date='{"startView": 2, "openOnMouseFocus": true}'>
+                            <input type="date" id="date" value="<?php echo $champs['date'] ?>" name="date" data-date='{"startView": 2, "openOnMouseFocus": true}'>
                         </div>
                     </div>
                     <div class="killer <?php if (verifChampKiller($valid_Champ)) { echo "erreur"; } ?>">

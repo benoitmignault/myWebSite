@@ -678,8 +678,7 @@
         <style>
             body {
                 margin: 0;
-                /* Fichier photoPoker.jpg est une propriété du site https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/
-                    sous licence libre */
+                /* https://pixabay.com/fr/cha%C3%AEne-de-blocs-personnels-2850276/ sous licence libre */
                 background-image: url("gestion-stats-background.jpg");
                 background-position: center;
                 background-attachment: fixed;
@@ -692,7 +691,7 @@
         <h1><?php echo $arrayMots['h1']; ?></h1>
         <div class="content">
             <h2><?php echo $arrayMots['h3']; ?></h2>
-            <form method="post" action="gestion-stats.php" id="formAjoutDataJoueur">
+            <form method="post" action="gestion-stats.php" id="form">
                 <div class='formulaire_joueur'>
                     <div class="joueur <?php if (verifChampJoueur($valid_Champ)) { echo "erreur"; } ?>">
                         <label for="joueur"><?php echo $arrayMots['joueur']; ?></label>
@@ -753,30 +752,20 @@
                     </div>
                 </div>
             </form>
-            <form method="post" action="gestion-stats.php">
-                <div class="formulaire_Nouveau">
-                    <div class="<?php if (verifChampNouveau($valid_Champ)) { echo "erreur"; } ?>">
-                        <label for="newJoueur"><?php echo $arrayMots['newJoueur']; ?></label>
-                        <input maxlength="25" type="text" id="newJoueur" name="newJoueur" value="<?php echo $champs['newJoueur'] ?>">
-                    </div>
-                    <div>
-                        <input class="bouton" type="submit" name="ajouterNouveau" value="<?php echo $arrayMots['btn_new']; ?>">
-                    </div>
+            <div class="formulaire_Nouveau">
+                <div class="<?php if (verifChampNouveau($valid_Champ)) { echo "erreur"; } ?>">
+                    <label for="newJoueur"><?php echo $arrayMots['newJoueur']; ?></label>
+                    <input form="form" maxlength="25" type="text" id="newJoueur" name="newJoueur" value="<?php echo $champs['newJoueur'] ?>">
                 </div>
-            </form>
-            <form method="post" action="gestion-stats.php">
-                <div class="footer">
-                    <div class="btn_footer">
-                        <input class="bouton" type="submit" name="stats" value="<?php echo $arrayMots['btn_loginPoker']; ?>">
-                    </div>
-                    <div class="btn_footer">
-                        <input class="bouton" type="submit" name="login" value="<?php echo $arrayMots['btn_login']; ?>">
-                    </div>
-                    <div class="btn_footer">
-                        <input class="bouton" type="submit" name="accueil" value="<?php echo $arrayMots['btn_return']; ?>">
-                    </div>
+                <div>
+                    <input form="form" class="bouton" type="submit" name="ajouterNouveau" value="<?php echo $arrayMots['btn_new']; ?>">
                 </div>
-            </form>
+            </div>
+            <div class="footer">
+                <input form="form" class="bouton" type="submit" name="stats" value="<?php echo $arrayMots['btn_loginPoker']; ?>">
+                <input form="form" class="bouton" type="submit" name="login" value="<?php echo $arrayMots['btn_login']; ?>">
+                <input form="form" class="bouton" type="submit" name="accueil" value="<?php echo $arrayMots['btn_return']; ?>">
+            </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>

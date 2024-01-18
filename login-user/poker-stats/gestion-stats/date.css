@@ -66,10 +66,6 @@ label:hover {
     margin-top: -9px;
 }
 
-.content > form > .formulaire-joueur > .date {
-    width: 100%;
-}
-
 .content > form > .formulaire-joueur > .date > div > .ws-date,
 .content > form > .formulaire-joueur > .date > div > .ws-inputreplace,
 .content > form > .formulaire-joueur > .date > div > .wsshadow-1580265856799,
@@ -90,5 +86,9 @@ label:hover {
 @media screen and (max-width:768px) {
     .ws-date {
         width: 100% !important;
+    }
+
+    .content > form > .formulaire-joueur > .date {
+        width: 100%;
     }
 }

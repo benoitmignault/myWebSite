@@ -23,7 +23,7 @@ h2 {
     margin-bottom: 15px;
 }
 
-.container {
+.content {
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
@@ -35,10 +35,10 @@ h2 {
     margin: auto;
 }
 
-.container > form > .formulaire_joueur,
-.container > form > .formulaire_Nouveau,
-.container > form > .footer,
-.container > form > .formulaire_joueur > .position {
+.content > form > .formulaire_joueur,
+.content > form > .formulaire_Nouveau,
+.content > form > .footer,
+.content > form > .formulaire_joueur > .position {
     width: 100%;
     background-color: #c8c8c8;
     display: -webkit-flex;
@@ -49,54 +49,54 @@ h2 {
     border-radius: 10px;
 }
 
-.container > form > .formulaire_joueur .joueur,
-.container > form > .formulaire_joueur .erreur {
+.content > form > .formulaire_joueur .joueur,
+.content > form > .formulaire_joueur .erreur {
     width: 30%;
     margin-bottom: 15px;
 }
 
-.container > form > .formulaire_joueur .joueur > select {
+.content > form > .formulaire_joueur .joueur > select {
     padding: 5px;
     width: 75%;
     border-radius: 10px;
 }
 
-.container > form > .formulaire_joueur .erreur > select {
+.content > form > .formulaire_joueur .erreur > select {
     border: 2px solid red;
     background: #FCDEDE;
     border-radius: 10px;
 }
 
-.container > form > .formulaire_joueur > .position {
+.content > form > .formulaire_joueur > .position {
     width: 70%;
     margin-bottom: 15px;
 
 }
 
-.container > form > .formulaire_joueur > .position > .labelPos {
+.content > form > .formulaire_joueur > .position > .labelPos {
     width: 100%;
 }
 
-.container > form > .formulaire_joueur > .position > div {
+.content > form > .formulaire_joueur > .position > div {
     width: 33%;
 }
 
-.container > form > .formulaire_joueur > .gain,
-.container > form > .formulaire_joueur > .numero,
-.container > form > .formulaire_joueur > .killer,
-.container > form > .formulaire_joueur > .citron,
-.container > form > .formulaire_joueur > .date{
+.content > form > .formulaire_joueur > .gain,
+.content > form > .formulaire_joueur > .numero,
+.content > form > .formulaire_joueur > .killer,
+.content > form > .formulaire_joueur > .citron,
+.content > form > .formulaire_joueur > .date{
     width: 33%;
     margin-bottom: 15px;
 }
 
-.container > form > .formulaire_joueur > .date > div {
+.content > form > .formulaire_joueur > .date > div {
     width: 100%;
 }
 
-.container > form > .formulaire_joueur > div > input[type=text],
-.container > form > .formulaire_Nouveau > div > input[type=text],
-.container > form > .formulaire_joueur > div > div > input[type=date] {
+.content > form > .formulaire_joueur > div > input[type=text],
+.content > form > .formulaire_Nouveau > div > input[type=text],
+.content > form > .formulaire_joueur > div > div > input[type=date] {
     width: 100%;
     border-radius: 10px;
     padding: 5px;
@@ -106,21 +106,21 @@ h2 {
     resize: vertical;
 }
 
-.container > form > .formulaire_joueur > .erreur > input[type=text],
-.container > form > .formulaire_Nouveau > .erreur > input[type=text] {
+.content > form > .formulaire_joueur > .erreur > input[type=text],
+.content > form > .formulaire_Nouveau > .erreur > input[type=text] {
     border: 2px solid red;
     background: #FCDEDE;
 }
 
-.container > form > .formulaire_joueur > .bas_formulaire {
+.content > form > .formulaire_joueur > .bas_formulaire {
     width: 100%;
 }
 
-.container > form > .formulaire_joueur > .bas_formulaire > input {
+.content > form > .formulaire_joueur > .bas_formulaire > input {
     width: 20%;
 }
 
-.container > form > .formulaire_joueur > div > .avert {
+.content > form > .formulaire_joueur > div > .avert {
     margin: 10px 0;
     font-size: 20px;
     color: green;
@@ -129,7 +129,7 @@ h2 {
     text-align: center;
 }
 
-.container > form > .formulaire_joueur > div > .erreur {
+.content > form > .formulaire_joueur > div > .erreur {
     margin: 10px 0;
     font-size: 20px;
     color: red;
@@ -138,33 +138,33 @@ h2 {
     text-align: center;
 }
 
-.container > form > .formulaire_Nouveau > div {
+.content > form > .formulaire_Nouveau > div {
     width: 100%;
     margin-bottom: 10px;
 }
 
-.container > form > .formulaire_Nouveau > div > input[type=text] {
+.content > form > .formulaire_Nouveau > div > input[type=text] {
     width: 30%;
 }
 
-.container > form > .formulaire_Nouveau > div > input[type=submit] {
+.content > form > .formulaire_Nouveau > div > input[type=submit] {
     width: 40%;
 }
 
-.container > form > .footer {
+.content > form > .footer {
     margin-bottom: 0;
 }
 
-.container > form > .footer > .btn_footer {
+.content > form > .footer > .btn_footer {
     width: 100%;
     margin-bottom: 10px;
 }
 
-.container > form > .footer > .btn_footer > input {
+.content > form > .footer > .btn_footer > input {
     width: 40%;
 }
 
-.container > form > .footer > .btn_footer:last-of-type {
+.content > form > .footer > .btn_footer:last-of-type {
     margin-bottom: 0;
 }
 
@@ -217,43 +217,43 @@ label:hover {
         margin-bottom: 15px;
     }
 
-    .container {
+    .content {
         width: 100%;
         padding: 5px;
     }
 
-    .container > form > .formulaire_joueur,
-    .container > form > .formulaire_Nouveau,
-    .container > form > .footer {
+    .content > form > .formulaire_joueur,
+    .content > form > .formulaire_Nouveau,
+    .content > form > .footer {
         -webkit-flex-direction: column;
         flex-direction: column;
     }
 
-    .container > form > .formulaire_joueur > .position > div {
+    .content > form > .formulaire_joueur > .position > div {
         margin-top: 5px;
     }
 
-    .container > form > .formulaire_joueur > .joueur,
-    .container > form > .formulaire_joueur > .erreur {
+    .content > form > .formulaire_joueur > .joueur,
+    .content > form > .formulaire_joueur > .erreur {
         width: 100%;
         margin-bottom: 5px;
     }
 
-    .container > form > .formulaire_joueur > .gain,
-    .container > form > .formulaire_joueur > .numero,
-    .container > form > .formulaire_joueur > .date,
-    .container > form > .formulaire_joueur > .killer,
-    .container > form > .formulaire_joueur > .citron {
+    .content > form > .formulaire_joueur > .gain,
+    .content > form > .formulaire_joueur > .numero,
+    .content > form > .formulaire_joueur > .date,
+    .content > form > .formulaire_joueur > .killer,
+    .content > form > .formulaire_joueur > .citron {
         width: 100%;
         margin-bottom: 5px;
     }
 
-    .container > form > .formulaire_joueur > div > input[type=text],
-    .container > form > .formulaire_Nouveau > div > input[type=text] {
+    .content > form > .formulaire_joueur > div > input[type=text],
+    .content > form > .formulaire_Nouveau > div > input[type=text] {
         margin-bottom: 5px;
     }
 
-    .container > form > .formulaire_joueur > .bas_formulaire > input {
+    .content > form > .formulaire_joueur > .bas_formulaire > input {
         width: 100%;
     }
 
@@ -262,24 +262,24 @@ label:hover {
         padding: 0;
     }
 
-    .container > form > .formulaire_joueur > .bas_formulaire > .bouton:first-of-type {
+    .content > form > .formulaire_joueur > .bas_formulaire > .bouton:first-of-type {
         margin-bottom: 10px;
     }
 
-    .container > form > .formulaire_joueur > div > .avert,
-    .container > form > .formulaire_joueur > div > .erreur {
+    .content > form > .formulaire_joueur > div > .avert,
+    .content > form > .formulaire_joueur > div > .erreur {
         text-align: justify;
         font-size: 18px;
     }
 
-    .container > form > .formulaire_Nouveau > div > input[type=text],
-    .container > form > .formulaire_Nouveau > div > input[type=submit],
-    .container > form > .footer > .btn_footer > input {
+    .content > form > .formulaire_Nouveau > div > input[type=text],
+    .content > form > .formulaire_Nouveau > div > input[type=submit],
+    .content > form > .footer > .btn_footer > input {
         width: 100%;
     }
 
-    .container > form > .formulaire_Nouveau > div > input[type=submit],
-    .container > form > .footer > .btn_footer > input {
+    .content > form > .formulaire_Nouveau > div > input[type=submit],
+    .content > form > .footer > .btn_footer > input {
         font-size: 19px;
         padding-top: 5px;
         padding-bottom: 5px;

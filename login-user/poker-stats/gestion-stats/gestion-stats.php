@@ -689,7 +689,7 @@
     </head>
     <body>
     <h1><?php echo $arrayMots['h1']; ?></h1>
-    <div class="container">
+    <div class="content">
         <h2><?php echo $arrayMots['h3']; ?></h2>
         <form method="post" action="gestion-stats.php" id="formAjoutDataJoueur">
             <div class='formulaire_joueur'>

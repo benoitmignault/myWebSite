@@ -82,6 +82,7 @@ h2 {
 
 .content > form > .formulaire_joueur > .position > .labelPos {
     width: 100%;
+    margin-top: 0;
 }
 
 .content > form > .formulaire_joueur > .position > div {

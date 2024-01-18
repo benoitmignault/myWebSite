@@ -191,6 +191,7 @@ h2 {
     padding: 10px 10px 10px 10px;
     border: solid #8c711f 3px;
     margin-right: 10px;
+    box-shadow: 0 0 15px #14422e;
 }
 
 .bouton:hover {
@@ -201,6 +202,11 @@ h2 {
     background-image: -o-linear-gradient(top, #c7dced, #6f8491);
     background-image: linear-gradient(to bottom, #c7dced, #6f8491);
     cursor: pointer;
+}
+
+.bouton:active {
+    box-shadow: 0 0 10px #14422e;
+    transform: translateY(5px);
 }
 
 label:hover {

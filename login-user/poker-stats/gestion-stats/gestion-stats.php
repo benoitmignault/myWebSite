@@ -740,7 +740,7 @@
                     </div>
                     <div class="bas_formulaire">
                         <input class="bouton" type="submit" name="ajouter" value="<?php echo $arrayMots['btn_add']; ?>">
-                        <input class="bouton" type="submit" name="effacer" value="<?php echo $arrayMots['btn_erase']; ?>">
+                        <input class="bouton" id="faire_menage_total" type="reset" value="<?php echo $arrayMots['btn_erase']; ?>">
                     </div>
                     <div class="bas_formulaire">
                         <p class="<?php if ((isset($_POST['effacer']) || isset($_POST['ajouter']) || isset($_POST['ajouterNouveau'])) && $verif_tous_flag === true) {

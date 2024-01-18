@@ -66,14 +66,14 @@ label:hover {
     margin-top: -9px;
 }
 
-.content > form > .formulaire_joueur > .date {
+.content > form > .formulaire-joueur > .date {
     width: 100%;
 }
 
-.content > form > .formulaire_joueur > .date > div > .ws-date,
-.content > form > .formulaire_joueur > .date > div > .ws-inputreplace,
-.content > form > .formulaire_joueur > .date > div > .wsshadow-1580265856799,
-.content > form > .formulaire_joueur > .date > div > .has-input-buttons {
+.content > form > .formulaire-joueur > .date > div > .ws-date,
+.content > form > .formulaire-joueur > .date > div > .ws-inputreplace,
+.content > form > .formulaire-joueur > .date > div > .wsshadow-1580265856799,
+.content > form > .formulaire-joueur > .date > div > .has-input-buttons {
     width: 100%;
     border-radius: 10px;
     padding: 5px;

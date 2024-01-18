@@ -13,7 +13,7 @@
 			$lang = "fr";
 			$newJoueur = "Nouveau joueur";
 			$title = "Page de gestion du poker et login";
-			$h1 = "Bienvenue à la page de gestion des utilisateurs et des statistiques du poker.";
+			$h1 = "Bienvenue à la page de gestion des statistiques du poker.";
 			$h3 = "Formulaire pour ajouter les statistiques d'un joueur.";
 			$option = "À sélectionner";
 			$joueur = "Joueur : ";
@@ -24,12 +24,12 @@
 			$autre = "Autre";
 			$killer = "Prix killer :";
 			$citron = "Prix citron :";
-			$noId = "Id du tournoi :";
+			$noId = "Numéro du tournois :";
 			$btn_add = "Ajouter";
 			$btn_erase = "Effacer";
-			$btn_loginPoker = "Voir les statistique";
-			$btn_login = "Retour à page de connexion";
-			$btn_return = "Retour à l'accueil";
+			$btn_loginPoker = "Voir les statistiques";
+			$btn_login = "Connexion à nouveau";
+			$btn_return = "Accueil";
 			
 		} elseif ($type_langue === 'english') {
 			$btn_new = "Add the new player";

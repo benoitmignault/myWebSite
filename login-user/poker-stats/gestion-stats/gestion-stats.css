@@ -308,4 +308,8 @@ label:hover {
     .content > .footer > input[type=submit]:last-of-type{
         margin-bottom: 0;
     }
+
+    .content > form > .formulaire-joueur > .bas-formulaire:last-of-type{
+        padding-bottom: 0;
+    }
 }

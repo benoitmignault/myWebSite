@@ -670,6 +670,7 @@
         <meta charset="utf-8">
         <!-- https://pixabay.com/fr/fichier-ic%C3%B4ne-web-document-2389211/ -->
         <link rel="shortcut icon" href="gestion-stats-icone.png">
+        <meta name="description" content="Gestion des statistiques de poker">
         <link rel="stylesheet" type="text/css" href="gestion-stats.css">
         <link rel="stylesheet" type="text/css" href="date.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">

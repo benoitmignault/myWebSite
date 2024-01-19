@@ -34,7 +34,7 @@
 			$liste_mots["noId"] = "Numéro du tournois :";
 			$liste_mots["btn_add"] = "Ajouter";
 			$liste_mots["btn_erase"] = "Effacer";
-			$liste_mots["btn_loginPoker"] = "Voir les statistiques";
+			$liste_mots["btn_voir_stats"] = "Voir les statistiques";
 			$liste_mots["btn_login"] = "Connexion à nouveau";
 			$liste_mots["btn_return"] = "Accueil";
 			
@@ -57,7 +57,7 @@
 			$liste_mots["noId"] = "Tournament Id";
 			$liste_mots["btn_add"] = "Add";
 			$liste_mots["btn_erase"] = "Erase";
-			$liste_mots["btn_loginPoker"] = "View statistics";
+			$liste_mots["btn_voir_stats"] = "View statistics";
 			$liste_mots["btn_login"] = "Back to login page";
 			$liste_mots["btn_return"] = "Back to Home";
 		}

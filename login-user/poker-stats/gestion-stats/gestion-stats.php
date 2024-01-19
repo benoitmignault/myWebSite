@@ -18,7 +18,7 @@
                      "invalid_gain" => false, "invalid_new_player" => false, "invalid_no_tournois" => false, "invalid_date" => false, "invalid_citron" => false,
                      "invalid_killer" => false, "tous_invalids" => false, "tous_champs_vides" => false, "tous_long_invalids" => false, 
 					 "long_invalid_gain" => false, "long_invalid_no_tournois" => false, "long_invalid_new_player" => false,
-                     "long_invalid_date" => false, "long_invalid_killer" => false, "long_invalid_citron" => false,					 
+                     "long_invalid_date" => false, "long_invalid_killer" => false, "long_invalid_citron" => false, "invalid_language" => false,
 					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 
                      "champ_vide_date" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
 					 "new_player_duplicate" => false, "erreur_presente" => false, "liste_mots" => array(), "liste_joueurs" => array());

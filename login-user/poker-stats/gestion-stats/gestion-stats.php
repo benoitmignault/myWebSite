@@ -113,7 +113,7 @@
         }
 		
 		// Remplissage de la liste de joueurs disponibles pour assignation des statistiques + d'autres variables
-		$array_Champs= requete_SQL_recuperation_liste_joueurs($connMYSQL, $array_Champs);
+		$array_Champs = requete_SQL_recuperation_liste_joueurs($connMYSQL, $array_Champs);
         
         // Nous avons seulement le POST, rendu ici
 	    if ($_SERVER['REQUEST_METHOD'] === 'POST'){

@@ -794,7 +794,7 @@
 	
         // On va remplir les variables nécessaires ici
 	    $array_Champs = remplissage_champs($connMYSQL, $array_Champs);
-	
+        
 	    // La seule chose qui peut arriver dans le GET et au début du POST, ici est une variable de langue invalide
 	    if ($array_Champs["invalid_language"]) {
 		    redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]);

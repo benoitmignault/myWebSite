@@ -563,55 +563,142 @@
 		return $array_Champs;
 	}
 	
-	function redirection($array_Champs, $connMYSQL) {
+	/**
+	 * Fonction qui sera utilisée pour ajouter un log dans la table pour voir qui se connecter sur la page des statistiques de poker
+	 *
+	 * @param mysqli $connMYSQL
+	 * @param array $array_Champs
+	 * @return array
+	 */// TODO récupérer le id du user pour aller ajoute run log
+	function requete_SQL_ajout_log_connexion(mysqli $connMYSQL, array $array_Champs): array {
+		
+  
+		// Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
+		$sql = "select id from login where user = '{$_SESSION['user']}' ";
+		$result_SQL = $connMYSQL->query($sql);
+		$row = $result_SQL->fetch_row();               // C'est mon array de résultat
+		$id = (int)$row[0];                            // Assignation de la valeur
+		date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
+		$date = date("Y-m-d H:i:s");
+		
+		// Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques
+		//$insert = "INSERT INTO login_stat_poker (user, date, id_user) VALUES";
+		//$insert .= " ('" . $_SESSION['user'] . "', '" . $date . "', '" . $id . "')";
+		//$connMYSQL->query($insert);
+        
+        
+        // Ici, on va saisir une entrée dans la BD pour savoir qui se connecte aux statistiques de poker
+				
+		$insert = "INSERT INTO";
+		$table = " login_stat_poker ";
+		$colonnes = "(user, date, id_user) ";
+		$values = "VALUES (?, ?, ?)";
+		$query = $insert . $table . $colonnes . $values;
+		
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		try {
+			/* Lecture des marqueurs */
+			$stmt->bind_param('ssi', $_SESSION['user'],$date, $id);
+			
+			/* Exécution de la requête */
+			$stmt->execute();
+		} catch (Exception $err){
+			// Récupérer les messages d'erreurs
+			$array_Champs["message_erreur_bd"] = $err->getMessage();
+			
+			// Sera utilisée pour faire afficher le message erreur spécial
+			$array_Champs["erreur_system_bd"] = true;
+		} finally {
+			// Fermer la préparation de la requête
+			$stmt->close();
+		}
+		
+		return $array_Champs;
+	}
+	
+	
+	/**
+	 * Fonction pour rediriger le user vers la bonne page web, après toutes les validations
+	 *
+	 * @param array $array_Champs
+	 * @return void
+	 */ // TODO ajuster la fct
+	#[NoReturn] function connexion_user(array $array_Champs): void {
+		
+		// Ouverture du cookie pour laisser une heure de consultation des statistiques de poker
+		session_start();
+		$_SESSION['user'] = $array_Champs['user'];
+		$_SESSION['password'] = $array_Champs['password'];
+		$_SESSION['type_langue'] = $array_Champs["type_langue"];
+		
+		// On va quand même créer le cookie vue qu'on va dans une zone sensible, soit l'insertion de DATA
+		setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
+		
+		// Si nous avons un user autre qu'un admin, on démarre le cookie, sinon on va attendre pour l'admin
+		if (!$array_Champs['user_admin']){
+			
+			// Redirection d'un user normal
+			header("Location: /login-user/poker-stats/show-stats/stats.php");
+		} else {
+			// Redirection d'un admin pour faire l'ajout des statistiques de poker
+			header("Location: /login-user/poker-stats/gestion-stats/gestion-stats.php");
+		}
+		
+		exit;
+	}
+	
+	
+	/**
+	 * Fonction pour rediriger vers la bonne page extérieur à la page de gestion
+     * Pour le transfert vers la page de statistique, on va passer par @see connexion_user
+	 *
+	 * @param string $type_langue
+	 * @return void
+	 */
+	#[NoReturn]function redirection(string $type_langue): void {
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-			delete_Session();
 			header("Location: /erreur/erreur.php");
-		}
-        elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+   
+		} elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			
-			if (isset($_POST['stats'])) {
-				// Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-				$sql = "select id from login where user = '{$_SESSION['user']}' ";
-				$result_SQL = $connMYSQL->query($sql);
-				$row = $result_SQL->fetch_row();               // C'est mon array de résultat
-				$id = (int)$row[0];                            // Assignation de la valeur
-				date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
-				$date = date("Y-m-d H:i:s");
+            // Si on revient à la page accueil du site web
+			if (isset($_POST['btn_return'])) {
 				
-				// Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques
-				//$insert = "INSERT INTO login_stat_poker (user, date, id_user) VALUES";
-				//$insert .= " ('" . $_SESSION['user'] . "', '" . $date . "', '" . $id . "')";
-				//$connMYSQL->query($insert);
-				header("Location: /login-user/poker-stats/show-stats/stats.php");
-			}
-            elseif (isset($_POST['login'])) {
-				header("Location: /login-user/login-user.php?langue={$array_Champs["type_langue"]}");
-				
-				delete_Session();
-			}
-            elseif (isset($_POST['accueil'])) {
-				if ($array_Champs["type_langue"] == 'english') {
+				// En fonction de la langue
+				if ($type_langue === 'english') {
 					header("Location: /english/english.html");
-				}
-				else {
+				} elseif ($type_langue === 'francais') {
 					header("Location: /index.html");
 				}
-				delete_Session();
+                
+                // Si on décide de revenir à la page de connexion des users
+			} elseif (isset($_POST['btn_login'])) {
+				
+				// En fonction de la langue
+				if ($type_langue === 'english') {
+					header("Location: /login-user/login-user.php?langue=english");
+				} elseif ($type_langue === 'francais') {
+					header("Location: /login-user/login-user.php?langue=francais");
+				}
 			}
 		}
-		exit; // pour arrêter l'éxecution du code php
+		
+		delete_Session();
+		exit; // Pour arrêter l'exécution du code php
 	}
  
 	function delete_Session(): void {
 		
 		// Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
-		session_unset();                                           // détruire toutes les variables SESSION
+		session_unset(); // détruire toutes les variables SESSION
 		setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
 		session_destroy();
 		session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
 	}
+ 
+ 
 	// Les fonctions communes avant la validation du user
 	$connMYSQL = connexion();
     $user_valid = verification_user_valide($connMYSQL);

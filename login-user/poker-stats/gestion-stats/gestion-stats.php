@@ -576,9 +576,9 @@
 				$date = date("Y-m-d H:i:s");
 				
 				// Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques
-				$insert = "INSERT INTO login_stat_poker (user, date, id_user) VALUES ";
-				$insert .= "('" . $_SESSION['user'] . "', '" . $date . "', '" . $id . "')";
-				$connMYSQL->query($insert);
+				//$insert = "INSERT INTO login_stat_poker (user, date, id_user) VALUES";
+				//$insert .= " ('" . $_SESSION['user'] . "', '" . $date . "', '" . $id . "')";
+				//$connMYSQL->query($insert);
 				header("Location: /login-user/poker-stats/show-stats/stats.php");
 			}
             elseif (isset($_POST['login'])) {

@@ -764,7 +764,7 @@
         
         // Sinon, on sort directement vers page erreur 404
     } else {
-	    redirection($array_Champs, $user_valid, $connMYSQL);
+	    redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]);
     }
     
  

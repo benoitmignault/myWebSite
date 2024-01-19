@@ -717,13 +717,20 @@
 	    }
 	
 	    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
+		    //|| isset($_POST['btn_login']) || isset($_POST['btn_return']
+		    redirection($connMYSQL, $array_Champs);
             // Il y a 3 boutons qui peut nous faire sortir de la page vers 3 directions possible
-            if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueil'])) {
-                redirection($array_Champs, $connMYSQL);
+            if (isset($_POST['btn_voir_stats'])) {
+	            date_default_timezone_set('America/New_York');
+	            $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
                 
             } else {
 	            $array_Champs = validation_champs($array_Champs);
+	
+	            // On vérifie que nous n'avons pas d'erreur dans les validations
+	            if (!$array_Champs['erreur_presente']){
+                
+                }
              
                 
             

@@ -19,28 +19,61 @@
                      "long_invalid_date" => false, "long_invalid_killer" => false, "long_invalid_citron" => false,					 
 					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 
                      "champ_vide_date" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
-					 "new_player_duplicate" => false, "liste_mots" => array(), "liste_joueurs" => array(), "user_valid" => false);
+					 "new_player_duplicate" => false, "erreur_presente" => false, "liste_mots" => array(), "liste_joueurs" => array());
 	}
 	
+	
+	function verification_user_valide($connMYSQL) {
+		
+		// Optimisation de la vérification si le user existe dans la BD
+		/* Crée une requête préparée */
+		$stmt = $connMYSQL->prepare("select user, password from login where user=? ");
+		
+		/* Lecture des marqueurs */
+		$stmt->bind_param("s", $_SESSION['user']);
+		
+		/* Exécution de la requête */
+		$stmt->execute();
+		
+		/* Association des variables de résultat */
+		$result = $stmt->get_result();
+		$stmt->close();
+		if ($result->num_rows == 1) {
+			$row = $result->fetch_array(MYSQLI_ASSOC);
+			// On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
+			if ($_COOKIE['POKER'] == $row['user']) {
+				if (password_verify($_SESSION['password'], $row['password'])) {
+					return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
+				}
+			}
+		}
+		return false;
+	}
+ 
+ 
+    
+ 
+ 
+ 
+ 
+ 
 	/**
 	 * Fonction pour setter les premières informations du GET ou POST
-	 * Aussi, on va récupérer via le POST, les informations relier au username et du password
+	 * Récupérer la liste des joueurs
 	 *
      * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
 	 * @param array $array_Champs
-     * @param bool $user_valid
 	 * @return array
 	 */
-	function remplissage_champs(mysqli $connMYSQL, array $array_Champs, bool $user_valid): array{
-	
-        // Remplissage de la liste de joueurs disponibles pour assignation des statistiques
-        // Qu'on soit dans le GET ou POST, au final, la première option sera toujours celle sélectionnée
+	function remplissage_champs(mysqli $connMYSQL, array $array_Champs): array{
         
 		// Assignation seulement de la langue pour utilisation de traduction et la variable que le user est toujours valide
-		$array_Champs["type_langue"] = $_SESSION['type_langue'];
-		$array_Champs["user_valid"] = $user_valid;
-        
-        // On récupère la liste des joueurs pour la réafficher à la fin des actions
+		
+        if (isset($_SESSION['type_langue'])) {
+	        $array_Champs["type_langue"] = $_SESSION['type_langue'];
+        }
+		
+		// Remplissage de la liste de joueurs disponibles pour assignation des statistiques
 		$array_Champs["liste_joueurs"] = requete_SQL_recuperation_liste_joueurs($connMYSQL);
         
         // Nous avons seulement le POST, rendu ici

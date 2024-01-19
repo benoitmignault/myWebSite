@@ -108,13 +108,12 @@
 	function remplissage_champs(mysqli $connMYSQL, array $array_Champs): array{
         
 		// Assignation seulement de la langue pour utilisation de traduction et la variable que le user est toujours valide
-		
         if (isset($_SESSION['type_langue'])) {
 	        $array_Champs["type_langue"] = $_SESSION['type_langue'];
         }
 		
-		// Remplissage de la liste de joueurs disponibles pour assignation des statistiques
-		$array_Champs["liste_joueurs"] = requete_SQL_recuperation_liste_joueurs($connMYSQL);
+		// Remplissage de la liste de joueurs disponibles pour assignation des statistiques + d'autres variables
+		$array_Champs= requete_SQL_recuperation_liste_joueurs($connMYSQL, $array_Champs);
         
         // Nous avons seulement le POST, rendu ici
 	    if ($_SERVER['REQUEST_METHOD'] === 'POST'){

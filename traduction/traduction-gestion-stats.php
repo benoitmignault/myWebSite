@@ -19,7 +19,7 @@
 			$liste_mots["btn_new"] = "Ajouter le nouveau joueur";
 			$liste_mots["lang"] = "fr";
 			$liste_mots["newJoueur"] = "Nouveau joueur";
-			$liste_mots["title"] = "Page de gestion du poker et login";
+			$liste_mots["title"] = "Gestion des statistiques";
 			$liste_mots["h1"] = "Bienvenue à la page de gestion des statistiques du poker.";
 			$liste_mots["h3"] = "Formulaire pour ajouter les statistiques d'un joueur.";
 			$liste_mots["option"] = "À sélectionner";

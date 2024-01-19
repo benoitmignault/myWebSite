@@ -118,6 +118,12 @@
                 }
             }
         }
+        
+		// Exceptionnellement, on va faire une validation ici
+		// Validation commune pour le Get & Post, à propos de la langue
+		if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "english"){
+			$array_Champs["invalid_language"] = true;
+		}
 		
 		return $array_Champs;
 	}

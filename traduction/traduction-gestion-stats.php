@@ -9,7 +9,7 @@
 	 */
 	function traduction(string $type_langue, int $situation): array {
 		
-		$liste_mots = array(["lang" => "", 'btn_new' => "", 'title' => "", 'killer' => "", 'citron' => "",
+		$liste_mots = array("lang" => "", 'btn_new' => "", 'title' => "", 'killer' => "", 'citron' => "",
 		                     'newJoueur' => "", 'gain' => "", 'h1' => "", 'victoire' => "", 'fini2e' => "", 'h3' => "",
 		                     'autre' => "", 'noId' => "", 'option' => "", 'joueur' => "", 'resultat' => "",
 		                     'btn_add' => "", 'btn_erase' => "", 'btn_loginPoker' => "", 'btn_login' => "",

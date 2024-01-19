@@ -22,7 +22,7 @@
 					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 
                      "champ_vide_date" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
 					 "new_player_duplicate" => false, "erreur_presente" => false, "message_erreur_bd" => "", "erreur_system_bd" => false,
-                     "liste_mots" => array(), "liste_joueurs" => array());
+                     "liste_mots" => array(), "liste_joueurs" => array(), "message" => "");
 	}
 	
 	/**

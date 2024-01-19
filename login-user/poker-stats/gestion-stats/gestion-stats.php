@@ -875,7 +875,16 @@
                 <div class='formulaire-joueur'>
                     <div class="joueur <?php if (true) { echo "erreur"; } ?>">
                         <label for="joueur"><?php echo $array_Champs["liste_mots"]['joueur']; ?></label>
-                        <select id="joueur" name="liste_joueurs"><?php // À REFAIRE AVEC UN FOREACH ?></select>
+                        <select id="joueur" name="liste_joueurs">
+                            <option value=""><?php echo $array_Champs["liste_mots"]['option']; ?></option>
+                            <?php foreach ($array_Champs["liste_joueurs"] as $un_joueur) {
+                                    if ($array_Champs["joueur"] === $un_joueur) { ?>
+                                        <option value="<?php echo $un_joueur; ?>" selected><?php echo $un_joueur; ?></option>
+                                    <?php } else { ?>
+                                        <option value="<?php echo $un_joueur; ?>"><?php echo $un_joueur; ?></option>
+                                    <?php }
+                            } ?>
+                        </select>
                     </div>
                     <div class="position">
                         <p class="p-label-pos"><?php echo $array_Champs["liste_mots"]['resultat']; ?></p>

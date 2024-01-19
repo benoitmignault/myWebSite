@@ -767,13 +767,13 @@
                     <input form="form" maxlength="25" type="text" id="new_player" name="new_player" value="<?php echo $array_Champs['new_player'] ?>">
                 </div>
                 <div>
-                    <input form="form" class="bouton" type="submit" name="ajouter_nouveau" value="<?php echo $arrayMots['btn_new']; ?>">
+                    <input form="form" class="bouton" type="submit" name="btn_ajouter_nouveau" value="<?php echo $arrayMots['btn_new']; ?>">
                 </div>
             </div>
             <div class="footer">
-                <input form="form" class="bouton" type="submit" name="stats" value="<?php echo $arrayMots['btn_loginPoker']; ?>">
-                <input form="form" class="bouton" type="submit" name="login" value="<?php echo $arrayMots['btn_login']; ?>">
-                <input form="form" class="bouton" type="submit" name="accueil" value="<?php echo $arrayMots['btn_return']; ?>">
+                <input form="form" class="bouton" type="submit" name="btn_voir_stats" value="<?php echo $arrayMots['btn_loginPoker']; ?>">
+                <input form="form" class="bouton" type="submit" name="btn_login" value="<?php echo $arrayMots['btn_login']; ?>">
+                <input form="form" class="bouton" type="submit" name="btn_return" value="<?php echo $arrayMots['btn_return']; ?>">
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>

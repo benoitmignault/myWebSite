@@ -493,98 +493,69 @@
 		return $array_Champs;
 	}
 	
-	function verificationTout_Champs($valid_Champ) {
-		
-		$autorisation = true;
-		foreach ($valid_Champ as $eachFlag => $info) {
-			if ($info == true) {
-				$autorisation = false;
-			}
-		}
-		return $autorisation;
-	}
 	
-	function verifChampGain($valid_Champ) {
-		
-		if ($valid_Champ['invalid_gain'] || $valid_Champ['long_invalid_gain'] || $valid_Champ['champ_gain_vide']) {
-			return true;
-		}
-		return false;
-	}
 	
-	function verifChampId($valid_Champ) {
-		
-		if ($valid_Champ['invalid_no_tournois'] || $valid_Champ['long_invalid_no_tournois'] || $valid_Champ['champ_no_tournois_vide']) {
-			return true;
-		}
-		return false;
-	}
 	
-	function verifChampDate($valid_Champ) {
-		
-		if ($valid_Champ['invalid_date'] || $valid_Champ['long_invalid_date'] || $valid_Champ['champ_vide_date']) {
-			return true;
-		}
-		return false;
-	}
 	
-	function verifChampJoueur($valid_Champ) {
-		
-		if ($valid_Champ['champ_joueur_vide']) {
-			return true;
-		}
-		return false;
-	}
 	
-	function verifChampKiller($valid_Champ) {
-		
-		if ($valid_Champ['invalid_killer'] || $valid_Champ['long_invalid_killer'] || $valid_Champ['champ_killer_vide']) {
-			return true;
-		}
-		return false;
-	}
 	
-	function verifChampCitron($valid_Champ) {
+	function ajout_Stat_Joueur($array_Champs, $connMYSQL) {
 		
-		if ($valid_Champ['invalid_citron'] || $valid_Champ['long_invalid_citron'] || $valid_Champ['champ_citron_vide']) {
-			return true;
+		$victoire = "";
+		$fini2e = "";
+		if ($array_Champs["position"] === "victoire") {
+			$victoire = "X";
 		}
-		return false;
-	}
-	
-	function verifChampNouveau($valid_Champ) {
-		
-		if ($valid_Champ['invalid_new_player'] || $valid_Champ['long_invalid_new_player'] || $valid_Champ['champ_new_player_vide']) {
-			return true;
+        elseif ($array_Champs["position"] === "fini2e") {
+			$fini2e = "X";
 		}
-		return false;
-	}
-	
-	function verificationUser($connMYSQL) {
+		$killerFloat = floatval($array_Champs["killer"]);
+		$citronFloat = floatval($array_Champs["citron"]);
 		
-		// Optimisation de la vérification si le user existe dans la BD
-		/* Crée une requête préparée */
-		$stmt = $connMYSQL->prepare("select user, password from login where user=? ");
+		// Prepare an insert statement
+		$sql = "INSERT INTO poker (joueur,gain,victoire,fini_2e,id_tournoi,date,killer,prixCitron) VALUES (?,?,?,?,?,?,?,?)";
+		$stmt = $connMYSQL->prepare($sql);
 		
-		/* Lecture des marqueurs */
-		$stmt->bind_param("s", $_SESSION['user']);
-		
-		/* Exécution de la requête */
+		// Bind variables to the prepared statement as parameters
+		$stmt->bind_param('sissisdd', $array_Champs["liste_joueurs"], $array_Champs["gain"], $victoire, $fini2e, $array_Champs["no_tournois"], $array_Champs["date"], $killerFloat, $citronFloat);
 		$stmt->execute();
 		
-		/* Association des variables de résultat */
-		$result = $stmt->get_result();
+		// Close statement
 		$stmt->close();
-		if ($result->num_rows == 1) {
-			$row = $result->fetch_array(MYSQLI_ASSOC);
-			// On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
-			if ($_COOKIE['POKER'] == $row['user']) {
-				if (password_verify($_SESSION['password'], $row['password'])) {
-					return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
-				}
-			}
+		
+		if ($array_Champs['type_langue'] === "francais") {
+			$messageAjout = "Les informations du joueur {$array_Champs["liste_joueurs"]} a été ajouté à la BD.";
 		}
-		return false;
+        elseif ($array_Champs['type_langue'] === "english") {
+			$messageAjout = "The player information {$array_Champs["liste_joueurs"]} has been added to the BD.";
+		}
+		$array_Champs = initialisationChamps();
+		$array_Champs['message'] = $messageAjout;
+		return $array_Champs;
+	}
+	
+	function ajouter_Nouveau_Joueur($array_Champs, $connMYSQL) {
+		
+		// Prepare an insert statement
+		$sql = "INSERT INTO joueur (joueur) VALUES (?)";
+		$stmt = $connMYSQL->prepare($sql);
+		
+		// Bind variables to the prepared statement as parameters
+		$stmt->bind_param('s', $array_Champs["new_player"]);
+		$stmt->execute();
+		
+		// Close statement
+		$stmt->close();
+		
+		if ($array_Champs['type_langue'] === "francais") {
+			$messageAjout = "Le nouveau joueur {$array_Champs["liste_joueurs"]} a été ajouté à la BD.";
+		}
+        elseif ($array_Champs['type_langue'] === "english") {
+			$messageAjout = "The player information {$array_Champs["liste_joueurs"]} has been added to the BD.";
+		}
+		$array_Champs = initialisationChamps();
+		$array_Champs['message'] = $messageAjout;
+		return $array_Champs;
 	}
 	
 	function redirection($array_Champs, $connMYSQL) {

@@ -47,7 +47,7 @@
 		} else
     }
 		
-		if (isset($_POST['new_player'])) {
+		if (isset($_POST['btn_ajouter_nouveau'])) {
 			$array_Champs["new_player"] = $_POST['new_player'];
    
    

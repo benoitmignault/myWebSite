@@ -14,47 +14,87 @@
 	 */
 	function initialisation(): array {
 		
-		return array("type_langue" => "", "joueur" => "", "gain" => "", "position" => "", "no_tournois" => "", "date" => "", "killer" => "", "citron" => "", "new_player" => "", 
+		return array("user_valid" => false, "id_user" => 0, "type_langue" => "", "joueur" => "", "gain" => "", "position" => "", "no_tournois" => "", "date" => "", "killer" => "", "citron" => "", "new_player" => "",
                      "invalid_gain" => false, "invalid_new_player" => false, "invalid_no_tournois" => false, "invalid_date" => false, "invalid_citron" => false,
                      "invalid_killer" => false, "tous_invalids" => false, "tous_champs_vides" => false, "tous_long_invalids" => false, 
 					 "long_invalid_gain" => false, "long_invalid_no_tournois" => false, "long_invalid_new_player" => false,
                      "long_invalid_date" => false, "long_invalid_killer" => false, "long_invalid_citron" => false, "invalid_language" => false,
 					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 
                      "champ_vide_date" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
-					 "new_player_duplicate" => false, "erreur_presente" => false, "liste_mots" => array(), "liste_joueurs" => array());
+					 "new_player_duplicate" => false, "erreur_presente" => false, "message_erreur_bd" => "", "erreur_system_bd" => false,
+                     "liste_mots" => array(), "liste_joueurs" => array());
 	}
 	
-	
-    // TODO vérifier seulement que le user existe
-	function verification_user_valide($connMYSQL) {
+	/**
+	 * Fonction pour aller vérifier que nos informations dans notre cookie sont toujours avec notre BD
+	 * On va vérifier seulement pour le user avec son password
+     * On va récupérer aussi le id du user qui sera utile plus tard
+	 *
+	 * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function requete_SQL_verif_user_valide(mysqli $connMYSQL, array $array_Champs): array {
 		
-		// Optimisation de la vérification si le user existe dans la BD
-		/* Crée une requête préparée */
-		$stmt = $connMYSQL->prepare("select user, password from login where user=? ");
+		$select = "SELECT PASSWORD, ID ";
+		$from = "FROM login ";
+		$where = "WHERE user = ?";
 		
-		/* Lecture des marqueurs */
-		$stmt->bind_param("s", $_SESSION['user']);
+		// Préparation de la requête SQL avec les parties nécessaires
+		$query = $select . $from . $where;
 		
-		/* Exécution de la requête */
-		$stmt->execute();
-		
-		/* Association des variables de résultat */
-		$result = $stmt->get_result();
-		$stmt->close();
-		if ($result->num_rows == 1) {
-			$row = $result->fetch_array(MYSQLI_ASSOC);
-			// On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
-			if ($_COOKIE['POKER'] == $row['user']) {
-				if (password_verify($_SESSION['password'], $row['password'])) {
-					return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
-				}
-			}
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		try {
+			/* Lecture des marqueurs */
+			$stmt->bind_param("s", $_SESSION['user']);
+			
+			/* Exécution de la requête */
+			$stmt->execute();
+		} catch (Exception $err){
+			// Récupérer les messages d'erreurs
+			$array_Champs["message_erreur_bd"] = $err->getMessage();
+			
+			// Sera utilisée pour faire afficher le message erreur spécial
+			$array_Champs["erreur_system_bd"] = true;
+		} finally {
+			/* Association des variables de résultat */
+			$result = $stmt->get_result();
+			
+			// Close statement
+			$stmt->close();
 		}
-		return false;
+		
+		// Retourne l'information des informations de connexion, si existant...
+		return recuperation_info_user($connMYSQL, $result, $array_Champs);
 	}
- 
- 
- 
+	
+	/**
+     * Fonction qui va retourner si le user est bien valide avec une comparaison positive du password
+     * Cette fonction retournera l'information @see requete_SQL_verif_user_valide
+     *
+	 * @param mysqli $connMYSQL
+	 * @param object $result
+     * @param array $array_Champs
+	 * @return array
+	 */
+    function recuperation_info_user(mysqli $connMYSQL, object $result, array $array_Champs): array {
+	
+	    // Récupération de la seule ligne possible contenu un array
+	    $row = $result->fetch_array(MYSQLI_ASSOC);
+	
+	    // Le tableau résultat existe et il n'est pas null
+	    if (isset($row) && is_array($row)) {
+		
+		    if (password_verify($_SESSION['password'], $row['PASSWORD'])) {
+			    $array_Champs['user_valid'] = true;
+			    // Assignation des informations pour la connexion, pour plus tard
+			    $array_Champs['id_user'] = $row["ID"];
+		    }
+	    }
+        
+        return $array_Champs;
+    }
  
  
  

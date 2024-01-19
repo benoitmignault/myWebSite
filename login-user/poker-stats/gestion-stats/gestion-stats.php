@@ -216,7 +216,15 @@
 	 */
 	function recuperation_liste_joueurs(mysqli $connMYSQL, object $result): array {
 		
-		return array();
+        $liste_joueurs = array();
+        
+		while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            
+            // Ajout de chaque joueur
+			$liste_joueurs[] = $row["JOUEUR"];
+		}
+        
+		return $liste_joueurs;
     }
 	
 	/**

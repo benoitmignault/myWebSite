@@ -656,19 +656,21 @@
 	
 	
 	/**
-	 * Fonction pour rediriger vers la bonne page extérieur à la page de gestion
+	 * Fonction pour rediriger vers la bonne page extérieur à la page de gestion, sauf si
+     * la variable $invalid_language est true
      * Pour le transfert vers la page de statistique, on va passer par @see connexion_user
 	 *
 	 * @param string $type_langue
+	 * @param bool $invalid_language
 	 * @return void
 	 */
-	#[NoReturn]function redirection(string $type_langue): void {
+	#[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
 		
-		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+		if ($invalid_language) {
 			header("Location: /erreur/erreur.php");
-   
-		} elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			
+			// Sinon, nous sommes sûr à 100%, que nous arrivons dans le POST
+		} else {
+            
             // Si on revient à la page accueil du site web
 			if (isset($_POST['btn_return'])) {
 				

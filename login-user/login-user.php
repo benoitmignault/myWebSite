@@ -431,7 +431,7 @@
             }
         }
     }
-    // On va faire la traduction, à la fin des GEt & POST
+    // On va faire la traduction, à la fin des GET & POST
 	// La variable de situation est encore à 0 pour le GET, donc aucun message
 	$array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
  

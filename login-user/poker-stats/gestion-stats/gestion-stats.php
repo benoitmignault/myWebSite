@@ -503,7 +503,7 @@
 	
 	
 	// TODO regarder ca à la fin
-	function ajout_Stat_Joueur($array_Champs, $connMYSQL) {
+	function ajout_Stat_Joueur($connMYSQL, $array_Champs) {
 		
 		$victoire = "";
 		$fini2e = "";
@@ -539,7 +539,7 @@
 	}
 	
 	// TODO regarder ca à la fin
-	function ajouter_Nouveau_Joueur($array_Champs, $connMYSQL) {
+	function ajouter_Nouveau_Joueur($connMYSQL, $array_Champs) {
 		
 		// Prepare an insert statement
 		$sql = "INSERT INTO joueur (joueur) VALUES (?)";

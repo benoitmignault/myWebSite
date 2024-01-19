@@ -143,6 +143,126 @@
 		
 		return array();
     }
+	
+	/**
+	 * @param mysqli $connMYSQL
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function validation_champs(mysqli $connMYSQL, array $array_Champs): array {
+		
+    // TODO passer à travers 
+		if (isset($_POST['btn_add_stat'])) {
+   
+			if (empty($array_Champs['liste_joueurs']) || empty($array_Champs['gain']) || empty($array_Champs['citron']) ||
+                empty($array_Champs['killer']) || empty($array_Champs['position']) || empty($array_Champs['no_tournois']) || empty($array_Champs['date'])) {
+				// sous condition propre à chaque champ
+				if (empty($array_Champs['liste_joueurs'])) {
+					$array_Champs['champ_joueur_vide'] = true;
+				}
+				if (empty($array_Champs['position'])) {
+					$array_Champs['champ_position_vide'] = true;
+				}
+				if (empty($array_Champs['no_tournois'])) {
+					$array_Champs['champ_no_tournois_vide'] = true;
+				}
+				if (empty($array_Champs['date'])) {
+					$array_Champs['champ_vide_date'] = true;
+				}
+				// Les array_Champs killer, citron et gain peuvent être de zéro, donc je ne peux pas les évoluer individuellement...
+				if ($array_Champs['champ_joueur_vide'] && $array_Champs['champ_killer_vide'] && $array_Champs['champ_citron_vide'] &&
+                    $array_Champs['champ_gain_vide'] && $array_Champs['champ_position_vide'] && $array_Champs['champ_no_tournois_vide'] &&
+					$array_Champs['champ_vide_date']) {
+					$array_Champs['tous_champs_vides'] = true;
+				}
+			}
+			
+			$longueurGain = strlen($array_Champs['gain']);
+			$longueurDate = strlen($array_Champs['date']);
+			$longueurid = strlen($array_Champs['no_tournois']);
+			$longueurKiller = strlen($array_Champs['killer']);
+			$longueurCitron = strlen($array_Champs['citron']);
+			
+			if ($longueurGain > 4) {
+				$array_Champs['long_invalid_gain'] = true;
+			}
+			if ($longueurDate > 10) {
+				$array_Champs['long_invalid_date'] = true;
+			}
+			if ($longueurid > 4) {
+				$array_Champs['long_invalid_no_tournois'] = true;
+			}
+			if ($longueurKiller > 4) {
+				$array_Champs['long_invalid_killer'] = true;
+			}
+			if ($longueurCitron > 4) {
+				$array_Champs['long_invalid_citron'] = true;
+			}
+			
+			$patternGain = "#^-?[0-9]{1,3}$#";
+			$patternID = "#^[0-9]{1,4}$#";
+			/**
+			 * Il y a 3 situations qui peuvent arriver selon les exigences :
+             *
+			 * Le mois de févier (peu importe l'année) compte 28 jours.
+			 * Les mois de janvier, mars, mai, juillet, août, octobre, décembre comptent 31 jours.
+			 * Les mois d'avril, juin, septembre, novembre comptent 30 jours.
+			 */
+			$patternDate = "#^[1-9][0-9]{3}-((0?2-(0?[1-9]|1[0-9]|2[0-8]))|((0?[13578]|1[02])-(0?[1-9]|[1-2][0-9]|3[0-1]))|((0?[469]|11)-(0?[1-9]|[1-2][0-9]|30)))$#";
+			// Changement du pattern pour les prix killer et citron pour avoir 2 chiffres après les décimals
+			$patternKillerCitron = "#^[0-9](.[0-9]{1,2})?$#";
+			
+			if (!preg_match($patternGain, $array_Champs['gain'])) {
+				$array_Champs['invalid_gain'] = true;
+			}
+			if (!preg_match($patternID, $array_Champs['no_tournois'])) {
+				$array_Champs['invalid_no_tournois'] = true;
+			}
+			if (!preg_match($patternDate, $array_Champs['date'])) {
+				$array_Champs['invalid_date'] = true;
+			}
+			if (!preg_match($patternKillerCitron, $array_Champs['killer'])) {
+				$array_Champs['invalid_killer'] = true;
+			}
+			if (!preg_match($patternKillerCitron, $array_Champs['citron'])) {
+				$array_Champs['invalid_citron'] = true;
+			}
+   
+   
+   
+   
+		} elseif (isset($_POST['btn_new_player'])) {
+			
+            if (empty($array_Champs['new_player'])) {
+	            $array_Champs['champ_new_player_vide'] = true;
+	            $array_Champs['tous_champs_vides'] = true;
+             
+			} else {
+    
+                // TODO refaire ca en fonction avec le joueur passer dans le WHERE
+				$sql = "select joueur from joueur order by joueur";
+				$result = $connMYSQL->query($sql);
+				foreach ($result as $row) {
+					if ($row['joueur'] === $array_Champs['new_player']) {
+						$array_Champs['new_player_duplicate'] = true;
+					}
+				}
+	
+	            $longueurnewJoueur = strlen($array_Champs['new_player']);
+	            if ($longueurnewJoueur > 25) {
+		            $array_Champs['long_invalid_new_player'] = true;
+	            }
+	
+	            $patternNewJoueur = "#^[A-Z]([a-z]{0,11})([-]{0,1})([A-Z]{0,1})([a-z]{1,9})([ ]{0,1})[a-zA-Z]$#";
+	            if (!preg_match($patternNewJoueur, $array_Champs['new_player'])) {
+		            $array_Champs['invalid_new_player'] = true;
+	            }
+			}
+		}
+		
+		return $array_Champs;
+	}
+ 
  
 	function creationListe($connMYSQL, $arrayMots, $champ) {
 		
@@ -170,181 +290,82 @@
 		return $listeJoueurs;
 	}
 	
-	function validation($array_Champs, $valid_Champ, $connMYSQL) {
-		
-		if (isset($_POST['ajouter_stats'])) {
-			if (empty($array_Champs['liste_joueurs']) || empty($array_Champs['gain']) || empty($array_Champs['citron']) || empty($array_Champs['killer']) || empty($array_Champs['position']) || empty($array_Champs['no_tournois']) || empty($array_Champs['date'])) {
-				// sous condition propre à chaque champ
-				if (empty($array_Champs['liste_joueurs'])) {
-					$valid_Champ['champ_joueur_vide'] = true;
-				}
-				if (empty($array_Champs['position'])) {
-					$valid_Champ['champ_position_vide'] = true;
-				}
-				if (empty($array_Champs['no_tournois'])) {
-					$valid_Champ['champ_no_tournois_vide'] = true;
-				}
-				if (empty($array_Champs['date'])) {
-					$valid_Champ['champ_vide_date'] = true;
-				}
-				// Les array_Champs killer, citron et gain peuvent être de zéro, donc je ne peux pas les évoluer individuellement...
-				if ($valid_Champ['champ_joueur_vide'] && $valid_Champ['champ_killer_vide'] && $valid_Champ['champ_citron_vide'] && $valid_Champ['champ_gain_vide'] && $valid_Champ['champ_position_vide'] && $valid_Champ['champ_no_tournois_vide'] && $valid_Champ['champ_vide_date']) {
-					$valid_Champ['tous_champs_vides'] = true;
-				}
-			}
-		}
-        elseif (isset($_POST['ajouter_nouveau'])) {
-			if (empty($array_Champs['new_player'])) {
-				$valid_Champ['champ_new_player_vide'] = true;
-				$valid_Champ['tous_champs_vides'] = true;
-			}
-			else {
-				$sql = "select joueur from joueur order by joueur";
-				$result = $connMYSQL->query($sql);
-				foreach ($result as $row) {
-					if ($row['joueur'] === $array_Champs['new_player']) {
-						$valid_Champ['new_player_duplicate'] = true;
-					}
-				}
-			}
-		}
-		
-		$longueurGain = strlen($array_Champs['gain']);
-		$longueurDate = strlen($array_Champs['date']);
-		$longueurid = strlen($array_Champs['no_tournois']);
-		$longueurnewJoueur = strlen($array_Champs['new_player']);
-		$longueurKiller = strlen($array_Champs['killer']);
-		$longueurCitron = strlen($array_Champs['citron']);
-		
-		if (isset($_POST['ajouter_stats'])) {
-			if ($longueurGain > 4) {
-				$valid_Champ['long_invalid_gain'] = true;
-			}
-			if ($longueurDate > 10) {
-				$valid_Champ['long_invalid_date'] = true;
-			}
-			if ($longueurid > 4) {
-				$valid_Champ['long_invalid_no_tournois'] = true;
-			}
-			if ($longueurKiller > 4) {
-				$valid_Champ['long_invalid_killer'] = true;
-			}
-			if ($longueurCitron > 4) {
-				$valid_Champ['long_invalid_citron'] = true;
-			}
-		}
-        elseif (isset($_POST['ajouter_nouveau'])) {
-			if ($longueurnewJoueur > 25) {
-				$valid_Champ['long_invalid_new_player'] = true;
-			}
-		}
-		
-		$patternNewJoueur = "#^[A-Z]([a-z]{0,11})([-]{0,1})([A-Z]{0,1})([a-z]{1,9})([ ]{0,1})[a-zA-Z]$#";
-		$patternGain = "#^[-]{0,1}([0-9]{1,3})$#";
-		$patternID = "#^[0-9]{1,4}$#";
-		$patternDate = "#^([0-9]{4})[-]([0-9]{2})[-]([0-9]{2})$#";
-		// Changement du pattern pour les prix killer et citron pour avoir 2 chiffres après les décimals
-		$patternKillerCitron = "#^([0-9]{1})([.]){0,1}([1-9]){0,2}$#";
-		
-		if (isset($_POST['ajouter_stats'])) {
-			if (!preg_match($patternGain, $array_Champs['gain'])) {
-				$valid_Champ['invalid_gain'] = true;
-			}
-			if (!preg_match($patternID, $array_Champs['no_tournois'])) {
-				$valid_Champ['invalid_no_tournois'] = true;
-			}
-			if (!preg_match($patternDate, $array_Champs['date'])) {
-				$valid_Champ['invalid_date'] = true;
-			}
-			if (!preg_match($patternKillerCitron, $array_Champs['killer'])) {
-				$valid_Champ['invalid_killer'] = true;
-			}
-			if (!preg_match($patternKillerCitron, $array_Champs['citron'])) {
-				$valid_Champ['invalid_citron'] = true;
-			}
-		}
-        elseif (isset($_POST['ajouter_nouveau'])) {
-			if (!preg_match($patternNewJoueur, $array_Champs['new_player'])) {
-				$valid_Champ['invalid_new_player'] = true;
-			}
-		}
-		return $valid_Champ;
-	}
 	
-	function situation($array_Champs, $valid_Champ) {
+ 
+	function situation_erreur($array_Champs) {
 		
 		if (isset($_POST['ajouter_stats'])) {
 			// Nous commençons par la section si la page est en anglais
 			if ($array_Champs['type_langue'] === "francais") {
-				if ($valid_Champ['tous_champs_vides']) {
+				if ($array_Champs['tous_champs_vides']) {
 					$array_Champs['message'] .= "Tous les champs sont vides.<br>";
 				}
 				else {
 					// vérification au niveau du champ joueur
-					if ($valid_Champ['champ_joueur_vide']) {
+					if ($array_Champs['champ_joueur_vide']) {
 						$array_Champs['message'] .= "Le champ du joueur est vide.<br>";
 					}
 					// vérification au niveau du champ gain
-					if ($valid_Champ['champ_gain_vide']) {
+					if ($array_Champs['champ_gain_vide']) {
 						$array_Champs['message'] .= "Le champ du gain est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_gain']) {
+						if ($array_Champs['invalid_gain']) {
 							$array_Champs['message'] .= "Le gain est invalide.<br>";
 						}
-						if ($valid_Champ['long_invalid_gain']) {
+						if ($array_Champs['long_invalid_gain']) {
 							$array_Champs['message'] .= "La longueur du gain est invalide.<br>";
 						}
 					}
 					// vérification au niveau du champ killer
-					if ($valid_Champ['champ_killer_vide']) {
+					if ($array_Champs['champ_killer_vide']) {
 						$array_Champs['message'] .= "Le champ du killer est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_killer']) {
+						if ($array_Champs['invalid_killer']) {
 							$array_Champs['message'] .= "Le nombre de killer est invalide.<br>";
 						}
-						if ($valid_Champ['long_invalid_killer']) {
+						if ($array_Champs['long_invalid_killer']) {
 							$array_Champs['message'] .= "La longueur du killer est invalide.<br>";
 						}
 					}
 					// vérification au niveau du champ citron
-					if ($valid_Champ['champ_citron_vide']) {
+					if ($array_Champs['champ_citron_vide']) {
 						$array_Champs['message'] .= "Le champ du prix citron est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_citron']) {
+						if ($array_Champs['invalid_citron']) {
 							$array_Champs['message'] .= "L'attribution du prix citron est invalide.<br>";
 						}
-						if ($valid_Champ['long_invalid_citron']) {
+						if ($array_Champs['long_invalid_citron']) {
 							$array_Champs['message'] .= "La longueur du prix citron est invalide.<br>";
 						}
 					}
 					// vérification au niveau du champ position
-					if ($valid_Champ['champ_position_vide']) {
+					if ($array_Champs['champ_position_vide']) {
 						$array_Champs['message'] .= "Le champ de la position est vide.<br>";
 					}
 					// vérification au niveau du numéro de tournoi
-					if ($valid_Champ['champ_no_tournois_vide']) {
+					if ($array_Champs['champ_no_tournois_vide']) {
 						$array_Champs['message'] .= "Le champ du no. tournoi est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_no_tournois']) {
+						if ($array_Champs['invalid_no_tournois']) {
 							$array_Champs['message'] .= "Le champ no. du tournoi est invalide.<br>";
 						}
-						if ($valid_Champ['long_invalid_no_tournois']) {
+						if ($array_Champs['long_invalid_no_tournois']) {
 							$array_Champs['message'] .= "La longueur du no. tournoi est invalide.<br>";
 						}
 					}
 					// vérification au niveau de la date
-					if ($valid_Champ['champ_vide_date']) {
+					if ($array_Champs['champ_vide_date']) {
 						$array_Champs['message'] .= "Le champ de la date est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_date']) {
+						if ($array_Champs['invalid_date']) {
 							$array_Champs['message'] .= "Le champ de la date est invalide.<br>";
 						}
-						if ($valid_Champ['long_invalid_date']) {
+						if ($array_Champs['long_invalid_date']) {
 							$array_Champs['message'] .= "Le champ de la date est invalide.<br>";
 						}
 					}

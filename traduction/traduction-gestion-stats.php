@@ -10,15 +10,14 @@
 	function traduction(string $type_langue, int $situation): array {
 		
 		$liste_mots = array("lang" => "", 'btn_new' => "", 'title' => "", 'killer' => "", 'citron' => "",
-		                     'newJoueur' => "", 'gain' => "", 'p1' => "", 'victoire' => "", 'fini2e' => "", 'p2' => "",
+		                     'new_player' => "", 'gain' => "", 'p1' => "", 'victoire' => "", 'fini2e' => "", 'p2' => "",
 		                     'autre' => "", 'noId' => "", 'option' => "", 'joueur' => "", 'resultat' => "",
-		                     'btn_add' => "", 'btn_erase' => "", 'btn_loginPoker' => "", 'btn_login' => "",
+		                     'btn_add_stat' => "", 'btn_erase' => "", 'btn_loginPoker' => "", 'btn_login' => "",
 		                     'btn_return' => "");
 			
 		if ($type_langue === 'francais') {
-			$liste_mots["btn_new"] = "Ajouter le nouveau joueur";
 			$liste_mots["lang"] = "fr";
-			$liste_mots["newJoueur"] = "Nouveau joueur";
+			$liste_mots["new_player"] = "Nouveau joueur";
 			$liste_mots["title"] = "Gestion des statistiques";
 			$liste_mots["p1"] = "Bienvenue à la page de gestion des statistiques du poker.";
 			$liste_mots["p2"] = "Formulaire pour ajouter les statistiques d'un joueur.";
@@ -31,35 +30,36 @@
 			$liste_mots["autre"] = "Autre";
 			$liste_mots["killer"] = "Prix killer :";
 			$liste_mots["citron"] = "Prix citron :";
-			$liste_mots["noId"] = "Numéro du tournois :";
-			$liste_mots["btn_add"] = "Ajouter";
+			$liste_mots["no_tournois"] = "Numéro du tournois :";
+			$liste_mots["btn_add_stat"] = "Ajouter";
 			$liste_mots["btn_erase"] = "Effacer";
+			$liste_mots["btn_new_player"] = "Ajouter le nouveau joueur";
 			$liste_mots["btn_voir_stats"] = "Voir les statistiques";
 			$liste_mots["btn_login"] = "Connexion à nouveau";
 			$liste_mots["btn_return"] = "Accueil";
 			
 		} elseif ($type_langue === 'english') {
-			$liste_mots["btn_new"] = "Add the new player";
 			$liste_mots["lang"] = "en";
-			$liste_mots["newJoueur"] = "New player :";
-			$liste_mots["title"] = "Poker management page and login";
-			$liste_mots["p1"] = "Welcome to the User Management and Poker Statistics page.";
-			$liste_mots["p2"] = "Form to add the statistics of a player.";
+			$liste_mots["new_player"] = "New player :";
+			$liste_mots["title"] = "Statistics management";
+			$liste_mots["p1"] = "Welcome to the poker statistics management page.";
+			$liste_mots["p2"] = "Form to add player statistics.";
 			$liste_mots["option"] = "Select";
+			$liste_mots["joueur"] = "Player :";
 			$liste_mots["resultat"] = "Ranking result : ";
-			$liste_mots["gain"] = "Profit";
+			$liste_mots["gain"] = "Profit :";
 			$liste_mots["victoire"] = "Victory";
-			$liste_mots["killer"] = "Killer price";
-			$liste_mots["citron"] = "Lemons price";
 			$liste_mots["fini2e"] = "Runner-Up";
 			$liste_mots["autre"] = "Other";
-			$liste_mots["joueur"] = "Player : ";
-			$liste_mots["noId"] = "Tournament Id";
-			$liste_mots["btn_add"] = "Add";
+			$liste_mots["killer"] = "Killer price :";
+			$liste_mots["citron"] = "Lemons price :";
+			$liste_mots["no_tournois"] = "Tournament number :";
+			$liste_mots["btn_add_stat"] = "Add";
 			$liste_mots["btn_erase"] = "Erase";
+			$liste_mots["btn_new_player"] = "Add the new player";
 			$liste_mots["btn_voir_stats"] = "View statistics";
-			$liste_mots["btn_login"] = "Back to login page";
-			$liste_mots["btn_return"] = "Back to Home";
+			$liste_mots["btn_login"] = "Sign In again";
+			$liste_mots["btn_return"] = "Home";
 		}
 		
 		return $liste_mots;

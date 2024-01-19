@@ -9,20 +9,6 @@ body {
     margin: 0;
 }
 
-h1 {
-    color: white;
-}
-
-h2,
-h1 {
-    text-align: center;
-}
-
-h2 {
-    margin-top: 5px;
-    margin-bottom: 15px;
-}
-
 .content {
     display: -webkit-flex;
     display: flex;
@@ -32,7 +18,21 @@ h2 {
     border-radius: 15px;
     background-color: #f2f2f2;
     padding: 15px;
-    margin: auto;
+    margin: 100px auto auto;
+}
+
+.content > .titre {
+    margin: 0 0 15px;
+    font-size: 22px;
+    text-align: center;
+}
+
+.content > .titre:first-of-type{
+    margin-bottom: 15px;
+}
+
+.content > .titre:last-of-type{
+    margin-bottom: 15px;
 }
 
 .content > form > .formulaire-joueur,

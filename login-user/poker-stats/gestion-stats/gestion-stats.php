@@ -28,42 +28,41 @@
 	 *
      * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
 	 * @param array $array_Champs
+     * @param bool $user_valid
 	 * @return array
 	 */
-	function remplissage_champs(mysqli $connMYSQL, array $array_Champs): array{
+	function remplissage_champs(mysqli $connMYSQL, array $array_Champs, bool $user_valid): array{
 	
         // Remplissage de la liste de joueurs disponibles pour assignation des statistiques
         // Qu'on soit dans le GET ou POST, au final, la première option sera toujours celle sélectionnée
         
-	    if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+		// Assignation seulement de la langue pour utilisation de traduction et la variable que le user est toujours valide
+		$array_Champs["type_langue"] = $_SESSION['type_langue'];
+		$array_Champs["user_valid"] = $user_valid;
         
+        // On récupère la liste des joueurs pour la réafficher à la fin des actions
+		$array_Champs["liste_joueurs"] = requete_SQL_recuperation_liste_joueurs($connMYSQL);
         
-        }
-	
-	if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        // Nous avons seulement le POST, rendu ici
+	    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 		
-		if (isset($_POST['new_player'])) {
-			$array_Champs["new_player"] = $_POST['new_player'];
-   
-		} else
-    }
-		
-		if (isset($_POST['btn_ajouter_nouveau'])) {
-			$array_Champs["new_player"] = $_POST['new_player'];
-   
-   
-		} elseif (isset($_POST['ajouter_stats'])) {
-            
+            // Lorsque nous avons un nouveau joueur
+            if (isset($_POST['btn_new_player'])) {
+                $array_Champs["new_player"] = $_POST['new_player'];
+                
+                // Lorsqu'on veut ajouter les statistiques pour un joueur
+            } elseif (isset($_POST['btn_add_stat'])) {
+       
                 if (isset($_POST['joueur'])) {
-	                $array_Champs["joueur"] = $_POST['joueur'];
-                }
-				
-                if (isset($_POST['gain'])) {
-                    $array_Champs["gain"] = $_POST['gain'];
+                    $array_Champs["joueur"] = $_POST['joueur'];
                 }
                 
                 if (isset($_POST['position'])) {
                     $array_Champs["position"] = $_POST['position'];
+                }
+                
+                if (isset($_POST['gain'])) {
+                    $array_Champs["gain"] = $_POST['gain'];
                 }
                 
                 if (isset($_POST['no_tournois'])) {

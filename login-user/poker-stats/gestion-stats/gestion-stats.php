@@ -732,33 +732,29 @@
 	            
                 // Sinon on veut peut-être aller voir les statistiques de poker, une fois qu'on a fini d'ajouter les statistiques
             } elseif (isset($_POST['btn_voir_stats'])) {
-	            date_default_timezone_set('America/New_York');
 	            $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
              
 	            // Maintenant, on peut connecter le user à la page de statistiques
 	            connexion_user($array_Champs);
                 
             } elseif (isset($_POST['btn_add_stat']) || isset($_POST['btn_new_player'])) {
-             
-	            $array_Champs = validation_champs($array_Champs);
+                
+                // Maintenant, on va faire nos vérifications sur nos champs
+	            $array_Champs = validation_champs($connMYSQL, $array_Champs);
 	
 	            // On vérifie que nous n'avons pas d'erreur dans les validations
 	            if (!$array_Champs['erreur_presente']){
-		
               
+                    // On appel la bonne fonction en fonction du bouton choisi
 		            if (isset($_POST['btn_add_stat'])){
 			            $array_Champs = ajout_Stat_Joueur($connMYSQL, $array_Champs);
                     
                     } elseif (isset($_POST['btn_new_player'])){
 			            $array_Champs = ajouter_Nouveau_Joueur($connMYSQL, $array_Champs);
                     }
-                    
                 }
-             
-                
+            }
             
-            
-        
 		    $array_Champs = situation($array_Champs, $array_Champs);
 	    }
      

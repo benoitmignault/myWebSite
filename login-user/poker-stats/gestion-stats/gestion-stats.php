@@ -709,16 +709,15 @@
     // TODO trouver une manière d'être rediriger vers la page erreur 404 au lieu d'avoir une erreur de variable qui n'existe plus
     
 	// Les fonctions communes avant la validation du user
+	// Les fonctions communes, après la validation du user
+	session_start();
 	$connMYSQL = connexion();
-    $user_valid = verification_user_valide($connMYSQL);
+	$array_Champs = initialisation();
+	$user_valid = verification_user_valide($connMYSQL);
+	$array_Champs = remplissage_champs($connMYSQL, $array_Champs);
     
     // On va vérifier si le user est toujours valide via son user et password
     if ($user_valid){
-     
-	    // Les fonctions communes, après la validation du user
-	    session_start();
-	    $array_Champs = initialisation();
-	    $array_Champs = remplissage_champs($connMYSQL, $array_Champs);
 	
 	    // La seule chose qui peut arriver dans le GET et au début du POST, ici est une variable de langue invalide
 	    if ($array_Champs["invalid_language"]) {

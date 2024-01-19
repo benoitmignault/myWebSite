@@ -165,20 +165,50 @@
 	}
 	
 	/**
+	 * Fonction qui sera appelée via la fct @see remplissage_champs
+     * Construction et exécution de la requête SQL pour la liste des joueurs
+     *
 	 * @param mysqli $connMYSQL
+	 * @param array $array_Champs
 	 * @return array
 	 */
-	function requete_SQL_recuperation_liste_joueurs(mysqli $connMYSQL): array{
+	function requete_SQL_recuperation_liste_joueurs(mysqli $connMYSQL, array $array_Champs): array{
+		
+		$select = "SELECT JOUEUR ";
+		$from = "FROM joueur ";
+        $orderby = "ORDER BY joueur";
+        
+		// Préparation de la requête SQL avec les parties nécessaires
+		$query = $select . $from . $orderby;
+		
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		try {
+			/* Exécution de la requête */
+			$stmt->execute();
+		} catch (Exception $err){
+			// Récupérer les messages d'erreurs
+			$array_Champs["message_erreur_bd"] = $err->getMessage();
+			
+			// Sera utilisée pour faire afficher le message erreur spécial
+			$array_Champs["erreur_system_bd"] = true;
+		} finally {
+			/* Association des variables de résultat */
+			$result = $stmt->get_result();
+			
+			// Close statement
+			$stmt->close();
+		}
+		
+		$array_Champs["liste_joueurs"] = recuperation_liste_joueurs($connMYSQL, $result);
   
-		$result = null;
-		// Retourne l'information des informations de connexion, si existant...
-		return recuperation_liste_joueurs($connMYSQL, $result);
+		return $array_Champs;
     }
 	
 	
 	/**
-	 *
-	 * @see requete_SQL_recuperation_liste_joueurs
+	 * Fonction pour récupérer la liste de tous les joueurs ayant participer aux différents tournois de poker
+	 * L'information sera retournée @see requete_SQL_recuperation_liste_joueurs
 	 *
 	 * @param mysqli $connMYSQL -> Doit être présent pour utiliser les notions de MYSQLi
 	 * @param object $result -> Le résultat de la requête SQL via la table « joueur »

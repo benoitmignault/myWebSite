@@ -80,30 +80,35 @@
                 if (isset($_POST['citron'])) {
                     $array_Champs["citron"] = $_POST['citron'];
                 }
+            }
         }
-			
 		
 		return $array_Champs;
 	}
 	
-	function requete_SQL_recuperation_liste_joueurs(mysqli $connMYSQL, array $array_Champs): array{
-		
+	/**
+	 * @param mysqli $connMYSQL
+	 * @return array
+	 */
+	function requete_SQL_recuperation_liste_joueurs(mysqli $connMYSQL): array{
+  
+		$result = null;
 		// Retourne l'information des informations de connexion, si existant...
-		return recuperation_liste_joueurs($connMYSQL, $result, $array_Champs);
+		return recuperation_liste_joueurs($connMYSQL, $result);
     }
 	
 	
 	/**
-	 * Fonction pour récupérer les informations du user en prévision de la connexion, si tout est valide.
-	 * Cette fonction sera @see requete_SQL_recuperation_liste_joueurs
+	 *
+	 * @see requete_SQL_recuperation_liste_joueurs
 	 *
 	 * @param mysqli $connMYSQL -> Doit être présent pour utiliser les notions de MYSQLi
-	 * @param object $result -> Le résultat de la requête SQL via la table « login »
-	 * @param array $array_Champs
+	 * @param object $result -> Le résultat de la requête SQL via la table « joueur »
 	 * @return array
 	 */
-	function recuperation_liste_joueurs(mysqli $connMYSQL, object $result, array $array_Champs): array {
-    
+	function recuperation_liste_joueurs(mysqli $connMYSQL, object $result): array {
+		
+		return array();
     }
  
 	function creationListe($connMYSQL, $arrayMots, $champ) {

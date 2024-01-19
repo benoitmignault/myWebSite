@@ -22,38 +22,90 @@
 					 "new_player_duplicate" => false, "liste_mots" => array(), "liste_joueurs" => array());
 	}
 	
+	/**
+	 * Fonction pour setter les premières informations du GET ou POST
+	 * Aussi, on va récupérer via le POST, les informations relier au username et du password
+	 *
+     * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function remplissage_champs(mysqli $connMYSQL, array $array_Champs): array{
 	
-	function remplissageChamps($array_Champs) {
+        // Remplissage de la liste de joueurs disponibles pour assignation des statistiques
+        // Qu'on soit dans le GET ou POST, au final, la première option sera toujours celle sélectionnée
+        
+	    if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+        
+        }
+	
+	if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 		
 		if (isset($_POST['new_player'])) {
 			$array_Champs["new_player"] = $_POST['new_player'];
-		}
-		else {
-			if (isset($_POST['liste_joueurs'])) {
-				$array_Champs["liste_joueurs"] = $_POST['liste_joueurs'];
-			}
-			if (isset($_POST['gain'])) {
-				$array_Champs["gain"] = $_POST['gain'];
-			}
-			if (isset($_POST['position'])) {
-				$array_Champs["position"] = $_POST['position'];
-			}
-			if (isset($_POST['no_tournois'])) {
-				$array_Champs["no_tournois"] = $_POST['no_tournois'];
-			}
-			if (isset($_POST['date'])) {
-				$array_Champs["date"] = $_POST['date'];
-			}
-			if (isset($_POST['killer'])) {
-				$array_Champs["killer"] = $_POST['killer'];
-			}
-			if (isset($_POST['citron'])) {
-				$array_Champs["citron"] = $_POST['citron'];
-			}
-		}
+   
+		} else
+    }
+		
+		if (isset($_POST['new_player'])) {
+			$array_Champs["new_player"] = $_POST['new_player'];
+   
+   
+		} elseif (isset($_POST['ajouter_stats'])) {
+            
+                if (isset($_POST['joueur'])) {
+	                $array_Champs["joueur"] = $_POST['joueur'];
+                }
+				
+                if (isset($_POST['gain'])) {
+                    $array_Champs["gain"] = $_POST['gain'];
+                }
+                
+                if (isset($_POST['position'])) {
+                    $array_Champs["position"] = $_POST['position'];
+                }
+                
+                if (isset($_POST['no_tournois'])) {
+                    $array_Champs["no_tournois"] = $_POST['no_tournois'];
+                }
+                
+                if (isset($_POST['date'])) {
+                    $array_Champs["date"] = $_POST['date'];
+                }
+                
+                if (isset($_POST['killer'])) {
+                    $array_Champs["killer"] = $_POST['killer'];
+                }
+                
+                if (isset($_POST['citron'])) {
+                    $array_Champs["citron"] = $_POST['citron'];
+                }
+        }
+			
+		
 		return $array_Champs;
 	}
 	
+	function requete_SQL_recuperation_liste_joueurs(mysqli $connMYSQL, array $array_Champs): array{
+		
+		// Retourne l'information des informations de connexion, si existant...
+		return recuperation_liste_joueurs($connMYSQL, $result, $array_Champs);
+    }
+	
+	
+	/**
+	 * Fonction pour récupérer les informations du user en prévision de la connexion, si tout est valide.
+	 * Cette fonction sera @see requete_SQL_recuperation_liste_joueurs
+	 *
+	 * @param mysqli $connMYSQL -> Doit être présent pour utiliser les notions de MYSQLi
+	 * @param object $result -> Le résultat de la requête SQL via la table « login »
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function recuperation_liste_joueurs(mysqli $connMYSQL, object $result, array $array_Champs): array {
+    
+    }
+ 
 	function creationListe($connMYSQL, $arrayMots, $champ) {
 		
 		$sql = "select joueur from joueur order by joueur";

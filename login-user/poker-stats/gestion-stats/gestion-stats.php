@@ -642,97 +642,109 @@
 		return $array_Champs;
 	}
 	
-	// Les fonctions communes
-    session_start();
+	// Les fonctions communes avant la validation du user
 	$connMYSQL = connexion();
-	$array_Champs = initialisation();
-	$array_Champs = remplissage_champs($array_Champs);
- 
- 
- 
- 
- 
-	if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-		
-		$array_Champs["type_langue"] = "francais";
-  
-		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue'])) {
-			$verificationUser = verificationUser($connMYSQL);
-   
-		} else {
-			redirection($array_Champs, $connMYSQL);
-		}
-		
-		// on vérifier si notre user existe en bonne éduforme
-		if (!$verificationUser) {
-			redirection($array_Champs, $connMYSQL);
-   
-		}  elseif ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
-			redirection($array_Champs, $connMYSQL);
-   
-		} else {
-			$array_Champs = initialisationChamps();
-			$valid_Champ = initialisation();
-			$arrayMots = traduction($array_Champs["type_langue"], 0);
-			$listeJoueurs = creationListe($connMYSQL, $arrayMots, $array_Champs);
-		}
-	}
+    $user_valid = verification_user_valide($connMYSQL);
+    
+    // On va vérifier si le user est toujours valide et possède encore son cookie qui dure une heure max
+    if ($user_valid){
+     
+	    // Les fonctions communes, après la validation du user
+	    session_start();
+	    $array_Champs = initialisation();
+	    $array_Champs = remplissage_champs($connMYSQL, $array_Champs, $user_valid);
 	
-	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		session_start();
-		$array_Champs["type_langue"] = "francais";
-  
-		if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue'])) {
-			$verificationUser = verificationUser($connMYSQL);
-   
-		} else {
-			redirection($array_Champs, $connMYSQL);
-		}
+	    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 		
-		// on vérifier si notre user existe en bonne éduforme
-		if (!$verificationUser) {
-			redirection($array_Champs, $connMYSQL);
-   
-		} elseif ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
-			redirection($array_Champs, $connMYSQL);
-   
-		} else {
-			$array_Champs = initialisationChamps();
-			$valid_Champ = initialisation();
-   
-			if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueil'])) {
-				redirection($array_Champs, $connMYSQL);
+		
+		    if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue'])) {
+			
+		    } else {
+			    redirection($array_Champs, $connMYSQL);
+		    }
+		
+		    // on vérifier si notre user existe en bonne éduforme
+		    if (!$verificationUser) {
+			    redirection($array_Champs, $connMYSQL);
+			
+		    }  elseif ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
+			    redirection($array_Champs, $connMYSQL);
+			
+		    } else {
+			    $array_Champs = initialisationChamps();
+			    $valid_Champ = initialisation();
+			    $arrayMots = traduction($array_Champs["type_langue"], 0);
+			    $listeJoueurs = creationListe($connMYSQL, $arrayMots, $array_Champs);
+		    }
+	    }
+	
+	    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		
+		    if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue'])) {
+			    $verificationUser = verificationUser($connMYSQL);
+			
+		    } else {
+			    redirection($array_Champs, $connMYSQL);
+		    }
+		
+		    // on vérifier si notre user existe en bonne éduforme
+		    if (!$verificationUser) {
+			    redirection($array_Champs, $connMYSQL);
+			
+		    } elseif ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
+			    redirection($array_Champs, $connMYSQL);
+			
+		    } else {
+			    $array_Champs = initialisationChamps();
+			    $valid_Champ = initialisation();
+			
+			    if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueil'])) {
+				    redirection($array_Champs, $connMYSQL);
 				
-			} elseif (isset($_POST['effacer'])) {
-				$array_Champs = situation($array_Champs, $valid_Champ);
-				$verif_tous_flag = verificationTout_Champs($valid_Champ);
+			    } elseif (isset($_POST['effacer'])) {
+				    $array_Champs = situation($array_Champs, $valid_Champ);
+				    $verif_tous_flag = verificationTout_Champs($valid_Champ);
 				
-			} elseif (isset($_POST['ajouter_stats'])) {
-				$array_Champs = remplissageChamps($array_Champs);
-				$valid_Champ = validation($array_Champs, $valid_Champ, $connMYSQL);
-				$array_Champs = situation($array_Champs, $valid_Champ);
-				if ($array_Champs['message'] === "") {
-					$array_Champs = ajout_Stat_Joueur($array_Champs, $connMYSQL);
-				}
-				$verif_tous_flag = verificationTout_Champs($valid_Champ);
+			    } elseif (isset($_POST['ajouter_stats'])) {
+				    $array_Champs = remplissageChamps($array_Champs);
+				    $valid_Champ = validation($array_Champs, $valid_Champ, $connMYSQL);
+				    $array_Champs = situation($array_Champs, $valid_Champ);
+				    if ($array_Champs['message'] === "") {
+					    $array_Champs = ajout_Stat_Joueur($array_Champs, $connMYSQL);
+				    }
+				    $verif_tous_flag = verificationTout_Champs($valid_Champ);
 				
-			} elseif (isset($_POST['ajouter_nouveau'])) {
-				$array_Champs = remplissageChamps($array_Champs);
-				$valid_Champ = validation($array_Champs, $valid_Champ, $connMYSQL);
-				$array_Champs = situation($array_Champs, $valid_Champ);
-				if ($array_Champs['message'] === "") {
-					$array_Champs = ajouter_Nouveau_Joueur($array_Champs, $connMYSQL);
-				}
-				$verif_tous_flag = verificationTout_Champs($valid_Champ);
-			}
-   
-			$arrayMots = traduction($array_Champs["type_langue"], 0);
-			$listeJoueurs = creationListe($connMYSQL, $arrayMots, $array_Champs);
-		}
-	}
-	// On va faire la traduction, à la fin des GET & POST
-	// La variable de situation est encore à 0 pour le GET, donc aucun message
-	$array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+			    } elseif (isset($_POST['ajouter_nouveau'])) {
+				    $array_Champs = remplissageChamps($array_Champs);
+				    $valid_Champ = validation($array_Champs, $valid_Champ, $connMYSQL);
+				    $array_Champs = situation($array_Champs, $valid_Champ);
+				    if ($array_Champs['message'] === "") {
+					    $array_Champs = ajouter_Nouveau_Joueur($array_Champs, $connMYSQL);
+				    }
+				    $verif_tous_flag = verificationTout_Champs($valid_Champ);
+			    }
+			
+			    $arrayMots = traduction($array_Champs["type_langue"], 0);
+			    $listeJoueurs = creationListe($connMYSQL, $arrayMots, $array_Champs);
+		    }
+	    }
+     
+	    // On va faire la traduction, à la fin des GET & POST
+	    // La variable de situation est encore à 0 pour le GET, donc aucun message
+	    $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+        
+        // Sinon, on sort directement vers page erreur 404
+    } else {
+	    redirection($array_Champs, $user_valid, $connMYSQL);
+    }
+    
+ 
+ 
+ 
+ 
+ 
+	
+	
 	
 	$connMYSQL->close();
 ?>

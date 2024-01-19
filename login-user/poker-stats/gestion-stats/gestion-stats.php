@@ -583,7 +583,7 @@
 			}
             elseif (isset($_POST['login'])) {
 				header("Location: /login-user/login-user.php?langue={$array_Champs["type_langue"]}");
-	   
+				
 				delete_Session();
 			}
             elseif (isset($_POST['accueil'])) {
@@ -617,81 +617,43 @@
 	    // Les fonctions communes, après la validation du user
 	    session_start();
 	    $array_Champs = initialisation();
-	    $array_Champs = remplissage_champs($connMYSQL, $array_Champs, $user_valid);
+	    $array_Champs = remplissage_champs($connMYSQL, $array_Champs);
 	
-	    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-		
-		
-		    if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue'])) {
-			
-		    } else {
-			    redirection($array_Champs, $connMYSQL);
-		    }
-		
-		    // on vérifier si notre user existe en bonne éduforme
-		    if (!$verificationUser) {
-			    redirection($array_Champs, $connMYSQL);
-			
-		    }  elseif ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
-			    redirection($array_Champs, $connMYSQL);
-			
-		    } else {
-			    $array_Champs = initialisationChamps();
-			    $valid_Champ = initialisation();
-			    $arrayMots = traduction($array_Champs["type_langue"], 0);
-			    $listeJoueurs = creationListe($connMYSQL, $arrayMots, $array_Champs);
-		    }
+	    // La seule chose qui peut arriver dans le GET et au début du POST, ici est une variable de langue null
+	    if (empty($array_Champs["type_langue"])) {
+		    redirection($array_Champs, $connMYSQL);
 	    }
 	
 	    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		
-		    if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue'])) {
-			    $verificationUser = verificationUser($connMYSQL);
-			
-		    } else {
-			    redirection($array_Champs, $connMYSQL);
-		    }
-		
-		    // on vérifier si notre user existe en bonne éduforme
-		    if (!$verificationUser) {
-			    redirection($array_Champs, $connMYSQL);
-			
-		    } elseif ($array_Champs["type_langue"] !== "francais" && $array_Champs["type_langue"] !== "english") {
-			    redirection($array_Champs, $connMYSQL);
-			
-		    } else {
-			    $array_Champs = initialisationChamps();
-			    $valid_Champ = initialisation();
-			
-			    if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueil'])) {
-				    redirection($array_Champs, $connMYSQL);
-				
-			    } elseif (isset($_POST['effacer'])) {
-				    $array_Champs = situation($array_Champs, $valid_Champ);
-				    $verif_tous_flag = verificationTout_Champs($valid_Champ);
-				
-			    } elseif (isset($_POST['ajouter_stats'])) {
-				    $array_Champs = remplissageChamps($array_Champs);
-				    $valid_Champ = validation($array_Champs, $valid_Champ, $connMYSQL);
-				    $array_Champs = situation($array_Champs, $valid_Champ);
-				    if ($array_Champs['message'] === "") {
-					    $array_Champs = ajout_Stat_Joueur($array_Champs, $connMYSQL);
-				    }
-				    $verif_tous_flag = verificationTout_Champs($valid_Champ);
-				
-			    } elseif (isset($_POST['ajouter_nouveau'])) {
-				    $array_Champs = remplissageChamps($array_Champs);
-				    $valid_Champ = validation($array_Champs, $valid_Champ, $connMYSQL);
-				    $array_Champs = situation($array_Champs, $valid_Champ);
-				    if ($array_Champs['message'] === "") {
-					    $array_Champs = ajouter_Nouveau_Joueur($array_Champs, $connMYSQL);
-				    }
-				    $verif_tous_flag = verificationTout_Champs($valid_Champ);
-			    }
-			
-			    $arrayMots = traduction($array_Champs["type_langue"], 0);
-			    $listeJoueurs = creationListe($connMYSQL, $arrayMots, $array_Champs);
-		    }
+            
+            // Il y a 3 boutons qui peut nous faire sortir de la page vers 3 directions possible
+            if (isset($_POST['stats']) || isset($_POST['login']) || isset($_POST['accueil'])) {
+                redirection($array_Champs, $connMYSQL);
+                
+            } else {
+	            $array_Champs = validation_champs($array_Champs);
+             
+                
+            
+            } elseif (isset($_POST['ajouter_stats'])) {
+                $array_Champs = remplissageChamps($array_Champs);
+                
+                $array_Champs = situation($array_Champs, $array_Champs);
+                if ($array_Champs['message'] === "") {
+                    $array_Champs = ajout_Stat_Joueur($array_Champs, $connMYSQL);
+                }
+                $verif_tous_flag = verificationTout_Champs($array_Champs);
+            
+            } elseif (isset($_POST['ajouter_nouveau'])) {
+                $array_Champs = remplissageChamps($array_Champs);
+                $array_Champs = validation($array_Champs, $array_Champs, $connMYSQL);
+                $array_Champs = situation($array_Champs, $array_Champs);
+                if ($array_Champs['message'] === "") {
+                    $array_Champs = ajouter_Nouveau_Joueur($array_Champs, $connMYSQL);
+                }
+            }
+        
+		    $array_Champs = situation($array_Champs, $array_Champs);
 	    }
      
 	    // On va faire la traduction, à la fin des GET & POST
@@ -741,9 +703,9 @@
             <p class='titre'><?php echo $array_Champs["liste_mots"]['p2']; ?></p>
             <form method="post" action="gestion-stats.php" id="form">
                 <div class='formulaire-joueur'>
-                    <div class="joueur <?php if (verifChampJoueur($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="joueur <?php if (true) { echo "erreur"; } ?>">
                         <label for="joueur"><?php echo $array_Champs["liste_mots"]['joueur']; ?></label>
-                        <select id="joueur" name="liste_joueurs"><?php echo $listeJoueurs; ?></select>
+                        <select id="joueur" name="liste_joueurs"><?php // À REFAIRE AVEC UN FOREACH ?></select>
                     </div>
                     <div class="position">
                         <p class="p-label-pos"><?php echo $array_Champs["liste_mots"]['resultat']; ?></p>
@@ -763,25 +725,25 @@
                                    name="position" id="autre" value="autre">
                         </div>
                     </div>
-                    <div class="gain <?php if (verifChampGain($valid_Champ)) { echo "erreur";} ?>">
+                    <div class="gain <?php if (true) { echo "erreur";} ?>">
                         <label for="gain"><?php echo $array_Champs["liste_mots"]['gain']; ?></label>
                         <input maxlength="4" type="text" id="gain" name="gain" value="<?php echo $array_Champs['gain'] ?>">
                     </div>
-                    <div class="numero <?php if (verifChampId($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="numero <?php if (true) { echo "erreur"; } ?>">
                         <label for="no_tournois"><?php echo $array_Champs["liste_mots"]['no_tournois']; ?></label>
                         <input maxlength="4" type="text" id="no_tournois" name="no_tournois" value="<?php echo $array_Champs['no_tournois'] ?>">
                     </div>
-                    <div class="date <?php if (verifChampDate($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="date <?php if (true) { echo "erreur"; } ?>">
                         <div class="form-row animate-2">
                             <label for="date">Date :</label>
                             <input type="date" id="date" value="<?php echo $array_Champs['date'] ?>" name="date" data-date='{"startView": 2, "openOnMouseFocus": true}'>
                         </div>
                     </div>
-                    <div class="killer <?php if (verifChampKiller($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="killer <?php if (true) { echo "erreur"; } ?>">
                         <label for="killer"><?php echo $array_Champs["liste_mots"]['killer']; ?></label>
                         <input maxlength="4" type="text" id="killer" name="killer" value="<?php echo $array_Champs['killer'] ?>">
                     </div>
-                    <div class="citron <?php if (verifChampCitron($valid_Champ)) { echo "erreur"; } ?>">
+                    <div class="citron <?php if (true) { echo "erreur"; } ?>">
                         <label for="citron"><?php echo $array_Champs["liste_mots"]['citron']; ?></label>
                         <input maxlength="4" type="text" id="citron" name="citron" value="<?php echo $array_Champs['citron'] ?>">
                     </div>
@@ -790,13 +752,12 @@
                         <input class="bouton" id="faire_menage_total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_erase']; ?>">
                     </div>
                     <div class="bas-formulaire">
-                        <p class="<?php if ((isset($_POST['effacer']) || isset($_POST['ajouter_stats']) || isset($_POST['ajouter_nouveau'])) && $verif_tous_flag === true) {
-                            echo "avert"; } else { echo "erreur"; } ?>"> <?php echo $array_Champs['message']; ?> </p>
+                        <p class="<?php if (true) { echo "avert"; } else { echo "erreur"; } ?>"> <?php echo $array_Champs['message']; ?> </p>
                     </div>
                 </div>
             </form>
             <div class="formulaire-nouveau">
-                <div class="<?php if (verifChampNouveau($valid_Champ)) { echo "erreur"; } ?>">
+                <div class="<?php if (true) { echo "erreur"; } ?>">
                     <label for="new_player"><?php echo $array_Champs["liste_mots"]['new_player']; ?></label>
                     <input form="form" maxlength="25" type="text" id="new_player" name="new_player" value="<?php echo $array_Champs['new_player'] ?>">
                 </div>

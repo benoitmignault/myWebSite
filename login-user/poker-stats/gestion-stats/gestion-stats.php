@@ -598,8 +598,8 @@
 		}
 		exit; // pour arrêter l'éxecution du code php
 	}
-	
-	function delete_Session() {
+ 
+	function delete_Session(): void {
 		
 		// Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
 		session_unset();                                           // détruire toutes les variables SESSION
@@ -607,66 +607,6 @@
 		session_destroy();
 		session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
 	}
-	
-	function ajout_Stat_Joueur($array_Champs, $connMYSQL) {
-		
-		$victoire = "";
-		$fini2e = "";
-		if ($array_Champs["position"] === "victoire") {
-			$victoire = "X";
-		}
-        elseif ($array_Champs["position"] === "fini2e") {
-			$fini2e = "X";
-		}
-		$killerFloat = floatval($array_Champs["killer"]);
-		$citronFloat = floatval($array_Champs["citron"]);
-		
-		// Prepare an insert statement
-		$sql = "INSERT INTO poker (joueur,gain,victoire,fini_2e,id_tournoi,date,killer,prixCitron) VALUES (?,?,?,?,?,?,?,?)";
-		$stmt = $connMYSQL->prepare($sql);
-		
-		// Bind variables to the prepared statement as parameters
-		$stmt->bind_param('sissisdd', $array_Champs["liste_joueurs"], $array_Champs["gain"], $victoire, $fini2e, $array_Champs["no_tournois"], $array_Champs["date"], $killerFloat, $citronFloat);
-		$stmt->execute();
-		
-		// Close statement
-		$stmt->close();
-		
-		if ($array_Champs['type_langue'] === "francais") {
-			$messageAjout = "Les informations du joueur {$array_Champs["liste_joueurs"]} a été ajouté à la BD.";
-		}
-        elseif ($array_Champs['type_langue'] === "english") {
-			$messageAjout = "The player information {$array_Champs["liste_joueurs"]} has been added to the BD.";
-		}
-		$array_Champs = initialisationChamps();
-		$array_Champs['message'] = $messageAjout;
-		return $array_Champs;
-	}
-	
-	function ajouter_Nouveau_Joueur($array_Champs, $connMYSQL) {
-		
-		// Prepare an insert statement
-		$sql = "INSERT INTO joueur (joueur) VALUES (?)";
-		$stmt = $connMYSQL->prepare($sql);
-		
-		// Bind variables to the prepared statement as parameters
-		$stmt->bind_param('s', $array_Champs["new_player"]);
-		$stmt->execute();
-		
-		// Close statement
-		$stmt->close();
-		
-		if ($array_Champs['type_langue'] === "francais") {
-			$messageAjout = "Le nouveau joueur {$array_Champs["liste_joueurs"]} a été ajouté à la BD.";
-		}
-        elseif ($array_Champs['type_langue'] === "english") {
-			$messageAjout = "The player information {$array_Champs["liste_joueurs"]} has been added to the BD.";
-		}
-		$array_Champs = initialisationChamps();
-		$array_Champs['message'] = $messageAjout;
-		return $array_Champs;
-	}
-	
 	// Les fonctions communes avant la validation du user
 	$connMYSQL = connexion();
     $user_valid = verification_user_valide($connMYSQL);

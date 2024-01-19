@@ -688,9 +688,9 @@
         </style>
     </head>
     <body>
-        <h1><?php echo $arrayMots['h1']; ?></h1>
         <div class="content">
-            <h2><?php echo $arrayMots['h3']; ?></h2>
+            <p class='titre'><?php echo $arrayMots['p1']; ?></p>
+            <p class='titre'><?php echo $arrayMots['p2']; ?></p>
             <form method="post" action="gestion-stats.php" id="form">
                 <div class='formulaire-joueur'>
                     <div class="joueur <?php if (verifChampJoueur($valid_Champ)) { echo "erreur"; } ?>">

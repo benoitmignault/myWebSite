@@ -377,7 +377,7 @@
 	// TODO passer à travers
 	function situation_erreur($array_Champs) {
 		
-		
+		/*
 		if (isset($_POST['ajouter_stats'])) {
 			// Nous commençons par la section si la page est en anglais
 			if ($array_Champs['type_langue'] === "francais") {
@@ -574,7 +574,8 @@
 				$array_Champs['message'] = "All fields have been reset and all validation flags have been overwritten.<br>";
 			}
 		}
-		return $array_Champs;
+		*/
+		return 0;
 	}
 	
 	

@@ -10,7 +10,7 @@
 	function traduction(string $type_langue, int $situation): array {
 		
 		$liste_mots = array("lang" => "", 'btn_new' => "", 'title' => "", 'killer' => "", 'citron' => "",
-		                     'newJoueur' => "", 'gain' => "", 'h1' => "", 'victoire' => "", 'fini2e' => "", 'h3' => "",
+		                     'newJoueur' => "", 'gain' => "", 'p1' => "", 'victoire' => "", 'fini2e' => "", 'p2' => "",
 		                     'autre' => "", 'noId' => "", 'option' => "", 'joueur' => "", 'resultat' => "",
 		                     'btn_add' => "", 'btn_erase' => "", 'btn_loginPoker' => "", 'btn_login' => "",
 		                     'btn_return' => "");
@@ -20,8 +20,8 @@
 			$liste_mots["lang"] = "fr";
 			$liste_mots["newJoueur"] = "Nouveau joueur";
 			$liste_mots["title"] = "Gestion des statistiques";
-			$liste_mots["h1"] = "Bienvenue à la page de gestion des statistiques du poker.";
-			$liste_mots["h3"] = "Formulaire pour ajouter les statistiques d'un joueur.";
+			$liste_mots["p1"] = "Bienvenue à la page de gestion des statistiques du poker.";
+			$liste_mots["p2"] = "Formulaire pour ajouter les statistiques d'un joueur.";
 			$liste_mots["option"] = "À sélectionner";
 			$liste_mots["joueur"] = "Joueur : ";
 			$liste_mots["resultat"] = "Résultat du classement : ";
@@ -43,8 +43,8 @@
 			$liste_mots["lang"] = "en";
 			$liste_mots["newJoueur"] = "New player :";
 			$liste_mots["title"] = "Poker management page and login";
-			$liste_mots["h1"] = "Welcome to the User Management and Poker Statistics page.";
-			$liste_mots["h3"] = "Form to add the statistics of a player.";
+			$liste_mots["p1"] = "Welcome to the User Management and Poker Statistics page.";
+			$liste_mots["p2"] = "Form to add the statistics of a player.";
 			$liste_mots["option"] = "Select";
 			$liste_mots["resultat"] = "Ranking result : ";
 			$liste_mots["gain"] = "Profit";

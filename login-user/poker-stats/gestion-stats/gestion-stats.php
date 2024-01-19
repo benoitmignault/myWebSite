@@ -125,8 +125,8 @@
                 // Lorsqu'on veut ajouter les statistiques pour un joueur
             } elseif (isset($_POST['btn_add_stat'])) {
        
-                if (isset($_POST['joueur'])) {
-                    $array_Champs["joueur"] = $_POST['joueur'];
+                if (isset($_POST['liste_joueurs'])) {
+                    $array_Champs["joueur"] = $_POST['liste_joueurs'];
                 }
                 
                 if (isset($_POST['position'])) {

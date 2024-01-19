@@ -3,30 +3,34 @@
 	include_once("../../../traduction/traduction-gestion-stats.php");
 	include_once("../../../includes/fct-connexion-bd.php");
 	
+	/**
+	 * Fonction qui va contenir tous ce dont on aura besoin.
+	 * Une partie des variables de type string ou int et une autre partie en boolean
+	 * On va ajouter_stats un array pour les mots traduits ou non
+	 *
+	 * @return array
+	 */
 	function initialisation(): array {
 		
-		return ["invalid_Gain" => false, "invalid_New" => false, "invalid_Id" => false, "invalid_Date" => false,
-		        "tous_champs_Vide" => false, "longueur_inval_Gain" => false, "longueur_inval_Id" => false, "longueur_inval_New" => false,
-		        "longueur_inval_Date" => false, "vide_Gain" => false, "vide_Joueur" => false, "vide_position" => false,
-		        "vide_Date" => false, "vide_Id" => false, "vide_NewJoueur" => false, "doublon_new_Joueur" => false, "vide_Killer" => false,
-		        "vide_Citron" => false, "longueur_inval_Killer" => false, "longueur_inval_Citron" => false, "invalid_Killer" => false,
-		        "invalid_Citron" => false];
+		return array("type_langue" => "", "joueur" => "", "gain" => "", "position" => "", "no_tournois" => "", "date" => "", "killer" => "", "citron" => "", "new_player" => "", 
+                     "invalid_gain" => false, "invalid_new_player" => false, "invalid_no_tournois" => false, "invalid_date" => false, "invalid_citron" => false,
+                     "invalid_killer" => false, "tous_invalids" => false, "tous_champs_vides" => false, "tous_long_invalids" => false, 
+					 "long_invalid_gain" => false, "long_invalid_no_tournois" => false, "long_invalid_new_player" => false,
+                     "long_invalid_date" => false, "long_invalid_killer" => false, "long_invalid_citron" => false,					 
+					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 
+                     "champ_vide_date" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
+					 "new_player_duplicate" => false, "liste_mots" => array(), "liste_joueurs" => array());
 	}
 	
-	function initialisationChamps(): array {
-		
-		return ["type_langue" => $_SESSION['type_langue'], "listeJoueur" => "", "gain" => "", "position" => "", "numTournoi" => "",
-		        "date" => "", "newJoueur" => "", "message" => "", "killer" => "", "citron" => ""];
-	}
 	
 	function remplissageChamps($array_Champs) {
 		
-		if (isset($_POST['newJoueur'])) {
-			$array_Champs["newJoueur"] = $_POST['newJoueur'];
+		if (isset($_POST['new_player'])) {
+			$array_Champs["new_player"] = $_POST['new_player'];
 		}
 		else {
-			if (isset($_POST['listeJoueur'])) {
-				$array_Champs["listeJoueur"] = $_POST['listeJoueur'];
+			if (isset($_POST['liste_joueurs'])) {
+				$array_Champs["liste_joueurs"] = $_POST['liste_joueurs'];
 			}
 			if (isset($_POST['gain'])) {
 				$array_Champs["gain"] = $_POST['gain'];
@@ -34,8 +38,8 @@
 			if (isset($_POST['position'])) {
 				$array_Champs["position"] = $_POST['position'];
 			}
-			if (isset($_POST['numTournoi'])) {
-				$array_Champs["numTournoi"] = $_POST['numTournoi'];
+			if (isset($_POST['no_tournois'])) {
+				$array_Champs["no_tournois"] = $_POST['no_tournois'];
 			}
 			if (isset($_POST['date'])) {
 				$array_Champs["date"] = $_POST['date'];
@@ -55,7 +59,7 @@
 		$sql = "select joueur from joueur order by joueur";
 		$result = $connMYSQL->query($sql);
 		
-		if ($_SERVER['REQUEST_METHOD'] === 'GET' || empty($champ['listeJoueur'])) {
+		if ($_SERVER['REQUEST_METHOD'] === 'GET' || empty($champ['liste_joueurs'])) {
 			$listeJoueurs = "<option value='' selected>{$arrayMots['option']}</option>";
 			foreach ($result as $row) {
 				$listeJoueurs .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
@@ -64,7 +68,7 @@
         elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$listeJoueurs = "<option value=''>{$arrayMots['option']}</option>";
 			foreach ($result as $row) {
-				if ($champ['listeJoueur'] === $row['joueur']) {
+				if ($champ['liste_joueurs'] === $row['joueur']) {
 					$listeJoueurs .= "<option value=\"{$row['joueur']}\" selected>{$row['joueur']}</option>";
 				}
 				else {
@@ -78,38 +82,38 @@
 	
 	function validation($array_Champs, $valid_Champ, $connMYSQL) {
 		
-		if (isset($_POST['ajouter'])) {
-			if (empty($array_Champs['listeJoueur']) || empty($array_Champs['gain']) || empty($array_Champs['citron']) || empty($array_Champs['killer']) || empty($array_Champs['position']) || empty($array_Champs['numTournoi']) || empty($array_Champs['date'])) {
+		if (isset($_POST['ajouter_stats'])) {
+			if (empty($array_Champs['liste_joueurs']) || empty($array_Champs['gain']) || empty($array_Champs['citron']) || empty($array_Champs['killer']) || empty($array_Champs['position']) || empty($array_Champs['no_tournois']) || empty($array_Champs['date'])) {
 				// sous condition propre à chaque champ
-				if (empty($array_Champs['listeJoueur'])) {
-					$valid_Champ['vide_Joueur'] = true;
+				if (empty($array_Champs['liste_joueurs'])) {
+					$valid_Champ['champ_joueur_vide'] = true;
 				}
 				if (empty($array_Champs['position'])) {
-					$valid_Champ['vide_position'] = true;
+					$valid_Champ['champ_position_vide'] = true;
 				}
-				if (empty($array_Champs['numTournoi'])) {
-					$valid_Champ['vide_Id'] = true;
+				if (empty($array_Champs['no_tournois'])) {
+					$valid_Champ['champ_no_tournois_vide'] = true;
 				}
 				if (empty($array_Champs['date'])) {
-					$valid_Champ['vide_Date'] = true;
+					$valid_Champ['champ_vide_date'] = true;
 				}
 				// Les array_Champs killer, citron et gain peuvent être de zéro, donc je ne peux pas les évoluer individuellement...
-				if ($valid_Champ['vide_Joueur'] && $valid_Champ['vide_Killer'] && $valid_Champ['vide_Citron'] && $valid_Champ['vide_Gain'] && $valid_Champ['vide_position'] && $valid_Champ['vide_Id'] && $valid_Champ['vide_Date']) {
-					$valid_Champ['tous_champs_Vide'] = true;
+				if ($valid_Champ['champ_joueur_vide'] && $valid_Champ['champ_killer_vide'] && $valid_Champ['champ_citron_vide'] && $valid_Champ['champ_gain_vide'] && $valid_Champ['champ_position_vide'] && $valid_Champ['champ_no_tournois_vide'] && $valid_Champ['champ_vide_date']) {
+					$valid_Champ['tous_champs_vides'] = true;
 				}
 			}
 		}
-        elseif (isset($_POST['ajouterNouveau'])) {
-			if (empty($array_Champs['newJoueur'])) {
-				$valid_Champ['vide_NewJoueur'] = true;
-				$valid_Champ['tous_champs_Vide'] = true;
+        elseif (isset($_POST['ajouter_nouveau'])) {
+			if (empty($array_Champs['new_player'])) {
+				$valid_Champ['champ_new_player_vide'] = true;
+				$valid_Champ['tous_champs_vides'] = true;
 			}
 			else {
 				$sql = "select joueur from joueur order by joueur";
 				$result = $connMYSQL->query($sql);
 				foreach ($result as $row) {
-					if ($row['joueur'] === $array_Champs['newJoueur']) {
-						$valid_Champ['doublon_new_Joueur'] = true;
+					if ($row['joueur'] === $array_Champs['new_player']) {
+						$valid_Champ['new_player_duplicate'] = true;
 					}
 				}
 			}
@@ -117,31 +121,31 @@
 		
 		$longueurGain = strlen($array_Champs['gain']);
 		$longueurDate = strlen($array_Champs['date']);
-		$longueurid = strlen($array_Champs['numTournoi']);
-		$longueurnewJoueur = strlen($array_Champs['newJoueur']);
+		$longueurid = strlen($array_Champs['no_tournois']);
+		$longueurnewJoueur = strlen($array_Champs['new_player']);
 		$longueurKiller = strlen($array_Champs['killer']);
 		$longueurCitron = strlen($array_Champs['citron']);
 		
-		if (isset($_POST['ajouter'])) {
+		if (isset($_POST['ajouter_stats'])) {
 			if ($longueurGain > 4) {
-				$valid_Champ['longueur_inval_Gain'] = true;
+				$valid_Champ['long_invalid_gain'] = true;
 			}
 			if ($longueurDate > 10) {
-				$valid_Champ['longueur_inval_Date'] = true;
+				$valid_Champ['long_invalid_date'] = true;
 			}
 			if ($longueurid > 4) {
-				$valid_Champ['longueur_inval_Id'] = true;
+				$valid_Champ['long_invalid_no_tournois'] = true;
 			}
 			if ($longueurKiller > 4) {
-				$valid_Champ['longueur_inval_Killer'] = true;
+				$valid_Champ['long_invalid_killer'] = true;
 			}
 			if ($longueurCitron > 4) {
-				$valid_Champ['longueur_inval_Citron'] = true;
+				$valid_Champ['long_invalid_citron'] = true;
 			}
 		}
-        elseif (isset($_POST['ajouterNouveau'])) {
+        elseif (isset($_POST['ajouter_nouveau'])) {
 			if ($longueurnewJoueur > 25) {
-				$valid_Champ['longueur_inval_New'] = true;
+				$valid_Champ['long_invalid_new_player'] = true;
 			}
 		}
 		
@@ -152,26 +156,26 @@
 		// Changement du pattern pour les prix killer et citron pour avoir 2 chiffres après les décimals
 		$patternKillerCitron = "#^([0-9]{1})([.]){0,1}([1-9]){0,2}$#";
 		
-		if (isset($_POST['ajouter'])) {
+		if (isset($_POST['ajouter_stats'])) {
 			if (!preg_match($patternGain, $array_Champs['gain'])) {
-				$valid_Champ['invalid_Gain'] = true;
+				$valid_Champ['invalid_gain'] = true;
 			}
-			if (!preg_match($patternID, $array_Champs['numTournoi'])) {
-				$valid_Champ['invalid_Id'] = true;
+			if (!preg_match($patternID, $array_Champs['no_tournois'])) {
+				$valid_Champ['invalid_no_tournois'] = true;
 			}
 			if (!preg_match($patternDate, $array_Champs['date'])) {
-				$valid_Champ['invalid_Date'] = true;
+				$valid_Champ['invalid_date'] = true;
 			}
 			if (!preg_match($patternKillerCitron, $array_Champs['killer'])) {
-				$valid_Champ['invalid_Killer'] = true;
+				$valid_Champ['invalid_killer'] = true;
 			}
 			if (!preg_match($patternKillerCitron, $array_Champs['citron'])) {
-				$valid_Champ['invalid_Citron'] = true;
+				$valid_Champ['invalid_citron'] = true;
 			}
 		}
-        elseif (isset($_POST['ajouterNouveau'])) {
-			if (!preg_match($patternNewJoueur, $array_Champs['newJoueur'])) {
-				$valid_Champ['invalid_New'] = true;
+        elseif (isset($_POST['ajouter_nouveau'])) {
+			if (!preg_match($patternNewJoueur, $array_Champs['new_player'])) {
+				$valid_Champ['invalid_new_player'] = true;
 			}
 		}
 		return $valid_Champ;
@@ -179,78 +183,78 @@
 	
 	function situation($array_Champs, $valid_Champ) {
 		
-		if (isset($_POST['ajouter'])) {
+		if (isset($_POST['ajouter_stats'])) {
 			// Nous commençons par la section si la page est en anglais
 			if ($array_Champs['type_langue'] === "francais") {
-				if ($valid_Champ['tous_champs_Vide']) {
-					$array_Champs['message'] .= "Tous les array_Champs sont vide.<br>";
+				if ($valid_Champ['tous_champs_vides']) {
+					$array_Champs['message'] .= "Tous les champs sont vides.<br>";
 				}
 				else {
 					// vérification au niveau du champ joueur
-					if ($valid_Champ['vide_Joueur']) {
+					if ($valid_Champ['champ_joueur_vide']) {
 						$array_Champs['message'] .= "Le champ du joueur est vide.<br>";
 					}
 					// vérification au niveau du champ gain
-					if ($valid_Champ['vide_Gain']) {
+					if ($valid_Champ['champ_gain_vide']) {
 						$array_Champs['message'] .= "Le champ du gain est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Gain']) {
+						if ($valid_Champ['invalid_gain']) {
 							$array_Champs['message'] .= "Le gain est invalide.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Gain']) {
+						if ($valid_Champ['long_invalid_gain']) {
 							$array_Champs['message'] .= "La longueur du gain est invalide.<br>";
 						}
 					}
 					// vérification au niveau du champ killer
-					if ($valid_Champ['vide_Killer']) {
+					if ($valid_Champ['champ_killer_vide']) {
 						$array_Champs['message'] .= "Le champ du killer est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Killer']) {
+						if ($valid_Champ['invalid_killer']) {
 							$array_Champs['message'] .= "Le nombre de killer est invalide.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Killer']) {
+						if ($valid_Champ['long_invalid_killer']) {
 							$array_Champs['message'] .= "La longueur du killer est invalide.<br>";
 						}
 					}
 					// vérification au niveau du champ citron
-					if ($valid_Champ['vide_Citron']) {
+					if ($valid_Champ['champ_citron_vide']) {
 						$array_Champs['message'] .= "Le champ du prix citron est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Citron']) {
+						if ($valid_Champ['invalid_citron']) {
 							$array_Champs['message'] .= "L'attribution du prix citron est invalide.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Citron']) {
+						if ($valid_Champ['long_invalid_citron']) {
 							$array_Champs['message'] .= "La longueur du prix citron est invalide.<br>";
 						}
 					}
 					// vérification au niveau du champ position
-					if ($valid_Champ['vide_position']) {
+					if ($valid_Champ['champ_position_vide']) {
 						$array_Champs['message'] .= "Le champ de la position est vide.<br>";
 					}
 					// vérification au niveau du numéro de tournoi
-					if ($valid_Champ['vide_Id']) {
+					if ($valid_Champ['champ_no_tournois_vide']) {
 						$array_Champs['message'] .= "Le champ du no. tournoi est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Id']) {
+						if ($valid_Champ['invalid_no_tournois']) {
 							$array_Champs['message'] .= "Le champ no. du tournoi est invalide.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Id']) {
+						if ($valid_Champ['long_invalid_no_tournois']) {
 							$array_Champs['message'] .= "La longueur du no. tournoi est invalide.<br>";
 						}
 					}
 					// vérification au niveau de la date
-					if ($valid_Champ['vide_Date']) {
+					if ($valid_Champ['champ_vide_date']) {
 						$array_Champs['message'] .= "Le champ de la date est vide.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Date']) {
+						if ($valid_Champ['invalid_date']) {
 							$array_Champs['message'] .= "Le champ de la date est invalide.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Date']) {
+						if ($valid_Champ['long_invalid_date']) {
 							$array_Champs['message'] .= "Le champ de la date est invalide.<br>";
 						}
 					}
@@ -258,110 +262,110 @@
 				// nous sommes rendu à la section si la page est en anglais
 			}
             elseif ($array_Champs['type_langue'] === "english") {
-				if ($valid_Champ['tous_champs_Vide']) {
+				if ($valid_Champ['tous_champs_vides']) {
 					$array_Champs['message'] .= "All fields are empty.<br>";
 				}
 				else {
 					// vérification au niveau du champ joueur
-					if ($valid_Champ['vide_Joueur']) {
+					if ($valid_Champ['champ_joueur_vide']) {
 						$array_Champs['message'] .= "The player's field is empty.<br>";
 					}
 					// vérification au niveau du champ gain
-					if ($valid_Champ['vide_Gain']) {
+					if ($valid_Champ['champ_gain_vide']) {
 						$array_Champs['message'] .= "The gain field is empty.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Gain']) {
+						if ($valid_Champ['invalid_gain']) {
 							$array_Champs['message'] .= "The gain is invalid.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Gain']) {
+						if ($valid_Champ['long_invalid_gain']) {
 							$array_Champs['message'] .= "The length of the gain is invalid.<br>";
 						}
 					}
 					// vérification au niveau du champ killer
-					if ($valid_Champ['vide_Killer']) {
+					if ($valid_Champ['champ_killer_vide']) {
 						$array_Champs['message'] .= "The killer field is empty.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Killer']) {
+						if ($valid_Champ['invalid_killer']) {
 							$array_Champs['message'] .= "The number of killer is invalid.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Killer']) {
+						if ($valid_Champ['long_invalid_killer']) {
 							$array_Champs['message'] .= "The length of the killer is invalid.<br>";
 						}
 					}
 					// vérification au niveau du champ citron
-					if ($valid_Champ['vide_Citron']) {
+					if ($valid_Champ['champ_citron_vide']) {
 						$array_Champs['message'] .= "The field of the lemon price is empty.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Citron']) {
+						if ($valid_Champ['invalid_citron']) {
 							$array_Champs['message'] .= "The award of the lemon prize is invalid.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Citron']) {
+						if ($valid_Champ['long_invalid_citron']) {
 							$array_Champs['message'] .= "The length of the lemon price is invalid.<br>";
 						}
 					}
 					// vérification au niveau du champ position
-					if ($valid_Champ['vide_position']) {
+					if ($valid_Champ['champ_position_vide']) {
 						$array_Champs['message'] .= "The position field is empty.<br>";
 					}
 					// vérification au niveau du numéro de tournoi
-					if ($valid_Champ['vide_Id']) {
+					if ($valid_Champ['champ_no_tournois_vide']) {
 						$array_Champs['message'] .= "The field of no. tournament is empty.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Id']) {
+						if ($valid_Champ['invalid_no_tournois']) {
 							$array_Champs['message'] .= "The field no. of the tournament is invalid.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Id']) {
+						if ($valid_Champ['long_invalid_no_tournois']) {
 							$array_Champs['message'] .= "The length of the no. tournament is invalid.<br>";
 						}
 					}
 					// vérification au niveau de la date
-					if ($valid_Champ['vide_Date']) {
+					if ($valid_Champ['champ_vide_date']) {
 						$array_Champs['message'] .= "The date field is empty.<br>";
 					}
 					else {
-						if ($valid_Champ['invalid_Date']) {
+						if ($valid_Champ['invalid_date']) {
 							$array_Champs['message'] .= "The date field is invalid.<br>";
 						}
-						if ($valid_Champ['longueur_inval_Date']) {
+						if ($valid_Champ['long_invalid_date']) {
 							$array_Champs['message'] .= "The date field is invalid.<br>";
 						}
 					}
 				}
 			}
 		}
-        elseif (isset($_POST['ajouterNouveau'])) {
+        elseif (isset($_POST['ajouter_nouveau'])) {
 			if ($array_Champs['type_langue'] === "francais") {
-				if ($valid_Champ['vide_NewJoueur']) {
+				if ($valid_Champ['champ_new_player_vide']) {
 					$array_Champs['message'] .= "Le champ du nouveau joueur est vide.<br>";
 				}
 				else {
-					if ($valid_Champ['invalid_New']) {
+					if ($valid_Champ['invalid_new_player']) {
 						$array_Champs['message'] .= "Le nom du nouveau joueur n'est pas valide.<br>";
 					}
-					if ($valid_Champ['longueur_inval_New']) {
+					if ($valid_Champ['long_invalid_new_player']) {
 						$array_Champs['message'] .= "Le nom du nouveau joueur est trop long.<br>";
 					}
-					if ($valid_Champ['doublon_new_Joueur']) {
+					if ($valid_Champ['new_player_duplicate']) {
 						$array_Champs['message'] .= "Le nom du nouveau joueur est déjà présent dans la BD.<br>";
 					}
 				}
 			}
             elseif ($array_Champs['type_langue'] === "english") {
-				if ($valid_Champ['vide_NewJoueur']) {
+				if ($valid_Champ['champ_new_player_vide']) {
 					$array_Champs['message'] .= "The new player's field is empty.<br>";
 				}
 				else {
-					if ($valid_Champ['invalid_New']) {
+					if ($valid_Champ['invalid_new_player']) {
 						$array_Champs['message'] .= "The name of the new player is invalid.<br>";
 					}
-					if ($valid_Champ['longueur_inval_New']) {
+					if ($valid_Champ['long_invalid_new_player']) {
 						$array_Champs['message'] .= "The name of the new player is too long.<br>";
 					}
-					if ($valid_Champ['doublon_new_Joueur']) {
+					if ($valid_Champ['new_player_duplicate']) {
 						$array_Champs['message'] .= "The name of the new player is already present in the BD.<br>";
 					}
 				}
@@ -391,7 +395,7 @@
 	
 	function verifChampGain($valid_Champ) {
 		
-		if ($valid_Champ['invalid_Gain'] || $valid_Champ['longueur_inval_Gain'] || $valid_Champ['vide_Gain']) {
+		if ($valid_Champ['invalid_gain'] || $valid_Champ['long_invalid_gain'] || $valid_Champ['champ_gain_vide']) {
 			return true;
 		}
 		return false;
@@ -399,7 +403,7 @@
 	
 	function verifChampId($valid_Champ) {
 		
-		if ($valid_Champ['invalid_Id'] || $valid_Champ['longueur_inval_Id'] || $valid_Champ['vide_Id']) {
+		if ($valid_Champ['invalid_no_tournois'] || $valid_Champ['long_invalid_no_tournois'] || $valid_Champ['champ_no_tournois_vide']) {
 			return true;
 		}
 		return false;
@@ -407,7 +411,7 @@
 	
 	function verifChampDate($valid_Champ) {
 		
-		if ($valid_Champ['invalid_Date'] || $valid_Champ['longueur_inval_Date'] || $valid_Champ['vide_Date']) {
+		if ($valid_Champ['invalid_date'] || $valid_Champ['long_invalid_date'] || $valid_Champ['champ_vide_date']) {
 			return true;
 		}
 		return false;
@@ -415,7 +419,7 @@
 	
 	function verifChampJoueur($valid_Champ) {
 		
-		if ($valid_Champ['vide_Joueur']) {
+		if ($valid_Champ['champ_joueur_vide']) {
 			return true;
 		}
 		return false;
@@ -423,7 +427,7 @@
 	
 	function verifChampKiller($valid_Champ) {
 		
-		if ($valid_Champ['invalid_Killer'] || $valid_Champ['longueur_inval_Killer'] || $valid_Champ['vide_Killer']) {
+		if ($valid_Champ['invalid_killer'] || $valid_Champ['long_invalid_killer'] || $valid_Champ['champ_killer_vide']) {
 			return true;
 		}
 		return false;
@@ -431,7 +435,7 @@
 	
 	function verifChampCitron($valid_Champ) {
 		
-		if ($valid_Champ['invalid_Citron'] || $valid_Champ['longueur_inval_Citron'] || $valid_Champ['vide_Citron']) {
+		if ($valid_Champ['invalid_citron'] || $valid_Champ['long_invalid_citron'] || $valid_Champ['champ_citron_vide']) {
 			return true;
 		}
 		return false;
@@ -439,7 +443,7 @@
 	
 	function verifChampNouveau($valid_Champ) {
 		
-		if ($valid_Champ['invalid_New'] || $valid_Champ['longueur_inval_New'] || $valid_Champ['vide_NewJoueur']) {
+		if ($valid_Champ['invalid_new_player'] || $valid_Champ['long_invalid_new_player'] || $valid_Champ['champ_new_player_vide']) {
 			return true;
 		}
 		return false;
@@ -540,17 +544,17 @@
 		$stmt = $connMYSQL->prepare($sql);
 		
 		// Bind variables to the prepared statement as parameters
-		$stmt->bind_param('sissisdd', $array_Champs["listeJoueur"], $array_Champs["gain"], $victoire, $fini2e, $array_Champs["numTournoi"], $array_Champs["date"], $killerFloat, $citronFloat);
+		$stmt->bind_param('sissisdd', $array_Champs["liste_joueurs"], $array_Champs["gain"], $victoire, $fini2e, $array_Champs["no_tournois"], $array_Champs["date"], $killerFloat, $citronFloat);
 		$stmt->execute();
 		
 		// Close statement
 		$stmt->close();
 		
 		if ($array_Champs['type_langue'] === "francais") {
-			$messageAjout = "Les informations du joueur {$array_Champs["listeJoueur"]} a été ajouté à la BD.";
+			$messageAjout = "Les informations du joueur {$array_Champs["liste_joueurs"]} a été ajouté à la BD.";
 		}
         elseif ($array_Champs['type_langue'] === "english") {
-			$messageAjout = "The player information {$array_Champs["listeJoueur"]} has been added to the BD.";
+			$messageAjout = "The player information {$array_Champs["liste_joueurs"]} has been added to the BD.";
 		}
 		$array_Champs = initialisationChamps();
 		$array_Champs['message'] = $messageAjout;
@@ -564,17 +568,17 @@
 		$stmt = $connMYSQL->prepare($sql);
 		
 		// Bind variables to the prepared statement as parameters
-		$stmt->bind_param('s', $array_Champs["newJoueur"]);
+		$stmt->bind_param('s', $array_Champs["new_player"]);
 		$stmt->execute();
 		
 		// Close statement
 		$stmt->close();
 		
 		if ($array_Champs['type_langue'] === "francais") {
-			$messageAjout = "Le nouveau joueur {$array_Champs["listeJoueur"]} a été ajouté à la BD.";
+			$messageAjout = "Le nouveau joueur {$array_Champs["liste_joueurs"]} a été ajouté à la BD.";
 		}
         elseif ($array_Champs['type_langue'] === "english") {
-			$messageAjout = "The player information {$array_Champs["listeJoueur"]} has been added to the BD.";
+			$messageAjout = "The player information {$array_Champs["liste_joueurs"]} has been added to the BD.";
 		}
 		$array_Champs = initialisationChamps();
 		$array_Champs['message'] = $messageAjout;
@@ -646,7 +650,7 @@
 				$array_Champs = situation($array_Champs, $valid_Champ);
 				$verif_tous_flag = verificationTout_Champs($valid_Champ);
 				
-			} elseif (isset($_POST['ajouter'])) {
+			} elseif (isset($_POST['ajouter_stats'])) {
 				$array_Champs = remplissageChamps($array_Champs);
 				$valid_Champ = validation($array_Champs, $valid_Champ, $connMYSQL);
 				$array_Champs = situation($array_Champs, $valid_Champ);
@@ -655,7 +659,7 @@
 				}
 				$verif_tous_flag = verificationTout_Champs($valid_Champ);
 				
-			} elseif (isset($_POST['ajouterNouveau'])) {
+			} elseif (isset($_POST['ajouter_nouveau'])) {
 				$array_Champs = remplissageChamps($array_Champs);
 				$valid_Champ = validation($array_Champs, $valid_Champ, $connMYSQL);
 				$array_Champs = situation($array_Champs, $valid_Champ);
@@ -705,7 +709,7 @@
                 <div class='formulaire-joueur'>
                     <div class="joueur <?php if (verifChampJoueur($valid_Champ)) { echo "erreur"; } ?>">
                         <label for="joueur"><?php echo $arrayMots['joueur']; ?></label>
-                        <select id="joueur" name="listeJoueur"><?php echo $listeJoueurs; ?></select>
+                        <select id="joueur" name="liste_joueurs"><?php echo $listeJoueurs; ?></select>
                     </div>
                     <div class="position">
                         <p class="p-label-pos"><?php echo $arrayMots['resultat']; ?></p>
@@ -730,8 +734,8 @@
                         <input maxlength="4" type="text" id="gain" name="gain" value="<?php echo $array_Champs['gain'] ?>">
                     </div>
                     <div class="numero <?php if (verifChampId($valid_Champ)) { echo "erreur"; } ?>">
-                        <label for="numTournoi"><?php echo $arrayMots['noId']; ?></label>
-                        <input maxlength="4" type="text" id="numTournoi" name="numTournoi" value="<?php echo $array_Champs['numTournoi'] ?>">
+                        <label for="no_tournois"><?php echo $arrayMots['noId']; ?></label>
+                        <input maxlength="4" type="text" id="no_tournois" name="no_tournois" value="<?php echo $array_Champs['no_tournois'] ?>">
                     </div>
                     <div class="date <?php if (verifChampDate($valid_Champ)) { echo "erreur"; } ?>">
                         <div class="form-row animate-2">
@@ -748,22 +752,22 @@
                         <input maxlength="4" type="text" id="citron" name="citron" value="<?php echo $array_Champs['citron'] ?>">
                     </div>
                     <div class="bas-formulaire">
-                        <input class="bouton" type="submit" name="ajouter" value="<?php echo $arrayMots['btn_add']; ?>">
+                        <input class="bouton" type="submit" name="ajouter_stats" value="<?php echo $arrayMots['btn_add']; ?>">
                         <input class="bouton" id="faire_menage_total" type="reset" value="<?php echo $arrayMots['btn_erase']; ?>">
                     </div>
                     <div class="bas-formulaire">
-                        <p class="<?php if ((isset($_POST['effacer']) || isset($_POST['ajouter']) || isset($_POST['ajouterNouveau'])) && $verif_tous_flag === true) {
+                        <p class="<?php if ((isset($_POST['effacer']) || isset($_POST['ajouter_stats']) || isset($_POST['ajouter_nouveau'])) && $verif_tous_flag === true) {
                             echo "avert"; } else { echo "erreur"; } ?>"> <?php echo $array_Champs['message']; ?> </p>
                     </div>
                 </div>
             </form>
             <div class="formulaire-nouveau">
                 <div class="<?php if (verifChampNouveau($valid_Champ)) { echo "erreur"; } ?>">
-                    <label for="newJoueur"><?php echo $arrayMots['newJoueur']; ?></label>
-                    <input form="form" maxlength="25" type="text" id="newJoueur" name="newJoueur" value="<?php echo $array_Champs['newJoueur'] ?>">
+                    <label for="new_player"><?php echo $arrayMots['new_player']; ?></label>
+                    <input form="form" maxlength="25" type="text" id="new_player" name="new_player" value="<?php echo $array_Champs['new_player'] ?>">
                 </div>
                 <div>
-                    <input form="form" class="bouton" type="submit" name="ajouterNouveau" value="<?php echo $arrayMots['btn_new']; ?>">
+                    <input form="form" class="bouton" type="submit" name="ajouter_nouveau" value="<?php echo $arrayMots['btn_new']; ?>">
                 </div>
             </div>
             <div class="footer">

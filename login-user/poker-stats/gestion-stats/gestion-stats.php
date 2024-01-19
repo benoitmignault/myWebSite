@@ -698,12 +698,13 @@
 		session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
 	}
  
- 
+    // TODO trouver une manière d'être rediriger vers la page erreur 404 au lieu d'avoir une erreur de variable qui n'existe plus
+    
 	// Les fonctions communes avant la validation du user
 	$connMYSQL = connexion();
     $user_valid = verification_user_valide($connMYSQL);
     
-    // On va vérifier si le user est toujours valide et possède encore son cookie qui dure une heure max
+    // On va vérifier si le user est toujours valide via son user et password
     if ($user_valid){
      
 	    // Les fonctions communes, après la validation du user

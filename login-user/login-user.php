@@ -72,10 +72,10 @@
 	 * Fonction qui servira à mettre à «True» les variables de contrôles des informations
      * que nous avons associé durant la fonction @see remplissage_champs
      *
-	 * @param $array_Champs
+	 * @param array $array_Champs
 	 * @return array
 	 */
-    function validation_champs($array_Champs): array {
+    function validation_champs(array $array_Champs): array {
         
         if (empty($array_Champs['user'])){
             $array_Champs['champ_vide_user'] = true;

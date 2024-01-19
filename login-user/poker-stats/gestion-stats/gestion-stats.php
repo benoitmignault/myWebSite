@@ -25,6 +25,7 @@
 	}
 	
 	
+    // TODO vérifier seulement que le user existe
 	function verification_user_valide($connMYSQL) {
 		
 		// Optimisation de la vérification si le user existe dans la BD
@@ -153,7 +154,7 @@
 	 */
 	function validation_champs(mysqli $connMYSQL, array $array_Champs): array {
 		
-    // TODO passer à travers 
+    // TODO passer à travers
 		if (isset($_POST['btn_add_stat'])) {
    
 			if (empty($array_Champs['liste_joueurs']) || empty($array_Champs['gain']) || empty($array_Champs['citron']) ||
@@ -264,8 +265,8 @@
 		
 		return $array_Champs;
 	}
- 
- 
+	
+	// TODO déplacer dans requete SQL plus haut
 	function creationListe($connMYSQL, $arrayMots, $champ) {
 		
 		$sql = "select joueur from joueur order by joueur";
@@ -293,8 +294,9 @@
 	}
 	
 	
- 
+	// TODO passer à travers
 	function situation_erreur($array_Champs) {
+		
 		
 		if (isset($_POST['ajouter_stats'])) {
 			// Nous commençons par la section si la page est en anglais
@@ -500,7 +502,7 @@
 	
 	
 	
-	
+	// TODO regarder ca à la fin
 	function ajout_Stat_Joueur($array_Champs, $connMYSQL) {
 		
 		$victoire = "";
@@ -536,6 +538,7 @@
 		return $array_Champs;
 	}
 	
+	// TODO regarder ca à la fin
 	function ajouter_Nouveau_Joueur($array_Champs, $connMYSQL) {
 		
 		// Prepare an insert statement

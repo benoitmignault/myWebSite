@@ -830,8 +830,8 @@
                     }
                 }
             }
-            
-		    $array_Champs = situation($array_Champs, $array_Champs);
+		
+		    $array_Champs["situation"] = situation_erreur($array_Champs);
 	    }
      
 	    // On va faire la traduction, à la fin des GET & POST

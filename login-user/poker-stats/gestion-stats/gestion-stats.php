@@ -787,11 +787,13 @@
 	session_start();
 	$connMYSQL = connexion();
 	$array_Champs = initialisation();
-	$array_Champs = remplissage_champs($connMYSQL, $array_Champs);
 	$array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs);
     
-    // On va vérifier si le user est toujours valide via son user et password
+    // On va vérifier si le user est toujours valide via son user et password stocké dans les cookies/Session
     if ($array_Champs['user_valid']){
+	
+        // On va remplir les variables nécessaires ici
+	    $array_Champs = remplissage_champs($connMYSQL, $array_Champs);
 	
 	    // La seule chose qui peut arriver dans le GET et au début du POST, ici est une variable de langue invalide
 	    if ($array_Champs["invalid_language"]) {

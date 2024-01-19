@@ -19,7 +19,7 @@
                      "long_invalid_date" => false, "long_invalid_killer" => false, "long_invalid_citron" => false,					 
 					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 
                      "champ_vide_date" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
-					 "new_player_duplicate" => false, "liste_mots" => array(), "liste_joueurs" => array());
+					 "new_player_duplicate" => false, "liste_mots" => array(), "liste_joueurs" => array(), "user_valid" => false);
 	}
 	
 	/**

@@ -352,6 +352,18 @@
 		return $array_Champs;
 	}
 	
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 	// TODO passer à travers
 	function situation_erreur($array_Champs) {
 		
@@ -677,7 +689,11 @@
 		delete_Session();
 		exit; // Pour arrêter l'exécution du code php
 	}
- 
+	
+	/**
+     * Fonction pour détruire les variables sessions et cookies lorsqu'il est nécessaire de le faire par une action de l'utilisateur
+	 * @return void
+	 */
 	function delete_Session(): void {
 		
 		// Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28

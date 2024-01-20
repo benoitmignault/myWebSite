@@ -230,6 +230,10 @@
     }
 	
 	/**
+     * Contrairement à plusieurs autres de mes pages web, ici, il y a deux scénarios de gestions d,erreurs
+     * Lorsqu'on ajout les statistiques d'un joueur
+     * Lorsqu'on ajoute un nouveau joueur pour ses statistiques
+     * 
 	 * @param mysqli $connMYSQL
 	 * @param array $array_Champs
 	 * @return array

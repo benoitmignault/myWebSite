@@ -133,11 +133,11 @@
                 }
                 
                 if (isset($_POST['gain'])) {
-                    $array_Champs["gain"] = $_POST['gain'];
+                    $array_Champs["gain"] = intval($_POST['gain']);
                 }
                 
                 if (isset($_POST['no_tournois'])) {
-                    $array_Champs["no_tournois"] = $_POST['no_tournois'];
+                    $array_Champs["no_tournois"] = intval($_POST['no_tournois']);
                 }
                 
                 if (isset($_POST['date'])) {
@@ -145,11 +145,11 @@
                 }
                 
                 if (isset($_POST['killer'])) {
-                    $array_Champs["killer"] = $_POST['killer'];
+                    $array_Champs["killer"] = floatval($_POST['killer']);
                 }
                 
                 if (isset($_POST['citron'])) {
-                    $array_Champs["citron"] = $_POST['citron'];
+                    $array_Champs["citron"] = floatval($_POST['citron']);
                 }
             }
         }

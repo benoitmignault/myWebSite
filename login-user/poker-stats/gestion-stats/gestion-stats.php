@@ -21,11 +21,11 @@
                      "invalid_gain" => false, "invalid_new_player" => false, "invalid_no_tournois" => false, "invalid_date" => false, "invalid_citron" => false,
                      "invalid_killer" => false, "tous_invalids" => false, "tous_champs_vides" => false, "invalid_language" => false,
 					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 
-                     "champ_vide_date" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
+                     "champ_date_vide" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
 					 "new_player_duplicate" => false, "erreur_presente" => false, "message_erreur_bd" => "", "erreur_system_bd" => false,
                      "liste_mots" => array(), "liste_joueurs" => array(), "message" => "");
-	}
-	
+	}	
+
 	/**
 	 * Fonction pour aller vérifier que nos informations dans notre cookie sont toujours avec notre BD
 	 * On va vérifier seulement pour le user avec son password

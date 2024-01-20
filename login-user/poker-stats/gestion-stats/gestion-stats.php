@@ -239,8 +239,8 @@
 		        $array_Champs['erreur_presente'] = true;
           
 	        } else {
-                
                 $longueur_new_player = strlen($array_Champs['new_player']);
+                
 		        if ($longueur_new_player > 25) {
 			        $array_Champs['long_invalid_new_player'] = true;
 			        $array_Champs['erreur_presente'] = true;

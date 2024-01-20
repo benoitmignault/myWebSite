@@ -693,11 +693,12 @@
 	 *
 	 * @param string $type_langue
 	 * @param bool $invalid_language
+     * @param bool $user_invalid
 	 * @return void
 	 */
-	#[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
+	#[NoReturn] function redirection(string $type_langue, bool $invalid_language, bool $user_invalid): void {
 		
-		if ($invalid_language) {
+		if ($invalid_language || $user_invalid) {
 			header("Location: /erreur/erreur.php");
 			// Sinon, nous sommes sûr à 100%, que nous arrivons dans le POST
 		} else {

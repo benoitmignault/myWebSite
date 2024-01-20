@@ -235,7 +235,7 @@
     }
 	
 	/**
-     * Contrairement à plusieurs autres de mes pages web, ici, il y a deux scénarios de gestions d,erreurs
+     * Contrairement à plusieurs autres de mes pages web, ici, il y a deux scénarios de gestions d'erreurs
      * Lorsqu'on ajout les statistiques d'un joueur
      * Lorsqu'on ajoute un nouveau joueur pour ses statistiques
      * 
@@ -400,13 +400,7 @@
         return $new_player_duplicate;
     }
  
- 
- 
- 
- 
- 
- 
- 
+    
  
 	// TODO passer à travers
 	function situation_erreur($array_Champs) {

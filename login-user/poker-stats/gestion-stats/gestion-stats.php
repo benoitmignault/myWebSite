@@ -15,7 +15,7 @@
 	 */
 	function initialisation(): array {
 		
-		return array("user_valid" => false, "id_user" => 0, "type_langue" => "", "joueur" => "", "gain" => "", "position" => "",
+		return array("user" => "", "user_valid" => false, "id_user" => 0, "type_langue" => "", "joueur" => "", "gain" => "", "position" => "",
                      "no_tournois" => "", "date" => "", "killer" => "", "citron" => "", "new_player" => "", "situation" => 0,
                      "invalid_gain" => false, "invalid_new_player" => false, "invalid_no_tournois" => false, "invalid_date" => false, "invalid_citron" => false,
                      "invalid_killer" => false, "tous_invalids" => false, "tous_champs_vides" => false, "tous_long_invalids" => false, 

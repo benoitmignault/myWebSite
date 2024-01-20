@@ -250,7 +250,7 @@
 		        if (!preg_match($pattern_new_player, $array_Champs['new_player'])) {
 			        $array_Champs['invalid_new_player'] = true;
 			        $array_Champs['erreur_presente'] = true;
-           
+			
 		        } else {
                     // Comme le prénom du nouveau joueur est valide, on peut aller le vérifier dans notre table des joueurs
                     $array_Champs['new_player_duplicate'] = requete_SQL_verification_joueur($connMYSQL, $array_Champs["new_player"]);
@@ -258,31 +258,63 @@
 		        }
 	        }
             
-            // Les validations pour les statistiques
+            // Les validations pour les statistiques d'un joueur
         } elseif (isset($_POST['btn_add_stat'])) {
 	
-	        if (empty($array_Champs['liste_joueurs']) && empty($array_Champs['gain']) && empty($array_Champs['citron']) &&
-		        empty($array_Champs['killer']) || empty($array_Champs['position']) || empty($array_Champs['no_tournois']) || empty($array_Champs['date'])) {
-		        // sous condition propre à chaque champ
+	        if (empty($array_Champs['liste_joueurs']) && empty($array_Champs['position']) &&
+	            empty($array_Champs['gain']) && $array_Champs['gain'] !== 0 &&
+	            empty($array_Champs['citron']) && $array_Champs['citron'] !== 0 &&
+		        empty($array_Champs['killer']) && $array_Champs['killer'] !== 0 &&
+                empty($array_Champs['no_tournois']) && empty($array_Champs['date'])) {
+                
+                $array_Champs['tous_champs_vides'] = true;
+		        $array_Champs['erreur_presente'] = true;
+	        } else {
+                
+                // sous condition propre à chaque champ
 		        if (empty($array_Champs['liste_joueurs'])) {
 			        $array_Champs['champ_joueur_vide'] = true;
+			        $array_Champs['erreur_presente'] = true;
 		        }
+          
 		        if (empty($array_Champs['position'])) {
 			        $array_Champs['champ_position_vide'] = true;
+			        $array_Champs['erreur_presente'] = true;
 		        }
+          
 		        if (empty($array_Champs['no_tournois'])) {
 			        $array_Champs['champ_no_tournois_vide'] = true;
+			        $array_Champs['erreur_presente'] = true;
 		        }
-		        if (empty($array_Champs['date'])) {
+          
+		        if (empty($array_Champs['killer']) && $array_Champs['killer'] !== 0) {
+			        $array_Champs['champ_killer_vide'] = true;
+			        $array_Champs['erreur_presente'] = true;
+		        }
+                
+                if (empty($array_Champs['gain']) && $array_Champs['gain'] !== 0) {
+			        $array_Champs['champ_gain_vide'] = true;
+	                $array_Champs['erreur_presente'] = true;
+                }
+                
+                if (empty($array_Champs['citron']) && $array_Champs['citron'] !== 0) {
+			        $array_Champs['champ_citron_vide'] = true;
+	                $array_Champs['erreur_presente'] = true;
+                }
+                
+                if (empty($array_Champs['date'])) {
 			        $array_Champs['champ_vide_date'] = true;
-		        }
-		        // Les array_Champs killer, citron et gain peuvent être de zéro, donc je ne peux pas les évoluer individuellement...
-		        if ($array_Champs['champ_joueur_vide'] && $array_Champs['champ_killer_vide'] && $array_Champs['champ_citron_vide'] &&
-			        $array_Champs['champ_gain_vide'] && $array_Champs['champ_position_vide'] && $array_Champs['champ_no_tournois_vide'] &&
-			        $array_Champs['champ_vide_date']) {
-			        $array_Champs['tous_champs_vides'] = true;
-		        }
-	        }
+	                $array_Champs['erreur_presente'] = true;
+                }
+            
+            
+            
+            
+            
+            }
+		        
+            
+        }
 	
 	        $longueurGain = strlen($array_Champs['gain']);
 	        $longueurDate = strlen($array_Champs['date']);

@@ -205,8 +205,7 @@
   
 		return $array_Champs;
     }
-	
-	
+		
 	/**
 	 * Fonction pour récupérer la liste de tous les joueurs ayant participer aux différents tournois de poker
 	 * L'information sera retournée @see requete_SQL_recuperation_liste_joueurs
@@ -619,35 +618,17 @@
 	
 	
 	/**
-	 * Fonction pour rediriger le user vers la bonne page web, après toutes les validations
+	 * Fonction pour rediriger le user vers la page web des statistiques et
+     * les cookies ont déjà été setter
 	 *
-	 * @param array $array_Champs
 	 * @return void
-	 */ // TODO ajuster la fct
-	#[NoReturn] function connexion_user(array $array_Champs): void {
-		
-		// Ouverture du cookie pour laisser une heure de consultation des statistiques de poker
-		session_start();
-		$_SESSION['user'] = $array_Champs['user'];
-		$_SESSION['password'] = $array_Champs['password'];
-		$_SESSION['type_langue'] = $array_Champs["type_langue"];
-		
-		// On va quand même créer le cookie vue qu'on va dans une zone sensible, soit l'insertion de DATA
-		setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
-		
-		// Si nous avons un user autre qu'un admin, on démarre le cookie, sinon on va attendre pour l'admin
-		if (!$array_Champs['user_admin']){
-			
-			// Redirection d'un user normal
-			header("Location: /login-user/poker-stats/show-stats/stats.php");
-		} else {
-			// Redirection d'un admin pour faire l'ajout des statistiques de poker
-			header("Location: /login-user/poker-stats/gestion-stats/gestion-stats.php");
-		}
-		
+	 */
+	#[NoReturn] function connexion_user(): void {
+        
+        header("Location: /login-user/poker-stats/show-stats/stats.php");
+        
 		exit;
 	}
-	
 	
 	/**
 	 * Fonction pour rediriger vers la bonne page extérieur à la page de gestion, sauf si
@@ -728,9 +709,10 @@
                 // Sinon on veut peut-être aller voir les statistiques de poker, une fois qu'on a fini d'ajouter les statistiques
             } elseif (isset($_POST['btn_voir_stats'])) {
 	            $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
-             
+                
+                //exit;
 	            // Maintenant, on peut connecter le user à la page de statistiques
-	            connexion_user($array_Champs);
+	            connexion_user();
                 
             } elseif (isset($_POST['btn_add_stat']) || isset($_POST['btn_new_player'])) {
                 

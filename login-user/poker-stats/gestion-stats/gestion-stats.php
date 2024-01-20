@@ -233,24 +233,17 @@
             // Le seul champ qui sera vérifié pour l'ajout d'un nouveau joueur
 	        if (empty($array_Champs['new_player'])) {
 		        $array_Champs['champ_new_player_vide'] = true;
-		        $array_Champs['erreur_presente'] = true;
+          
 	        } else {
                 $longueur_new_player = strlen($array_Champs['new_player']);
-                
-		        if ($longueur_new_player > 25) {
-			        $array_Champs['long_invalid_new_player'] = true;
-			        $array_Champs['erreur_presente'] = true;
-		        }
-		
 		        $pattern_new_player = "#^[A-Z][a-z]+(-[A-Z])?[a-z]+(\s[A-Z][a-z]?)?$#";
-		        if (!preg_match($pattern_new_player, $array_Champs['new_player'])) {
+          
+		        if (!preg_match($pattern_new_player, $array_Champs['new_player']) && $longueur_new_player > 25) {
 			        $array_Champs['invalid_new_player'] = true;
-			        $array_Champs['erreur_presente'] = true;
 			
 		        } else {
                     // Comme le prénom du nouveau joueur est valide, on peut aller le vérifier dans notre table des joueurs
                     $array_Champs['new_player_duplicate'] = requete_SQL_verification_joueur($connMYSQL, $array_Champs["new_player"]);
-			        $array_Champs['erreur_presente'] = true;
 		        }
 	        }
             
@@ -264,133 +257,83 @@
                 empty($array_Champs['no_tournois']) && empty($array_Champs['date'])) {
                 
                 $array_Champs['tous_champs_vides'] = true;
-		        $array_Champs['erreur_presente'] = true;
 	        } else {
                 
                 // sous condition propre à chaque champ
 		        if (empty($array_Champs['liste_joueurs'])) {
 			        $array_Champs['champ_joueur_vide'] = true;
-			        $array_Champs['erreur_presente'] = true;
 		        }
           
 		        if (empty($array_Champs['position'])) {
 			        $array_Champs['champ_position_vide'] = true;
-			        $array_Champs['erreur_presente'] = true;
 		        }
           
 		        if (empty($array_Champs['no_tournois'])) {
 			        $array_Champs['champ_no_tournois_vide'] = true;
-			        $array_Champs['erreur_presente'] = true;
 		        }
           
 		        if (empty($array_Champs['killer']) && $array_Champs['killer'] !== 0) {
 			        $array_Champs['champ_killer_vide'] = true;
-			        $array_Champs['erreur_presente'] = true;
 		        }
                 
                 if (empty($array_Champs['gain']) && $array_Champs['gain'] !== 0) {
 			        $array_Champs['champ_gain_vide'] = true;
-	                $array_Champs['erreur_presente'] = true;
                 }
                 
                 if (empty($array_Champs['citron']) && $array_Champs['citron'] !== 0) {
 			        $array_Champs['champ_citron_vide'] = true;
-	                $array_Champs['erreur_presente'] = true;
                 }
                 
                 if (empty($array_Champs['date'])) {
 			        $array_Champs['champ_vide_date'] = true;
-	                $array_Champs['erreur_presente'] = true;
                 }
-            
-            
-            
-            
-            
-            }
-		        
-            
-        }
-	
-	        $longueurGain = strlen($array_Champs['gain']);
-	        $longueurDate = strlen($array_Champs['date']);
-	        $longueurid = strlen($array_Champs['no_tournois']);
-	        $longueurKiller = strlen($array_Champs['killer']);
-	        $longueurCitron = strlen($array_Champs['citron']);
-	
-	        if ($longueurGain > 4) {
-		        $array_Champs['long_invalid_gain'] = true;
-	        }
-	        if ($longueurDate > 10) {
-		        $array_Champs['long_invalid_date'] = true;
-	        }
-	        if ($longueurid > 4) {
-		        $array_Champs['long_invalid_no_tournois'] = true;
-	        }
-	        if ($longueurKiller > 4) {
-		        $array_Champs['long_invalid_killer'] = true;
-	        }
-	        if ($longueurCitron > 4) {
-		        $array_Champs['long_invalid_citron'] = true;
-	        }
-	
-	        $patternGain = "#^-?[0-9]{1,3}$#";
-	        $patternID = "#^[0-9]{1,4}$#";
-	        /**
-	         * Il y a 3 situations qui peuvent arriver selon les exigences :
-	         *
-	         * Le mois de févier (peu importe l'année) compte 28 jours.
-	         * Les mois de janvier, mars, mai, juillet, août, octobre, décembre comptent 31 jours.
-	         * Les mois d'avril, juin, septembre, novembre comptent 30 jours.
-	         */
-	        $patternDate = "#^[1-9][0-9]{3}-((0?2-(0?[1-9]|1[0-9]|2[0-8]))|((0?[13578]|1[02])-(0?[1-9]|[1-2][0-9]|3[0-1]))|((0?[469]|11)-(0?[1-9]|[1-2][0-9]|30)))$#";
-	        // Changement du pattern pour les prix killer et citron pour avoir 2 chiffres après les décimals
-	        $patternKillerCitron = "#^[0-9](.[0-9]{1,2})?$#";
-	
-	        if (!preg_match($patternGain, $array_Champs['gain'])) {
-		        $array_Champs['invalid_gain'] = true;
-	        }
-	        if (!preg_match($patternID, $array_Champs['no_tournois'])) {
-		        $array_Champs['invalid_no_tournois'] = true;
-	        }
-	        if (!preg_match($patternDate, $array_Champs['date'])) {
-		        $array_Champs['invalid_date'] = true;
-	        }
-	        if (!preg_match($patternKillerCitron, $array_Champs['killer'])) {
-		        $array_Champs['invalid_killer'] = true;
-	        }
-	        if (!preg_match($patternKillerCitron, $array_Champs['citron'])) {
-		        $array_Champs['invalid_citron'] = true;
-	        }
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-        
-        
-        
-        
-        
-        
-			
-   
-   
-   
-   
 		
+		        $pattern_gain = "#^-?[0-9]{1,3}$#";
+		        $pattern_no = "#^[0-9]{1,3}$#";
+                /**
+		         * Il y a 3 situations qui peuvent arriver selon les exigences :
+		         *
+		         * Le mois de févier (peu importe l'année) compte 28 jours.
+		         * Les mois de janvier, mars, mai, juillet, août, octobre, décembre comptent 31 jours.
+		         * Les mois d'avril, juin, septembre, novembre comptent 30 jours.
+		         */
+		        $pattern_date = "#^[1-9][0-9]{3}-((02-(0[1-9]|1[0-9]|2[0-8]))|((0[13578]|1[02])-(0[1-9]|[1-2][0-9]|3[0-1]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$#";
+		
+		        // Changement du pattern pour les prix killer et citron pour avoir 2 chiffres après les décimales
+		        $pattern_killer_citron = "#^[0-9](.[0-9]{1,2})?$#";
+		
+		        if (!preg_match($pattern_gain, $array_Champs['gain'])) {
+			        $array_Champs['invalid_gain'] = true;
+		        }
+          
+		        if (!preg_match($pattern_no, $array_Champs['no_tournois'])) {
+			        $array_Champs['invalid_no_tournois'] = true;
+		        }
+          
+		        if (!preg_match($pattern_date, $array_Champs['date'])) {
+			        $array_Champs['invalid_date'] = true;
+		        }
+          
+		        if (!preg_match($pattern_killer_citron, $array_Champs['killer'])) {
+			        $array_Champs['invalid_killer'] = true;
+		        }
+          
+		        if (!preg_match($pattern_killer_citron, $array_Champs['citron'])) {
+			        $array_Champs['invalid_citron'] = true;
+		        }
+	        }
+        }
+        
+        // Validation que nous avons au moins une erreur, dans le lot
+		foreach ($array_Champs as $element) {
+			if ($element === true) {
+				$array_Champs['erreur_presente'] = true;
+				break; // Arrêter la boucle si un élément correspondant est trouvé
+			}
+		}
+  
 		return $array_Champs;
 	}
-	
-	
 	
 	/**
 	 * Fonction pour aller vérifier si le joueur que nous voulons ajouter existe ou pas

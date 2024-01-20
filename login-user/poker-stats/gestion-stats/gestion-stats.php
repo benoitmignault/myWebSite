@@ -286,7 +286,7 @@
                 }
                 
                 if (empty($array_Champs['date'])) {
-			        $array_Champs['champ_vide_date'] = true;
+			        $array_Champs['champ_date_vide'] = true;
                 }
 		
 		        $pattern_gain = "#^-?[0-9]{1,3}$#";
@@ -447,7 +447,7 @@
 						}
 					}
 					// vérification au niveau de la date
-					if ($array_Champs['champ_vide_date']) {
+					if ($array_Champs['champ_date_vide']) {
 						$array_Champs['message'] .= "Le champ de la date est vide.<br>";
 					}
 					else {
@@ -523,7 +523,7 @@
 						}
 					}
 					// vérification au niveau de la date
-					if ($array_Champs['champ_vide_date']) {
+					if ($array_Champs['champ_date_vide']) {
 						$array_Champs['message'] .= "The date field is empty.<br>";
 					}
 					else {

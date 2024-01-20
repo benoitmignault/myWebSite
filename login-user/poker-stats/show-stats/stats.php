@@ -647,9 +647,12 @@
     }
     
     function delete_Session(){
-        session_unset(); // détruire toutes les variables SESSION
-        session_destroy();
-        session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
+     
+	    // Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
+	    session_unset(); // détruire toutes les variables SESSION
+	    setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
+	    session_destroy();
+	    session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
     }
     
     function verificationUser($connMYSQL) {

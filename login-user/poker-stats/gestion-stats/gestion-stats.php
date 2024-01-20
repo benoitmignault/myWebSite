@@ -336,7 +336,7 @@
 		        }
 	        }
         }
-		
+  
 		$array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
   
 		return $array_Champs;

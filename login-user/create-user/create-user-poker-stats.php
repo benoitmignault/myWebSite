@@ -6,6 +6,7 @@
  
 	include_once("../../traduction/traduction-login-user.php");
 	include_once("../../includes/fct-connexion-bd.php");
+	include_once("../../includes/fct-divers.php");
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.
@@ -100,22 +101,18 @@
         
         if (empty($array_Champs['user'])){
             $array_Champs['champ_vide_user'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
 		
 		if (empty($array_Champs['email']) ){
 			$array_Champs['champ_vide_email'] = true;
-			$array_Champs['erreur_presente'] = true;
 		}
         
         if (empty($array_Champs['password'])){
             $array_Champs['champ_vide_pwd'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
 		
 		if (empty($array_Champs['password_conf'])){
 			$array_Champs['champ_vide_pwd_conf'] = true;
-			$array_Champs['erreur_presente'] = true;
 		}
 		
 		// Activation de la variable de contrôle
@@ -159,13 +156,11 @@
             $array_Champs['champ_trop_long_pwd'] || $array_Champs['champ_trop_long_pwd_conf']){
             
             $array_Champs['champs_trop_long'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
 		
 		if ($array_Champs['champ_trop_court_user'] || $array_Champs['champ_trop_court_pwd'] || $array_Champs['champ_trop_court_pwd_conf']) {
 			
             $array_Champs['champs_trop_court'] = true;
-			$array_Champs['erreur_presente'] = true;
         }
     
         // On ne doit pas avoir de caractères spéciaux dans l'username
@@ -197,7 +192,6 @@
             $array_Champs['champ_invalid_pwd'] || $array_Champs['champ_invalid_pwd_conf']){
             
             $array_Champs['champs_invalid'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
         
         // Si les password ne sont pas vides, valider qu'ils sont pareil, sinon erreur
@@ -205,7 +199,6 @@
             
             if ($array_Champs['password'] !== $array_Champs['password_conf']){
 	            $array_Champs['champs_pwd_not_equal'] = true;
-                $array_Champs['erreur_presente'] = true;
             }
         }
         
@@ -214,7 +207,6 @@
             
             if ($array_Champs['user'] === $array_Champs['password']){
 	            $array_Champs['champs_user_pwd_equal'] = true;
-	            $array_Champs['erreur_presente'] = true;
             }
         }
 		
@@ -224,8 +216,10 @@
         if ($array_Champs['duplicate_user'] && $array_Champs['duplicate_email']){
             $array_Champs['duplicates'] = true;
         }
-    
-        return $array_Champs;
+		
+		$array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
+		
+		return $array_Champs;
     }
 	
 	/**

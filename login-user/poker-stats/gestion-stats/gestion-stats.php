@@ -179,22 +179,15 @@
 		
 		// Préparation de la requête
 		$stmt = $connMYSQL->prepare($query);
-		try {
-			/* Exécution de la requête */
-			$stmt->execute();
-		} catch (Exception $err){
-			// Récupérer les messages d'erreurs
-			$array_Champs["message_erreur_bd"] = $err->getMessage();
-			
-			// Sera utilisée pour faire afficher le message erreur spécial
-			$array_Champs["erreur_system_bd"] = true;
-		} finally {
-			/* Association des variables de résultat */
-			$result = $stmt->get_result();
-			
-			// Close statement
-			$stmt->close();
-		}
+		
+        /* Exécution de la requête */
+		$stmt->execute();
+		
+		/* Association des variables de résultat */
+		$result = $stmt->get_result();
+		
+		// Close statement
+		$stmt->close();
 		
 		$array_Champs["liste_joueurs"] = recuperation_liste_joueurs($connMYSQL, $result);
   

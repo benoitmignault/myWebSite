@@ -4,6 +4,7 @@
 	
 	include_once("../../../traduction/traduction-gestion-stats.php");
 	include_once("../../../includes/fct-connexion-bd.php");
+	include_once("../../../includes/fct-login-stat-poker-log.php");
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.
@@ -345,7 +346,7 @@
 		
 		return $array_Champs;
 	}
-		
+	
 	// TODO passer à travers
 	function situation_erreur($array_Champs) {
 		
@@ -613,60 +614,6 @@
 		}
 		$array_Champs = initialisationChamps();
 		$array_Champs['message'] = $messageAjout;
-		return $array_Champs;
-	}
-	
-	/**
-	 * Fonction qui sera utilisée pour ajouter un log dans la table pour voir qui se connecter sur la page des statistiques de poker
-	 *
-	 * @param mysqli $connMYSQL
-	 * @param array $array_Champs
-	 * @return array
-	 */// TODO récupérer le id du user pour aller ajoute run log
-	function requete_SQL_ajout_log_connexion(mysqli $connMYSQL, array $array_Champs): array {
-		
-  
-		// Comme j'ai instauré une foreign key entre la table login_stat_poker vers login je dois aller récupérer id pour l'insérer avec la nouvelle combinaison
-		$sql = "select id from login where user = '{$_SESSION['user']}' ";
-		$result_SQL = $connMYSQL->query($sql);
-		$row = $result_SQL->fetch_row();               // C'est mon array de résultat
-		$id = (int)$row[0];                            // Assignation de la valeur
-		date_default_timezone_set('America/New_York'); // Je dois mettre ça si je veux avoir la bonne heure et date dans mon entrée de data
-		$date = date("Y-m-d H:i:s");
-		
-		// Ici, on va saisir une entree dans la BD pour l'admin comme il s'en va vers les statistiques
-		//$insert = "INSERT INTO login_stat_poker (user, date, id_user) VALUES";
-		//$insert .= " ('" . $_SESSION['user'] . "', '" . $date . "', '" . $id . "')";
-		//$connMYSQL->query($insert);
-        
-        
-        // Ici, on va saisir une entrée dans la BD pour savoir qui se connecte aux statistiques de poker
-				
-		$insert = "INSERT INTO";
-		$table = " login_stat_poker ";
-		$colonnes = "(user, date, id_user) ";
-		$values = "VALUES (?, ?, ?)";
-		$query = $insert . $table . $colonnes . $values;
-		
-		// Préparation de la requête
-		$stmt = $connMYSQL->prepare($query);
-		try {
-			/* Lecture des marqueurs */
-			$stmt->bind_param('ssi', $_SESSION['user'],$date, $id);
-			
-			/* Exécution de la requête */
-			$stmt->execute();
-		} catch (Exception $err){
-			// Récupérer les messages d'erreurs
-			$array_Champs["message_erreur_bd"] = $err->getMessage();
-			
-			// Sera utilisée pour faire afficher le message erreur spécial
-			$array_Champs["erreur_system_bd"] = true;
-		} finally {
-			// Fermer la préparation de la requête
-			$stmt->close();
-		}
-		
 		return $array_Champs;
 	}
 	

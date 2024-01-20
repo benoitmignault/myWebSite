@@ -5,6 +5,7 @@
 	include_once("../../../traduction/traduction-gestion-stats.php");
 	include_once("../../../includes/fct-connexion-bd.php");
 	include_once("../../../includes/fct-login-poker-gestion-log.php");
+	include_once("../../../includes/fct-divers.php");
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.
@@ -809,7 +810,7 @@
             <p class='titre'><?php echo $array_Champs["liste_mots"]['p2']; ?></p>
             <form method="post" action="gestion-stats.php" id="form">
                 <div class='formulaire-joueur'>
-                    <div class="joueur <?php if (true) { echo "erreur"; } ?>">
+                    <div class="joueur <?php if ($array_Champs["champ_joueur_vide"]) { echo "erreur"; } ?>">
                         <label for="joueur"><?php echo $array_Champs["liste_mots"]['joueur']; ?></label>
                         <select id="joueur" name="liste_joueurs">
                             <option value=""><?php echo $array_Champs["liste_mots"]['option']; ?></option>

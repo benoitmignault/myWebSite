@@ -857,8 +857,7 @@
                                         <option value="<?php echo $un_joueur; ?>" selected><?php echo $un_joueur; ?></option>
                                     <?php } else { ?>
                                         <option value="<?php echo $un_joueur; ?>"><?php echo $un_joueur; ?></option>
-                                    <?php }
-                            } ?>
+                                    <?php } } ?>
                         </select>
                     </div>
                     <div class="position <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_position_vide"]) { echo "erreur-choix"; } ?>"">

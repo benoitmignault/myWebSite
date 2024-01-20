@@ -225,8 +225,27 @@
 	 * @return array
 	 */
 	function validation_champs(mysqli $connMYSQL, array $array_Champs): array {
-		
-    // TODO passer à travers
+	
+	    // Les validations au moment d'ajouter un nouveau joueur à la liste déjà présente
+        if (isset($_POST['btn_new_player'])) {
+	
+	        $array_Champs['new_player_duplicate'] = requete_SQL_verification_joueur($connMYSQL, $array_Champs["new_player"]);
+        
+        } elseif (isset($_POST['btn_add_stat'])) {
+        
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // TODO passer à travers
 		if (isset($_POST['btn_add_stat'])) {
    
 			if (empty($array_Champs['liste_joueurs']) || empty($array_Champs['gain']) || empty($array_Champs['citron']) ||

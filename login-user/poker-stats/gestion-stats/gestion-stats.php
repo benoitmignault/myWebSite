@@ -357,9 +357,48 @@
 		return $array_Champs;
 	}
 	
- 
- 
- 
+	
+	
+	/**
+	 * Fonction pour aller vérifier si le joueur que nous voulons ajouter existe ou pas
+	 * Cette fonction sera utilisé via la fonction @see validation_champs
+	 * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
+	 * @param string $new_player
+	 * @return bool
+	 */
+	function requete_SQL_verification_joueur(mysqli $connMYSQL, string $new_player): bool {
+		
+		// Comme je fais un SELECT, je ne ferai plus de try / catch
+        $new_player_duplicate = false;
+        
+		$select = "SELECT JOUEUR ";
+		$from = "FROM joueur ";
+		$where = "WHERE joueur = ?";
+		
+		// Préparation de la requête SQL avec les parties nécessaires
+		$query = $select . $from . $where;
+		
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $new_player);
+        
+        /* Exécution de la requête */
+        $stmt->execute();
+        
+		/* Association des variables de résultat */
+		$result = $stmt->get_result();
+		
+		if ($result->num_rows > 0) {
+			$new_player_duplicate = true;
+        }
+		
+		// Close statement
+		$stmt->close();
+        
+        return $new_player_duplicate;
+    }
  
  
  

@@ -778,10 +778,13 @@
 			            //$array_Champs = ajouter_Nouveau_Joueur($connMYSQL, $array_Champs);
                     }
                 }
+                // On va devoir faire une fonction de remise à NULL, certaines variables
             }
-		
+            
 		    $array_Champs["situation"] = situation_erreur($array_Champs);
 	    }
+        
+     
      
 	    // On va faire la traduction, à la fin des GET & POST
 	    // La variable de situation est encore à 0 pour le GET, donc aucun message

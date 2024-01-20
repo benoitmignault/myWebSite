@@ -231,13 +231,11 @@
 	
 	    // Les validations au moment d'ajouter un nouveau joueur à la liste déjà présente
         if (isset($_POST['btn_new_player'])) {
-	
+	        
             // Le seul champ qui sera vérifié pour l'ajout d'un nouveau joueur
 	        if (empty($array_Champs['new_player'])) {
 		        $array_Champs['champ_new_player_vide'] = true;
-		        $array_Champs['tous_champs_vides'] = true;
 		        $array_Champs['erreur_presente'] = true;
-          
 	        } else {
                 $longueur_new_player = strlen($array_Champs['new_player']);
                 
@@ -379,10 +377,6 @@
          
          
          
-         
-         
-         
-        }
         
         
         

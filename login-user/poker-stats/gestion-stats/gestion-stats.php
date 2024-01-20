@@ -849,7 +849,7 @@
             <p class='titre'><?php echo $array_Champs["liste_mots"]['p2']; ?></p>
             <form method="post" action="gestion-stats.php" id="form">
                 <div class='formulaire-joueur'>
-                    <div class="joueur <?php if ($array_Champs["champ_joueur_vide"]) { echo "erreur"; } ?>">
+                    <div class="joueur <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_joueur_vide"]) { echo "erreur"; } ?>">
                         <label for="joueur"><?php echo $array_Champs["liste_mots"]['joueur']; ?></label>
                         <select id="joueur" name="liste_joueurs">
                             <option value=""><?php echo $array_Champs["liste_mots"]['option']; ?></option>
@@ -862,7 +862,7 @@
                             } ?>
                         </select>
                     </div>
-                    <div class="position">
+                    <div class="position <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_position_vide"]) { echo "erreur-choix"; } ?>"">
                         <p class="p-label-pos"><?php echo $array_Champs["liste_mots"]['resultat']; ?></p>
                         <div>
                             <label for="victoire"><?php echo $array_Champs["liste_mots"]['victoire']; ?></label>
@@ -880,25 +880,25 @@
                                    name="position" id="autre" value="autre">
                         </div>
                     </div>
-                    <div class="gain <?php if ($array_Champs["champ_gain_vide"] || $array_Champs["invalid_gain"]) { echo "erreur";} ?>">
+                    <div class="gain <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_gain_vide"] || $array_Champs["invalid_gain"]) { echo "erreur";} ?>">
                         <label for="gain"><?php echo $array_Champs["liste_mots"]['gain']; ?></label>
                         <input maxlength="4" type="text" id="gain" name="gain" value="<?php echo $array_Champs['gain'] ?>">
                     </div>
-                    <div class="numero <?php if ($array_Champs["champ_no_tournois_vide"] || $array_Champs["invalid_no_tournois"]) { echo "erreur"; } ?>">
+                    <div class="numero <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_no_tournois_vide"] || $array_Champs["invalid_no_tournois"]) { echo "erreur"; } ?>">
                         <label for="no_tournois"><?php echo $array_Champs["liste_mots"]['no_tournois']; ?></label>
                         <input maxlength="4" type="text" id="no_tournois" name="no_tournois" value="<?php echo $array_Champs['no_tournois'] ?>">
                     </div>
-                    <div class="date <?php if ($array_Champs["champ_date_vide"] || $array_Champs["invalid_date"]) { echo "erreur"; } ?>">
+                    <div class="date <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_date_vide"] || $array_Champs["invalid_date"]) { echo "erreur"; } ?>">
                         <div class="form-row animate-2">
                             <label for="date">Date :</label>
                             <input type="date" id="date" value="<?php echo $array_Champs['date'] ?>" name="date" data-date='{"startView": 2, "openOnMouseFocus": true}'>
                         </div>
                     </div>
-                    <div class="killer <?php if ($array_Champs["champ_killer_vide"] || $array_Champs["invalid_killer"]) { echo "erreur"; } ?>">
+                    <div class="killer <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_killer_vide"] || $array_Champs["invalid_killer"]) { echo "erreur"; } ?>">
                         <label for="killer"><?php echo $array_Champs["liste_mots"]['killer']; ?></label>
                         <input maxlength="4" type="text" id="killer" name="killer" value="<?php echo $array_Champs['killer'] ?>">
                     </div>
-                    <div class="citron <?php if ($array_Champs["champ_citron_vide"] || $array_Champs["champ_gain_vide"]) { echo "erreur"; } ?>">
+                    <div class="citron <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_citron_vide"] || $array_Champs["champ_gain_vide"]) { echo "erreur"; } ?>">
                         <label for="citron"><?php echo $array_Champs["liste_mots"]['citron']; ?></label>
                         <input maxlength="4" type="text" id="citron" name="citron" value="<?php echo $array_Champs['citron'] ?>">
                     </div>

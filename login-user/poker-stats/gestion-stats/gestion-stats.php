@@ -251,17 +251,17 @@
             // Les validations pour les statistiques d'un joueur
         } elseif (isset($_POST['btn_add_stat'])) {
 	
-	        if (empty($array_Champs['liste_joueurs']) && empty($array_Champs['position']) &&
+	        if (empty($array_Champs['joueur']) && empty($array_Champs['position']) &&
 	            empty($array_Champs['gain']) && $array_Champs['gain'] !== 0 &&
 	            empty($array_Champs['citron']) && $array_Champs['citron'] !== 0 &&
 		        empty($array_Champs['killer']) && $array_Champs['killer'] !== 0 &&
-                empty($array_Champs['no_tournois']) && empty($array_Champs['date'])) {
+                empty($array_Champs['no_tournois']) && $array_Champs['no_tournois'] !== 0 && empty($array_Champs['date'])) {
                 
                 $array_Champs['tous_champs_vides'] = true;
 	        } else {
                 
                 // sous condition propre à chaque champ
-		        if (empty($array_Champs['liste_joueurs'])) {
+		        if (empty($array_Champs['joueur'])) {
 			        $array_Champs['champ_joueur_vide'] = true;
 		        }
           

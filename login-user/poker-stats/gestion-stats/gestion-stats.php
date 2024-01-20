@@ -116,7 +116,10 @@
 		
             // Lorsque nous avons un nouveau joueur
             if (isset($_POST['btn_new_player'])) {
-                $array_Champs["new_player"] = $_POST['new_player'];
+	
+	            if (isset($_POST['new_player'])) {
+		            $array_Champs["new_player"] = $_POST['new_player'];
+	            }
                 
                 // Lorsqu'on veut ajouter les statistiques pour un joueur
             } elseif (isset($_POST['btn_add_stat'])) {

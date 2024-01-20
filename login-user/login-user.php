@@ -5,6 +5,7 @@
 	include_once("../traduction/traduction-login-user.php");
 	include_once("../includes/fct-connexion-bd.php");
 	include_once("../includes/fct-login-poker-gestion-log.php");
+	include_once("../includes/fct-divers.php");
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.
@@ -80,12 +81,10 @@
         
         if (empty($array_Champs['user'])){
             $array_Champs['champ_vide_user'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
     
         if (empty($array_Champs['password'])){
             $array_Champs['champ_vide_pwd'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
         
         // Activation de la variable de contrôle, si on a un des champs vides
@@ -97,20 +96,20 @@
         $pattern_user = "#^[0-9a-z][0-9a-z]{1,13}[0-9a-z]$#";
         if (!preg_match($pattern_user, $array_Champs['user'])) {
             $array_Champs['champ_invalid_user'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
     
         // On ne doit pas avoir de caractères spéciaux dans le mot de passe
         $pattern_pwd = "#^[0-9A-Za-z][0-9A-Za-z]{1,23}[0-9A-Za-z]$#";
         if (!preg_match($pattern_pwd, $array_Champs['password'])) {
             $array_Champs['champ_invalid_pwd'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
         
 	    // Activation de la variable de contrôle, si on a un des champs invalides
         if ($array_Champs['champ_invalid_user'] && $array_Champs['champ_invalid_pwd']){
             $array_Champs['champs_invalid'] = true;
         }
+	
+	    $array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
     
         return $array_Champs;
     }

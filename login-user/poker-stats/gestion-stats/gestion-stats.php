@@ -232,7 +232,42 @@
 	    // Les validations au moment d'ajouter un nouveau joueur à la liste déjà présente
         if (isset($_POST['btn_new_player'])) {
 	
-	        $array_Champs['new_player_duplicate'] = requete_SQL_verification_joueur($connMYSQL, $array_Champs["new_player"]);
+            // Le seul champ qui sera vérifié pour l'ajout d'un nouveau joueur
+	        if (empty($array_Champs['new_player'])) {
+		        $array_Champs['champ_new_player_vide'] = true;
+		        $array_Champs['tous_champs_vides'] = true;
+		        $array_Champs['erreur_presente'] = true;
+          
+	        } else {
+                
+                $longueur_new_player = strlen($array_Champs['new_player']);
+		        if ($longueur_new_player > 25) {
+			        $array_Champs['long_invalid_new_player'] = true;
+			        $array_Champs['erreur_presente'] = true;
+		        }
+		
+		        $pattern_new_player = "#^[A-Z][a-z]+(-[A-Z])?[a-z]+(\s[A-Z][a-z]?)?$#";
+		        if (!preg_match($pattern_new_player, $array_Champs['new_player'])) {
+			        $array_Champs['invalid_new_player'] = true;
+			        $array_Champs['erreur_presente'] = true;
+           
+		        } else {
+                    // Comme le prénom du nouveau joueur est valide, on peut aller le vérifier dans notre table des joueurs
+                    $array_Champs['new_player_duplicate'] = requete_SQL_verification_joueur($connMYSQL, $array_Champs["new_player"]);
+		        }
+	        }
+		       
+	        
+         
+         
+         
+         
+         
+         
+         
+         
+         
+	        
         
         } elseif (isset($_POST['btn_add_stat'])) {
         
@@ -328,34 +363,6 @@
    
    
    
-		} elseif (isset($_POST['btn_new_player'])) {
-			
-            if (empty($array_Champs['new_player'])) {
-	            $array_Champs['champ_new_player_vide'] = true;
-	            $array_Champs['tous_champs_vides'] = true;
-             
-			} else {
-    
-                // TODO refaire ca en fonction avec le joueur passer dans le WHERE
-				$sql = "select joueur from joueur order by joueur";
-				$result = $connMYSQL->query($sql);
-				foreach ($result as $row) {
-					if ($row['joueur'] === $array_Champs['new_player']) {
-						$array_Champs['new_player_duplicate'] = true;
-					}
-				}
-	
-	            $longueurnewJoueur = strlen($array_Champs['new_player']);
-	            if ($longueurnewJoueur > 25) {
-		            $array_Champs['long_invalid_new_player'] = true;
-	            }
-	
-	            $patternNewJoueur = "#^[A-Z]([a-z]{0,11})([-]{0,1})([A-Z]{0,1})([a-z]{1,9})([ ]{0,1})[a-zA-Z]$#";
-	            if (!preg_match($patternNewJoueur, $array_Champs['new_player'])) {
-		            $array_Champs['invalid_new_player'] = true;
-	            }
-			}
-		}
 		
 		return $array_Champs;
 	}

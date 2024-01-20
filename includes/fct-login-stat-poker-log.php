@@ -10,6 +10,7 @@
 	function requete_SQL_ajout_log_connexion(mysqli $connMYSQL, array $array_Champs): array {
 		
 		// Ici, on va saisir une entrée dans la BD pour savoir qui se connecte aux statistiques de poker
+		date_default_timezone_set('America/New_York');
 		$date = date("Y-m-d H:i:s");
 		
 		$insert = "INSERT INTO";

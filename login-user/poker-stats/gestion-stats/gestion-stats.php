@@ -92,6 +92,8 @@
 			    $array_Champs['user_valid'] = true;
 			    // Assignation des informations pour la connexion, pour plus tard
 			    $array_Champs['id_user'] = $row["ID"];
+                // Ajout du champ pour permettre l'utilisation de la fct commune
+			    $array_Champs['user'] = $_SESSION['user'];
 		    }
 	    }
         

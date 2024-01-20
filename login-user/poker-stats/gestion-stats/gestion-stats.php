@@ -734,79 +734,94 @@
 	 */
 	function delete_Session(): void {
 		
-		// Ajout de ces 4 lignes pour bien effacer toutes traces de la session de mon utilisateur - 2018-12-28
-		session_unset(); // détruire toutes les variables SESSION
-		setcookie("POKER", $_SESSION['user'], time() - 3600, "/"); // permettre de détruire bien comme il faut le cookie du user
+        // https://www.php.net/manual/en/function.session-destroy.php
+			
+		// Unset all of the session variables.
+		$_SESSION = array();
+		
+		// If it's desired to kill the session, also delete the session cookie.
+		// Note: This will destroy the session, and not just the session data!
+		if (ini_get("session.use_cookies")) {
+			$params = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 3600,
+				$params["path"], $params["domain"],
+				$params["secure"], $params["httponly"]
+			);
+		}
+		
+		// Finally, destroy the session.
 		session_destroy();
-		session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
 	}
  
-    // TODO trouver une manière d'être rediriger vers la page erreur 404 au lieu d'avoir une erreur de variable qui n'existe plus
-    
 	// Les fonctions communes avant la validation du user
 	session_start();
 	$connMYSQL = connexion();
 	$array_Champs = initialisation();
-	$array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs);
+	$array_Champs['user_valid'] = verif_user_session_valide();
     
-    // On va vérifier si le user est toujours valide via son user et password stocké dans les cookies/Session
+    // On s'assure que la session et cookie soit valide avant aller plus loin.
     if ($array_Champs['user_valid']){
 	
-        // On va remplir les variables nécessaires ici
-	    $array_Champs = remplissage_champs($connMYSQL, $array_Champs);
-        
-	    // La seule chose qui peut arriver dans le GET et au début du POST, ici est une variable de langue invalide
-	    if ($array_Champs["invalid_language"]) {
-		    redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]);
-	    }
+	    $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs);
+        if ($array_Champs['user_valid']){
+         
+	        // On va remplir les variables nécessaires ici
+	        $array_Champs = remplissage_champs($connMYSQL, $array_Champs);
 	
-	    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
-            // Si on veut sortir de la page pour revenir en arrière
-            if (isset($_POST['btn_login']) || isset($_POST['btn_return'])) {
-	            redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]);
-	            
-                // Sinon on veut peut-être aller voir les statistiques de poker
-            } elseif (isset($_POST['btn_voir_stats'])) {
-             
-	            $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
-	            // Maintenant, on peut connecter le user à la page de statistiques
-	            connexion_user();
-                
-            } elseif (isset($_POST['btn_add_stat']) || isset($_POST['btn_new_player'])) {
-                
-                // Maintenant, on va faire nos vérifications sur nos champs
-	            $array_Champs = validation_champs($connMYSQL, $array_Champs);
+	        // La seule chose qui peut arriver dans le GET et au début du POST, ici est une variable de langue invalide
+	        if ($array_Champs["invalid_language"]) {
+		        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"], false);
+	        }
 	
-	            // On vérifie que nous n'avons pas d'erreur dans les validations
-	            if (!$array_Champs['erreur_presente']){
-              
-                    // On appel la bonne fonction en fonction du bouton choisi
-		            if (isset($_POST['btn_add_stat'])){
-			            //$array_Champs = ajout_Stat_Joueur($connMYSQL, $array_Champs);
-                    
-                    } elseif (isset($_POST['btn_new_player'])){
-			            //$array_Champs = ajouter_Nouveau_Joueur($connMYSQL, $array_Champs);
-                    }
-                }
-                // On va devoir faire une fonction de remise à NULL, certaines variables
-            }
-            
-		    $array_Champs["situation"] = situation_erreur($array_Champs);
-	    }
-        
-     
-     
-	    // On va faire la traduction, à la fin des GET & POST
-	    // La variable de situation est encore à 0 pour le GET, donc aucun message
-	    $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
-        
-        // Sinon, on sort directement vers page erreur 404
-    } else {
-	    redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]);
+	        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		
+		        // Si on veut sortir de la page pour revenir en arrière
+		        if (isset($_POST['btn_login']) || isset($_POST['btn_return'])) {
+			        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"], false);
+			
+			        // Sinon on veut peut-être aller voir les statistiques de poker
+		        } elseif (isset($_POST['btn_voir_stats'])) {
+			
+			        $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
+			        // Maintenant, on peut connecter le user à la page de statistiques
+			        connexion_user();
+			
+		        } elseif (isset($_POST['btn_add_stat']) || isset($_POST['btn_new_player'])) {
+			
+			        // Maintenant, on va faire nos vérifications sur nos champs
+			        $array_Champs = validation_champs($connMYSQL, $array_Champs);
+			
+			        // On vérifie que nous n'avons pas d'erreur dans les validations
+			        if (!$array_Champs['erreur_presente']){
+				
+				        // On appel la bonne fonction en fonction du bouton choisi
+				        if (isset($_POST['btn_add_stat'])){
+					        //$array_Champs = ajout_Stat_Joueur($connMYSQL, $array_Champs);
+					
+				        } elseif (isset($_POST['btn_new_player'])){
+					        //$array_Champs = ajouter_Nouveau_Joueur($connMYSQL, $array_Champs);
+				        }
+			        }
+			        // On va devoir faire une fonction de remise à NULL, certaines variables
+		        }
+          
+		        $array_Champs["situation"] = situation_erreur($array_Champs);
+	        }
+         
+	        // On va faire la traduction, à la fin des GET & POST
+	        // La variable de situation est encore à 0 pour le GET, donc aucun message
+	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+         
+        }
     }
-	
+    
+    var_dump($array_Champs); exit;
 	$connMYSQL->close();
+    
+    // Validation finalement, car si un des deux premiers IF est fausse, on va arriver ici, avant tout le reste...
+    if (!$array_Champs['user_valid']) {
+	    redirection($array_Champs["type_langue"], $array_Champs["invalid_language"], true);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $array_Champs["liste_mots"]['lang']; ?>">

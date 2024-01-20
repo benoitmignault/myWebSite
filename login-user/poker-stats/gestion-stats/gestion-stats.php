@@ -91,7 +91,24 @@
         
         return $array_Champs;
     }
- 
+	
+	
+	/**
+     * Fonction servira à vérifier si l'utilisateur a toujours sa session ouverte et ses cookies avant de faire quoi que ce soit.
+     *
+	 * @return bool
+	 */
+    function verif_user_session_valide(): bool {
+	
+	    $user_valid = false;
+	    if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
+		    $user_valid = true;
+	    }
+        
+        return $user_valid;
+    }
+    
+    
 	/**
 	 * Fonction pour setter les premières informations du GET ou POST
 	 * Récupérer la liste des joueurs

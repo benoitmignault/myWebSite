@@ -708,11 +708,10 @@
             if (isset($_POST['btn_login']) || isset($_POST['btn_return'])) {
 	            redirection($array_Champs["type_langue"], $array_Champs["invalid_language"]);
 	            
-                // Sinon on veut peut-être aller voir les statistiques de poker, une fois qu'on a fini d'ajouter les statistiques
+                // Sinon on veut peut-être aller voir les statistiques de poker
             } elseif (isset($_POST['btn_voir_stats'])) {
+             
 	            $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
-                
-                //exit;
 	            // Maintenant, on peut connecter le user à la page de statistiques
 	            connexion_user();
                 

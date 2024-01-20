@@ -345,35 +345,7 @@
 		
 		return $array_Champs;
 	}
-	
-	// TODO déplacer dans requete SQL plus haut
-	function creationListe($connMYSQL, $arrayMots, $champ) {
 		
-		$sql = "select joueur from joueur order by joueur";
-		$result = $connMYSQL->query($sql);
-		
-		if ($_SERVER['REQUEST_METHOD'] === 'GET' || empty($champ['liste_joueurs'])) {
-			$listeJoueurs = "<option value='' selected>{$arrayMots['option']}</option>";
-			foreach ($result as $row) {
-				$listeJoueurs .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
-			}
-		}
-        elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$listeJoueurs = "<option value=''>{$arrayMots['option']}</option>";
-			foreach ($result as $row) {
-				if ($champ['liste_joueurs'] === $row['joueur']) {
-					$listeJoueurs .= "<option value=\"{$row['joueur']}\" selected>{$row['joueur']}</option>";
-				}
-				else {
-					$listeJoueurs .= "<option value=\"{$row['joueur']}\">{$row['joueur']}</option>";
-				}
-			}
-		}
-		
-		return $listeJoueurs;
-	}
-	
-	
 	// TODO passer à travers
 	function situation_erreur($array_Champs) {
 		

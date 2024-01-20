@@ -189,20 +189,7 @@
         
         return $array_Champs;
     }
-	
-	/**
-     * Fonction pour valider que le password est celui qui est dans la BD en faisant une comparaison avec l'encryption
-     *
-	 * @param string $password
-	 * @param string $password_bd
-	 * @return bool
-	 */
-	function validation_password_bd(string $password, string $password_bd): bool {
-    
-        // On compare le password saisie avec celui qui était dans la BD avec le user
-        return password_verify($password, $password_bd);
-    }
-		
+			
 	/**
      * Fonction pour rediriger le user vers la bonne page web, après toutes les validations
      *
@@ -365,8 +352,7 @@
               
 		            // Comme le password a été trouvé, on peut maintenant rediriger le user vers la page des stats de poker ou la page de gestion
 		            if (validation_password_bd($array_Champs["password"], $array_Champs["password_bd"])){
-			
-			            date_default_timezone_set('America/New_York');
+               
 			            // Si le user n'est pas admin pour ajouter des statistiques de poker, on va ajouter tout de suite le log de stat
 			            if (!$array_Champs['user_admin']){
 				            $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);

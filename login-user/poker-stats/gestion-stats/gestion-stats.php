@@ -323,14 +323,8 @@
 		        }
 	        }
         }
-        
-        // Validation que nous avons au moins une erreur, dans le lot
-		foreach ($array_Champs as $element) {
-			if ($element === true) {
-				$array_Champs['erreur_presente'] = true;
-				break; // Arrêter la boucle si un élément correspondant est trouvé
-			}
-		}
+		
+		$array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
   
 		return $array_Champs;
 	}

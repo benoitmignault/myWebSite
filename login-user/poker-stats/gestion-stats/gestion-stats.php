@@ -91,8 +91,7 @@
         
         return $array_Champs;
     }
-	
-	
+		
 	/**
      * Fonction servira à vérifier si l'utilisateur a toujours sa session ouverte et ses cookies avant de faire quoi que ce soit.
      *
@@ -107,7 +106,6 @@
         
         return $user_valid;
     }
-    
     
 	/**
 	 * Fonction pour setter les premières informations du GET ou POST
@@ -816,7 +814,6 @@
         }
     }
     
-    var_dump($array_Champs); exit;
 	$connMYSQL->close();
     
     // Validation finalement, car si un des deux premiers IF est fausse, on va arriver ici, avant tout le reste...

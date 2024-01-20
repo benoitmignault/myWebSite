@@ -4,7 +4,7 @@
 	
 	include_once("../traduction/traduction-login-user.php");
 	include_once("../includes/fct-connexion-bd.php");
-	include_once("../includes/fct-login-stat-poker-log.php");
+	include_once("../includes/fct-login-poker-gestion-log.php");
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.

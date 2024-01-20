@@ -132,11 +132,11 @@
                 }
                 
                 if (isset($_POST['gain'])) {
-                    $array_Champs["gain"] = intval($_POST['gain']);
+                    $array_Champs["gain"] = $_POST['gain'];
                 }
                 
                 if (isset($_POST['no_tournois'])) {
-                    $array_Champs["no_tournois"] = intval($_POST['no_tournois']);
+                    $array_Champs["no_tournois"] = $_POST['no_tournois'];
                 }
                 
                 if (isset($_POST['date'])) {
@@ -144,11 +144,11 @@
                 }
                 
                 if (isset($_POST['killer'])) {
-                    $array_Champs["killer"] = floatval($_POST['killer']);
+                    $array_Champs["killer"] = $_POST['killer'];
                 }
                 
                 if (isset($_POST['citron'])) {
-                    $array_Champs["citron"] = floatval($_POST['citron']);
+                    $array_Champs["citron"] = $_POST['citron'];
                 }
             }
         }
@@ -271,18 +271,30 @@
           
 		        if (empty($array_Champs['no_tournois'])) {
 			        $array_Champs['champ_no_tournois_vide'] = true;
-		        }
+		        } else {
+                    // Conversion string -> INT
+			        $array_Champs['no_tournois'] = intval($array_Champs['no_tournois']);
+                }
           
 		        if (empty($array_Champs['killer']) && $array_Champs['killer'] !== 0) {
 			        $array_Champs['champ_killer_vide'] = true;
+		        } else {
+			        // Conversion string -> INT
+			        $array_Champs['killer'] = intval($array_Champs['killer']);
 		        }
                 
                 if (empty($array_Champs['gain']) && $array_Champs['gain'] !== 0) {
 			        $array_Champs['champ_gain_vide'] = true;
+                } else {
+	                // Conversion string -> INT
+	                $array_Champs['gain'] = intval($array_Champs['gain']);
                 }
                 
                 if (empty($array_Champs['citron']) && $array_Champs['citron'] !== 0) {
 			        $array_Champs['champ_citron_vide'] = true;
+                } else {
+	                // Conversion string -> INT
+	                $array_Champs['citron'] = intval($array_Champs['citron']);
                 }
                 
                 if (empty($array_Champs['date'])) {

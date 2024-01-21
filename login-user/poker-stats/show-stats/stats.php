@@ -624,23 +624,24 @@
         return $tableau;
     }
     
-    function redirection($type_langue) {
+    
+    #[NoReturn] function redirection(mysqli $connMYSQL, string $user, string $type_langue): void {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            delete_Session();
             header("Location: /erreur/erreur.php");
     
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            delete_Session();
+            
             if (isset($_POST['return'])) {
                 if ($type_langue == 'english') {
                     header("Location: /login-user/login-user.php?langue=english");
                 } else {
                     header("Location: /login-user/login-user.php?langue=francais");
                 }
+                
             } elseif (isset($_POST['home'])) {
+                
                 if ($type_langue == 'english') {
                     header("Location: /english/english.html");
-    
                 } else {
                     header("Location: /index.html");
                 }
@@ -648,6 +649,11 @@
                 header("Location: /erreur/erreur.php");
             }
         }
+        
+	    // Avant de détruire la session, on va killer le token
+	    requete_SQL_delete_token_session($connMYSQL, $user);
+	    delete_Session();
+        
         exit; // pour arrêter l'éxecution du code php
     }
     

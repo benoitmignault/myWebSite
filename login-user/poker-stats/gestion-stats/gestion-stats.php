@@ -622,15 +622,18 @@
 	 * Fonction pour rediriger vers la bonne page extérieur à la page de gestion, sauf si
      * la variable $invalid_language est true
      * Pour le transfert vers la page de statistique, on va passer par @see connexion_user
-	 *
+     *
+	 * @param mysqli $connMYSQL
+	 * @param string $user
 	 * @param string $type_langue
 	 * @param bool $invalid_language
      * @param bool $user_invalid
 	 * @return void
 	 */
-	#[NoReturn] function redirection(string $type_langue, bool $invalid_language, bool $user_invalid): void {
+	#[NoReturn] function redirection(mysqli $connMYSQL, string $user, string $type_langue, bool $invalid_language, bool $user_invalid): void {
 		
 		if ($invalid_language || $user_invalid) {
+   
 			header("Location: /erreur/erreur.php");
 			// Sinon, nous sommes sûr à 100%, que nous arrivons dans le POST
 		} else {
@@ -640,8 +643,10 @@
 				
 				// En fonction de la langue
 				if ($type_langue === 'english') {
+     
 					header("Location: /english/english.html");
 				} elseif ($type_langue === 'francais') {
+     
 					header("Location: /index.html");
 				}
                 

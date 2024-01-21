@@ -636,14 +636,13 @@
 			        }
 			        // On va devoir faire une fonction de remise à NULL, certaines variables
 		        }
-		
-		        
-		        $array_Champs["situation"] = situation_erreur($array_Champs);
+		        $array_Champs["liste_situations"] = situation_erreur($array_Champs);
 	        }
          
 	        // On va faire la traduction, à la fin des GET & POST
 	        // La variable de situation est encore à 0 pour le GET, donc aucun message
-	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["liste_situations"]);
+            // TODO -> ajouter le nom du joueur manuellement avec le message
         }
     }
     

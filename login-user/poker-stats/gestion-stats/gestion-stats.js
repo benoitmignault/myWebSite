@@ -83,19 +83,24 @@ function effacement_complet() {
 }
 
 /**
- * Fonction qui s'occupera de remettre aux états originaux les différents champs des pages
- * login-user
- * create-user-poker-stats
+ * Fonction qui s'occupera de remettre aux états originaux les différents champs
  */
 function effacer_tous_les_champs() {
 
+    // Sélectionnez tous les éléments avec la classe '.has-input-buttons'
+    const inputElements = document.querySelectorAll('.has-input-buttons');
+
+    // Parcourez chaque élément et réinitialisez son style
+    inputElements.forEach(function(element) {
+        element.style.border = ""; // Réinitialisez la bordure
+        element.style.background = ""; // Réinitialisez le fond
+    });
     // Section pour ajouter des stats
     reinitialisation_champ(champ_gain);
     reinitialisation_champ(champ_num_tournois);
     reinitialisation_champ(champ_killer);
     reinitialisation_champ(champ_citron);
     reinitialisation_champ(champ_liste_joueurs);
-    reinitialisation_champ(champ_date);
 
     // Sélectionne la première option et désélectionner l'option préalablement choisie
     champ_liste_joueurs.options[0].setAttribute("class", "selected");
@@ -116,6 +121,9 @@ function effacer_tous_les_champs() {
     if (message_erreur != null){
         //message_erreur.remove();
     }
+
+    // TODO - Essayer de trouver une facon d'effacer le champ
+    // reinitialisation_champ(champ_date);
 }
 
 /**

@@ -2,9 +2,12 @@
 	// Les includes nécessaires
 	include_once("../../../traduction/traduction-stats.php");
 	include_once("../../../includes/fct-connexion-bd.php");
+	include_once("../../../includes/fct-login-poker-gestion.php");
     
     function initialisation(){
-        $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "type_langue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");
+        $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", 
+                              "goodUserConnected" => false, "type_langue" => "", "tableauResult" => "", "user_valid" => false, 
+                              "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");
         
         return $array_Champs;
     }

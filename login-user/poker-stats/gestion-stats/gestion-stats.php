@@ -318,11 +318,14 @@
         
         return $new_player_duplicate;
     }
- 
-    
- 
-	
-	function situation_erreur($array_Champs) {
+		
+	/**
+     * Fonction pour trouver toutes les situations d'erreurs ou de messages de succès
+     *
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function situation_erreur(array $array_Champs): array {
 		
 		$liste_situation = array();
 		// On appel la bonne fonction en fonction du bouton choisi

@@ -674,7 +674,7 @@
 	    requete_SQL_delete_token_session($connMYSQL, $user);
 	    delete_Session();
         
-        exit; // pour arrêter l'éxecution du code php
+        exit; // pour arrêter l'exécution du code php
     }
     
     function delete_Session(){

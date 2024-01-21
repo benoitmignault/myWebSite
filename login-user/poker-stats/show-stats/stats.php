@@ -748,81 +748,85 @@
 	session_start();
     $connMYSQL = connexion();
 	$array_Champs = initialisation();
-
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        
-        if (isset($_SESSION['user']) && isset($_SESSION['token_session']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
-	        $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs, $_SESSION['token_session']);
-        } else {
-            redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
-        }
-        
-        // on vérifier si notre user existe en bonne éduforme
-        if (!$array_Champs['user_valid']) {
-            redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
-        } else {
-            $array_Champs = remplissage_Champs($array_Champs);
-    
-            if ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
-                redirection($connMYSQL, $array_Champs["user"], "francais");
-                
-            } else {
-                $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
-    
-                // Insérer ici les triages en conséquence
-                if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
-                    $array_Champs['href'] = lienVersTriage($array_Champs);
-                    $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
-                }
-    
-                $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
-                $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
-                $liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
-                $liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
-                $liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
+	$array_Champs['user_valid'] = verif_user_session_valide();
+	
+	// On s'assure que la session et cookie soit valide avant aller plus loin.
+	if ($array_Champs['user_valid']){
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+			
+			$array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs, $_SESSION['token_session']);
+			if ($array_Champs['user_valid']){
+				
+				$array_Champs = remplissage_Champs($array_Champs);
+				
+				if ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
+					redirection($connMYSQL, $array_Champs["user"], "francais");
+					
+				} else {
+					$arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
+					
+					// Insérer ici les triages en conséquence
+					if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
+						$array_Champs['href'] = lienVersTriage($array_Champs);
+						$array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
+					}
+					
+					$liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
+					$liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
+					$liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
+					$liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
+					$liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
+				}
             }
-        }
-    }
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
-        if (!isset($_SESSION['user']) || !isset($_SESSION['type_langue']) || !isset($_SESSION['token_session']) && !isset($_COOKIE['POKER'])) {
-            redirection($connMYSQL, $array_Champs["user"], "francais");
-            
-        } else {
-	        $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs, $_SESSION['token_session']);
-            $array_Champs = remplissage_Champs($array_Champs);
-    
-            if (!$array_Champs['user_valid']) {
-                redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
+		}
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			
+			$array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs, $_SESSION['token_session']);
+			if ($array_Champs['user_valid']){
                 
-            } elseif ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
-                redirection($connMYSQL, $array_Champs["user"], "francais");
+                $array_Champs = remplissage_Champs($array_Champs);
                 
-            } else {
-                $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
-                
-                if (isset($_POST['method'])) {
-                    addStatAffichageUser($connMYSQL, $array_Champs['user'] );
-                    // Création du lien pour trier via la colonne du Ratio
-    
-                    $array_Champs['href'] = lienVersTriage($array_Champs);
-    
-                    // Faire afficher le tableau en fonction de la méthode choisie
-                    $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
+                // Vérification d'office, même si le risque est faible
+                if ($array_Champs['type_langue'] === "francais" || $array_Champs['type_langue'] === "english"){
                     
+                    $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
+					
+					if (isset($_POST['method'])) {
+						addStatAffichageUser($connMYSQL, $array_Champs['user'] );
+						// Création du lien pour trier via la colonne du Ratio
+						
+						$array_Champs['href'] = lienVersTriage($array_Champs);
+						
+						// Faire afficher le tableau en fonction de la méthode choisie
+						$array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
+      
+						// Faire afficher l'information si elle est précise..
+						$liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
+						$liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
+						$liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
+						$liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
+						$liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
+						
+					} else {
+                        // Nous arrivons ici dans l'optique qu'un des deux boutons de sorties a été peser
+						redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
+					}
+                
                 } else {
-                    redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
+	                // Je suis obliger de remettre à à false, pour sortir en bas pour éviter de faire afficher tout le code
+	                $array_Champs['user_valid'] = false;
                 }
-                // Faire afficher l'information si elle est présise..
-                $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
-                $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
-                $liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
-                $liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
-                $liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
-            }
-        }
+			}
+		}
     }
+	
+	// Validation finalement, car si un des deux premiers IF est fausse, on va arriver ici, avant tout le reste...
+	if (!$array_Champs['user_valid']) {
+		
+		redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
+	}
     
 	$connMYSQL->close();
 ?>

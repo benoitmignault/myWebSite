@@ -34,7 +34,7 @@
     function verif_user_session_valide(): bool {
 	
 	    $user_valid = false;
-	    if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
+	    if (isset($_SESSION['user']) && isset($_SESSION['token_session']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
 		    $user_valid = true;
 	    }
         

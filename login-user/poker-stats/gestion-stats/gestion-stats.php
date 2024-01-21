@@ -830,7 +830,7 @@
                         <label for="tournois"><?php echo $array_Champs["liste_mots"]['no_tournois']; ?></label>
                         <input maxlength="4" type="text" id="tournois" name="no_tournois" value="<?php echo $array_Champs['no_tournois'] ?>">
                     </div>
-                    <div class="date <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_date_vide"] || $array_Champs["invalid_date"]) { echo "erreur"; } ?>">
+                    <div class="date <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_date_vide"] || $array_Champs["invalid_date"]) { echo "erreur-date"; } ?>">
                         <div class="form-row animate-2">
                             <label for="date">Date :</label>
                             <input type="date" id="date" value="<?php echo $array_Champs['date'] ?>" name="date" data-date='{"startView": 2, "openOnMouseFocus": true}'>

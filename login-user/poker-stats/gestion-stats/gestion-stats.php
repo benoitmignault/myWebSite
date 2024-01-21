@@ -748,7 +748,7 @@
 			        // On va devoir faire une fonction de remise à NULL, certaines variables
 		        }
 		
-		        //var_dump($array_Champs); exit;
+		        
 		        $array_Champs["situation"] = situation_erreur($array_Champs);
 	        }
          
@@ -760,8 +760,11 @@
     
     // Validation finalement, car si un des deux premiers IF est fausse, on va arriver ici, avant tout le reste...
     if (!$array_Champs['user_valid']) {
+     
 	    redirection($connMYSQL, $array_Champs["user"], $array_Champs["type_langue"], $array_Champs["invalid_language"], true);
     }
+	
+	//var_dump($array_Champs['user']); exit;
     
 	$connMYSQL->close();
 ?>

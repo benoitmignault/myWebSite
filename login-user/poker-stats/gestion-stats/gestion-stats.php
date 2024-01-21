@@ -52,9 +52,10 @@
 	function remplissage_champs(mysqli $connMYSQL, array $array_Champs): array{
         
 		// Assignation seulement de la langue pour utilisation de traduction et la variable que le user est toujours valide
-        if (isset($_SESSION['type_langue'])) {
-	        $array_Champs["type_langue"] = $_SESSION['type_langue'];
-        }
+        $array_Champs["type_langue"] = $_SESSION['type_langue'];
+		
+        // Ajout du champ pour permettre l'utilisation de la fct commune
+		$array_Champs['user'] = $_SESSION['user'];
 		
 		// Remplissage de la liste de joueurs disponibles pour assignation des statistiques + d'autres variables
 		$array_Champs = requete_SQL_recuperation_liste_joueurs($connMYSQL, $array_Champs);

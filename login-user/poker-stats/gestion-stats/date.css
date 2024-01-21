@@ -79,6 +79,11 @@ label:hover {
     resize: vertical;
 }
 
+.content > form > .formulaire-joueur > .erreur-date > div > .has-input-buttons{
+    border: 2px solid red;
+    background: #FCDEDE;
+}
+
 .input-button-size-2 {
     margin-left: -50px;
 }

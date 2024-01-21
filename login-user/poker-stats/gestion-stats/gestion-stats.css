@@ -126,7 +126,7 @@ body {
     padding-bottom: 10px;
 }
 
-.content > form > .formulaire-joueur > div > .avert {
+.content > form > .formulaire-joueur > div > .good-news {
     margin: 10px 0;
     font-size: 20px;
     color: green;
@@ -135,7 +135,7 @@ body {
     text-align: center;
 }
 
-.content > form > .formulaire-joueur > div > .erreur {
+.content > form > .formulaire-joueur > div > .bad-news {
     margin: 10px 0;
     font-size: 20px;
     color: red;
@@ -276,8 +276,8 @@ label:hover {
         margin-bottom: 10px;
     }
 
-    .content > form > .formulaire-joueur > div > .avert,
-    .content > form > .formulaire-joueur > div > .erreur {
+    .content > form > .formulaire-joueur > div > .good-news,
+    .content > form > .formulaire-joueur > div > .bad-news {
         text-align: justify;
         font-size: 18px;
     }

@@ -132,7 +132,6 @@ body {
     color: green;
     font-weight: bold;
     width: 100%;
-    text-align: center;
 }
 
 .content > form > .formulaire-joueur > div > .bad-news {
@@ -141,7 +140,6 @@ body {
     color: red;
     font-weight: bold;
     width: 100%;
-    text-align: center;
 }
 
 .content > .formulaire-nouveau > div {

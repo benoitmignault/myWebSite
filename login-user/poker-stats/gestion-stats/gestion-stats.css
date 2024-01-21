@@ -54,11 +54,6 @@ body {
     padding-bottom: 10px;
 }
 
-.content > form > .formulaire-joueur > .position{
-    background-color: #b0b0b0;
-}
-
-
 .content > form > .formulaire-joueur .joueur{
     width: 30%;
     margin-bottom: 15px;
@@ -73,12 +68,12 @@ body {
 .content > form > .formulaire-joueur .erreur > select {
     border: 2px solid red;
     background: #FCDEDE;
-    border-radius: 10px;
 }
 
 .content > form > .formulaire-joueur > .position {
     width: 70%;
     margin-bottom: 15px;
+    background-color: #b0b0b0;
 }
 
 .content > form > .formulaire-joueur .erreur-choix{

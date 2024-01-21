@@ -133,25 +133,18 @@
 	
         // Préparation de la requête
         $stmt = $connMYSQL->prepare($query);
-        try {
-	        /* Lecture des marqueurs */
-	        $stmt->bind_param("s", $array_Champs['user']);
-         
-	        /* Exécution de la requête */
-	        $stmt->execute();
-        } catch (Exception $err){
-	        // Récupérer les messages d'erreurs
-	        $array_Champs["message_erreur_bd"] = $err->getMessage();
-         
-	        // Sera utilisée pour faire afficher le message erreur spécial
-	        $array_Champs["erreur_system_bd"] = true;
-        } finally {
-	        /* Association des variables de résultat */
-	        $result = $stmt->get_result();
-         
-	        // Close statement
-	        $stmt->close();
-        }
+        
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $array_Champs['user']);
+     
+        /* Exécution de la requête */
+        $stmt->execute();
+ 
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+     
+        // Close statement
+        $stmt->close();
         
 		// Retourne l'information des informations de connexion, si existant...
 		return recuperation_info_connexion($connMYSQL, $result, $array_Champs);

@@ -42,6 +42,20 @@
 	}
 	
 	/**
+	 * Fonction pour encrypter le password pour ne pas pouvoir le récupérer clairement
+	 * Selon une recommandation :
+	 * https://stackoverflow.com/questions/30279321/how-to-use-password-hash
+	 * On ne doit pas jouer avec le salt....
+	 *
+	 * @param string $password
+	 * @return string
+	 */
+	function encryptement_password(string $password): string {
+		
+		return password_hash($password, PASSWORD_BCRYPT);
+	}
+	
+	/**
 	 * Fonction pour valider que le password est celui qui est dans la BD en faisant une comparaison avec l'encryption
 	 *
 	 * @param string $password

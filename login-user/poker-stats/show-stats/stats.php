@@ -624,12 +624,32 @@
         return $tableau;
     }
     
-    
     #[NoReturn] function redirection(mysqli $connMYSQL, string $user, string $type_langue): void {
+	
+	    // Exceptionnellement, il faut aller récupérer d'urgence la valeur de user dans le input hidden qu'on a sauvegardé
+	    // Au cas où, la session serait terminée, dans le but de nettoyer le token inutile en BD
+        
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+         
+	        // On s'assure par principe que la variable existe, même si on sait qu'elle existe à 100%
+	        if (isset($_GET['user'])) {
+		        $user = $_GET['user'];
+	        }
             header("Location: /erreur/erreur.php");
     
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	
+	        // On s'assure par principe que la variable existe, même si on sait qu'elle existe à 100%
+	        if (isset($_POST['user'])) {
+		        $user = $_POST['user'];
+	        }
+            
+            // Vérifier que la variable langue est non vide, sinon y mettre le francais
+            
+            
+            
+            
+            
             
             if (isset($_POST['return'])) {
                 if ($type_langue == 'english') {

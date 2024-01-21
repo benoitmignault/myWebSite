@@ -79,14 +79,13 @@
 	
 	    // Le tableau résultat existe et il n'est pas null
 	    if (isset($row) && is_array($row)) {
-		
-		    if (validation_password_bd($_SESSION['password'], $row['PASSWORD'])) {
-			    $array_Champs['user_valid'] = true;
-			    // Assignation des informations pour la connexion, pour plus tard
-			    $array_Champs['id_user'] = $row["ID"];
-                // Ajout du champ pour permettre l'utilisation de la fct commune
-			    $array_Champs['user'] = $row['USER'];
-		    }
+		    
+            // Maintenant, le password arrive encrypté
+            $array_Champs['user_valid'] = true;
+            // Assignation des informations pour la connexion, pour plus tard
+            $array_Champs['id_user'] = $row["ID"];
+            // Ajout du champ pour permettre l'utilisation de la fct commune
+            $array_Champs['user'] = $_SESSION['user'];
 	    }
         
         return $array_Champs;

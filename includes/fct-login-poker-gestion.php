@@ -135,8 +135,10 @@
 	/**
 	 * Fonction pour aller mettre à jour le token de session pour le user en cours de connexion
 	 * Au lieu de stocker le password en clair dans les variables de Session
+	 *
 	 * @param mysqli $connMYSQL
 	 * @param array $array_Champs
+	 * @param string $token_session
 	 * @return array
 	 */
 	function requete_SQL_update_token_session(mysqli $connMYSQL, array $array_Champs, string $token_session): array {
@@ -149,6 +151,7 @@
 		// Préparation de la requête
 		$stmt = $connMYSQL->prepare($query);
 		try {
+			
 			/* Lecture des marqueurs */
 			$stmt->bind_param('ss', $token_session, $array_Champs["user"]);
 			

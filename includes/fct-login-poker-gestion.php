@@ -174,3 +174,31 @@
 		
 		return $array_Champs;
 	}
+	
+	/**
+	 * Fonction pour aller détruire le token_session vue que l'utilisateur s'est déconnecté
+	 * On va passer le minimum d'information à la fonction et elle ne retournera rien, car inutile
+	 * On ne va pas caller un try / catch, non plus
+	 *
+	 * @param mysqli $connMYSQL
+	 * @param string $user
+	 */
+	function requete_SQL_delete_token_session(mysqli $connMYSQL, string $user): void {
+		
+		$update = "UPDATE ";
+		$table = "login set token_session = null ";
+		$where = "WHERE user = ?";
+		$query = $update . $table . $where;
+		
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+			
+		/* Lecture des marqueurs */
+		$stmt->bind_param('s', $user);
+		
+		/* Exécution de la requête */
+		$stmt->execute();
+	
+		// Fermer la préparation de la requête
+		$stmt->close();
+	}

@@ -94,7 +94,13 @@ function effacer_tous_les_champs() {
     reinitialisation_champ(champ_num_tournois);
     reinitialisation_champ(champ_killer);
     reinitialisation_champ(champ_citron);
-    reinitialisation_champ(champ_joueur);
+    reinitialisation_champ(champ_liste_joueurs);
+
+    // Sélectionne la première option
+    // TODO impossible à faire déplacer
+    //$(champ_liste_joueurs).prop('selectedIndex',0);
+    //champ_liste_joueurs.selectedIndex = 0;
+    //$(champ_liste_joueurs).prop('selectedIndex',-1);
 
     // Le champ position sera légèrement différent
     if (zone_position != null){

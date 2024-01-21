@@ -67,3 +67,43 @@
 		// On compare le password saisie avec celui qui était dans la BD avec le user
 		return password_verify($password, $password_bd);
 	}
+	
+	/**
+	 * Fonction pour aller mettre à jour le token de session pour le user en cours de connexion
+	 * Au lieu de stocker le password en clair dans les variables de Session
+	 * @param mysqli $connMYSQL
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function requete_SQL_update_token_session(mysqli $connMYSQL, array $array_Champs, string $token_session): array {
+		
+		$update = "UPDATE ";
+		$table = "login set token_session = ? ";
+		$where = "WHERE user = ?";
+		$query = $update . $table . $where;
+		
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+		try {
+			/* Lecture des marqueurs */
+			$stmt->bind_param('ss', $token_session, $array_Champs["user"]);
+			
+			/* Exécution de la requête */
+			$stmt->execute();
+		} catch (Exception $err){
+			// Récupérer les messages d'erreurs
+			$array_Champs["message_erreur_bd"] = $err->getMessage();
+			
+			// Sera utilisée pour faire afficher le message erreur spécial
+			$array_Champs["erreur_system_bd"] = true;
+		} finally {
+			// Vérification qu'on a créé un record
+			if ($stmt->affected_rows === 1){
+				$array_Champs['update_token_success'] = true;
+			}
+			// Fermer la préparation de la requête
+			$stmt->close();
+		}
+		
+		return $array_Champs;
+	}

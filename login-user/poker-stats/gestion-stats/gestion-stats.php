@@ -17,7 +17,7 @@
 	function initialisation(): array {
 		
 		return array("user" => "", "user_valid" => false, "id_user" => 0, "type_langue" => "", "joueur" => "", "gain" => "", "position" => "",
-                     "no_tournois" => "", "date" => "", "killer" => "", "citron" => "", "new_player" => "", "liste_situation" => array(), 
+                     "no_tournois" => "", "date" => "", "killer" => "", "citron" => "", "new_player" => "", "liste_situations" => array(), 
 					 "new_player_adder" => false, "players_stats_adder" => false, 
                      "invalid_gain" => false, "invalid_new_player" => false, "invalid_no_tournois" => false, "invalid_date" => false, "invalid_citron" => false,
                      "invalid_killer" => false, "tous_invalids" => false, "tous_champs_vides" => false, "invalid_language" => false,
@@ -327,69 +327,69 @@
 	 */
 	function situation_erreur(array $array_Champs): array {
 		
-		$liste_situation = array();
+		$liste_situations = array();
 		// On appel la bonne fonction en fonction du bouton choisi
 		if (isset($_POST['btn_add_stat'])){
 		
             // Ajout des stats est un succès
             if ($array_Champs['players_stats_adder']){
-	            $liste_situation[] = 1;
+	            $liste_situations[] = 1;
              
             } else {
                 
                 // Tous les champs sont vides
                 if ($array_Champs['tous_champs_vides']){
-	                $liste_situation[] = 3;
+	                $liste_situations[] = 3;
                 } else {
                     
                     // Une seule situation pour le menu des joueurs
                     if ($array_Champs['champ_joueur_vide']){
-	                    $liste_situation[] = 4;
+	                    $liste_situations[] = 4;
                     }
                     
                     // Une seule situation pour le choix de positions
                     if ($array_Champs['champ_position_vide']){
-	                    $liste_situation[] = 5;
+	                    $liste_situations[] = 5;
                     }
 	
                     // Champ pour le gain
                     if ($array_Champs['champ_gain_vide']){
-	                    $liste_situation[] = 6;
+	                    $liste_situations[] = 6;
                      
                     } elseif ($array_Champs['invalid_gain']){
-	                    $liste_situation[] = 7;
+	                    $liste_situations[] = 7;
                     }
                     
                     // Champ No Tournois
 	                if ($array_Champs['champ_no_tournois_vide']){
-		                $liste_situation[] = 8;
+		                $liste_situations[] = 8;
 		
 	                } elseif ($array_Champs['invalid_no_tournois']){
-		                $liste_situation[] = 9;
+		                $liste_situations[] = 9;
 	                }
                     
                     // Champ Date
 	                if ($array_Champs['champ_date_vide']){
-		                $liste_situation[] = 10;
+		                $liste_situations[] = 10;
 		
 	                } elseif ($array_Champs['invalid_date']){
-		                $liste_situation[] = 11;
+		                $liste_situations[] = 11;
 	                }
 	
 	                // Champ Killer
 	                if ($array_Champs['champ_killer_vide']){
-		                $liste_situation[] = 12;
+		                $liste_situations[] = 12;
 		
 	                } elseif ($array_Champs['invalid_killer']){
-		                $liste_situation[] = 13;
+		                $liste_situations[] = 13;
 	                }
 	
 	                // Champ Citron
 	                if ($array_Champs['champ_citron_vide']){
-		                $liste_situation[] = 14;
+		                $liste_situations[] = 14;
 		
 	                } elseif ($array_Champs['invalid_citron']){
-		                $liste_situation[] = 15;
+		                $liste_situations[] = 15;
 	                }
                 }
             }
@@ -398,24 +398,24 @@
 			
             // Ajout du joueur est un succès
 			if ($array_Champs['new_player_adder']){
-				$liste_situation[] = 2;
+				$liste_situations[] = 2;
 				
 			} else {
 				
 				// Champ pour le nouveau joueur
 				if ($array_Champs['champ_new_player_vide']){
-					$liste_situation[] = 16;
+					$liste_situations[] = 16;
 					
 				} elseif ($array_Champs['invalid_new_player']){
-					$liste_situation[] = 17;
+					$liste_situations[] = 17;
      
 				} elseif ($array_Champs['new_player_duplicate']){
-					$liste_situation[] = 18;
+					$liste_situations[] = 18;
 				}
 			}
 		}
 		
-		return $liste_situation;
+		return $liste_situations;
 	}
 	
 	// TODO regarder ca à la fin

@@ -95,12 +95,13 @@ function effacer_tous_les_champs() {
     reinitialisation_champ(champ_killer);
     reinitialisation_champ(champ_citron);
     reinitialisation_champ(champ_liste_joueurs);
+    reinitialisation_champ(champ_date);
 
-    // Sélectionne la première option et déselectionner l'option préalablement choisie
+    // Sélectionne la première option et désélectionner l'option préalablement choisie
     champ_liste_joueurs.options[0].setAttribute("class", "selected");
     champ_liste_joueurs.options[champ_liste_joueurs.selectedIndex].removeAttribute("selected");
 
-    // Le champ position sera légèrement différent
+    // Le champ position sera légèrement différent, car c'est le div qu'o nva faire changer de couleur
     if (zone_position != null){
         zone_position.style.backgroundColor = "#b0b0b0";
         zone_position.style.border = '1px solid black';

@@ -864,6 +864,7 @@
                     <form method='post' action='stats.php#endroitResultat'>
                         <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $array_Champs['afficher']; ?>">
                         <input id="info_langue" type="hidden" name="langue_Info" value="<?php echo $array_Champs['type_langue']; ?>">
+                        <input type="hidden" name="user" id="user" value="<?php echo $array_Champs['user']; ?>">
                         <table>
                             <thead>
                                 <tr>

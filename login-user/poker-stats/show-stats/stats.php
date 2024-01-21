@@ -766,7 +766,7 @@
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
-        if (!isset($_SESSION['user']) || !isset($_SESSION['type_langue']) || !isset($_SESSION['password']) && !isset($_COOKIE['POKER'])) {
+        if (!isset($_SESSION['user']) || !isset($_SESSION['type_langue']) || !isset($_SESSION['token_session']) && !isset($_COOKIE['POKER'])) {
             redirection($connMYSQL, $array_Champs["user"], "francais");
             
         } else {

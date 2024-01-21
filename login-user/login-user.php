@@ -364,7 +364,7 @@
 			            }
                
 			            // Maintenant, on peut connecter le user à la page nécessaire
-			            connexion_user($array_Champs);
+			            connexion_user($connMYSQL, $array_Champs);
 		            } else {
                         // Si le résultat de la fonction direct dans le IF est faux, alors la variable ici est vrai
 			            $array_Champs['pwd_not_found'] = true;

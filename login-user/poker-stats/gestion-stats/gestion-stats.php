@@ -48,7 +48,7 @@
 		$stmt = $connMYSQL->prepare($query);
 		
         /* Lecture des marqueurs */
-        $stmt->bind_param("s", $_SESSION['user']);
+        $stmt->bind_param("ss", $_SESSION['user'], $_SESSION['password']);
         
         /* Exécution de la requête */
         $stmt->execute();

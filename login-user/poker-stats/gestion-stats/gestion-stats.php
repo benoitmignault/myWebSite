@@ -802,7 +802,8 @@
 			        }
 			        // On va devoir faire une fonction de remise à NULL, certaines variables
 		        }
-          
+		
+		        //var_dump($array_Champs); exit;
 		        $array_Champs["situation"] = situation_erreur($array_Champs);
 	        }
          

@@ -794,8 +794,8 @@
             <form method="post" action="gestion-stats.php" id="form">
                 <div class='formulaire-joueur'>
                     <div class="joueur <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_joueur_vide"]) { echo "erreur"; } ?>">
-                        <label for="joueur"><?php echo $array_Champs["liste_mots"]['joueur']; ?></label>
-                        <select id="joueur" name="liste_joueurs">
+                        <label for="liste-joueurs"><?php echo $array_Champs["liste_mots"]['joueur']; ?></label>
+                        <select id="liste-joueurs" name="liste_joueurs">
                             <option value=""><?php echo $array_Champs["liste_mots"]['option']; ?></option>
                             <?php foreach ($array_Champs["liste_joueurs"] as $un_joueur) {
                                     if ($array_Champs["joueur"] === $un_joueur) { ?>

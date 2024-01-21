@@ -87,14 +87,8 @@ function effacement_complet() {
  */
 function effacer_tous_les_champs() {
 
-    // Sélectionnez tous les éléments avec la classe '.has-input-buttons'
-    const inputElements = document.querySelectorAll('.has-input-buttons');
 
-    // Parcourez chaque élément et réinitialisez son style
-    inputElements.forEach(function(element) {
-        element.style.border = ""; // Réinitialisez la bordure
-        element.style.background = ""; // Réinitialisez le fond
-    });
+
     // Section pour ajouter des stats
     reinitialisation_champ(champ_gain);
     reinitialisation_champ(champ_num_tournois);

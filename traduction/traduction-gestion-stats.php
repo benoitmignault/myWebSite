@@ -95,8 +95,8 @@
 	/**
 	 * Fonction qui va aller chercher le ou les messages nécessaires en français
 	 *
-	 * @param int $situation
-	 * @return string
+	 * @param array $liste_situations
+	 * @return array
 	 */
 	function traduction_situation_francais(array $liste_situations): array {
 		
@@ -108,7 +108,7 @@
 			switch ($situation) {
 				case 1 : $liste_messages[] = "Les statistiques ont été ajoutées avec succès pour : "; break;
 				case 2 : $liste_messages[] = "Le prénom du nouveau joueur a été ajouté avec succès pour : "; break;
-				case 3 : $liste_messages[] = "Tous les champs sont vides et doivent être remplis !";	break;
+				case 3 : $liste_messages[] = "Tous les champs sont vides et doivent être remplis !"; break;
 				case 4 : $liste_messages[] = "Vous devez sélectionner un joueur dans la liste. Il n'existe pas, veuillez l'ajouter dans le champ dans la 2e section de la page !"; break;
 				case 5 : $liste_messages[] = "Vous devez saisir un type de position pour le joueur !"; break;
 				case 6 : $liste_messages[] = "Vous devez saisir un gain pour le joueur !"; break;
@@ -121,9 +121,47 @@
 				case 13 : $liste_messages[] = "Le nombre de killer est invalide, selon nos critères !"; break;
 				case 14 : $liste_messages[] = "Vous devez saisir si le joueur a obtenu un prix citron, sinon indiquer 0 !"; break;
 				case 15 : $liste_messages[] = "La valeur du prix citron est invalide, selon nos critères !"; break;
-				case 16 : $liste_messages[] = "Vous devez fournir le prénom du nouveau joueur aux soirées de poker entre amis !"; break;
+				case 16 : $liste_messages[] = "Vous devez fournir le prénom du nouveau joueur aux soirées de poker !"; break;
 				case 17 : $liste_messages[] = "Le prénom du nouveau joueur est invalide, selon nos critères !"; break;
 				case 18 : $liste_messages[] = "Le prénom du nouveau joueur existe déjà dans notre système, veuillez le choisir en haut !"; break;
+			}
+		}
+		
+		return $liste_messages;
+	}
+	
+	/**
+	 * Fonction qui va aller chercher le message en anglais correspondant à la situation
+	 *
+	 * @param array $liste_situations
+	 * @return array
+	 */
+	function traduction_situation_anglais(array $liste_situations): array {
+		
+		// Préparation de la liste de messages à retourner
+		$liste_messages = array();
+		
+		foreach ($liste_situations as $situation) {
+			
+			switch ($situation) {
+				case 1 : $liste_messages[] = "Statistics have been successfully added for : "; break;
+				case 2 : $liste_messages[] = "The new player's first name has been successfully added for : "; break;
+				case 3 : $liste_messages[] = "All fields are empty and must be completed !"; break;
+				case 4 : $liste_messages[] = "You must select a player from the list. It doesn't exist, please add it to the field in the 2nd section of the page !"; break;
+				case 5 : $liste_messages[] = "You must enter a position type for the player !"; break;
+				case 6 : $liste_messages[] = "You must enter the amount of money the player won !"; break;
+				case 7 : $liste_messages[] = "The amount of money you entered are invalid, according to our criteria!"; break;
+				case 8 : $liste_messages[] = "You must enter the tournament number !"; break;
+				case 9 : $liste_messages[] = "The tournament number is invalid, according to our criteria !"; break;
+				case 10 : $liste_messages[] = "You must enter the date of the tournament in which the player participated !"; break;
+				case 11 : $liste_messages[] = "The date format is invalid, according to our criteria !"; break;
+				case 12 : $liste_messages[] = "You must enter the number of killers that the player obtained during the tournament !"; break;
+				case 13 : $liste_messages[] = "The number of killer is invalid, according to our criteria !"; break;
+				case 14 : $liste_messages[] = "You must enter if the player obtained the lemon prize, otherwise enter 0 !"; break;
+				case 15 : $liste_messages[] = "The value of the lemon prize is invalid, according to our criteria !"; break;
+				case 16 : $liste_messages[] = "You must provide the first name of the new player at poker evenings !"; break;
+				case 17 : $liste_messages[] = "The new player's first name is invalid, according to our criteria !"; break;
+				case 18 : $liste_messages[] = "The new player's first name already exists in our system, please choose it at the top !"; break;
 			}
 		}
 		

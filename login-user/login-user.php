@@ -193,7 +193,8 @@
         // Ouverture du cookie pour laisser une heure de consultation des statistiques de poker
         session_start();
         $_SESSION['user'] = $array_Champs['user'];
-        $_SESSION['password'] = $array_Champs['password'];
+        // Utilisation de la fct pour encrypter le password, ce qui semble fonctionner
+        $_SESSION['password'] = encryptement_password($array_Champs['password']);
         $_SESSION['type_langue'] = $array_Champs["type_langue"];
         
         // On va quand même créer le cookie vue qu'on va dans une zone sensible, soit l'insertion de DATA

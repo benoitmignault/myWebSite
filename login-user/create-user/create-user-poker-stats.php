@@ -7,6 +7,7 @@
 	include_once("../../traduction/traduction-login-user.php");
 	include_once("../../includes/fct-connexion-bd.php");
 	include_once("../../includes/fct-divers.php");
+	include_once("../../includes/fct-login-poker-gestion.php");
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.
@@ -400,21 +401,6 @@
         return $type_situation; // on retourne seulement un numéro qui va nous servicer dans la fct traduction()
     }
     
-	/**
-     * Fonction pour encrypter le password pour ne pas pouvoir le récupérer clairement
-     * Selon une recommandation :
-     * https://stackoverflow.com/questions/30279321/how-to-use-password-hash
-     * On ne doit pas jouer avec le salt....
-     *
-	 * @param string $password
-	 * @return string
-	 */
-    function encryptement_password(string $password): string {
-        
-        return password_hash($password, PASSWORD_BCRYPT);
-    }
-	
-	
 	/**
 	 * Fonction pour rediriger vers la bonne page extérieur à la page du reset de password
 	 * En fonction aussi si le type de langue est valide

@@ -43,18 +43,19 @@
 	
 	/**
 	 * Fonction pour aller vérifier que nos informations dans notre cookie sont toujours avec notre BD
-	 * On va vérifier seulement pour le user avec son password
-	 * On va récupérer aussi le id du user qui sera utile plus tard
+	 * On va vérifier seulement pour le user et son token de session
+	 * On va récupérer aussi le id du user qui sera utilé plus tard
 	 *
 	 * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
 	 * @param array $array_Champs
+	 * @param string $token_session
 	 * @return array
 	 */
-	function requete_SQL_verif_user_valide(mysqli $connMYSQL, array $array_Champs): array {
+	function requete_SQL_verif_user_valide(mysqli $connMYSQL, array $array_Champs, string $token_session): array {
 		
-		$select = "SELECT PASSWORD, ID ";
+		$select = "SELECT ID ";
 		$from = "FROM login ";
-		$where = "WHERE user = ?";
+		$where = "WHERE user = ? AND token_session = ?";
 		
 		// Préparation de la requête SQL avec les parties nécessaires
 		$query = $select . $from . $where;

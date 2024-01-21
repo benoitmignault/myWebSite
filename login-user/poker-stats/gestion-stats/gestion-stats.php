@@ -662,8 +662,11 @@
 				}
 			}
 		}
-		
+        
+        // Avant de détruire la session, on va killer le token
+		requete_SQL_delete_token_session($connMYSQL, $user);
 		delete_Session();
+  
 		exit; // Pour arrêter l'exécution du code php
 	}
 	

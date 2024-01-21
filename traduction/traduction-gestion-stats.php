@@ -100,32 +100,32 @@
 	 */
 	function traduction_situation_francais(array $liste_situations): array {
 		
-		$liste_messages = "";
-		switch ($situation) {
-			case 1 : $message = "Tous les champs sont vides, veuillez saisir quelque chose !"; break;
-			case 2 : $message = "Le champ « Nom d'utilisateur » ne peut pas être vide !"; break;
-			case 3 : $message = "Le champ « Mot de passe » ne peut pas être vide !";	break;
-			case 4 : $message = "Le nom d'utilisateur n'existe pas dans nos informations !"; break;
-			case 5 : $message = "Tous les champs sont invalides, veuillez saisir quelque chose de valide !"; break;
-			case 6 : $message = "Le nom d'utilisateur est invalide !"; break;
-			case 7 : $message = "Le mot de passe est invalide !"; break;
-			case 8 : $message = "Le nom d'utilisateur existe, mais le mot de passe saisi n'est pas celui que nous avons dans nos informations !"; break;
+		// Préparation de la liste de messages à retourner
+		$liste_messages = array();
+		
+		foreach ($liste_situations as $situation) {
 			
-			// Maintenant, ici nous aurons les situations pour la gestion dans la création des users
-			case 10 : $message = "Votre compte a bien été créé, dans notre système. Vous pouvez vous connecter via le bouton « Connexion »"; break;
-			case 12 : $message = "Au moment de créer votre compte, vous avez omis de saisir votre courriel !"; break;
-			case 13 : $message = "Au moment de créer votre compte, vous avez omis de saisir votre mot de passe et de le confirmer !"; break;
-			case 14 : $message = "Au moment de créer votre compte, vous avez omis de saisir votre mot de passe ou de le confirmer une 2e fois !"; break;
-			case 15 : $message = "Au moment de créer votre compte, vous avez omis de saisir votre nom d'utilisateur !"; break;
-			case 16 : $message = "Au moment de créer votre compte, vous n'avez pas saisi la même information dans les champs mot de passes !"; break;
-			case 17 : $message = "Au moment de créer votre compte, vous ne pouvez pas utiliser la même information pour votre nom d'utilisateur et mot de passe !"; break;
-			case 18 : $message = "Au moment de créer votre compte, vous avez saisi une information qui excédait la limite supérieure tolérée par notre système !"; break;
-			case 19 : $message = "Au moment de créer votre compte, vous avez saisi une information qui était invalide par notre système !"; break;
-			case 20 : $message = "Au moment de créer votre compte, vous avez saisi un nom d'utilisateur déjà utilisé par un autre membre du site !"; break;
-			case 21 : $message = "Au moment de créer votre compte, vous avez saisi un courriel déjà utilisé par un autre membre du site !"; break;
-			case 22 : $message = "Au moment de créer votre compte, vous avez saisi une information qui excédait la limite inférieure par notre système !"; break;
-			case 23 : $message = "Au moment de créer votre compte, vous avez saisi un nom d'utilisateur et un courriel déjà utilisés par un autre membre du site !"; break;
+			switch ($situation) {
+				case 1 : $liste_messages[] = "Les statistiques ont été ajoutées avec succès pour : "; break;
+				case 2 : $liste_messages[] = "Le prénom du nouveau joueur a été ajouté avec succès pour : "; break;
+				case 3 : $liste_messages[] = "Tous les champs sont vides et doivent être remplis !";	break;
+				case 4 : $liste_messages[] = "Vous devez sélectionner un joueur dans la liste. Il n'existe pas, veuillez l'ajouter dans le champ dans la 2e section de la page !"; break;
+				case 5 : $liste_messages[] = "Vous devez saisir un type de position pour le joueur !"; break;
+				case 6 : $liste_messages[] = "Vous devez saisir un gain pour le joueur !"; break;
+				case 7 : $liste_messages[] = "Les gains que vous avez saisis sont invalides, selon nos critères !"; break;
+				case 8 : $liste_messages[] = "Vous devez saisir le numéro du tournois !"; break;
+				case 9 : $liste_messages[] = "Le numéro du tournois est invalide, selon nos critères !"; break;
+				case 10 : $liste_messages[] = "Vous devez saisir la date du tournois dont le joueur a participé !"; break;
+				case 11 : $liste_messages[] = "Le format de la date est invalide, selon nos critères !"; break;
+				case 12 : $liste_messages[] = "Vous devez saisir le nombre de killer que le joueur a obtenu durant le tournois !"; break;
+				case 13 : $liste_messages[] = "Le nombre de killer est invalide, selon nos critères !"; break;
+				case 14 : $liste_messages[] = "Vous devez saisir si le joueur a obtenu un prix citron, sinon indiquer 0 !"; break;
+				case 15 : $liste_messages[] = "La valeur du prix citron est invalide, selon nos critères !"; break;
+				case 16 : $liste_messages[] = "Vous devez fournir le prénom du nouveau joueur aux soirées de poker entre amis !"; break;
+				case 17 : $liste_messages[] = "Le prénom du nouveau joueur est invalide, selon nos critères !"; break;
+				case 18 : $liste_messages[] = "Le prénom du nouveau joueur existe déjà dans notre système, veuillez le choisir en haut !"; break;
+			}
 		}
 		
-		return $message;
+		return $liste_messages;
 	}

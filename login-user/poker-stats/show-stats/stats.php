@@ -670,32 +670,6 @@
 	    session_destroy();
     }
     
-    function verificationUser($connMYSQL) {
-        // Optimisation de la vérification si le user existe dans la BD
-        /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("select user, password from login where user=? ");
-    
-        /* Lecture des marqueurs */
-        $stmt->bind_param("s", $_SESSION['user']);
-    
-        /* Exécution de la requête */
-        $stmt->execute();
-    
-        /* Association des variables de résultat */
-        $result = $stmt->get_result();
-        $stmt->close();
-        if ($result->num_rows == 1){
-            $row = $result->fetch_array(MYSQLI_ASSOC);
-            // On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
-            if ($_COOKIE['POKER'] == $row['user']){
-                if (password_verify($_SESSION['password'], $row['password'])) {
-                    return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
-                }
-            }
-        }
-        return false;
-    }
-    
     function addStatAffichageUser($connMYSQL, $user){
         // C'est la méthode que j'ai trouvé trouver la valeur max comme cette valeur va en augmentant
         /* Crée une requête préparée */

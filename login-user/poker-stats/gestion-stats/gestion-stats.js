@@ -18,7 +18,7 @@ const champ_new_player = document.querySelector('#new-player');
 const faire_menage_total = document.querySelector('#faire-menage-total');
 
 // Sélectionnez tous les éléments avec la classe d'erreur
-const message_erreur = document.querySelectorAll('.erreur');
+const section_message = document.querySelector('.liste-message');
 
 /**
  * En fonction de quelle position le joueur a terminé,

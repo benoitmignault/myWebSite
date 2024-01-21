@@ -731,20 +731,20 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         
-        if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
-	        $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs);
+        if (isset($_SESSION['user']) && isset($_SESSION['token_session']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
+	        $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs, $_SESSION['token_session']);
         } else {
-            redirection($array_Champs['type_langue']);
+            redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
         }
         
         // on vérifier si notre user existe en bonne éduforme
         if (!$array_Champs['user_valid']) {
-            redirection($array_Champs['type_langue']);
+            redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
         } else {
             $array_Champs = remplissage_Champs($array_Champs);
     
             if ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
-                redirection("francais");
+                redirection($connMYSQL, $array_Champs["user"], "francais");
                 
             } else {
                 $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
@@ -767,17 +767,17 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (!isset($_SESSION['user']) || !isset($_SESSION['type_langue']) || !isset($_SESSION['password']) && !isset($_COOKIE['POKER'])) {
-            redirection("francais");
+            redirection($connMYSQL, $array_Champs["user"], "francais");
             
         } else {
-	        $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs);
+	        $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs, $_SESSION['token_session']);
             $array_Champs = remplissage_Champs($array_Champs);
     
             if (!$array_Champs['user_valid']) {
-                redirection($array_Champs['type_langue']);
+                redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
                 
             } elseif ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
-                redirection("francais");
+                redirection($connMYSQL, $array_Champs["user"], "francais");
                 
             } else {
                 $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
@@ -787,13 +787,12 @@
                     // Création du lien pour trier via la colonne du Ratio
     
                     $array_Champs['href'] = lienVersTriage($array_Champs);
-                    //var_dump($array_Champs['href']);exit;
     
                     // Faire afficher le tableau en fonction de la méthode choisie
                     $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
                     
                 } else {
-                    redirection($array_Champs['type_langue']);
+                    redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
                 }
                 // Faire afficher l'information si elle est présise..
                 $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
@@ -804,6 +803,7 @@
             }
         }
     }
+    
 	$connMYSQL->close();
 ?>
 <!DOCTYPE html>

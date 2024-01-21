@@ -704,23 +704,22 @@
     // On s'assure que la session et cookie soit valide avant aller plus loin.
     if ($array_Champs['user_valid']){
 	
-	    $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs);
+	    $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs, $_SESSION['token_session']);
         if ($array_Champs['user_valid']){
-	
-	        var_dump($_SESSION); var_dump($array_Champs); exit;
+         
 	        // On va remplir les variables nécessaires ici
 	        $array_Champs = remplissage_champs($connMYSQL, $array_Champs);
 	
 	        // La seule chose qui peut arriver dans le GET et au début du POST, ici est une variable de langue invalide
 	        if ($array_Champs["invalid_language"]) {
-		        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"], false);
+		        redirection($connMYSQL, $array_Champs["user"], $array_Champs["type_langue"], $array_Champs["invalid_language"], false);
 	        }
 	
 	        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		
 		        // Si on veut sortir de la page pour revenir en arrière
 		        if (isset($_POST['btn_login']) || isset($_POST['btn_return'])) {
-			        redirection($array_Champs["type_langue"], $array_Champs["invalid_language"], false);
+			        redirection($connMYSQL, $array_Champs["user"], $array_Champs["type_langue"], $array_Champs["invalid_language"], false);
 			
 			        // Sinon on veut peut-être aller voir les statistiques de poker
 		        } elseif (isset($_POST['btn_voir_stats'])) {
@@ -758,12 +757,12 @@
         }
     }
     
-	$connMYSQL->close();
-    
     // Validation finalement, car si un des deux premiers IF est fausse, on va arriver ici, avant tout le reste...
     if (!$array_Champs['user_valid']) {
-	    redirection($array_Champs["type_langue"], $array_Champs["invalid_language"], true);
+	    redirection($connMYSQL, $array_Champs["user"], $array_Champs["type_langue"], $array_Champs["invalid_language"], true);
     }
+    
+	$connMYSQL->close();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $array_Champs["liste_mots"]['lang']; ?>">

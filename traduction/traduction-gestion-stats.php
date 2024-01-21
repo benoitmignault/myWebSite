@@ -3,7 +3,7 @@
 	/**
 	 * Fonction qui sera utiliser pour traduire le texte dans la page
 	 * Exceptionnellement pour la page de gestions des stats, on va faire appel à un array de situations,
-	 * il y a beaucoup de champs à géreré
+	 * il y a beaucoup de champs à gérer.
 	 *
 	 * @param string $type_langue
 	 * @param array $liste_situation

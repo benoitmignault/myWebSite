@@ -321,214 +321,99 @@
  
     
  
-	// TODO passer à travers
+	
 	function situation_erreur($array_Champs) {
 		
-		/*
-		if (isset($_POST['ajouter_stats'])) {
-			// Nous commençons par la section si la page est en anglais
-			if ($array_Champs['type_langue'] === "francais") {
-				if ($array_Champs['tous_champs_vides']) {
-					$array_Champs['message'] .= "Tous les champs sont vides.<br>";
-				}
-				else {
-					// vérification au niveau du champ joueur
-					if ($array_Champs['champ_joueur_vide']) {
-						$array_Champs['message'] .= "Le champ du joueur est vide.<br>";
-					}
-					// vérification au niveau du champ gain
-					if ($array_Champs['champ_gain_vide']) {
-						$array_Champs['message'] .= "Le champ du gain est vide.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_gain']) {
-							$array_Champs['message'] .= "Le gain est invalide.<br>";
-						}
-						if ($array_Champs['long_invalid_gain']) {
-							$array_Champs['message'] .= "La longueur du gain est invalide.<br>";
-						}
-					}
-					// vérification au niveau du champ killer
-					if ($array_Champs['champ_killer_vide']) {
-						$array_Champs['message'] .= "Le champ du killer est vide.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_killer']) {
-							$array_Champs['message'] .= "Le nombre de killer est invalide.<br>";
-						}
-						if ($array_Champs['long_invalid_killer']) {
-							$array_Champs['message'] .= "La longueur du killer est invalide.<br>";
-						}
-					}
-					// vérification au niveau du champ citron
-					if ($array_Champs['champ_citron_vide']) {
-						$array_Champs['message'] .= "Le champ du prix citron est vide.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_citron']) {
-							$array_Champs['message'] .= "L'attribution du prix citron est invalide.<br>";
-						}
-						if ($array_Champs['long_invalid_citron']) {
-							$array_Champs['message'] .= "La longueur du prix citron est invalide.<br>";
-						}
-					}
-					// vérification au niveau du champ position
-					if ($array_Champs['champ_position_vide']) {
-						$array_Champs['message'] .= "Le champ de la position est vide.<br>";
-					}
-					// vérification au niveau du numéro de tournoi
-					if ($array_Champs['champ_no_tournois_vide']) {
-						$array_Champs['message'] .= "Le champ du no. tournoi est vide.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_no_tournois']) {
-							$array_Champs['message'] .= "Le champ no. du tournoi est invalide.<br>";
-						}
-						if ($array_Champs['long_invalid_no_tournois']) {
-							$array_Champs['message'] .= "La longueur du no. tournoi est invalide.<br>";
-						}
-					}
-					// vérification au niveau de la date
-					if ($array_Champs['champ_date_vide']) {
-						$array_Champs['message'] .= "Le champ de la date est vide.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_date']) {
-							$array_Champs['message'] .= "Le champ de la date est invalide.<br>";
-						}
-						if ($array_Champs['long_invalid_date']) {
-							$array_Champs['message'] .= "Le champ de la date est invalide.<br>";
-						}
-					}
-				}
-				// nous sommes rendu à la section si la page est en anglais
-			}
-            elseif ($array_Champs['type_langue'] === "english") {
-				if ($array_Champs['tous_champs_vides']) {
-					$array_Champs['message'] .= "All fields are empty.<br>";
-				}
-				else {
-					// vérification au niveau du champ joueur
-					if ($array_Champs['champ_joueur_vide']) {
-						$array_Champs['message'] .= "The player's field is empty.<br>";
-					}
-					// vérification au niveau du champ gain
-					if ($array_Champs['champ_gain_vide']) {
-						$array_Champs['message'] .= "The gain field is empty.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_gain']) {
-							$array_Champs['message'] .= "The gain is invalid.<br>";
-						}
-						if ($array_Champs['long_invalid_gain']) {
-							$array_Champs['message'] .= "The length of the gain is invalid.<br>";
-						}
-					}
-					// vérification au niveau du champ killer
-					if ($array_Champs['champ_killer_vide']) {
-						$array_Champs['message'] .= "The killer field is empty.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_killer']) {
-							$array_Champs['message'] .= "The number of killer is invalid.<br>";
-						}
-						if ($array_Champs['long_invalid_killer']) {
-							$array_Champs['message'] .= "The length of the killer is invalid.<br>";
-						}
-					}
-					// vérification au niveau du champ citron
-					if ($array_Champs['champ_citron_vide']) {
-						$array_Champs['message'] .= "The field of the lemon price is empty.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_citron']) {
-							$array_Champs['message'] .= "The award of the lemon prize is invalid.<br>";
-						}
-						if ($array_Champs['long_invalid_citron']) {
-							$array_Champs['message'] .= "The length of the lemon price is invalid.<br>";
-						}
-					}
-					// vérification au niveau du champ position
-					if ($array_Champs['champ_position_vide']) {
-						$array_Champs['message'] .= "The position field is empty.<br>";
-					}
-					// vérification au niveau du numéro de tournoi
-					if ($array_Champs['champ_no_tournois_vide']) {
-						$array_Champs['message'] .= "The field of no. tournament is empty.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_no_tournois']) {
-							$array_Champs['message'] .= "The field no. of the tournament is invalid.<br>";
-						}
-						if ($array_Champs['long_invalid_no_tournois']) {
-							$array_Champs['message'] .= "The length of the no. tournament is invalid.<br>";
-						}
-					}
-					// vérification au niveau de la date
-					if ($array_Champs['champ_date_vide']) {
-						$array_Champs['message'] .= "The date field is empty.<br>";
-					}
-					else {
-						if ($array_Champs['invalid_date']) {
-							$array_Champs['message'] .= "The date field is invalid.<br>";
-						}
-						if ($array_Champs['long_invalid_date']) {
-							$array_Champs['message'] .= "The date field is invalid.<br>";
-						}
-					}
+		$liste_situation = array();
+		// On appel la bonne fonction en fonction du bouton choisi
+		if (isset($_POST['btn_add_stat'])){
+		
+            // Ajout des stats est un succès
+            if ($array_Champs['players_stats_adder']){
+	            $liste_situation[] = 1;
+             
+            } else {
+                
+                // Tous les champs sont vides
+                if ($array_Champs['tous_champs_vides']){
+	                $liste_situation[] = 3;
+                } else {
+                    
+                    // Une seule situation pour le menu des joueurs
+                    if ($array_Champs['champ_joueur_vide']){
+	                    $liste_situation[] = 4;
+                    }
+                    
+                    // Une seule situation pour le choix de positions
+                    if ($array_Champs['champ_position_vide']){
+	                    $liste_situation[] = 5;
+                    }
+	
+                    // Champ pour le gain
+                    if ($array_Champs['champ_gain_vide']){
+	                    $liste_situation[] = 6;
+                     
+                    } elseif ($array_Champs['invalid_gain']){
+	                    $liste_situation[] = 7;
+                    }
+                    
+                    // Champ No Tournois
+	                if ($array_Champs['champ_no_tournois_vide']){
+		                $liste_situation[] = 8;
+		
+	                } elseif ($array_Champs['invalid_no_tournois']){
+		                $liste_situation[] = 9;
+	                }
+                    
+                    // Champ Date
+	                if ($array_Champs['champ_date_vide']){
+		                $liste_situation[] = 10;
+		
+	                } elseif ($array_Champs['invalid_date']){
+		                $liste_situation[] = 11;
+	                }
+	
+	                // Champ Killer
+	                if ($array_Champs['champ_killer_vide']){
+		                $liste_situation[] = 12;
+		
+	                } elseif ($array_Champs['invalid_killer']){
+		                $liste_situation[] = 13;
+	                }
+	
+	                // Champ Citron
+	                if ($array_Champs['champ_citron_vide']){
+		                $liste_situation[] = 14;
+		
+	                } elseif ($array_Champs['invalid_citron']){
+		                $liste_situation[] = 15;
+	                }
+                }
+            }
+		
+		} elseif (isset($_POST['btn_new_player'])){
+			
+            // Ajout du joueur est un succès
+			if ($array_Champs['new_player_adder']){
+				$liste_situation[] = 2;
+				
+			} else {
+				
+				// Champ pour le nouveau joueur
+				if ($array_Champs['champ_new_player_vide']){
+					$liste_situation[] = 16;
+					
+				} elseif ($array_Champs['invalid_new_player']){
+					$liste_situation[] = 17;
+     
+				} elseif ($array_Champs['new_player_duplicate']){
+					$liste_situation[] = 18;
 				}
 			}
 		}
-        elseif (isset($_POST['ajouter_nouveau'])) {
-			if ($array_Champs['type_langue'] === "francais") {
-				if ($array_Champs['champ_new_player_vide']) {
-					$array_Champs['message'] .= "Le champ du nouveau joueur est vide.<br>";
-				}
-				else {
-					if ($array_Champs['invalid_new_player']) {
-						$array_Champs['message'] .= "Le nom du nouveau joueur n'est pas valide.<br>";
-					}
-					if ($array_Champs['long_invalid_new_player']) {
-						$array_Champs['message'] .= "Le nom du nouveau joueur est trop long.<br>";
-					}
-					if ($array_Champs['new_player_duplicate']) {
-						$array_Champs['message'] .= "Le nom du nouveau joueur est déjà présent dans la BD.<br>";
-					}
-				}
-			}
-            elseif ($array_Champs['type_langue'] === "english") {
-				if ($array_Champs['champ_new_player_vide']) {
-					$array_Champs['message'] .= "The new player's field is empty.<br>";
-				}
-				else {
-					if ($array_Champs['invalid_new_player']) {
-						$array_Champs['message'] .= "The name of the new player is invalid.<br>";
-					}
-					if ($array_Champs['long_invalid_new_player']) {
-						$array_Champs['message'] .= "The name of the new player is too long.<br>";
-					}
-					if ($array_Champs['new_player_duplicate']) {
-						$array_Champs['message'] .= "The name of the new player is already present in the BD.<br>";
-					}
-				}
-			}
-		}
-        elseif (isset($_POST['effacer'])) {
-			if ($array_Champs['type_langue'] === "francais") {
-				$array_Champs['message'] = "Tous les array_Champs ont été remis à null et tous les flag de validations ont été remis à faux.<br>";
-			}
-            elseif ($array_Champs['type_langue'] === "english") {
-				$array_Champs['message'] = "All fields have been reset and all validation flags have been overwritten.<br>";
-			}
-		}
-		*/
-		return 0;
+		
+		return $liste_situation;
 	}
-	
-	
-	
-	
-	
 	
 	// TODO regarder ca à la fin
 	function ajout_Stat_Joueur($connMYSQL, $array_Champs) {

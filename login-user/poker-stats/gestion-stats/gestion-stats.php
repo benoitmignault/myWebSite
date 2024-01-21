@@ -17,13 +17,14 @@
 	function initialisation(): array {
 		
 		return array("user" => "", "user_valid" => false, "id_user" => 0, "type_langue" => "", "joueur" => "", "gain" => "", "position" => "",
-                     "no_tournois" => "", "date" => "", "killer" => "", "citron" => "", "new_player" => "", "situation" => 0,
+                     "no_tournois" => "", "date" => "", "killer" => "", "citron" => "", "new_player" => "", "liste_situation" => array(), 
+					 "new_player_adder" => false, "players_stats_adder" => false, 
                      "invalid_gain" => false, "invalid_new_player" => false, "invalid_no_tournois" => false, "invalid_date" => false, "invalid_citron" => false,
                      "invalid_killer" => false, "tous_invalids" => false, "tous_champs_vides" => false, "invalid_language" => false,
 					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 
                      "champ_date_vide" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
-					 "new_player_duplicate" => false, "erreur_presente" => false, "message_erreur_bd" => "", "erreur_system_bd" => false,
-                     "liste_mots" => array(), "liste_joueurs" => array(), "message" => "");
+					 "new_player_duplicate" => false, "erreur_presente" => false,
+                     "liste_mots" => array("liste_messages" => array()), "liste_joueurs" => array(), );
 	}
 	
 	/**

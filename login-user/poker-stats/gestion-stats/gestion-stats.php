@@ -418,6 +418,8 @@
 		return $liste_situations;
 	}
 	
+ 
+ 
 	// TODO regarder ca à la fin
 	function ajout_Stat_Joueur($connMYSQL, $array_Champs) {
 		
@@ -454,6 +456,9 @@
 		return $array_Champs;
 	}
 	
+ 
+ 
+ 
 	// TODO regarder ca à la fin
 	function ajouter_Nouveau_Joueur($connMYSQL, $array_Champs) {
 		
@@ -478,7 +483,6 @@
 		$array_Champs['message'] = $messageAjout;
 		return $array_Champs;
 	}
-	
 	
 	/**
 	 * Fonction pour rediriger le user vers la page web des statistiques et
@@ -648,11 +652,8 @@
     
     // Validation finalement, car si un des deux premiers IF est fausse, on va arriver ici, avant tout le reste...
     if (!$array_Champs['user_valid']) {
-     
 	    redirection($connMYSQL, $array_Champs["user"], $array_Champs["type_langue"], $array_Champs["invalid_language"], true);
     }
-	
-	//var_dump($array_Champs['user']); exit;
     
 	$connMYSQL->close();
 ?>
@@ -741,8 +742,19 @@
                         <input class="bouton" type="submit" name="btn_add_stat" value="<?php echo $array_Champs["liste_mots"]['btn_add_stat']; ?>">
                         <input class="bouton" id="faire-menage-total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_erase']; ?>">
                     </div>
-                    <div class="bas-formulaire">
-                        <p class="<?php if (true) { echo "avert"; } else { echo "erreur"; } ?>"> <?php echo $array_Champs['message']; ?> </p>
+                    <div class="bas-formulaire ">
+	                    <?php // Soit il y a un seul message et qu'il est positif ou négatif
+                            if (count($array_Champs['liste_mots']['liste_messages']) === 1) {
+                                if ($array_Champs['new_player_adder'] || $array_Champs['players_stats_adder']) { ?>
+                                    <p class="good-news"> <?php echo $array_Champs['liste_mots']['liste_messages'][0]; ?></p>
+                                <?php } else { // Sinon, c'est forcément une erreur de manipulation ?>
+                                    <p class="bad-news"> <?php echo $array_Champs['liste_mots']['liste_messages'][0]; ?></p>
+	                            <?php } ?>
+	                            <?php } elseif (count($array_Champs['liste_mots']['liste_messages']) > 1) {
+	                                foreach ($array_Champs['liste_mots']['liste_messages'] as $message) { ?>
+                                        <p class="bad-news"> <?php echo $message; ?></p>
+                                    <?php } ?>
+                            <?php } ?>
                     </div>
                 </div>
             </form>

@@ -25,22 +25,7 @@
 					 "new_player_duplicate" => false, "erreur_presente" => false, "message_erreur_bd" => "", "erreur_system_bd" => false,
                      "liste_mots" => array(), "liste_joueurs" => array(), "message" => "");
 	}
-		
-	/**
-     * Fonction servira à vérifier si l'utilisateur a toujours sa session ouverte et ses cookies avant de faire quoi que ce soit.
-     *
-	 * @return bool
-	 */
-    function verif_user_session_valide(): bool {
 	
-	    $user_valid = false;
-	    if (isset($_SESSION['user']) && isset($_SESSION['token_session']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
-		    $user_valid = true;
-	    }
-        
-        return $user_valid;
-    }
-    
 	/**
 	 * Fonction pour setter les premières informations du GET ou POST
 	 * Récupérer la liste des joueurs

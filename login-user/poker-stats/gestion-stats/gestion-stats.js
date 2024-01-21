@@ -147,11 +147,15 @@ function reinitialisation_champ(champ){
     champ.style.marginBottom = '16px';
 }
 
+// TODO à remplir
+function reinitialisation_champ_apres_succes(){
 
+}
 
 
 document.addEventListener('DOMContentLoaded', function () {
 
     type_position_selected();
     effacement_complet();
+    //reinitialisation_champ_apres_succes();
 });

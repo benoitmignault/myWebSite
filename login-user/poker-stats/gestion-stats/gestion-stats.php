@@ -24,72 +24,7 @@
                      "champ_date_vide" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
 					 "new_player_duplicate" => false, "erreur_presente" => false, "message_erreur_bd" => "", "erreur_system_bd" => false,
                      "liste_mots" => array(), "liste_joueurs" => array(), "message" => "");
-	}	
-
-	/**
-	 * Fonction pour aller vérifier que nos informations dans notre cookie sont toujours avec notre BD
-	 * On va vérifier seulement pour le user avec son password
-     * On va récupérer aussi le id du user qui sera utile plus tard
-	 *
-	 * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
-	 * @param array $array_Champs
-	 * @return array
-	 */
-	function requete_SQL_verif_user_valide(mysqli $connMYSQL, array $array_Champs): array {
-		
-		$select = "SELECT ID ";
-		$from = "FROM login ";
-		$where = "WHERE user = ? AND password = ?";
-		
-		// Préparation de la requête SQL avec les parties nécessaires
-		$query = $select . $from . $where;
-		
-		// Préparation de la requête
-		$stmt = $connMYSQL->prepare($query);
-		
-        /* Lecture des marqueurs */
-        $stmt->bind_param("ss", $_SESSION['user'], $_SESSION['password']);
-        
-        /* Exécution de la requête */
-        $stmt->execute();
-    
-        /* Association des variables de résultat */
-        $result = $stmt->get_result();
-        
-        // Close statement
-        $stmt->close();
-		
-		// Retourne l'information des informations de connexion, si existant...
-		return recuperation_info_user($connMYSQL, $result, $array_Champs);
 	}
-	
-	/**
-     * Fonction qui va retourner si le user est bien valide avec une comparaison positive du password
-     * Cette fonction retournera l'information @see requete_SQL_verif_user_valide
-     *
-	 * @param mysqli $connMYSQL
-	 * @param object $result
-     * @param array $array_Champs
-	 * @return array
-	 */
-    function recuperation_info_user(mysqli $connMYSQL, object $result, array $array_Champs): array {
-	
-	    // Récupération de la seule ligne possible contenu un array
-	    $row = $result->fetch_array(MYSQLI_ASSOC);
-	
-	    // Le tableau résultat existe et il n'est pas null
-	    if (isset($row) && is_array($row)) {
-		    
-            // Maintenant, le password arrive encrypté
-            $array_Champs['user_valid'] = true;
-            // Assignation des informations pour la connexion, pour plus tard
-            $array_Champs['id_user'] = $row["ID"];
-            // Ajout du champ pour permettre l'utilisation de la fct commune
-            $array_Champs['user'] = $_SESSION['user'];
-	    }
-        
-        return $array_Champs;
-    }
 		
 	/**
      * Fonction servira à vérifier si l'utilisateur a toujours sa session ouverte et ses cookies avant de faire quoi que ce soit.
@@ -762,7 +697,8 @@
 	
 	    $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs);
         if ($array_Champs['user_valid']){
-         
+	
+	        var_dump($_SESSION); var_dump($array_Champs); exit;
 	        // On va remplir les variables nécessaires ici
 	        $array_Champs = remplissage_champs($connMYSQL, $array_Champs);
 	

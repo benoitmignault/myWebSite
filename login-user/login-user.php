@@ -181,33 +181,45 @@
         
         return $array_Champs;
     }
-			
+	
 	/**
-     * Fonction pour rediriger le user vers la bonne page web, après toutes les validations
+	 * Fonction pour rediriger le user vers la bonne page web, après toutes les validations
      *
+	 * @param mysqli $connMYSQL
 	 * @param array $array_Champs
 	 * @return void
+	 * @throws Exception
 	 */
-	#[NoReturn] function connexion_user(array $array_Champs): void {
+	#[NoReturn] function connexion_user(mysqli $connMYSQL, array $array_Champs): void {
         
         // Ouverture du cookie pour laisser une heure de consultation des statistiques de poker
         session_start();
         $_SESSION['user'] = $array_Champs['user'];
         // Utilisation de la fct pour encrypter le password, ce qui semble fonctionner
-        $_SESSION['password'] = encryptement_password($array_Champs['password']);
-        $_SESSION['type_langue'] = $array_Champs["type_langue"];
+        $_SESSION['token_session'] = bin2hex(random_bytes(16));
+		$_SESSION['type_langue'] = $array_Champs["type_langue"];
+  
+		$array_Champs = requete_SQL_update_token_session($connMYSQL, $array_Champs, $_SESSION['token_session']);
         
-        // On va quand même créer le cookie vue qu'on va dans une zone sensible, soit l'insertion de DATA
-		setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
-        
-        // Si nous avons un user autre qu'un admin, on démarre le cookie, sinon on va attendre pour l'admin
-        if (!$array_Champs['user_admin']){
-            
-            // Redirection d'un user normal
-	        header("Location: /login-user/poker-stats/show-stats/stats.php");
+        // Nouvelle sécurité
+        if ($array_Champs['update_token_success']){
+         
+	        // On va quand même créer le cookie vue qu'on va dans une zone sensible, soit l'insertion de DATA
+	        setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
+	
+	        // Si nous avons un user autre qu'un admin, on démarre le cookie, sinon on va attendre pour l'admin
+	        if (!$array_Champs['user_admin']){
+		
+		        // Redirection d'un user normal
+		        header("Location: /login-user/poker-stats/show-stats/stats.php");
+	        } else {
+		        // Redirection d'un admin pour faire l'ajout des statistiques de poker
+		        header("Location: /login-user/poker-stats/gestion-stats/gestion-stats.php");
+	        }
+         
         } else {
-            // Redirection d'un admin pour faire l'ajout des statistiques de poker
-	        header("Location: /login-user/poker-stats/gestion-stats/gestion-stats.php");
+            // Sinon, on retourne vers la page web d'erreur
+	        header("Location: /erreur/erreur.php");
         }
         
 		exit;

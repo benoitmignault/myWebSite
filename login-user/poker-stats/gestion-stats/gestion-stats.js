@@ -1,5 +1,5 @@
 // Les champs utilisés pour saisir les statistiques
-const champ_joueur = document.querySelector('#joueur');
+const champ_liste_joueurs = document.getElementById('liste-joueurs');
 const zone_position = document.querySelector('.erreur-choix');
 const champ_position = document.getElementsByName('position');
 

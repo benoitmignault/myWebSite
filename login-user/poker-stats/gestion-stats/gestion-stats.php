@@ -211,27 +211,30 @@
                     // Conversion string -> INT
 			        $array_Champs['no_tournois'] = intval($array_Champs['no_tournois']);
                 }
-          
-		        if (empty($array_Champs['killer']) && $array_Champs['killer'] !== 0) {
-			        $array_Champs['champ_killer_vide'] = true;
-		        } else {
-			        // Conversion string -> INT
+                
+		        // Particularité dans le cas du 0
+		        if (isset($array_Champs['killer'])) {
+			        // Assurez-vous que la valeur est un nombre
 			        $array_Champs['killer'] = intval($array_Champs['killer']);
+		        } else {
+			        $array_Champs['champ_killer_vide'] = true;
 		        }
-                
-                if (empty($array_Champs['gain']) && $array_Champs['gain'] !== 0) {
+          
+		        // Particularité dans le cas du 0
+		        if (isset($array_Champs['gain'])) {
+			        // Assurez-vous que la valeur est un nombre
+			        $array_Champs['gain'] = intval($array_Champs['gain']);
+		        } else {
 			        $array_Champs['champ_gain_vide'] = true;
-                } else {
-	                // Conversion string -> INT
-	                $array_Champs['gain'] = intval($array_Champs['gain']);
-                }
-                
-                if (empty($array_Champs['citron']) && $array_Champs['citron'] !== 0) {
+		        }
+		
+		        // Particularité dans le cas du 0
+		        if (isset($array_Champs['citron'])) {
+			        // Assurez-vous que la valeur est un nombre
+			        $array_Champs['citron'] = intval($array_Champs['citron']);
+		        } else {
 			        $array_Champs['champ_citron_vide'] = true;
-                } else {
-	                // Conversion string -> INT
-	                $array_Champs['citron'] = intval($array_Champs['citron']);
-                }
+		        }
                 
                 if (empty($array_Champs['date'])) {
 			        $array_Champs['champ_date_vide'] = true;

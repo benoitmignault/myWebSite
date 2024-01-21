@@ -883,8 +883,8 @@
                         <input maxlength="4" type="text" id="gain" name="gain" value="<?php echo $array_Champs['gain'] ?>">
                     </div>
                     <div class="numero <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_no_tournois_vide"] || $array_Champs["invalid_no_tournois"]) { echo "erreur"; } ?>">
-                        <label for="no_tournois"><?php echo $array_Champs["liste_mots"]['no_tournois']; ?></label>
-                        <input maxlength="4" type="text" id="no_tournois" name="no_tournois" value="<?php echo $array_Champs['no_tournois'] ?>">
+                        <label for="tournois"><?php echo $array_Champs["liste_mots"]['no_tournois']; ?></label>
+                        <input maxlength="4" type="text" id="tournois" name="no_tournois" value="<?php echo $array_Champs['no_tournois'] ?>">
                     </div>
                     <div class="date <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_date_vide"] || $array_Champs["invalid_date"]) { echo "erreur"; } ?>">
                         <div class="form-row animate-2">
@@ -902,7 +902,7 @@
                     </div>
                     <div class="bas-formulaire">
                         <input class="bouton" type="submit" name="btn_add_stat" value="<?php echo $array_Champs["liste_mots"]['btn_add_stat']; ?>">
-                        <input class="bouton" id="faire_menage_total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_erase']; ?>">
+                        <input class="bouton" id="faire-menage-total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_erase']; ?>">
                     </div>
                     <div class="bas-formulaire">
                         <p class="<?php if (true) { echo "avert"; } else { echo "erreur"; } ?>"> <?php echo $array_Champs['message']; ?> </p>
@@ -911,8 +911,8 @@
             </form>
             <div class="formulaire-nouveau">
                 <div class="<?php if ($array_Champs["champ_new_player_vide"] || $array_Champs["invalid_new_player"] || $array_Champs["new_player_duplicate"]) { echo "erreur"; } ?>">
-                    <label for="new_player"><?php echo $array_Champs["liste_mots"]['new_player']; ?></label>
-                    <input form="form" maxlength="25" type="text" id="new_player" name="new_player" value="<?php echo $array_Champs['new_player'] ?>">
+                    <label for="new-player"><?php echo $array_Champs["liste_mots"]['new_player']; ?></label>
+                    <input form="form" maxlength="25" type="text" id="new-player" name="new_player" value="<?php echo $array_Champs['new_player'] ?>">
                 </div>
                 <div>
                     <input form="form" class="bouton" type="submit" name="btn_new_player" value="<?php echo $array_Champs["liste_mots"]['btn_new_player']; ?>">

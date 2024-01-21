@@ -1,13 +1,15 @@
 <?php
 	
 	/**
-	 * Fonction qui sera utiliser pour traduire le texte dans la page et ainsi que les messages d'erreurs
+	 * Fonction qui sera utiliser pour traduire le texte dans la page
+	 * Exceptionnellement pour la page de gestions des stats, on va faire appel à un array de situations,
+	 * il y a beaucoup de champs à géreré
 	 *
 	 * @param string $type_langue
-	 * @param int $situation
+	 * @param array $liste_situation
 	 * @return array
 	 */
-	function traduction(string $type_langue, int $situation): array {
+	function traduction(string $type_langue, array $liste_situation): array {
 		
 		$liste_mots = array("lang" => "", 'btn_new' => "", 'title' => "", 'killer' => "", 'citron' => "",
 		                     'new_player' => "", 'gain' => "", 'p1' => "", 'victoire' => "", 'fini2e' => "", 'p2' => "",

@@ -807,6 +807,7 @@
             <p class='titre'><?php echo $array_Champs["liste_mots"]['p1']; ?></p>
             <p class='titre'><?php echo $array_Champs["liste_mots"]['p2']; ?></p>
             <form method="post" action="gestion-stats.php" id="form">
+                <input type="hidden" name="user" id="user" value="<?php echo $array_Champs['user']; ?>">
                 <div class='formulaire-joueur'>
                     <div class="joueur <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_joueur_vide"]) { echo "erreur"; } ?>">
                         <label for="liste-joueurs"><?php echo $array_Champs["liste_mots"]['joueur']; ?></label>

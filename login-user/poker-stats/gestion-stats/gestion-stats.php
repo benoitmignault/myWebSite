@@ -37,9 +37,9 @@
 	 */
 	function requete_SQL_verif_user_valide(mysqli $connMYSQL, array $array_Champs): array {
 		
-		$select = "SELECT USER, PASSWORD, ID ";
+		$select = "SELECT ID ";
 		$from = "FROM login ";
-		$where = "WHERE user = ?";
+		$where = "WHERE user = ? AND password = ?";
 		
 		// Préparation de la requête SQL avec les parties nécessaires
 		$query = $select . $from . $where;

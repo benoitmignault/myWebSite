@@ -64,5 +64,30 @@
 			$liste_mots["btn_return"] = "Home";
 		}
 		
+		// Le message qui sera dans la langue voulu
+		$liste_mots["liste_messages"] = traduction_situation($type_langue, $liste_situation);
+		
 		return $liste_mots;
+	}
+	
+	/**
+	 * Fonction pour sélectionner le ou les messages en fonction de la situation
+	 * En français ou en anglais
+	 *
+	 * @param string $type_langue
+	 * @param array $liste_situation
+	 * @return array
+	 */
+	function traduction_situation(string $type_langue, array $liste_situation): array{
+		
+		$liste_messages = array();
+		
+		if ($type_langue === 'francais') {
+			$liste_messages = traduction_situation_francais($liste_situation);
+			
+		} elseif ($type_langue === 'english') {
+			$liste_messages = traduction_situation_anglais($liste_situation);
+		}
+		
+		return $liste_messages;
 	}

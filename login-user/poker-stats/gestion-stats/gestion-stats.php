@@ -745,7 +745,7 @@
                         <input class="bouton" type="submit" name="btn_add_stat" value="<?php echo $array_Champs["liste_mots"]['btn_add_stat']; ?>">
                         <input class="bouton" id="faire-menage-total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_erase']; ?>">
                     </div>
-                    <div class="bas-formulaire ">
+                    <div class="bas-formulaire liste-message">
 	                    <?php // Soit il y a un seul message et qu'il est positif ou négatif
                             if (count($array_Champs['liste_mots']['liste_messages']) === 1) {
                                 if ($array_Champs['new_player_adder'] || $array_Champs['players_stats_adder']) { ?>

@@ -96,11 +96,9 @@ function effacer_tous_les_champs() {
     reinitialisation_champ(champ_citron);
     reinitialisation_champ(champ_liste_joueurs);
 
-    // Sélectionne la première option
-    // TODO impossible à faire déplacer
-    //$(champ_liste_joueurs).prop('selectedIndex',0);
-    //champ_liste_joueurs.selectedIndex = 0;
-    //$(champ_liste_joueurs).prop('selectedIndex',-1);
+    // Sélectionne la première option et déselectionner l'option préalablement choisie
+    champ_liste_joueurs.options[0].setAttribute("class", "selected");
+    champ_liste_joueurs.options[champ_liste_joueurs.selectedIndex].removeAttribute("selected");
 
     // Le champ position sera légèrement différent
     if (zone_position != null){

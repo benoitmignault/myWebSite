@@ -750,13 +750,13 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         
         if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
-            $array_Champs['verificationUser'] = verificationUser($connMYSQL);
+	        $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs);
         } else {
             redirection($array_Champs['type_langue']);
         }
         
         // on vérifier si notre user existe en bonne éduforme
-        if (!$array_Champs['verificationUser'] ) {
+        if (!$array_Champs['user_valid']) {
             redirection($array_Champs['type_langue']);
         } else {
             $array_Champs = remplissage_Champs($array_Champs);
@@ -788,11 +788,12 @@
             redirection("francais");
             
         } else {
-            $verificationUser = verificationUser($connMYSQL);
+	        $array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs);
             $array_Champs = remplissage_Champs($array_Champs);
     
-            if (!$verificationUser) {
+            if (!$array_Champs['user_valid']) {
                 redirection($array_Champs['type_langue']);
+                
             } elseif ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
                 redirection("francais");
                 

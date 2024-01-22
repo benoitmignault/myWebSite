@@ -123,16 +123,16 @@ body {
 
 .content > form > .formulaire-joueur > .bas-formulaire{
     padding-bottom: 10px;
-    width: 40%;
+    width: 35%;
 }
 
 .content > form > .formulaire-joueur > .bas-formulaire:last-of-type {
-    width: 60%;
+    width: 65%;
 }
 
 .content > form > .formulaire-joueur > div > .good-news {
     margin: 10px 0;
-    font-size: 20px;
+    font-size: 18px;
     color: green;
     font-weight: bold;
     width: 100%;
@@ -140,7 +140,7 @@ body {
 
 .content > form > .formulaire-joueur > div > .bad-news {
     margin: 10px 0;
-    font-size: 20px;
+    font-size: 18px;
     color: red;
     font-weight: bold;
     width: 100%;

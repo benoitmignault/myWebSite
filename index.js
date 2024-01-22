@@ -41,7 +41,7 @@ function activation_liste() {
             }
             LISTE.innerHTML += "<li>GIT / GITHUB / GITLAB</li>";
             LISTE.innerHTML += "<li>ANDROID STUDIO & JAVA</li>";
-            LISTE.innerHTML += "<li>WINDOWS 7 / 10 / UBUNTU</li>";
+            LISTE.innerHTML += "<li>WINDOWS 10 / UBUNTU</li>";
         } else if (DIV_LISTE.style.display === 'block') {
             LISTE.innerHTML = "";
             DIV_LISTE.style.display = "";

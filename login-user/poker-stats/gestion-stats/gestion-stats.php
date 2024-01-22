@@ -714,7 +714,7 @@
                                     <?php } } ?>
                         </select>
                     </div>
-                    <div class="position <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_position_vide"]) { echo "erreur-choix"; } ?>"">
+                    <div class="position <?php if ($array_Champs['tous_champs_vides'] || $array_Champs["champ_position_vide"]) { echo "erreur-choix"; } ?>">
                         <p class="p-label-pos"><?php echo $array_Champs["liste_mots"]['resultat']; ?></p>
                         <div>
                             <label for="victoire"><?php echo $array_Champs["liste_mots"]['victoire']; ?></label>

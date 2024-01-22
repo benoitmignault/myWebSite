@@ -182,6 +182,11 @@
                     // Comme le prénom du nouveau joueur est valide, on peut aller le vérifier dans notre table des joueurs
                     $array_Champs['new_player_duplicate'] = requete_SQL_verification_joueur($connMYSQL, $array_Champs["new_player"]);
 		        }
+          
+		        // Information de backup
+                if (!$array_Champs['invalid_new_player'] && !$array_Champs['new_player_duplicate']){
+	                $array_Champs['info_joueur'] = $array_Champs['new_player'];
+                }
 	        }
             
             // Les validations pour les statistiques d'un joueur

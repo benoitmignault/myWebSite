@@ -264,22 +264,27 @@
 		
 		        if (!preg_match($pattern_gain, $array_Champs['gain'])) {
 			        $array_Champs['invalid_gain'] = true;
+			        $array_Champs['gain'] = "";
 		        }
           
 		        if (!preg_match($pattern_no, $array_Champs['no_tournois'])) {
 			        $array_Champs['invalid_no_tournois'] = true;
+			        $array_Champs['no_tournois'] = "";
 		        }
           
 		        if (!preg_match($pattern_date, $array_Champs['date'])) {
 			        $array_Champs['invalid_date'] = true;
+			        $array_Champs['date'] = "";
 		        }
           
 		        if (!preg_match($pattern_killer_citron, $array_Champs['killer'])) {
 			        $array_Champs['invalid_killer'] = true;
+			        $array_Champs['killer'] = "";
 		        }
           
 		        if (!preg_match($pattern_killer_citron, $array_Champs['citron'])) {
 			        $array_Champs['invalid_citron'] = true;
+			        $array_Champs['citron'] = "";
 		        }
 	        }
         }

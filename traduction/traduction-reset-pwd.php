@@ -25,9 +25,9 @@
 			$liste_mots["mdp_Temp"] = "Mot de passe temporaire :";
 			$liste_mots["mdp_1"] = "Nouveau mot de passe :";
 			$liste_mots["mdp_2"] = "Confirmer votre mot de passe :";
-			$liste_mots["btn_create_new_pwd"] = "Enregistrer...";
+			$liste_mots["btn_create_new_pwd"] = "Enregistrer";
 			$liste_mots["btn_login"] = "Se Connecter";
-			$liste_mots["btn_return"] = "Retour à l'accueil";
+			$liste_mots["btn_return"] = "Accueil";
 			
 		} elseif ($type_langue === 'english') {
 			$liste_mots["title"] = "Password is changing !";
@@ -42,7 +42,7 @@
 			$liste_mots["mdp_2"] = "Confirm your password :";
 			$liste_mots["btn_create_new_pwd"] = "Reset password...";
 			$liste_mots["btn_login"] = "Sign in";
-			$liste_mots["btn_return"] = "Home Page";
+			$liste_mots["btn_return"] = "Home";
 		}
 		
 		// Le message qui sera dans la langue voulu

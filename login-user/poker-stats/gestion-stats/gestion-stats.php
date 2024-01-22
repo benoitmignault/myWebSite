@@ -226,7 +226,7 @@
 			        $array_Champs['champ_killer_vide'] = true;
 			
 		        } elseif (is_numeric($array_Champs['killer'])){
-			        $array_Champs['killer'] = intval($array_Champs['killer']);
+			        $array_Champs['killer'] = floatval($array_Champs['killer']);
 		        }
 		
 		        // Particularité dans le cas du 0
@@ -234,7 +234,7 @@
 			        $array_Champs['champ_citron_vide'] = true;
 			
 		        } elseif (is_numeric($array_Champs['citron'])){
-			        $array_Champs['citron'] = intval($array_Champs['citron']);
+			        $array_Champs['citron'] = floatval($array_Champs['citron']);
 		        }
                 
                 if (empty($array_Champs['date'])) {

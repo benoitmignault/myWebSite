@@ -704,7 +704,8 @@
 					        $array_Champs = requete_SQL_ajouter_nouveau_joueur($connMYSQL, $array_Champs);
 				        }
 			        }
-			        // On va devoir faire une fonction de remise à NULL, certaines variables
+			        // On va devoir remettre à NULL certain champs
+			        $array_Champs = re_initialisation($array_Champs);
 		        }
 		        $array_Champs["liste_situations"] = situation_erreur($array_Champs);
 	        }

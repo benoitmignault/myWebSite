@@ -574,7 +574,7 @@
         </div>
         <div class="footer">
             <!-- ici la situation sera lorsque l'envoi par courriel sera un succès -->
-            <div class='avert <?php if ($array_Champs["situation"] != 6) { echo 'erreur'; } ?>'>
+            <div class="<?php if ($array_Champs["situation"] !== 6) { echo 'erreur'; } ?>">
                 <p> <?php echo $array_Champs["liste_mots"]['message']; ?> </p>
             </div>
             <div class="section-retour-btn">

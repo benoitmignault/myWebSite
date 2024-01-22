@@ -435,44 +435,50 @@
 		return $liste_situations;
 	}
 	
- 
- 
-	// TODO regarder ca à la fin
-	function ajout_Stat_Joueur($connMYSQL, $array_Champs) {
+	/**
+     * Fonction pour insérer dans la BD, les statistiques d'une soirée de tournois pour un joueur
+     *
+	 * @param mysqli $connMYSQL
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function requete_SQL_ajouter_stats_joueur(mysqli $connMYSQL, array $array_Champs): array {
 		
+		$insert = "INSERT INTO";
+		$table = " poker ";
+		$colonne = " (joueur, gain, victoire, fini_2e, id_tournoi, date, killer, prixCitron) ";
+		$values = " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		$query = $insert . $table . $colonne . $values;
+  
 		$victoire = "";
 		$fini2e = "";
+  
 		if ($array_Champs["position"] === "victoire") {
 			$victoire = "X";
-		}
-        elseif ($array_Champs["position"] === "fini2e") {
+   
+		} elseif ($array_Champs["position"] === "fini2e") {
 			$fini2e = "X";
 		}
-		$killerFloat = floatval($array_Champs["killer"]);
-		$citronFloat = floatval($array_Champs["citron"]);
-		
-		// Prepare an insert statement
-		$sql = "INSERT INTO poker (joueur,gain,victoire,fini_2e,id_tournoi,date,killer,prixCitron) VALUES (?,?,?,?,?,?,?,?)";
-		$stmt = $connMYSQL->prepare($sql);
+  
+		$stmt = $connMYSQL->prepare($query);
 		
 		// Bind variables to the prepared statement as parameters
-		$stmt->bind_param('sissisdd', $array_Champs["liste_joueurs"], $array_Champs["gain"], $victoire, $fini2e, $array_Champs["no_tournois"], $array_Champs["date"], $killerFloat, $citronFloat);
-		$stmt->execute();
+		$stmt->bind_param('sissisdd', $array_Champs["joueur"], $array_Champs["gain"], $victoire, $fini2e, $array_Champs["no_tournois"], $array_Champs["date"], $array_Champs["killer"], $array_Champs["citron"]);
 		
-		// Close statement
+        // Exécution de la requête
+		if ($stmt->execute()) {
+			// L'insertion a réussi
+			$array_Champs["players_stats_adder"] = true;
+		} else {
+			// L'insertion a échoué
+			$array_Champs["erreur_system_bd"] = true;
+		}
+		
+		// Fermer la préparation de la requête
 		$stmt->close();
-		
-		if ($array_Champs['type_langue'] === "francais") {
-			$messageAjout = "Les informations du joueur {$array_Champs["liste_joueurs"]} a été ajouté à la BD.";
-		}
-        elseif ($array_Champs['type_langue'] === "english") {
-			$messageAjout = "The player information {$array_Champs["liste_joueurs"]} has been added to the BD.";
-		}
-		$array_Champs = initialisationChamps();
-		$array_Champs['message'] = $messageAjout;
+  
 		return $array_Champs;
 	}
-	
 	
 	/**
      * Ajout du nouveau joueur dans la BD pour des futurs utilisations

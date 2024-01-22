@@ -2,6 +2,7 @@
     // Les includes nécessaires
 	include_once("../../traduction/traduction-create-email-temps-pwd.php");
 	include_once("../../includes/fct-connexion-bd.php");
+	include_once("../../includes/fct-divers.php");
     
     // Import PHPMailer classes into the global namespace
 	use JetBrains\PhpStorm\NoReturn;
@@ -141,11 +142,10 @@
         // Section de vérification du seul champs dans la page
         if (empty($array_Champs['email'])){
             $array_Champs['champ_vide'] = true;
-            $array_Champs['erreur_presente'] = true;
+            
         } else {
             if ($array_Champs['longueur_email'] > 50){
                 $array_Champs['champ_trop_long'] = true;
-                $array_Champs['erreur_presente'] = true;
             }
     
             // [:alnum:] -> a-zA-Z0-9
@@ -167,7 +167,6 @@
                 // Si le champ du user est vide, alors l'association du email n'a rien donné
                 if (empty($array_Champs['user'])){
                     $array_Champs['email_inexistant_bd'] = true;
-                    $array_Champs['erreur_presente'] = true;
                 }
                 
                 // Ajout de cette sécurité
@@ -180,17 +179,16 @@
                     if ($current_timestamp < $array_Champs['temps_valide_link']){
                         // Alors, on refuse un nouveau lien
                         $array_Champs['reset_existant'] = true;
-                        $array_Champs['erreur_presente'] = true;
                     }
                     // Sinon, le lien n'est plus valide, donc on va en donner un nouveau
                 }
                 // On va en donner un autre, de tout façon
-            } else {
-                $array_Champs['erreur_presente'] = true;
             }
         }
         
-        return $array_Champs;
+	    $array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
+	
+	    return $array_Champs;
     }
     
     /**
@@ -199,7 +197,7 @@
      * @param array $array_Champs
      * @return int
      */
-    function situation(array $array_Champs): int{
+    function situation_erreur(array $array_Champs): int{
         
         if ($array_Champs['champ_vide']){
             $type_situation = 1;
@@ -489,9 +487,6 @@
         // Si la langue n'est pas setter, on va rediriger vers la page Err 404
         if ($array_Champs["invalid_language"]) {
             redirection("", false); // On n'a pas besoin des variables
-        } else {
-            // La variable de situation est encore à 0 vue qu'il s'est rien passé de grave...
-            $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
         }
     } // Fin du GET pour faire afficher la page web
 
@@ -514,13 +509,15 @@
             
             // Si nous avons eu une erreur dans l'envoi du courriel, nous allons récupérer le message d'erreur spécifique
             if (!$array_Champs["envoi_courriel_echec"]){
-	            $array_Champs["situation"] = situation($array_Champs);
+	            $array_Champs["situation"] = situation_erreur($array_Champs);
             }
-            
-            $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
         }
     }
-    // Fermeture de la connexion sur les BD du serveur
+	// On va faire la traduction, à la fin des GET & POST
+	// La variable de situation est encore à 0 pour le GET, donc aucun message
+	$array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
+	
+	// Fermeture de la connexion sur les BD du serveur
 	$connMYSQL->close();
 ?>
 <!DOCTYPE html>

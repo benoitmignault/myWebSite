@@ -4,6 +4,8 @@
 	
 	include_once("../traduction/traduction-login-user.php");
 	include_once("../includes/fct-connexion-bd.php");
+	include_once("../includes/fct-login-poker-gestion.php");
+	include_once("../includes/fct-divers.php");
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.
@@ -15,7 +17,7 @@
 	function initialisation(): array {
 		
 		return array("user" => "", "password" => "", "password_bd" => "", "situation" => 0, "type_langue" => "", "invalid_language" => false,
-                     "champs_vide" => false, "champ_vide_user" => false, "champ_vide_pwd" => false,
+                     "champs_vide" => false, "champ_vide_user" => false, "champ_vide_pwd" => false, "update_token_success" => false,
                      "champs_invalid" => false, "champ_invalid_user" => false, "champ_invalid_pwd" => false, 
                      "user_not_found" => false, "pwd_not_found" => false, "user_admin" => false, "message_erreur_bd" => "",
                      "erreur_system_bd" => false, "erreur_presente" => false, "id_user" => 0, "liste_mots" => array());
@@ -72,19 +74,17 @@
 	 * Fonction qui servira à mettre à «True» les variables de contrôles des informations
      * que nous avons associé durant la fonction @see remplissage_champs
      *
-	 * @param $array_Champs
+	 * @param array $array_Champs
 	 * @return array
 	 */
-    function validation_champs($array_Champs): array {
+    function validation_champs(array $array_Champs): array {
         
         if (empty($array_Champs['user'])){
             $array_Champs['champ_vide_user'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
     
         if (empty($array_Champs['password'])){
             $array_Champs['champ_vide_pwd'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
         
         // Activation de la variable de contrôle, si on a un des champs vides
@@ -96,20 +96,20 @@
         $pattern_user = "#^[0-9a-z][0-9a-z]{1,13}[0-9a-z]$#";
         if (!preg_match($pattern_user, $array_Champs['user'])) {
             $array_Champs['champ_invalid_user'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
     
         // On ne doit pas avoir de caractères spéciaux dans le mot de passe
         $pattern_pwd = "#^[0-9A-Za-z][0-9A-Za-z]{1,23}[0-9A-Za-z]$#";
         if (!preg_match($pattern_pwd, $array_Champs['password'])) {
             $array_Champs['champ_invalid_pwd'] = true;
-	        $array_Champs['erreur_presente'] = true;
         }
         
 	    // Activation de la variable de contrôle, si on a un des champs invalides
         if ($array_Champs['champ_invalid_user'] && $array_Champs['champ_invalid_pwd']){
             $array_Champs['champs_invalid'] = true;
         }
+	
+	    $array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
     
         return $array_Champs;
     }
@@ -133,25 +133,18 @@
 	
         // Préparation de la requête
         $stmt = $connMYSQL->prepare($query);
-        try {
-	        /* Lecture des marqueurs */
-	        $stmt->bind_param("s", $array_Champs['user']);
-         
-	        /* Exécution de la requête */
-	        $stmt->execute();
-        } catch (Exception $err){
-	        // Récupérer les messages d'erreurs
-	        $array_Champs["message_erreur_bd"] = $err->getMessage();
-         
-	        // Sera utilisée pour faire afficher le message erreur spécial
-	        $array_Champs["erreur_system_bd"] = true;
-        } finally {
-	        /* Association des variables de résultat */
-	        $result = $stmt->get_result();
-         
-	        // Close statement
-	        $stmt->close();
-        }
+        
+        /* Lecture des marqueurs */
+        $stmt->bind_param("s", $array_Champs['user']);
+     
+        /* Exécution de la requête */
+        $stmt->execute();
+ 
+        /* Association des variables de résultat */
+        $result = $stmt->get_result();
+     
+        // Close statement
+        $stmt->close();
         
 		// Retourne l'information des informations de connexion, si existant...
 		return recuperation_info_connexion($connMYSQL, $result, $array_Champs);
@@ -190,83 +183,43 @@
     }
 	
 	/**
-     * Fonction pour valider que le password est celui qui est dans la BD en faisant une comparaison avec l'encryption
-     *
-	 * @param string $password
-	 * @param string $password_bd
-	 * @return bool
-	 */
-	function validation_password_bd(string $password, string $password_bd): bool {
-    
-        // On compare le password saisie avec celui qui était dans la BD avec le user
-        return password_verify($password, $password_bd);
-    }
-		
-	/**
-     * Fonction qui sera utilisée pour ajouter un log dans la table pour voir qui se connecter sur la page des statistiques de poker
+	 * Fonction pour rediriger le user vers la bonne page web, après toutes les validations
      *
 	 * @param mysqli $connMYSQL
 	 * @param array $array_Champs
-	 * @return array
-	 */
-    function requete_SQL_ajout_log_connexion(mysqli $connMYSQL, array $array_Champs): array {
-	    
-        // Ici, on va saisir une entrée dans la BD pour savoir qui se connecte aux statistiques de poker
-	    $date = date("Y-m-d H:i:s");
-	    
-        $insert = "INSERT INTO";
-        $table = " login_stat_poker ";
-        $colonnes = "(user, date, id_user) ";
-        $values = "VALUES (?, ?, ?)";
-	    $query = $insert . $table . $colonnes . $values;
-     
-	    // Préparation de la requête
-	    $stmt = $connMYSQL->prepare($query);
-	    try {
-		    /* Lecture des marqueurs */
-		    $stmt->bind_param('ssi', $array_Champs["user"],$date, $array_Champs["id_user"]);
-		
-		    /* Exécution de la requête */
-		    $stmt->execute();
-	    } catch (Exception $err){
-		    // Récupérer les messages d'erreurs
-		    $array_Champs["message_erreur_bd"] = $err->getMessage();
-      
-		    // Sera utilisée pour faire afficher le message erreur spécial
-		    $array_Champs["erreur_system_bd"] = true;
-	    } finally {
-		    // Fermer la préparation de la requête
-		    $stmt->close();
-	    }
-        
-        return $array_Champs;
-    }
-	
-	/**
-     * Fonction pour rediriger le user vers la bonne page web, après toutes les validations
-     *
-	 * @param array $array_Champs
 	 * @return void
+	 * @throws Exception
 	 */
-	#[NoReturn] function connexion_user(array $array_Champs): void {
+	#[NoReturn] function connexion_user(mysqli $connMYSQL, array $array_Champs): void {
         
         // Ouverture du cookie pour laisser une heure de consultation des statistiques de poker
         session_start();
         $_SESSION['user'] = $array_Champs['user'];
-        $_SESSION['password'] = $array_Champs['password'];
-        $_SESSION['type_langue'] = $array_Champs["type_langue"];
+        // Utilisation de la fct pour encrypter le password, ce qui semble fonctionner
+        $_SESSION['token_session'] = bin2hex(random_bytes(16));
+		$_SESSION['type_langue'] = $array_Champs["type_langue"];
+  
+		$array_Champs = requete_SQL_update_token_session($connMYSQL, $array_Champs, $_SESSION['token_session']);
         
-        // On va quand même créer le cookie vue qu'on va dans une zone sensible, soit l'insertion de DATA
-		setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
-        
-        // Si nous avons un user autre qu'un admin, on démarre le cookie, sinon on va attendre pour l'admin
-        if (!$array_Champs['user_admin']){
-            
-            // Redirection d'un user normal
-	        header("Location: /login-user/poker-stats/show-stats/stats.php");
+        // Nouvelle sécurité
+        if ($array_Champs['update_token_success']){
+         
+	        // On va quand même créer le cookie vue qu'on va dans une zone sensible, soit l'insertion de DATA
+	        setcookie("POKER", $_SESSION['user'], time() + 3600, "/");
+	
+	        // Si nous avons un user autre qu'un admin, on démarre le cookie, sinon on va attendre pour l'admin
+	        if (!$array_Champs['user_admin']){
+		
+		        // Redirection d'un user normal
+		        header("Location: /login-user/poker-stats/show-stats/stats.php");
+	        } else {
+		        // Redirection d'un admin pour faire l'ajout des statistiques de poker
+		        header("Location: /login-user/poker-stats/gestion-stats/gestion-stats.php");
+	        }
+         
         } else {
-            // Redirection d'un admin pour faire l'ajout des statistiques de poker
-	        header("Location: /login-user/poker-stats/gestion-stats/gestion-stats.php");
+            // Sinon, on retourne vers la page web d'erreur
+	        header("Location: /erreur/erreur.php");
         }
         
 		exit;
@@ -404,15 +357,14 @@
               
 		            // Comme le password a été trouvé, on peut maintenant rediriger le user vers la page des stats de poker ou la page de gestion
 		            if (validation_password_bd($array_Champs["password"], $array_Champs["password_bd"])){
-			
-			            date_default_timezone_set('America/New_York');
+               
 			            // Si le user n'est pas admin pour ajouter des statistiques de poker, on va ajouter tout de suite le log de stat
 			            if (!$array_Champs['user_admin']){
 				            $array_Champs = requete_SQL_ajout_log_connexion($connMYSQL, $array_Champs);
 			            }
                
 			            // Maintenant, on peut connecter le user à la page nécessaire
-			            connexion_user($array_Champs);
+			            connexion_user($connMYSQL, $array_Champs);
 		            } else {
                         // Si le résultat de la fonction direct dans le IF est faux, alors la variable ici est vrai
 			            $array_Champs['pwd_not_found'] = true;
@@ -431,7 +383,7 @@
             }
         }
     }
-    // On va faire la traduction, à la fin des GEt & POST
+    // On va faire la traduction, à la fin des GET & POST
 	// La variable de situation est encore à 0 pour le GET, donc aucun message
 	$array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
  
@@ -489,7 +441,7 @@
                         </div>
                         <div class="section-reset-btn">
                             <input class="bouton" type='submit' name='btn_login' value="<?php echo $array_Champs["liste_mots"]['btn_login']; ?>">
-                            <input class="bouton" id="faire_menage_total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_reset']; ?>">
+                            <input class="bouton" id="faire-menage-total" type="reset" value="<?php echo $array_Champs["liste_mots"]['btn_reset']; ?>">
                             <input class="bouton" type='submit' name='btn_sign_up' value="<?php echo $array_Champs["liste_mots"]['btn_sign_up']; ?>">
                             <input class="bouton" type='submit' name='btn_reset_pwd' value="<?php echo $array_Champs["liste_mots"]['btn_reset_pwd']; ?>">
                             <input type='hidden' name='langue' value="<?php echo $array_Champs['type_langue']; ?>">

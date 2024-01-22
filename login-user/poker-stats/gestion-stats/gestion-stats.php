@@ -288,15 +288,17 @@
 		        }
 	        }
         }
-  
+        
+        // Cette fonction est dans le fichier /includes/fct-divers.php
 		$array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
-  
+        
 		return $array_Champs;
 	}
 	
 	/**
 	 * Fonction pour aller vérifier si le joueur que nous voulons ajouter existe ou pas
 	 * Cette fonction sera utilisé via la fonction @see validation_champs
+     *
 	 * @param mysqli $connMYSQL -> connexion aux tables de benoitmignault.ca
 	 * @param string $new_player
 	 * @return bool

@@ -18,7 +18,7 @@
 		
 		return array("user" => "", "user_valid" => false, "id_user" => 0, "type_langue" => "", "joueur" => "", "gain" => "", "position" => "",
                      "no_tournois" => "", "date" => "", "killer" => "", "citron" => "", "new_player" => "", "liste_situations" => array(), 
-					 "new_player_adder" => false, "players_stats_adder" => false, 
+					 "new_player_adder" => false, "players_stats_adder" => false, "info_joueur" => "",
                      "invalid_gain" => false, "invalid_new_player" => false, "invalid_no_tournois" => false, "invalid_date" => false, "invalid_citron" => false,
                      "invalid_killer" => false, "tous_invalids" => false, "tous_champs_vides" => false, "invalid_language" => false,
 					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 

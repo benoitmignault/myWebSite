@@ -230,6 +230,9 @@
     }
     
     /**
+     * Création du courriel qui sera envoyer à l'usagé
+     * Avec différentes étapes de préparations du courriel et contenu de ce dernier
+     *
      * @param array $array_Champs
      * @return array
      */

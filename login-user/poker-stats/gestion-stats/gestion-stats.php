@@ -487,7 +487,7 @@
 	 * @param array$array_Champs
 	 * @return array
 	 */
-	function ajouter_nouveau_joueur(mysqli $connMYSQL, array $array_Champs): array {
+	function requete_SQL_ajouter_nouveau_joueur(mysqli $connMYSQL, array $array_Champs): array {
 		
 		$insert = "INSERT INTO";
 		$table = " joueur ";
@@ -664,10 +664,10 @@
 				
 				        // On appel la bonne fonction en fonction du bouton choisi
 				        if (isset($_POST['btn_add_stat'])){
-					        //$array_Champs = ajout_Stat_Joueur($connMYSQL, $array_Champs);
+					        $array_Champs = requete_SQL_ajouter_stats_joueur($connMYSQL, $array_Champs);
 					
 				        } elseif (isset($_POST['btn_new_player'])){
-					        $array_Champs = ajouter_nouveau_joueur($connMYSQL, $array_Champs);
+					        $array_Champs = requete_SQL_ajouter_nouveau_joueur($connMYSQL, $array_Champs);
 				        }
 			        }
 			        // On va devoir faire une fonction de remise à NULL, certaines variables

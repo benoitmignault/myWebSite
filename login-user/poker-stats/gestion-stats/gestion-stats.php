@@ -792,7 +792,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-        <script src="gestion-stats.js"></script>
         <script src="date.js"></script>
+        <script src="gestion-stats.js"></script>
     </body>
 </html>

@@ -23,7 +23,7 @@
                      "invalid_killer" => false, "tous_invalids" => false, "tous_champs_vides" => false, "invalid_language" => false,
 					 "champ_joueur_vide" => false, "champ_position_vide" => false, "champ_gain_vide" => false, "champ_no_tournois_vide" => false, 
                      "champ_date_vide" => false, "champ_killer_vide" => false, "champ_citron_vide" => false, "champ_new_player_vide" => false,
-					 "new_player_duplicate" => false, "erreur_presente" => false,
+					 "new_player_duplicate" => false, "erreur_presente" => false, "erreur_system_bd" => false,
                      "liste_mots" => array("liste_messages" => array()), "liste_joueurs" => array(), );
 	}
 	

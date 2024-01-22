@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 				"Jan",
 				"Feb",
 				"Mar",
-				"",
+				"Avr",
 				"Mai",
 				"Jun",
 				"Jui",

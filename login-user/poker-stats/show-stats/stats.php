@@ -1,10 +1,15 @@
 <?php
 	// Les includes nécessaires
+	use JetBrains\PhpStorm\NoReturn;
+	
 	include_once("../../../traduction/traduction-stats.php");
 	include_once("../../../includes/fct-connexion-bd.php");
+	include_once("../../../includes/fct-login-poker-gestion.php");
     
     function initialisation(){
-        $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", "goodUserConnected" => false, "type_langue" => "", "tableauResult" => "", "verificationUser" => false, "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");
+        $array_Champs = array("afficher" => "display", "nombre_Presences" => 1, "method" => 1, "href" => "", "user" => "", "password" => "", 
+                              "goodUserConnected" => false, "type_langue" => "", "tableauResult" => "", "user_valid" => false, 
+                              "informationJoueur" => "", "sommaireJoueur" => "", "numeroID" => 0, "tournoiDate" => "");
         
         return $array_Champs;
     }
@@ -619,23 +624,44 @@
         return $tableau;
     }
     
-    function redirection($type_langue) {
+    #[NoReturn] function redirection(mysqli $connMYSQL, string $user, string $type_langue): void {
+	
+	    // Exceptionnellement, il faut aller récupérer d'urgence la valeur de user dans le input hidden qu'on a sauvegardé
+	    // Au cas où, la session serait terminée, dans le but de nettoyer le token inutile en BD
+        
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            delete_Session();
+         
+	        // On s'assure par principe que la variable existe, même si on sait qu'elle existe à 100%
+	        if (isset($_GET['user'])) {
+		        $user = $_GET['user'];
+	        }
             header("Location: /erreur/erreur.php");
     
         } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            delete_Session();
+	
+	        // On s'assure par principe que la variable existe, même si on sait qu'elle existe à 100%
+	        if (isset($_POST['user'])) {
+		        $user = $_POST['user'];
+	        }
+            
+            // Vérifier que la variable langue est non vide, sinon y mettre le francais
+            
+            
+            
+            
+            
+            
             if (isset($_POST['return'])) {
                 if ($type_langue == 'english') {
                     header("Location: /login-user/login-user.php?langue=english");
                 } else {
                     header("Location: /login-user/login-user.php?langue=francais");
                 }
+                
             } elseif (isset($_POST['home'])) {
+                
                 if ($type_langue == 'english') {
                     header("Location: /english/english.html");
-    
                 } else {
                     header("Location: /index.html");
                 }
@@ -643,39 +669,33 @@
                 header("Location: /erreur/erreur.php");
             }
         }
-        exit; // pour arrêter l'éxecution du code php
+        
+	    // Avant de détruire la session, on va killer le token
+	    requete_SQL_delete_token_session($connMYSQL, $user);
+	    delete_Session();
+        
+        exit; // pour arrêter l'exécution du code php
     }
     
     function delete_Session(){
-        session_unset(); // détruire toutes les variables SESSION
-        session_destroy();
-        session_write_close(); // https://stackoverflow.com/questions/2241769/php-how-to-destroy-the-session-cookie-correctly
-    }
-    
-    function verificationUser($connMYSQL) {
-        // Optimisation de la vérification si le user existe dans la BD
-        /* Crée une requête préparée */
-        $stmt = $connMYSQL->prepare("select user, password from login where user=? ");
-    
-        /* Lecture des marqueurs */
-        $stmt->bind_param("s", $_SESSION['user']);
-    
-        /* Exécution de la requête */
-        $stmt->execute();
-    
-        /* Association des variables de résultat */
-        $result = $stmt->get_result();
-        $stmt->close();
-        if ($result->num_rows == 1){
-            $row = $result->fetch_array(MYSQLI_ASSOC);
-            // On ajoute une vérification pour vérifier que cest le bon user versus la bonne valeur - 2018-12-28
-            if ($_COOKIE['POKER'] == $row['user']){
-                if (password_verify($_SESSION['password'], $row['password'])) {
-                    return true; // dès qu'on trouve notre user + son bon mdp on exit de la fct
-                }
-            }
-        }
-        return false;
+	
+	    // https://www.php.net/manual/en/function.session-destroy.php
+	
+	    // Unset all of the session variables.
+	    $_SESSION = array();
+	
+	    // If it's desired to kill the session, also delete the session cookie.
+	    // Note: This will destroy the session, and not just the session data!
+	    if (ini_get("session.use_cookies")) {
+		    $params = session_get_cookie_params();
+		    setcookie(session_name(), '', time() - 3600,
+			    $params["path"], $params["domain"],
+			    $params["secure"], $params["httponly"]
+		    );
+	    }
+	
+	    // Finally, destroy the session.
+	    session_destroy();
     }
     
     function addStatAffichageUser($connMYSQL, $user){
@@ -728,81 +748,86 @@
 	session_start();
     $connMYSQL = connexion();
 	$array_Champs = initialisation();
-
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        
-        if (isset($_SESSION['user']) && isset($_SESSION['password']) && isset($_SESSION['type_langue']) && isset($_COOKIE['POKER'])) {
-            $array_Champs['verificationUser'] = verificationUser($connMYSQL);
-        } else {
-            redirection($array_Champs['type_langue']);
-        }
-        
-        // on vérifier si notre user existe en bonne éduforme
-        if (!$array_Champs['verificationUser'] ) {
-            redirection($array_Champs['type_langue']);
-        } else {
-            $array_Champs = remplissage_Champs($array_Champs);
-    
-            if ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
-                redirection("francais");
-                
-            } else {
-                $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
-    
-                // Insérer ici les triages en conséquence
-                if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
-                    $array_Champs['href'] = lienVersTriage($array_Champs);
-                    $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
-                }
-    
-                $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
-                $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
-                $liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
-                $liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
-                $liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
+	$array_Champs['user_valid'] = verif_user_session_valide();
+	
+	// On s'assure que la session et cookie soit valide avant aller plus loin.
+	if ($array_Champs['user_valid']){
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+			
+			$array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs, $_SESSION['token_session']);
+			if ($array_Champs['user_valid']){
+				
+				$array_Champs = remplissage_Champs($array_Champs);
+				
+				if ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
+					redirection($connMYSQL, $array_Champs["user"], "francais");
+					
+				} else {
+					$arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
+					
+					// Insérer ici les triages en conséquence
+					if (isset($_GET['triRatio']) || isset($_GET['triOriginal']) ){
+						$array_Champs['href'] = lienVersTriage($array_Champs);
+						$array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
+					}
+					
+					$liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
+					$liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
+					$liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
+					$liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
+					$liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
+				}
             }
-        }
-    }
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
-        if (!isset($_SESSION['user']) || !isset($_SESSION['type_langue']) || !isset($_SESSION['password']) && !isset($_COOKIE['POKER'])) {
-            redirection("francais");
-            
-        } else {
-            $verificationUser = verificationUser($connMYSQL);
-            $array_Champs = remplissage_Champs($array_Champs);
-    
-            if (!$verificationUser) {
-                redirection($array_Champs['type_langue']);
-            } elseif ($array_Champs['type_langue'] !== "francais" && $array_Champs['type_langue'] !== "english") {
-                redirection("francais");
+		}
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			
+			$array_Champs = requete_SQL_verif_user_valide($connMYSQL, $array_Champs, $_SESSION['token_session']);
+			if ($array_Champs['user_valid']){
                 
-            } else {
-                $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
+                $array_Champs = remplissage_Champs($array_Champs);
                 
-                if (isset($_POST['method'])) {
-                    addStatAffichageUser($connMYSQL, $array_Champs['user'] );
-                    // Création du lien pour trier via la colonne du Ratio
-    
-                    $array_Champs['href'] = lienVersTriage($array_Champs);
-                    //var_dump($array_Champs['href']);exit;
-    
-                    // Faire afficher le tableau en fonction de la méthode choisie
-                    $array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
+                // Vérification d'office, même si le risque est faible
+                if ($array_Champs['type_langue'] === "francais" || $array_Champs['type_langue'] === "english"){
                     
+                    $arrayMots = traduction($array_Champs['type_langue'], $array_Champs['user']);
+					
+					if (isset($_POST['method'])) {
+						addStatAffichageUser($connMYSQL, $array_Champs['user'] );
+						// Création du lien pour trier via la colonne du Ratio
+						
+						$array_Champs['href'] = lienVersTriage($array_Champs);
+						
+						// Faire afficher le tableau en fonction de la méthode choisie
+						$array_Champs['tableauResult'] = selectionBonneMethode($connMYSQL, $arrayMots, $array_Champs);
+      
+						// Faire afficher l'information si elle est précise..
+						$liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
+						$liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
+						$liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
+						$liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
+						$liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
+						
+					} else {
+                        // Nous arrivons ici dans l'optique qu'un des deux boutons de sorties a été peser
+						redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
+					}
+                
                 } else {
-                    redirection($array_Champs['type_langue']);
+	                // Je suis obliger de remettre à à false, pour sortir en bas pour éviter de faire afficher tout le code
+	                $array_Champs['user_valid'] = false;
                 }
-                // Faire afficher l'information si elle est présise..
-                $liste_Joueur_method2 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['informationJoueur']);
-                $liste_Joueur_method3 = creationListe($connMYSQL, $arrayMots['option'], $array_Champs['sommaireJoueur']);
-                $liste_Joueur_method4 = creationNbPresences($array_Champs['nombre_Presences']);
-                $liste_Joueur_method5 = creationListeId($connMYSQL, $arrayMots['option'], $array_Champs['numeroID']);
-                $liste_Joueur_method6 = creationListeDate($connMYSQL, $arrayMots['option'], $array_Champs['tournoiDate']);
-            }
-        }
+			}
+		}
     }
+	
+	// Validation finalement, car si un des deux premiers IF est fausse, on va arriver ici, avant tout le reste...
+	if (!$array_Champs['user_valid']) {
+		
+		redirection($connMYSQL, $array_Champs["user"], $array_Champs['type_langue']);
+	}
+    
 	$connMYSQL->close();
 ?>
 <!DOCTYPE html>
@@ -839,6 +864,7 @@
                     <form method='post' action='stats.php#endroitResultat'>
                         <input id="info_Instruction" type="hidden" name="visible_Info" value="<?php echo $array_Champs['afficher']; ?>">
                         <input id="info_langue" type="hidden" name="langue_Info" value="<?php echo $array_Champs['type_langue']; ?>">
+                        <input type="hidden" name="user" id="user" value="<?php echo $array_Champs['user']; ?>">
                         <table>
                             <thead>
                                 <tr>

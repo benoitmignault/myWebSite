@@ -238,16 +238,10 @@
 	
 	        if ($array_Champs['champ_pwd_temp_invalid'] || $array_Champs['champ_pwd_1_invalid'] || $array_Champs['champ_pwd_2_invalid']) {
 		        $array_Champs['champs_pwd_invalid'] = true;
-	        }
+	        }	        
         }
         
 		$array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
-        
-        // Une particularité pour le reset de password et le lien crypté toujours bon
-        if ($array_Champs['pwd_old_new_diff'] || $array_Champs["lien_crypter_still_good"]){
-            // On doit remettre la variable à false
-	        $array_Champs['erreur_presente'] = false;
-        }
 		
 		return $array_Champs;
     }
@@ -441,7 +435,8 @@
              * 5 - Les passwords ne contient pas de caractères invalides
              * 6 - Le vieux et nouveau password ne sont pas identique
              */
-            if (!$array_Champs['erreur_presente'] && ($array_Champs['pwd_old_new_diff'] || $array_Champs["lien_crypter_still_good"])){
+			// Si c'est faut que c'est vrai, on va changer le password
+            if (!$array_Champs['erreur_presente']){
                 $array_Champs = changement_password($array_Champs, $connMYSQL);
             }
             

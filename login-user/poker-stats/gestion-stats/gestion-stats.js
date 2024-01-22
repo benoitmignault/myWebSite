@@ -96,6 +96,10 @@ function effacer_tous_les_champs() {
     reinitialisation_champ(champ_citron);
     reinitialisation_champ(champ_liste_joueurs);
 
+    // Section pour ajouter des nouveaux joueurs
+    reinitialisation_champ(champ_new_player);
+    // reinitialisation_champ(champ_date);
+
     // Sélectionne la première option et désélectionner l'option préalablement choisie
     champ_liste_joueurs.options[0].setAttribute("class", "selected");
     champ_liste_joueurs.options[champ_liste_joueurs.selectedIndex].removeAttribute("selected");

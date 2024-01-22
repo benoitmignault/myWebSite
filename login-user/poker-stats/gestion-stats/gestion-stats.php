@@ -205,14 +205,15 @@
 			        $array_Champs['champ_position_vide'] = true;
 		        }
           
-		        if (empty($array_Champs['no_tournois'])) {
-			        $array_Champs['champ_no_tournois_vide'] = true;
+		        // Particularité dans le cas du 0
+		        if (isset($array_Champs['no_tournois'])) {
+			        // On converti seulement si c'est une valeur numérique
+			        if (is_numeric($array_Champs['no_tournois'])){
+				        $array_Champs['no_tournois'] = intval($array_Champs['no_tournois']);
+			        }
 		        } else {
-                    // On converti seulement si c'est une valeur numérique
-                    if (is_numeric($array_Champs['no_tournois'])){
-	                    $array_Champs['no_tournois'] = intval($array_Champs['no_tournois']);
-                    }
-                }
+			        $array_Champs['champ_no_tournois_vide'] = true;
+		        }
                 
 		        // Particularité dans le cas du 0
 		        if (isset($array_Champs['killer'])) {

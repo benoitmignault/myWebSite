@@ -219,18 +219,18 @@ input::placeholder {
     background-color: #FCDEDE;
 }
 
-.erreur > p {
+.content > .footer > div > p{
     font-size: 20px;
-    color: red;
+    color: darkgreen;
     text-align: center;
     font-weight: bold;
     margin-left: 15px;
     margin-right: 15px;
 }
 
-.succes > p {
+.content > .footer > .erreur > p {
     font-size: 20px;
-    color: darkgreen;
+    color: red;
     text-align: center;
     font-weight: bold;
     margin-left: 15px;

@@ -13,7 +13,6 @@ const champ_citron = document.querySelector('#citron');
 // Le champ utilisé pour ajouter un nouveau joueur
 const champ_new_player = document.querySelector('#new-player');
 
-
 // Les boutons actions possibles dans la page
 const faire_menage_total = document.querySelector('#faire-menage-total');
 

@@ -110,19 +110,16 @@ function effacer_tous_les_champs() {
         zone_position.style.border = '1px solid black';
     }
 
+    // Parcourir tous les boutons radio et les désélectionner
+    for (let i = 0; i < champ_position.length; i++) {
+        champ_position[i].setAttribute("class", "");
+        champ_position[i].removeAttribute("checked");
+    }
+
     // Remise à NULL, de la section des messages
     if (section_message != null){
         section_message.innerHTML = "";
     }
-
-    // Section pour ajouter des nouveaux joueurs
-    reinitialisation_champ(champ_new_player);
-
-    // Retirer le choix de position
-    $(champ_position).prop('checked', false);
-
-    // TODO - Essayer de trouver une facon d'effacer le champ
-    // reinitialisation_champ(champ_date);
 }
 
 /**

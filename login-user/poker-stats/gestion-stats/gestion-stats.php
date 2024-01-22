@@ -812,11 +812,9 @@
                     <div class="bas-formulaire liste-message">
 	                    <?php // Soit il y a un seul message et qu'il est positif ou négatif
                             if (count($array_Champs['liste_mots']['liste_messages']) === 1) {
-                                if ($array_Champs['new_player_adder']) { ?>
-                                    <p class="good-news"> <?php echo $array_Champs['liste_mots']['liste_messages'][0] . $array_Champs['new_player']; ?></p>
-                                <?php } elseif ($array_Champs['players_stats_adder']) { ?>
-                                    <p class="good-news"> <?php echo $array_Champs['liste_mots']['liste_messages'][0] . $array_Champs['joueur']; ?></p>
-	                            <?php } else { // Sinon, c'est forcément une erreur de manipulation ?>
+                                if ($array_Champs['new_player_adder'] || $array_Champs['players_stats_adder']) { ?>
+                                    <p class="good-news"> <?php echo $array_Champs['liste_mots']['liste_messages'][0] . $array_Champs['info_joueur']; ?></p>
+                                <?php } else { // Sinon, c'est forcément une erreur de manipulation ?>
                                     <p class="bad-news"> <?php echo $array_Champs['liste_mots']['liste_messages'][0]; ?></p>
 	                            <?php }
                             } elseif (count($array_Champs['liste_mots']['liste_messages']) > 1) {

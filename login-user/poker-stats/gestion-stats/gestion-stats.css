@@ -121,9 +121,13 @@ body {
     background: #FCDEDE;
 }
 
-.content > form > .formulaire-joueur > .bas-formulaire {
-    width: 50%;
+.content > form > .formulaire-joueur > .bas-formulaire{
     padding-bottom: 10px;
+    width: 40%;
+}
+
+.content > form > .formulaire-joueur > .bas-formulaire:last-of-type {
+    width: 60%;
 }
 
 .content > form > .formulaire-joueur > div > .good-news {

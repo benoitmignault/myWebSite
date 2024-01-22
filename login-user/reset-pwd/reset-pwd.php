@@ -4,6 +4,7 @@
 	
 	include_once("../../traduction/traduction-reset-pwd.php");
 	include_once("../../includes/fct-connexion-bd.php");
+	include_once("../../includes/fct-divers.php");
 	
 	/**
 	 * Fonction qui va contenir tous ce dont on aura besoin.
@@ -143,10 +144,10 @@
 	 * Fonction qui servira à mettre à «True» les variables de contrôles des informations
      * que nous avons associé durant la fonction @see remplisage_champs
      *
-	 * @param $array_Champs
+	 * @param array $array_Champs
 	 * @return array
 	 */
-	function validation_champs($array_Champs): array{
+	function validation_champs(array $array_Champs): array{
 	
 	    // Validation commune pour le Get & Post, à propos de la langue
 	    if ($array_Champs["type_langue"] != "francais" && $array_Champs["type_langue"] != "anglais"){
@@ -240,7 +241,15 @@
 	        }
         }
         
-        return $array_Champs;
+		$array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
+        
+        // Une particularité pour le reset de password et le lien crypté toujours bon
+        if ($array_Champs['pwd_old_new_diff'] || $array_Champs["lien_crypter_still_good"]){
+            // On doit remettre la variable à false
+	        $array_Champs['erreur_presente'] = false;
+        }
+		
+		return $array_Champs;
     }
 	
 	/**
@@ -249,7 +258,7 @@
 	 * @param array $array_Champs
 	 * @return int
 	 */
-	function situation(array $array_Champs): int{
+	function situation_erreur(array $array_Champs): int{
         
         // On prépare la situation à gérer
         $type_situation = 0;
@@ -432,12 +441,11 @@
              * 5 - Les passwords ne contient pas de caractères invalides
              * 6 - Le vieux et nouveau password ne sont pas identique
              */
-            if (!$array_Champs["champs_pwd_empty"] && !$array_Champs["champs_pwd_none_equal"] && !$array_Champs["token_time_expired"] &&
-                !$array_Champs["champs_pwd_trop_long"] && !$array_Champs["champs_pwd_invalid"] && $array_Champs["pwd_old_new_diff"]){
+            if (!$array_Champs['erreur_presente'] && ($array_Champs['pwd_old_new_diff'] || $array_Champs["lien_crypter_still_good"])){
                 $array_Champs = changement_password($array_Champs, $connMYSQL);
             }
             
-            $array_Champs["situation"] = situation($array_Champs);
+            $array_Champs["situation"] = situation_erreur($array_Champs);
 	        $array_Champs["liste_mots"] = traduction($array_Champs["type_langue"], $array_Champs["situation"]);
         }
     }

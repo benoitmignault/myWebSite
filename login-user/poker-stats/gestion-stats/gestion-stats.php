@@ -175,7 +175,7 @@
                 $longueur_new_player = strlen($array_Champs['new_player']);
 		        $pattern_new_player = "#^[A-Z][a-z]+(-[A-Z])?[a-z]+(\s[A-Z][a-z]?)?$#";
           
-		        if (!preg_match($pattern_new_player, $array_Champs['new_player']) && $longueur_new_player > 25) {
+		        if (!preg_match($pattern_new_player, $array_Champs['new_player']) || $longueur_new_player > 25) {
 			        $array_Champs['invalid_new_player'] = true;
 			
 		        } else {

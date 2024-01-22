@@ -124,6 +124,7 @@
 				case 16 : $liste_messages[] = "Vous devez fournir le prénom du nouveau joueur aux soirées de poker !"; break;
 				case 17 : $liste_messages[] = "Le prénom du nouveau joueur est invalide, selon nos critères !"; break;
 				case 18 : $liste_messages[] = "Le prénom du nouveau joueur existe déjà dans notre système, veuillez le choisir en haut !"; break;
+				case 19 : $liste_messages[] = "Erreur dans l'insertion d'information dans le système des statistiques du poker !"; break;
 			}
 		}
 		
@@ -162,6 +163,7 @@
 				case 16 : $liste_messages[] = "You must provide the first name of the new player at poker evenings !"; break;
 				case 17 : $liste_messages[] = "The new player's first name is invalid, according to our criteria !"; break;
 				case 18 : $liste_messages[] = "The new player's first name already exists in our system, please choose it at the top !"; break;
+				case 19 : $liste_messages[] = "Error in inserting information into the poker statistics system !"; break;
 			}
 		}
 		

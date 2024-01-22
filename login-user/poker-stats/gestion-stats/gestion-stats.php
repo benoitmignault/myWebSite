@@ -480,31 +480,40 @@
 		return $array_Champs;
 	}
 	
- 
- 
- 
-	// TODO regarder ca à la fin
-	function ajouter_Nouveau_Joueur($connMYSQL, $array_Champs) {
+	
+	/**
+     * Ajout du nouveau joueur dans la BD pour des futurs utilisations
+     *
+	 * @param mysqli $connMYSQL
+	 * @param array$array_Champs
+	 * @return array
+	 */
+	function ajouter_nouveau_joueur(mysqli $connMYSQL, array $array_Champs): array {
 		
-		// Prepare an insert statement
-		$sql = "INSERT INTO joueur (joueur) VALUES (?)";
-		$stmt = $connMYSQL->prepare($sql);
+		$insert = "INSERT INTO";
+		$table = " joueur ";
+		$colonne = " (joueur) ";
+		$values = " VALUES (?)";
+		$query = $insert . $table . $colonne . $values;
 		
-		// Bind variables to the prepared statement as parameters
-		$stmt->bind_param('s', $array_Champs["new_player"]);
-		$stmt->execute();
+		// Préparation de la requête
+		$stmt = $connMYSQL->prepare($query);
+  		
+        /* Lecture des marqueurs */
+        $stmt->bind_param('s', $array_Champs["new_player"]);
 		
-		// Close statement
-		$stmt->close();
-		
-		if ($array_Champs['type_langue'] === "francais") {
-			$messageAjout = "Le nouveau joueur {$array_Champs["liste_joueurs"]} a été ajouté à la BD.";
+		// Exécution de la requête
+		if ($stmt->execute()) {
+			// L'insertion a réussi
+			$array_Champs["new_player_adder"] = true;
+		} else {
+			// L'insertion a échoué
+			$array_Champs["erreur_system_bd"] = true;
 		}
-        elseif ($array_Champs['type_langue'] === "english") {
-			$messageAjout = "The player information {$array_Champs["liste_joueurs"]} has been added to the BD.";
-		}
-		$array_Champs = initialisationChamps();
-		$array_Champs['message'] = $messageAjout;
+    
+        // Fermer la préparation de la requête
+        $stmt->close();
+		
 		return $array_Champs;
 	}
 	

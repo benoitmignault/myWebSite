@@ -100,7 +100,7 @@ function effacer_tous_les_champs() {
     champ_liste_joueurs.options[0].setAttribute("class", "selected");
     champ_liste_joueurs.options[champ_liste_joueurs.selectedIndex].removeAttribute("selected");
 
-    // Le champ position sera légèrement différent, car c'est le div qu'o nva faire changer de couleur
+    // Le champ position sera légèrement différent, car c'est le div qu'on va faire changer de couleur
     if (zone_position != null){
         zone_position.style.backgroundColor = "#b0b0b0";
         zone_position.style.border = '1px solid black';

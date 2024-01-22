@@ -322,16 +322,16 @@
         /* Lecture des marqueurs */
         $stmt->bind_param("s", $new_player);
         
-        /* Exécution de la requête */
-        $stmt->execute();
-        
-		/* Association des variables de résultat */
-		$result = $stmt->get_result();
-		
-		if ($result->num_rows > 0) {
-			$new_player_duplicate = true;
-        }
-		
+		// Exécution de la requête
+		if ($stmt->execute()) {
+			/* Association des variables de résultat */
+			$result = $stmt->get_result();
+   
+			if ($result->num_rows > 0) {
+				$new_player_duplicate = true;
+			}
+		}
+  
 		// Close statement
 		$stmt->close();
         

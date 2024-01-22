@@ -526,6 +526,31 @@
 	}
 	
 	/**
+     * Pour éviter de rajouter deux fois la même information, on va cleaner TOUS les champs si nous avons eu une bonne insertion
+     * En fonction de quels boutons a été utilisés
+     *
+	 * @param array $array_Champs
+	 * @return array
+	 */
+    function re_initialisation(array $array_Champs): array{
+     
+        // Seulement si nous avons réussi notre insertion
+        if ($array_Champs["new_player_adder"] || $array_Champs["players_stats_adder"]){
+	
+	        $array_Champs["new_player"] = "";
+	        $array_Champs["joueur"] = "";
+	        $array_Champs["position"] = "";
+	        $array_Champs["gain"] = "";
+	        $array_Champs["no_tournois"] = "";
+	        $array_Champs["date"] = "";
+	        $array_Champs["killer"] = "";
+	        $array_Champs["citron"] = "";
+        }
+        
+	    return $array_Champs;
+    }
+    
+	/**
 	 * Fonction pour rediriger le user vers la page web des statistiques et
      * les cookies ont déjà été setter
 	 *

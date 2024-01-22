@@ -9,94 +9,103 @@ body {
     margin: 0;
 }
 
-h1 {
-    color: white;
-}
-
-h2,
-h1 {
-    text-align: center;
-}
-
-h2 {
-    margin-top: 5px;
-    margin-bottom: 15px;
-}
-
-.container {
+.content {
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
     width: 60%;
-    border-radius: 10px;
+    border-radius: 15px;
     background-color: #f2f2f2;
     padding: 15px;
-    margin: auto;
+    margin: 100px auto auto;
 }
 
-.container > form > .formulaire_joueur,
-.container > form > .formulaire_Nouveau,
-.container > form > .footer,
-.container > form > .formulaire_joueur > .position {
+.content > .titre {
+    margin: 0 0 15px;
+    font-size: 22px;
+    text-align: center;
+}
+
+.content > .titre:first-of-type{
+    margin-bottom: 15px;
+}
+
+.content > .titre:last-of-type{
+    margin-bottom: 15px;
+}
+
+.content > form > .formulaire-joueur,
+.content .formulaire-nouveau,
+.content > .footer,
+.content > form > .formulaire-joueur > .position {
     width: 100%;
     background-color: #c8c8c8;
     display: -webkit-flex;
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 15px;
-    padding: 10px;
+    padding: 15px 15px 0;
     border-radius: 10px;
+    border: 1px solid black;
 }
 
-.container > form > .formulaire_joueur .joueur,
-.container > form > .formulaire_joueur .erreur {
+.content > .footer{
+    padding-bottom: 10px;
+}
+
+.content > form > .formulaire-joueur .joueur{
     width: 30%;
     margin-bottom: 15px;
 }
 
-.container > form > .formulaire_joueur .joueur > select {
+.content > form > .formulaire-joueur .joueur > select {
     padding: 5px;
     width: 75%;
     border-radius: 10px;
 }
 
-.container > form > .formulaire_joueur .erreur > select {
+.content > form > .formulaire-joueur .erreur > select {
     border: 2px solid red;
     background: #FCDEDE;
-    border-radius: 10px;
 }
 
-.container > form > .formulaire_joueur > .position {
+.content > form > .formulaire-joueur > .position {
     width: 70%;
     margin-bottom: 15px;
-
+    background-color: #b0b0b0;
 }
 
-.container > form > .formulaire_joueur > .position > .labelPos {
+.content > form > .formulaire-joueur .erreur-choix{
+    border: 2px solid red;
+    background: #FCDEDE;
+}
+
+.content > form > .formulaire-joueur > .position > .p-label-pos {
     width: 100%;
+    margin-top: 0;
 }
 
-.container > form > .formulaire_joueur > .position > div {
+.content > form > .formulaire-joueur > .position > div {
     width: 33%;
 }
 
-.container > form > .formulaire_joueur > .gain,
-.container > form > .formulaire_joueur > .numero,
-.container > form > .formulaire_joueur > .killer,
-.container > form > .formulaire_joueur > .citron,
-.container > form > .formulaire_joueur > .date{
+.content > form > .formulaire-joueur > .gain,
+.content > form > .formulaire-joueur > .numero,
+.content > form > .formulaire-joueur > .killer,
+.content > form > .formulaire-joueur > .citron,
+.content > form > .formulaire-joueur > .date{
     width: 33%;
     margin-bottom: 15px;
 }
 
-.container > form > .formulaire_joueur > .date > div {
+.content > form > .formulaire-joueur > .date > div {
     width: 100%;
 }
 
-.container > form > .formulaire_joueur > div > input[type=text],
-.container > form > .formulaire_Nouveau > div > input[type=text],
-.container > form > .formulaire_joueur > div > div > input[type=date] {
+.content > form > .formulaire-joueur > div > input[type=text],
+.content > .formulaire-nouveau > div > input[type=text],
+.content > form > .formulaire-joueur > div > div > input[type=date] {
     width: 100%;
     border-radius: 10px;
     padding: 5px;
@@ -106,65 +115,63 @@ h2 {
     resize: vertical;
 }
 
-.container > form > .formulaire_joueur > .erreur > input[type=text],
-.container > form > .formulaire_Nouveau > .erreur > input[type=text] {
+.content > form > .formulaire-joueur > .erreur > input[type=text],
+.content > .formulaire-nouveau > .erreur > input[type=text] {
     border: 2px solid red;
     background: #FCDEDE;
 }
 
-.container > form > .formulaire_joueur > .bas_formulaire {
-    width: 100%;
+.content > form > .formulaire-joueur > .bas-formulaire{
+    padding-bottom: 10px;
+    width: 35%;
 }
 
-.container > form > .formulaire_joueur > .bas_formulaire > input {
-    width: 20%;
+.content > form > .formulaire-joueur > .bas-formulaire:last-of-type {
+    width: 65%;
 }
 
-.container > form > .formulaire_joueur > div > .avert {
+.content > form > .formulaire-joueur > div > .good-news {
     margin: 10px 0;
-    font-size: 20px;
+    font-size: 18px;
     color: green;
     font-weight: bold;
     width: 100%;
-    text-align: center;
 }
 
-.container > form > .formulaire_joueur > div > .erreur {
+.content > form > .formulaire-joueur > div > .bad-news {
     margin: 10px 0;
-    font-size: 20px;
+    font-size: 18px;
     color: red;
     font-weight: bold;
     width: 100%;
-    text-align: center;
 }
 
-.container > form > .formulaire_Nouveau > div {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.container > form > .formulaire_Nouveau > div > input[type=text] {
-    width: 30%;
-}
-
-.container > form > .formulaire_Nouveau > div > input[type=submit] {
-    width: 40%;
-}
-
-.container > form > .footer {
+.content > form > .formulaire-joueur > div > .bad-news:last-of-type{
     margin-bottom: 0;
 }
 
-.container > form > .footer > .btn_footer {
+.content > .formulaire-nouveau > div {
     width: 100%;
     margin-bottom: 10px;
 }
 
-.container > form > .footer > .btn_footer > input {
+.content > .formulaire-nouveau > div > input[type=text] {
+    width: 30%;
+}
+
+.content > .footer {
+    margin-bottom: 0;
+}
+
+.content > .footer > .btn_footer {
+    margin-bottom: 10px;
+}
+
+.content > .footer > .btn_footer > input {
     width: 40%;
 }
 
-.container > form > .footer > .btn_footer:last-of-type {
+.content > .footer > .btn_footer:last-of-type {
     margin-bottom: 0;
 }
 
@@ -184,6 +191,7 @@ h2 {
     padding: 10px 10px 10px 10px;
     border: solid #8c711f 3px;
     margin-right: 10px;
+    box-shadow: 0 0 15px #14422e;
 }
 
 .bouton:hover {
@@ -196,6 +204,11 @@ h2 {
     cursor: pointer;
 }
 
+.bouton:active {
+    box-shadow: 0 0 10px #14422e;
+    transform: translateY(5px);
+}
+
 label:hover {
     cursor: pointer;
 }
@@ -205,7 +218,6 @@ label:hover {
     h2,
     h1 {
         font-size: 22px;
-        text-align: justify;
     }
 
     h1 {
@@ -217,43 +229,47 @@ label:hover {
         margin-bottom: 15px;
     }
 
-    .container {
+    .content {
         width: 100%;
         padding: 5px;
     }
 
-    .container > form > .formulaire_joueur,
-    .container > form > .formulaire_Nouveau,
-    .container > form > .footer {
+    .content > form > .formulaire-joueur,
+    .content > .formulaire-nouveau{
         -webkit-flex-direction: column;
         flex-direction: column;
     }
 
-    .container > form > .formulaire_joueur > .position > div {
+    .content > form > .formulaire-joueur > .position > div {
         margin-top: 5px;
     }
 
-    .container > form > .formulaire_joueur > .joueur,
-    .container > form > .formulaire_joueur > .erreur {
+    .content > form > .formulaire-joueur > .position,
+    .content > form > .formulaire-joueur > .joueur,
+    .content > form > .formulaire-joueur > .erreur {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .content > form > .formulaire-joueur > .joueur > select{
+        width: 100%;
+    }
+
+    .content > form > .formulaire-joueur > .gain,
+    .content > form > .formulaire-joueur > .numero,
+    .content > form > .formulaire-joueur > .date,
+    .content > form > .formulaire-joueur > .killer,
+    .content > form > .formulaire-joueur > .citron {
         width: 100%;
         margin-bottom: 5px;
     }
 
-    .container > form > .formulaire_joueur > .gain,
-    .container > form > .formulaire_joueur > .numero,
-    .container > form > .formulaire_joueur > .date,
-    .container > form > .formulaire_joueur > .killer,
-    .container > form > .formulaire_joueur > .citron {
-        width: 100%;
+    .content > form > .formulaire-joueur > div > input[type=text],
+    .content > .formulaire-nouveau > div > input[type=text] {
         margin-bottom: 5px;
     }
 
-    .container > form > .formulaire_joueur > div > input[type=text],
-    .container > form > .formulaire_Nouveau > div > input[type=text] {
-        margin-bottom: 5px;
-    }
-
-    .container > form > .formulaire_joueur > .bas_formulaire > input {
+    .content > form > .formulaire-joueur > .bas-formulaire > input {
         width: 100%;
     }
 
@@ -262,36 +278,41 @@ label:hover {
         padding: 0;
     }
 
-    .container > form > .formulaire_joueur > .bas_formulaire > .bouton:first-of-type {
+    .content > form > .formulaire-joueur > .bas-formulaire > .bouton:first-of-type {
         margin-bottom: 10px;
     }
 
-    .container > form > .formulaire_joueur > div > .avert,
-    .container > form > .formulaire_joueur > div > .erreur {
+    .content > form > .formulaire-joueur > div > .good-news,
+    .content > form > .formulaire-joueur > div > .bad-news {
         text-align: justify;
         font-size: 18px;
     }
 
-    .container > form > .formulaire_Nouveau > div > input[type=text],
-    .container > form > .formulaire_Nouveau > div > input[type=submit],
-    .container > form > .footer > .btn_footer > input {
+    .content > form > .formulaire-joueur > .bas-formulaire,
+    .content > .formulaire-nouveau > div > input[type=text],
+    .content > .formulaire-nouveau > div > input[type=submit],
+    .content > .footer > input[type=submit] {
         width: 100%;
     }
 
-    .container > form > .formulaire_Nouveau > div > input[type=submit],
-    .container > form > .footer > .btn_footer > input {
+    .content > form > .formulaire-joueur > .bas-formulaire > input[type=submit],
+    .content > .formulaire-nouveau > div > input[type=submit],
+    .content > .footer > input[type=submit]  {
         font-size: 19px;
         padding-top: 5px;
         padding-bottom: 5px;
     }
 
+    .content > .footer > input[type=submit]{
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
 
+    .content > .footer > input[type=submit]:last-of-type{
+        margin-bottom: 0;
+    }
 
-
-
-
-
-
-
-
+    .content > form > .formulaire-joueur > .bas-formulaire:last-of-type{
+        padding-bottom: 0;
+    }
 }

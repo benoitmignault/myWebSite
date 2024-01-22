@@ -12,13 +12,13 @@ const champs_email = document.querySelector('#email');
 const message_erreur = document.querySelector('.footer .erreur')
 
 // Les boutons actions possibles dans la page
-const faire_menage_total = document.querySelector('#faire_menage_total');
+const faire_menage_total = document.querySelector('#faire-menage-total');
 
 // Sélectionnez tous les éléments avec la classe d'erreur
 const error_elements = document.querySelectorAll('.erreur input');
 
 /**
- * Fonction pour effacer les
+ * Fonction pour effacer les champs et messages erreurs
  */
 function effacement_complet() {
     faire_menage_total.addEventListener('click', function (evt) {

@@ -86,7 +86,6 @@ function effacement_complet() {
  */
 function effacer_tous_les_champs() {
 
-    // TODO -> Trouver un moyen d'effacer les radio button - Impossible apres un POST
     // TODO -> Essayer de trouver une facon d'effacer le champ
     // Section pour ajouter des stats
     reinitialisation_champ(champ_gain);

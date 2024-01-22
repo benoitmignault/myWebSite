@@ -204,7 +204,11 @@
                 // sous condition propre à chaque champ
 		        if (empty($array_Champs['joueur'])) {
 			        $array_Champs['champ_joueur_vide'] = true;
-		        }
+           
+		        } else {
+                    // Information de backup
+                    $array_Champs['info_joueur'] = $array_Champs['joueur'];
+                }
           
 		        if (empty($array_Champs['position'])) {
 			        $array_Champs['champ_position_vide'] = true;

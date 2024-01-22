@@ -206,49 +206,41 @@
 		        }
           
 		        // Particularité dans le cas du 0
-		        if (isset($array_Champs['no_tournois'])) {
-			        // On converti seulement si c'est une valeur numérique
-			        if (is_numeric($array_Champs['no_tournois'])){
-				        $array_Champs['no_tournois'] = intval($array_Champs['no_tournois']);
-			        }
-		        } else {
+		        if ($array_Champs['no_tournois'] === ""){
 			        $array_Champs['champ_no_tournois_vide'] = true;
-		        }
-                
-		        // Particularité dans le cas du 0
-		        if (isset($array_Champs['killer'])) {
-			        // On converti seulement si c'est une valeur numérique
-			        if (is_numeric($array_Champs['killer'])){
-				        $array_Champs['killer'] = intval($array_Champs['killer']);
-			        }
-		        } else {
-			        $array_Champs['champ_killer_vide'] = true;
-		        }
-          
-		        // Particularité dans le cas du 0
-		        if (isset($array_Champs['gain'])) {
-			        // On converti seulement si c'est une valeur numérique
-			        if (is_numeric($array_Champs['gain'])){
-				        $array_Champs['gain'] = intval($array_Champs['gain']);
-			        }
-		        } else {
-			        $array_Champs['champ_gain_vide'] = true;
+			
+		        } elseif (is_numeric($array_Champs['no_tournois'])){
+			        $array_Champs['no_tournois'] = intval($array_Champs['no_tournois']);
 		        }
 		
 		        // Particularité dans le cas du 0
-		        if (isset($array_Champs['citron'])) {
-			        // On converti seulement si c'est une valeur numérique
-			        if (is_numeric($array_Champs['citron'])){
-				        $array_Champs['citron'] = intval($array_Champs['citron']);
-			        }
-		        } else {
+                if ($array_Champs['gain'] === ""){
+	                $array_Champs['champ_gain_vide'] = true;
+                 
+                } elseif (is_numeric($array_Champs['gain'])){
+	                $array_Champs['gain'] = intval($array_Champs['gain']);
+                }
+		
+		        // Particularité dans le cas du 0
+		        if ($array_Champs['killer'] === ""){
+			        $array_Champs['champ_killer_vide'] = true;
+			
+		        } elseif (is_numeric($array_Champs['killer'])){
+			        $array_Champs['killer'] = intval($array_Champs['killer']);
+		        }
+		
+		        // Particularité dans le cas du 0
+		        if ($array_Champs['citron'] === ""){
 			        $array_Champs['champ_citron_vide'] = true;
+			
+		        } elseif (is_numeric($array_Champs['citron'])){
+			        $array_Champs['citron'] = intval($array_Champs['citron']);
 		        }
                 
                 if (empty($array_Champs['date'])) {
 			        $array_Champs['champ_date_vide'] = true;
                 }
-		
+          
 		        $pattern_gain = "#^-?[0-9]{1,3}$#";
 		        $pattern_no = "#^[0-9]{1,3}$#";
                 /**

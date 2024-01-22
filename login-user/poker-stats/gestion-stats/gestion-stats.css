@@ -146,6 +146,10 @@ body {
     width: 100%;
 }
 
+.content > form > .formulaire-joueur > div > .bad-news:last-of-type{
+    margin-bottom: 0;
+}
+
 .content > .formulaire-nouveau > div {
     width: 100%;
     margin-bottom: 10px;

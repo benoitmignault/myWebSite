@@ -406,6 +406,9 @@
 		
 	                } elseif ($array_Champs['invalid_citron']){
 		                $liste_situations[] = 15;
+                  
+	                } elseif ($array_Champs['erreur_system_bd']){
+		                $liste_situations[] = 19;
 	                }
                 }
             }
@@ -427,6 +430,9 @@
      
 				} elseif ($array_Champs['new_player_duplicate']){
 					$liste_situations[] = 18;
+     
+				} elseif ($array_Champs['erreur_system_bd']){
+					$liste_situations[] = 19;
 				}
 			}
 		}

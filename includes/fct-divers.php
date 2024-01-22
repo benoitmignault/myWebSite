@@ -11,9 +11,9 @@
 		
 		$erreur_presente = false;
 		// Validation que nous avons au moins une erreur, dans le lot
-		foreach ($array_Champs as $element) {
+		foreach ($array_Champs as $key => $value) {
 			
-			if ($element === true) {
+			if ($value === true && $key !== "user_valid") {
 				
 				$erreur_presente = true;
 				break; // Arrêter la boucle si un élément correspondant est trouvé

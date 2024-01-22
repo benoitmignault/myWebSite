@@ -38,6 +38,7 @@
 		
 		// Préparation de la requête
 		$stmt = $connMYSQL->prepare($query);
+		
 		try {
 			/* Lecture des marqueurs */
 			$stmt->bind_param('ssi', $array_Champs["user"],$date, $array_Champs["id_user"]);

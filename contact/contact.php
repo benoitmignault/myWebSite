@@ -8,7 +8,9 @@
 		$sujet = str_ireplace(array("\r", "\n", '%0A','%0D'), '', $_POST['sujet']);
 		// Ajout d'une sécurité pour améliorer l'envoi de courriel sécurité - 13 Janvier 2020
 		$message = str_replace("\n.", "\n..", $_POST['msg']);
-		$emailServeur = "home@benoitmignault.ca";
+		
+		// 2024-05-16, utilisation de mon courriel de UQAM pour recevoir les courriels avec les accents
+		$emailServeur = "mignault.benoit@courrier.uqam.ca";
 		$champsVide = false;
 		$champsTroplong = false;
 		$validateEmail = false;

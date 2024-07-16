@@ -264,9 +264,9 @@ td {
 .racine-site > .middle .center p,
 .racine-site > .right > .info > .page-accueil > p {
     font-size: 18px;
-    margin: 0 25px;
     line-height: 1.5;
     text-align: justify;
+    margin: 0 25px 15px;
 }
 
 .racine-site > .right > .info > .page-accueil > h3:first-of-type {
@@ -410,11 +410,17 @@ span {
     background-color: black;
 }
 
-.racine-site > .middle .center ul li {
-    margin-bottom: 5px;
+.racine-site > .middle .center ul li,
+.racine-site > .right > .info > .page-accueil > ul > li{
+    margin-bottom: 10px;
 }
 
-.racine-site > .middle .center ul li:hover {
+.racine-site > .right > .info > .page-accueil > ul > li{
+    font-size: 1.1em;
+}
+
+.racine-site > .middle .center ul li:hover,
+.racine-site > .right > .info > .page-accueil > ul > li:hover{
     color: cornflowerblue;
 }
 

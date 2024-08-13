@@ -1,6 +1,15 @@
 <?php
-	
 	// Modernisation des envoies de courriels venant des gens qui tente de me contacter
+	
+	// Les includes nécessaires
+	include_once("../includes/fct-divers.php");
+	
+	// Import PHPMailer classes into the global namespace
+	use PHPMailer\PHPMailer\PHPMailer;
+	use PHPMailer\PHPMailer\Exception;
+	
+	// Load Composer's autoloader
+	require '../../vendor/autoload.php';
 	
 	
 	

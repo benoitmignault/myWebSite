@@ -11,9 +11,42 @@
 	// Load Composer's autoloader
 	require '../../vendor/autoload.php';
 	
+	/**
+	 * Fonction qui va contenir tous ce dont on aura besoin.
+	 * Une partie des variables de type string ou integer et une autre partie en boolean
+	 *
+	 * @return array
+	 */
+	function initialisation(): array {
+		
+		return array("longueur_nom" => 0, "longueur_email" => 0, "longueur_sujet" => 0, "longueur_message" => 0,
+		             "nom" => "", "email" => "", "sujet" => "", "message" => "",
+		             "champs_vide" => false, "champs_trop_long" => false, "champ_email_invalid" => false,
+		             "champ_nom_vide" => false, "champ_email_vide" => false, "champ_message_vide" => false, "champ_sujet_vide" => false,
+		             "champ_nom_trop_long" => false, "champ_email_trop_long" => false, "champ_message_trop_long" => false, "champ_sujet_trop_long" => false,
+		             "erreur_presente" => false);
+	}
+	
+	
 	
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		
+		$array_Champs = initialisation();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		$nom = $_POST['nom'];
 		// Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].
 		$emailPersonne = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);

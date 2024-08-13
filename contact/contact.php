@@ -1,5 +1,9 @@
 <?php
 	
+	// Modernisation des envoies de courriels venant des gens qui tente de me contacter
+	
+	
+	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$nom = $_POST['nom'];
 		// Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].

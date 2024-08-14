@@ -96,60 +96,60 @@
 		
 		// Section des vérifications des champs vide
 		if (empty($array_Champs['email'])) {
-			$array_Champs['champ_email_vide'] = true;
+			$array_Champs['liste_erreur_possible']['champ_email_vide'] = true;
 		}
 		
 		if (empty($array_Champs['nom'])) {
-			$array_Champs['champ_nom_vide'] = true;
+			$array_Champs['liste_erreur_possible']['champ_nom_vide'] = true;
 		}
 		
 		if (empty($array_Champs['sujet'])) {
-			$array_Champs['champ_sujet_vide'] = true;
+			$array_Champs['liste_erreur_possible']['champ_sujet_vide'] = true;
 		}
 		
 		if (empty($array_Champs['message'])) {
-			$array_Champs['champ_message_vide'] = true;
+			$array_Champs['liste_erreur_possible']['champ_message_vide'] = true;
 		}
 		
 		// Vérification si un des champs est vide, alors on stop tout et on retourne une erreur au CALL Ajax
-		if ($array_Champs['champ_email_vide'] || $array_Champs['champ_nom_vide'] ||
-			$array_Champs['champ_sujet_vide'] || $array_Champs['champ_message_vide']){
+		if ($array_Champs['liste_erreur_possible']['champ_email_vide'] || $array_Champs['liste_erreur_possible']['champ_nom_vide'] ||
+			$array_Champs['liste_erreur_possible']['champ_sujet_vide'] || $array_Champs['liste_erreur_possible']['champ_message_vide']){
 			
-			$array_Champs['champs_vide'] = true;
+			$array_Champs['liste_erreur_possible']['champs_vide'] = true;
 		}
 		
 		// On peut poursuivre logiquement les validations vue que les champs ne sont pas vide
-		if (!$array_Champs['champs_vide']){
+		if (!$array_Champs['liste_erreur_possible']['champs_vide']){
 			
 			// On vérifie maintenant la longueur du contenu des champs
 			if ($array_Champs['longueur_message'] > 300){
-				$array_Champs['champ_message_trop_long'] = true;
+				$array_Champs['liste_erreur_possible']['champ_message_trop_long'] = true;
 			}
 			
 			if ($array_Champs['longueur_nom'] > 30){
-				$array_Champs['champ_nom_trop_long'] = true;
+				$array_Champs['liste_erreur_possible']['champ_nom_trop_long'] = true;
 			}
 			
 			if ($array_Champs['longueur_email'] > 30){
-				$array_Champs['champ_email_trop_long'] = true;
+				$array_Champs['liste_erreur_possible']['champ_email_trop_long'] = true;
 			}
 			
 			if ($array_Champs['longueur_sujet'] > 50){
-				$array_Champs['champ_sujet_trop_long'] = true;
+				$array_Champs['liste_erreur_possible']['champ_sujet_trop_long'] = true;
 			}
 			
 			// On vérifier l'état du courriel
 			if (!preg_match(PATTERN_EMAIL, $array_Champs['email'])) {
-				$array_Champs['champ_email_invalid'] = true;
+				$array_Champs['liste_erreur_possible']['champ_email_invalid'] = true;
 			}
 			
 			// https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
 			if (!(filter_var($array_Champs['email'], FILTER_VALIDATE_EMAIL))){
-				$array_Champs['champ_email_invalid'] = true;
+				$array_Champs['liste_erreur_possible']['champ_email_invalid'] = true;
 			}
 		}
 		
-		$array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
+		$array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs['liste_erreur_possible']);
 		
 		return $array_Champs;
 	}

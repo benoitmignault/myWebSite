@@ -266,7 +266,7 @@
     }
     
     /**
-     * Fonction pour créer l'instant de connexion au serveur de courriel GMAIL.
+     * Fonction pour créer l'instance de connexion au serveur de courriel GMAIL.
      * On va utiliser une adresse courriel spéciale prévue à cet effet
      *
      * @return PHPMailer

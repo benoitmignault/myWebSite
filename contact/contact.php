@@ -21,11 +21,11 @@
 	function initialisation(): array {
 		
 		return array("longueur_nom" => 0, "longueur_email" => 0, "longueur_sujet" => 0, "longueur_message" => 0,
-		             "nom" => "", "email" => "", "sujet" => "", "message" => "", "erreur_presente" => false,
+		             "nom" => "", "email" => "", "sujet" => "", "message" => "", "erreur_presente" => false, "envoi_courriel_succes" => false,
 		             "liste_erreur_possible" => array("champs_vide" => false, "champs_trop_long" => false, "champ_email_invalid" => false,
-					                                  "champ_nom_vide" => false, "champ_email_vide" => false, "champ_message_vide" => false, "champ_sujet_vide" => false,
-					                                  "champ_nom_trop_long" => false, "champ_email_trop_long" => false, "champ_message_trop_long" => false, "champ_sujet_trop_long" => false,
-					                                  "envoi_courriel_succes" => false));
+					                                  "champ_nom_vide" => false, "champ_email_vide" => false, "champ_message_vide" => false,
+					                                  "champ_sujet_vide" => false, "champ_nom_trop_long" => false, "champ_email_trop_long" => false,
+					                                  "champ_message_trop_long" => false, "champ_sujet_trop_long" => false));
 	}
 	
 	/**
@@ -183,7 +183,7 @@
 			
 			// Envoyer l'e-mail
 			$mail->send();
-			$array_Champs['liste_erreur_possible']["envoi_courriel_succes"] = true;
+			$array_Champs["envoi_courriel_succes"] = true;
 			
 		} finally {
 			
@@ -264,7 +264,7 @@
 			$array_Champs = gestion_lien_courriel($array_Champs);
 			
 			// si l'envoi de courriel à marcher, on retourne un code 200
-			if ($array_Champs['liste_erreur_possible']["envoi_courriel_succes"]) {
+			if ($array_Champs["envoi_courriel_succes"]) {
 				return http_response_code(200);
 				
 				// Sinon, on retourne un code de retour 400

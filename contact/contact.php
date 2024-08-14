@@ -130,7 +130,7 @@
 				$array_Champs['liste_erreur_possible']['champ_nom_trop_long'] = true;
 			}
 			
-			if ($array_Champs['longueur_email'] > 30){
+			if ($array_Champs['longueur_email'] > 50){
 				$array_Champs['liste_erreur_possible']['champ_email_trop_long'] = true;
 			}
 			

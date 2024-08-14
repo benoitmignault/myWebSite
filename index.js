@@ -365,7 +365,7 @@ function envoyer_courriel() {
                 MSG_ERR.innerHTML += "<li>Email field is empty</li>";
             }
             erreur = true;
-        } else if (COURRIEL.value.length > 30) {
+        } else if (COURRIEL.value.length > 50) {
             COURRIEL.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
                 MSG_ERR.innerHTML += "<li>L'information dans le champ email est trop long</li>";

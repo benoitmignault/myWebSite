@@ -529,52 +529,9 @@ function envoyer_courriel() {
                     }
                 }
             });
-
-            /*
-            let request;
-            // Abort any pending request
-            if (request) {
-                request.abort();
-            }
-            // setup some local variables
-            let $form = $(this);
-
-            // Serialize the data in the form
-            let serializedData = $form.serialize();
-            let url = "/contact/contact.php";
-
-            request = $.ajax({
-                url: url,
-                type: "post",
-                data: serializedData
-            });
-
-            // Callback handler that will be called on success
-            // TODO : vérifier si les variables inutilisé sont utile ou pas
-            // response, textStatus, jqXHR
-            request.done(function () {
-                if (LANGUE.value === "fr") {
-                    MSG_SUCCES.innerHTML = "Votre message a été envoyé";
-                } else if (LANGUE.value === "en") {
-                    MSG_SUCCES.innerHTML = "Your message has been sent";
-                }
-            });
-
-            // Callback handler that will be called on failure
-            // TODO : vérifier si les variables inutilisé sont utile ou pas
-            // jqXHR, textStatus, errorThrown
-            request.fail(function () {
-                if (LANGUE.value === "fr") {
-                    MSG_ERR.innerHTML += "<li>Un problème avec l'envoi du courriel a été rencontré</li>";
-                } else if (LANGUE.value === "en") {
-                    MSG_ERR.innerHTML += "<li>A problem with sending the email was encountered</li>";
-                }
-            });
         }
     });
 }
-
-
 
 document.addEventListener('DOMContentLoaded', function () {
 

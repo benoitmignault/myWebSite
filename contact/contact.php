@@ -168,7 +168,9 @@
 		
 		try {
 			// L'information vient de qui et qui sera utilisé pour répondre
-			$mail->setFrom($array_Champs['email'], $array_Champs['nom']);
+			// setFrom n'est pas autorisé par GMAIL
+			// addReplyTo - Fonctionne - Merci ChatGPT
+			$mail->addReplyTo($array_Champs['email'], $array_Champs['nom']);
 			
 			// Ajouter le destinataire principal - Propriétaire du site web
 			$mail->addAddress('home@benoitmignault.ca', '');

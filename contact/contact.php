@@ -24,7 +24,7 @@
 		             "champs_vide" => false, "champs_trop_long" => false, "champ_email_invalid" => false,
 		             "champ_nom_vide" => false, "champ_email_vide" => false, "champ_message_vide" => false, "champ_sujet_vide" => false,
 		             "champ_nom_trop_long" => false, "champ_email_trop_long" => false, "champ_message_trop_long" => false, "champ_sujet_trop_long" => false,
-		             "erreur_presente" => false);
+		             "erreur_presente" => false, "envoi_courriel_echec" => false, "envoi_courriel_succes" => false);
 	}
 	
 	/**

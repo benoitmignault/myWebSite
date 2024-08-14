@@ -334,7 +334,7 @@
         if ($type_langue === 'francais') {
             $lien = "Cliquer ici";
             $contenu_courriel .= "<html lang=\"fr\">";
-            $contenu_courriel .= "<head><title>Changement de Mot de Passe</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+            $contenu_courriel .= "<head><title>Changement de Mot de Passe</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head>";
             $contenu_courriel .= "<body style='font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0; font-size: 16px;'><p>Bonjour !</p>
                                   <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
                                      pour faire de nouvelles consultations des statistiques de poker.</p>

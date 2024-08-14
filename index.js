@@ -504,6 +504,33 @@ function envoyer_courriel() {
 
         if (!erreur_nom_complet && !erreur_courriel && !erreur_sujet && !erreur_message) {
 
+            // Serialize the form data
+            let serialized_data = $(this).serialize();
+            let url = "/contact/contact.php";
+
+            $.ajax({
+                url: url,
+                type: "post",
+                data: serialized_data,
+
+                success: function () {
+                    if (LANGUE.value === "fr") {
+                        $msgSucces.html("Votre message a été envoyé");
+                    } else if (LANGUE.value === "en") {
+                        $msgSucces.html("Your message has been sent");
+                    }
+                },
+
+                error: function () {
+                    if (LANGUE.value === "fr") {
+                        $msgErr.html("Un problème avec l'envoi du courriel a été rencontré");
+                    } else if (LANGUE.value === "en") {
+                        $msgErr.html("A problem with sending the email was encountered");
+                    }
+                }
+            });
+
+            /*
             let request;
             // Abort any pending request
             if (request) {

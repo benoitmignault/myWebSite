@@ -1,5 +1,7 @@
 <?php
 	
+	use JetBrains\PhpStorm\NoReturn;
+	
 	/**
 	 * Retourne un array de variables qui seront utilisées pour le timer
      *
@@ -351,7 +353,7 @@
 	 * @param $situation
 	 * @return void
 	 */
-	function redirectionVersTimer($dictionnaire, $situation) {
+	#[NoReturn] function redirectionVersTimer($dictionnaire, $situation): void {
 		
 		$message = messageSituation($dictionnaire, $situation);
 		

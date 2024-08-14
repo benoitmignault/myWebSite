@@ -334,6 +334,7 @@ function envoyer_courriel() {
 
         // Lorsque le nom est manquant
         if (NOM_COMPLET.value === "") {
+
             NOM_COMPLET.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
                 MSG_ERR.innerHTML += "<li>Champ nom et prénom est vide</li>";
@@ -341,6 +342,7 @@ function envoyer_courriel() {
                 MSG_ERR.innerHTML += "<li>Surname and first name field is empty</li>";
             }
             erreur = true;
+
         } else if (NOM_COMPLET.value.length > 30) {
             NOM_COMPLET.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
@@ -349,6 +351,7 @@ function envoyer_courriel() {
                 MSG_ERR.innerHTML += "<li>The information in the first and last name field is too long</li>";
             }
             erreur = true;
+
         } else {
             NOM_COMPLET.style.border = "initial";
         }
@@ -383,7 +386,7 @@ function envoyer_courriel() {
                 MSG_ERR.innerHTML += "<li>Subject field is empty</li>";
             }
             erreur = true;
-        } else if (SUJET.value.length > 30) {
+        } else if (SUJET.value.length > 50) {
             SUJET.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
                 MSG_ERR.innerHTML += "<li>L'information dans le champ sujet est trop long</li>";
@@ -404,7 +407,7 @@ function envoyer_courriel() {
                 MSG_ERR.innerHTML += "<li>Message field is empty</li>";
             }
             erreur = true;
-        } else if (MESSAGE.value.length > 250) {
+        } else if (MESSAGE.value.length > 300) {
             MESSAGE.style.border = "2px solid red";
             if (LANGUE.value === "fr") {
                 MSG_ERR.innerHTML += "<li>L'information dans le champ message est trop long</li>";

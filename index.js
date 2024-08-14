@@ -10,7 +10,7 @@ const COURRIEL = document.querySelector('#email');
 const MESSAGE = document.querySelector('#msg');
 const SUJET = document.querySelector('#sujet');
 const FORM_CONTACT = document.querySelector('#form-contact');
-const MSG_SUCCES = document.querySelector('#msg-courriel');
+const MSG_SUCCES = document.querySelector('#msg-succes');
 const MSG_ERR = document.querySelector('#msg-err');
 const HASH_TAG = document.querySelector('#hash-tag');
 // Uniquement pour faire varier le titre de la page en cours

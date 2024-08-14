@@ -323,7 +323,7 @@
      *
 	 * @return void
 	 */
-	function redirectionVersPageErreur() {
+	#[NoReturn] function redirectionVersPageErreur(): void {
 		
 		header("Location: /erreur/erreur.php");
 		exit;
@@ -334,7 +334,7 @@
      *
 	 * @return void
 	 */
-	function redirectionVersAccueil() {
+	#[NoReturn] function redirectionVersAccueil(): void {
 		
 		if ($_SERVER['typeLangue'] == 'francais') {
 			header("Location: /index.html");

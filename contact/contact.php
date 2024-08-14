@@ -234,11 +234,17 @@
 	 */
 	function preparation_contenu_courriel(string $message): string {
 		
+		// Ajout de l'encodage UTF-8 dans la balise meta
 		$contenu_courriel = "<html lang=\"fr\">";
-		$contenu_courriel .= "<head><title>Message de l'auditoire</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head>";
+		$contenu_courriel .= "<head>";
+		$contenu_courriel .= "<meta charset=\"UTF-8\">";
+		$contenu_courriel .= "<title>Message de l'auditoire</title>";
+		$contenu_courriel .= "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+		$contenu_courriel .= "</head>";
 		$contenu_courriel .= "<body style='font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0; font-size: 16px;'>";
-		$contenu_courriel .= "<p>{$message}</p>";
-		$contenu_courriel .= "<p style='text-align: left'>Bonne journée</p><p style='text-align: left'>L'Équipe de Gestion BenoitMignault.ca</p>";
+		
+		// Le message sera déjà encodé en UTF-8
+		$contenu_courriel .= "<p>" . htmlentities($message, ENT_QUOTES, 'UTF-8') . "</p>";
 		$contenu_courriel .= '</body></html>';
 		
 		return $contenu_courriel;

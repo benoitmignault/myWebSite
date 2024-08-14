@@ -1,5 +1,8 @@
 <?php
 	
+	// Déclaration d'une constante globale
+	const PATTERN_EMAIL = '#^[[:alnum:]._-]+@[[:alnum:]._-]+\.[[:alpha:]]{2,4}$#';
+	
 	/**
 	 * Fonction qui sera utilisée partout, où il y a des validations
 	 * Retournera la valeur boolean true|false

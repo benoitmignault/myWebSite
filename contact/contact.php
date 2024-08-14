@@ -20,11 +20,11 @@
 	function initialisation(): array {
 		
 		return array("longueur_nom" => 0, "longueur_email" => 0, "longueur_sujet" => 0, "longueur_message" => 0,
-		             "nom" => "", "email" => "", "sujet" => "", "message" => "",
-		             "champs_vide" => false, "champs_trop_long" => false, "champ_email_invalid" => false,
-		             "champ_nom_vide" => false, "champ_email_vide" => false, "champ_message_vide" => false, "champ_sujet_vide" => false,
-		             "champ_nom_trop_long" => false, "champ_email_trop_long" => false, "champ_message_trop_long" => false, "champ_sujet_trop_long" => false,
-		             "erreur_presente" => false, "envoi_courriel_echec" => false, "envoi_courriel_succes" => false);
+		             "nom" => "", "email" => "", "sujet" => "", "message" => "", "erreur_presente" => false,
+		             "liste_erreur_possible" => array("champs_vide" => false, "champs_trop_long" => false, "champ_email_invalid" => false,
+					                                  "champ_nom_vide" => false, "champ_email_vide" => false, "champ_message_vide" => false, "champ_sujet_vide" => false,
+					                                  "champ_nom_trop_long" => false, "champ_email_trop_long" => false, "champ_message_trop_long" => false, "champ_sujet_trop_long" => false,
+					                                  "envoi_courriel_echec" => false, "envoi_courriel_succes" => false));
 	}
 	
 	/**

@@ -27,23 +27,70 @@
 		             "erreur_presente" => false);
 	}
 	
+	/**
+	 * Fonction pour setter les informations que l'utilisateur du site aurait remplies
+	 * Aussi, on va récupérer via le POST, les informations
+	 *
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function remplisage_champs(array $array_Champs): array {
+		
+		if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+			
+			// Si le nom est présent, on va associer la variable
+			if (isset($_POST['nom'])) {
+				
+				// Si le champ du nom n'est pas vide, on l'associe
+				if (!empty($_POST['nom'])) {
+					
+					$array_Champs['nom'] = $_POST['nom'];
+					$array_Champs['longueur_nom'] = strlen($array_Champs['nom']);
+				}
+			}
+			
+			// Si le email est présent, on va associer la variable
+			if (isset($_POST['email'])) {
+				
+				// Si le champ du Email n'est pas vide, on l'associe
+				if (!empty($_POST['email'])) {
+					
+					$array_Champs['email'] = $_POST['email'];
+					$array_Champs['longueur_email'] = strlen($array_Champs['email']);
+				}
+			}
+			
+			// Si le sujet est présent, on va associer la variable
+			if (isset($_POST['sujet'])) {
+				
+				// Si le champ du Email n'est pas vide, on l'associe
+				if (!empty($_POST['sujet'])) {
+					
+					$array_Champs['sujet'] = $_POST['sujet'];
+					$array_Champs['longueur_sujet'] = strlen($array_Champs['sujet']);
+				}
+			}
+			
+			// Si le message est présent, on va associer la variable
+			if (isset($_POST['msg'])) {
+				
+				// Si le champ du message n'est pas vide, on l'associe
+				if (!empty($_POST['msg'])) {
+					
+					$array_Champs['message'] = $_POST['msg'];
+					$array_Champs['longueur_message'] = strlen($array_Champs['message']);
+				}
+			}
+		}
+		
+		return $array_Champs;
+	}
 	
 	
-	
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		
 		$array_Champs = initialisation();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		$array_Champs = remplisage_champs($array_Champs);
 		
 		
 		

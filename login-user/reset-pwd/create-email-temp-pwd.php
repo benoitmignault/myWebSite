@@ -8,8 +8,8 @@
     // Import PHPMailer classes into the global namespace
 	use JetBrains\PhpStorm\NoReturn;
     use PHPMailer\PHPMailer\Exception;
-
-    // Load Composer's autoloader
+	
+	// Load Composer's autoloader - Important 
     require '../../../vendor/autoload.php';
 
     // Lorsque je suis en mode DEV :

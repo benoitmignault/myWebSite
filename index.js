@@ -489,8 +489,13 @@ function envoyer_courriel() {
 
     $(FORM_CONTACT).submit(function (e) {
         e.preventDefault();
-        MSG_SUCCES.innerHTML = "";
-        MSG_ERR.innerHTML = "";
+
+        // Convertir les éléments DOM en objets jQuery
+        let $msgSucces = $(MSG_SUCCES);
+        let $msgErr = $(MSG_ERR);
+
+        $msgSucces.empty(); // Utilisation de jQuery pour vider les messages
+        $msgErr.empty();
 
         let erreur_nom_complet = validation_champ_nom();
         let erreur_courriel = validation_champ_email();

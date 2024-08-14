@@ -523,9 +523,9 @@ function envoyer_courriel() {
 
                 error: function () {
                     if (LANGUE.value === "fr") {
-                        $msgErr.html("Un problème avec l'envoi du courriel a été rencontré");
+                        $msgErr.html("<li>Un problème avec l'envoi du courriel a été rencontré</li>");
                     } else if (LANGUE.value === "en") {
-                        $msgErr.html("A problem with sending the email was encountered");
+                        $msgErr.html("<li>A problem with sending the email was encountered</li>");
                     }
                 }
             });

@@ -1,5 +1,6 @@
 <?php
 	// Modernisation des envoies de courriels venant des gens qui tente de me contacter
+	// 2024-08-13
 	
 	// Les includes nécessaires
 	include_once("../includes/fct-divers.php");

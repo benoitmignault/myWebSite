@@ -86,59 +86,97 @@
 		return $array_Champs;
 	}
 	
+	/**
+	 * Fonction qui servira à mettre à «True» les variables de contrôles des informations que nous avons associé durant la fonction @see remplisage_champs
+	 *
+	 * @param $array_Champs
+	 * @return array
+	 */
+	function validation_champs($array_Champs): array{
+		
+		// Section des vérifications des champs vide
+		if (empty($array_Champs['email'])) {
+			$array_Champs['champ_email_vide'] = true;
+		}
+		
+		if (empty($array_Champs['nom'])) {
+			$array_Champs['champ_nom_vide'] = true;
+		}
+		
+		if (empty($array_Champs['sujet'])) {
+			$array_Champs['champ_sujet_vide'] = true;
+		}
+		
+		if (empty($array_Champs['message'])) {
+			$array_Champs['champ_message_vide'] = true;
+		}
+		
+		// Vérification si un des champs est vide, alors on stop tout et on retourne une erreur au CALL Ajax
+		if ($array_Champs['champ_email_vide'] || $array_Champs['champ_nom_vide'] ||
+			$array_Champs['champ_sujet_vide'] || $array_Champs['champ_message_vide']){
+			
+			$array_Champs['champs_vide'] = true;
+		}
+		
+		// On peut poursuivre logiquement les validations vue que les champs ne sont pas vide
+		if (!$array_Champs['champs_vide']){
+			
+			// On vérifie maintenant la longueur du contenu des champs
+			if ($array_Champs['longueur_message'] > 300){
+				$array_Champs['champ_message_trop_long'] = true;
+			}
+			
+			if ($array_Champs['longueur_nom'] > 30){
+				$array_Champs['champ_nom_trop_long'] = true;
+			}
+			
+			if ($array_Champs['longueur_email'] > 30){
+				$array_Champs['champ_email_trop_long'] = true;
+			}
+			
+			if ($array_Champs['longueur_sujet'] > 50){
+				$array_Champs['champ_sujet_trop_long'] = true;
+			}
+			
+			// On vérifier l'état du courriel
+			if (!preg_match(PATTERN_EMAIL, $array_Champs['email'])) {
+				$array_Champs['champ_email_invalid'] = true;
+			}
+			
+			// https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
+			if (!(filter_var($array_Champs['email'], FILTER_VALIDATE_EMAIL))){
+				$array_Champs['champ_email_invalid'] = true;
+			}
+		}
+		
+		$array_Champs['erreur_presente'] = verification_valeur_controle($array_Champs);
+		
+		return $array_Champs;
+	}
+	
+	
+	
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		
 		$array_Champs = initialisation();
 		$array_Champs = remplisage_champs($array_Champs);
+		$array_Champs = validation_champs($array_Champs);
 		
-		
-		
-		$nom = $_POST['nom'];
-		// Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].
-		$emailPersonne = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-		// Ajout d'une sécurité pour améliorer l'envoi de courriel sécurité - 13 Janvier 2020
-		$sujet = str_ireplace(array("\r", "\n", '%0A','%0D'), '', $_POST['sujet']);
-		// Ajout d'une sécurité pour améliorer l'envoi de courriel sécurité - 13 Janvier 2020
-		$message = str_replace("\n.", "\n..", $_POST['msg']);
-		
-		// 2024-05-16, utilisation de mon courriel de UQAM pour recevoir les courriels avec les accents
-		$emailServeur = "mignault.benoit@courrier.uqam.ca";
-		$champsVide = false;
-		$champsTroplong = false;
-		$validateEmail = false;
-		
-		// https://stackoverflow.com/questions/11952473/proper-prevention-of-mail-injection-in-php/11952659#11952659
-		// https://www.php.net/manual/en/function.filter-var.php
-		$validateEmail = filter_var($emailPersonne, FILTER_VALIDATE_EMAIL);  // ajout de cette sécurité trouver sur stackoverflow
-		
-		if ((strlen($nom) > 30) || (strlen($emailPersonne) > 30) || (strlen($sujet) > 30) || (strlen($message) > 250)) {
-			$champsTroplong = true;
-		}
-		
-		if ($nom === "" || $emailPersonne === "" || $sujet === "" || $message === "") {
-			$champsVide = true;
-		}
-		
-		// Ajout de la 3e validation à savoir si le courriel est valide
-		if ($champsVide === false && $champsTroplong === false && !$validateEmail === false) {
-			$reply_email = $emailPersonne;
-			date_default_timezone_set('America/New_York');
-			$current_time = date("Y-m-d H:i:s");
-			$entetemail = "From: " . $emailPersonne . "\r\n";    // Adresse expéditeur
-			$entetemail .= "Reply-To: " . $reply_email . "\r\n"; // Adresse de retour
-			$entetemail .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-			$entetemail .= "Date: " . $current_time . "\r\n";
+		// Si aucune erreur est présent, on peut aller de l'avant et construire le courriel pour informer l'auteur
+		if (!$array_Champs['erreur_presente']){
 			
-			$succes = mail($emailServeur, $sujet, $message, $entetemail);
-			if ($succes) {
+			// À remplir
+			
+			
+			if (true) {				
 				return http_response_code(200);
-			}
-			else {
+				
+			} else {
 				return http_response_code(400);
 			}
-		}
-		else {
+		
+		} else {
 			return http_response_code(400);
 		}
 	}

@@ -154,8 +154,95 @@
 		return $array_Champs;
 	}
 	
+	/**
+	 * Création du courriel qui sera retourner au propriétaire du site web pour être informer des messages
+	 * Avec différentes étapes de préparations du courriel et contenu de ce dernier
+	 *
+	 * @param array $array_Champs
+	 * @return array
+	 */
+	function gestion_lien_courriel(array $array_Champs): array{
+		
+		// Création de l'instance
+		$mail = creation_instance_courriel();
+		
+		try {
+			// L'information vient de qui et qui sera utilisé pour répondre
+			$mail->setFrom($array_Champs['email'], $array_Champs['nom']);
+			
+			// Ajouter le destinataire principal - Propriétaire du site web
+			$mail->addAddress('home@benoitmignault.ca', '');
+			
+			// Préparation pour l'object et le corp du message, en fonction de la langue
+			$mail->isHTML(); // par défaut is true
+			$mail->Subject = $array_Champs['sujet'];
+			$mail->Body = preparation_contenu_courriel($array_Champs['message']);
+			
+			// Envoyer l'e-mail
+			$mail->send();
+			$array_Champs["envoi_courriel_succes"] = true;
+		} catch (Exception) {
+			
+			$array_Champs["envoi_courriel_echec"] = true;
+		} finally {
+			
+			// Fermer la connexion SMTP
+			$mail->SmtpClose();
+		}
+		
+		return $array_Champs;
+	}
 	
+	/**
+	 * Fonction pour créer l'instance de connexion au serveur de courriel GMAIL.
+	 * On va utiliser une adresse courriel spéciale prévue à cet effet
+	 *
+	 * @return PHPMailer
+	 */
+	function creation_instance_courriel(): PHPMailer {
+		
+		//  Préparation du lien pour le courriel, avec true pour gérer les exceptions
+		$mail = new PHPMailer(true);
+		
+		// Initialisation des variables, pour éviter des fausses erreurs de IntelliJ
+		// Venant du fichier info-connexion-email.php
+		$user_email = "";
+		$password_email = "";
+		
+		// Les includes nécessaires, l'include doit être après la déclaration des variables qui seront utilisées
+		include_once("../includes/info-connexion-email.php");
+		
+		// Paramètres du serveur SMTP
+		$mail->SMTPDebug = 0; // 2 Pour voir le mode debug des messages erreurs
+		$mail->isSMTP();
+		$mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
+		$mail->SMTPAuth   = true;
+		$mail->Username   = $user_email;
+		$mail->Password   = $password_email;
+		$mail->SMTPSecure = "tls";
+		$mail->Port       = 587;
+		$mail->CharSet    = 'UTF-8';
+		
+		return $mail;
+	}
 	
+	/**
+	 * Fonction pour créer le corps du courriel
+	 *
+	 * @param string $message
+	 * @return string
+	 */
+	function preparation_contenu_courriel(string $message): string {
+		
+		$contenu_courriel = "<html lang=\"fr\">";
+		$contenu_courriel .= "<head><title>Message de l'auditoire</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head>";
+		$contenu_courriel .= "<body style='font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0; font-size: 16px;'>";
+		$contenu_courriel .= "<p>{$message}</p>";
+		$contenu_courriel .= "<p style='text-align: left'>Bonne journée</p><p style='text-align: left'>L'Équipe de Gestion BenoitMignault.ca</p>";
+		$contenu_courriel .= '</body></html>';
+		
+		return $contenu_courriel;
+	}
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		
@@ -166,13 +253,15 @@
 		// Si aucune erreur est présent, on peut aller de l'avant et construire le courriel pour informer l'auteur
 		if (!$array_Champs['erreur_presente']){
 			
-			// À remplir
+			// Utilisation de cette fonction pour appeler les fonctions nécessaires pour le courriel
+			$array_Champs = gestion_lien_courriel($array_Champs);
 			
-			
-			if (true) {				
+			// si l'envoi de courriel à marcher, on retourne un code 200
+			if ($array_Champs["envoi_courriel_succes"]) {
 				return http_response_code(200);
 				
-			} else {
+				// Sinon, on retourne un code de retour 400
+			} elseif ($array_Champs["envoi_courriel_echec"]) {
 				return http_response_code(400);
 			}
 		

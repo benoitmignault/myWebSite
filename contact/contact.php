@@ -184,7 +184,10 @@
 			// Envoyer l'e-mail
 			$mail->send();
 			$array_Champs["envoi_courriel_succes"] = true;
+		} catch (Exception) {
 			
+			// On remet la variable à false en cas de problème
+			$array_Champs["envoi_courriel_succes"] = false;
 		} finally {
 			
 			// Fermer la connexion SMTP
@@ -263,7 +266,7 @@
 			// Utilisation de cette fonction pour appeler les fonctions nécessaires pour le courriel
 			$array_Champs = gestion_lien_courriel($array_Champs);
 			
-			// si l'envoi de courriel à marcher, on retourne un code 200
+			// Si l'envoi de courriel à marcher, on retourne un code 200
 			if ($array_Champs["envoi_courriel_succes"]) {
 				return http_response_code(200);
 				

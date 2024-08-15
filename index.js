@@ -10,7 +10,7 @@ const COURRIEL = document.querySelector('#email');
 const MESSAGE = document.querySelector('#msg');
 const SUJET = document.querySelector('#sujet');
 const FORM_CONTACT = document.querySelector('#form-contact');
-const MSG_SUCCES = document.querySelector('#msg-courriel');
+const MSG_SUCCES = document.querySelector('#msg-succes');
 const MSG_ERR = document.querySelector('#msg-err');
 const HASH_TAG = document.querySelector('#hash-tag');
 // Uniquement pour faire varier le titre de la page en cours
@@ -318,9 +318,171 @@ function format_AM_PM(date) {
 }
 
 /**
+ * Retourne true s'il y a une erreur dans la saisie du prénom et nom de la section « Commentaire »
+ *
+ * @returns {boolean}
+ */
+function validation_champ_nom(){
+
+    let erreur = false;
+    if (NOM_COMPLET.value === "" || NOM_COMPLET.value.length > 30) {
+
+        // On met en partant la variable à true
+        erreur = true;
+
+        if (NOM_COMPLET.value === "") {
+
+            NOM_COMPLET.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>Champ nom et prénom est vide</li>";
+            } else {
+                MSG_ERR.innerHTML += "<li>Surname and first name field is empty</li>";
+            }
+        }
+
+        if (NOM_COMPLET.value.length > 30) {
+
+            NOM_COMPLET.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>L'information dans le champ nom et prénom est trop long</li>";
+            } else {
+                MSG_ERR.innerHTML += "<li>The information in the first and last name field is too long</li>";
+            }
+        }
+        // Sinon, nous avons un nom complet valide
+    } else {
+        NOM_COMPLET.style.border = "initial";
+    }
+
+    return erreur;
+}
+
+/**
+ * Retourne true s'il y a une erreur dans la saisie du courriel de la section « Commentaire »
+ *
+ * @returns {boolean}
+ */
+function validation_champ_email(){
+
+    let erreur = false;
+    if (COURRIEL.value === "" || COURRIEL.value.length > 50) {
+
+        // On met en partant la variable à true
+        erreur = true;
+
+        if (COURRIEL.value === "") {
+
+            COURRIEL.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>Champ du courriel est vide</li>";
+            } else {
+                MSG_ERR.innerHTML += "<li>Email field is empty</li>";
+            }
+        }
+
+        if (COURRIEL.value.length > 50) {
+
+            COURRIEL.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>L'information dans le champ email est trop long</li>";
+            } else {
+                MSG_ERR.innerHTML += "<li>The information in the email field is too long</li>";
+            }
+        }
+        // Sinon, nous avons un nom complet valide
+    } else {
+        COURRIEL.style.border = "initial";
+    }
+
+    return erreur;
+}
+
+/**
+ * Retourne true s'il y a une erreur dans la saisie du sujet de la section « Commentaire »
+ *
+ * @returns {boolean}
+ */
+function validation_champ_sujet(){
+
+    let erreur = false;
+    if (SUJET.value === "" || SUJET.value.length > 50) {
+
+        // On met en partant la variable à true
+        erreur = true;
+
+        if (SUJET.value === "") {
+
+            SUJET.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>Champ du sujet est vide</li>";
+            } else {
+                MSG_ERR.innerHTML += "<li>Subject field is empty</li>";
+            }
+        }
+
+        if (SUJET.value.length > 50) {
+
+            SUJET.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>L'information dans le champ sujet est trop long</li>";
+            } else {
+                MSG_ERR.innerHTML += "<li>The information in the subject field is too long</li>";
+            }
+        }
+        // Sinon, nous avons un nom sujet valide
+    } else {
+        SUJET.style.border = "initial";
+    }
+
+    return erreur;
+}
+
+/**
+ * Retourne true s'il y a une erreur dans la saisie du contenu du message de la section « Commentaire »
+ *
+ * @returns {boolean}
+ */
+function validation_champ_message(){
+
+    let erreur = false;
+
+    if (MESSAGE.value === "" || MESSAGE.value.length > 300) {
+
+        // On met en partant la variable à true
+        erreur = true;
+
+        if (MESSAGE.value === "") {
+
+            MESSAGE.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>Champ du message est vide</li>";
+            } else {
+                MSG_ERR.innerHTML += "<li>Message field is empty</li>";
+            }
+        }
+
+        if (MESSAGE.value.length > 300) {
+
+            MESSAGE.style.border = "2px solid red";
+            if (LANGUE.value === "fr") {
+                MSG_ERR.innerHTML += "<li>L'information dans le champ message est trop long</li>";
+            } else {
+                MSG_ERR.innerHTML += "<li>The information in the message field is too long</li>";
+            }
+        }
+        // Sinon, nous avons un nom message valide
+    } else {
+        MESSAGE.style.border = "initial";
+    }
+
+    return erreur;
+}
+
+/**
  * Le ou la visiteur(e) sur le site web va pouvoir envoyer un courriel à l'admin du site web avec son nom,
  * le sujet, son courriel pour un retour de l'admin, si nécessaire.
  * Des messages d'erreurs peuvent subvenir si les différents champs ne sont pas remplis.
+ * Optimisation de la fonction 13 août
  *
  * @returns {void}
  */
@@ -328,132 +490,56 @@ function envoyer_courriel() {
 
     $(FORM_CONTACT).submit(function (e) {
         e.preventDefault();
-        MSG_SUCCES.innerHTML = "";
-        MSG_ERR.innerHTML = "";
-        let erreur = false;
 
-        // Lorsque le nom est manquant
-        if (NOM_COMPLET.value === "") {
-            NOM_COMPLET.style.border = "2px solid red";
-            if (LANGUE.value === "fr") {
-                MSG_ERR.innerHTML += "<li>Champ nom et prénom est vide</li>";
-            } else {
-                MSG_ERR.innerHTML += "<li>Surname and first name field is empty</li>";
-            }
-            erreur = true;
-        } else if (NOM_COMPLET.value.length > 30) {
-            NOM_COMPLET.style.border = "2px solid red";
-            if (LANGUE.value === "fr") {
-                MSG_ERR.innerHTML += "<li>L'information dans le champ nom et prénom est trop long</li>";
-            } else {
-                MSG_ERR.innerHTML += "<li>The information in the first and last name field is too long</li>";
-            }
-            erreur = true;
-        } else {
-            NOM_COMPLET.style.border = "initial";
-        }
+        // Convertir les éléments DOM en objets jQuery
+        let $msgSucces = $(MSG_SUCCES);
+        let $msgErr = $(MSG_ERR);
 
-        // si le courriel est vide
-        if (COURRIEL.value === "") {
-            COURRIEL.style.border = "2px solid red";
-            if (LANGUE.value === "fr") {
-                MSG_ERR.innerHTML += "<li>Champ du courriel est vide</li>";
-            } else {
-                MSG_ERR.innerHTML += "<li>Email field is empty</li>";
-            }
-            erreur = true;
-        } else if (COURRIEL.value.length > 30) {
-            COURRIEL.style.border = "2px solid red";
-            if (LANGUE.value === "fr") {
-                MSG_ERR.innerHTML += "<li>L'information dans le champ email est trop long</li>";
-            } else {
-                MSG_ERR.innerHTML += "<li>The information in the email field is too long</li>";
-            }
-            erreur = true;
-        } else {
-            COURRIEL.style.border = "initial";
-        }
+        $msgSucces.empty(); // Utilisation de jQuery pour vider les messages
+        $msgErr.empty(); // Utilisation de jQuery pour vider les messages
 
-        // si le sujet est vide
-        if (SUJET.value === "") {
-            SUJET.style.border = "2px solid red";
-            if (LANGUE.value === "fr") {
-                MSG_ERR.innerHTML += "<li>Champ du sujet est vide</li>";
-            } else {
-                MSG_ERR.innerHTML += "<li>Subject field is empty</li>";
-            }
-            erreur = true;
-        } else if (SUJET.value.length > 30) {
-            SUJET.style.border = "2px solid red";
-            if (LANGUE.value === "fr") {
-                MSG_ERR.innerHTML += "<li>L'information dans le champ sujet est trop long</li>";
-            } else {
-                MSG_ERR.innerHTML += "<li>The information in the subject field is too long</li>";
-            }
-            erreur = true;
-        } else {
-            SUJET.style.border = "initial";
-        }
+        let erreur_nom_complet = validation_champ_nom();
+        let erreur_courriel = validation_champ_email();
+        let erreur_sujet = validation_champ_sujet();
+        let erreur_message = validation_champ_message();
 
-        // si le message est vide
-        if (MESSAGE.value === "") {
-            MESSAGE.style.border = "2px solid red";
-            if (LANGUE.value === "fr") {
-                MSG_ERR.innerHTML += "<li>Champ du message est vide</li>";
-            } else {
-                MSG_ERR.innerHTML += "<li>Message field is empty</li>";
-            }
-            erreur = true;
-        } else if (MESSAGE.value.length > 250) {
-            MESSAGE.style.border = "2px solid red";
-            if (LANGUE.value === "fr") {
-                MSG_ERR.innerHTML += "<li>L'information dans le champ message est trop long</li>";
-            } else {
-                MSG_ERR.innerHTML += "<li>The information in the message field is too long</li>";
-            }
-            erreur = true;
-        } else {
-            MESSAGE.style.border = "initial";
-        }
+        if (!erreur_nom_complet && !erreur_courriel && !erreur_sujet && !erreur_message) {
 
-        if (erreur === false) {
-            let request;
-            // Abort any pending request
-            if (request) {
-                request.abort();
+            // Mise en place d'un message pour dire que le courriel est en cours de partir
+            if (LANGUE.value === "fr") {
+                $msgSucces.html("Votre message est entrains d'être envoyé");
+            } else if (LANGUE.value === "en") {
+                $msgSucces.html("Your message is being sent");
             }
-            // setup some local variables
-            let $form = $(this);
 
-            // Serialize the data in the form
-            let serializedData = $form.serialize();
+            // Serialize the form data
+            let serialized_data = $(this).serialize();
             let url = "/contact/contact.php";
 
-            request = $.ajax({
+            $.ajax({
                 url: url,
                 type: "post",
-                data: serializedData
-            });
+                data: serialized_data,
 
-            // Callback handler that will be called on success
-            // TODO : vérifier si les variables inutilisé sont utile ou pas
-            // response, textStatus, jqXHR
-            request.done(function () {
-                if (LANGUE.value === "fr") {
-                    MSG_SUCCES.innerHTML = "Votre message a été envoyé";
-                } else if (LANGUE.value === "en") {
-                    MSG_SUCCES.innerHTML = "Your message has been sent";
-                }
-            });
+                success: function () {
+                    if (LANGUE.value === "fr") {
+                        $msgSucces.html("Votre message a été envoyé");
+                    } else if (LANGUE.value === "en") {
+                        $msgSucces.html("Your message has been sent");
+                    }
+                },
 
-            // Callback handler that will be called on failure
-            // TODO : vérifier si les variables inutilisé sont utile ou pas
-            // jqXHR, textStatus, errorThrown
-            request.fail(function () {
-                if (LANGUE.value === "fr") {
-                    MSG_ERR.innerHTML += "<li>Un problème avec l'envoi du courriel a été rencontré</li>";
-                } else if (LANGUE.value === "en") {
-                    MSG_ERR.innerHTML += "<li>A problem with sending the email was encountered</li>";
+                error: function () {
+                    
+                    // Si nous avons une erreur, on doit vider le message d'attente
+                    $msgSucces.empty();
+
+                    if (LANGUE.value === "fr") {
+                        $msgErr.html("<li>Un problème avec l'envoi du courriel a été rencontré</li>");
+
+                    } else if (LANGUE.value === "en") {
+                        $msgErr.html("<li>A problem with sending the email was encountered</li>");
+                    }
                 }
             });
         }

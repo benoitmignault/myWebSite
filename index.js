@@ -482,7 +482,8 @@ function validation_champ_message(){
  * Le ou la visiteur(e) sur le site web va pouvoir envoyer un courriel à l'admin du site web avec son nom,
  * le sujet, son courriel pour un retour de l'admin, si nécessaire.
  * Des messages d'erreurs peuvent subvenir si les différents champs ne sont pas remplis.
- *
+ * Optimisation de la fonction 13 août
+ * 
  * @returns {void}
  */
 function envoyer_courriel() {

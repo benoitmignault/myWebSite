@@ -3,13 +3,13 @@
 	include_once("../../traduction/traduction-create-email-temps-pwd.php");
 	include_once("../../includes/fct-connexion-bd.php");
 	include_once("../../includes/fct-divers.php");
+	include_once("../../includes/fct-php-mailer.php");
     
     // Import PHPMailer classes into the global namespace
 	use JetBrains\PhpStorm\NoReturn;
-	use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
-
-    // Load Composer's autoloader
+	
+	// Load Composer's autoloader - Important
     require '../../../vendor/autoload.php';
 
     // Lorsque je suis en mode DEV :
@@ -266,39 +266,6 @@
     }
     
     /**
-     * Fonction pour créer l'instant de connexion au serveur de courriel GMAIL.
-     * On va utiliser une adresse courriel spéciale prévue à cet effet
-     *
-     * @return PHPMailer
-     */
-    function creation_instance_courriel(): PHPMailer {
-    
-        //  Préparation du lien pour le courriel, avec true pour gérer les exceptions
-        $mail = new PHPMailer(true);
-    
-        // Initialisation des variables, pour éviter des fausses erreurs de IntelliJ
-        // Venant du fichier info-connexion-email.php
-		$user_email = "";
-		$password_email = "";
-
-        // Les includes nécessaires, l'include doit être après la déclaration des variables qui seront utilisées
-        include_once("../../includes/info-connexion-email.php");
-        
-        // Paramètres du serveur SMTP
-        $mail->SMTPDebug = 0; // 2 Pour voir le mode debug des messages erreurs
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com'; // gmail SMTP server
-        $mail->SMTPAuth   = true;
-        $mail->Username   = $user_email;
-        $mail->Password   = $password_email;
-        $mail->SMTPSecure = "tls";
-        $mail->Port       = 587;
-        $mail->CharSet    = 'UTF-8';
-    
-        return $mail;
-    }
-    
-    /**
      * Fonction pour déterminer comment on va setter l'object du courriel
      *
      * @param string $type_langue
@@ -334,7 +301,7 @@
         if ($type_langue === 'francais') {
             $lien = "Cliquer ici";
             $contenu_courriel .= "<html lang=\"fr\">";
-            $contenu_courriel .= "<head><title>Changement de Mot de Passe</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+            $contenu_courriel .= "<head><title>Changement de Mot de Passe</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head>";
             $contenu_courriel .= "<body style='font-family: Arial, sans-serif; background-color: #D3D3D3; margin-top: 0; font-size: 16px;'><p>Bonjour !</p>
                                   <p>Ceci est un courriel de courtoisie pour vous permettre de changer votre mot de passe
                                      pour faire de nouvelles consultations des statistiques de poker.</p>

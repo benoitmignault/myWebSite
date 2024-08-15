@@ -1,5 +1,7 @@
 <?php
 	
+	use JetBrains\PhpStorm\NoReturn;
+	
 	/**
 	 * Retourne un array de variables qui seront utilisées pour le timer
      *
@@ -321,7 +323,7 @@
      *
 	 * @return void
 	 */
-	function redirectionVersPageErreur() {
+	#[NoReturn] function redirectionVersPageErreur(): void {
 		
 		header("Location: /erreur/erreur.php");
 		exit;
@@ -332,7 +334,7 @@
      *
 	 * @return void
 	 */
-	function redirectionVersAccueil() {
+	#[NoReturn] function redirectionVersAccueil(): void {
 		
 		if ($_SERVER['typeLangue'] == 'francais') {
 			header("Location: /index.html");
@@ -351,7 +353,7 @@
 	 * @param $situation
 	 * @return void
 	 */
-	function redirectionVersTimer($dictionnaire, $situation) {
+	#[NoReturn] function redirectionVersTimer($dictionnaire, $situation): void {
 		
 		$message = messageSituation($dictionnaire, $situation);
 		

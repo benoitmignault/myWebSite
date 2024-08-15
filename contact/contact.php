@@ -183,13 +183,21 @@
 			
 			// Envoyer l'e-mail
 			$mail->send();
+			
+			// Si l'envoi réussit, cette ligne sera exécutée
 			$array_Champs["envoi_courriel_succes"] = true;
-		} catch (Exception) {
 			
-			// On remet la variable à false en cas de problème
+		} catch (Exception $e) {
+			
+			// Si l'envoi échoue, cette ligne sera exécutée
 			$array_Champs["envoi_courriel_succes"] = false;
-		} finally {
 			
+			// Vous pouvez aussi enregistrer l'erreur pour le débogage
+			// Chemin sur le serveur : /home/benoitmignault/logs/benoitmignault_ca.php.error.log
+			error_log('Erreur d\'envoi de courriel : ' . $e->getMessage());
+			
+		} finally {
+			// Ce bloc s'exécute toujours, que l'envoi ait réussi ou échoué
 			// Fermer la connexion SMTP
 			$mail->SmtpClose();
 		}

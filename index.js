@@ -483,7 +483,7 @@ function validation_champ_message(){
  * le sujet, son courriel pour un retour de l'admin, si nécessaire.
  * Des messages d'erreurs peuvent subvenir si les différents champs ne sont pas remplis.
  * Optimisation de la fonction 13 août
- * 
+ *
  * @returns {void}
  */
 function envoyer_courriel() {

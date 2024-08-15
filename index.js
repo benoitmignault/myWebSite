@@ -496,7 +496,7 @@ function envoyer_courriel() {
         let $msgErr = $(MSG_ERR);
 
         $msgSucces.empty(); // Utilisation de jQuery pour vider les messages
-        $msgErr.empty();
+        $msgErr.empty(); // Utilisation de jQuery pour vider les messages
 
         let erreur_nom_complet = validation_champ_nom();
         let erreur_courriel = validation_champ_email();
@@ -504,6 +504,13 @@ function envoyer_courriel() {
         let erreur_message = validation_champ_message();
 
         if (!erreur_nom_complet && !erreur_courriel && !erreur_sujet && !erreur_message) {
+
+            // Mise en place d'un message pour dire que le courriel est en cours de partir
+            if (LANGUE.value === "fr") {
+                $msgSucces.html("Votre message est entrains d'être envoyé");
+            } else if (LANGUE.value === "en") {
+                $msgSucces.html("Your message is being sent");
+            }
 
             // Serialize the form data
             let serialized_data = $(this).serialize();

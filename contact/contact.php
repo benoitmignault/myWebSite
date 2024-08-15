@@ -245,12 +245,13 @@
 			if ($array_Champs["envoi_courriel_succes"]) {
 				return http_response_code(200);
 				
-				// Sinon, on retourne un code de retour 400
 			} else {
+				// Sinon, on retourne un code de retour 400
 				return http_response_code(400);
 			}
 		
 		} else {
+			// Sinon, on retourne un code de retour 400
 			return http_response_code(400);
 		}
 	}

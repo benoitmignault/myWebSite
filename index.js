@@ -530,8 +530,13 @@ function envoyer_courriel() {
                 },
 
                 error: function () {
+                    
+                    // Si nous avons une erreur, on doit vider le message d'attente
+                    $msgSucces.empty();
+
                     if (LANGUE.value === "fr") {
                         $msgErr.html("<li>Un problème avec l'envoi du courriel a été rencontré</li>");
+
                     } else if (LANGUE.value === "en") {
                         $msgErr.html("<li>A problem with sending the email was encountered</li>");
                     }

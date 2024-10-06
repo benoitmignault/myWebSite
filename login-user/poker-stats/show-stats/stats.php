@@ -744,6 +744,7 @@
         return $href;
     }
 	
+    //TODO comprendre pourquoi si j'ajoute un nouveau joueur, la liste n'est pas updater à la suite de l'ajout
 	// Les fonctions communes
 	session_start();
     $connMYSQL = connexion();

@@ -182,7 +182,7 @@ function gestion_lien_courriel(array $array_Champs): array{
 		$mail->addAddress('benoit.mignault.ca@gmail.com', 'Benoit Mignault');
 
 		// Reply-To (client)
-		// Envoier une copie à l'adresse de la personne qui a rempli le formulaire, pour qu'elle puisse avoir une copie de son message
+		// Envoi possible d'une réponse à la personne qui a envoyer un commentaire via le formulaire
 		$mail->addReplyTo($array_Champs['email'], $array_Champs['nom']);
 		
 		// Contenu du message

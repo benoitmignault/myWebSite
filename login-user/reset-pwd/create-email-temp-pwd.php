@@ -240,27 +240,40 @@
      
         // Création de l'instance
         $mail = creation_instance_courriel();
+
         try {
-            // Venant de qui et pour qui
-            $mail->setFrom('home@benoitmignault.ca', 'Site Web Benoit Mignault');
+            // Expéditeur
+            $mail->setFrom('benoit.mignault.ca@gmail.com', 'Gestion Reset Password');
+
+            // Destinataire
             $mail->addAddress($array_Champs['email'], $array_Champs['user']);
             
+            // Contenu du message
             // Préparation pour l'object et le corp du message, en fonction de la langue
-            $mail->isHTML(); // par défaut is true
+            $mail->isHTML(true);
             $mail->Subject = preparation_object_courriel($array_Champs["type_langue"]);
             $mail->Body = preparation_contenu_courriel($array_Champs["type_langue"], $array_Champs["lien_reset_pwd"], $array_Champs["user"], $array_Champs["password_temp"]);
-            
+                        
             // Envoyer l'e-mail
-            $mail->send();
+            if (!$mail->send()) {
+                throw new MailException($mail->ErrorInfo);
+            }
+
+            // Notre else, c'est que le courriel a été envoyé avec succès
             $array_Champs["envoi_courriel_succes"] = true;
-        } catch (Exception) {
+
+        } catch (MailException $e) {
       
+            // Indicateur d'échec de l'envoi du courriel
             $array_Champs["envoi_courriel_echec"] = true;
-            $array_Champs["liste_mots"]["message"] = $mail->ErrorInfo;
-        } finally {
-            // Fermer la connexion SMTP
-            $mail->SmtpClose();
+            $array_Champs["envoi_courriel_succes"] = false;
+            
+            // Récupérer les messages d'erreurs
+            $array_Champs["liste_mots"]["message"] = $e->getMessage();
+            error_log("Erreur mail reset: " . $e->getMessage());
         }
+
+        $mail->SmtpClose();
         
         return $array_Champs;
     }

@@ -520,25 +520,42 @@ function envoyer_courriel() {
                 url: url,
                 type: "post",
                 data: serialized_data,
+                dataType: 'json', // On précise que le retour attendu est du JSON
 
-                success: function () {
+                success: function (data) {
+
+                    if (!data.success) {
+                        console.log(data);
+
+                        $msgSucces.empty();
+                        $msgErr.html("<li>" + data.error + "</li>");
+                        return;
+                    }
+
                     if (LANGUE.value === "fr") {
                         $msgSucces.html("Votre message a été envoyé");
-                    } else if (LANGUE.value === "en") {
+                    } else {
                         $msgSucces.html("Your message has been sent");
                     }
                 },
 
-                error: function () {
-                    
-                    // Si nous avons une erreur, on doit vider le message d'attente
+                error: function (xhr) {
+
                     $msgSucces.empty();
 
-                    if (LANGUE.value === "fr") {
-                        $msgErr.html("<li>Un problème avec l'envoi du courriel a été rencontré</li>");
+                    let response = {};
 
-                    } else if (LANGUE.value === "en") {
-                        $msgErr.html("<li>A problem with sending the email was encountered</li>");
+                    try {
+                        response = JSON.parse(xhr.responseText);
+                    } catch (e) {
+                        console.log("Erreur parsing JSON", xhr.responseText);
+                    }
+                    console.log(response); // 🔥 IMPORTANT pour debug
+
+                    if (LANGUE.value === "fr") {
+                        $msgErr.html("<li>" + (response.error || "Erreur inconnue") + "</li>");
+                    } else {
+                        $msgErr.html("<li>" + (response.error || "Unknown error") + "</li>");
                     }
                 }
             });

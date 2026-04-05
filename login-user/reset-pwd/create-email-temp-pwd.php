@@ -7,15 +7,12 @@
     
     // Import PHPMailer classes into the global namespace
 	use JetBrains\PhpStorm\NoReturn;
-    use PHPMailer\PHPMailer\Exception;
+
+    // Importation de la classe d'exception de PHPMailer
+    use PHPMailer\PHPMailer\Exception as MailException;
 	
 	// Load Composer's autoloader - Important
     require '../../../vendor/autoload.php';
-
-    // Lorsque je suis en mode DEV :
-	// require '../../PHPMailer/src/Exception.php';
-	// require '../../PHPMailer/src/PHPMailer.php';
-	// require '../../PHPMailer/src/SMTP.php';
 	
     /**
      * Fonction qui va contenir tous ce dont on aura besoin.

@@ -5,7 +5,9 @@ header('Content-Type: application/json');
 // Modernisation des envoies de courriels venant des gens qui tente de me contacter
 // 2024-08-13
 
-// Les includes nécessaires
+// MAJ du changement utilisation du password de l'application pour l'envoi de courriel, le 2026-04-04
+
+// Les includes nécessaires de mes fonctions 
 require_once("../includes/fct-divers.php");
 require_once("../includes/fct-php-mailer.php");
 

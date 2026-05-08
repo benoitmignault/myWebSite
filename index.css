@@ -198,11 +198,25 @@ td {
 }
 
 .racine-site > .middle .header,
-.racine-site > .middle .center > .sous-header {
+.racine-site > .middle .center > .sous-header,
+.racine-site > .middle .center > .nouvelle-section-bacc{
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
     width: 100%;
+}
+
+.racine-site > .middle .center > .nouvelle-section-bacc {    
+    flex-direction: column;
+}
+
+.racine-site > .middle .center > .nouvelle-section-bacc{
+    background: #f4f7fb;
+    border-left: 6px solid #2d6cdf;
+    border-right: 6px solid #2d6cdf;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
 }
 
 .racine-site > .middle .header > div,

@@ -39,7 +39,7 @@ function activation_liste() {
             } else {
                 LISTE.innerHTML += "<li>ASSEMBLEUR EN (Pep8)</li>";
             }
-            LISTE.innerHTML += "<li>OCaml & Prolog</li>";
+            LISTE.innerHTML += "<li>OCAML & PROLOG</li>";
             LISTE.innerHTML += "<li>GIT / GITHUB / GITLAB</li>";
             LISTE.innerHTML += "<li>ANDROID STUDIO & JAVA</li>";
             LISTE.innerHTML += "<li>WINDOWS 10 / UBUNTU</li>";

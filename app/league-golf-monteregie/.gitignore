@@ -17,6 +17,7 @@ yarn-error.log*
 # IDE / editors
 .vscode/
 .idea/
+.vite/
 
 # OS files
 .DS_Store

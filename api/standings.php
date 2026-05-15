@@ -6,7 +6,7 @@ header("Access-Control-Allow-Origin: *");
 include(__DIR__ . "/../includes/fct-connexion-bd.php");
 
 // Établir une connexion à la base de données de la ligue de golf en montérégie
-$conn = connexionLeagueDB();
+$conn = connexion_league_golf_monteregie();
 
 // Requête SQL pour récupérer les joueurs et leurs points totaux avec un classement basé sur les points, le handicap et le prénom
 $sql = "

@@ -1,11 +1,12 @@
-import './App.css'
+import Standings from "./pages/Standings";
 
 function App() {
   return (
     <div>
-      <h1>League Golf Montérégie</h1>
+      <h1>Ligue de Golf Montérégie</h1>
+      <Standings />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

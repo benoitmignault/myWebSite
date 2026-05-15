@@ -9,23 +9,11 @@ include(__DIR__ . "/../includes/fct-connexion-bd.php");
 $conn = connexion_league_golf_monteregie();
 
 // Requête SQL pour récupérer les joueurs et leurs points totaux avec un classement basé sur les points, le handicap et le prénom
-$sql = "
-    SELECT
-    p.id,
-    p.firstname,
-    p.lastname,
-    p.handicap_league,
-    SUM(r.fedex_points) AS total_points
-
-    FROM round_results r
-
-    JOIN players p ON p.id = r.player_id
-
-    GROUP BY p.id
-    ORDER BY
-        total_points DESC,
-        p.handicap_league ASC,
-        p.firstname ASC";
+$select = "SELECT p.id, p.firstname, p.lastname, p.handicap_league, SUM(r.fedex_points) AS total_points ";
+$from = "FROM round_results r JOIN players p ON p.id = r.player_id ";
+$groupBy = "GROUP BY p.id ";
+$orderBy = "ORDER BY total_points DESC, p.handicap_league ASC, p.firstname ASC";
+$sql = $select . $from . $groupBy . $orderBy;
 
 // Exécuter la requête SQL
 $result = $conn->query($sql);

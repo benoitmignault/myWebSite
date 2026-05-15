@@ -107,6 +107,15 @@ tbody td {
     padding: 12px;
 }
 
+.text-right {
+    text-align: right;
+    padding-right: 100px;
+}
+
+.text-left {
+    padding-left: 50px;
+}
+
 tbody tr:nth-child(even) {
     background-color: rgba(255,255,255,0.02);
 }

@@ -641,13 +641,7 @@
 		        $user = $_POST['user'];
 	        }
             
-            // Vérifier que la variable langue est non vide, sinon y mettre le francais
-            
-            
-            
-            
-            
-            
+            // Vérifier que la variable langue est non vide, sinon y mettre le francais            
             if (isset($_POST['return'])) {
                 if ($type_langue == 'english') {
                     header("Location: /login-user/login-user.php?langue=english");

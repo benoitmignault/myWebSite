@@ -49,6 +49,11 @@ h1 {
   }
 }
 
+.container:first-of-type{
+    width: 75%;
+}
+
+
 table {
     border-collapse: collapse;
     width: 100%;

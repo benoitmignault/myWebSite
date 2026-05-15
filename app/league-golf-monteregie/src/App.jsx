@@ -4,7 +4,11 @@ function App() {
   return (
     <div>
       <h1>Ligue de Golf Montérégie</h1>
-      <Standings />
+      <div className="container">
+        <Standings />
+      </div>
+      <div className="container">
+      </div>
     </div>
   );
 }

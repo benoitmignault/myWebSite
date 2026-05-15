@@ -3,7 +3,7 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 
-include(__DIR__ . "/includes/fct-connexion-bd.php");
+include(__DIR__ . "/../includes/fct-connexion-bd.php");
 
 // Établir une connexion à la base de données de la ligue de golf en montérégie
 $conn = connexionLeagueDB();

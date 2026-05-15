@@ -19,12 +19,7 @@ function Standings() {
             .then(data => {
                 setPlayers(data);
             });
-    }, []);
-
-    // Mettre à jour le titre de la page lorsque le composant est monté
-    useEffect(() => {
-    document.title = "Ligue de Golf Montérégie";
-    }, []);
+    }, []);    
 
     return (
         <div>

@@ -621,7 +621,7 @@
         return $tableau;
     }
     
-    #[NoReturn] function redirection(mysqli $connMYSQL, string $user, string $type_langue): void {
+    function redirection(mysqli $connMYSQL, string $user, string $type_langue): void {
 	
 	    // Exceptionnellement, il faut aller récupérer d'urgence la valeur de user dans le input hidden qu'on a sauvegardé
 	    // Au cas où, la session serait terminée, dans le but de nettoyer le token inutile en BD

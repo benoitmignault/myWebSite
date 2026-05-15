@@ -427,7 +427,7 @@
      * @param bool $invalid_language
      * @return void
      */
-    #[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
+    function redirection(string $type_langue, bool $invalid_language): void {
         
         // Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {

@@ -1,9 +1,5 @@
 <?php
-	// Pour éviter de dupliquer des fichiers de back-end, on va utiliser les fichiers css, js de login-user
-    
-    // Les includes nécessaires
-	use JetBrains\PhpStorm\NoReturn;
- 
+	// Pour éviter de dupliquer des fichiers de back-end, on va utiliser les fichiers css, js de login-user 
 	include_once("../../traduction/traduction-login-user.php");
 	include_once("../../includes/fct-connexion-bd.php");
 	include_once("../../includes/fct-divers.php");

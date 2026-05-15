@@ -1,7 +1,4 @@
-<?php
-	// Les includes nécessaires
-	use JetBrains\PhpStorm\NoReturn;
-	
+<?php	
 	include_once("../traduction/traduction-login-user.php");
 	include_once("../includes/fct-connexion-bd.php");
 	include_once("../includes/fct-login-poker-gestion.php");

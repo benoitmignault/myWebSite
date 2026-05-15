@@ -32,3 +32,34 @@
 			return $connMYSQL;
 		}
 	}
+
+	/**
+	 * Fonction pour établir une connexion à la BD de la ligue de golf en montérégie
+	 * 
+	 * @return mysqli
+	 */
+	function connexion_league_golf_monteregie(): mysqli {
+		
+		// Nouvelle connexion sur hébergement du Studio OL
+		$host = "localhost";
+		
+		// Initialisation des variables, pour éviter des fausses erreurs de IntelliJ
+		// Venant du fichier info-connexion-bd.php
+		$user = "";
+		$password = "";
+		$bd_league = "";
+		
+		// Les includes nécessaires pour associer les informations des variables plus haut
+		include_once("info-connexion-bd.php");
+		
+		$connMYSQL = mysqli_connect($host, $user, $password, $bd_league);
+		$connMYSQL->query("set names 'utf8'");
+		
+		// Vérification de la connexion
+		if ($connMYSQL->connect_error) {
+			die('Erreur de connexion (' . $connMYSQL->connect_errno . ') ' . $connMYSQL->connect_error);
+			
+		} else {
+			return $connMYSQL;
+		}
+	}

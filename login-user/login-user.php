@@ -190,7 +190,7 @@
 	 * @return void
 	 * @throws Exception
 	 */
-	#[NoReturn] function connexion_user(mysqli $connMYSQL, array $array_Champs): void {
+	function connexion_user(mysqli $connMYSQL, array $array_Champs): void {
         
         // Ouverture du cookie pour laisser une heure de consultation des statistiques de poker
         session_start();
@@ -274,7 +274,7 @@
 	 * @param bool $invalid_language
 	 * @return void
 	 */
-	#[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
+	function redirection(string $type_langue, bool $invalid_language): void {
 		
 		// Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {

@@ -109,3 +109,55 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+/*
+table {
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 12px;
+}*/
+
+
+thead th {
+    padding: 14px 12px;
+    text-align: centre;
+    color: #60a5fa;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid rgba(255,255,255,0.08);
+    background-color: rgba(255,255,255,0.03);
+}
+
+tbody td {
+    padding: 12px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(255,255,255,0.02);
+}
+
+/* Ligne tableau */
+tbody tr {
+    transition:
+        background-color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+
+    cursor: pointer;
+}
+
+/* Hover */
+tbody tr:hover {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,120,255,0.15),
+            rgba(255,255,255,0.03)
+        );
+    border-left: 4px solid #3b82f6;
+}

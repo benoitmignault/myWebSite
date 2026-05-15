@@ -23,7 +23,7 @@ function Standings() {
 
     return (
         <div>
-            <h1>Classement de la Coupe Fedex</h1>
+            <h2>Classement de la Coupe Fedex</h2>
             <table>
                 <thead>
                     <tr>

@@ -49,6 +49,10 @@ h1 {
   }
 }
 
+.container{
+    margin-bottom: 100px;
+}
+
 .container:first-of-type{
     width: 75%;
 }

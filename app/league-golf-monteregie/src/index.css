@@ -111,3 +111,27 @@ tbody tr:hover {
         );
     border-left: 4px solid #3b82f6;
 }
+
+.scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 55px;
+    height: 55px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.18);
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(59,130,246,0.25);
+    transition:
+        transform 0.2s ease,
+        background 0.25s ease;
+}
+
+.scroll-top:hover {
+    transform: translateY(-3px);
+    background: rgba(59,130,246,0.35);
+}

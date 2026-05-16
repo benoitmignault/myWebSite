@@ -9,7 +9,19 @@ function App() {
       </div>
       <div className="container">
       </div>
+      <button
+        className="scroll-top"
+        onClick={() =>
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            })
+        }
+      > 
+        ↑
+      </button>
     </div>
+
   );
 }
 

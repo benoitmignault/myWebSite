@@ -9,7 +9,7 @@ include(__DIR__ . "/../includes/fct-connexion-bd.php");
 $conn = connexion_league_golf_monteregie();
 
 // Requête SQL pour récupérer les joueurs et leurs points totaux avec un classement basé sur les points, le handicap et le prénom
-$select = "SELECT p.id, p.firstname, p.lastname, p.handicap_league, COALESCE(SUM(r.fedex_points), 0) AS total_points ";
+$select = "SELECT p.id, p.firstname, p.lastname, COALESCE(p.average_score, 0) AS average_score, p.handicap_league, COALESCE(SUM(r.fedex_points), 0) AS total_points ";
 // Utilisation de LEFT JOIN pour inclure tous les joueurs, même ceux sans résultats de tournament
 $from = "FROM players p LEFT JOIN round_results r ON p.id = r.player_id ";
 $groupBy = "GROUP BY p.id ";

@@ -65,6 +65,13 @@ h1 {
     width: 40%;
 }
 
+.subtitle-info {
+    font-size: 0.55em;
+    font-weight: 400;
+    color:
+        rgba(255,255,255,0.55);
+    margin-left: 10px;
+}
 
 table {
     border-collapse: collapse;

@@ -66,9 +66,3 @@ $events = array_values($events);
 echo json_encode($events, JSON_PRETTY_PRINT);
 
 $conn->close();
-
-
-
-
-
-

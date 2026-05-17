@@ -1,14 +1,19 @@
 import Standings from "./pages/Standings";
+import EventsList from "./pages/EventsList";
 
 function App() {
   return (
     <div>
       <h1>Ligue de Golf Montérégie</h1>
-      <div className="container">
-        <Standings />
+      <div className="main-container">        
+        <div className="sub-container">
+          <Standings />
+        </div>
+        <div className="sub-container">
+          <EventsList />
+        </div>
       </div>
-      <div className="container">
-      </div>
+     
       <button
         className="scroll-top"
         onClick={() =>

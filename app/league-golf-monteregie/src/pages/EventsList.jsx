@@ -52,6 +52,53 @@ function EventsList() {
                         <div className="event-details">
                             📅 {event.event_date}
                         </div>
+                        {
+                            openEvent === event.event_id && (
+                                <div className="event-results">
+                                    {
+                                        event.results.length > 0
+                                            ? (
+                                                <table className="results-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Position</th>
+                                                            <th>Joueur</th>
+                                                            <th>Score Brut</th>
+                                                            <th>Score Net</th>
+                                                            <th>Points</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            event.results.map((result, index) => (
+                                                                <tr key={index}>
+                                                                    <td>{result.position}</td>
+                                                                    <td className="text-name">{result.firstname}{" "}{result.lastname}</td>
+                                                                    <td>{result.gross_score}</td>
+                                                                    <td className={
+                                                                        result.net_score < 0
+                                                                            ? "negative-score"
+                                                                            : ""
+                                                                        }
+                                                                    >
+                                                                        {result.net_score}
+                                                                    </td>
+                                                                    <td>{result.fedex_points}</td>
+                                                                </tr>
+                                                            ))
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            )
+                                            : (
+                                                <div className="upcoming-event">
+                                                    Événement à venir...
+                                                </div>
+                                            )
+                                    }
+                                </div>
+                            )
+                        }
                     </div>
                 ))
             }

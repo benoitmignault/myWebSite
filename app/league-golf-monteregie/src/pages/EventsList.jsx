@@ -31,7 +31,10 @@ function EventsList() {
     return (
         <div>
             <h2>
-                Événements
+                Événements 
+                <span className="subtitle-info">
+                    (cliquer sur un événement pour voir les résultats)
+                </span>
             </h2>
             {
                 events.map((event) => (

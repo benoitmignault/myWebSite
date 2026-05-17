@@ -33,6 +33,7 @@ function Standings() {
                     <tr>
                         <th>Position</th>
                         <th>Joueur</th>
+                        <th>Moyenne</th>
                         <th>Handicap</th>
                         <th>Points</th>
                     </tr>
@@ -42,6 +43,7 @@ function Standings() {
                         <tr key={player.id}>
                             <td>{index + 1}</td>
                             <td>{player.firstname} {player.lastname}</td>
+                            <td>{player.average_score}</td>
                             <td>{player.handicap_league}</td>
                             <td>{player.total_points}</td>
                         </tr>

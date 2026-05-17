@@ -14,6 +14,9 @@ function EventsList() {
     // État pour stocker les événements à venir
     const [events, setEvents] = useState([]);
 
+    // État pour ouvrir ou fermer les détails d'un événement seulement, à la fois
+    const [openEvent, setOpenEvent] = useState(null);
+
     useEffect(() => {
         // Récupérer les données des événements à venir depuis l'API
         fetch(
@@ -32,7 +35,14 @@ function EventsList() {
             </h2>
             {
                 events.map((event) => (
-                    <div key={event.event_id} className="event-card">
+                    <div 
+                        key={event.event_id} 
+                        className="event-card"
+                         onClick={() => setOpenEvent(
+                                // Si on clique sur un événement déjà ouvert, on le ferme, sinon on ouvre le nouvel événement
+                                openEvent === event.event_id ? null : event.event_id
+                            )}      
+                    >
                         <div className="event-name">
                             ⛳ {event.event_name}
                         </div>

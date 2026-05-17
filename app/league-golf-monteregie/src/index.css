@@ -40,20 +40,29 @@ h2 {
 
 h1 {
   font-size: 48px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
 }
 
-.container{
-    margin-bottom: 100px;
+.main-container{
+    display: flex;
+    gap: 30px;    
+    margin-bottom: 70px;
+    align-items: flex-start;
 }
 
-.container:first-of-type{
-    width: 75%;
+.sub-container {
+    background:
+        rgba(255,255,255,0.03);
+    border-radius: 16px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.sub-container:first-child{
+    width: 60%;
+}
+
+.sub-container:last-child{
+    width: 40%;
 }
 
 

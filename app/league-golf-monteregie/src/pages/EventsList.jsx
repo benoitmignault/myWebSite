@@ -78,12 +78,7 @@ function EventsList() {
                                                                     <td>{result.position}</td>
                                                                     <td className="text-name">{result.firstname}{" "}{result.lastname}</td>
                                                                     <td>{result.gross_score}</td>
-                                                                    <td className={
-                                                                        result.net_score < 0
-                                                                            ? "negative-score"
-                                                                            : ""
-                                                                        }
-                                                                    >
+                                                                    <td className={ result.net_score < 0 ? "negative-score" : "" }>
                                                                         {result.net_score}
                                                                     </td>
                                                                     <td>{result.fedex_points}</td>

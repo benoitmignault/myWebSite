@@ -31,6 +31,7 @@ function Standings() {
         setOpenPlayer(playerId);
 
         // Récupérer les résultats détaillés du joueur depuis l'API mias en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état
+        //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place  
         const response = await fetch(`https://localhost/api/player-details.php?id=${playerId}`);
 
         // Une fois que la réponse est reçue, on la convertit en JSON et on met à jour l'état avec les résultats du joueur

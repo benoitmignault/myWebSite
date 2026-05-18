@@ -153,9 +153,6 @@ tbody tr:nth-child(even) {
     overflow: hidden;
 }
 
-
-
-
 .event-clickable {
     cursor: pointer;
     transition:

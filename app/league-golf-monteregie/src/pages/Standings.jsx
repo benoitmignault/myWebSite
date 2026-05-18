@@ -89,8 +89,8 @@ function Standings() {
                                             {
                                                 playerResults.length > 0
                                                     ? (
-                                                        <td colSpan="5" className="player-details">
-                                                            <table className="player-results-table">
+                                                        <td colSpan="5">
+                                                            <table className="results-table">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Event</th>
@@ -123,7 +123,7 @@ function Standings() {
                                                         </td>
                                                     )
                                                     : (
-                                                        <td colSpan="5" className="player-details">Aucun résultat trouvé pour ce joueur.</td>
+                                                        <td colSpan="5" className="upcoming-event">Aucun résultat trouvé pour ce joueur.</td>
                                                     )
                                             }                                            
                                         </tr>

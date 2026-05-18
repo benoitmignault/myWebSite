@@ -9,8 +9,36 @@ import React from "react";
  */
 function Standings() {
 
-    // État pour stocker les joueurs et leurs points totaux
+    // État pour stocker les informations sur le classement des joueurs
     const [players, setPlayers] = useState([]);
+
+    // État pour ouvrir ou fermer les détails d'un joueur seulement, à la fois
+    const [openPlayer, setOpenPlayer] = useState(null);
+
+    // État pour stocker les résultats détaillés d'un joueur sélectionné
+    const [playerResults, setPlayerResults] = useState([]);
+
+    // Fonction pour gérer le clic sur un joueur et afficher ses résultats
+    const handlePlayerClick = async (playerId) => {
+
+        // Si on clique sur un joueur déjà ouvert, on le ferme, sinon on ouvre le nouvel événement
+        if (openPlayer === playerId) {
+            setOpenPlayer(null);
+            return;
+        }
+
+        // Un genre de sinon, on ouvre le joueur et on va chercher les détails de ce joueur pour les afficher
+        setOpenPlayer(playerId);
+
+        // Récupérer les résultats détaillés du joueur depuis l'API mias en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état
+        const response = await fetch(`https://localhost/api/player-details.php?id=${playerId}`);
+
+        // Une fois que la réponse est reçue, on la convertit en JSON et on met à jour l'état avec les résultats du joueur
+        const data = await response.json();
+
+        // Mettre à jour l'état avec les résultats du joueur pour les afficher dans la table des détails du joueur
+        setPlayerResults(data);
+    }
 
     useEffect(() => {
         // Récupérer les données des joueurs et leurs points totaux depuis l'API

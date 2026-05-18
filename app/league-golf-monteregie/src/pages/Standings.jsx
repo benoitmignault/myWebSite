@@ -86,38 +86,46 @@ function Standings() {
                                 {
                                     openPlayer === player.id && (
                                         <tr>
-                                            <td colSpan="5" className="player-details">
-                                                <table className="player-results-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Event</th>
-                                                            <th>Position</th>
-                                                            <th>Score Brut</th>
-                                                            <th>Score Net</th>
-                                                            <th>Points</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                       {
-                                                            playerResults.map((result, index) => (
-                                                                <tr key={index}>
-                                                                    <td>{result.event_name}</td>
-                                                                    <td>
-                                                                        {result.position}
-                                                                    </td>
-                                                                    <td>
-                                                                        {result.gross_score}
-                                                                    </td>
-                                                                    <td className={ result.net_score < 0? "negative-score" : ""}>
-                                                                        {result.net_score}
-                                                                    </td>
-                                                                    <td>{result.fedex_points}</td>
-                                                                </tr>
-                                                            ))
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </td>
+                                            {
+                                                playerResults.length > 0
+                                                    ? (
+                                                        <td colSpan="5" className="player-details">
+                                                            <table className="player-results-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Event</th>
+                                                                        <th>Position</th>
+                                                                        <th>Score Brut</th>
+                                                                        <th>Score Net</th>
+                                                                        <th>Points</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        playerResults.map((result, index) => (
+                                                                            <tr key={index}>
+                                                                                <td>{result.event_name}</td>
+                                                                                <td>
+                                                                                    {result.position}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {result.gross_score}
+                                                                                </td>
+                                                                                <td className={ result.net_score < 0 ? "negative-score" : ""}>
+                                                                                    {result.net_score}
+                                                                                </td>
+                                                                                <td>{result.fedex_points}</td>
+                                                                            </tr>
+                                                                        ))
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    )
+                                                    : (
+                                                        <td colSpan="5" className="player-details">Aucun résultat trouvé pour ce joueur.</td>
+                                                    )
+                                            }                                            
                                         </tr>
                                     )
                                 }

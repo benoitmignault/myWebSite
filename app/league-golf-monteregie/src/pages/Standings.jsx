@@ -105,12 +105,8 @@ function Standings() {
                                                                         playerResults.map((result, index) => (
                                                                             <tr key={index}>
                                                                                 <td>{result.event_name}</td>
-                                                                                <td>
-                                                                                    {result.position}
-                                                                                </td>
-                                                                                <td>
-                                                                                    {result.gross_score}
-                                                                                </td>
+                                                                                <td>{result.position}</td>
+                                                                                <td>{result.gross_score}</td>
                                                                                 <td className={ result.net_score < 0 ? "negative-score" : ""}>
                                                                                     {result.net_score}
                                                                                 </td>

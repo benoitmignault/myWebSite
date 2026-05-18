@@ -133,6 +133,18 @@ tbody tr:nth-child(even) {
     border-left: 4px solid #3b82f6;
 }
 
+.position-up {
+    color: #22c55e;
+    font-weight: 700;
+    margin-right: 8px;
+}
+
+.position-down {
+    color: #ef4444;
+    font-weight: 700;
+    margin-right: 8px;
+}
+
 .event-card {
     background:
         rgba(255,255,255,0.03);

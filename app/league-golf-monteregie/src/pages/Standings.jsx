@@ -73,15 +73,57 @@ function Standings() {
                     </tr>
                 </thead>
                 <tbody>
-                    {players.map((player, index) => (
-                        <tr key={player.id}>
-                            <td>{index + 1}</td>
-                            <td>{player.firstname} {player.lastname}</td>
-                            <td>{player.average_score}</td>
-                            <td>{player.handicap_league}</td>
-                            <td>{player.total_points}</td>
-                        </tr>
-                    ))}
+                    {
+                        players.map((player, index) => (
+                            <React.Fragment key={player.id}>
+                                <tr className="clickable-row" onClick={() => handlePlayerClick(player.id)}>
+                                    <td>{index + 1}</td>
+                                    <td>{player.firstname}{" "}{player.lastname}</td>
+                                    <td>{player.average_score}</td>
+                                    <td>{player.handicap_league}</td>
+                                    <td>{player.total_points}</td>
+                                </tr>
+                                {
+                                    openPlayer === player.id && (
+                                        <tr>
+                                            <td colSpan="5" className="player-details">
+                                                <table className="player-results-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Event</th>
+                                                            <th>Position</th>
+                                                            <th>Score Brut</th>
+                                                            <th>Score Net</th>
+                                                            <th>Points</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                       {
+                                                            playerResults.map((result, index) => (
+                                                                <tr key={index}>
+                                                                    <td>{result.event_name}</td>
+                                                                    <td>
+                                                                        {result.position}
+                                                                    </td>
+                                                                    <td>
+                                                                        {result.gross_score}
+                                                                    </td>
+                                                                    <td className={ result.net_score < 0? "negative-score" : ""}>
+                                                                        {result.net_score}
+                                                                    </td>
+                                                                    <td>{result.fedex_points}</td>
+                                                                </tr>
+                                                            ))
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            </React.Fragment>
+                        ))
+                    }
                 </tbody>
             </table>
         </div>

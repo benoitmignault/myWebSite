@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import React from "react";
 
 /**
  * Fonction composant pour afficher le classement de la Coupe Fedex de la Ligue de Golf en Montérégie

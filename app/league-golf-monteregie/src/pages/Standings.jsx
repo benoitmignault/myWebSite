@@ -22,6 +22,11 @@ function Standings() {
             });
     }, []);    
 
+    // On doit utiliser React.Fractment parce que le .map retourne plusieurs éléments 
+    // (la ligne du joueur et la ligne des détails du joueur) et React exige que 
+    // les éléments retournés soient regroupés dans un élément parent unique, 
+    // mais on ne veut pas ajouter un élément HTML supplémentaire dans le DOM, 
+    // donc on utilise React.Fragment qui est un conteneur invisible qui ne rend rien dans le DOM
     return (
         <div>
             <h2>Classement de la Coupe Fedex 

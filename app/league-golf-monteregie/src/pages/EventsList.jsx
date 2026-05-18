@@ -38,22 +38,22 @@ function EventsList() {
             </h2>
             {
                 events.map((event) => (
-                    <div 
-                        key={event.event_id} 
-                        className="event-card"
-                         onClick={() => setOpenEvent(
+                    <div key={event.event_id}  className="event-card">
+                        <div className="event-clickable" 
+                            onClick={() => setOpenEvent(
                                 // Si on clique sur un événement déjà ouvert, on le ferme, sinon on ouvre le nouvel événement
                                 openEvent === event.event_id ? null : event.event_id
-                            )}      
-                    >
-                        <div className="event-name">
-                            ⛳ {event.event_name}
-                        </div>
-                        <div className="event-details">
-                            📍 {event.golf_course}
-                        </div>
-                        <div className="event-details">
-                            📅 {event.event_date}
+                            )}  
+                        >
+                            <div className="event-name">
+                                ⛳ {event.event_name}
+                            </div>
+                            <div className="event-details">
+                                📍 {event.golf_course}
+                            </div>
+                            <div className="event-details">
+                                📅 {event.event_date}
+                            </div>
                         </div>
                         {
                             openEvent === event.event_id && (

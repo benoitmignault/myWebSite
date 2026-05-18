@@ -114,7 +114,7 @@ tbody tr:nth-child(even) {
 }
 
 /* Ligne tableau */
-tbody tr {
+.clickable-row {
     transition:
         background-color 0.25s ease,
         transform 0.2s ease,
@@ -124,7 +124,7 @@ tbody tr {
 }
 
 /* Hover */
-tbody tr:hover {
+.clickable-row:hover {
     background:
         linear-gradient(
             90deg,

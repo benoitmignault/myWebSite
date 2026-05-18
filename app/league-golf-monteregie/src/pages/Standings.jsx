@@ -78,7 +78,11 @@ function Standings() {
                         players.map((player, index) => (
                             <React.Fragment key={player.id}>
                                 <tr className="clickable-row" onClick={() => handlePlayerClick(player.id)}>
-                                    <td>{index + 1}</td>
+                                    <td>
+                                        {player.previous_position > index + 1 && (<span className="position-up">▲</span>)}
+                                        {player.previous_position < index + 1 && (<span className="position-down">▼</span>)}
+                                        {index + 1}
+                                    </td>
                                     <td>{player.firstname}{" "}{player.lastname}</td>
                                     <td>{player.average_score}</td>
                                     <td>{player.handicap_league}</td>

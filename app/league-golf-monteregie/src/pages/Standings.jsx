@@ -57,16 +57,7 @@ function Standings() {
         setPlayerResults(data);
     }
 
-    useEffect(() => {
-        // Récupérer les données des joueurs et leurs points totaux depuis l'API
-        //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place       
-        // fetch("https://api.golf.benoitmignault.ca/standings.php")
-        fetch("https://localhost/api/standings.php")
-            .then(response => response.json())
-            .then(data => {
-                setPlayers(data);
-            });
-    }, []);    
+     
 
     // On doit utiliser React.Fractment parce que le .map retourne plusieurs éléments 
     // (la ligne du joueur et la ligne des détails du joueur) et React exige que 

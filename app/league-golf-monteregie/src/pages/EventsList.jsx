@@ -73,13 +73,23 @@ function EventsList() {
                                                     </thead>
                                                     <tbody>
                                                         {
+                                                            // Afficher les résultats de l'événement en affichant la position, le nom du joueur, le score brut, le score net et les points Fedex
                                                             event.results.map((result, index) => (
                                                                 <tr key={index}>
                                                                     <td>{result.position}</td>
                                                                     <td className="text-name">{result.firstname}{" "}{result.lastname}</td>
                                                                     <td>{result.gross_score}</td>
                                                                     <td className={ result.net_score < 0 ? "negative-score" : "" }>
-                                                                        {result.net_score}
+                                                                        { 
+                                                                            // Afficher "E" pour Even (0)
+                                                                            result.net_score === 0
+                                                                                ? "E"
+                                                                                // Si le score net est positif, on ajoute un "+" devant pour différencier des scores négatifs
+                                                                                : result.net_score > 0
+                                                                                    ? `+${result.net_score}`
+                                                                                    // Sinon, on affiche le score net tel quel (qui sera négatif)
+                                                                                    : result.net_score
+                                                                        }
                                                                     </td>
                                                                     <td>{result.fedex_points}</td>
                                                                 </tr>

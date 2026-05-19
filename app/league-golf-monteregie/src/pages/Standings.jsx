@@ -16,22 +16,7 @@ function Standings() {
     const [openPlayer, setOpenPlayer] = useState(null);
 
     // État pour stocker les résultats détaillés d'un joueur sélectionné
-    const [playerResults, setPlayerResults] = useState([]);
-
-    // On va mette useEffet en premier pour symboliser que ce useEffet est fait avant même la fonction de gestion du clic sur un joueur, 
-    // parce que ce useEffet est fait pour récupérer les données du classement général dès que le composant est monté, 
-    // alors que la fonction de gestion du clic sur un joueur est faite pour gérer une action spécifique de l'utilisateur (cliquer sur un joueur) 
-    // et récupérer les données détaillées de ce joueur seulement au moment où l'utilisateur clique sur lui
-    useEffect(() => {
-        // Récupérer les données des joueurs et leurs points totaux depuis l'API
-        //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place       
-        // fetch("https://api.golf.benoitmignault.ca/standings.php")
-        fetch("https://localhost/api/standings.php")
-            .then(response => response.json())
-            .then(data => {
-                setPlayers(data);
-            });
-    }, []);
+    const [playerResults, setPlayerResults] = useState([]);    
 
     // Fonction pour gérer le clic sur un joueur et afficher ses résultats
     const handlePlayerClick = async (playerId) => {
@@ -70,9 +55,22 @@ function Standings() {
 
         // Mettre à jour l'état avec les résultats du joueur pour les afficher dans la table des détails du joueur
         setPlayerResults(data);
-    }
-
-     
+    }    
+    
+    // On va mette useEffet en premier pour symboliser que ce useEffet est fait avant même la fonction de gestion du clic sur un joueur, 
+    // parce que ce useEffet est fait pour récupérer les données du classement général dès que le composant est monté, 
+    // alors que la fonction de gestion du clic sur un joueur est faite pour gérer une action spécifique de l'utilisateur (cliquer sur un joueur) 
+    // et récupérer les données détaillées de ce joueur seulement au moment où l'utilisateur clique sur lui
+    useEffect(() => {
+        // Récupérer les données des joueurs et leurs points totaux depuis l'API
+        //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place       
+        // fetch("https://api.golf.benoitmignault.ca/standings.php")
+        fetch("https://localhost/api/standings.php")
+            .then(response => response.json())
+            .then(data => {
+                setPlayers(data);
+            });
+    }, []);
 
     // On doit utiliser React.Fractment parce que le .map retourne plusieurs éléments 
     // (la ligne du joueur et la ligne des détails du joueur) et React exige que 

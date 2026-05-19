@@ -110,13 +110,23 @@ function Standings() {
                                                                 </thead>
                                                                 <tbody>
                                                                     {
+                                                                        
                                                                         playerResults.map((result, index) => (
                                                                             <tr key={index}>
                                                                                 <td>{result.event_name}</td>
                                                                                 <td>{result.position}</td>
                                                                                 <td>{result.gross_score}</td>
                                                                                 <td className={ result.net_score < 0 ? "negative-score" : ""}>
-                                                                                    {result.net_score}
+                                                                                    { 
+                                                                                        // Afficher "E" pour Even (0)
+                                                                                        result.net_score === 0
+                                                                                            ? "E"
+                                                                                            // Si le score net est positif, on ajoute un "+" devant pour différencier des scores négatifs
+                                                                                            : result.net_score > 0
+                                                                                                ? `+${result.net_score}`
+                                                                                                // Sinon, on affiche le score net tel quel (qui sera négatif)
+                                                                                                : result.net_score
+                                                                                    }
                                                                                 </td>
                                                                                 <td>{result.fedex_points}</td>
                                                                             </tr>

@@ -45,6 +45,21 @@ function Standings() {
         // Un genre de sinon, on ouvre le joueur et on va chercher les détails de ce joueur pour les afficher
         setOpenPlayer(playerId);
 
+        // Envoyer une requête à l'API de logging pour enregistrer l'action de sélection du joueur
+        // On n'utilise pas de useEffect pour ça parce que ce n'est pas une action qui doit être déclenchée à chaque rendu du composant, 
+        // mais seulement au moment où l'utilisateur clique sur un joueur pour voir les détails
+        fetch("https://localhost/api/log-action.php",
+            {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},                
+                body: JSON.stringify({
+                    action_type: "player_click",
+                    target_id: playerId,
+                    target_name: "Affichage détails joueur"
+                })
+            }
+        );
+
         // Récupérer les résultats détaillés du joueur depuis l'API mias en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état
         //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place  
         // const response = await fetch(`https://api.golf.benoitmignault.ca/player-details.php?id=${playerId}`);

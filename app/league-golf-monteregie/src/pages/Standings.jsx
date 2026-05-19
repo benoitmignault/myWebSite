@@ -77,6 +77,7 @@ function Standings() {
                 </thead>
                 <tbody>
                     {
+                        // Affficher le résultat pour le classement général en affichant la position, le nom du joueur, la moyenne de ses scores, son handicap et ses points totaux
                         players.map((player, index) => (
                             <React.Fragment key={player.id}>
                                 <tr className="clickable-row" onClick={() => handlePlayerClick(player.id)}>

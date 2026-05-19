@@ -19,9 +19,9 @@ function EventsList() {
 
     useEffect(() => {
         // Récupérer les données des événements à venir depuis l'API
-        fetch(
-            //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place       
-            "https://localhost/api/eventslist.php"        )
+        // TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place   
+        // fetch("https://api.golf.benoitmignault.ca/eventslist.php")
+        fetch("https://localhost/api/eventslist.php")
             .then(response => response.json())
             .then(data => {
                 setEvents(data);

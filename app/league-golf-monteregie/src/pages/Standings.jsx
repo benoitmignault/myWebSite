@@ -110,7 +110,7 @@ function Standings() {
                                                                 </thead>
                                                                 <tbody>
                                                                     {
-                                                                        
+                                                                        // Afficher les résultats détaillés du joueur en affichant le nom de l'événement, la position, le score brut, le score net et les points Fedex
                                                                         playerResults.map((result, index) => (
                                                                             <tr key={index}>
                                                                                 <td>{result.event_name}</td>

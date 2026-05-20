@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Standings from "./components/Standings";
 import EventsList from "./components/EventsList";
+import Sponsors from "./components/Sponsors";
 
 function App() {
 
@@ -28,7 +29,10 @@ function App() {
 				</div>
 				<div className="sub-container">
 					<EventsList />
-				</div>
+				</div>				
+			</div>
+			<div className="sub-container">
+				<Sponsors />
 			</div>
 			
 			<button

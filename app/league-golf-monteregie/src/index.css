@@ -263,6 +263,11 @@ tbody tr:nth-child(even) {
 
 .sponsors-section {
     padding: 20px;
+    padding-top: 1px;
+}
+
+.sponsors-section h2{
+    margin: 10px;
 }
 
 .sponsors-grid {

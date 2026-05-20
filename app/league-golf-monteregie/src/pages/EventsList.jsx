@@ -81,14 +81,10 @@ function EventsList() {
                 </span>
             </h2>
             {
+                // Afficher la liste des événements à venir en affichant le nom de l'événement, le lieu et la date
                 events.map((event) => (
-                    <div key={event.event_id}  className="event-card">
-                        <div className="event-clickable" 
-                            onClick={() => setOpenEvent(
-                                // Si on clique sur un événement déjà ouvert, on le ferme, sinon on ouvre le nouvel événement
-                                openEvent === event.event_id ? null : event.event_id
-                            )}  
-                        >
+                    <div key={event.id}  className="event-card">
+                        <div className="event-clickable" onClick={() => handleEventClick(event.id)}>
                             <div className="event-name">
                                 ⛳ {event.event_name}
                             </div>

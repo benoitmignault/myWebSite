@@ -16,8 +16,8 @@ body {
     margin: 0;
     background:
         linear-gradient(
-            rgba(5,10,25,0.88),
-            rgba(5,10,25,0.92)
+            rgba(5,10,25,0.50),
+            rgba(5,10,25,0.60)
         ),
         url("./images/backgrounds/version-web.jpg");
 
@@ -62,10 +62,10 @@ h1 {
 
 .sub-container {
     background:
-        rgba(255,255,255,0.03);
+        rgba(10,16,32,0.40);
+    backdrop-filter: blur(10px);
     border-radius: 16px;
     padding: 20px;
-    min-width: 0;
 }
 
 .sub-container:first-child{

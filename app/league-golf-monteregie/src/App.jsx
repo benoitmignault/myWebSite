@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import Standings from "./pages/Standings";
-import EventsList from "./pages/EventsList";
+import Standings from "./components/Standings";
+import EventsList from "./components/EventsList";
 
 function App() {
 

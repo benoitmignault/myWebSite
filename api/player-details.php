@@ -1,7 +1,12 @@
 <?php
 
-header("Content-Type: application/json");
+// Configurer les en-têtes pour permettre les requêtes CORS et spécifier le type de contenu JSON
 header("Access-Control-Allow-Origin: *");
+
+// TODO: en prod remplacement * par le domaine de l'application frontend
+// header("Access-Control-Allow-Origin: https://golf.benoitmignault.ca");
+
+header("Content-Type: application/json");
 
 include(__DIR__ . "/../includes/fct-connexion-bd.php");
 

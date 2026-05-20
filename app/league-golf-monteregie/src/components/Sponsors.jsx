@@ -3,42 +3,42 @@ function Sponsors() {
     const sponsors = [
         {
             name: "Apex Golf",
-            logo: null,
+            logo: "./favicon/favicon.png",
             website: "https://apex-golf.ca/",
             facebook: "https://www.facebook.com/TeeTime.ca",
             instagram: "https://www.instagram.com/tee.time.ca/"
         },
         {
             name: "Station GO",
-            logo: null,
+            logo: "./favicon/favicon.png",
             website: "https://stationgo.ca/",
             facebook: "https://www.facebook.com/stationgo.ca",
             instagram: "https://www.instagram.com/stationgo.ca/"
         },
         {
-            name: "Groupe Golf Montérégie",
-            logo: null,
+            name: "Golf en Montérégie",
+            logo: "./favicon/favicon.png",
             website: null,
             facebook: "https://www.facebook.com/groups/1029936997443683",
             instagram: null
         },
         {
             name: "Toucani",
-            logo: null,
+            logo: "./favicon/favicon.png",
             website: null,
             facebook: null,
             instagram: null
         },
         {
             name: "Mr Tee",
-            logo: null,
+            logo: "./favicon/favicon.png",
             website: null,
             facebook: null,
             instagram: null
         },
         {
             name: "FlexiGolf",
-            logo: null,
+            logo: "./favicon/favicon.png",
             website: "https://flexigolf.ca/",
             facebook: "https://www.facebook.com/FlexiGolfQc",
             instagram: "https://www.instagram.com/flexigolf/"

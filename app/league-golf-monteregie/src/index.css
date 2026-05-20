@@ -308,6 +308,20 @@ tbody tr:nth-child(even) {
     border-radius: 50%;
 }
 
+.sponsor-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.sponsor-socials {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+    min-height: 32px;
+    align-items: center;
+    justify-content: center;
+}
+
 .sponsor-link {
     display: block;
     width: 100%;
@@ -331,6 +345,30 @@ tbody tr:nth-child(even) {
 .sponsor-link {
     cursor: pointer;
 }
+
+.sponsor-link.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}
+
+.social-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    transition:
+        transform 0.2s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.12);
+}
+
+
+
+
+
+
 
 .scroll-top {
     position: fixed;

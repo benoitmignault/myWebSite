@@ -1,32 +1,26 @@
 function Sponsors() {
 
     const sponsors = [
-
         {
             name: "Apex Golf",
             website: "https://apex-golf.ca/"
         },
-
         {
             name: "Station GO",
             website: "https://stationgo.ca/"
         },
-
         {
             name: "Groupe Golf Montérégie",
             website: "https://www.facebook.com/groups/1029936997443683"
         },
-
         {
             name: "Toucani",
             website: null
         },
-
         {
             name: "Mr Tee",
             website: null
         },
-
         {
             name: "FlexiGolf",
             website: "https://flexigolf.ca/"

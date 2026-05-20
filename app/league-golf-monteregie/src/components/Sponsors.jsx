@@ -51,22 +51,35 @@ function Sponsors() {
             <div className="sponsors-grid">
                 {
                     sponsors.map((sponsor) => (
-                        <div key={sponsor.name} className="sponsor-card">
-                            {
+                        <div key={sponsor.name}
+                            className={
                                 sponsor.website
+                                ? "sponsor-card sponsor-clickable"
+                                : "sponsor-card"
+                            }
+                        >
+                        <img
+                            src={sponsor.logo}
+                            alt={sponsor.name}
+                            className="sponsor-logo"
+                        />
+                        {
+                            sponsor.website
                                 ? (
                                     <a
                                         href={sponsor.website}
                                         target="_blank"
                                         rel="noreferrer"
                                         className="sponsor-link"
-                                    > {sponsor.name} </a>
+                                    >
+                                        {sponsor.name}
+                                    </a>
                                 )
                                 : (
-                                    <span>{sponsor.name} (À venir)</span>
+                                    <span> {sponsor.name} (À venir) </span>
                                 )
-                            }
-                        </div>
+                        }
+                    </div>
                     ))
                 }
             </div>

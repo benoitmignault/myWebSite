@@ -60,7 +60,8 @@ h1 {
     align-items: flex-start;
 }
 
-.sub-container {
+.sub-container,
+.main-container > .sub-container {
     background:
         rgba(10,16,32,0.40);
     backdrop-filter: blur(10px);
@@ -68,12 +69,19 @@ h1 {
     padding: 20px;
 }
 
-.sub-container:first-child{
+.main-container > .sub-container:first-child{
     width: 60%;
 }
 
-.sub-container:last-child{
+.main-container > .sub-container:last-child{
     width: 40%;
+}
+
+.sub-container{
+    padding: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
 }
 
 .subtitle-info {

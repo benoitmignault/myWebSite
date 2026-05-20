@@ -96,10 +96,10 @@ function EventsList() {
                             </div>
                         </div>
                         {
-                            openEvent === event.event_id && (
+                            openEvent === event.id && (
                                 <div className="event-results">
                                     {
-                                        event.results.length > 0
+                                        eventResults.length > 0
                                             ? (
                                                 <table className="results-table">
                                                     <thead>
@@ -112,9 +112,9 @@ function EventsList() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {
+                                                        {   
                                                             // Afficher les résultats de l'événement en affichant la position, le nom du joueur, le score brut, le score net et les points Fedex
-                                                            event.results.map((result, index) => (
+                                                            eventResults.map((result, index) => (
                                                                 <tr key={index}>
                                                                     <td>{result.position}</td>
                                                                     <td className="text-name">{result.firstname}{" "}{result.lastname}</td>

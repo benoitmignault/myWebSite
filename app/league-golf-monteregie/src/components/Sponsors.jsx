@@ -18,8 +18,8 @@ function Sponsors() {
         {
             name: "Golf en Montérégie",
             logo: "./favicon/favicon.png",
-            website: null,
-            facebook: "https://www.facebook.com/groups/1029936997443683",
+            website: "https://www.facebook.com/groups/1029936997443683",
+            facebook: null,
             instagram: null
         },
         {

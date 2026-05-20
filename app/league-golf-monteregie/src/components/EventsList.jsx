@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import React from "react";
 
 /**
  * Fonction composant pour afficher la liste des événements de la Ligue de Golf en Montérégie

@@ -24,11 +24,9 @@ function Standings() {
         // Si on clique sur un joueur déjà ouvert, on le ferme, sinon on ouvre le nouvel événement
         if (openPlayer === playerId) {
             setOpenPlayer(null);
+            setPlayerResults([]); // Fermer les résultats si on reclique sur le même joueur
             return;
         }
-
-        // Un genre de sinon, on ouvre le joueur et on va chercher les détails de ce joueur pour les afficher
-        setOpenPlayer(playerId);
 
         // Envoyer une requête à l'API de logging pour enregistrer l'action de sélection du joueur
         // On n'utilise pas de useEffect pour ça parce que ce n'est pas une action qui doit être déclenchée à chaque rendu du composant, 
@@ -44,6 +42,9 @@ function Standings() {
                 })
             }
         );
+
+        // Un genre de sinon, on ouvre le joueur et on va chercher les détails de ce joueur pour les afficher
+        setOpenPlayer(playerId);
 
         // Récupérer les résultats détaillés du joueur depuis l'API mias en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état
         //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place  

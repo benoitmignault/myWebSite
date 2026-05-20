@@ -43,6 +43,9 @@ function Standings() {
             }
         );
 
+        // Un genre de sinon, on ouvre le joueur et on va chercher les détails de ce joueur pour les afficher
+        setOpenPlayer(playerId);
+
         // Récupérer les résultats détaillés du joueur depuis l'API mias en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état
         //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place  
         // const response = await fetch(`https://api.golf.benoitmignault.ca/player-details.php?id=${playerId}`);

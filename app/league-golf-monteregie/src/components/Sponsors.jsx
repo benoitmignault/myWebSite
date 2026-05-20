@@ -54,32 +54,54 @@ function Sponsors() {
                         <div key={sponsor.name}
                             className={
                                 sponsor.website
-                                ? "sponsor-card sponsor-clickable"
-                                : "sponsor-card"
+                                    ? "sponsor-card sponsor-clickable"
+                                    : "sponsor-card"
                             }
                         >
-                        <img
-                            src={sponsor.logo}
-                            alt={sponsor.name}
-                            className="sponsor-logo"
-                        />
-                        {
-                            sponsor.website
-                                ? (
-                                    <a
-                                        href={sponsor.website}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="sponsor-link"
-                                    >
-                                        {sponsor.name}
+                            {/* LOGO */}
+                            <img
+                                src={sponsor.logo}
+                                alt={sponsor.name}
+                                className="sponsor-logo"
+                            />
+                            {/* NOM */}
+                            <div className="sponsor-name">{sponsor.name}</div>
+                            {/* SITE WEB */}
+                            {
+                                sponsor.website ? (
+                                    <a href={sponsor.website} target="_blank" rel="noreferrer" className="sponsor-link">
+                                        Site Web
                                     </a>
+                                ) : (
+                                    <span className="sponsor-link disabled">À venir</span>
                                 )
-                                : (
-                                    <span> {sponsor.name} (À venir) </span>
-                                )
-                        }
-                    </div>
+                            }
+                            {/* MÉDIAS SOCIAUX */}
+                            <div className="sponsor-socials">
+                                {
+                                    sponsor.facebook && (
+                                        <a href={sponsor.facebook} target="_blank" rel="noreferrer">
+                                            <img
+                                                src="./images/medias/facebook.png"
+                                                alt="Facebook"
+                                                className="social-icon"
+                                            />
+                                        </a>
+                                    )
+                                }
+                                {
+                                    sponsor.instagram && (
+                                        <a href={sponsor.instagram} target="_blank" rel="noreferrer">
+                                            <img
+                                                src="./images/medias/instagram.png"
+                                                alt="Instagram"
+                                                className="social-icon"
+                                            />
+                                        </a>
+                                    )
+                                }
+                            </div>
+                        </div>
                     ))
                 }
             </div>

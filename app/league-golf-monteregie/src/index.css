@@ -301,6 +301,30 @@ tbody tr:nth-child(even) {
     cursor: pointer;
 }
 
+.sponsor-link:visited {
+    color: white;
+}
+
+.sponsor-card span {
+    color: white;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.sponsor-link {
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 .scroll-top {
     position: fixed;

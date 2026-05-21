@@ -60,6 +60,21 @@ h1 {
     align-items: flex-start;
 }
 
+.info-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    align-items: flex-start;
+}
+
+.info-container > .sub-container:first-child {
+    width: 55%;
+}
+
+.info-container > .sub-container:last-child {
+    width: 45%;
+}
+
 .sub-container,
 .main-container > .sub-container {
     background:

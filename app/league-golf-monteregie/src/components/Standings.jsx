@@ -136,16 +136,16 @@ function Standings() {
                                                                                 <td>{result.event_name}</td>
                                                                                 <td>{result.position}</td>
                                                                                 <td>{result.gross_score}</td>
-                                                                                <td className={ result.net_score < 0 ? "negative-score" : ""}>
+                                                                                <td className={ Number(result.net_score) < 0 ? "negative-score" : ""}>
                                                                                     { 
                                                                                         // Afficher "E" pour Even (0)
-                                                                                        result.net_score === 0
+                                                                                        Number(result.net_score) === 0
                                                                                             ? "E"
                                                                                             // Si le score net est positif, on ajoute un "+" devant pour différencier des scores négatifs
-                                                                                            : result.net_score > 0
-                                                                                                ? `+${result.net_score}`
+                                                                                            : Number(result.net_score) > 0
+                                                                                                ? `+${Number(result.net_score)}`
                                                                                                 // Sinon, on affiche le score net tel quel (qui sera négatif)
-                                                                                                : result.net_score
+                                                                                                : Number(result.net_score)
                                                                                     }
                                                                                 </td>
                                                                                 <td>{result.fedex_points}</td>

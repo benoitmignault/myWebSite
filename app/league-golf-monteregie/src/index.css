@@ -380,6 +380,7 @@ tbody tr:nth-child(even) {
 
 .poster-section {
     padding: 20px;
+    padding-bottom: 0;
 }
 
 .poster-image {

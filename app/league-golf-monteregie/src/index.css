@@ -83,7 +83,7 @@ h1 {
 .info-container .mission-container,
 .info-container .contact-container {
     background:
-        rgba(10,16,32,0.72);
+        rgba(20,30,60,0.45);
     border-radius: 24px;
     backdrop-filter: blur(8px);
     padding: 24px;
@@ -92,7 +92,7 @@ h1 {
 .sub-container,
 .main-container > .sub-container {
     background:
-        rgba(10,16,32,0.40);
+        rgba(20,30,60,0.40);
     backdrop-filter: blur(10px);
     border-radius: 16px;
     padding: 20px;
@@ -313,7 +313,7 @@ tbody tr:nth-child(even) {
     align-items: center;
     justify-content: center;
     background:
-        rgba(10,16,32,0.72);
+        rgba(20,30,60,0.45);
     border-radius: 16px;
     padding: 24px;
     backdrop-filter: blur(8px);
@@ -396,7 +396,7 @@ tbody tr:nth-child(even) {
     display: flex;
     justify-content: center;
     padding: 20px;
-    padding-bottom: 0;
+    padding-bottom: 0;    
 }
 
 .poster-image {
@@ -448,7 +448,7 @@ tbody tr:nth-child(even) {
 
 .contact-card {
     background:
-        rgba(5,10,25,0.72);
+        rgba(20,30,60,0.45);
     border-radius: 18px;
     padding: 28px;
     backdrop-filter: blur(8px);

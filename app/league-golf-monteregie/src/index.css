@@ -263,6 +263,10 @@ tbody tr:nth-child(even) {
     font-weight: 700;
 }
 
+.even-score {
+    font-weight: 700;
+}
+
 .results-table th:nth-child(1),
 .results-table th:nth-child(3),
 .results-table th:nth-child(4),

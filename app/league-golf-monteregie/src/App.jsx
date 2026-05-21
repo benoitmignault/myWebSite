@@ -4,6 +4,7 @@ import EventsList from "./components/EventsList";
 import Sponsors from "./components/Sponsors";
 import PosterSection from "./components/PosterSection";
 import ContactSection from "./components/ContactSection";
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
 					<ContactSection />
 				</div>
 			</div>
+			<Footer />
 			<button
 				className="scroll-top"
 				onClick={() =>
@@ -54,7 +56,7 @@ function App() {
 				}
 			> 
 				↑
-			</button>
+			</button>			
 		</div>
 	);
 }

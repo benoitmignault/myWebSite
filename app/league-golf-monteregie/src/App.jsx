@@ -5,6 +5,7 @@ import Sponsors from "./components/Sponsors";
 import PosterSection from "./components/PosterSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
+import MissionSection from "./components/MissionSection";
 
 function App() {
 
@@ -33,6 +34,9 @@ function App() {
 				<div className="sub-container">
 					<EventsList />
 				</div>				
+			</div>
+			<div className="sub-container">
+				<MissionSection />
 			</div>
 			<div className="sub-container">
 				<Sponsors />

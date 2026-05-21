@@ -136,7 +136,13 @@ function Standings() {
                                                                                 <td>{result.event_name}</td>
                                                                                 <td>{result.position}</td>
                                                                                 <td>{result.gross_score}</td>
-                                                                                <td className={ Number(result.net_score) < 0 ? "negative-score" : ""}>
+                                                                                <td className={ Number(result.net_score) < 0 
+                                                                                    ? "negative-score" 
+                                                                                    : ( 
+                                                                                        Number(result.net_score) === 0
+                                                                                            ? "even-score" 
+                                                                                            : "" 
+                                                                                    )}>
                                                                                     { 
                                                                                         // Afficher "E" pour Even (0)
                                                                                         Number(result.net_score) === 0

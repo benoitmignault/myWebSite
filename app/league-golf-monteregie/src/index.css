@@ -379,12 +379,10 @@ tbody tr:nth-child(even) {
 }
 
 .poster-section {
-    margin-top: 40px;
     padding: 20px;
 }
 
 .poster-image {
-    width: 100%;
     max-width: 100%;
     border-radius: 20px;
     object-fit: contain;

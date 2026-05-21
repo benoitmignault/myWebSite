@@ -412,10 +412,11 @@ tbody tr:nth-child(even) {
 }
 
 .mission-section {
-    text-align: center;
+    text-align: justify;
 }
 
 .mission-section h2 {
+    text-align: center;
     margin-top: 0;
     margin-bottom: 20px;
     font-size: 2.4rem;

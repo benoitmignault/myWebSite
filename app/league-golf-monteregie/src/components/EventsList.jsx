@@ -118,7 +118,14 @@ function EventsList() {
                                                                     <td>{result.position}</td>
                                                                     <td className="text-name">{result.firstname}{" "}{result.lastname}</td>
                                                                     <td>{result.gross_score}</td>
-                                                                    <td className={ Number(result.net_score) < 0 ? "negative-score" : "" }>
+                                                                    <td className={ 
+                                                                        Number(result.net_score) < 0 
+                                                                            ? "negative-score" 
+                                                                            : (
+                                                                                Number(result.net_score) === 0
+                                                                                    ? "even-score" 
+                                                                                    : "" 
+                                                                        )}>
                                                                         { 
                                                                             // Afficher "E" pour Even (0)
                                                                             Number(result.net_score) === 0

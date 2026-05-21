@@ -36,16 +36,16 @@ function App() {
 				</div>				
 			</div>
 			<div className="sub-container">
-				<MissionSection />
-			</div>
-			<div className="sub-container">
 				<Sponsors />
 			</div>
 			<div className="info-container">
-				<div className="sub-container">
+				<div className="poster-container">
 					<PosterSection />
 				</div>
-				<div className="sub-container">
+				<div className="mission-container">
+					<MissionSection />
+				</div>
+				<div className="contact-container">
 					<ContactSection />
 				</div>
 			</div>

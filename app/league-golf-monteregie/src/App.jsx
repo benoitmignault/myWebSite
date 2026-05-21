@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import Standings from "./components/Standings";
 import EventsList from "./components/EventsList";
 import Sponsors from "./components/Sponsors";
+import PosterSection from "./components/PosterSection";
+import ContactSection from "./components/ContactSection";
 
 function App() {
 
@@ -34,7 +36,14 @@ function App() {
 			<div className="sub-container">
 				<Sponsors />
 			</div>
-			
+			<div className="info-container">
+				<div className="sub-container">
+					<PosterSection />
+				</div>
+				<div className="sub-container">
+					<ContactSection />
+				</div>
+			</div>
 			<button
 				className="scroll-top"
 				onClick={() =>

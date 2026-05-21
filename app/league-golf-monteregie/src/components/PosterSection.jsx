@@ -3,7 +3,7 @@ function PosterSection() {
     return (
         <section className="poster-section">
             <img
-                src="./images/posters/fedex-cup-poster.png"
+                src="./images/posters/petit-format.png"
                 alt="FedEx Cup Golf Montérégie"
                 className="poster-image"
             />

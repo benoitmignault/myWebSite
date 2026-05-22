@@ -1,14 +1,7 @@
 <?php
 
-// Configurer les en-têtes pour permettre les requêtes CORS et spécifier le type de contenu JSON
-header("Access-Control-Allow-Origin: *");
-
-// TODO: en prod remplacement * par le domaine de l'application frontend
-// header("Access-Control-Allow-Origin: https://golf.benoitmignault.ca");
-
-header("Content-Type: application/json");
-
-include(__DIR__ . "/../includes/fct-connexion-bd.php");
+// Include the database connection file et les heanders pour les requêtes CORS et le type de contenu JSON
+include(__DIR__ . "/includes/fct-connexion-bd.php");
 
 // Établir une connexion à la base de données de la ligue de golf en montérégie
 $conn = connexion_league_golf_monteregie();

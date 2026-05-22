@@ -194,6 +194,15 @@ tbody tr:nth-child(even) {
     margin-right: 8px;
 }
 
+.player-details-row {
+    background:
+    linear-gradient(
+        90deg,
+        rgba(12,35,75,0.78),
+        rgba(18,45,90,0.68)
+    );
+}
+
 .event-card {
     background:
         rgba(255,255,255,0.03);
@@ -256,7 +265,13 @@ tbody tr:nth-child(even) {
 
 .results-table tbody tr:hover {
     background:
-        rgba(59,130,246,0.08);
+        linear-gradient(
+            90deg,
+            rgba(0,120,255,0.15),
+            rgba(255,255,255,0.03)
+        );
+    border-left: 4px solid #3b82f6;
+    border-right: 4px solid #3b82f6;
 }
 
 .negative-score {
@@ -651,15 +666,9 @@ tbody tr:nth-child(even) {
         padding: 8px 4px;
     }
 
-    .results-table td:nth-child(1) {
-        padding: 6px 4px;
-        font-size: 0.8rem;
-    }
-
-    .results-table th,
-    .results-table td {
-        padding: 6px 4px;
-        font-size: 0.85rem;
+    .event-details-cell:nth-child(1) {
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .results-table {
@@ -668,10 +677,15 @@ tbody tr:nth-child(even) {
         table-layout: fixed;
     }
 
-    .event-results-table th:nth-child(2),
-    .event-results-table td:nth-child(2) {
+    .results-table td:nth-child(1) {
+        padding: 6px 4px;
+        font-size: 0.8rem;
+    }
 
-        text-align: left;
+    .results-table th:nth-child(2),
+    .results-table td:nth-child(2) {
+        text-align: right;
+        padding: 6px 4px;
     }
 
     .results-table th:nth-child(1),
@@ -688,6 +702,25 @@ tbody tr:nth-child(even) {
     .results-table th:nth-child(1){
         padding: 6px 4px;
     }
+
+    .results-table td:first-child,
+    .results-table th:first-child {
+        white-space: nowrap;
+        width: 80px;
+    }
+
+    .results-table tbody tr:hover {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(0,120,255,0.15),
+                rgba(255,255,255,0.03)
+            );
+        border-left: 0px solid #3b82f6;
+        border-right: 0px solid #3b82f6;
+    }
+
+
 
     .event-details {
         padding: 5px;

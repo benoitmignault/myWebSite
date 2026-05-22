@@ -113,18 +113,18 @@ function Standings() {
                                 </tr>
                                 {
                                     openPlayer === player.id && (
-                                        <tr>
+                                        <tr className="player-details-row">
                                             {
                                                 playerResults.length > 0
                                                     ? (
-                                                        <td colSpan="5">
+                                                        <td colSpan="5" className="event-details-cell">
                                                             <table className="results-table">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Event</th>
                                                                         <th>Position</th>
-                                                                        <th>Score Brut</th>
-                                                                        <th>Score Net</th>
+                                                                        <th>Brut</th>
+                                                                        <th>Net</th>
                                                                         <th>Points</th>
                                                                     </tr>
                                                                 </thead>

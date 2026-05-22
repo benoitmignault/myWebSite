@@ -6,12 +6,13 @@ import PosterSection from "./components/PosterSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import MissionSection from "./components/MissionSection";
+import { API_BASE_URL } from "./config";
 
 function App() {
 
 	// Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page est chargée
 	useEffect(() => {
-		fetch("https://localhost/api/log-action.php",
+		fetch(`${API_BASE_URL}/log-action.php`,
 			{ 
 				method: "POST",
 				headers: {"Content-Type": "application/json"},

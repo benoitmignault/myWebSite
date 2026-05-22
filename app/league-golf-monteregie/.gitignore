@@ -9,11 +9,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# environment variables
-.env
-.env.local
-.env.production
-
 # IDE / editors
 .vscode/
 .idea/

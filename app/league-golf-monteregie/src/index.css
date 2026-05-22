@@ -720,8 +720,6 @@ tbody tr:nth-child(even) {
         border-right: 0px solid #3b82f6;
     }
 
-
-
     .event-details {
         padding: 5px;
     }
@@ -730,9 +728,25 @@ tbody tr:nth-child(even) {
         grid-template-columns:
             repeat(auto-fit, minmax(180px, 1fr));        
     }
+    
+    .mission-section {
+        width: 90%;
+        margin: 0 auto;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
 
-    .mission-section p {
-        padding: 0 20px;
+    .mission-card {
+        padding: 32px;
+        text-align: left;
+        line-height: 1.8;
+        background:
+            rgba(10,16,32,0.72);
+        border-radius: 24px;
+    }
+
+    .mission-card p {
+        margin: 0;
     }
 
     .contact-section h2 {
@@ -742,6 +756,10 @@ tbody tr:nth-child(even) {
 
     .contact-grid{
         padding: 0 20px;
+    }    
+
+    .mission-section > .contact-card:last-child {        
+        text-align: justify;
     }
 
     .contact-card:last-child {

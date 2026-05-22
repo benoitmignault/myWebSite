@@ -105,8 +105,8 @@ function EventsList() {
                                                         <tr>
                                                             <th>Position</th>
                                                             <th>Joueur</th>
-                                                            <th>Score Brut</th>
-                                                            <th>Score Net</th>
+                                                            <th>Brut</th>
+                                                            <th>Net</th>
                                                             <th>Points</th>
                                                         </tr>
                                                     </thead>

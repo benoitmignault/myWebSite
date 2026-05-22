@@ -1,7 +1,4 @@
 <?php
-	// Les includes nécessaires
-	use JetBrains\PhpStorm\NoReturn;
-	
 	include_once("../../../traduction/traduction-gestion-stats.php");
 	include_once("../../../includes/fct-connexion-bd.php");
 	include_once("../../../includes/fct-login-poker-gestion.php");
@@ -556,10 +553,9 @@
 	 *
 	 * @return void
 	 */
-	#[NoReturn] function connexion_user(): void {
+	function connexion_user(): void {
         
-        header("Location: /login-user/poker-stats/show-stats/stats.php");
-        
+        header("Location: /login-user/poker-stats/show-stats/stats.php");        
 		exit;
 	}
 	
@@ -575,7 +571,7 @@
      * @param bool $user_invalid
 	 * @return void
 	 */
-	#[NoReturn] function redirection(mysqli $connMYSQL, string $user, string $type_langue, bool $invalid_language, bool $user_invalid): void {
+	function redirection(mysqli $connMYSQL, string $user, string $type_langue, bool $invalid_language, bool $user_invalid): void {
 		
 		if ($invalid_language || $user_invalid) {
             // Exceptionnellement, il faut aller récupérer d'urgence la valeur de user dans le input hidden qu'on a sauvegardé

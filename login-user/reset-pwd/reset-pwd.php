@@ -1,7 +1,4 @@
-<?php
-	// Les includes nécessaires
-	use JetBrains\PhpStorm\NoReturn;
-	
+<?php	
 	include_once("../../traduction/traduction-reset-pwd.php");
 	include_once("../../includes/fct-connexion-bd.php");
 	include_once("../../includes/fct-divers.php");
@@ -372,7 +369,7 @@
      * @param bool $lien_crypter_still_good
 	 * @return void
 	 */
-	#[NoReturn] function redirection(string $type_langue, bool $invalid_langue, bool $lien_crypter_still_good): void {
+	function redirection(string $type_langue, bool $invalid_langue, bool $lien_crypter_still_good): void {
         
         // Situation commune pour GET & POST
 		if ($invalid_langue || !$lien_crypter_still_good) {

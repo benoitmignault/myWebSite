@@ -7,7 +7,7 @@
 	 *
 	 * @return mysqli
 	 */
-	function connexion():mysqli {
+	function connexion(): mysqli {
 		
 		// Nouvelle connexion sur hébergement du Studio OL
 		$host = "localhost";

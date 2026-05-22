@@ -4,9 +4,6 @@
 	include_once("../../includes/fct-connexion-bd.php");
 	include_once("../../includes/fct-divers.php");
 	include_once("../../includes/fct-php-mailer.php");
-    
-    // Import PHPMailer classes into the global namespace
-	use JetBrains\PhpStorm\NoReturn;
 
     // Importation de la classe d'exception de PHPMailer
     use PHPMailer\PHPMailer\Exception as MailException;
@@ -430,7 +427,7 @@
      * @param bool $invalid_language
      * @return void
      */
-    #[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
+    function redirection(string $type_langue, bool $invalid_language): void {
         
         // Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {

@@ -1,9 +1,5 @@
 <?php
-	// Pour éviter de dupliquer des fichiers de back-end, on va utiliser les fichiers css, js de login-user
-    
-    // Les includes nécessaires
-	use JetBrains\PhpStorm\NoReturn;
- 
+	// Pour éviter de dupliquer des fichiers de back-end, on va utiliser les fichiers css, js de login-user 
 	include_once("../../traduction/traduction-login-user.php");
 	include_once("../../includes/fct-connexion-bd.php");
 	include_once("../../includes/fct-divers.php");
@@ -409,7 +405,7 @@
 	 * @param bool $invalid_language
 	 * @return void
 	 */
-	#[NoReturn] function redirection(string $type_langue, bool $invalid_language): void {
+	function redirection(string $type_langue, bool $invalid_language): void {
 		
 		// Si nous arrivons ici via le GET, nous avons un problème majeur, donc on call la page 404
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {

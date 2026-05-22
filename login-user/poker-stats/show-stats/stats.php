@@ -1,7 +1,4 @@
 <?php
-	// Les includes nécessaires
-	use JetBrains\PhpStorm\NoReturn;
-	
 	include_once("../../../traduction/traduction-stats.php");
 	include_once("../../../includes/fct-connexion-bd.php");
 	include_once("../../../includes/fct-login-poker-gestion.php");
@@ -624,7 +621,7 @@
         return $tableau;
     }
     
-    #[NoReturn] function redirection(mysqli $connMYSQL, string $user, string $type_langue): void {
+    function redirection(mysqli $connMYSQL, string $user, string $type_langue): void {
 	
 	    // Exceptionnellement, il faut aller récupérer d'urgence la valeur de user dans le input hidden qu'on a sauvegardé
 	    // Au cas où, la session serait terminée, dans le but de nettoyer le token inutile en BD
@@ -644,13 +641,7 @@
 		        $user = $_POST['user'];
 	        }
             
-            // Vérifier que la variable langue est non vide, sinon y mettre le francais
-            
-            
-            
-            
-            
-            
+            // Vérifier que la variable langue est non vide, sinon y mettre le francais            
             if (isset($_POST['return'])) {
                 if ($type_langue == 'english') {
                     header("Location: /login-user/login-user.php?langue=english");

@@ -1,9 +1,9 @@
 function MissionSection() {
 
     return (
-        <section className="mission-section">
+        <div className="mission-section">
             <h2>Notre mission</h2>
-            <p>
+            <p className="contact-card">
                 Rassembler les passionnés de golf
                 de la région autour d'événements
                 de qualité, d'une ambiance conviviale
@@ -11,7 +11,7 @@ function MissionSection() {
                 des plus belles compétitions amateurs
                 au Québec.
             </p>
-        </section>
+        </div>
     );
 }
 

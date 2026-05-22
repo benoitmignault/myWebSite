@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
+import { API_BASE_URL } from "../config";
 
 /**
  * Fonction composant pour afficher le classement de la Coupe Fedex de la Ligue de Golf en Montérégie
@@ -31,7 +32,7 @@ function Standings() {
         // Envoyer une requête à l'API de logging pour enregistrer l'action de sélection du joueur
         // On n'utilise pas de useEffect pour ça parce que ce n'est pas une action qui doit être déclenchée à chaque rendu du composant, 
         // mais seulement au moment où l'utilisateur clique sur un joueur pour voir les détails
-        fetch("https://localhost/api/log-action.php",
+        fetch(`${API_BASE_URL}/log-action.php`,
             {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},                
@@ -49,7 +50,7 @@ function Standings() {
         // Récupérer les résultats détaillés du joueur depuis l'API mias en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état
         //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place  
         // const response = await fetch(`https://api.golf.benoitmignault.ca/player-details.php?id=${playerId}`);
-        const response = await fetch(`https://localhost/api/player-details.php?id=${playerId}`);
+        const response = await fetch(`${API_BASE_URL}/player-details.php?id=${playerId}`);
 
         // Une fois que la réponse est reçue, on la convertit en JSON et on met à jour l'état avec les résultats du joueur
         const data = await response.json();
@@ -66,7 +67,7 @@ function Standings() {
         // Récupérer les données des joueurs et leurs points totaux depuis l'API
         //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place       
         // fetch("https://api.golf.benoitmignault.ca/standings.php")
-        fetch("https://localhost/api/standings.php")
+        fetch(`${API_BASE_URL}/standings.php`)
             .then(response => response.json())
             .then(data => {
                 setPlayers(data);

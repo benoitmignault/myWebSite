@@ -77,11 +77,11 @@ function Sponsors() {
                             {/* SITE WEB */}
                             {
                                 sponsor.website ? (
-                                    <a href={sponsor.website} target="_blank" rel="noreferrer" className="sponsor-link">
+                                    <a href={sponsor.website} target="_blank" rel="noreferrer" className="sponsor-website-link">
                                         Site Web
                                     </a>
                                 ) : (
-                                    <span className="sponsor-link disabled">À venir</span>
+                                    <span className="sponsor-website-link disabled">À venir</span>
                                 )
                             }
                             {/* MÉDIAS SOCIAUX */}

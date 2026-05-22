@@ -390,7 +390,7 @@ tbody tr:nth-child(even) {
     justify-content: center;
 }
 
-.sponsor-link {
+.sponsor-website-link {
     display: block;
     width: 100%;
     color: white;
@@ -400,21 +400,21 @@ tbody tr:nth-child(even) {
     cursor: pointer;
 }
 
-.sponsor-link:visited {
+.sponsor-website-link:visited {
     color: white;
 }
 
-.sponsor-card span {
+.sponsor-website-link {
     color: white;
     font-weight: 700;
     font-size: 1.05rem;
 }
 
-.sponsor-link {
+.sponsor-website-link {
     cursor: pointer;
 }
 
-.sponsor-link.disabled {
+.sponsor-website-link.disabled {
     opacity: 0.5;
     cursor: default;
     pointer-events: none;

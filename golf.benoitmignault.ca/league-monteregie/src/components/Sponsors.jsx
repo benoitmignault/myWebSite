@@ -1,7 +1,8 @@
 function Sponsors() {
 
     const sponsors = [
-        {
+        {   
+            id: 1,
             name: "Apex Golf",
             logo: "./images/logos/apex-golf.png",
             logoClass: "logo-plus-gros",
@@ -10,6 +11,7 @@ function Sponsors() {
             instagram: "https://www.instagram.com/tee.time.ca/"
         },
         {
+            id: 2,
             name: "Station GO",
             logo: "./images/logos/station-go.png",
             logoClass: "logo-plus-large",
@@ -18,6 +20,7 @@ function Sponsors() {
             instagram: "https://www.instagram.com/stationgo.ca/"
         },
         {
+            id: 3,
             name: "Golf en Montérégie",
             logo: "./images/logos/golf-monteregie.png",
             logoClass: "logo-plus-gros",
@@ -26,6 +29,7 @@ function Sponsors() {
             instagram: null
         },
         {
+            id: 4,
             name: "Toucani",
             logo: "./images/logos/toucani-bird.png",
             logoClass: "logo-plus-large",
@@ -34,6 +38,7 @@ function Sponsors() {
             instagram: null
         },
         {
+            id: 5,
             name: "Mr Tee",
             logo: "./images/logos/mr-tee.png",
             logoClass: "logo-plus-gros",
@@ -42,6 +47,7 @@ function Sponsors() {
             instagram: null
         },
         {
+            id: 6,
             name: "FlexiGolf",
             logo: "./images/logos/flexi-golf.png",
             logoClass: "logo-plus-gros",

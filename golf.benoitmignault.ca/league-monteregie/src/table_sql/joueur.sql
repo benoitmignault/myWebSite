@@ -45,3 +45,15 @@ INSERT INTO players (
 ('Martin', 'Taillon', 92.0, 20.0, 20.0, 20, 16),
 ('Jean-Sébastien', 'Patenaude', 84.0, 12.0, 12.0, 12, 13),
 ('Jean-Philippe', 'Duval', 95.0, 18.0, 18.0, 18, 4); 
+
+/* Ajout de nouveaux joueurs */
+INSERT INTO players (
+    firstname,
+    lastname,
+    average_score,
+    handicap_start,
+    handicap_league,
+    handicap_rounded,
+    previous_position
+) VALUES 
+('Mylène', 'Pelletier', null, 17.0, 17.0, 17, 19);

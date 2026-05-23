@@ -703,12 +703,6 @@ tbody tr:nth-child(even) {
         padding: 6px 4px;
     }
 
-    .results-table th:nth-child(4),
-    .results-table td:nth-child(4){
-        
-    }
-
-
     .results-table tbody tr:hover {
         background:
             linear-gradient(

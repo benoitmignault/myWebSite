@@ -654,13 +654,6 @@ tbody tr:nth-child(even) {
         width: 55px;
     }
 
-    th:nth-child(3),
-    th:nth-child(4),
-    td:nth-child(3),
-    td:nth-child(4){
-        padding: 6px 4px;
-    }
-
     th:nth-child(2),
     td:nth-child(2){
         padding: 8px 4px;

@@ -1,5 +1,4 @@
 includes/info-connexion-bd.php
 includes/info-connexion-email.php
-app/league-golf-monteregie/src/table_sql/*
 phpmailer/*
 vendor/*

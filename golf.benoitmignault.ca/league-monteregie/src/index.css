@@ -688,17 +688,6 @@ tbody tr:nth-child(even) {
         padding: 6px 4px;
     }
 
-    .results-table th:nth-child(1),
-    .results-table td:nth-child(1),
-    .results-table th:nth-child(3),
-    .results-table td:nth-child(3),
-    .results-table th:nth-child(4),
-    .results-table td:nth-child(4),
-    .results-table th:nth-child(5),
-    .results-table td:nth-child(5) {
-        width: 55px;
-    }
-
     .results-table th:nth-child(1){
         padding: 6px 4px;
     }
@@ -708,6 +697,17 @@ tbody tr:nth-child(even) {
         white-space: nowrap;
         width: 80px;
     }
+
+    .results-table th:nth-child(3),
+    .results-table td:nth-child(3){
+        padding: 6px 4px;
+    }
+
+    .results-table th:nth-child(4),
+    .results-table td:nth-child(4){
+        
+    }
+
 
     .results-table tbody tr:hover {
         background:

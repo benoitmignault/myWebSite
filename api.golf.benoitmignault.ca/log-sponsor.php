@@ -18,7 +18,7 @@ if (!$data) {
 // Récupérer les données envoyées depuis le frontend
 $sponsorId = $data['sponsor_id'];
 $sponsorName = $data['sponsor_name'];
-$mediaType = $data['mediaType'];
+$mediaType = $data['media_type'];
 
 // Requête SQL pour insérer un nouveau log dans la table website_logs_sponsors
 $sql = "INSERT INTO website_logs_sponsors (log_date, media_type, sponsor_id, sponsor_name) 

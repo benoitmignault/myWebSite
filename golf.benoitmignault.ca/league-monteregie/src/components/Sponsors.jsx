@@ -127,7 +127,7 @@ function Sponsors() {
                                 }
                                 {
                                     sponsor.instagram && (
-                                        <a href={sponsor.instagram} target="_blank" rel="noreferrer" onClick={() => handleSponsorClick(sponsor, "instagram")}>
+                                        <a href={sponsor.instagram} target="_blank" rel="noopener noreferrer" onClick={() => handleSponsorClick(sponsor, "instagram")}>
                                             <img
                                                 src="./images/medias/instagram.png"
                                                 alt="Instagram"

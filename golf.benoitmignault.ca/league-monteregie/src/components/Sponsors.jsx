@@ -69,14 +69,13 @@ function Sponsors() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                // Dans une prémiere phase, il n'y a pas de table spécifique pour les sponsors, 
-                // alors on va juste envoyer l'ID et le nom du sponsor dans la table de logs générique 
-                // pour pouvoir faire des analyses plus tard sur quels sponsors sont les plus cliqués et 
-                // quels types d'actions sont les plus populaires (clic sur le site web vs clic sur les médias sociaux)
+                // Dans une première phase, on loggue simplement l'ID, le nom du sponsor et le type de média
+                // dans la table website_logs_sponsors pour pouvoir faire des analyses plus tard sur
+                // quels sponsors sont les plus cliqués et quels types d'actions sont les plus populaires
+                // (clic sur le site web vs clic sur les médias sociaux)
                 sponsor_id: sponsor.id, 
                 sponsor_name: sponsor.name,
-                mediaType: mediaType
-            })
+                media_type: mediaType
         });
     };
 

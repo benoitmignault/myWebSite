@@ -23,6 +23,8 @@ while ($row = $result->fetch_assoc()) {
     $players[] = $row; // Ajouter chaque joueur et ses points totaux au tableau
 }
 
+// Fermer la connexion à la base de données
+$conn->close();
+
 // Retourner les données au format JSON
 echo json_encode($players, JSON_PRETTY_PRINT);
-$conn->close();

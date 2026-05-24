@@ -75,8 +75,7 @@ function Sponsors() {
                 // (clic sur le site web vs clic sur les médias sociaux)
                 sponsor_id: sponsor.id, 
                 sponsor_name: sponsor.name,
-                mediaType: mediaType
-            })
+                media_type: mediaType
         });
     };
 

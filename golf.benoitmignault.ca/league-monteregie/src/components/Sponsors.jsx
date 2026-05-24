@@ -63,21 +63,22 @@ function Sponsors() {
     // Le clic peu être sur le lien web ou les icônes de médias sociaux, 
     // mais on veut enregistrer le sponsor qui a été cliqué dans tous les cas
     const handleSponsorClick = (sponsor, mediaType) => {
-        fetch(`${API_BASE_URL}/log-sponsor.php`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                // Dans une première phase, on loggue simplement l'ID, le nom du sponsor et le type de média
-                // dans la table website_logs_sponsors pour pouvoir faire des analyses plus tard sur
-                // quels sponsors sont les plus cliqués et quels types d'actions sont les plus populaires
-                // (clic sur le site web vs clic sur les médias sociaux)
-                sponsor_id: sponsor.id, 
-                sponsor_name: sponsor.name,
-                media_type: mediaType
-        });
-    };
+        fetch(`${API_BASE_URL}/log-sponsor.php`,
+            {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    // Dans une première phase, on loggue simplement l'ID, le nom du sponsor et le type de média
+                    // dans la table website_logs_sponsors pour pouvoir faire des analyses plus tard sur
+                    // quels sponsors sont les plus cliqués et quels types d'actions sont les plus populaires
+                    // (clic sur le site web vs clic sur les médias sociaux)
+                    sponsor_id: sponsor.id, 
+                    sponsor_name: sponsor.name,
+                    media_type: mediaType
+                })
+            }
+        );
+    }
 
     return (
         <section className="sponsors-section">

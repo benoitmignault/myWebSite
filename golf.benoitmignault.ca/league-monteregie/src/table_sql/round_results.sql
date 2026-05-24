@@ -22,7 +22,7 @@ CREATE TABLE round_results (
     FOREIGN KEY (player_id)
         REFERENCES players(id)
         ON DELETE CASCADE
-);
+) ENGINE=InnoDB;
 
 /*
 Étape 1

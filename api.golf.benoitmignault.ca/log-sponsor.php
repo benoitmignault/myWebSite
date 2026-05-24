@@ -1,6 +1,6 @@
 <?php
 
-// Include the database connection file et les heanders pour les requêtes CORS et le type de contenu JSON
+// Include the database connection file et les headers pour les requêtes CORS et le type de contenu JSON
 include(__DIR__ . "/includes/fct-connexion-bd.php");
 
 // Établir une connexion à la base de données de la ligue de golf en montérégie
@@ -16,18 +16,19 @@ if (!$data) {
 }
 
 // Récupérer les données envoyées depuis le frontend
-$actionType = $data['action_type'];
-$targetId = $data['target_id'];
-$targetName = $data['target_name'];
+$sponsorId = $data['sponsor_id'];
+$sponsorName = $data['sponsor_name'];
+$mediaType = $data['mediaType'];
 
-// Requête SQL pour insérer un nouveau log dans la table website_logs
-$sql = "INSERT INTO website_logs (log_date, action_type, target_id, target_name) VALUES (NOW(), ?, ?, ?)";
+// Requête SQL pour insérer un nouveau log dans la table website_logs_sponsors
+$sql = "INSERT INTO website_logs_sponsors (log_date, media_type, sponsor_id, sponsor_name) 
+            VALUES (NOW(), ?, ?, ?)";
 
 // Préparer la requête SQL
 $stmt = $conn->prepare($sql);
 
 // Lier les paramètres à la requête préparée
-$stmt->bind_param("sis", $actionType, $targetId, $targetName);
+$stmt->bind_param("sis", $mediaType, $sponsorId, $sponsorName);
 
 // Exécuter la requête SQL
 $stmt->execute();

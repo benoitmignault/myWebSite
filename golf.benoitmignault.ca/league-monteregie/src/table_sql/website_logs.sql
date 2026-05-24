@@ -1,3 +1,5 @@
+-- Table pour stocker les logs des actions effectuées sur le site 
+-- (par exemple, sélection de joueurs ou d'événements + load de page)
 CREATE TABLE website_logs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     log_date DATETIME NOT NULL,
@@ -7,4 +9,4 @@ CREATE TABLE website_logs (
     target_id INT NULL,
     -- Ajouter une colonne pour stocker le nom de la cible de l'action (par exemple, nom de l'utilisateur, nom de l'événement, etc.)
     target_name VARCHAR(255) NULL
-);
+) ENGINE=InnoDB;

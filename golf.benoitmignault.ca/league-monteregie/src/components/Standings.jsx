@@ -47,12 +47,11 @@ function Standings() {
         // Un genre de sinon, on ouvre le joueur et on va chercher les détails de ce joueur pour les afficher
         setOpenPlayer(playerId);
 
-        // Récupérer les résultats détaillés du joueur depuis l'API mias en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état
-        //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place  
-        // const response = await fetch(`https://api.golf.benoitmignault.ca/player-details.php?id=${playerId}`);
+        // Récupérer les résultats détaillés du joueur depuis l'API 
+        // mais en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état        
         const response = await fetch(`${API_BASE_URL}/player-details.php?id=${playerId}`);
 
-        // Une fois que la réponse est reçue, on la convertit en JSON et on met à jour l'état avec les résultats du joueur
+        // Une fois que la réponse est reçue, on la convertit en JSON et on doit mettre à jour l'état avec les résultats du joueur
         const data = await response.json();
 
         // Mettre à jour l'état avec les résultats du joueur pour les afficher dans la table des détails du joueur
@@ -64,9 +63,9 @@ function Standings() {
     // alors que la fonction de gestion du clic sur un joueur est faite pour gérer une action spécifique de l'utilisateur (cliquer sur un joueur) 
     // et récupérer les données détaillées de ce joueur seulement au moment où l'utilisateur clique sur lui
     useEffect(() => {
-        // Récupérer les données des joueurs et leurs points totaux depuis l'API
-        //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place       
-        // fetch("https://api.golf.benoitmignault.ca/standings.php")
+        // Récupérer les informations pour afficher en gros, le classement général de la Coupe Fedex
+        // Soit les données des joueurs et leurs points totaux depuis l'API et 
+        // les stocker dans l'état pour les afficher dans le classement général
         fetch(`${API_BASE_URL}/standings.php`)
             .then(response => response.json())
             .then(data => {

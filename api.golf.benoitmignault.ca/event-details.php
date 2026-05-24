@@ -34,7 +34,8 @@ while ($row = $result->fetch_assoc()) {
     $events[] = $row; 
 }
 
+// Fermer la connexion à la base de données
+$conn->close();
+
 // Retourner les données au format JSON
 echo json_encode($events, JSON_PRETTY_PRINT);
-
-$conn->close();

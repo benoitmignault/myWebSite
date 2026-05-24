@@ -1,4 +1,4 @@
--- Création d'un table pour stocker les evenemnts de click sur les sites web ou les médias sociaux des commanditaires
+-- Création d'une table pour stocker les événements de clic sur les sites web ou les médias sociaux des commanditaires
 CREATE TABLE website_logs_sponsors (
     id INT AUTO_INCREMENT PRIMARY KEY,
     log_date DATETIME NOT NULL,

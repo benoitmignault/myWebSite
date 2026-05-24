@@ -106,7 +106,7 @@ function Sponsors() {
                             {/* SITE WEB */}
                             {
                                 sponsor.website ? (
-                                    <a href={sponsor.website} target="_blank" rel="noreferrer" className="sponsor-website-link" onClick={() => handleSponsorClick(sponsor, "website")}>
+                                    <a href={sponsor.website} target="_blank" rel="noopener noreferrer" className="sponsor-website-link" onClick={() => handleSponsorClick(sponsor, "website")}>
                                         Site Web
                                     </a>
                                 ) : (

@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "../config";
+
 function Sponsors() {
 
     const sponsors = [
@@ -57,6 +59,27 @@ function Sponsors() {
         }
     ];
 
+    // Fonction pour gérer le clic sur un sponsor et envoyer une requête de logging à l'API
+    // Le clic peu être sur le lien web ou les icônes de médias sociaux, 
+    // mais on veut enregistrer le sponsor qui a été cliqué dans tous les cas
+    const handleSponsorClick = (sponsor, action) => {
+        fetch(`${API_BASE_URL}/log-sponsor.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // Dans une prémiere phase, il n'y a pas de table spécifique pour les sponsors, 
+                // alors on va juste envoyer l'ID et le nom du sponsor dans la table de logs générique 
+                // pour pouvoir faire des analyses plus tard sur quels sponsors sont les plus cliqués et 
+                // quels types d'actions sont les plus populaires (clic sur le site web vs clic sur les médias sociaux)
+                sponsor_id: sponsor.id, 
+                sponsor_name: sponsor.name,
+                action: action
+            })
+        });
+    };
+
     return (
         <section className="sponsors-section">
             <h2>Partenaires officiels</h2>            
@@ -83,7 +106,7 @@ function Sponsors() {
                             {/* SITE WEB */}
                             {
                                 sponsor.website ? (
-                                    <a href={sponsor.website} target="_blank" rel="noreferrer" className="sponsor-website-link" onClick={() => handleSponsorClick(sponsor)}>
+                                    <a href={sponsor.website} target="_blank" rel="noreferrer" className="sponsor-website-link" onClick={() => handleSponsorClick(sponsor, "website")}>
                                         Site Web
                                     </a>
                                 ) : (
@@ -94,7 +117,7 @@ function Sponsors() {
                             <div className="sponsor-socials">
                                 {
                                     sponsor.facebook && (
-                                        <a href={sponsor.facebook} target="_blank" rel="noreferrer">
+                                        <a href={sponsor.facebook} target="_blank" rel="noreferrer" onClick={() => handleSponsorClick(sponsor, "facebook")}>
                                             <img
                                                 src="./images/medias/facebook.png"
                                                 alt="Facebook"
@@ -105,7 +128,7 @@ function Sponsors() {
                                 }
                                 {
                                     sponsor.instagram && (
-                                        <a href={sponsor.instagram} target="_blank" rel="noreferrer">
+                                        <a href={sponsor.instagram} target="_blank" rel="noreferrer" onClick={() => handleSponsorClick(sponsor, "instagram")}>
                                             <img
                                                 src="./images/medias/instagram.png"
                                                 alt="Instagram"

@@ -49,7 +49,7 @@ function EventsList() {
         // Un genre de sinon, on ouvre l'event et on va chercher les détails de cet event pour les afficher
         setOpenEvent(eventId);
 
-        // Récupérer les résultats détaillés d'un évenement depuis l'API mais en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état        
+        // Récupérer les résultats détaillés d'un événement depuis l'API mais en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état        
         const response = await fetch(`${API_BASE_URL}/event-details.php?id=${eventId}`);
 
         // Une fois que la réponse est reçue, on la convertit en JSON et on met à jour l'état avec les résultats de l'événement

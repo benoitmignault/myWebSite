@@ -1,6 +1,6 @@
 <?php
 
-// Include the database connection file et les heanders pour les requêtes CORS et le type de contenu JSON
+// Include the database connection file et les headers pour les requêtes CORS et le type de contenu JSON
 include(__DIR__ . "/includes/fct-connexion-bd.php");
 
 // Établir une connexion à la base de données de la ligue de golf en montérégie

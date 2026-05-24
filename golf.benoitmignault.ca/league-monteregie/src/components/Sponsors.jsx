@@ -117,7 +117,7 @@ function Sponsors() {
                             <div className="sponsor-socials">
                                 {
                                     sponsor.facebook && (
-                                        <a href={sponsor.facebook} target="_blank" rel="noreferrer" onClick={() => handleSponsorClick(sponsor, "facebook")}>
+                                        <a href={sponsor.facebook} target="_blank" rel="noopener noreferrer" onClick={() => handleSponsorClick(sponsor, "facebook")}>
                                             <img
                                                 src="./images/medias/facebook.png"
                                                 alt="Facebook"

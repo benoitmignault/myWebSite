@@ -62,7 +62,7 @@ function Sponsors() {
     // Fonction pour gérer le clic sur un sponsor et envoyer une requête de logging à l'API
     // Le clic peu être sur le lien web ou les icônes de médias sociaux, 
     // mais on veut enregistrer le sponsor qui a été cliqué dans tous les cas
-    const handleSponsorClick = (sponsor, action) => {
+    const handleSponsorClick = (sponsor, mediaType) => {
         fetch(`${API_BASE_URL}/log-sponsor.php`, {
             method: "POST",
             headers: {
@@ -75,7 +75,7 @@ function Sponsors() {
                 // quels types d'actions sont les plus populaires (clic sur le site web vs clic sur les médias sociaux)
                 sponsor_id: sponsor.id, 
                 sponsor_name: sponsor.name,
-                action: action
+                mediaType: mediaType
             })
         });
     };

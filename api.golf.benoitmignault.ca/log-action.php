@@ -32,9 +32,13 @@ $stmt->bind_param("sis", $actionType, $targetId, $targetName);
 // Exécuter la requête SQL
 $stmt->execute();
 
-// Fermer la connexion à la base de données
+// Fermer la connexion au résultat du insert dans la base de données
 $stmt->close();
 
+// Fermer la connexion à la base de données
+$conn->close();
+
+// Retourner une réponse JSON indiquant le succès de l'opération
 echo json_encode([
     "success" => true
 ]);

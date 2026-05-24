@@ -7,7 +7,5 @@ CREATE TABLE website_logs_sponsors (
     -- Ajouter une colonne pour stocker l'ID du commanditaire
     sponsor_id INT NOT NULL,
     -- Ajouter une colonne pour stocker le nom du commanditaire
-    sponsor_name VARCHAR(255) NOT NULL,
-    -- Ajouter une colonne pour stocker l'URL du lien cliqué
-    url VARCHAR(255) NOT NULL
-);
+    sponsor_name VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;

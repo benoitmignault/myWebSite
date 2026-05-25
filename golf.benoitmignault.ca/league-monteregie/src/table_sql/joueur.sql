@@ -40,20 +40,9 @@ INSERT INTO players (
 ('Normand', 'Gagnon', 84.0, 13.0, 12.0, 12, 14),
 ('Mathieu', 'Robidas', 82.0, 7.0, 7.0, 7, 12),
 ('Maxime', 'Paulin', 87.0, 20.0, 15.0, 15, 17),
-('Jean-François', 'Asselin', 94.0, 23.0, 22.0, 22, 18),
-('Sylvain', 'Gervais', 86.0, 14.0, 14.0, 14, 15),
-('Martin', 'Taillon', 92.0, 20.0, 20.0, 20, 16),
+('Jean-François', 'Asselin', 94.0, 23.0, 22.0, 22, 19),
+('Sylvain', 'Gervais', 86.0, 14.0, 14.0, 14, 16),
+('Martin', 'Taillon', 92.0, 20.0, 20.0, 20, 15),
 ('Jean-Sébastien', 'Patenaude', 84.0, 12.0, 12.0, 12, 13),
-('Jean-Philippe', 'Duval', 95.0, 18.0, 18.0, 18, 4); 
-
-/* Ajout de nouveaux joueurs */
-INSERT INTO players (
-    firstname,
-    lastname,
-    average_score,
-    handicap_start,
-    handicap_league,
-    handicap_rounded,
-    previous_position
-) VALUES 
-('Mylène', 'Pelletier', null, 17.0, 17.0, 17, 19);
+('Jean-Pierre', 'Duval', 95.0, 18.0, 18.0, 18, 4),
+('Mylène', 'Pelletier', null, 17.0, 17.0, 17, 18);

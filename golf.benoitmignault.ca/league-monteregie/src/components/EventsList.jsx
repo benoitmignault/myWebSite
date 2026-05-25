@@ -94,7 +94,7 @@ function EventsList() {
                                               // on veut seulement ouvrir le lien du parcours de golf   
                                         (e) => e.stopPropagation()}
                                 >
-                                    📍 {event.golf_course}
+                                    📍 {event.golf_course} ↗
                                 </a>
                             </div>
                             <div className="event-details">

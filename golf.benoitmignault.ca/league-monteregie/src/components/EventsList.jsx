@@ -85,7 +85,17 @@ function EventsList() {
                                 ⛳ {event.event_name}
                             </div>
                             <div className="event-details">
-                                📍 {event.golf_course}
+                                <a
+                                    href={event.golf_course_website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="golf-course-link"
+                                    onClick={ // Empêcher le click sur le lien d'ouvrir les détails de l'événement, 
+                                              // on veut seulement ouvrir le lien du parcours de golf   
+                                        (e) => e.stopPropagation()}
+                                >
+                                    📍 {event.golf_course}
+                                </a>
                             </div>
                             <div className="event-details">
                                 📅 {event.event_date}

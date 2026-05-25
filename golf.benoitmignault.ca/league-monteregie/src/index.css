@@ -240,10 +240,13 @@ tbody tr:nth-child(even) {
 .golf-course-link {
     color: inherit;
     text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
 }
 
 .golf-course-link:hover {
     text-decoration: underline;
+    opacity: 0.85;
 }
 
 .event-results {

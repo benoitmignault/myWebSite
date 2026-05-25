@@ -1,7 +1,7 @@
 -- Table for players in the golf league, including their average scores and handicaps
 CREATE TABLE players (
 
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
     average_score DECIMAL(5,1) UNSIGNED DEFAULT NULL,
@@ -9,9 +9,9 @@ CREATE TABLE players (
     handicap_league DECIMAL(4,1) NOT NULL DEFAULT 0.0,
     handicap_rounded INT NOT NULL DEFAULT 0,
     previous_position INT UNSIGNED DEFAULT NULL,
+
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 -- Ceci est un dump de la table `joueur` de la base de données `league_golf_monteregie`

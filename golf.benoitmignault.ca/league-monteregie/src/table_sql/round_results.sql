@@ -1,7 +1,7 @@
 -- Table for storing round results of players in golf events
 CREATE TABLE round_results (
 
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     event_id INT UNSIGNED NOT NULL,
     player_id INT UNSIGNED NOT NULL,
     gross_score INT UNSIGNED NOT NULL DEFAULT 0,
@@ -10,18 +10,20 @@ CREATE TABLE round_results (
     net_score INT NOT NULL DEFAULT 0,
     position INT UNSIGNED NOT NULL DEFAULT 0,
     fedex_points INT UNSIGNED NOT NULL DEFAULT 0,
+
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (id),
-
-    FOREIGN KEY (event_id)
+    CONSTRAINT fk_round_results_event
+        FOREIGN KEY (event_id)
         REFERENCES events(id)
         ON DELETE CASCADE,
 
-    FOREIGN KEY (player_id)
+    CONSTRAINT fk_round_results_player
+        FOREIGN KEY (player_id)
         REFERENCES players(id)
         ON DELETE CASCADE
+
 ) ENGINE=InnoDB;
 
 /*

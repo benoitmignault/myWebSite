@@ -6,6 +6,7 @@ CREATE TABLE events (
     golf_course VARCHAR(255) NOT NULL,
     golf_course_website VARCHAR(255) NOT NULL,
     event_date DATE NOT NULL,
+    
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 

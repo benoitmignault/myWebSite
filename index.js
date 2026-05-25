@@ -19,31 +19,43 @@ const CALENDRIER_AJAX = document.querySelector('#calendrier-ajax');
 
 /**
  * Retourne la liste des technologies en informatique
- *
+ * 
  * @returns {void}
  */
 function activation_liste() {
 
     LIEN.addEventListener('click', function () {
+
         if (DIV_LISTE.style.display === "") {
-            DIV_LISTE.style.display = 'block';
-            LISTE.innerHTML = "<li>PHP / HTML / CSS</li>";
-            LISTE.innerHTML += "<li>PYTHON / FLASK</li>";
-            LISTE.innerHTML += "<li>JAVASCRIPT / JQUERY</li>";
-            LISTE.innerHTML += "<li>C / C++ / MAKEFILE</li>";
-            LISTE.innerHTML += "<li>SQL / MYSQL / ORACLE</li>";
-            LISTE.innerHTML += "<li>VBScript & Excel</li>";
-            LISTE.innerHTML += "<li>JAVA</li>";
+
+            DIV_LISTE.style.display = "block";
+            let liste = `
+                <li>React / Vite / JQuery / JavaScript</li>
+                <li>PHP / API REST</li>
+                <li>HTML / CSS</li>
+                <li>SQL / MySQL / Oracle</li>
+                <li>Git / GitHub / GitLab</li>
+                <li>VBScript & Excel</li>
+                <li>OCaml & Prolog</li>
+                <li>Python / Flask</li>
+            `;
+
             if (LANGUE.value === "en") {
-                LISTE.innerHTML += "<li>ASSEMBLY IN (Pep8)</li>";
+                liste += `<li>Assembly in (Pep8)</li>`;
+
             } else {
-                LISTE.innerHTML += "<li>ASSEMBLEUR EN (Pep8)</li>";
+                liste += `<li>Assembleur (Pep8)</li>`;
             }
-            LISTE.innerHTML += "<li>OCAML & PROLOG</li>";
-            LISTE.innerHTML += "<li>GIT / GITHUB / GITLAB</li>";
-            LISTE.innerHTML += "<li>ANDROID STUDIO & JAVA</li>";
-            LISTE.innerHTML += "<li>WINDOWS 10 / UBUNTU</li>";
-        } else if (DIV_LISTE.style.display === 'block') {
+
+            liste += `
+                <li>C / C++ / Makefile</li>
+                <li>Android Studio & Java</li>
+                <li>Windows 10 / Ubuntu</li>
+            `;
+
+            LISTE.innerHTML = liste;
+
+        } else {
             LISTE.innerHTML = "";
             DIV_LISTE.style.display = "";
         }

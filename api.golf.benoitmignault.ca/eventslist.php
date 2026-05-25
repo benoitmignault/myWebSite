@@ -7,7 +7,7 @@ include(__DIR__ . "/includes/fct-connexion-bd.php");
 $conn = connexion_league_golf_monteregie();
 
 // Requête pour récupéré la liste des événements seulement, triés par date d'événement
-$select = "SELECT id, event_name, golf_course, event_date ";
+$select = "SELECT id, event_name, golf_course, golf_course_website, event_date ";
 $from = "FROM events ";
 $orderBy = "ORDER BY event_date";
 $sql = $select . $from . $orderBy;

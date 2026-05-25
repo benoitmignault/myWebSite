@@ -237,6 +237,15 @@ tbody tr:nth-child(even) {
     margin-bottom: 2px;
 }
 
+.golf-course-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.golf-course-link:hover {
+    text-decoration: underline;
+}
+
 .event-results {
     margin-top: 16px;
     padding-top: 16px;

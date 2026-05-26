@@ -124,18 +124,18 @@ SET
     handicap_league =
         CASE id
 
-            WHEN 1 THEN 14.0
-            WHEN 2 THEN 28.0
+            WHEN 1 THEN 22.0
+            WHEN 2 THEN 29.0
             WHEN 3 THEN 33.0
-            WHEN 4 THEN 15.0
-            WHEN 5 THEN 17.0
-            WHEN 6 THEN 28.0
+            WHEN 4 THEN 16.0
+            WHEN 5 THEN 25.0
+            WHEN 6 THEN 33.0
             WHEN 7 THEN 10.0
             WHEN 8 THEN 11.0
             WHEN 9 THEN 17.0
             WHEN 10 THEN 7.0
             WHEN 11 THEN 12.0
-            WHEN 12 THEN 7.0
+            WHEN 12 THEN 10.0
             WHEN 13 THEN 15.0
             WHEN 14 THEN 22.0
             WHEN 15 THEN 14.0
@@ -143,30 +143,32 @@ SET
             WHEN 17 THEN 12.0
             WHEN 18 THEN 16.0
             WHEN 19 THEN 17.0
+
         END,
 -- MAJ du handicap arrondi pour la compétition apres 3 semaines de compétition
     handicap_rounded =
-        CASE id
+    CASE id
 
-            WHEN 1 THEN 14
-            WHEN 2 THEN 28
-            WHEN 3 THEN 33
-            WHEN 4 THEN 15
-            WHEN 5 THEN 17
-            WHEN 6 THEN 28
-            WHEN 7 THEN 10
-            WHEN 8 THEN 11
-            WHEN 9 THEN 17
-            WHEN 10 THEN 7
-            WHEN 11 THEN 12
-            WHEN 12 THEN 7
-            WHEN 13 THEN 15
-            WHEN 14 THEN 22
-            WHEN 15 THEN 14
-            WHEN 16 THEN 13
-            WHEN 17 THEN 12
-            WHEN 18 THEN 16
-            WHEN 19 THEN 17
-        END
+        WHEN 1 THEN 22
+        WHEN 2 THEN 29
+        WHEN 3 THEN 33
+        WHEN 4 THEN 16
+        WHEN 5 THEN 25
+        WHEN 6 THEN 33
+        WHEN 7 THEN 10
+        WHEN 8 THEN 11
+        WHEN 9 THEN 17
+        WHEN 10 THEN 7
+        WHEN 11 THEN 12
+        WHEN 12 THEN 10
+        WHEN 13 THEN 15
+        WHEN 14 THEN 22
+        WHEN 15 THEN 14
+        WHEN 16 THEN 13
+        WHEN 17 THEN 12
+        WHEN 18 THEN 16
+        WHEN 19 THEN 17
+    
+    END
 -- Seulement pour les id existant entre 1 et 19, pour éviter de faire un update sur des joueurs qui pourraient être ajoutés dans le futur
 WHERE id BETWEEN 1 AND 19;

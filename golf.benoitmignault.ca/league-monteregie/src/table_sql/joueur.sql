@@ -47,3 +47,48 @@ INSERT INTO players (
 ('Jean-Pierre', 'Duval', 95.0, 18.0, 18.0, 18, 4),
 ('Mylène', 'Pelletier', null, 17.0, 17.0, 17, 18);
 
+-- On fait un update pour mettre à jour la position précédente de chaque joueur après la deuxième semaine de compétition, 
+-- avant de l'insertion des résultats de la troisième semaine. Cela permettra de calculer les changements de position après la troisième semaine.
+UPDATE players
+SET previous_position =
+    CASE id
+        -- Robert Labelle
+        WHEN 7 THEN 1
+        -- Nicolas Carrière
+        WHEN 10 THEN 2
+        -- Benoît Mignault
+        WHEN 8 THEN 3
+        -- Monia Roulier
+        WHEN 2 THEN 4
+        -- Jean-Pierre Duval
+        WHEN 18 THEN 5
+        -- Daniel Lefebvre
+        WHEN 4 THEN 6
+        -- Robert Gaboriault
+        WHEN 9 THEN 7
+        -- Mai-Révée Dolceb
+        WHEN 3 THEN 8
+        -- Luc Grimard
+        WHEN 6 THEN 9
+        -- Eric Grimard
+        WHEN 5 THEN 10
+        -- Maxime Paulin
+        WHEN 13 THEN 11
+        -- Normand Gagnon
+        WHEN 11 THEN 12
+        -- Jean-Sébastien Patenaude
+        WHEN 17 THEN 13
+        -- Sylvain Gervais
+        WHEN 15 THEN 14
+        -- Martin Taillon
+        WHEN 16 THEN 15
+        -- Jean-François Asselin
+        WHEN 14 THEN 16
+        -- Danny Guerrin
+        WHEN 1 THEN 17
+        -- Mathieu Robidas
+        WHEN 12 THEN 18
+        -- Mylène Pelletier
+        WHEN 19 THEN 19
+    END
+WHERE id BETWEEN 1 AND 19;

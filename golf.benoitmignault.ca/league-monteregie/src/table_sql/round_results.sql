@@ -102,3 +102,49 @@ VALUES
 (2,  5,  97,  97, 17,  8, 15, 166),
 (2,  9,  97,  96, 17,  8, 16, 166),
 (2,  6, 115, 113, 28, 15, 17, 154);
+
+
+/**
+ * Event 3 - Semaine 3
+ */
+ INSERT INTO round_results (
+
+    event_id,
+    player_id,
+    gross_score,
+    gross_score_adjust,
+    handicap_used,
+    net_score,
+    position,
+    fedex_points
+)
+
+VALUES
+-- Martin Taillon
+(3, 16, 85, 85, 20, -7, 1, 300),
+-- Jean-Pierre Duval
+(3, 18, 88, 88, 18, -2, 2, 290),
+-- Benoît Mignault
+(3, 8, 83, 83, 12, -1, 3, 280),
+-- Sylvain Gervais
+(3, 15, 86, 86, 14, 0, 4, 270),
+-- Robert Gaboriault
+(3, 9, 90, 89, 17, 1, 5, 260),
+-- Daniel Lefebvre
+(3, 4, 90, 90, 15, 3, 6, 250),
+-- Nicolas Carrière
+(3, 10, 83, 83, 7, 4, 7, 235),
+-- Jean-Sébastien Patenaude
+(3, 17, 88, 88, 12, 4, 8, 235),
+-- Luc Grimard
+(3, 6, 105, 105, 28, 5, 9, 215),
+-- Mai-Révée Dolceb
+(3, 3, 111, 105, 34, 5, 10, 215),
+-- Maxime Paulin
+(3, 13, 95, 94, 15, 8, 11, 202),
+-- Robert Labelle
+(3, 7, 94, 92, 10, 12, 12, 190),
+-- Monia Roulier
+(3, 2, 112, 112, 28, 12, 13, 190),
+-- Eric Grimard
+(3, 5, 103, 103, 17, 14, 14, 178);

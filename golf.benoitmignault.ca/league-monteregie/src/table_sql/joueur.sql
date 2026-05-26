@@ -92,3 +92,81 @@ SET previous_position =
         WHEN 19 THEN 19
     END
 WHERE id BETWEEN 1 AND 19;
+
+
+UPDATE players
+SET
+-- MAJ de la moyenne apres 3 semaines de compétition
+    average_score =
+        CASE id
+
+            WHEN 1 THEN 94.0
+            WHEN 2 THEN 105.7
+            WHEN 3 THEN 109.0
+            WHEN 4 THEN 90.3
+            WHEN 5 THEN 102.3
+            WHEN 6 THEN 110.0
+            WHEN 7 THEN 85.7
+            WHEN 8 THEN 86.3
+            WHEN 9 THEN 93.3
+            WHEN 10 THEN 82.7
+            WHEN 11 THEN 84.0
+            WHEN 12 THEN 82.0
+            WHEN 13 THEN 90.5
+            WHEN 14 THEN 94.0
+            WHEN 15 THEN 86.0
+            WHEN 16 THEN 88.5
+            WHEN 17 THEN 86.0
+            WHEN 18 THEN 92.7
+            WHEN 19 THEN NULL
+        END,
+-- MAJ du handicap de la league apres 3 semaines de compétition
+    handicap_league =
+        CASE id
+
+            WHEN 1 THEN 14.0
+            WHEN 2 THEN 28.0
+            WHEN 3 THEN 33.0
+            WHEN 4 THEN 15.0
+            WHEN 5 THEN 17.0
+            WHEN 6 THEN 28.0
+            WHEN 7 THEN 10.0
+            WHEN 8 THEN 11.0
+            WHEN 9 THEN 17.0
+            WHEN 10 THEN 7.0
+            WHEN 11 THEN 12.0
+            WHEN 12 THEN 7.0
+            WHEN 13 THEN 15.0
+            WHEN 14 THEN 22.0
+            WHEN 15 THEN 14.0
+            WHEN 16 THEN 13.0
+            WHEN 17 THEN 12.0
+            WHEN 18 THEN 16.0
+            WHEN 19 THEN 17.0
+        END,
+-- MAJ du handicap arrondi pour la compétition apres 3 semaines de compétition
+    handicap_rounded =
+        CASE id
+
+            WHEN 1 THEN 14
+            WHEN 2 THEN 28
+            WHEN 3 THEN 33
+            WHEN 4 THEN 15
+            WHEN 5 THEN 17
+            WHEN 6 THEN 28
+            WHEN 7 THEN 10
+            WHEN 8 THEN 11
+            WHEN 9 THEN 17
+            WHEN 10 THEN 7
+            WHEN 11 THEN 12
+            WHEN 12 THEN 7
+            WHEN 13 THEN 15
+            WHEN 14 THEN 22
+            WHEN 15 THEN 14
+            WHEN 16 THEN 13
+            WHEN 17 THEN 12
+            WHEN 18 THEN 16
+            WHEN 19 THEN 17
+        END
+-- Seulement pour les id existant entre 1 et 19, pour éviter de faire un update sur des joueurs qui pourraient être ajoutés dans le futur
+WHERE id BETWEEN 1 AND 19;

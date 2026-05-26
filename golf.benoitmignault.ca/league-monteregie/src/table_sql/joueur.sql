@@ -46,3 +46,4 @@ INSERT INTO players (
 ('Jean-Sébastien', 'Patenaude', 84.0, 12.0, 12.0, 12, 13),
 ('Jean-Pierre', 'Duval', 95.0, 18.0, 18.0, 18, 4),
 ('Mylène', 'Pelletier', null, 17.0, 17.0, 17, 18);
+

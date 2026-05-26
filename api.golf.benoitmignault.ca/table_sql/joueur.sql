@@ -172,3 +172,14 @@ SET
     END
 -- Seulement pour les id existant entre 1 et 19, pour éviter de faire un update sur des joueurs qui pourraient être ajoutés dans le futur
 WHERE id BETWEEN 1 AND 19;
+
+INSERT INTO players (
+    firstname,
+    lastname,
+    average_score,
+    handicap_start,
+    handicap_league,
+    handicap_rounded,
+    previous_position
+) VALUES
+('Marie-France', 'Clermont', null, 24.0, 24.0, 24, 20); 

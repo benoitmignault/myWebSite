@@ -34,7 +34,12 @@ function App() {
 				</div>
 				<div className="sub-container">
 					<EventsList />
-				</div>				
+				</div>						
+			</div>
+			<div className="photo-credit-wrapper">
+				<div className="background-photo-credit">
+					📸 Photo prise au Club de golf Farnham — Semaine 2
+				</div>
 			</div>
 			<div className="sub-container">
 				<Sponsors />

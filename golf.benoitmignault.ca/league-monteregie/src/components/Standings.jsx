@@ -3,8 +3,15 @@ import React from "react";
 import { API_BASE_URL } from "../config";
 
 /**
- * Fonction composant pour afficher le classement de la Coupe Fedex de la Ligue de Golf en Montérégie
- * Affiche une table avec les joueurs, leur handicap et leurs points totaux, classés par points, handicap et prénom
+ * Composant pour afficher le classement général de la Coupe Fedex
+ * 
+ * @description Ce composant utilise useEffect pour récupérer les données du classement général 
+ * depuis l'API dès que le composant est monté, et stocke ces données dans l'état avec useState. 
+ * Il affiche ensuite une table avec les joueurs classés par points, handicap et prénom. 
+ * Lorsque l'utilisateur clique sur un joueur, une requête est envoyée à l'API pour récupérer 
+ * les résultats détaillés de ce joueur, qui sont ensuite affichés dans une table en dessous 
+ * du joueur sélectionné. Un message de chargement est affiché pendant que 
+ * les résultats détaillés sont en cours de récupération.
  * 
  * @returns 
  */

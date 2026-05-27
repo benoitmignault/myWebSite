@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../config";
-
-
+import "./admin.css";
 
 /**
  * Composant de connexion pour les administrateurs et les sous-administrateurs

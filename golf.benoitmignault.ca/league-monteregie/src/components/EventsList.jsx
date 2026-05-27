@@ -21,6 +21,9 @@ function EventsList() {
     // État pour stocker les résultats détaillés d'une event sélectionné
     const [eventResults, setEventResults] = useState([]);
 
+    // État pour indiquer si les résultats détaillés du joueur sont en cours de chargement
+    const [loadingEventHistory, setLoadingEventHistory] = useState(false);
+
     // Fonction pour gérer le click sur un event et afficher les résultats
     const handleEventClick = async (eventId) => {
 

@@ -17,7 +17,10 @@ function Standings() {
     const [openPlayer, setOpenPlayer] = useState(null);
 
     // État pour stocker les résultats détaillés d'un joueur sélectionné
-    const [playerResults, setPlayerResults] = useState([]);    
+    const [playerResults, setPlayerResults] = useState([]);   
+    
+    // État pour indiquer si les résultats détaillés du joueur sont en cours de chargement
+    const [loadingPlayerHistory, setLoadingPlayerHistory] = useState(false);
 
     // Fonction pour gérer le clic sur un joueur et afficher ses résultats
     const handlePlayerClick = async (playerId) => {

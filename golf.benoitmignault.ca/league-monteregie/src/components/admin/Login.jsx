@@ -112,7 +112,7 @@ function Login() {
             } else {
 
                 // Connexion échouée
-                setError(data.message);
+                setError(data.error);
             }
 
         } catch (err) {
@@ -140,6 +140,7 @@ function Login() {
                 <button type="submit" disabled={loading}>
                     Connexion
                 </button>
+                {error && <p style={{color: "red"}}>{error}</p>}
             </form>
         </div>
     );

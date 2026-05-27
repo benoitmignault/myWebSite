@@ -2,3 +2,6 @@ includes/info-connexion-bd.php
 includes/info-connexion-email.php
 phpmailer/*
 vendor/*
+
+# Ajout du fichier de création des passwords
+api.golf.benoitmignault.ca/admin/create-password-hash.php

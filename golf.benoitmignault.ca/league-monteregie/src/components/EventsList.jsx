@@ -52,14 +52,27 @@ function EventsList() {
         // Un genre de sinon, on ouvre l'event et on va chercher les détails de cet event pour les afficher
         setOpenEvent(eventId);
 
-        // Récupérer les résultats détaillés d'un événement depuis l'API mais en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état        
-        const response = await fetch(`${API_BASE_URL}/event-details.php?id=${eventId}`);
+        // IMPORTANT qu'on va utiliser en bas pour faire afficher un message de chargement pendant qu'on attend la réponse de l'API pour les détails du joueur
+        setLoadingEventHistory(true);
 
-        // Une fois que la réponse est reçue, on la convertit en JSON et on met à jour l'état avec les résultats de l'événement
-        const data = await response.json();
+        try {
+            // Récupérer les résultats détaillés d'un événement depuis l'API mais en mode asynchrone 
+            // pour pouvoir attendre la réponse avant de mettre à jour l'état        
+            const response = await fetch(`${API_BASE_URL}/event-details.php?id=${eventId}`);
 
-        // Mettre à jour l'état avec les résultats de l'événement pour les afficher dans la table des détails de l'événement
-        setEventResults(data);
+            // Une fois que la réponse est reçue, on la convertit en JSON et on met à jour l'état avec les résultats de l'événement
+            const data = await response.json();
+
+            // Mettre à jour l'état avec les résultats de l'événement pour les afficher dans la table des détails de l'événement
+            setEventResults(data);
+        } catch (error) {
+
+            console.error("Erreur lors de la récupération des détails de l'événement :", error);
+        } finally {
+
+            // Une fois que la requête est terminée (qu'elle ait réussi ou échoué), on arrête d'afficher le message de chargement
+            setLoadingEventHistory(false);
+        }        
     }
 
     useEffect(() => {

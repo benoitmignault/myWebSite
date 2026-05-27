@@ -50,15 +50,27 @@ function Standings() {
         // Un genre de sinon, on ouvre le joueur et on va chercher les détails de ce joueur pour les afficher
         setOpenPlayer(playerId);
 
-        // Récupérer les résultats détaillés du joueur depuis l'API 
-        // mais en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état        
-        const response = await fetch(`${API_BASE_URL}/player-details.php?id=${playerId}`);
+        // IMPORTANT qu'on va utiliser en bas pour faire afficher un message de chargement pendant qu'on attend la réponse de l'API pour les détails du joueur
+        setLoadingPlayerHistory(true);
 
-        // Une fois que la réponse est reçue, on la convertit en JSON et on doit mettre à jour l'état avec les résultats du joueur
-        const data = await response.json();
+        try {
+            // Récupérer les résultats détaillés du joueur depuis l'API 
+            // mais en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état        
+            const response = await fetch(`${API_BASE_URL}/player-details.php?id=${playerId}`);
+            
+            // Une fois que la réponse est reçue, on la convertit en JSON et on doit mettre à jour l'état avec les résultats du joueur
+            const data = await response.json();
+            
+            // Mettre à jour l'état avec les résultats du joueur pour les afficher dans la table des détails du joueur
+            setPlayerResults(data);            
+        } catch (error) {
 
-        // Mettre à jour l'état avec les résultats du joueur pour les afficher dans la table des détails du joueur
-        setPlayerResults(data);
+            console.error("Erreur récupération détails joueur :", error);
+            setPlayerResults([]);
+        } finally {
+
+            setLoadingPlayerHistory(false);
+        }
     }    
     
     // On va mette useEffet en premier pour symboliser que ce useEffet est fait avant même la fonction de gestion du clic sur un joueur, 

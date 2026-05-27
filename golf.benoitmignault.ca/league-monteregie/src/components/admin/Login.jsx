@@ -56,12 +56,6 @@ function Login() {
             return;
         }
 
-        // Éviter les espaces accidentels dans le champ password
-        if (/\s/.test(password)) {
-            setError("Le mot de passe ne doit pas contenir d'espaces.");
-            return;
-        }
-
         // Le username ne doit pas excéder 50 caractères
         if (username.length > 50) {
             setError("Le nom d'utilisateur ne doit pas dépasser 50 caractères.");
@@ -112,7 +106,7 @@ function Login() {
             } else {
 
                 // Connexion échouée
-                setError(data.error);
+                setError(data.message);
             }
 
         } catch (err) {

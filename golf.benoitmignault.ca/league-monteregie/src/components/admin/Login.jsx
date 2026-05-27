@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import React from "react";
-import { API_BASE_URL } from "../config";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../config";
 
 
 
@@ -13,7 +13,7 @@ import { API_BASE_URL } from "../config";
  * 
  * @returns 
  */
-function Login() {
+function Login() {    
 
     // États pour stocker le username du formulaire de connexion
     const [username, setUsername] = useState("");

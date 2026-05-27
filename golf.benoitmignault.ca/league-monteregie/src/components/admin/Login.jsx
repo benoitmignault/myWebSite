@@ -119,22 +119,29 @@ function Login() {
     };
 
     return (
-        <div>
-            Login
-            <form onSubmit={(e) => {e.preventDefault(); handleLogin();}}>
-                <input
-                    type="text" placeholder="Username" value={username}
-                    onChange={(e) => {setUsername(e.target.value); setError("");}}
-                />
-                <input
-                    type="password" placeholder="Password" value={password}
-                    onChange={(e) => {setPassword(e.target.value); setError("");}}
-                />
-                <button type="submit" disabled={loading}>
-                    Connexion
-                </button>
-                {error && <p style={{color: "red"}}>{error}</p>}
-            </form>
+        <div className="admin-login-page">
+            <div className="admin-login-card">
+                <h1>Ligue de Golf Montérégie</h1>
+                <h2>Portail Administrateur</h2>
+                <p className="admin-description">
+                    Gestion des événements, des joueurs,
+                    des résultats et des statistiques officielles.
+                </p>
+                <form onSubmit={(e) => {e.preventDefault(); handleLogin();}}>
+                    <input
+                        type="text" placeholder="Username" value={username}
+                        onChange={(e) => {setUsername(e.target.value); setError("");}}
+                    />
+                    <input
+                        type="password" placeholder="Password" value={password}
+                        onChange={(e) => {setPassword(e.target.value); setError("");}}
+                    />
+                    <button type="submit" disabled={loading}>
+                        Connexion
+                    </button>
+                    {error && <p style={{color: "red"}}>{error}</p>}
+                </form>
+            </div>
         </div>
     );
 }

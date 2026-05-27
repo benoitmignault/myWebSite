@@ -1,31 +1,27 @@
 <?php
 
-/**
- * 1. Headers JSON
- * 2. session_start()
- * 3. Vérifier méthode POST
- * 4. Lire JSON reçu React
- * 5. Validation username/password
- * 6. Connexion DB
- * 7. SELECT admin
- * 8. Vérifier user existe
- * 9. password_verify()
- * 10. Créer session PHP
- * 11. UPDATE last_login
- * 12. Log action
- * 13. Retour JSON succès
- */
-
-
 // Include the database connection file et les heanders pour les requêtes CORS et le type de contenu JSON
 include(__DIR__ . "/../includes/fct-connexion-bd.php");
 
+// S'assurer que la requête est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+
+    http_response_code(405);
+    echo json_encode(["success" => false, "message" => "Méthode non autorisée."]);
+    exit();
+}
+
+// Si on passe la validation du post, on poursuit avec la lecture des données reçues, 
+// la validation des données, la connexion à la base de données, la vérification des identifiants, 
+// la création de session, la mise à jour de la date de dernière connexion et 
+// le retour d'une réponse JSON indiquant le succès ou l'échec de la connexion.
 $data = json_decode(file_get_contents("php://input"), true);
 
 // Vérifier si les données ont été reçues
 if (!$data) {
-    echo json_encode(["error" => "No data received"]);
+
     http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Aucune donnée reçue"]);    
     exit();
 }
 

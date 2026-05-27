@@ -32,50 +32,49 @@ $password = $data['password'];
 // Vérification que les champs username et password sont valides
 // Vérification que les champs username et password ne sont pas vides
 if (empty($username) || empty($password)) {
-    echo json_encode(["error" => "Veuillez remplir les champs nom d'utilisateur et mot de passe."]);
+
     http_response_code(400);
+    echo json_encode(["message" => "Veuillez remplir les champs nom d'utilisateur et mot de passe."]);    
     exit();
 }
 
 // Éviter les espaces accidentels dans le champ username
 if (preg_match('/\s/', $username)) {
-    echo json_encode(["error" => "Le nom d'utilisateur ne doit pas contenir d'espaces."]);
-    http_response_code(400);
-    exit();
-}
 
-// Éviter les espaces accidentels dans le champ password
-if (preg_match('/\s/', $password)) {
-    echo json_encode(["error" => "Le mot de passe ne doit pas contenir d'espaces."]);
     http_response_code(400);
+    echo json_encode(["message" => "Le nom d'utilisateur ne doit pas contenir d'espaces."]);    
     exit();
 }
 
 // Le username ne doit pas excéder 50 caractères
-if (strlen($username) > 50) {
-    echo json_encode(["error" => "Le nom d'utilisateur ne doit pas dépasser 50 caractères."]);
+if (strlen($username) > 50) {    
+    
     http_response_code(400);
+    echo json_encode(["message" => "Le nom d'utilisateur ne doit pas dépasser 50 caractères."]);    
     exit();
 }
 
 // Le password ne doit pas excéder 100 caractères
 if (strlen($password) > 100) {
-    echo json_encode(["error" => "Le mot de passe ne doit pas dépasser 100 caractères."]);
+
     http_response_code(400);
+    echo json_encode(["message" => "Le mot de passe ne doit pas dépasser 100 caractères."]);
     exit();
 }
 
 // Le username doit avoir une longueur minimale de 3 caractères
 if (strlen($username) < 3) {
-    echo json_encode(["error" => "Le nom d'utilisateur doit comporter au moins 3 caractères."]);
+
     http_response_code(400);
+    echo json_encode(["message" => "Le nom d'utilisateur doit comporter au moins 3 caractères."]);    
     exit();
 }
 
 // Le password doit avoir une longueur minimale de 8 caractères
 if (strlen($password) < 8) {
-    echo json_encode(["error" => "Le mot de passe doit comporter au moins 8 caractères."]);
+    
     http_response_code(400);
+    echo json_encode(["message" => "Le mot de passe doit comporter au moins 8 caractères."]);
     exit();
 }
 
@@ -126,16 +125,17 @@ try {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $admin['id']);
             $stmt->execute();
-            $stmt->close();            
+            $stmt->close();
 
             // Retourner une réponse JSON indiquant le succès de la connexion + 200 OK
             http_response_code(200);
-            echo json_encode(["success" => true]);        
+            echo json_encode(["success" => true]);    
+            exit;    
         } else {
         
             // Le password ne correspond pas donc on retourne une réponse JSON indiquant l'échec de la vérification du mot de passe
             http_response_code(401);
-            echo json_encode(["success" => false, "error" => "Identifiants invalides."]);
+            echo json_encode(["success" => false, "message" => "Password invalide."]);
             exit;
         }
 
@@ -143,13 +143,14 @@ try {
         
         // Le user n'existe pas donc on retourne une réponse JSON indiquant l'échec de la connexion
         http_response_code(401);
-        echo json_encode(["success" => false, "error" => "Identifiants invalides."]);
+        echo json_encode(["success" => false, "message" => "Identifiant invalide."]);
         exit;
     }
 
 } catch (Exception $e) {
-    echo json_encode(["error" => "Erreur de connexion à la base de données."]);
+
     http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);    
     exit();
 
 } finally {
@@ -158,3 +159,4 @@ try {
     if (isset($conn)) {
         $conn->close();
     }
+}

@@ -41,6 +41,9 @@ function Login() {
         // avant même d'envoyer la requête à l'API, pour éviter les appels inutiles à l'API et 
         // améliorer l'expérience utilisateur.
 
+        // TODO: Changer error pour une liste de msg erreur pour pouvoir afficher plusieurs erreurs à la fois, 
+        // au lieu de n'afficher que la première erreur rencontrée.
+
         // Vérification que les champs username et password ne sont pas vides
         if (username.trim() === "" || password.trim() === "") {
             setError("Veuillez remplir les champs nom d'utilisateur et mot de passe.");

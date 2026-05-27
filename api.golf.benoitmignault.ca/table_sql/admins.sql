@@ -5,7 +5,7 @@ CREATE TABLE admins (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     
     username VARCHAR(50) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(100) NOT NULL,
 
     role ENUM('admin', 'readonly') NOT NULL DEFAULT 'readonly',
 

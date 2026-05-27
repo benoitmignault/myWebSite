@@ -87,4 +87,78 @@ if (strlen($password) < 8) {
 // Si les validations ont passé, on peut établir la connexion à la base de données, 
 // car on sait que les données reçues sont valides et qu'on aura moins de risque d'avoir 
 // des erreurs de connexion à la base de données dues à des données invalides.
-$conn = connexion_league_golf_monteregie();
+try {
+
+    $conn = connexion_league_golf_monteregie();
+
+    // Préparation de la requête SQL pour récupérer l'admin avec le username fourni
+    $select = "SELECT id, username, password_hash ";
+    $from = "FROM admins ";
+    $where = "WHERE username = ? ";
+    $limit = "LIMIT 1";
+    $sql = $select . $from . $where . $limit;
+
+    // Préparation de la requête
+    $stmt = $conn->prepare($sql);
+    
+    /* Lecture des marqueurs */
+    $stmt->bind_param("s", $username);
+    
+    /* Exécution de la requête */
+    $stmt->execute();
+
+    /* Association des variables de résultat */
+    $result = $stmt->get_result();
+    
+    // Close statement
+    $stmt->close();
+
+    if ($result->num_rows === 1) {
+
+        // L'admin existe, vérifier le mot de passe
+        $admin = $result->fetch_assoc();
+
+        if (password_verify($password, $admin['password_hash'])) {
+
+            // Mot de passe correct, créer une session PHP
+            session_start();
+            $_SESSION['admin_id'] = $admin['id'];
+            $_SESSION['username'] = $admin['username'];
+
+            // Mettre à jour la date de dernière connexion de l'admin
+            $sql = "UPDATE admins SET last_login = NOW() WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $admin['id']);
+            $stmt->execute();
+            $stmt->close();            
+
+            // Retourner une réponse JSON indiquant le succès de la connexion + 200 OK
+            http_response_code(200);
+            echo json_encode(["success" => true]);        
+        } else {
+        
+            // Le password ne correspond pas donc on retourne une réponse JSON indiquant l'échec de la vérification du mot de passe
+            http_response_code(401);
+            echo json_encode(["success" => false, "error" => "Identifiants invalides."]);
+            exit;
+        }
+
+    } else {
+        
+        // Le user n'existe pas donc on retourne une réponse JSON indiquant l'échec de la connexion
+        http_response_code(401);
+        echo json_encode(["success" => false, "error" => "Identifiants invalides."]);
+        exit;
+    }
+
+} catch (Exception $e) {
+    echo json_encode(["error" => "Erreur de connexion à la base de données."]);
+    http_response_code(500);
+    exit();
+
+} finally {
+
+    // Fermer la connexion à la base de données
+    if (isset($conn)) {
+        $conn->close();
+    }

@@ -121,7 +121,12 @@ function EventsList() {
                             openEvent === event.id && (
                                 <div className="event-results">
                                     {
-                                        eventResults.length > 0
+                                        // On vérifi d'abord l'état du chargement...
+                                        loadingEventHistory
+                                            ? (
+                                                <td colSpan="5" className="upcoming-event">Chargement des résultats...</td>
+                                            )
+                                        : eventResults.length > 0
                                             ? (
                                                 <table className="results-table">
                                                     <thead>
@@ -168,9 +173,7 @@ function EventsList() {
                                                 </table>
                                             )
                                             : (
-                                                <div className="upcoming-event">
-                                                    Événement à venir...
-                                                </div>
+                                                <div className="upcoming-event">Événement à venir...</div>
                                             )
                                     }
                                 </div>

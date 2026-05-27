@@ -130,7 +130,12 @@ function Standings() {
                                     openPlayer === player.id && (
                                         <tr className="player-details-row">
                                             {
-                                                playerResults.length > 0
+                                                // On vérifi d'abord l'état du chargement...
+                                                loadingPlayerHistory
+                                                    ? (
+                                                        <td colSpan="5" className="upcoming-event">Chargement des résultats...</td>
+                                                    )
+                                                : playerResults.length > 0
                                                     ? (
                                                         <td colSpan="5" className="event-details-cell">
                                                             <table className="results-table">

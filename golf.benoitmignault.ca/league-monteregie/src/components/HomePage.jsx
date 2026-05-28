@@ -25,6 +25,20 @@ function HomePage() {
 		);
 	}, []);
 
+	// Utiliser useEffect pour changer le titre de la page et le favicon lorsque le composant HomePage est monté
+	useEffect(() => {
+	
+		// Reset du titre de la page HomePage lorsque le composant est monté
+		document.title = "Ligue de Golf Montérégie";	
+		const favicon = document.getElementById("dynamic-favicon");
+
+		// On doit partir de /league-monteregie car c'est la vraie racine du projet
+		if (favicon) {
+			favicon.href = "/league-monteregie/favicon/favicon-ChatGPT.png";
+		}
+
+	}, []);
+
 	return (
 		<div>
 			<h1>Ligue de Golf Montérégie</h1>

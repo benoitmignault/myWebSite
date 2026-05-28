@@ -152,6 +152,21 @@ function Login() {
         setError("");
     }
 
+    useEffect(() => {
+
+        // Changement du titre de la page lorsque le composant de connexion est monté
+        document.title = "Admin Login - Golf Montérégie";
+
+        // Changement du favicon de la page pour le logo de ChatGPT lorsque le composant de connexion est monté
+        const favicon = document.getElementById("dynamic-favicon");
+        
+        // On doit partir de /league-monteregie car c'est la vraie racine du projet
+        if (favicon) {
+			favicon.href = "/league-monteregie/favicon/favicon-admin-ChatGPT.png";
+		}
+
+    }, []);
+
     return (
         <div className="admin-login-page">
             <div className="admin-login-card">

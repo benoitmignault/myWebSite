@@ -117,8 +117,9 @@ try {
 
             // Mot de passe correct, créer une session PHP
             session_start();
-            $_SESSION['admin_id'] = $admin['id'];
-            $_SESSION['username'] = $admin['username'];
+            $_SESSION["admin_logged_in"] = true;
+            $_SESSION["admin_user_id"] = $admin["id"];
+            $_SESSION["admin_username"] = $admin["username"];
 
             // Mettre à jour la date de dernière connexion de l'admin
             $sql = "UPDATE admins SET last_login = NOW() WHERE id = ?";

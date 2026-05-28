@@ -8,6 +8,9 @@
 		header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
 	}
 
+	// IMPORTANT POUR LES SESSIONS PHP + FETCH
+	header("Access-Control-Allow-Credentials: true");
+
 	// En-têtes supplémentaires pour les requêtes CORS 
 	header("Content-Type: application/json");
 

@@ -5,7 +5,7 @@ import "./admin.css";
 
 function Dashboard() {
 
-    // Utilisation de useNavigate pour rediriger l'utilisateur après une connexion réussie
+    // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
 
     // Avant de loader la page du dashboard, on doit vérifier que l'administrateur est bien connecté 

@@ -108,6 +108,8 @@ function Login() {
             const response = await fetch(`${API_BASE_URL}/admin/login.php`,
                 {
                     method: "POST",
+                    // Important d'inclure les credentials pour que les cookies de session soient envoyés avec la requête
+                    credentials: "include",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({ username, password })
                 }

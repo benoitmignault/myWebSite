@@ -1,19 +1,20 @@
 <?php
 
-session_start();
+// Inclut les informations nécessaires pour CORS
+include(__DIR__ . "/../includes/cors.php");
 
-header("Content-Type: application/json");
-
-var_dump($_SESSION);
-
-exit;
+// Configurer les paramètres du cookie de session pour permettre 
+// les requêtes CORS avec fetch et inclure les cookies de session dans les requêtes fetch
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'None'
+]);
 
 // Ce fichier vérifie si l'administrateur est connecté en vérifiant la session.
 session_start();
-
-var_dump($_SESSION); // Affiche le contenu de la session pour le débogage
-
-header("Content-Type: application/json");
 
 if (isset($_SESSION["admin_logged_in"]) && $_SESSION["admin_logged_in"] === true) {
 

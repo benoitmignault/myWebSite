@@ -59,7 +59,6 @@ function Login() {
             if (password.trim() === "") {
                 setPasswordError(true);
             }
-
             return;
         }
 

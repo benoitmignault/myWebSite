@@ -115,6 +115,16 @@ try {
 
         if (password_verify($password, $admin['password_hash'])) {
 
+            // Configurer les paramètres du cookie de session pour permettre 
+            // les requêtes CORS avec fetch et inclure les cookies de session dans les requêtes fetch
+            session_set_cookie_params([
+                'lifetime' => 0,
+                'path' => '/',
+                'secure' => true,
+                'httponly' => true,
+                'samesite' => 'None'
+            ]);
+
             // Mot de passe correct, créer une session PHP
             session_start();
             $_SESSION["admin_logged_in"] = true;

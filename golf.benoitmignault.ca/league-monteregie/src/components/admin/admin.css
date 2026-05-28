@@ -1,0 +1,136 @@
+/**
+ * Styles pour les pages JSX dans la section Admin
+ * Login, Dashboard pour commencer
+ */
+
+.admin-login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.admin-login-card {
+    width: 50%;
+    background:
+        rgba(20,30,60,0.45);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 40px;
+}
+
+h1 {
+    color: white;
+    margin-top: 0;
+}
+
+.admin-description {
+    color: rgba(255,255,255,0.72);
+    line-height: 1.6;
+}
+
+.admin-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 24px;
+}
+
+.admin-label {
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-weight: 600;
+    color: white;
+}
+
+.required-field {
+    color: #ef4444;
+    margin-left: 4px;
+}
+
+.admin-input {
+    width: 40%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background:
+        rgba(255,255,255,0.08);
+    color: white;
+    margin: 12px 0;
+}
+
+.admin-input::placeholder {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.45);
+}
+
+.input-error {
+    border: 2px solid #ef4444;
+    box-shadow:
+        0 0 10px rgba(239,68,68,0.35);
+}
+
+.admin-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.admin-actions .admin-button {
+    flex: 1;
+}
+
+.admin-actions .admin-button {
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    background:
+        rgba(59,130,246,0.28);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.admin-actions .admin-button:hover {
+    background:
+        rgba(59,130,246,0.45);
+    transform: translateY(-1px);
+}
+
+.admin-actions .admin-button-secondary {
+    background:
+        rgba(255,255,255,0.08);
+}
+
+.admin-actions .admin-button-secondary:hover {
+    background:
+        rgba(255,255,255,0.15);
+}
+
+.admin-error-message {
+    margin-top: 18px;
+    margin-bottom: 0;
+    color: #ef4444;
+    text-align: center;
+    font-weight: 600;
+}
+
+
+
+
+.admin-photo-credit {
+    position: fixed;
+    bottom: 18px;
+    right: 24px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    text-shadow:
+        0 1px 2px rgba(0,0,0,0.9),
+        0 0 4px rgba(0,0,0,0.6);
+    z-index: 5;
+}

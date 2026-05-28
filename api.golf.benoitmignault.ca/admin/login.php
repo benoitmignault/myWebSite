@@ -121,18 +121,23 @@ try {
             // Configurer les paramètres du cookie de session pour permettre 
             // les requêtes CORS avec fetch et inclure les cookies de session dans les requêtes fetch
             session_set_cookie_params([
-                'lifetime' => 0,
+                'lifetime' => 3600, // cookie navigateur pour 1 heure
                 'path' => '/',
                 'secure' => true,
                 'httponly' => true,
                 'samesite' => 'None'
             ]);
 
+            // Configurer la durée de vie maximale de la session pour correspondre à celle du cookie
+            // Côté serveur
+            ini_set('session.gc_maxlifetime', 3600);
+
             // Mot de passe correct, créer une session PHP
             session_start();
             $_SESSION["admin_logged_in"] = true;
             $_SESSION["admin_user_id"] = $admin["id"];
             $_SESSION["admin_username"] = $admin["username"];
+            $_SESSION["login_time"] = time();
 
             // Mettre à jour la date de dernière connexion de l'admin
             $sql = "UPDATE admins SET last_login = NOW() WHERE id = ?";

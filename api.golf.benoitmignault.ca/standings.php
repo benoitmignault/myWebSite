@@ -1,6 +1,9 @@
 <?php
 
-// Include the database connection file et les heanders pour les requêtes CORS et le type de contenu JSON
+// Inclut les informations nécessaires pour CORS
+include(__DIR__ . "/includes/cors.php");
+
+// Inclut la fonction de connexion à la base de données
 include(__DIR__ . "/includes/fct-connexion-bd.php");
 
 // Établir une connexion à la base de données de la ligue de golf en montérégie

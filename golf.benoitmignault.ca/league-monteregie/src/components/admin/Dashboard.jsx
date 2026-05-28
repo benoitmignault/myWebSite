@@ -11,7 +11,7 @@ function Dashboard() {
     // Avant de loader la page du dashboard, on doit vérifier que l'administrateur est bien connecté 
     // en vérifiant la session avec l'API check-session.php.
     useEffect(() => {
-
+                
         // le terme include est nécessaire pour que les cookies de session soient envoyés avec la requête
         fetch(`${API_BASE_URL}/admin/check-session.php`, {credentials: "include"}).then(response => {
 

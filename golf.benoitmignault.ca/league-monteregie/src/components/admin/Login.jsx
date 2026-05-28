@@ -102,7 +102,7 @@ function Login() {
         setLoading(true);
 
         try {
-
+            
             // Envoi d'une requête POST à l'API pour tenter de connecter l'utilisateur 
             // avec les informations d'identification fournies
             const response = await fetch(`${API_BASE_URL}/admin/login.php`,

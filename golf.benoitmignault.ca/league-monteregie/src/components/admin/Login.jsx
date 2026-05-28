@@ -137,6 +137,21 @@ function Login() {
         }
     };
 
+    // Fonction pour réinitialiser les champs du formulaire de connexion et les messages d'erreur
+    const handleReset = () => {
+
+        // Remise à l'état initial des champs du formulaire de connexion
+        setUsername("");
+        setPassword("");
+
+        // Remise à l'état initial du trigger pour remettre les bordures dans leur état normal
+        setUsernameError(false);
+        setPasswordError(false);
+
+        // Remise à l'état initial du message d'erreur
+        setError("");
+    }
+
     return (
         <div className="admin-login-page">
             <div className="admin-login-card">

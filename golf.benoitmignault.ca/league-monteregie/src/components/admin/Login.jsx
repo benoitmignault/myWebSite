@@ -20,6 +20,11 @@ function Login() {
     // États pour stocker le password du formulaire de connexion
     const [password, setPassword] = useState("");
 
+    // États pour gérer les erreurs de validation des champs username et password
+    const [usernameError, setUsernameError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+
+
     // État pour indiquer si la connexion est en cours de traitement
     const [loading, setLoading] = useState(false);
 

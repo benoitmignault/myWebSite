@@ -51,35 +51,49 @@ function Login() {
         // Vérification que les champs username et password ne sont pas vides
         if (username.trim() === "" || password.trim() === "") {
             setError("Veuillez remplir les champs nom d'utilisateur et mot de passe.");
+
+            if (username.trim() === "") {
+                setUsernameError(true);
+            }
+            
+            if (password.trim() === "") {
+                setPasswordError(true);
+            }
+
             return;
         }
 
         // Éviter les espaces accidentels dans le champ username
         if (/\s/.test(username)) {
+            setUsernameError(true);
             setError("Le nom d'utilisateur ne doit pas contenir d'espaces.");
             return;
         }
 
         // Le username ne doit pas excéder 50 caractères
         if (username.length > 50) {
+            setUsernameError(true);
             setError("Le nom d'utilisateur ne doit pas dépasser 50 caractères.");
             return;
         }
 
         // Le password ne doit pas excéder 100 caractères
         if (password.length > 100) {
+            setPasswordError(true);
             setError("Le mot de passe ne doit pas dépasser 100 caractères.");
             return;
         }
 
         // Le username doit avoir une longueur minimale de 3 caractères
         if (username.length < 3) {
+            setUsernameError(true);
             setError("Le nom d'utilisateur doit comporter au moins 3 caractères.");
             return;
         }
 
         // Le password doit avoir une longueur minimale de 8 caractères
         if (password.length < 8) {
+            setPasswordError(true);
             setError("Le mot de passe doit comporter au moins 8 caractères.");
             return;
         }

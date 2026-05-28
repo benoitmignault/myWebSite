@@ -10,25 +10,32 @@ function Dashboard() {
 
     // Avant de loader la page du dashboard, on doit vérifier que l'administrateur est bien connecté 
     // en vérifiant la session avec l'API check-session.php.
-    useEffect(() => {
-                
-        // le terme include est nécessaire pour que les cookies de session soient envoyés avec la requête
-        fetch(`${API_BASE_URL}/admin/check-session.php`, {credentials: "include"}).then(response => {
+    useEffect(() => {        
+        fetch(`${API_BASE_URL}/admin/check-session.php`, {credentials: "include"})
+        /**
+         * response : status, HTTP, headers, ok, etc.
+         * data : le corps de la réponse, qui est un objet JSON contenant les données retournées par l'API,
+         * généralement avec une structure comme { success: boolean, message: string, ... }
+         */
+        .then((response) => {
 
             if (!response.ok) {
-                navigate("/league-monteregie/admin");
-            } else {
-                // Changement du titre de la page lorsque le composant de connexion est monté
-                document.title = "Dashboard - Golf Montérégie";
-
-                // Changement du favicon de la page pour le logo de ChatGPT lorsque le composant de connexion est monté
-                const favicon = document.getElementById("dynamic-favicon");
-                
-                // On doit partir de /league-monteregie car c'est la vraie racine du projet
-                if (favicon) {
-                    favicon.href = "/league-monteregie/favicon/favicon-admin-ChatGPT.png";
-                }
+                throw new Error("Session invalide");
             }
+
+            // Changement du titre de la page lorsque le composant du dashboard est monté
+            document.title = "Dashboard - Golf Montérégie";
+
+            // Changement du favicon de la page pour le dashboard
+            const favicon = document.getElementById("dynamic-favicon");
+
+            if (favicon) {
+                favicon.href = "/league-monteregie/favicon/favicon-admin-ChatGPT.png";
+            }
+        })        
+        .catch(() => {
+            // Si la session n'est pas valide, rediriger l'utilisateur vers la page de connexion
+            navigate("/league-monteregie/admin");
         });
 
     }, [navigate]);

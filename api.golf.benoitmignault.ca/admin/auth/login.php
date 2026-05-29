@@ -88,97 +88,93 @@ if (strlen($password) < 8) {
 // Si les validations ont passé, on peut établir la connexion à la base de données, 
 // car on sait que les données reçues sont valides et qu'on aura moins de risque d'avoir 
 // des erreurs de connexion à la base de données dues à des données invalides.
-try {
+$conn = connexion_league_golf_monteregie();
 
-    $conn = connexion_league_golf_monteregie();
+// Préparation de la requête SQL pour récupérer l'admin avec le username fourni
+$select = "SELECT id, username, password_hash ";
+$from = "FROM admins ";
+$where = "WHERE username = ? ";
+$limit = "LIMIT 1";
+$sql = $select . $from . $where . $limit;
 
-    // Préparation de la requête SQL pour récupérer l'admin avec le username fourni
-    $select = "SELECT id, username, password_hash ";
-    $from = "FROM admins ";
-    $where = "WHERE username = ? ";
-    $limit = "LIMIT 1";
-    $sql = $select . $from . $where . $limit;
+// Préparation de la requête
+$stmt = $conn->prepare($sql);
 
-    // Préparation de la requête
-    $stmt = $conn->prepare($sql);
-    
-    /* Lecture des marqueurs */
-    $stmt->bind_param("s", $username);
-    
-    /* Exécution de la requête */
-    $stmt->execute();
+/* Lecture des marqueurs */
+$stmt->bind_param("s", $username);
 
-    /* Association des variables de résultat */
-    $result = $stmt->get_result();
-    
-    // Close statement
-    $stmt->close();
-
-    if ($result->num_rows === 1) {
-
-        // L'admin existe, vérifier le mot de passe
-        $admin = $result->fetch_assoc();
-
-        if (password_verify($password, $admin['password_hash'])) {
-
-            // Configurer les paramètres du cookie de session pour permettre 
-            // les requêtes CORS avec fetch et inclure les cookies de session dans les requêtes fetch
-            session_set_cookie_params([
-                'lifetime' => 3600, // cookie navigateur pour 1 heure
-                'path' => '/',
-                'secure' => true,
-                'httponly' => true,
-                'samesite' => 'None'
-            ]);
-
-            // Configurer la durée de vie maximale de la session pour correspondre à celle du cookie
-            // Côté serveur
-            ini_set('session.gc_maxlifetime', 3600);
-
-            // Mot de passe correct, créer une session PHP
-            session_start();
-            $_SESSION["admin_logged_in"] = true;
-            $_SESSION["admin_user_id"] = $admin["id"];
-            $_SESSION["admin_username"] = $admin["username"];
-            $_SESSION["login_time"] = time();
-
-            // Mettre à jour la date de dernière connexion de l'admin
-            $sql = "UPDATE admins SET last_login = NOW() WHERE id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $admin['id']);
-            $stmt->execute();
-            $stmt->close();
-
-            // Retourner une réponse JSON indiquant le succès de la connexion + 200 OK
-            http_response_code(200);
-            echo json_encode(["success" => true]);    
-            exit;    
-        } else {
-        
-            // Le password ne correspond pas donc on retourne une réponse JSON indiquant l'échec de la vérification du mot de passe
-            http_response_code(401);
-            echo json_encode(["success" => false, "message" => "Password invalide."]);
-            exit;
-        }
-
-    } else {
-        
-        // Le user n'existe pas donc on retourne une réponse JSON indiquant l'échec de la connexion
-        http_response_code(401);
-        echo json_encode(["success" => false, "message" => "Identifiant invalide."]);
-        exit;
-    }
-
-} catch (Exception $e) {
+// Exécuter la requête SQL pour récupérer l'admin avec le username fourni
+if (!$stmt->execute()) {
 
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
     exit();
+}
 
-} finally {
+// Sinon, on poursuit avec la vérification des identifiants, 
+// la création de session, la mise à jour de la date de dernière connexion et 
+// le retour d'une réponse JSON indiquant le succès ou l'échec de la connexion.
+$result = $stmt->get_result();
 
-    // Fermer la connexion à la base de données
-    if (isset($conn)) {
+// Close statement
+$stmt->close();
+
+if ($result->num_rows === 1) {
+
+    // L'admin existe, vérifier le mot de passe
+    $admin = $result->fetch_assoc();
+
+    if (password_verify($password, $admin['password_hash'])) {
+
+        // Configurer les paramètres du cookie de session pour permettre 
+        // les requêtes CORS avec fetch et inclure les cookies de session dans les requêtes fetch
+        session_set_cookie_params([
+            'lifetime' => 3600, // cookie navigateur pour 1 heure
+            'path' => '/',
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'None'
+        ]);
+
+        // Configurer la durée de vie maximale de la session pour correspondre à celle du cookie
+        // Côté serveur
+        ini_set('session.gc_maxlifetime', 3600);
+
+        // Mot de passe correct, créer une session PHP
+        session_start();
+        $_SESSION["admin_logged_in"] = true;
+        $_SESSION["admin_user_id"] = $admin["id"];
+        $_SESSION["admin_username"] = $admin["username"];
+        $_SESSION["login_time"] = time();
+
+        // Mettre à jour la date de dernière connexion de l'admin
+        $sql = "UPDATE admins SET last_login = NOW() WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $admin['id']);
+        $stmt->execute();
+        $stmt->close();
+
+        // Retourner une réponse JSON indiquant le succès de la connexion + 200 OK
+        http_response_code(200);
+        echo json_encode(["success" => true, "message" => "Connexion réussie."]);
         $conn->close();
+        exit;      
+    } else {
+    
+        // Le password ne correspond pas donc on retourne une réponse JSON indiquant l'échec de la vérification du mot de passe
+        http_response_code(401);
+        echo json_encode(["success" => false, "message" => "Password invalide."]);
+        $conn->close();
+        exit;
     }
+
+} else {
+    
+    // Le user n'existe pas donc on retourne une réponse JSON indiquant l'échec de la connexion
+    http_response_code(401);
+    echo json_encode(["success" => false, "message" => "Identifiant invalide."]);
+    $conn->close();
 }

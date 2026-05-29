@@ -45,7 +45,10 @@ INSERT INTO players (
 ('Martin', 'Taillon', 92.0, 20.0, 20.0, 20, 15),
 ('Jean-Sébastien', 'Patenaude', 84.0, 12.0, 12.0, 12, 13),
 ('Jean-Pierre', 'Duval', 95.0, 18.0, 18.0, 18, 4),
-('Mylène', 'Pelletier', null, 17.0, 17.0, 17, 18);
+('Mylène', 'Pelletier', null, 17.0, 17.0, 17, 18),
+('Marie-France', 'Clermont', null, 34.0, 34.0, 34, 21),
+('Stéphane', 'Blain', null, 23.0, 23.0, 23, 20);
+;
 
 -- On fait un update pour mettre à jour la position précédente de chaque joueur après la deuxième semaine de compétition, 
 -- avant de l'insertion des résultats de la troisième semaine. Cela permettra de calculer les changements de position après la troisième semaine.
@@ -89,9 +92,13 @@ SET previous_position =
         -- Mathieu Robidas
         WHEN 12 THEN 18
         -- Mylène Pelletier
-        WHEN 19 THEN 19
+        WHEN 19 THEN 19        
+        -- Marie-France Clermont (nouvelle joueur)
+        WHEN 20 THEN 20
+        -- Stéphane Blain (nouveau joueur)
+        WHEN 21 THEN 21
     END
-WHERE id BETWEEN 1 AND 19;
+WHERE id BETWEEN 1 AND 21;
 
 
 UPDATE players
@@ -119,6 +126,8 @@ SET
             WHEN 17 THEN 86.0
             WHEN 18 THEN 92.7
             WHEN 19 THEN NULL
+            WHEN 20 THEN NULL
+            WHEN 21 THEN NULL
         END,
 -- MAJ du handicap de la league apres 3 semaines de compétition
     handicap_league =
@@ -143,6 +152,8 @@ SET
             WHEN 17 THEN 12.0
             WHEN 18 THEN 16.0
             WHEN 19 THEN 17.0
+            WHEN 20 THEN 34.0
+            WHEN 21 THEN 23.0
 
         END,
 -- MAJ du handicap arrondi pour la compétition apres 3 semaines de compétition
@@ -168,18 +179,8 @@ SET
         WHEN 17 THEN 12
         WHEN 18 THEN 16
         WHEN 19 THEN 17
-    
+        WHEN 20 THEN 34
+        WHEN 21 THEN 23
     END
--- Seulement pour les id existant entre 1 et 19, pour éviter de faire un update sur des joueurs qui pourraient être ajoutés dans le futur
-WHERE id BETWEEN 1 AND 19;
-
-INSERT INTO players (
-    firstname,
-    lastname,
-    average_score,
-    handicap_start,
-    handicap_league,
-    handicap_rounded,
-    previous_position
-) VALUES
-('Marie-France', 'Clermont', null, 24.0, 24.0, 24, 20); 
+-- Seulement pour les id existant entre 1 et 21, pour éviter de faire un update sur des joueurs qui pourraient être ajoutés dans le futur
+WHERE id BETWEEN 1 AND 21;

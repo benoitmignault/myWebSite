@@ -4,7 +4,7 @@
 
 
 // Inclut les informations nécessaires pour CORS
-include(__DIR__ . "/../includes/cors.php");
+include(__DIR__ . "/../../includes/cors.php");
 
 // Configurer les paramètres du cookie de session pour permettre 
 // les requêtes CORS avec fetch et inclure les cookies de session dans les requêtes fetch

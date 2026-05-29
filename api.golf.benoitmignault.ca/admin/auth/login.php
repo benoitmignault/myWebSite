@@ -4,10 +4,10 @@
 // en créant une session PHP sécurisée et en retournant une réponse JSON indiquant le succès ou l'échec de la connexion.
 
 // Inclut les informations nécessaires pour CORS
-include(__DIR__ . "/../includes/cors.php");
+include(__DIR__ . "/../../includes/cors.php");
 
 // Inclut la fonction de connexion à la base de données
-include(__DIR__ . "/../includes/fct-connexion-bd.php");
+include(__DIR__ . "/../../includes/fct-connexion-bd.php");
 
 // S'assurer que la requête est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

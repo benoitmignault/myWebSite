@@ -3,7 +3,7 @@
 // Ce fichier gère la déconnexion de l'administrateur en détruisant la session.
 
 // Inclut les informations nécessaires pour CORS
-include(__DIR__ . "/../includes/cors.php");
+include(__DIR__ . "/../../includes/cors.php");
 
 session_start();
 

@@ -173,7 +173,8 @@ function Login() {
         <div className="admin-login-page">
             <div className="admin-navbar">
                 <Link to="/league-monteregie" className="admin-navbar-link">
-                    ← Retour au site principal
+                    <FaHouse />
+                    <span>Retour au site principal</span>
                 </Link>
             </div>
             <div className="admin-login-card">

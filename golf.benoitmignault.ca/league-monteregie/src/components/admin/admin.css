@@ -167,3 +167,31 @@ h1 {
         0 0 4px rgba(0,0,0,0.6);
     z-index: 5;
 }
+
+/* Design pour le DashBoard et leurs sous sections*/
+.dashboard-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 50px auto;
+}
+
+.admin-section-card {
+    background: rgba(25, 35, 65, 0.45);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.admin-section-card h2 {
+    margin-bottom: 10px;
+}
+
+.admin-section-description {
+    margin-bottom: 25px;
+    color: rgba(255,255,255,0.8);
+}

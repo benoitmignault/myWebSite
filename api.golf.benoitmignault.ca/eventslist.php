@@ -18,13 +18,26 @@ $sql = $select . $from . $orderBy;
 // Exécuter la requête SQL
 $result = $conn->query($sql);
 
-$events = []; // Tableau pour stocker la liste des événements
+// Vérifier si la requête a réussi
+if (!$result) {
+
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+    $conn->close();
+    exit();
+}
+
+// Sinon, on va parcourir les résultats de la requête pour chaque événement
+$events = []; 
 
 // Parcourir les résultats de la requête et organiser les données par événement
 while ($row = $result->fetch_assoc()) {
-    $events[] = $row; // Ajouter chaque événement au tableau
+
+    // Ajouter chaque événement au tableau
+    $events[] = $row; 
 }
 
+http_response_code(200);
 // Fermer la connexion à la base de données
 $conn->close();
 

@@ -28,17 +28,27 @@ $sql = $select . $from . $where . $orderBy;
 // Exécuter la requête SQL
 $result = $conn->query($sql);
 
-$events = []; // Tableau pour stocker les événements et leurs résultats associés
+// Vérifier si la requête a réussi
+if (!$result) {
 
-// Parcourir les résultats de la requête et organiser les données par événement
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+    $conn->close();
+    exit();
+}
+
+// Sinon, on va parcourir les résultats de la requête pour l'événement recherché
+$event = []; 
+
 while ($row = $result->fetch_assoc()) {
    
     // Ajouter chaque ligne de résultat au tableau des résultats d'événements    
-    $events[] = $row; 
+    $event[] = $row; 
 }
 
+http_response_code(200);
 // Fermer la connexion à la base de données
 $conn->close();
 
 // Retourner les données au format JSON
-echo json_encode($events, JSON_PRETTY_PRINT);
+echo json_encode($event, JSON_PRETTY_PRINT);

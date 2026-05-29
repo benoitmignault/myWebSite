@@ -20,12 +20,25 @@ $sql = $select . $from . $groupBy . $orderBy;
 // Exécuter la requête SQL
 $result = $conn->query($sql);
 
-$players = []; // Tableau pour stocker les joueurs et leurs points totaux
+// Vérifier si la requête a réussi
+if (!$result) {
 
-while ($row = $result->fetch_assoc()) {
-    $players[] = $row; // Ajouter chaque joueur et ses points totaux au tableau
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+    $conn->close();
+    exit();
 }
 
+// Sinon, on va parcourir les résultats de la requête pour chaque joueur
+$players = [];
+
+while ($row = $result->fetch_assoc()) {
+
+    // Ajouter chaque joueur et ses points totaux au tableau des joueurs
+    $players[] = $row; 
+}
+
+http_response_code(200);
 // Fermer la connexion à la base de données
 $conn->close();
 

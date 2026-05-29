@@ -40,7 +40,7 @@ $password = $data['password'];
 if (empty($username) || empty($password)) {
 
     http_response_code(400);
-    echo json_encode(["message" => "Veuillez remplir les champs nom d'utilisateur et mot de passe."]);    
+    echo json_encode(["success" => false, "message" => "Veuillez remplir les champs nom d'utilisateur et mot de passe."]);    
     exit();
 }
 
@@ -48,7 +48,7 @@ if (empty($username) || empty($password)) {
 if (preg_match('/\s/', $username)) {
 
     http_response_code(400);
-    echo json_encode(["message" => "Le nom d'utilisateur ne doit pas contenir d'espaces."]);    
+    echo json_encode(["success" => false, "message" => "Le nom d'utilisateur ne doit pas contenir d'espaces."]);    
     exit();
 }
 
@@ -56,7 +56,7 @@ if (preg_match('/\s/', $username)) {
 if (strlen($username) > 50) {    
     
     http_response_code(400);
-    echo json_encode(["message" => "Le nom d'utilisateur ne doit pas dépasser 50 caractères."]);    
+    echo json_encode(["success" => false, "message" => "Le nom d'utilisateur ne doit pas dépasser 50 caractères."]);    
     exit();
 }
 
@@ -64,7 +64,7 @@ if (strlen($username) > 50) {
 if (strlen($password) > 100) {
 
     http_response_code(400);
-    echo json_encode(["message" => "Le mot de passe ne doit pas dépasser 100 caractères."]);
+    echo json_encode(["success" => false, "message" => "Le mot de passe ne doit pas dépasser 100 caractères."]);
     exit();
 }
 
@@ -72,7 +72,7 @@ if (strlen($password) > 100) {
 if (strlen($username) < 3) {
 
     http_response_code(400);
-    echo json_encode(["message" => "Le nom d'utilisateur doit comporter au moins 3 caractères."]);    
+    echo json_encode(["success" => false, "message" => "Le nom d'utilisateur doit comporter au moins 3 caractères."]);    
     exit();
 }
 
@@ -80,7 +80,7 @@ if (strlen($username) < 3) {
 if (strlen($password) < 8) {
     
     http_response_code(400);
-    echo json_encode(["message" => "Le mot de passe doit comporter au moins 8 caractères."]);
+    echo json_encode(["success" => false, "message" => "Le mot de passe doit comporter au moins 8 caractères."]);
     exit();
 }
 

@@ -177,9 +177,8 @@ function Login() {
                     <span>Retour au site principal</span>
                 </Link>
             </div>
-            <div className="admin-login-card">
-                <h1>Gestion de la Ligue de Golf Montérégie</h1>
-                <h2>Portail Administrateur</h2>
+            <div className="admin-login-card">                
+                <h1 className="login-title">Portail Administrateur</h1>
                 <p className="admin-description">
                     Gestion des événements, des joueurs et des résultats et affichage du trafics sur le site.                    
                 </p>

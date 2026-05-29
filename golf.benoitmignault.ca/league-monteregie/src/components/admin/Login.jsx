@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { FaHouse } from "react-icons/fa6";
 import { API_BASE_URL } from "../../config";
 import "./admin.css";
 

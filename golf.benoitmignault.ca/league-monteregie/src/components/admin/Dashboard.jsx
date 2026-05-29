@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { FaHouse } from "react-icons/fa6";
 

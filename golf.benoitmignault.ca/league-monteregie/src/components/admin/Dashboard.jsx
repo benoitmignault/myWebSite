@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { FaHouse } from "react-icons/fa6";
+
+import PlayersSection from "./PlayersSection";
+import EventsSection from "./EventsSection";
+import ResultsSection from "./ResultsSection";
+
 import { API_BASE_URL } from "../../config";
 import "./admin.css";
 
@@ -85,6 +90,9 @@ function Dashboard() {
                     <span>Déconnexion</span>
                 </a>
             </div>
+            <PlayersSection />
+            <EventsSection />
+            <ResultsSection />
         </div>
     );
 }

@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../config";
 import "./admin.css";
 
 
@@ -11,6 +13,9 @@ import "./admin.css";
  * @returns 
  */
 function PlayersSection() {
+
+    // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
+    const navigate = useNavigate();
 
     // État pour le prénom du joueur à ajouter
     const [firstName, setFirstName] = useState("");

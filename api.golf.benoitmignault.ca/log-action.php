@@ -32,16 +32,19 @@ $stmt = $conn->prepare($sql);
 // Lier les paramètres à la requête préparée
 $stmt->bind_param("sis", $actionType, $targetId, $targetName);
 
-// Exécuter la requête SQL
-$stmt->execute();
+// Exécuter la requête SQL pour insérer le nouveau log dans la base de données
+if (!$stmt->execute()) {
 
-// Fermer la connexion au résultat du insert dans la base de données
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du log."]);    
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+// Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
 $stmt->close();
-
-// Fermer la connexion à la base de données
 $conn->close();
-
-// Retourner une réponse JSON indiquant le succès de l'opération
-echo json_encode([
-    "success" => true
-]);
+echo json_encode(["success" => true, "message" => "Log ajouté avec succès."]);

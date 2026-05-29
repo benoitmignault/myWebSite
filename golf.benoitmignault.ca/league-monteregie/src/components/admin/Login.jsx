@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
+import { BsCameraFill } from "react-icons/bs";
 import { API_BASE_URL } from "../../config";
 import "./admin.css";
 
@@ -215,7 +216,8 @@ function Login() {
                 </form>
             </div>
             <div className="admin-photo-credit">
-                📸 Photo prise au Club de golf Farnham — Semaine 2
+                <BsCameraFill />
+                <span>Photo prise au Club de golf Farnham — Semaine 2</span>
             </div>
         </div>        
     );

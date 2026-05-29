@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { FaHouse } from "react-icons/fa6";
-
+import { BsCameraFill } from "react-icons/bs";
 import PlayersSection from "./PlayersSection";
 import EventsSection from "./EventsSection";
 import ResultsSection from "./ResultsSection";
@@ -97,7 +97,11 @@ function Dashboard() {
                 <PlayersSection />
                 <EventsSection />
                 <ResultsSection />
-            </div>           
+            </div>
+            <div className="admin-photo-credit">
+                <BsCameraFill />
+                <span>Photo prise au Club de golf Farnham — Semaine 2</span>
+            </div>
         </div>
     );
 }

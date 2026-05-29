@@ -54,7 +54,13 @@ h1 {
     margin-top: 0;
 }
 
+/* Override le style H1 */
+.login-title, .gestion-title {
+    margin: 0;
+}
+
 .admin-description {
+    font-size: 1.15rem;
     color: rgba(255,255,255,0.72);
     line-height: 1.6;
 }

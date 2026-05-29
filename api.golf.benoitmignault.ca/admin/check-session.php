@@ -1,5 +1,8 @@
 <?php
 
+// Ce fichier vérifie si l'administrateur est connecté en vérifiant la session et sa validité.
+
+
 // Inclut les informations nécessaires pour CORS
 include(__DIR__ . "/../includes/cors.php");
 

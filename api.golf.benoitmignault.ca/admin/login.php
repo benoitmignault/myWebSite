@@ -1,5 +1,8 @@
 <?php
 
+// Ce fichier gère la connexion de l'administrateur en vérifiant les identifiants,
+// en créant une session PHP sécurisée et en retournant une réponse JSON indiquant le succès ou l'échec de la connexion.
+
 // Inclut les informations nécessaires pour CORS
 include(__DIR__ . "/../includes/cors.php");
 

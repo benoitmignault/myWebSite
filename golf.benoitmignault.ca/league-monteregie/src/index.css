@@ -594,7 +594,6 @@ tbody tr:nth-child(even) {
         rgba(59,130,246,0.18);
         
     color: white;
-    font-size: 1.5rem;
     cursor: pointer;
     backdrop-filter: blur(10px);
     box-shadow:
@@ -603,6 +602,10 @@ tbody tr:nth-child(even) {
     transition:
         transform 0.2s ease,
         background 0.25s ease;
+}
+
+.scroll-top svg {
+    font-size: 26px;
 }
 
 .scroll-top:hover {

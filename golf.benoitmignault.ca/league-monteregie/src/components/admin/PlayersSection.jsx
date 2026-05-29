@@ -92,21 +92,43 @@ function PlayersSection() {
             return;
         }
 
+        // Si l'handicap possède une virgule au lieu d'un point, on remplace la virgule par un point pour éviter les erreurs lors de la conversion en float
+        // Ne pas utiliser «setHandicap» car c'est asynchrone 
+        const handicapValue = parseFloat(handicap.replace(",", "."));
+
+        if (isNaN(handicapValue)) {
+
+            setHandicapError(true);
+            setError("Handicap invalide.");
+            return;
+        }
+
         // Si on passe les validations côté client, on peut alors procéder à l'appel de l'API 
         // pour ajouter le joueur à la ligue
         setLoading(true);
+
         try {
 
             // Appel de l'API pour ajouter un joueur à la ligue
-            const response = await fetch(`${API_BASE_URL}/admin/players/add-player.php`, 
+            const response = await fetch(`${API_BASE_URL}/admin/add-player.php`, 
                 {
                     method: "POST",
                     credentials: "include",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({firstName: firstName, lastName: lastName, handicap: parseFloat(handicap)})
+                    body: JSON.stringify({firstName: firstName, lastName: lastName, handicap: handicapValue})
                 }
             );
 
+            // Si la réponse de l'API indique que la session est invalide, 
+            // rediriger le gestionnaire vers la page de connexion
+            if (response.status === 401) {
+
+                setError("Votre session a expiré.");
+                setTimeout(() => {navigate("/league-monteregie/admin");}, 1000);
+                return;
+            }
+
+            // Sinon, on a un résultat valide du retour de l'API
             const data = await response.json();
 
             // Vérification de la réponse de l'API pour voir si le joueur a été ajouté avec succès ou s'il y a eu une erreur

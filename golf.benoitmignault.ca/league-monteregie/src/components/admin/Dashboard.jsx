@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { MdLogout } from "react-icons/md";
+import { FaHouse } from "react-icons/fa6";
 import { API_BASE_URL } from "../../config";
 import "./admin.css";
 
@@ -62,10 +64,27 @@ function Dashboard() {
 
     return (
         <div>
-            Dashboard
-            <button className="admin-button" onClick={handleLogout}>
-                Déconnexion
-            </button>
+            <div className="admin-navbar">
+                <a href="#" className="admin-navbar-link"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleLogout("/league-monteregie/");
+                    }}
+                >
+                    <FaHouse />
+                    <span>Retour au site principal</span>
+                </a>
+
+                <a href="#" className="admin-navbar-link"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleLogout("/league-monteregie/admin");
+                    }}
+                >
+                    <MdLogout />
+                    <span>Déconnexion</span>
+                </a>
+            </div>
         </div>
     );
 }

@@ -31,6 +31,10 @@
     transition: opacity 0.2s ease;
 }
 
+.admin-navbar-link:first-of-type {
+    margin-bottom: 10px;
+}
+
 
 .admin-navbar-link:hover {
     opacity: 0.8;

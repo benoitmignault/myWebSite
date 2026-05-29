@@ -4,4 +4,4 @@ phpmailer/*
 vendor/*
 
 # Ajout du fichier de création des passwords
-api.golf.benoitmignault.ca/admin/create-password-hash.php
+api.golf.benoitmignault.ca/admin/auth/create-password-hash.php

@@ -26,7 +26,6 @@ function Login() {
     const [usernameError, setUsernameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
-
     // État pour indiquer si la connexion est en cours de traitement
     const [loading, setLoading] = useState(false);
 
@@ -35,7 +34,6 @@ function Login() {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur après une connexion réussie
     const navigate = useNavigate();
-
 
     // Fonction pour gérer la tentative de connexion de l'utilisateur
     const handleLogin = async () => {        

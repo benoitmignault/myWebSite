@@ -41,7 +41,7 @@ function HomePage() {
 
 	return (
 		<div>
-			<h1>Ligue de Golf Montérégie</h1>
+			<h1 className="homepage-title">Ligue de Golf Montérégie</h1>
 			<div className="main-container">        
 				<div className="sub-container">
 					<Standings />

@@ -6,6 +6,8 @@ import PosterSection from "./PosterSection";
 import ContactSection from "./ContactSection";
 import Footer from "./Footer";
 import MissionSection from "./MissionSection";
+import { BsCameraFill } from "react-icons/bs";
+import { FaArrowUp } from "react-icons/fa";
 import { API_BASE_URL } from "./../config";
 
 function HomePage() {
@@ -50,9 +52,10 @@ function HomePage() {
 					<EventsList />
 				</div>						
 			</div>
-			<div className="photo-credit-wrapper">
-				<div className="background-photo-credit">
-					📸 Photo prise au Club de golf Farnham — Semaine 2
+			<div className="photo-credit-wrapper">				
+				<div className="homepage-photo-credit">
+					<BsCameraFill />
+					<span>Photo prise au Club de golf Farnham — Semaine 2</span>
 				</div>
 			</div>
 			<div className="sub-container">

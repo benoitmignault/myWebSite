@@ -10,6 +10,28 @@
     min-height: 100vh;
 }
 
+.admin-navbar {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    padding: 10px 16px;
+    background: rgba(25, 35, 65, 0.45);
+    backdrop-filter: blur(8px);    
+    border-radius: 10px;
+}
+
+.admin-navbar-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.admin-navbar-link:hover {
+    opacity: 0.8;
+}
+
 .admin-login-card {
     width: 50%;
     background:

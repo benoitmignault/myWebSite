@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../../config";
 import "./admin.css";
 
@@ -170,6 +171,11 @@ function Login() {
 
     return (
         <div className="admin-login-page">
+            <div className="admin-navbar">
+                <Link to="/league-monteregie" className="admin-navbar-link">
+                    ← Retour au site principal
+                </Link>
+            </div>
             <div className="admin-login-card">
                 <h1>Gestion de la Ligue de Golf Montérégie</h1>
                 <h2>Portail Administrateur</h2>

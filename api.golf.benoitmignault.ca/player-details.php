@@ -29,8 +29,8 @@ while ($row = $result->fetch_assoc()) {
     $playerDetails[] = $row;
 }
 
-// Retourner les données au format JSON
-echo json_encode($playerDetails);
-
 // Fermer la connexion à la base de données
 $conn->close();
+
+// Retourner les données au format JSON
+echo json_encode($playerDetails);

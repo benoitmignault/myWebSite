@@ -211,10 +211,7 @@ function PlayersSection() {
                     </label>
                     <input
                         className={`admin-input ${handicapError ? "input-error" : ""}`}
-                        type="number"
-                        step="0.1"
-                        placeholder="Ex : 12.4"
-                        value={handicap}
+                        type="number" step="0.1" placeholder="Ex : 12.4" value={handicap}
                         onChange={(e) => {setHandicap(e.target.value); setHandicapError(false); setError("");}}
                     />
                 </div>

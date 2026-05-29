@@ -13,6 +13,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 // Vérifier si les données ont été reçues
 if (!$data) {
+
     echo json_encode(["error" => "No data received"]);
     http_response_code(400);
     exit();

@@ -10,6 +10,9 @@ import ResultsSection from "./ResultsSection";
 import { API_BASE_URL } from "../../config";
 import "./admin.css";
 
+// Composant du dashboard pour les administrateurs et les sous-administrateurs
+// Ce composant affiche les différentes sections du dashboard, 
+// comme la gestion des joueurs, des événements et des résultats.
 function Dashboard() {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide

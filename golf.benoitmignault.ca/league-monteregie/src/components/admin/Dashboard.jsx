@@ -19,8 +19,7 @@ function Dashboard() {
     const handleLogout = async (redirectTo) => {
 
         try {
-
-            await fetch(`${API_BASE_URL}/admin/logout.php`,
+            await fetch(`${API_BASE_URL}/admin/auth/logout.php`,
                 {
                     method: "POST",
                     credentials: "include"
@@ -38,7 +37,7 @@ function Dashboard() {
     // Avant de loader la page du dashboard, on doit vérifier que l'administrateur est bien connecté 
     // en vérifiant la session avec l'API check-session.php.
     useEffect(() => {
-        fetch(`${API_BASE_URL}/admin/check-session.php`, {credentials: "include"})
+        fetch(`${API_BASE_URL}/admin/auth/check-session.php`, {credentials: "include"})
         /**
          * response : status, HTTP, headers, ok, etc.
          * data : le corps de la réponse, qui est un objet JSON contenant les données retournées par l'API,

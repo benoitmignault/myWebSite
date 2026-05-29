@@ -106,7 +106,7 @@ function Login() {
             
             // Envoi d'une requête POST à l'API pour tenter de connecter l'utilisateur 
             // avec les informations d'identification fournies
-            const response = await fetch(`${API_BASE_URL}/admin/login.php`,
+            const response = await fetch(`${API_BASE_URL}/admin/auth/login.php`,
                 {
                     method: "POST",
                     // Important d'inclure les credentials pour que les cookies de session soient envoyés avec la requête

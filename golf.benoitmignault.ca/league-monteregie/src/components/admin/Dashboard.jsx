@@ -8,12 +8,12 @@ function Dashboard() {
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
 
-    // Fonction pour gérer la déconnexion de l'administrateur
-    const handleLogout = async () => {
+    // Fonction pour gérer la déconnexion de l'administrateur et avec une redirection en fonction du lien qu'on a cliqué
+    const handleLogout = async (redirectTo) => {
 
-        try {            
-            await fetch(
-                `${API_BASE_URL}/admin/logout.php`,
+        try {
+
+            await fetch(`${API_BASE_URL}/admin/logout.php`,
                 {
                     method: "POST",
                     credentials: "include"
@@ -22,14 +22,15 @@ function Dashboard() {
 
         } finally {
 
-            // Toujours retourner au login
-            navigate("/league-monteregie/admin");
+            // Rediriger l'utilisateur vers la page de connexion après la déconnexion, 
+            // ou vers la page d'accueil s'il a cliqué sur le lien de la maison
+            navigate(redirectTo);
         }
     };
 
     // Avant de loader la page du dashboard, on doit vérifier que l'administrateur est bien connecté 
     // en vérifiant la session avec l'API check-session.php.
-    useEffect(() => {        
+    useEffect(() => {
         fetch(`${API_BASE_URL}/admin/check-session.php`, {credentials: "include"})
         /**
          * response : status, HTTP, headers, ok, etc.

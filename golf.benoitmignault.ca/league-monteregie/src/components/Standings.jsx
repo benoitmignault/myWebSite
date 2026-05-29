@@ -124,8 +124,8 @@ function Standings() {
                             <React.Fragment key={player.id}>
                                 <tr className="clickable-row" onClick={() => handlePlayerClick(player.id)}>
                                     <td>
-                                        {player.previous_position > index + 1 && (<span className="position-up">▲</span>)}
-                                        {player.previous_position < index + 1 && (<span className="position-down">▼</span>)}
+                                        {player.previous_position !== null && player.previous_position > index + 1 && (<span className="position-up">▲</span>)}
+                                        {player.previous_position !== null && player.previous_position < index + 1 && (<span className="position-down">▼</span>)}
                                         {index + 1}
                                     </td>
                                     <td>{player.firstname}{" "}{player.lastname}</td>

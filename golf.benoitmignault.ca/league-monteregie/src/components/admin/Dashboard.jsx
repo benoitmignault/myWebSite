@@ -92,9 +92,12 @@ function Dashboard() {
                     <span>Déconnexion</span>
                 </a>
             </div>
-            <PlayersSection />
-            <EventsSection />
-            <ResultsSection />
+            <div className="dashboard-container">
+                <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>
+                <PlayersSection />
+                <EventsSection />
+                <ResultsSection />
+            </div>           
         </div>
     );
 }

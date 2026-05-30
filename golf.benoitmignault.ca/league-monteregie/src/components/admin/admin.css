@@ -237,3 +237,7 @@ h1 {
         0 0 12px rgba(239, 68, 68, 0.15);
     backdrop-filter: blur(6px);
 }
+
+.admin-date-input {
+    cursor: pointer;
+}

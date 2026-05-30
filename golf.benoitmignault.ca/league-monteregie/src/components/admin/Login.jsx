@@ -210,7 +210,7 @@ function Login() {
                             Effacer
                         </button>
                     </div>
-                    {error && (<p className="admin-error-message">{error}</p>)}                    
+                    {error && (<p className="admin-error-message">✗ {error}</p>)}                    
                 </form>
             </div>
             <div className="admin-photo-credit">

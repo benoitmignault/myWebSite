@@ -225,8 +225,8 @@ function PlayersSection() {
                         Effacer
                     </button>
                 </div>
-                {error && <p className="admin-error-message">{error}</p>}
-                {successMessage && <p className="admin-success-message">{successMessage}</p>}
+                {error && <p className="admin-error-message">✗ {error}</p>}
+                {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}
             </form>
         </div>
     );

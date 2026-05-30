@@ -1,4 +1,4 @@
--- Table for storing golf events, including the golf course and event date
+-- Création de la table events pour stocker les informations sur les événements de golf
 CREATE TABLE events (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 

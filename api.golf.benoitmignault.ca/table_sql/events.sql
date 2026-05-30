@@ -6,7 +6,11 @@ CREATE TABLE events (
     golf_course VARCHAR(255) NOT NULL,
     golf_course_website VARCHAR(255) NOT NULL,
     event_date DATE NOT NULL,
-    
+
+    -- Ces champs sont utilisés pour suivre l'état de l'événement
+    is_open TINYINT(1) NOT NULL DEFAULT 0,
+    is_closed TINYINT(1) NOT NULL DEFAULT 0,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 

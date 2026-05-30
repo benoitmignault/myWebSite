@@ -241,3 +241,7 @@ h1 {
 .admin-date-input {
     cursor: pointer;
 }
+
+.react-datepicker-popper {
+    z-index: 99999 !important;
+}

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../config";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./admin.css";
 
 
@@ -25,7 +27,7 @@ function EventsSection() {
     const [eventLocation, setEventLocation] = useState("");
 
     // État pour la date de l'événement à ajouter
-    const [eventDate, setEventDate] = useState("");
+    const [eventDate, setEventDate] = useState(null);
 
     // État pour l'URL du site web de l'événement à ajouter
     const [eventUrl, setEventUrl] = useState("");
@@ -146,12 +148,18 @@ function EventsSection() {
                     <span className="required-field">*</span>
                 </label>
 
-                <input className={`admin-input admin-date-input ${eventDateError ? "input-error" : ""}`}
-                    type="date" value={eventDate}
-                    onChange={(e) => {setEventDate(e.target.value); setEventDateError(false); setError("");
+                <DatePicker
+                    selected={eventDate}
+                    onChange={(date) => {
+                        setEventDate(date);
+                        setEventDateError(false);
+                        setError("");
                     }}
-                />
-                
+                    dateFormat="yyyy-MM-dd"
+                    portalId="root"
+                    placeholderText="Sélectionner une date"
+                    className={`admin-input ${eventDateError ? "input-error" : ""}`}
+                />     
             </div>
         </div>
     );

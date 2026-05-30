@@ -140,8 +140,8 @@ function PlayersSection() {
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
                 setSuccessMessage("Joueur ajouté avec succès !");
 
-                // Effacer le message de succès après 3 secondes
-                setTimeout(() => {setSuccessMessage("");}, 3000);
+                // Effacer le message de succès après 4 secondes
+                setTimeout(() => {setSuccessMessage("");}, 4000);
             } else {
 
                 // Erreur lors de l'ajout du joueur

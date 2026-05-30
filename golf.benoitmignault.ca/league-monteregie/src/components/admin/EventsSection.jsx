@@ -30,14 +30,129 @@ function EventsSection() {
     // État pour l'URL du site web de l'événement à ajouter
     const [eventUrl, setEventUrl] = useState("");
 
+    // États pour gérer les erreurs de validation des champs pour ajouter un événement
+    const [eventNameError, setEventNameError] = useState(false);
+    const [eventLocationError, setEventLocationError] = useState(false);
+    const [eventDateError, setEventDateError] = useState(false);
+    const [eventUrlError, setEventUrlError] = useState(false);
+    
+    // État pour empêcher de faire l'ajout plusieurs fois de suite d'un événement si on clique sur le bouton, en attendant la réponse de l'API
+    const [loading, setLoading] = useState(false);
+
+    // État pour stocker les messages d'erreur en prévision de l'ajout d'un événement
+    const [error, setError] = useState("");
+
+    // État pour stocker un message de succès lors de l'ajout d'un événement à la ligue
+    const [successMessage, setSuccessMessage] = useState("");
+
+    // Fonction pour gérer l'ajout d'un événement à la ligue
+    const handleAddEvent = async () => {
+
+        // Réinitialiser les messages d'erreur avant de commencer le processus d'ajout
+        setError("");
+
+        // On commencer par gérer les erreurs de validation côté client 
+        // avant même d'envoyer la requête à l'API, pour éviter les appels inutiles à l'API et 
+        // améliorer l'expérience utilisateur.
+
+        // TODO: Changer error pour une liste de msg erreur pour pouvoir afficher plusieurs erreurs à la fois, 
+        // au lieu de n'afficher que la première erreur rencontrée.
+
+        // Vérification que les champs firstName, lastName et handicap ne sont pas vides
+        if (eventName.trim() === "" || eventLocation.trim() === "" || eventDate.trim() === "" || eventUrl.trim() === "") {
+            setError("Veuillez remplir tous les champs.");
+
+            if (eventName.trim() === "") {
+                setEventNameError(true);
+            }
+            
+            if (eventLocation.trim() === "") {
+                setEventLocationError(true);
+            }
+
+            if (eventDate.trim() === "") {
+                setEventDateError(true);
+            }
+
+            if (eventUrl.trim() === "") {
+                setEventUrlError(true);
+            }
+            return;
+        }
+
+        // Un site web ne peut pas avoir d'espaces
+        if (/\s/.test(eventUrl)) {
+            setEventUrlError(true);
+            setError("L'URL du site web ne doit pas contenir d'espaces.");
+            return;
+        }
+
+        // Les autres champs peuvent avoir des espaces, donc pas besoin de les vérifier pour ça
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     return (
         <div className="admin-section-card">
-            <h2>Section pour ajouter un evenement</h2>
-            
+            <h2>Section pour ajouter un événement</h2>
+            <div className="admin-form-group">
+                <label className="admin-label">
+                    Date de l'événement
+                    <span className="required-field">*</span>
+                </label>
 
+                <input className={`admin-input admin-date-input ${eventDateError ? "input-error" : ""}`}
+                    type="date" value={eventDate}
+                    onChange={(e) => {setEventDate(e.target.value); setEventDateError(false); setError("");
+                    }}
+                />
+                
+            </div>
         </div>
     );
 }

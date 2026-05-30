@@ -21,30 +21,40 @@ INSERT INTO events (
     event_name,
     golf_course,
     golf_course_website,
-    event_date
+    event_date,
+    is_open,
+    is_closed
 )
 VALUES
 (
     'Semaine 1',
     'Club de golf Vallée des forts',
     'https://golfvalleedesforts.com/',
-    '2026-05-10'
+    '2026-05-10',
+    0,
+    1
 ),
 (
     'Semaine 2',
     'Club de golf Farnham',
     'https://www.farnhamgolf.com/',
-    '2026-05-17'
+    '2026-05-17',
+    0,
+    1
 ),
 (
     'Semaine 3',
     'Club de golf La Seigneurie',
     'https://golflaseigneurie.ca/',
-    '2026-05-24'
+    '2026-05-24',
+    0,
+    1
 ),
 (
     'Semaine 4',
     'Club de golf Napierville',
     'https://golfnapierville.ca/',
-    '2026-05-31'
+    '2026-05-31',
+    0,
+    0
 );

@@ -92,8 +92,7 @@ $stmt->bind_param("ssddd", $firstName, $lastName, $handicapStart, $handicapStart
 if (!$stmt->execute()) {
 
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du joueur."]);    
-    
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du joueur."]); 
     // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();
     $conn->close();

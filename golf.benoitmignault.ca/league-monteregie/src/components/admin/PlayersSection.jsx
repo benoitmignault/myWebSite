@@ -34,10 +34,10 @@ function PlayersSection() {
     // État pour empêcher de faire l'ajout plusieurs fois de suite d'un joueur si on clique sur le bouton, en attendant la réponse de l'API
     const [loading, setLoading] = useState(false);
 
-    // État pour stocker les messages d'erreur de connexion
+    // État pour stocker les messages d'erreur en prévision de l'ajout d'un joueur
     const [error, setError] = useState("");
 
-    // ÉTat pour stocker un message de succès lors de l'ajout d'un joueur à la ligue
+    // État pour stocker un message de succès lors de l'ajout d'un joueur à la ligue
     const [successMessage, setSuccessMessage] = useState("");
     
     // Fonction pour gérer l'ajout d'un joueur à la ligue

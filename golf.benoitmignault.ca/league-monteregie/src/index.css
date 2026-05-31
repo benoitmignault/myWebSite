@@ -283,7 +283,6 @@ tbody tr:nth-child(even) {
 
 .event-results {
     margin-top: 16px;
-    padding-top: 16px;
     border-top:
         2px solid rgba(255,255,255,0.08);
 }
@@ -352,6 +351,7 @@ tbody tr:nth-child(even) {
     color:
         rgba(255,255,255,0.6);
     text-align: center;
+    margin: 0;
 }
 
 .sponsors-section {

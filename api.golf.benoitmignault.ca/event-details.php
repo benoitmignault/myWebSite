@@ -50,34 +50,30 @@ $select = "SELECT p.firstname, p.lastname, r.gross_score, r.net_score, r.positio
 // un message indiquant qu'il n'y a pas de résultats disponibles pour cet événement
 $from = "FROM events e INNER JOIN round_results r ON e.id = r.event_id
                         INNER JOIN players p ON r.player_id = p.id ";
-$where = "WHERE e.id = $eventId ";
+$where = "WHERE e.id = ? ";
 $orderBy = "ORDER BY r.position, r.handicap_used";
 $sql = $select . $from . $where . $orderBy;
 
 // Exécuter la requête SQL
-$result = $conn->query($sql);
-
-// Vérifier si la requête a réussi
-if (!$result) {
-
-    http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
-    $conn->close();
-    exit();
-}
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $eventId);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Sinon, on va parcourir les résultats de la requête pour l'événement recherché
-$event = []; 
+$eventDetails = []; 
 
 while ($row = $result->fetch_assoc()) {
    
     // Ajouter chaque ligne de résultat au tableau des résultats d'événements    
-    $event[] = $row; 
+    $eventDetails[] = $row; 
 }
 
-http_response_code(200);
-// Fermer la connexion à la base de données
+// Fermer la connexion à la base de données et le résultat de la requête SQL
+$stmt->close();
 $conn->close();
 
+http_response_code(200);
+
 // Retourner les données au format JSON
-echo json_encode($event, JSON_PRETTY_PRINT);
+echo json_encode($eventDetails, JSON_PRETTY_PRINT);

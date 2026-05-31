@@ -6,6 +6,7 @@ import { BsCameraFill } from "react-icons/bs";
 import { FaArrowUp } from "react-icons/fa";
 import PlayersSection from "./PlayersSection";
 import EventsSection from "./EventsSection";
+import EventsPlanningSection from "./EventsPlanningSection";
 import ResultsSection from "./ResultsSection";
 
 import { API_BASE_URL } from "../../config";
@@ -91,6 +92,7 @@ function Dashboard() {
                 <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>
                 <PlayersSection />
                 <EventsSection />
+                <EventsPlanningSection />
                 <ResultsSection />
             </div>
             <div className="admin-photo-credit">

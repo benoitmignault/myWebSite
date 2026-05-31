@@ -9,6 +9,14 @@ include(__DIR__ . "/includes/fct-connexion-bd.php");
 // Établir une connexion à la base de données de la ligue de golf en montérégie
 $conn = connexion_league_golf_monteregie();
 
+if (!$conn) {
+
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);
+
+    exit();
+}
+
 // Requête SQL pour récupérer les joueurs et leurs points totaux avec un classement basé sur les points, le handicap et le prénom
 $select = "SELECT p.id, p.firstname, p.lastname, COALESCE(p.average_score, 0) AS average_score, p.handicap_league, p.previous_position, COALESCE(SUM(r.fedex_points), 0) AS total_points ";
 // Utilisation de LEFT JOIN pour inclure tous les joueurs, même ceux sans résultats de tournament

@@ -72,6 +72,14 @@ $handicapRounded = round($handicapStart);
 // des erreurs de connexion à la base de données dues à des données invalides.
 $conn = connexion_league_golf_monteregie();
 
+if (!$conn) {
+
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);
+
+    exit();
+}
+
 $sql = "INSERT INTO players (
             firstname,
             lastname,

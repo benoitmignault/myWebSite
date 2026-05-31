@@ -6,7 +6,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./admin.css";
 
 
-
 /**
  * Composant de gestion des événements pour les administrateurs
  * 

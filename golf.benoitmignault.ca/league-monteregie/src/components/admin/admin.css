@@ -245,20 +245,13 @@ input[type="number"].admin-input {
     backdrop-filter: blur(6px);
 }
 
-.admin-date-input {
-    cursor: pointer;
-}
-
-.react-datepicker-popper {
-    z-index: 99999 !important;
-}
-
 .react-datepicker-wrapper {
     text-align: left;
 }
 
 .react-datepicker-wrapper input {
     cursor: pointer;
+    width: 30%;
 }
 
 .admin-date-input.input-error { 

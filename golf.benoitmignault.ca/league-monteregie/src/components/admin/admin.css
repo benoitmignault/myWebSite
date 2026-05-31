@@ -96,6 +96,10 @@ h1 {
     margin: 12px 0;
 }
 
+.admin-input.admin-website {
+    width: 70%;
+}
+
 .admin-input::placeholder {
     font-style: italic;
     font-size: 0.9rem;
@@ -103,7 +107,7 @@ h1 {
 }
 
 input[type="number"].admin-input {
-    width: 25%;
+    width: 12%;
 }
 
 .input-error {

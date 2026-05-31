@@ -123,8 +123,8 @@ function PlayersSection() {
             // rediriger le gestionnaire vers la page de connexion
             if (response.status === 401) {
 
-                setError("Votre session a expiré.");
-                setTimeout(() => {navigate("/league-monteregie/admin");}, 1000);
+                setError("Votre session a expiré, vous allez être redirigé vers la page de connexion.");
+                setTimeout(() => {navigate("/league-monteregie/admin");}, 3000);
                 return;
             }
 
@@ -134,14 +134,12 @@ function PlayersSection() {
             // Vérification de la réponse de l'API pour voir si le joueur a été ajouté avec succès ou s'il y a eu une erreur
             if (data.success) {
 
-                // Joueur ajouté avec succès
-                handleReset();
-
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
                 setSuccessMessage("Joueur ajouté avec succès !");
 
-                // Effacer le message de succès après 4 secondes
-                setTimeout(() => {setSuccessMessage("");}, 4000);
+                // Effacer le message de succès après 3 secondes et les informations du joueur après 3 secondes
+                setTimeout(() => {setSuccessMessage("");}, 3000);
+                setTimeout(() => {handleReset();}, 3000);   
             } else {
 
                 // Erreur lors de l'ajout du joueur

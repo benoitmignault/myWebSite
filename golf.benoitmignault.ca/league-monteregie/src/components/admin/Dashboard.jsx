@@ -73,20 +73,14 @@ function Dashboard() {
         <div>
             <div className="admin-navbar">
                 <a href="#" className="admin-navbar-link"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleLogout("/league-monteregie/");
-                    }}
+                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/");}}
                 >
                     <FaHouse />
                     <span>Retour au site principal</span>
                 </a>
 
                 <a href="#" className="admin-navbar-link"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleLogout("/league-monteregie/admin");
-                    }}
+                    onClick={(e) => {e.preventDefault(); handleLogout("/league-monteregie/admin");}}
                 >
                     <MdLogout />
                     <span>Déconnexion</span>

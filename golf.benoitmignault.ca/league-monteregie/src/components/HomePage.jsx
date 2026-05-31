@@ -73,11 +73,7 @@ function HomePage() {
 				</div>
 			</div>
 			<Footer />
-			<button
-				className="scroll-top" onClick={() =>
-					window.scrollTo({top: 0, behavior: "smooth"})
-				}
-			> 
+			<button className="scroll-top" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
 				<FaArrowUp />
 			</button>			
 		</div>

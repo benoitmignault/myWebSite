@@ -61,7 +61,7 @@ function EventsSection() {
         // au lieu de n'afficher que la première erreur rencontrée.
 
         // Vérification que les champs firstName, lastName et handicap ne sont pas vides
-        if (eventName.trim() === "" || eventLocation.trim() === "" || eventDate.trim() === "" || eventUrl.trim() === "") {
+        if (eventName.trim() === "" || eventLocation.trim() === "" || eventDate === null || eventUrl.trim() === "") {
             setError("Veuillez remplir tous les champs.");
 
             if (eventName.trim() === "") {
@@ -73,7 +73,7 @@ function EventsSection() {
             }
 
             // La date est un champ spécial, car il peut être null au lieu d'être une chaîne vide, donc on vérifie les deux cas
-            if (eventDate === null || eventDate.trim() === "") {
+            if (eventDate === null) {
                 setEventDateError(true);
             }
 

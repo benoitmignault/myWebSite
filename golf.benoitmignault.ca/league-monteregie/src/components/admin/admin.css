@@ -204,7 +204,6 @@ input[type="number"].admin-input {
 .admin-row {
     display: flex;
     gap: 20px;
-    margin-bottom: 20px;
 }
 
 .admin-row .admin-form-group {

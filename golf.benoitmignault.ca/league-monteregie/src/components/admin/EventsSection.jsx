@@ -72,7 +72,8 @@ function EventsSection() {
                 setEventLocationError(true);
             }
 
-            if (eventDate.trim() === "") {
+            // La date est un champ spécial, car il peut être null au lieu d'être une chaîne vide, donc on vérifie les deux cas
+            if (eventDate === null || eventDate.trim() === "") {
                 setEventDateError(true);
             }
 

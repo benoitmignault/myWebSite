@@ -70,4 +70,6 @@ if (!$stmt->execute()) {
 // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
 $stmt->close();
 $conn->close();
+
+http_response_code(201);
 echo json_encode(["success" => true, "message" => "Log de sponsor ajouté avec succès."]);

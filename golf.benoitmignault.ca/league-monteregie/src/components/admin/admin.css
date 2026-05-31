@@ -248,3 +248,15 @@ input[type="number"].admin-input {
 .react-datepicker-popper {
     z-index: 99999 !important;
 }
+
+.react-datepicker-wrapper {
+    text-align: left;
+}
+
+.react-datepicker-wrapper input {
+    cursor: pointer;
+}
+
+.admin-date-input.input-error {
+    border: 1px solid #ff4d4f !important;
+    box-shadow: 0 0 10px rgba(255, 77, 79, 0.4);

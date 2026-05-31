@@ -107,5 +107,5 @@ if (!$stmt->execute()) {
 $stmt->close();
 $conn->close();
 
-http_response_code(200);
+http_response_code(201);
 echo json_encode(["success" => true, "message" => "L'événement a été ajouté avec succès."]);

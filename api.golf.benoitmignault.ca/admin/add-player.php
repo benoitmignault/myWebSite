@@ -55,7 +55,7 @@ if (preg_match('/\s/', $firstName) || preg_match('/\s/', $lastName)) {
     exit();
 }
 
-// S,assurer que l'handicap est numérique mais avec aucune validation sur le min ou max, car il peut être supérieur à 54 pour les joueurs débutants. Cependant, on peut ajouter une validation pour s'assurer que l'handicap est un nombre positif et raisonnable (par exemple, entre 0 et 54) pour éviter les erreurs de saisie.
+// S'assurer que l'handicap est numérique mais avec aucune validation sur le min ou max, car il peut être supérieur à 54 pour les joueurs débutants. Cependant, on peut ajouter une validation pour s'assurer que l'handicap est un nombre positif et raisonnable (par exemple, entre 0 et 54) pour éviter les erreurs de saisie.
 if (!is_numeric($handicapStart)) {
 
     http_response_code(400);

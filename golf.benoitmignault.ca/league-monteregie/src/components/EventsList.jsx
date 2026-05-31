@@ -124,7 +124,7 @@ function EventsList() {
                                         // On vérifi d'abord l'état du chargement...
                                         loadingEventHistory
                                             ? (
-                                                <td colSpan="5" className="upcoming-event">Chargement des résultats...</td>
+                                                <p className="upcoming-event">Chargement des résultats...</p>
                                             )
                                         : eventResults.length > 0
                                             ? (
@@ -173,7 +173,7 @@ function EventsList() {
                                                 </table>
                                             )
                                             : (
-                                                <div className="upcoming-event">Événement à venir...</div>
+                                                <p className="upcoming-event">Événement à venir...</p>
                                             )
                                     }
                                 </div>

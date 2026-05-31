@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
+import { FaArrowUp } from "react-icons/fa";
 import PlayersSection from "./PlayersSection";
 import EventsSection from "./EventsSection";
 import ResultsSection from "./ResultsSection";
@@ -96,6 +97,9 @@ function Dashboard() {
                 <BsCameraFill />
                 <span>Photo prise au Club de golf Farnham — Semaine 2</span>
             </div>
+            <button className="scroll-top" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
+                <FaArrowUp />
+            </button>
         </div>
     );
 }

@@ -257,6 +257,17 @@ input[type="number"].admin-input {
     cursor: pointer;
 }
 
-.admin-date-input.input-error {
+.admin-date-input.input-error { 
     border: 1px solid #ff4d4f !important;
     box-shadow: 0 0 10px rgba(255, 77, 79, 0.4);
+}
+
+.scroll-top {
+    bottom: 50px;
+}
+
+.scroll-top:hover {
+    transform: translateY(-3px);
+    background:
+        rgba(59,130,246,0.35);
+}

@@ -94,8 +94,11 @@ while ($row = $result->fetch_assoc()) {
     $playerDetails[] = $row;
 }
 
-// Fermer la connexion à la base de données
+// Fermer la connexion à la base de données et le résultat de la requête SQL
+$stmt->close();
 $conn->close();
+
+http_response_code(200);
 
 // Retourner les données au format JSON
 echo json_encode($playerDetails);

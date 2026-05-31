@@ -29,6 +29,8 @@ $result = $conn->query($sql);
 // Vérifier si la requête a réussi
 if (!$result) {
 
+    error_log($conn->error);
+
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
     $conn->close();

@@ -62,10 +62,29 @@ if (preg_match('/\s/', $eventWebSite)) {
 // des erreurs de connexion à la base de données dues à des données invalides.
 $conn = connexion_league_golf_monteregie();
 
+if (!$conn) {
+
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);
+
+    exit();
+}
+
 $sql = "INSERT INTO events (event_name, golf_course, golf_course_website, event_date) VALUES (?, ?, ?, ?)";
 
 // Préparer la requête SQL pour insérer le nouvel événement dans la base de données en utilisant des requêtes préparées pour éviter les injections SQL
 $stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+
+    http_response_code(500);
+
+    echo json_encode(["success" => false, "message" => "Erreur lors de la préparation de la requête."]);
+
+    $conn->close();
+    $stmt->close();
+    exit();
+}
 
 // Lier les paramètres à la requête préparée
 $stmt->bind_param("ssss", $eventName, $eventLocation, $eventWebSite, $eventDate);
@@ -73,8 +92,11 @@ $stmt->bind_param("ssss", $eventName, $eventLocation, $eventWebSite, $eventDate)
 // Exécuter la requête SQL pour insérer le nouvel événement dans la base de données et vérifier si l'insertion a réussi
 if (!$stmt->execute()) {
 
+    error_log($stmt->error);
+
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout de l'événement."]); 
+    
     // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();
     $conn->close();

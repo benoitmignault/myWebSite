@@ -204,17 +204,20 @@ function PlayersSection() {
                         />
                     </div>
                 </div>
-                <div className="admin-form-group">
-                    <label className="admin-label">
-                        Handicap de départ
-                        <span className="required-field">*</span>
-                    </label>
-                    <input
-                        className={`admin-input ${handicapError ? "input-error" : ""}`}
-                        type="number" step="0.1" placeholder="Ex : 12.4" value={handicap}
-                        onChange={(e) => {setHandicap(e.target.value); setHandicapError(false); setError("");}}
-                    />
+                <div className="admin-row">
+                    <div className="admin-form-group">
+                        <label className="admin-label">
+                            Handicap de départ
+                            <span className="required-field">*</span>
+                        </label>
+                        <input
+                            className={`admin-input ${handicapError ? "input-error" : ""}`}
+                            type="number" step="0.1" placeholder="Ex : 12.4" value={handicap}
+                            onChange={(e) => {setHandicap(e.target.value); setHandicapError(false); setError("");}}
+                        />
+                    </div>
                 </div>
+                
                 <div className="admin-actions">
                     <button className="admin-button" type="submit" disabled={loading}>
                         Ajouter

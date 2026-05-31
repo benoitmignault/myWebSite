@@ -86,7 +86,7 @@ h1 {
 }
 
 .admin-input {
-    width: 40%;
+    width: 50%;
     padding: 14px;
     border-radius: 12px;
     border: none;
@@ -100,6 +100,10 @@ h1 {
     font-style: italic;
     font-size: 0.9rem;
     color: rgba(255,255,255,0.45);
+}
+
+input[type="number"].admin-input {
+    width: 25%;
 }
 
 .input-error {

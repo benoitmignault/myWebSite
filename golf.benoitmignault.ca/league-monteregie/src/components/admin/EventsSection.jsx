@@ -172,7 +172,7 @@ function EventsSection() {
                 <div className="admin-row">
                     <div className="admin-form-group">
                         <label className="admin-label">
-                            Le nom de l'événement
+                            Événement
                             <span className="required-field">*</span>
                         </label>
                         <input className={`admin-input ${eventNameError ? "input-error" : ""}`}
@@ -182,7 +182,7 @@ function EventsSection() {
                     </div>
                     <div className="admin-form-group">
                         <label className="admin-label">
-                            Le nom du club de golf
+                            Club de golf
                             <span className="required-field">*</span>
                         </label>
                         <input className={`admin-input ${eventLocationError ? "input-error" : ""}`}
@@ -194,17 +194,17 @@ function EventsSection() {
                 <div className="admin-row">
                     <div className="admin-form-group">
                         <label className="admin-label">
-                            Le site web du club
+                            Site web
                             <span className="required-field">*</span>
                         </label>
-                        <input className={`admin-input ${eventUrlError ? "input-error" : ""}`}
+                        <input className={`admin-input admin-website ${eventUrlError ? "input-error" : ""}`}
                             type="text" placeholder="URL du site web" value={eventUrl}
                             onChange={(e) => {setEventUrl(e.target.value); setEventUrlError(false); setError("");}}
                         />
                     </div>
                     <div className="admin-form-group">
                         <label className="admin-label">
-                            Date de l'événement
+                            Date
                             <span className="required-field">*</span>
                         </label>
                         <DatePicker className={`admin-input ${eventDateError ? "input-error" : ""}`}

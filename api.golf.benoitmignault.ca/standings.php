@@ -51,4 +51,4 @@ http_response_code(200);
 $conn->close();
 
 // Retourner les données au format JSON
-echo json_encode($players, JSON_PRETTY_PRINT);
+echo json_encode($players);

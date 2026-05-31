@@ -11,7 +11,4 @@ include(__DIR__ . "/check-admin-session.php");
 // Si nous arrivons ici, c'est que la session est valide donc on poursuit les choses prévues
 http_response_code(200);
 
-echo json_encode([
-    "success" => true,
-    "message" => "Admin connecté."
-]);
+echo json_encode(["success" => true, "message" => "Admin connecté."]);

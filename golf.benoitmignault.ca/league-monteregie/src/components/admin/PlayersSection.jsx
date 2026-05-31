@@ -214,8 +214,7 @@ function PlayersSection() {
                             onChange={(e) => {setHandicap(e.target.value); setHandicapError(false); setError("");}}
                         />
                     </div>
-                </div>
-                
+                </div>                
                 <div className="admin-actions">
                     <button className="admin-button" type="submit" disabled={loading}>
                         Ajouter

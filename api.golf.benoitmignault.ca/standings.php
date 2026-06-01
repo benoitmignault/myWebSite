@@ -47,6 +47,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 http_response_code(200);
+
 // Fermer la connexion à la base de données
 $conn->close();
 

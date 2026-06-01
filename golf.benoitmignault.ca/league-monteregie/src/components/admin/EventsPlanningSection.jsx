@@ -98,8 +98,12 @@ function EventsPlanningSection() {
 
     useEffect(() => {
 
-        // Charger les détails du prochain évenement qui sera en cours lorsque le composant est monté
-        const initializeData = async () => {await loadEvent();};
+        // Il faut utiliser une notion asynchrone pour charger les données, en raison de l'utilisation 
+        const initializeData = async () => {
+            await loadEvent();
+        };
+        
+        // Charger tout les éléments dans la section du tournois en gestion en cours
         initializeData();
 
     }, []);

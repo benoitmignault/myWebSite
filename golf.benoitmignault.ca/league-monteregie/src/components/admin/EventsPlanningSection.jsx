@@ -95,21 +95,30 @@ function EventsPlanningSection() {
 
 
 
+
+    useEffect(() => {
+
+        // Charger les détails du prochain évenement qui sera en cours lorsque le composant est monté
+        const initializeData = async () => {await loadEvent();};
+        initializeData();
+
+    }, []);
+
     return (
         <div className="admin-section-card">
             <h2>Section pour planifier un évenement en cours</h2>
             <div className="admin-row">
                 <div className="admin-form-group">
                     <label className="admin-label">Nom de l'événement</label>
-                    <div>Semaine 4</div>
+                    <div>{nextEvent?.event_name}</div>
                 </div>
                 <div className="admin-form-group">
                     <label className="admin-label">Club de golf</label>
-                    <div>Club de golf Napierville</div>
+                    <div>{nextEvent?.golf_course}</div>
                 </div>       
                 <div className="admin-form-group">
                     <label className="admin-label">Date</label>
-                    <div>2026-05-31</div>
+                    <div>{nextEvent?.event_date}</div>
                 </div>
             </div>
             <div className="admin-row">

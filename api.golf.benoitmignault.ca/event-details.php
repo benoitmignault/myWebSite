@@ -9,6 +9,14 @@ include(__DIR__ . "/includes/fct-connexion-bd.php");
 // Établir une connexion à la base de données de la ligue de golf en montérégie
 $conn = connexion_league_golf_monteregie();
 
+if (!$conn) {
+
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);
+
+    exit();
+}
+
 // Requête SQL pour récupérer les détails d'un event spécifique
 $eventId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 

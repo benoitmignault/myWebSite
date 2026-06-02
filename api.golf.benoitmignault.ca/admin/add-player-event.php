@@ -158,6 +158,7 @@ if ($history) {
 
 } else {
 
+    // Ca veut donc dire que le joueur n'a pas encore participé à un événement, donc on va initialiser sa position précédente    
     $previousPosition = 0;
     $previousFedexPoints = 0;
 

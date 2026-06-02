@@ -121,7 +121,7 @@ function EventsSection() {
             if (data.success) {
 
                 // Affichage d'un message de succès pour informer l'administrateur que l'événement a été ajouté avec succès
-                setSuccessMessage("Événement ajouté avec succès !");
+                setSuccessMessage(`${eventName} a été ajouté au calendrier.`);
 
                 // Effacer le message de succès après 3 secondes et les informations de l'événement après 3 secondes
                 setTimeout(() => {handleReset();}, 3000);                

@@ -106,6 +106,31 @@ if ($event["is_closed"] == 1) {
     exit();
 }
 
+// Si l'event est à 0, on va pouvoir ouvrir les inscriptions pour cet event et mettre à jour le statut de l'event à ouvert dans la base de données
+if ($event["is_open"] == 0) {
+
+    // On va faire un update pour changer le statut de l'event à ouvert
+    $update = "UPDATE events SET is_open = 1 WHERE id = ?";
+    $stmt = $conn->prepare($update);
+    $stmt->bind_param("i", $eventId);
+
+    // Exécuter la requête SQL pour insérer le nouveau joueur dans la base de données
+    if (!$stmt->execute()) {
+
+        error_log($stmt->error);
+        
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de l'ouverture des inscriptions pour cet événement."]); 
+        
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+        $stmt->close();
+        $conn->close();
+        exit();
+    }    
+}
+
+// Maintenant que l'évenement est ouvert, on peut ajouter les joueurs à l'évenement
+
 // On va récupérer current_position, current_fedex_points, current_handicap pour aller les insérer 
 // dans la table player_event_history sous la notion de previous_position, previous_fedex_points,
 //  previous_handicap pour garder un historique de l'évolution du joueur au fil des événements

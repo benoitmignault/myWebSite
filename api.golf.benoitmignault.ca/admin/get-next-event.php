@@ -48,7 +48,10 @@ if (!$result) {
 // Rétourner le résultat de la requête au format JSON
 $event = $result->fetch_assoc();
 
-echo json_encode(["success" => true, "event" => $event]);
+http_response_code(200);
 
+// Fermer la connexion à la base de données
 $conn->close();
-exit();
+
+// Retourner les données au format JSON
+echo json_encode(["success" => true, "event" => $event]);

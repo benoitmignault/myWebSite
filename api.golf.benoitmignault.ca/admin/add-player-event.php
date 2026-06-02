@@ -177,10 +177,13 @@ if ($history) {
     $previousHandicap = $player["handicap_league"];
 }
 
+// On doit passer l'handicap arrondi pour l'évenement en cours
+$previousHandicapRouned = round($previousHandicap);
+
 // Requête SQL pour insérer le joueur à l'événement dans la table event_players
-$insert = "INSERT INTO event_players (event_id, player_id, team_id) VALUES (?, ?, ?)";
+$insert = "INSERT INTO event_players (event_id, player_id, team_number, handicap_rounded) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($insert);
-$stmt->bind_param("iii", $eventId, $playerId, $teamId);
+$stmt->bind_param("iiii", $eventId, $playerId, $teamId, $previousHandicapRouned);
 
 // Exécuter la requête SQL pour insérer le joueur à l'événement
 if (!$stmt->execute()) {

@@ -60,13 +60,27 @@ if (!$conn) {
 }
 
 // Vérification que event existe avant aller plus loin
-$select = "SELECT id, is_closed ";
+$select = "SELECT id, is_open, is_closed ";
 $from = "FROM events ";
 $where = "WHERE id = ?";
 $sql = $select . $from . $where;
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $eventId);
-$stmt->execute();
+
+// Exécuter la requête SQL pour vérifier que l'événement existe et récupérer son statut d'ouverture et de fermeture
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de la vérification de l'événement."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {

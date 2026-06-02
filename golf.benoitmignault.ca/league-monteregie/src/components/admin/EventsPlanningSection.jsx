@@ -176,6 +176,12 @@ function EventsPlanningSection() {
         // pour ajouter le joueur à la ligue
         setLoading(true);
 
+        // Trouver le nom du joueur sélectionné pour l'afficher dans le message de succès après l'ajout du joueur à l'évenement
+        const player = availablePlayers.find(player => player.id === parseInt(selectedPlayer));
+
+        // Associer le nom du joueur à une variable pour l'afficher dans le message de succès après l'ajout du joueur à l'évenement
+        const playerName = `${player.firstname} ${player.lastname}`;
+
         try {
             const response = await fetch(`${API_BASE_URL}/admin/add-player-event.php`,
                 {
@@ -202,7 +208,7 @@ function EventsPlanningSection() {
             if (data.success) {
 
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
-                setSuccessMessage("Joueur ajouté à l'événement en cours avec succès !"); 
+                setSuccessMessage(`${playerName} a été ajouté à la ligue.`);
 
                 // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
                 setTimeout(() => {handleReset();}, 3000);

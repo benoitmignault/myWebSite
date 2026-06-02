@@ -67,7 +67,7 @@ function EventsPlanningSection() {
             if (data.success) {
 
                 // Stocker les détails du prochain évenement qui sera en cours dans l'état nextEvent
-                setNextEvent(data.event);
+                setEvent(data.event);
 
             } else {
 

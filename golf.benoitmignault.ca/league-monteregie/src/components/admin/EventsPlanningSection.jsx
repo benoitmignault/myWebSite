@@ -218,44 +218,52 @@ function EventsPlanningSection() {
 
     return (
         <div className="admin-section-card">
-            <h2>Section pour planifier un évenement en cours</h2>
-            <p>Voici le prochain événement à préparer :</p>
-            <div className="admin-row event-summary-row">
-                { event ? (
-                    <>
-                        <span>🏌️ {event?.event_name}</span>
-                        <span>•</span>
-                        <span>📍 {event?.golf_course}</span>
-                        <span>•</span>
-                        <span>📅 {event?.event_date}</span>
-                    </>
-                    ) : (
-                        <p>Aucun événement à préparer.</p>
-                    )
-                }
-            </div>
-            <div className="admin-row">
-                <div className="admin-form-group">
-                    <label className="admin-label">Ajouter un participant</label>                    
-                    <select className="admin-input"
-                        value={selectedPlayer}
-                        onChange={(e) => setSelectedPlayer(e.target.value)}                        
-                    >
-                        <option value="">Sélectionner un joueur</option>
-                        {availablePlayers.map(player => (
-                            <option key={player.id} value={player.id}>
-                                {player.firstname} {player.lastname}
-                            </option>
-                        ))}
-                    </select>
+            <h2>Section pour planifier un évenement</h2>
+            <form onSubmit={(e) => {e.preventDefault(); handleAddEvent();}}>
+                <p>Voici le prochain :</p>
+                <div className="admin-row event-summary-row">
+                    { event ? (
+                        <>
+                            <span>🏌️ {event?.event_name}</span>
+                            <span>•</span>
+                            <span>📍 {event?.golf_course}</span>
+                            <span>•</span>
+                            <span>📅 {event?.event_date}</span>
+                        </>
+                        ) : (
+                            <p>Aucun événement à préparer.</p>
+                        )
+                    }
                 </div>
-                <div className="admin-form-group">
-                    <label className="admin-label">Équipe</label>
-                    <input type="number" min="1" max="10" className="admin-input"/>
+                <div className="admin-row">
+                    <div className="admin-form-group">
+                        <label className="admin-label">
+                            Ajouter un participant
+                            <span className="required-field">*</span></label>                    
+                        <select className={`admin-input ${selectedPlayerError ? "input-error" : ""}`}
+                            value={selectedPlayer}
+                            onChange={(e) => setSelectedPlayer(e.target.value)}                        
+                        >
+                            <option value="">Sélectionner un joueur</option>
+                            {availablePlayers.map(player => (
+                                <option key={player.id} value={player.id}>
+                                    {player.firstname} {player.lastname}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="admin-form-group">
+                        <label className="admin-label">
+                            Équipe
+                            <span className="required-field">*</span>
+                        </label>
+                        <input 
+                            className={`admin-input team-input ${teamError ? "input-error" : ""}`}
+                            type="number" step="1" min="1" max="10" placeholder="Ex : #1" value={team}
+                            onChange={(e) => setTeam(e.target.value)}
+                        />
+                    </div>
                 </div>
-            </div>
-            <div className="admin-row">
-
                 <div className="admin-actions">
                     <button className="admin-button" type="submit" disabled={loading}>
                         Ajouter
@@ -266,20 +274,21 @@ function EventsPlanningSection() {
                         Effacer
                     </button>
                 </div>
-            </div>            
+                {error && <p className="admin-error-message">✗ {error}</p>}
+                {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}
+                <div className="teams-container">
+                    <h2>Équipes du tournoi</h2>
+                    <div className="team-card">
 
-            <div className="teams-container">
-                <h2>Équipes du tournoi</h2>
-                <div className="team-card">
-
-                    <h3>Équipe 1</h3>
-                    ...
+                        <h3>Équipe 1</h3>
+                        ...
+                    </div>
+                    <div className="team-card">
+                        <h3>Équipe 2</h3>
+                        ...
+                    </div>
                 </div>
-                <div className="team-card">
-                    <h3>Équipe 2</h3>
-                    ...
-                </div>
-            </div>            
+            </form>
         </div>
     );
 }

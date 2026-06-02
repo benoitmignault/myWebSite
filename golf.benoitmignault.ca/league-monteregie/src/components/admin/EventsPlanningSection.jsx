@@ -139,17 +139,61 @@ function EventsPlanningSection() {
 
             setLoading(false);
         }
-    }
+    };
+
+    // Fonction pour ajouter un joueur à un évenement en cours, avec une requête à l'API add-player-event.php
+    const handleAddEvent = async () => {
+
+        // Réinitialiser les messages d'erreur avant de commencer le processus d'ajout
+        setError("");
+
+        // On commencer par gérer les erreurs de validation côté client 
+        // avant même d'envoyer la requête à l'API, pour éviter les appels inutiles à l'API et 
+        // améliorer l'expérience utilisateur.
+
+        // TODO: Changer error pour une liste de msg erreur pour pouvoir afficher plusieurs erreurs à la fois, 
+        // au lieu de n'afficher que la première erreur rencontrée.
+
+        // Validation du champ de sélection du joueur et de l'équipe, qui sont tous les deux obligatoires
+        if (!selectedPlayer) {
+
+            setSelectedPlayerError(true);
+            setError("Veuillez sélectionner un joueur à ajouter à l'événement.");
+            return;
+        }
+
+        if (!team) {
+
+            setTeamError(true);
+            setError("Veuillez sélectionner une équipe pour le joueur.");
+            return;
+        }
 
 
+
+
+
+
+
+    };
 
     // Fonction pour réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement et les messages d'erreur associés
     const handleReset = () => {
 
-    }
+        // Remise à l'état initial des champs du formulaire d'ajout d'un joueur à un évenement
+        setSelectedPlayer("");
+        setTeam("");
+        
+        // Remise à l'état initial du trigger pour remettre les bordures dans leur état normal
+        setSelectedPlayerError(false); 
+        setTeamError(false);
 
+        // Remise à l'état initial du message d'erreur
+        setError("");
 
-
+        // Remise à l'état initial du message de succès
+        setSuccessMessage("");
+    };
 
     useEffect(() => {
 

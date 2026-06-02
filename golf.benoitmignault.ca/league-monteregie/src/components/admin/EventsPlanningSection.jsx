@@ -163,7 +163,7 @@ function EventsPlanningSection() {
             hasError = true;
         }
 
-        if (!team) {
+        if (team === "" || isNaN(team) || team < 1) {
 
             setTeamError(true);
             hasError = true;

@@ -21,10 +21,13 @@ function EventsPlanningSection() {
     const navigate = useNavigate();
 
     // ÉTat pour stocker la réponse de l'API pour le prochain évenement qui sera en cours, avec les détails de cet évenement
-    const [nextEvent, setNextEvent] = useState(null);
+    const [event, setEvent] = useState(null);
 
+    // ÉTat pour stocker les joueurs disponibles pour l'ajout à l'évenement en cours
+    const [availablePlayers, setAvailablePlayers] = useState([]);
 
-
+    // ÉTat pour stocker le joueur sélectionné dans le formulaire d'ajout d'un joueur à un évenement
+    const [selectedPlayer, setSelectedPlayer] = useState("");
 
     // État pour stocker les messages d'erreur en prévision de l'ajout d'un joueur à un événement
     const [error, setError] = useState("");
@@ -36,7 +39,6 @@ function EventsPlanningSection() {
     // État pour empêcher de faire l'ajout plusieurs fois de suite d'un joueur à un évenement 
     // si on clique sur le bouton, en attendant la réponse de l'API
     const [loading, setLoading] = useState(false);
-
 
 
     // Fonction pour charger les détails du prochain évenement qui sera en cours, avec une requête à l'API get-next-event.php

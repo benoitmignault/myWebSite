@@ -140,7 +140,7 @@ function EventsSection() {
 
             setLoading(false);
         }
-    };        
+    };       
 
     // Fonction pour réinitialiser les champs du formulaire d'ajout d'un événement et les messages d'erreur associés
     const handleReset = () => {
@@ -162,7 +162,7 @@ function EventsSection() {
 
         // Remise à l'état initial du message de succès
         setSuccessMessage("");
-    }
+    };
 
     return (
         <div className="admin-section-card">

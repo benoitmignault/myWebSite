@@ -20,13 +20,13 @@ function EventsPlanningSection() {
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
 
-    // ÉTat pour stocker la réponse de l'API pour le prochain évenement qui sera en cours, avec les détails de cet évenement
+    // État pour stocker la réponse de l'API pour le prochain évenement qui sera en cours, avec les détails de cet évenement
     const [event, setEvent] = useState(null);
 
-    // ÉTat pour stocker les joueurs disponibles pour l'ajout à l'évenement en cours
+    // État pour stocker les joueurs disponibles pour l'ajout à l'évenement en cours
     const [availablePlayers, setAvailablePlayers] = useState([]);
 
-    // ÉTat pour stocker le joueur sélectionné dans le formulaire d'ajout d'un joueur à un évenement
+    // État pour stocker le joueur sélectionné dans le formulaire d'ajout d'un joueur à un évenement
     const [selectedPlayer, setSelectedPlayer] = useState("");
 
     // État pour stocker le numéro de l'équipe du joueur
@@ -44,10 +44,7 @@ function EventsPlanningSection() {
     const [error, setError] = useState("");
 
     // État pour stocker un message de succès lors de l'ajout d'un événement à la ligue
-    const [successMessage, setSuccessMessage] = useState("");
-
-
-    
+    const [successMessage, setSuccessMessage] = useState("");    
 
     // Fonction pour charger les détails du prochain évenement qui sera en cours, avec une requête à l'API get-next-event.php
     const loadEvent = async () => {
@@ -212,7 +209,7 @@ function EventsPlanningSection() {
 
                 // Recharger la liste des joueurs disponibles pour l'ajout à cet évenement, 
                 // pour que le joueur ajouté n'apparaisse plus dans la liste des joueurs disponibles
-                await loadAvailablePlayers(event?.id);                          
+                await loadAvailablePlayers(event?.id);                         
             } else {
 
                 // Erreur lors de l'ajout du joueur

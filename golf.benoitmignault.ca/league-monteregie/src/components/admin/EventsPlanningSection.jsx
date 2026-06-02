@@ -71,6 +71,9 @@ function EventsPlanningSection() {
                 // Stocker les détails du prochain évenement qui sera en cours dans l'état nextEvent
                 setEvent(data.event);
 
+                // On retourne le résultat pour pouvoir l'utiliser dans la fonction d'initialisation des données du useEffect, 
+                // pour ensuite charger la liste des joueurs disponibles pour l'ajout à cet évenement
+                return data.event;
             } else {
 
                 // Erreur lors du chargement de l'évenement

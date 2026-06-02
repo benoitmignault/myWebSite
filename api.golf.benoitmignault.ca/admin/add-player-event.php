@@ -178,10 +178,48 @@ if ($history) {
     $previousHandicap = $player["handicap_league"];
 }
 
+// Requête SQL pour insérer le joueur à l'événement dans la table event_players
+$insert = "INSERT INTO event_players (event_id, player_id, team_id) VALUES (?, ?, ?)";
+$stmt = $conn->prepare($insert);
+$stmt->bind_param("iii", $eventId, $playerId, $teamId);
 
+// Exécuter la requête SQL pour insérer le joueur à l'événement
+if (!$stmt->execute()) {
 
-
-
-
-
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du joueur à l'événement."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
 }
+
+// Requête SQL pour insérer la nouvelle entrée dans la table player_event_history 
+// pour garder un historique de l'évolution du joueur au fil des événements
+$insert = "INSERT INTO player_event_history (event_id, player_id, previous_position, previous_fedex_points, previous_handicap) VALUES (?, ?, ?, ?, ?)";
+$stmt = $conn->prepare($insert);
+$stmt->bind_param("iiiii", $eventId, $playerId, $previousPosition, $previousFedexPoints, $previousHandicap);
+
+// Exécuter la requête SQL pour insérer le nouveau joueur dans la base de données
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout de l'historique du joueur pour cet événement."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+// Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+$stmt->close();
+$conn->close();
+
+http_response_code(201);
+echo json_encode(["success" => true, "message" => "Le joueur a été ajouté à l'événement avec succès et son historique a été mis à jour."]);

@@ -135,7 +135,7 @@ if ($event["is_open"] == 0) {
 //  previous_handicap pour garder un historique de l'évolution du joueur au fil des événements
 $select = "SELECT current_position, current_fedex_points, current_handicap ";
 $from = "FROM player_event_history ";
-$where = "WHERE player_id = ?";
+$where = "WHERE player_id = ? ";
 $orderBy = "ORDER BY event_id DESC ";
 $limit = "LIMIT 1";
 $sql = $select . $from . $where . $orderBy . $limit;

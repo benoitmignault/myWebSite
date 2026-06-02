@@ -71,4 +71,4 @@ $stmt->close();
 $conn->close();
 
 // Retourner les données au format JSON
-echo json_encode($availablePlayers);
+echo json_encode(["success" => true, "players" => $availablePlayers]);

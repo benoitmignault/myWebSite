@@ -36,8 +36,12 @@ if ($eventId <= 0) {
 }
 
 // Requête SQL pour afficher les joueurs disponibles pour un évenement en cours d'inscription,
-$sql = "SELECT id, firstname, lastname FROM players WHERE id NOT IN (SELECT player_id FROM event_players WHERE event_id = ?)";
-$stmt = $conn->prepare($sql);
+$select = "SELECT id, firstname, lastname ";
+$from = "FROM players ";
+$where = "WHERE id NOT IN (SELECT player_id FROM event_players WHERE event_id = ?) ";
+$orderBy = "ORDER BY firstname ASC, lastname ASC";
+$sql = $select . $from . $where . $orderBy;$stmt = $conn->prepare($sql);
+
 $stmt->bind_param("i", $eventId);
 $stmt->execute();
 $result = $stmt->get_result();

@@ -111,19 +111,20 @@ function EventsPlanningSection() {
     return (
         <div className="admin-section-card">
             <h2>Section pour planifier un évenement en cours</h2>
-            <div className="admin-row">
-                <div className="admin-form-group">
-                    <label className="admin-label">Nom de l'événement</label>
-                    <div>{nextEvent?.event_name}</div>
-                </div>
-                <div className="admin-form-group">
-                    <label className="admin-label">Club de golf</label>
-                    <div>{nextEvent?.golf_course}</div>
-                </div>       
-                <div className="admin-form-group">
-                    <label className="admin-label">Date</label>
-                    <div>{nextEvent?.event_date}</div>
-                </div>
+            <p>Voici le prochain événement à préparer :</p>
+            <div className="admin-row event-summary-row">
+                { event ? (
+                    <>
+                        <span>🏌️ {event?.event_name}</span>
+                        <span>•</span>
+                        <span>📍 {event?.golf_course}</span>
+                        <span>•</span>
+                        <span>📅 {event?.event_date}</span>
+                    </>
+                    ) : (
+                        <p>Aucun événement à préparer.</p>
+                    )
+                }
             </div>
             <div className="admin-row">
                 <div className="admin-form-group">

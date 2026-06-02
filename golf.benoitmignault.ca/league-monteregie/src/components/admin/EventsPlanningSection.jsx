@@ -147,7 +147,16 @@ function EventsPlanningSection() {
 
         // Il faut utiliser une notion asynchrone pour charger les données, en raison de l'utilisation 
         const initializeData = async () => {
-            await loadEvent();
+
+            // On doit d'abord charger les informations du prochain évenement qui sera en cours avec un return, très important
+            const event = await loadEvent();
+
+            // Ensuite, si on a un évenement qui est en cours, on peut charger la liste des joueurs disponibles pour l'ajout à cet évenement
+            if (event) {
+
+                // Car cette fonction dépend de l'id, pas id pas de fonction 
+                await loadAvailablePlayers(event.id);
+            }
         };
         
         // Charger tout les éléments dans la section du tournois en gestion en cours

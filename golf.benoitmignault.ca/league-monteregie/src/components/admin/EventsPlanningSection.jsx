@@ -29,6 +29,17 @@ function EventsPlanningSection() {
     // ÉTat pour stocker le joueur sélectionné dans le formulaire d'ajout d'un joueur à un évenement
     const [selectedPlayer, setSelectedPlayer] = useState("");
 
+    // État pour stocker le numéro de l'équipe du joueur
+    const [team, setTeam] = useState("");
+
+    // États pour gérer les erreurs de validation des champs pour ajouter un joueur à un évenement
+    const [selectedPlayerError, setSelectedPlayerError] = useState(false);
+    const [teamError, setTeamError] = useState(false);
+    
+    // État pour empêcher de faire l'ajout plusieurs fois de suite d'un joueur à un évenement 
+    // si on clique sur le bouton, en attendant la réponse de l'API
+    const [loading, setLoading] = useState(false);
+
     // État pour stocker les messages d'erreur en prévision de l'ajout d'un joueur à un événement
     const [error, setError] = useState("");
 
@@ -36,10 +47,7 @@ function EventsPlanningSection() {
     const [successMessage, setSuccessMessage] = useState("");
 
 
-    // État pour empêcher de faire l'ajout plusieurs fois de suite d'un joueur à un évenement 
-    // si on clique sur le bouton, en attendant la réponse de l'API
-    const [loading, setLoading] = useState(false);
-
+    
 
     // Fonction pour charger les détails du prochain évenement qui sera en cours, avec une requête à l'API get-next-event.php
     const loadEvent = async () => {

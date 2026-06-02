@@ -205,17 +205,14 @@ function EventsPlanningSection() {
             if (data.success) {
 
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
-                setSuccessMessage("Joueur ajouté à l'événement en cours avec succès !");
+                setSuccessMessage("Joueur ajouté à l'événement en cours avec succès !"); 
+
+                // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
+                setTimeout(() => {handleReset();}, 3000);
 
                 // Recharger la liste des joueurs disponibles pour l'ajout à cet évenement, 
                 // pour que le joueur ajouté n'apparaisse plus dans la liste des joueurs disponibles
-                await loadAvailablePlayers(event?.id);
-
-                // Effacer le message de succès après 3 secondes et les informations du joueur après 3 secondes
-                setTimeout(() => {setSuccessMessage("");}, 3000);                
-
-                // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
-                setTimeout(() => {handleReset();}, 3000);   
+                await loadAvailablePlayers(event?.id);                          
             } else {
 
                 // Erreur lors de l'ajout du joueur

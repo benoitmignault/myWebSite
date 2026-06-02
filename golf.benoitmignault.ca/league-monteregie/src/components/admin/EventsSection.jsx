@@ -124,7 +124,6 @@ function EventsSection() {
                 setSuccessMessage("Événement ajouté avec succès !");
 
                 // Effacer le message de succès après 3 secondes et les informations de l'événement après 3 secondes
-                setTimeout(() => {setSuccessMessage("");}, 3000);
                 setTimeout(() => {handleReset();}, 3000);                
             } else {
 

@@ -247,7 +247,7 @@ function EventsPlanningSection() {
                             <span className="required-field">*</span></label>                    
                         <select className={`admin-input ${selectedPlayerError ? "input-error" : ""}`}
                             value={selectedPlayer}
-                            onChange={(e) => setSelectedPlayer(e.target.value)}                        
+                            onChange={(e) => {setSelectedPlayer(e.target.value); setSelectedPlayerError(false); setError("");}}                       
                         >
                             <option value="">Sélectionner un joueur</option>
                             {availablePlayers.map(player => (
@@ -265,7 +265,7 @@ function EventsPlanningSection() {
                         <input 
                             className={`admin-input team-input ${teamError ? "input-error" : ""}`}
                             type="number" step="1" min="1" max="10" placeholder="Ex : #1" value={team}
-                            onChange={(e) => setTeam(e.target.value)}
+                            onChange={(e) => {setTeam(e.target.value); setTeamError(false); setError("");}}
                         />
                     </div>
                 </div>

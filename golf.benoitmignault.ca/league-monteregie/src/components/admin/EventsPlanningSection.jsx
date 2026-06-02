@@ -262,7 +262,7 @@ function EventsPlanningSection() {
                         </label>
                         <input 
                             className={`admin-input team-input ${teamError ? "input-error" : ""}`}
-                            type="number" step="1" min="1" max="10" placeholder="Ex : #1" value={team}
+                            type="number" step="1" min="1" max="20" placeholder="Ex : #1" value={team}
                             onChange={(e) => {setTeam(e.target.value); setTeamError(false); setError("");}}
                         />
                     </div>

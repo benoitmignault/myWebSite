@@ -90,10 +90,52 @@ function EventsPlanningSection() {
             setLoading(false);
         }        
     };
-
-
-
     
+    // Fonction pour charger la liste des joueurs disponibles pour l'ajout à l'évenement en cours
+    const loadAvailablePlayers = async (eventId) => {
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/admin/get-available-players.php?id=${eventId}`,
+                {                    
+                    credentials: "include"
+                }
+            );
+                
+            // Si la réponse de l'API indique que la session est invalide, 
+            // rediriger le gestionnaire vers la page de connexion
+            if (response.status === 401) {
+
+                setError("Votre session a expiré, vous allez être redirigé vers la page de connexion.");
+                setTimeout(() => {navigate("/league-monteregie/admin");}, 3000);
+                return;
+            }
+
+            // Sinon, on a un résultat valide du retour de l'API
+            const data = await response.json();
+            if (data.success) {
+
+                // Stocker les détails du prochain évenement qui sera en cours dans l'état nextEvent
+                setAvailablePlayers(data.players);                
+            } else {
+
+                // Erreur lors du chargement de l'évenement
+                setError(data.message);
+            }
+
+        } catch (err) {
+
+            console.error(err);
+            setError("Une erreur est survenue lors du chargement de l'événement.");
+
+        } finally {
+
+            setLoading(false);
+        }
+    }
+
+
+
+    // Fonction pour réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement et les messages d'erreur associés
     const handleReset = () => {
 
     }

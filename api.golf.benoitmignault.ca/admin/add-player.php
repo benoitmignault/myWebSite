@@ -93,17 +93,6 @@ $sql = "INSERT INTO players (
 // Préparer la requête SQL pour insérer un nouveau joueur dans la table players
 $stmt = $conn->prepare($sql);
 
-if (!$stmt) {
-
-    http_response_code(500);
-
-    echo json_encode(["success" => false, "message" => "Erreur lors de la préparation de la requête."]);
-
-    $stmt->close();
-    $conn->close();
-    exit();
-}
-
 // Lier les paramètres à la requête préparée
 $stmt->bind_param("ssddd", $firstName, $lastName, $handicapStart, $handicapStart, $handicapRounded);
 

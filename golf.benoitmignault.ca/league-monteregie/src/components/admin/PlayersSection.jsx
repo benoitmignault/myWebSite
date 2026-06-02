@@ -134,8 +134,8 @@ function PlayersSection() {
             // Vérification de la réponse de l'API pour voir si le joueur a été ajouté avec succès ou s'il y a eu une erreur
             if (data.success) {
 
-                // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
-                setSuccessMessage("Joueur ajouté avec succès !");
+                // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès                
+                setSuccessMessage(`${firstName} ${lastName} a été ajouté à la ligue.`);
 
                 // Effacer le message de succès après 3 secondes et les informations du joueur après 3 secondes
                 setTimeout(() => {handleReset();}, 3000);   

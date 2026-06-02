@@ -251,9 +251,7 @@ function EventsPlanningSection() {
                         >
                             <option value="">Sélectionner un joueur</option>
                             {availablePlayers.map(player => (
-                                <option key={player.id} value={player.id}>
-                                    {player.firstname} {player.lastname}
-                                </option>
+                                <option key={player.id} value={player.id}>{player.firstname} {player.lastname}</option>
                             ))}
                         </select>
                     </div>

@@ -175,11 +175,55 @@ function EventsPlanningSection() {
             return;
         }
 
+        // Si on passe les validations côté client, on peut alors procéder à l'appel de l'API 
+        // pour ajouter le joueur à la ligue
+        setLoading(true);
 
+        try {
+            const response = await fetch(`${API_BASE_URL}/admin/add-player-event.php`,
+                {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({event_id: event?.id, player_id: selectedPlayer, team_id: team})
+                }
+            );
 
+            // Si la réponse de l'API indique que la session est invalide, 
+            // rediriger le gestionnaire vers la page de connexion
+            if (response.status === 401) {
 
+                setError("Votre session a expiré, vous allez être redirigé vers la page de connexion.");
+                setTimeout(() => {navigate("/league-monteregie/admin");}, 3000);
+                return;
+            }
 
+            // Sinon, on a un résultat valide du retour de l'API
+            const data = await response.json();
 
+            // Vérification de la réponse de l'API pour voir si le joueur a été ajouté avec succès ou s'il y a eu une erreur
+            if (data.success) {
+
+                // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
+                setSuccessMessage("Joueur ajouté à l'événement en cours avec succès !");
+
+                // Effacer le message de succès après 3 secondes et les informations du joueur après 3 secondes
+                setTimeout(() => {setSuccessMessage("");}, 3000);
+                setTimeout(() => {handleReset();}, 3000);   
+            } else {
+
+                // Erreur lors de l'ajout du joueur
+                setError(data.message);
+            }
+
+        } catch (err) {
+
+            console.error(err);
+            setError("Une erreur est survenue lors de la tentative d'ajout du joueur.");
+        } finally {
+
+            setLoading(false);
+        }
     };
 
     // Fonction pour réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement et les messages d'erreur associés

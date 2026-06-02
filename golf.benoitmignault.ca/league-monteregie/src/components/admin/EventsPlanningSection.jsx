@@ -155,20 +155,25 @@ function EventsPlanningSection() {
         // au lieu de n'afficher que la première erreur rencontrée.
 
         // Validation du champ de sélection du joueur et de l'équipe, qui sont tous les deux obligatoires
+        let hasError = false;
+
         if (!selectedPlayer) {
 
             setSelectedPlayerError(true);
-            setError("Veuillez sélectionner un joueur à ajouter à l'événement.");
-            return;
+            hasError = true;
         }
 
         if (!team) {
 
             setTeamError(true);
-            setError("Veuillez sélectionner une équipe pour le joueur.");
-            return;
+            hasError = true;
         }
 
+        if (hasError) {
+
+            setError("Veuillez remplir tous les champs obligatoires.");
+            return;
+        }
 
 
 

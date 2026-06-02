@@ -184,8 +184,18 @@ function EventsPlanningSection() {
             </div>
             <div className="admin-row">
                 <div className="admin-form-group">
-                    <label className="admin-label">Ajouter un participant</label>
-                    <select className="admin-input"></select>
+                    <label className="admin-label">Ajouter un participant</label>                    
+                    <select className="admin-input"
+                        value={selectedPlayer}
+                        onChange={(e) => setSelectedPlayer(e.target.value)}                        
+                    >
+                        <option value="">Sélectionner un joueur</option>
+                        {availablePlayers.map(player => (
+                            <option key={player.id} value={player.id}>
+                                {player.firstname} {player.lastname}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="admin-form-group">
                     <label className="admin-label">Équipe</label>

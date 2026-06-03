@@ -298,7 +298,7 @@ function EventsPlanningSection() {
                 await loadAvailablePlayers(event.id);
 
                 // Afficher la liste de joueurs inscrits à cet évenement, par groupe d'équipe
-                await loadTeamsEvent(event?.id);
+                await loadTeamsEvent(event.id);
             }
         };
         

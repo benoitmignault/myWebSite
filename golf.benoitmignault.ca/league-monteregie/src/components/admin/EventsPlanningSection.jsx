@@ -169,7 +169,7 @@ function EventsPlanningSection() {
     };
 
     // Fonction pour ajouter un joueur à un évenement en cours, avec une requête à l'API add-player-event.php
-    const handleAddEvent = async () => {
+    const handleAddPlayerEvent = async () => {
 
         // Réinitialiser les messages d'erreur avant de commencer le processus d'ajout
         setError("");
@@ -310,7 +310,7 @@ function EventsPlanningSection() {
     return (
         <div className="admin-section-card">
             <h2>Section pour planifier un évenement</h2>
-            <form onSubmit={(e) => {e.preventDefault(); handleAddEvent();}}>
+            <form onSubmit={(e) => {e.preventDefault(); handleAddPlayerEvent();}}>
                 <p>Voici le prochain :</p>
                 <div className="admin-row event-summary-row">
                     { event ? (

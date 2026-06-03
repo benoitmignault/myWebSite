@@ -74,20 +74,34 @@ if ($result->num_rows === 0) {
 // Initialiser un tableau pour stocker les équipes et les joueurs associés à chaque équipe
 $teams = [];
 
+// Regrouper par équipe
 while ($row = $result->fetch_assoc()) {
 
+    // On va crééer une clé pour chaque équipe dans le tableau $teams, 
+    // et à l'intérieur de chaque équipe, on va créer un sous-tableau "players" pour stocker 
+    // les joueurs associés à chaque équipe.
     $teamNumber = $row["team_number"];
-    $playerName = $row["firstname"] . " " . $row["lastname"];
-    $handicapRounded = $row["handicap_rounded"];
 
-    // Si on n'a pas encore créé une entrée pour cette équipe dans le tableau des équipes, on la crée, 
-    // sinon on ajoute simplement le joueur à l'équipe existante
+    // Si l'équipe n'existe pas encore dans le tableau $teams, 
+    // on la créé et on initialise le sous-tableau "players"
     if (!isset($teams[$teamNumber])) {
-        $teams[$teamNumber] = [];
+
+        $teams[$teamNumber] = [
+            "team_id" => $teamNumber, 
+            // On créé un sous tableau "players" pour stocker les joueurs associés à chaque équipe,
+            "players" => []
+        ];
     }
 
-    $teams[$teamNumber][] = ["name" => $playerName, "handicap" => $handicapRounded];    
+    $teams[$teamNumber]["players"][] = [
+        "id" => $row["player_id"],
+        "firstname" => $row["firstname"],
+        "lastname" => $row["lastname"],
+        "handicap_rounded" => $row["handicap_rounded"]
+    ];
 }
+
+$teams = array_values($teams);
 
 // Fermer la connexion à la base de données
 $stmt->close();

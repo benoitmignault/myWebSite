@@ -142,12 +142,11 @@ function EventsPlanningSection() {
     };
 
     // Fonction pour charger la liste des joueurs inscrits à cet évenement, par groupe d'équipe
-    const loadTeamsEvent = async () => {
+    const loadTeamsEvent = async (eventId) => {
 
         try {
-
             // Récupérer la liste des équipes et des joueurs associés à cet évenement en cours, avec une requête à l'API get-teams-event.php
-            const response = await fetch(`${API_BASE_URL}/get-teams-event.php?id=${event?.id}`);
+            const response = await fetch(`${API_BASE_URL}/get-teams-event.php?id=${eventId}`);
 
             // On récuipère la réponse de l'API et on la convertit en JSON pour pouvoir l'utiliser dans notre composant 
             const data = await response.json();

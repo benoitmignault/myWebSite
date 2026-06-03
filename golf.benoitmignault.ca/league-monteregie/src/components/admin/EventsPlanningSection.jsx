@@ -236,7 +236,10 @@ function EventsPlanningSection() {
 
                 // Recharger la liste des joueurs disponibles pour l'ajout à cet évenement, 
                 // pour que le joueur ajouté n'apparaisse plus dans la liste des joueurs disponibles
-                await loadAvailablePlayers(event?.id);                         
+                await loadAvailablePlayers(event?.id);
+                
+                // Afficher la liste de joueurs inscrits à cet évenement, par groupe d'équipe
+                await loadTeamsEvent(event?.id);
             } else {
 
                 // Erreur lors de l'ajout du joueur
@@ -284,6 +287,9 @@ function EventsPlanningSection() {
 
                 // Car cette fonction dépend de l'id, pas id pas de fonction 
                 await loadAvailablePlayers(event.id);
+
+                // Afficher la liste de joueurs inscrits à cet évenement, par groupe d'équipe
+                await loadTeamsEvent(event?.id);
             }
         };
         

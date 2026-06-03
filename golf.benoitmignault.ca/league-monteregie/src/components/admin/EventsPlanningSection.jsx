@@ -141,6 +141,24 @@ function EventsPlanningSection() {
         }
     };
 
+    // Fonction pour charger la liste des joueurs inscrits à cet évenement, par groupe d'équipe
+    const loadTeamsEvent = async () => {
+
+        try {
+
+            const response = null;
+
+            const data = await response.json();
+
+            setTeams(data.teams);
+
+        } catch (err) {
+
+            console.error(err);
+            setError("Une erreur est survenue lors du chargement des équipes de l'événement.");
+        }
+    };
+
     // Fonction pour ajouter un joueur à un évenement en cours, avec une requête à l'API add-player-event.php
     const handleAddEvent = async () => {
 

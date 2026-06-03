@@ -229,7 +229,7 @@ function EventsPlanningSection() {
             if (data.success) {
 
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
-                setSuccessMessage(`${playerName} a été ajouté à la ligue.`);
+                setSuccessMessage(`${playerName} a été ajouté à la ligue dans l'équipe #${team}.`);
 
                 // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
                 setTimeout(() => {handleReset();}, 3000);

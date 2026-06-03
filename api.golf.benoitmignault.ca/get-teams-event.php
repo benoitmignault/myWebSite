@@ -36,7 +36,7 @@ if ($eventId <= 0) {
 
 // Requête SQL pour afficher les équipes et les joueurs associés à un évenement en cours, 
 // triés par numéro d'équipe et par handicap
-$select = "SELECT ep.team_number, p.firstname, p.lastname, ep.handicap_rounded ";
+$select = "SELECT ep.team_number, ep.player_id, p.firstname, p.lastname, ep.handicap_rounded ";
 $from = "FROM event_players ep INNER JOIN players p ON ep.player_id = p.id ";
 $where = "WHERE ep.event_id = ? ";
 $orderBy = "ORDER BY ep.team_number ASC, ep.handicap_rounded ASC, p.firstname ASC, p.lastname ASC";

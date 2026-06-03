@@ -281,12 +281,35 @@ input[type="number"].admin-input.team-input {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .teams-container h2 {
     width: 100%;
     text-align: center;
+}
+
+.team-card {
+    min-height: 140px;
+    text-align: left;
+    min-width: 220px;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.team-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.team-card ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.team-card li {
+    text-align: left;
 }
 
 

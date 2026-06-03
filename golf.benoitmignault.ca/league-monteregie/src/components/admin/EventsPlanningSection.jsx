@@ -177,7 +177,7 @@ function EventsPlanningSection() {
         setLoading(true);
 
         // Trouver le nom du joueur sélectionné pour l'afficher dans le message de succès après l'ajout du joueur à l'évenement
-        const player = availablePlayers.find(player => player.id === parseInt(selectedPlayer));
+        const player = availablePlayers.find(one_player => one_player.id === parseInt(selectedPlayer));
 
         // Associer le nom du joueur à une variable pour l'afficher dans le message de succès après l'ajout du joueur à l'évenement
         const playerName = `${player.firstname} ${player.lastname}`;

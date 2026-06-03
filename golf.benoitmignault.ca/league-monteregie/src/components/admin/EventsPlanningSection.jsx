@@ -30,7 +30,7 @@ function EventsPlanningSection() {
     const [selectedPlayer, setSelectedPlayer] = useState("");
 
     // État pour stocker les équipes et les joueurs associés
-    const [teams, setTeams] = useState([]);
+    const [teamsEvent, setTeamsEvent] = useState([]);
 
     // État pour stocker le numéro de l'équipe du joueur
     const [team, setTeam] = useState("");
@@ -150,7 +150,7 @@ function EventsPlanningSection() {
 
             const data = await response.json();
 
-            setTeams(data.teams);
+            setTeamsEvent(data.teams);
 
         } catch (err) {
 

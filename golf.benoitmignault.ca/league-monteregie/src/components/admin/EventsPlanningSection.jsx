@@ -146,11 +146,21 @@ function EventsPlanningSection() {
 
         try {
 
-            const response = null;
+            // Récupérer la liste des équipes et des joueurs associés à cet évenement en cours, avec une requête à l'API get-teams-event.php
+            const response = await fetch(`${API_BASE_URL}/get-teams-event.php?id=${event?.id}`);
 
+            // On récuipère la réponse de l'API et on la convertit en JSON pour pouvoir l'utiliser dans notre composant 
             const data = await response.json();
 
-            setTeamsEvent(data.teams);
+            if (data.success) {
+
+                // Stocker la liste des équipes et des joueurs associés à cet évenement en cours dans l'état teamsEvent
+                setTeamsEvent(data.teams);  
+            } else {
+
+                // Sinon, on récupère le message d'erreur de l'API et on le stocke dans l'état error pour l'afficher à l'administrateur
+                setError(data.message);
+            }
 
         } catch (err) {
 

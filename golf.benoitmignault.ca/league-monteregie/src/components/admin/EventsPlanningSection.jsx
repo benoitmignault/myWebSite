@@ -368,15 +368,20 @@ function EventsPlanningSection() {
                 {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}
                 <div className="teams-container">
                     <h2>Équipes du tournoi</h2>
-                    <div className="team-card">
-
-                        <h3>Équipe 1</h3>
-                        ...
-                    </div>
-                    <div className="team-card">
-                        <h3>Équipe 2</h3>
-                        ...
-                    </div>
+                    {teamsEvent.length > 0 ? (
+                        teamsEvent.map(team => (
+                            <div key={team.team_id} className="team-card">
+                                <h3>Équipe #{team.team_id}</h3>
+                                <ul>
+                                    {team.players.map(player => (
+                                        <li key={player.id}>{player.firstname} {player.lastname}</li>
+                                    ))}
+                                </ul>
+                </div>
+                        ))
+                    ) : (
+                        <p>Aucune équipe disponible.</p>
+                    )}
                 </div>
             </form>
         </div>

@@ -371,7 +371,7 @@ function EventsPlanningSection() {
                 {error && <p className="admin-error-message">✗ {error}</p>}
                 {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}
                 <div className="teams-container">
-                    <h2>Équipes du tournoi</h2>
+                    <h2>Les équipes de l'évenement :</h2>
                     {teamsEvent.length > 0 ? (
                         teamsEvent.map(team => 
                         (

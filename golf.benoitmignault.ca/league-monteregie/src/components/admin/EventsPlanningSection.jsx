@@ -25,9 +25,12 @@ function EventsPlanningSection() {
 
     // État pour stocker les joueurs disponibles pour l'ajout à l'évenement en cours
     const [availablePlayers, setAvailablePlayers] = useState([]);
-
+    
     // État pour stocker le joueur sélectionné dans le formulaire d'ajout d'un joueur à un évenement
     const [selectedPlayer, setSelectedPlayer] = useState("");
+
+    // État pour stocker les équipes et les joueurs associés
+    const [teams, setTeams] = useState([]);
 
     // État pour stocker le numéro de l'équipe du joueur
     const [team, setTeam] = useState("");

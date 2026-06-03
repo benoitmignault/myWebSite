@@ -231,15 +231,15 @@ function EventsPlanningSection() {
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
                 setSuccessMessage(`${playerName} a été ajouté à la ligue dans l'équipe #${team}.`);
 
-                // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
-                setTimeout(() => {handleReset();}, 3000);
-
                 // Recharger la liste des joueurs disponibles pour l'ajout à cet évenement, 
                 // pour que le joueur ajouté n'apparaisse plus dans la liste des joueurs disponibles
                 await loadAvailablePlayers(event?.id);
                 
                 // Afficher la liste de joueurs inscrits à cet évenement, par groupe d'équipe
                 await loadTeamsEvent(event?.id);
+                
+                // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
+                setTimeout(() => {handleReset();}, 3000);                
             } else {
 
                 // Erreur lors de l'ajout du joueur

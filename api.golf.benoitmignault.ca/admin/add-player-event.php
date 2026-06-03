@@ -130,6 +130,46 @@ if ($event["is_open"] == 0) {
 
 // Maintenant que l'évenement est ouvert, on peut ajouter les joueurs à l'évenement
 
+// Cependant, on doit faire la validation qu'une équipe ne peut pas avoir plus de 4 joueurs
+$select = "SELECT COUNT(*) AS total_players ";
+$from = "FROM event_players ";
+$where = "WHERE event_id = ? AND team_number = ?";
+$sql = $select . $from . $where;
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $eventId, $teamId);
+
+// Exécuter la requête SQL pour vérifier le nombre de joueurs déjà inscrits dans l'équipe pour cet événement
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de la vérification du nombre de joueurs dans l'équipe."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}    
+
+$result = $stmt->get_result();
+
+// Récupérer le nombre de joueurs dans l'équipe
+$playerCount = $result->fetch_assoc()["total_players"];
+
+// Vérifier si l'équipe a déjà 4 joueurs
+if ($playerCount >= 4) {
+
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Cette équipe a déjà 4 joueurs."]);
+
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+// Si nous arrivons ici, ça veut dire que l'équipe n'est pas complète et que nous pouvons ajouter le joueur à l'événement.
+
 // On va récupérer current_position, current_fedex_points, current_handicap pour aller les insérer 
 // dans la table player_event_history sous la notion de previous_position, previous_fedex_points,
 //  previous_handicap pour garder un historique de l'évolution du joueur au fil des événements

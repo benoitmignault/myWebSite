@@ -184,6 +184,9 @@ function EventsPlanningSection() {
         // Réinitialiser les messages d'erreur avant de commencer le processus d'ajout
         setError("");
 
+        // Réinitialiser le type de message à afficher
+        setMessageType(""); 
+
         // On commencer par gérer les erreurs de validation côté client 
         // avant même d'envoyer la requête à l'API, pour éviter les appels inutiles à l'API et 
         // améliorer l'expérience utilisateur.

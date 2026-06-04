@@ -257,7 +257,7 @@ if (!$stmt->execute()) {
 // pour garder un historique de l'évolution du joueur au fil des événements
 $insert = "INSERT INTO player_event_history (event_id, player_id, previous_position, previous_fedex_points, previous_handicap) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($insert);
-$stmt->bind_param("iiiii", $eventId, $playerId, $previousPosition, $previousFedexPoints, $previousHandicap);
+$stmt->bind_param("iiiid", $eventId, $playerId, $previousPosition, $previousFedexPoints, $previousHandicap);
 
 // Exécuter la requête SQL pour insérer le nouveau joueur dans la base de données
 if (!$stmt->execute()) {

@@ -30,8 +30,6 @@ function EventsList() {
     // ÉTat pour stocker un message à afficher dans le cas où les équipes d'un événement ne sont pas encore disponibles
     const [eventMessage, setEventMessage] = useState("");
 
-
-
     // Fonction pour aller récupérer la liste des événements passés et à venir depuis l'API 
     // et les stocker dans l'état pour les afficher dans la liste des événements
     const loadEvents = async () => {
@@ -56,7 +54,6 @@ function EventsList() {
             console.error(err);
         }
     };
-
 
     // Fonction pour aller récupérer les résultats détaillés d'un événement sélectionné depuis l'API qui est closed
     const loadEventResults = async (eventId) => {
@@ -85,8 +82,7 @@ function EventsList() {
             // Une fois que la requête est terminée (qu'elle ait réussi ou échoué), on arrête d'afficher le message de chargement
             setLoadingEventHistory(false);
         }
-    }
-
+    };
 
     // Fonction pour aller récupérer les équipes et les joueurs associés d'un événement sélectionné depuis l'API qui est open
     const loadEventTeams = async (eventId) => {

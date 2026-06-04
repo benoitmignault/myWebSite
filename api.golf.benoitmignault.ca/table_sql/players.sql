@@ -45,10 +45,13 @@ INSERT INTO players (
 ('Martin', 'Taillon', 92.0, 20.0, 20.0, 20, 15),
 ('Jean-Sébastien', 'Patenaude', 84.0, 12.0, 12.0, 12, 13),
 ('Jean-Pierre', 'Duval', 95.0, 18.0, 18.0, 18, 4),
-('Mylène', 'Pelletier', null, 17.0, 17.0, 17, 18),
-('Marie-France', 'Clermont', null, 34.0, 34.0, 34, 21),
-('Stéphane', 'Blain', null, 23.0, 23.0, 23, 20);
-;
+('Mylène', 'Pelletier', null, 17.0, 17.0, 17, null),
+('Marie-France', 'Clermont', null, 34.0, 34.0, 34, null),
+('Stéphane', 'Blain', null, 23.0, 23.0, 23, null),
+-- ajout de Cédric Dinardo et Dino Mazza avec 23 handicap de depart
+('Cédric', 'Dinardo', null, 23.0, 23.0, 23, null),
+('Dino', 'Mazza', null, 23.0, 23.0, 23, null);
+
 
 -- On fait un update pour mettre à jour la position précédente de chaque joueur après la deuxième semaine de compétition, 
 -- avant de l'insertion des résultats de la troisième semaine. Cela permettra de calculer les changements de position après la troisième semaine.

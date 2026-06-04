@@ -1,5 +1,4 @@
 // Sous composant de la page d'administration qui permet d'ajouter de nouveaux résultats
-import "./admin.css";
 
 function ResultsSection() {
 

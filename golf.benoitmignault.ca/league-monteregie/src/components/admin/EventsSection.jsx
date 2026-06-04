@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../config";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./admin.css";
-
 
 /**
  * Composant de gestion des événements pour les administrateurs

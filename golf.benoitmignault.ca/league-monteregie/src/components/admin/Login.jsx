@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import { API_BASE_URL } from "../../config";
-import "./admin.css";
 
 /**
  * Composant de connexion pour les administrateurs et les sous-administrateurs

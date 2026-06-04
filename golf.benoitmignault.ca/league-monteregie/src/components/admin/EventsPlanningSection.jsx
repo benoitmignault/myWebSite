@@ -314,7 +314,7 @@ function EventsPlanningSection() {
 
                 // Afficher la liste de joueurs inscrits à cet évenement, par groupe d'équipe
                 await loadTeamsEvent(event.id);
-            }
+            }                   
         };
         
         // Charger tout les éléments dans la section du tournois en gestion en cours

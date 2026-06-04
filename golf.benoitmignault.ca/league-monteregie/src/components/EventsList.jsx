@@ -112,9 +112,86 @@ function EventsList() {
 
             // Une fois que la requête est terminée (qu'elle ait réussi ou échoué), on arrête d'afficher le message de chargement
             setLoadingEventHistory(false);
+        }
+    }
+
+
+    // Fonction pour aller récupérer les équipes et les joueurs associés d'un événement sélectionné depuis l'API qui est open
+    const loadEventTeams = async (eventId) => {
+
+        try {
+            // Récupérer la liste des équipes et des joueurs associés à cet évenement en cours, avec une requête à l'API get-teams-event.php
+            const response = await fetch(`${API_BASE_URL}/get-teams-event.php?id=${eventId}`);
+
+            // On récuipère la réponse de l'API et on la convertit en JSON pour pouvoir l'utiliser dans notre composant 
+            const data = await response.json();
+
+            if (data.success) {
+
+                // Stocker la liste des équipes et des joueurs associés à cet évenement en cours dans l'état teamsEvent
+                setTeamsEvent(data.teams);
+            } else {
+
+                // Sinon, on récupère le message d'erreur de l'API et on le stocke dans l'état error pour l'afficher à l'administrateur
+                setEventMessage(data.message);
+            }
+
+        } catch (err) {
+
+            console.error(err);
+            setEventMessage("Une erreur est survenue lors du chargement des équipes de l'événement.");
         }        
     }
-    
+
+    // Fonction pour gérer le click sur un event et afficher les résultats
+    const handleEventClick = async (event) => {
+
+        // Si on clique sur un événement déjà ouvert, on le ferme, sinon on ouvre le nouvel événement
+        if (openEvent === event.id) {
+            setOpenEvent(null);
+            setEventResults([]); // Fermer les résultats si on reclique sur le même événement
+            return;
+        }
+
+        // Loguer l'action de click sur un événement pour afficher les détails de l'événement dans la table des logs de l'admin
+        fetch(`${API_BASE_URL}/log-action.php`,
+            {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},                
+                body: JSON.stringify({
+                    action_type: "event_click",
+                    target_id: event.id,
+                    target_name: "Affichage détails événement"
+                })
+            }
+        );
+
+        // Un genre de sinon, on ouvre l'event et on va chercher les détails de cet event pour les afficher
+        setOpenEvent(event.id);
+
+        // IMPORTANT qu'on va utiliser en bas pour faire afficher un message de chargement pendant qu'on attend la réponse de l'API pour les détails du joueur
+        setLoadingEventHistory(true);
+
+        // 2026-06-03, refactoring pour inclure la notion de is_open & is_closed 
+        // dans la logique d'affichage des résultats d'un événement
+
+        // Si l'évenement est fermé, on va chercher les résultats du tournoi, sinon si l'événement est ouvert,
+        // on va chercher les équipes du tournoi, sinon on affiche un message que les équipes ne sont pas encore disponibles
+        if (event.is_closed) {
+
+            await loadEventResults(event.id);
+
+        } else if (event.is_open) {
+
+            await loadEventTeams(event.id);
+        } else {
+
+            // Événement non préparé
+            setEventMessage("Les équipes ne sont pas encore disponibles.");
+            return;
+        }
+    }
+
     useEffect(() => {
 
         const initializeData = async () => {

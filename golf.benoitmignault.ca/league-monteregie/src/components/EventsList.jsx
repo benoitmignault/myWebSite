@@ -217,7 +217,7 @@ function EventsList() {
                 // Afficher la liste des événements à venir en affichant le nom de l'événement, le lieu et la date
                 events.map((event) => (
                     <div key={event.id}  className="event-card">
-                        <div className="event-clickable" onClick={() => handleEventClick(event.id)}>
+                        <div className="event-clickable" onClick={() => handleEventClick(event)}>
                             <div className="event-name">
                                 ⛳ {event.event_name}
                             </div>

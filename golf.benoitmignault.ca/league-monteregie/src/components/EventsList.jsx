@@ -58,6 +58,11 @@ function EventsList() {
     // Fonction pour aller récupérer les résultats détaillés d'un événement sélectionné depuis l'API qui est closed
     const loadEventResults = async (eventId) => {
 
+        // On doit vider l'état de la liste des équipes et des joueurs avant d'aller plus loin pour éviter d'afficher 
+        // les équipes d'un événement précédent pendant le chargement des résultats d'un événement closed
+        setTeamsEvent([]);
+        setEventMessage("");
+
         try {
             // Récupérer les résultats détaillés d'un événement depuis l'API mais en mode asynchrone 
             // pour pouvoir attendre la réponse avant de mettre à jour l'état        
@@ -77,15 +82,16 @@ function EventsList() {
         } catch (error) {
 
             console.error("Erreur lors de la récupération des détails de l'événement :", error);
-        } finally {
-
-            // Une fois que la requête est terminée (qu'elle ait réussi ou échoué), on arrête d'afficher le message de chargement
-            setLoadingEventHistory(false);
         }
     };
 
     // Fonction pour aller récupérer les équipes et les joueurs associés d'un événement sélectionné depuis l'API qui est open
     const loadEventTeams = async (eventId) => {
+
+        // On doit vider l'état du résultat d'un event précédant avant d'aller plus loin pour éviter d'afficher 
+        // les résultats d'un autre event au lieu de la liste des équipes d'un événement
+        setEventResults([]);
+        setEventMessage("");
 
         try {
             // Récupérer la liste des équipes et des joueurs associés à cet évenement en cours, avec une requête à l'API get-teams-event.php

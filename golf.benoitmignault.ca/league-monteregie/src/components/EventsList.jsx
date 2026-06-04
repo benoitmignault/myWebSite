@@ -98,6 +98,10 @@ function EventsList() {
 
                 // Stocker la liste des équipes et des joueurs associés à cet évenement en cours dans l'état teamsEvent
                 setTeamsEvent(data.teams);
+
+                // Ne pas faire de console.log d'un etat qu'on vient de mettre à jour, 
+                // car l'état n'est pas mis à jour immédiatement, mais seulement au prochain rendu du composant, 
+                // donc le console.log afficherait l'état avant la mise à jour, ce qui peut prêter à confusion
             } else {
 
                 // Sinon, on récupère le message d'erreur de l'API et on le stocke dans l'état error pour l'afficher à l'administrateur

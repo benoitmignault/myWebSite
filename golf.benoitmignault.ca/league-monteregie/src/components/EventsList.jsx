@@ -149,21 +149,25 @@ function EventsList() {
         // 2026-06-03, refactoring pour inclure la notion de is_open & is_closed 
         // dans la logique d'affichage des résultats d'un événement
 
+        console.log("Événement cliqué :", "is_open:", event.is_open, "is_closed:", event.is_closed);
         // Si l'évenement est fermé, on va chercher les résultats du tournoi, sinon si l'événement est ouvert,
         // on va chercher les équipes du tournoi, sinon on affiche un message que les équipes ne sont pas encore disponibles
-        if (event.is_closed) {
+        if (event.is_closed === "1") {
 
             await loadEventResults(event.id);
-
-        } else if (event.is_open) {
+        
+        } else if (event.is_open === "1") {
 
             await loadEventTeams(event.id);
         } else {
 
             // Événement non préparé
-            setEventMessage("Les équipes ne sont pas encore disponibles.");
-            return;
+            setEventMessage("Les équipes ne sont pas encore disponibles.");            
         }
+
+        // Une fois que la requête est terminée (qu'elle ait réussi ou échoué), on arrête d'afficher le message de chargement
+        setLoadingEventHistory(false);
+        return;
     }
 
     useEffect(() => {

@@ -65,7 +65,21 @@ $sql = $select . $from . $where . $orderBy;
 // Exécuter la requête SQL
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $eventId);
-$stmt->execute();
+
+// Vérifier si la requête a réussi
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
 $result = $stmt->get_result();
 
 // Sinon, on va parcourir les résultats de la requête pour l'événement recherché

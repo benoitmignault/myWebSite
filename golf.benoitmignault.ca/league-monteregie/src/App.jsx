@@ -13,7 +13,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/league-monteregie/" element={<HomePage />}/>
-                <Route path="/league-monteregie/admin" element={<Login />}/>
+                <Route path="/league-monteregie/admin/" element={<Login />}/>
                 <Route path="/league-monteregie/admin/dashboard" element={<Dashboard />}/>
             </Routes>
         </BrowserRouter>

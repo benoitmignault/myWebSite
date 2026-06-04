@@ -1,4 +1,7 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { FaChartLine } from "react-icons/fa";
 import Standings from "./Standings";
 import EventsList from "./EventsList";
 import Sponsors from "./Sponsors";
@@ -43,6 +46,16 @@ function HomePage() {
 
 	return (
 		<div>
+			<div className="site-navbar">
+				<Link to="/league-monteregie/admin/" className="site-navbar-link">
+					<MdAdminPanelSettings />
+					<span>Section Admin</span>
+				</Link>
+				<Link to="#" className="site-navbar-link disabled" onClick={(e) => e.preventDefault()}>
+					<FaChartLine />
+					<span>Évaluation Joueur (à venir...)</span>
+				</Link>
+			</div>
 			<h1 className="homepage-title">Ligue de Golf Montérégie</h1>
 			<div className="main-container">        
 				<div className="sub-container">

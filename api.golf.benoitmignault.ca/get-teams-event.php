@@ -63,8 +63,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
 
-    http_response_code(404);
-    echo json_encode(["success" => false, "message" => "Il n'y a pas d'équipes d'inscrites pour cet événement, donc aucun joueur n'est associé."]);
+    echo json_encode(["success" => true, "teams" => [], "message" => "Il n'y a pas d'équipes d'inscrites pour cet événement, donc aucun joueur n'est associé."]);
 
     $stmt->close();
     $conn->close();

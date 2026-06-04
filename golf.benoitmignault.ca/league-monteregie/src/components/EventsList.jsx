@@ -153,6 +153,10 @@ function EventsList() {
             await loadEventTeams(event.id);
         } else {
 
+            // On doit reset les états des résultats et liste des équipes pour éviter d'afficher les résultats ou les équipes d'un autre événement qui serait encore ouvert ou déjà fermé, et on affiche un message que les équipes ne sont pas encore disponibles pour cet événement
+            setEventResults([]);
+            setTeamsEvent([]);
+            
             // Événement non préparé
             setEventMessage("Les équipes ne sont pas encore disponibles.");            
         }

@@ -219,62 +219,74 @@ function EventsList() {
                         {
                             openEvent === event.id && (
                                 <div className="event-results">
-                                    {
-                                        // On vérifi d'abord l'état du chargement...
-                                        loadingEventHistory
-                                            ? (
-                                                <p className="upcoming-event">Chargement des résultats...</p>
-                                            )
-                                        : eventResults.length > 0
-                                            ? (
-                                                <table className="results-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Position</th>
-                                                            <th>Joueur</th>
-                                                            <th>Brut</th>
-                                                            <th>Net</th>
-                                                            <th>Points</th>
+                                {
+                                    // On vérifi d'abord l'état du chargement...
+                                    loadingEventHistory ? (
+                                            <p className="upcoming-event">Chargement des résultats...</p>
+
+                                    ) : eventResults.length > 0 ? (
+                                        <table className="results-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Position</th>
+                                                    <th>Joueur</th>
+                                                    <th>Brut</th>
+                                                    <th>Net</th>
+                                                    <th>Points</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {   
+                                                    // Afficher les résultats de l'événement en affichant la position, le nom du joueur, le score brut, le score net et les points Fedex
+                                                    eventResults.map((result, index) => (
+                                                        <tr key={index}>
+                                                            <td>{result.position}</td>
+                                                            <td className="text-name">{result.firstname}{" "}{result.lastname}</td>
+                                                            <td>{result.gross_score}</td>
+                                                            <td className={ 
+                                                                Number(result.net_score) < 0 
+                                                                    ? "negative-score" 
+                                                                    : (
+                                                                        Number(result.net_score) === 0
+                                                                            ? "even-score" 
+                                                                            : "" 
+                                                                )}>
+                                                                { 
+                                                                    // Afficher "E" pour Even (0)
+                                                                    Number(result.net_score) === 0
+                                                                        ? "E"
+                                                                        // Si le score net est positif, on ajoute un "+" devant pour différencier des scores négatifs
+                                                                        : Number(result.net_score) > 0
+                                                                            ? `+${Number(result.net_score)}`
+                                                                            // Sinon, on affiche le score net tel quel (qui sera négatif)
+                                                                            : Number(result.net_score)
+                                                                }
+                                                            </td>
+                                                            <td>{result.fedex_points}</td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {   
-                                                            // Afficher les résultats de l'événement en affichant la position, le nom du joueur, le score brut, le score net et les points Fedex
-                                                            eventResults.map((result, index) => (
-                                                                <tr key={index}>
-                                                                    <td>{result.position}</td>
-                                                                    <td className="text-name">{result.firstname}{" "}{result.lastname}</td>
-                                                                    <td>{result.gross_score}</td>
-                                                                    <td className={ 
-                                                                        Number(result.net_score) < 0 
-                                                                            ? "negative-score" 
-                                                                            : (
-                                                                                Number(result.net_score) === 0
-                                                                                    ? "even-score" 
-                                                                                    : "" 
-                                                                        )}>
-                                                                        { 
-                                                                            // Afficher "E" pour Even (0)
-                                                                            Number(result.net_score) === 0
-                                                                                ? "E"
-                                                                                // Si le score net est positif, on ajoute un "+" devant pour différencier des scores négatifs
-                                                                                : Number(result.net_score) > 0
-                                                                                    ? `+${Number(result.net_score)}`
-                                                                                    // Sinon, on affiche le score net tel quel (qui sera négatif)
-                                                                                    : Number(result.net_score)
-                                                                        }
-                                                                    </td>
-                                                                    <td>{result.fedex_points}</td>
-                                                                </tr>
-                                                            ))
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            )
-                                            : (
-                                                <p className="upcoming-event">Événement à venir...</p>
-                                            )
-                                    }
+                                                    ))
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    ) : teamsEvent.length > 0 ? (
+                                        <div className="teams-container">
+                                            <h2>Les équipes de l'évenement :</h2>
+                                            {teamsEvent.map(team => (
+                                                <div key={team.team_id} className="team-card">
+                                                    <h3>Équipe #{team.team_id} ({team.players.length})</h3>
+                                                    <ul>
+                                                        {team.players.map((player, index) => (
+                                                            <li key={index}>{player.firstname} {player.lastname} ({player.handicap_rounded})</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    
+                                    ) : (
+                                        <p className="upcoming-event">Événement à venir...</p>
+                                )}                              
                                 </div>
                             )
                         }

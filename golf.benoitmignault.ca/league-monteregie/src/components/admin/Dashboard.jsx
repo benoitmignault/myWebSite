@@ -82,7 +82,7 @@ function Dashboard() {
                 </a>
 
                 <a href="#" className="admin-navbar-link"
-                    onClick={(e) => {e.preventDefault(); handleLogout("/league-monteregie/admin");}}
+                    onClick={(e) => {e.preventDefault(); handleLogout("/league-monteregie/admin/");}}
                 >
                     <MdLogout />
                     <span>Déconnexion</span>

@@ -7,7 +7,7 @@ CREATE TABLE player_event_history (
     player_id INT UNSIGNED NOT NULL,
 
     previous_position INT UNSIGNED DEFAULT NULL, -- la position du joueur avant l'événement
-    current_position INT UNSIGNED NOT NULL, -- la position du joueur après l'événement
+    current_position INT UNSIGNED NOT NULL DEFAULT 0, -- la position du joueur après l'événement
 
     previous_fedex_points INT UNSIGNED DEFAULT 0, -- les points totaux avant l'événement
     current_fedex_points INT UNSIGNED NOT NULL DEFAULT 0, -- les points totaux après l'événement
@@ -15,7 +15,7 @@ CREATE TABLE player_event_history (
     fedex_points_gained INT UNSIGNED NOT NULL DEFAULT 0, -- les points gagnés lors de l'événement
 
     previous_handicap DECIMAL(4,1) DEFAULT NULL, -- le handicap du joueur avant l'événement
-    current_handicap DECIMAL(4,1) NOT NULL, -- le handicap du joueur après l'événement
+    current_handicap DECIMAL(4,1) NOT NULL DEFAULT 0.0, -- le handicap du joueur après l'événement
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

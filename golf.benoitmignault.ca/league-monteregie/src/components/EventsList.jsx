@@ -58,36 +58,8 @@ function EventsList() {
     };
 
 
-    // Fonction pour gérer le click sur un event et afficher les résultats
-    const handleEventClick = async (eventId) => {
-
-        // Si on clique sur un événement déjà ouvert, on le ferme, sinon on ouvre le nouvel événement
-        if (openEvent === eventId) {
-            setOpenEvent(null);
-            setEventResults([]); // Fermer les résultats si on reclique sur le même événement
-            return;
-        }
-
-        // Envoyer une requête à l'API de logging pour enregistrer l'action de sélection d'un event
-        // On n'utilise pas de useEffect pour ça parce que ce n'est pas une action qui doit être déclenchée à chaque rendu du composant, 
-        // mais seulement au moment où l'utilisateur clique sur un event pour voir les détails
-        fetch(`${API_BASE_URL}/log-action.php`,
-            {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},                
-                body: JSON.stringify({
-                    action_type: "event_click",
-                    target_id: eventId,
-                    target_name: "Affichage détails événement"
-                })
-            }
-        );
-
-        // Un genre de sinon, on ouvre l'event et on va chercher les détails de cet event pour les afficher
-        setOpenEvent(eventId);
-
-        // IMPORTANT qu'on va utiliser en bas pour faire afficher un message de chargement pendant qu'on attend la réponse de l'API pour les détails du joueur
-        setLoadingEventHistory(true);
+    // Fonction pour aller récupérer les résultats détaillés d'un événement sélectionné depuis l'API qui est closed
+    const loadEventResults = async (eventId) => {
 
         try {
             // Récupérer les résultats détaillés d'un événement depuis l'API mais en mode asynchrone 

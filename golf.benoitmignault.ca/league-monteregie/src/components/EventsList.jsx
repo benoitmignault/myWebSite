@@ -24,6 +24,32 @@ function EventsList() {
     // État pour indiquer si les résultats détaillés du joueur sont en cours de chargement
     const [loadingEventHistory, setLoadingEventHistory] = useState(false);
 
+    // Fonction pour aller récupérer la liste des événements passés et à venir depuis l'API 
+    // et les stocker dans l'état pour les afficher dans la liste des événements
+    const loadEvents = async () => {
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/eventslist.php`);
+
+            const data = await response.json();
+
+            if (data.success) {
+
+                // Mettre à jour l'état avec la liste des événements reçue de l'API 
+                // pour les afficher dans la liste des événements
+                setEvents(data.events);
+            } else {
+
+                console.error("Erreur lors du chargement des événements :", data.message);
+            }
+
+        } catch (err) {
+
+            console.error(err);
+        }
+    };
+
+
     // Fonction pour gérer le click sur un event et afficher les résultats
     const handleEventClick = async (eventId) => {
 
@@ -74,14 +100,18 @@ function EventsList() {
             setLoadingEventHistory(false);
         }        
     }
-
+    
     useEffect(() => {
-        // Récupérer les données des événements à venir depuis l'API et les stocker dans l'état pour les afficher dans la liste des événements
-        fetch(`${API_BASE_URL}/eventslist.php`)
-            .then(response => response.json())
-            .then(data => {
-                setEvents(data);
-            });
+
+        const initializeData = async () => {
+
+            // Charger la liste des événements au chargement du composant pour les afficher 
+            // dans la liste des événements
+            await loadEvents();
+        };
+
+        initializeData();
+
     }, []);
 
     return (

@@ -157,6 +157,19 @@ function EventsList() {
             setEventMessage("Les équipes ne sont pas encore disponibles.");            
         }
 
+        // Loguer l'action de click sur un événement pour afficher les détails de l'événement dans la table des logs de l'admin
+        fetch(`${API_BASE_URL}/log-action.php`,
+            {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},                
+                body: JSON.stringify({
+                    action_type: "event_click",
+                    target_id: event.id,
+                    target_name: "Affichage détails événement"
+                })
+            }
+        );
+
         // Une fois que la requête est terminée (qu'elle ait réussi ou échoué), on arrête d'afficher le message de chargement
         setLoadingEventHistory(false);
         return;

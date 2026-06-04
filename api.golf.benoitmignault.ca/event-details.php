@@ -84,4 +84,4 @@ $conn->close();
 http_response_code(200);
 
 // Retourner les données au format JSON
-echo json_encode($eventDetails, JSON_PRETTY_PRINT);
+echo json_encode(["success" => true, "results" => $eventDetails]);

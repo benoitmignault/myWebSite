@@ -18,7 +18,7 @@ if (!$conn) {
 }
 
 // Requête pour récupéré la liste des événements seulement, triés par date d'événement
-$select = "SELECT id, event_name, golf_course, golf_course_website, event_date ";
+$select = "SELECT id, event_name, golf_course, golf_course_website, event_date, is_open, is_closed ";
 $from = "FROM events ";
 $orderBy = "ORDER BY event_date";
 $sql = $select . $from . $orderBy;

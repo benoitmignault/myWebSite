@@ -133,19 +133,6 @@ function EventsList() {
             return;
         }
 
-        // Loguer l'action de click sur un événement pour afficher les détails de l'événement dans la table des logs de l'admin
-        fetch(`${API_BASE_URL}/log-action.php`,
-            {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},                
-                body: JSON.stringify({
-                    action_type: "event_click",
-                    target_id: event.id,
-                    target_name: "Affichage détails événement"
-                })
-            }
-        );
-
         // Un genre de sinon, on ouvre l'event et on va chercher les détails de cet event pour les afficher
         setOpenEvent(event.id);
 
@@ -278,6 +265,8 @@ function EventsList() {
                                     ) : teamsEvent.length > 0 ? (
                                         <div className="teams-container">
                                             <h2>Les équipes de l'évenement :</h2>
+                                            <span className="subtitle-info-teams">(Le chiffre entre () à droite d'Équipe est le nombres de joueurs)</span>
+                                            <span className="subtitle-info-teams">(Le chiffre entre () à droite d'un joueur est son handicap)</span>
                                             {teamsEvent.map(team => (
                                                 <div key={team.team_id} className="team-card">
                                                     <h3>Équipe #{team.team_id} ({team.players.length})</h3>

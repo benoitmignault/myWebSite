@@ -198,8 +198,8 @@ if ($history) {
 } else {
 
     // Ca veut donc dire que le joueur n'a pas encore participé à un événement, donc on va initialiser sa position précédente    
-    $previousPosition = 0;
-    $previousFedexPoints = 0;
+    $previousPosition = null;
+    $previousFedexPoints = null;
 
     // Il faudra aller chercher le handicap actuel du joueur dans la table players pour l'insérer
     // dans player_event_history et la table event_players, car il n'a pas encore de handicap enregistré 

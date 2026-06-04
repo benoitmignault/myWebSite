@@ -44,6 +44,9 @@ function EventsPlanningSection() {
     // État pour stocker les messages d'erreur en prévision de l'ajout d'un joueur à un événement
     const [error, setError] = useState("");
 
+    // État pour stocker le type de message à afficher
+    const [messageType, setMessageType] = useState("");
+
     // État pour stocker un message de succès lors de l'ajout d'un événement à la ligue
     const [successMessage, setSuccessMessage] = useState("");    
 
@@ -153,6 +156,15 @@ function EventsPlanningSection() {
 
                 // Stocker la liste des équipes et des joueurs associés à cet évenement en cours dans l'état teamsEvent
                 setTeamsEvent(data.teams);
+
+                // Dans la situation qu'il n'y a pas d'équipes ou de joueurs, on va affiche un message «warning»
+                if (data.teams.length === 0) {
+
+                    // On doit juste setter le type de class car le message nous parvient du back-end
+                    setMessageType("warning");
+                    setError(data.message);
+                }
+
             } else {
 
                 // Sinon, on récupère le message d'erreur de l'API et on le stocke dans l'état error pour l'afficher à l'administrateur
@@ -366,7 +378,7 @@ function EventsPlanningSection() {
                         Effacer
                     </button>
                 </div>
-                {error && <p className="admin-error-message">✗ {error}</p>}
+                {error && <p className={`admin-error-message ${messageType}`}>✗ {error}</p>}
                 {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}
                 <div className="teams-container">
                     <h2>Les équipes de l'évenement :</h2>

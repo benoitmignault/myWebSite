@@ -90,7 +90,13 @@ function EventsList() {
             const data = await response.json();
 
             // Mettre à jour l'état avec les résultats de l'événement pour les afficher dans la table des détails de l'événement
-            setEventResults(data);
+            if (data.success) {
+
+                setEventResults(data.results);
+            } else {
+                console.error("Erreur lors de la récupération des détails de l'événement :", data.message);
+            }
+
         } catch (error) {
 
             console.error("Erreur lors de la récupération des détails de l'événement :", error);

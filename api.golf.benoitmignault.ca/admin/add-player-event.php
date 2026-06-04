@@ -211,7 +211,21 @@ if ($history) {
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $playerId);
-    $stmt->execute();
+
+    // Exécuter la requête SQL pour insérer le joueur à l'événement
+    if (!$stmt->execute()) {
+
+        error_log($stmt->error);
+        
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de la récupération du handicap du joueur."]); 
+        
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+        $stmt->close();
+        $conn->close();
+        exit();
+    }
+
     $result = $stmt->get_result();
     $player = $result->fetch_assoc();
     $previousHandicap = $player["handicap_league"];

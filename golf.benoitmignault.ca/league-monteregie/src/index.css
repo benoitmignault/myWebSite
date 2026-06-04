@@ -48,6 +48,52 @@ h1 {
     font-size: 48px;
 }
 
+.site-navbar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    position: absolute;
+    top: 30px;
+    left: 30px;
+
+    padding: 10px 16px;
+
+    background: rgba(25, 35, 65, 0.45);
+    backdrop-filter: blur(8px);  
+
+    border-radius: 10px;
+}
+
+.site-navbar-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.site-navbar-link:hover {
+    opacity: 0.8;
+    background: rgba(255,255,255,0.08);
+}
+
+
+
+.site-navbar-link.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.site-navbar-link.disabled:hover {
+    transform: none;
+}
+
+
+
 /* Pour ajuster le margin-top qui ne marche pas sans classe */
 .homepage-title{
     margin-top: 30px;
@@ -680,6 +726,16 @@ tbody tr:nth-child(even) {
         padding: 0;
     }
 
+    .site-navbar {
+        position: static;
+
+        width: fit-content;
+        margin: 15px 0 15px 15px;
+
+        left: auto;
+        top: auto;
+    }
+
     /* mobile css */
     .main-container {
         flex-direction: column;
@@ -727,6 +783,10 @@ tbody tr:nth-child(even) {
         background-position: center;
         background-attachment: fixed;
         background-repeat: no-repeat;
+    }
+
+    .homepage-title {
+        font-size: 32px;
     }
 
     h2 {

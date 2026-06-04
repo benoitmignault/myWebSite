@@ -280,8 +280,8 @@ function EventsList() {
                                         </div>
                                     
                                     ) : (
-                                        <p className="upcoming-event">Événement à venir...</p>
-                                )}                              
+                                        <p className="upcoming-event">{eventMessage || "Événement à venir..."}</p>
+                                    )}                              
                                 </div>
                             )
                         }

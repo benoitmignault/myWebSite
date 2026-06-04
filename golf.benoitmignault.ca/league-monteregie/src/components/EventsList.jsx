@@ -122,6 +122,8 @@ function EventsList() {
         if (openEvent === event.id) {
             setOpenEvent(null);
             setEventResults([]); // Fermer les résultats si on reclique sur le même événement
+            setTeamsEvent([]); // Fermer les équipes si on reclique sur le même événement
+            setEventMessage(""); // Réinitialiser le message d'événement
             return;
         }
 

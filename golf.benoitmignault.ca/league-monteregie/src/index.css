@@ -815,6 +815,10 @@ tbody tr:nth-child(even) {
         padding: 5px;
     }
 
+    .teams-container .team-card {
+        width: 100%;
+    }
+
     .sponsors-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);

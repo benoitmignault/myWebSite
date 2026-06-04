@@ -283,10 +283,10 @@ function EventsList() {
                                             <h2>Les équipes de l'évenement :</h2>
                                             <div className="subtitle-container">
                                                 <span className="subtitle-info-teams">
-                                                    (Le chiffre entre () à droite d'Équipe est le nombre de joueurs)
+                                                    (Nombre entre () après Équipe = joueurs inscrits dans l'équipe)
                                                 </span>
                                                 <span className="subtitle-info-teams">
-                                                    (Le chiffre entre () à droite d'un joueur est son handicap)
+                                                    (Nombre entre () après un joueur = handicap arrondi du joueur)
                                                 </span>
                                             </div>                                            
                                             {teamsEvent.map(team => (

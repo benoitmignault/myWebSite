@@ -142,7 +142,6 @@ function EventsList() {
         // 2026-06-03, refactoring pour inclure la notion de is_open & is_closed 
         // dans la logique d'affichage des résultats d'un événement
 
-        console.log("Événement cliqué :", "is_open:", event.is_open, "is_closed:", event.is_closed);
         // Si l'évenement est fermé, on va chercher les résultats du tournoi, sinon si l'événement est ouvert,
         // on va chercher les équipes du tournoi, sinon on affiche un message que les équipes ne sont pas encore disponibles
         if (event.is_closed === "1") {

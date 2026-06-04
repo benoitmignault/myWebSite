@@ -277,8 +277,14 @@ function EventsList() {
                                     ) : teamsEvent.length > 0 ? (
                                         <div className="teams-container">
                                             <h2>Les équipes de l'évenement :</h2>
-                                            <span className="subtitle-info-teams">(Le chiffre entre () à droite d'Équipe est le nombres de joueurs)</span>
-                                            <span className="subtitle-info-teams">(Le chiffre entre () à droite d'un joueur est son handicap)</span>
+                                            <div className="subtitle-container">
+                                                <span className="subtitle-info-teams">
+                                                    (Le chiffre entre () à droite d'Équipe est le nombre de joueurs)
+                                                </span>
+                                                <span className="subtitle-info-teams">
+                                                    (Le chiffre entre () à droite d'un joueur est son handicap)
+                                                </span>
+                                            </div>                                            
                                             {teamsEvent.map(team => (
                                                 <div key={team.team_id} className="team-card">
                                                     <h3>Équipe #{team.team_id} ({team.players.length})</h3>

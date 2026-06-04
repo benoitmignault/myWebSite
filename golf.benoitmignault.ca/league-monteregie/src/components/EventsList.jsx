@@ -21,8 +21,16 @@ function EventsList() {
     // État pour stocker les résultats détaillés d'une event sélectionné
     const [eventResults, setEventResults] = useState([]);
 
+    // État pour stocker les équipes et les joueurs associés
+    const [teamsEvent, setTeamsEvent] = useState([]);
+
     // État pour indiquer si les résultats détaillés du joueur sont en cours de chargement
     const [loadingEventHistory, setLoadingEventHistory] = useState(false);
+
+    // ÉTat pour stocker un message à afficher dans le cas où les équipes d'un événement ne sont pas encore disponibles
+    const [eventMessage, setEventMessage] = useState("");
+
+
 
     // Fonction pour aller récupérer la liste des événements passés et à venir depuis l'API 
     // et les stocker dans l'état pour les afficher dans la liste des événements

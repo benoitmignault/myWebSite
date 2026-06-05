@@ -101,4 +101,4 @@ $conn->close();
 http_response_code(200);
 
 // Retourner les données au format JSON
-echo json_encode($playerDetails);
+echo json_encode(["success" => true, "playerDetails" => $playerDetails]);

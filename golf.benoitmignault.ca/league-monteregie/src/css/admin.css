@@ -4,10 +4,23 @@
  */
 
 .admin-login-page {
+    /*display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;*/
+}
+
+.admin-login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-login-content {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
 .admin-navbar {
@@ -162,7 +175,7 @@ input[type="number"].admin-input {
     align-items: center;
     gap: 8px;
     position: fixed;
-    bottom: 18px;
+    bottom: 60px;
     right: 24px;
     font-size: 11px;
     color: rgba(255,255,255,0.55);
@@ -331,14 +344,9 @@ input[type="number"].admin-input.team-input {
 
 
 
-
-
-
-
-
-
-
-
+.scroll-top.dashboard {
+    bottom: 85px;
+}
 
 .scroll-top {
     bottom: 50px;

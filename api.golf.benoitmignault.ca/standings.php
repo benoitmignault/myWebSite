@@ -46,10 +46,10 @@ while ($row = $result->fetch_assoc()) {
     $players[] = $row; 
 }
 
-http_response_code(200);
-
 // Fermer la connexion à la base de données
 $conn->close();
 
+http_response_code(200);
+
 // Retourner les données au format JSON
-echo json_encode($players);
+echo json_encode(["success" => true, "players" => $players]);

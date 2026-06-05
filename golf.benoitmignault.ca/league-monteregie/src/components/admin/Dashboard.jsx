@@ -9,6 +9,7 @@ import EventsSection from "./EventsSection";
 import EventsPlanningSection from "./EventsPlanningSection";
 import ResultsSection from "./ResultsSection";
 import { API_BASE_URL } from "../../config";
+import Footer from "../Footer";
 
 // Composant du dashboard pour les administrateurs et les sous-administrateurs
 // Ce composant affiche les différentes sections du dashboard, 
@@ -97,9 +98,10 @@ function Dashboard() {
                 <BsCameraFill />
                 <span>Photo prise au Club de golf Farnham — Semaine 2</span>
             </div>
-            <button className="scroll-top" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
+            <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
                 <FaArrowUp />
             </button>
+            <Footer />
         </div>
     );
 }

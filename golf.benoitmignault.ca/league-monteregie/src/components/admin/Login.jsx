@@ -176,47 +176,50 @@ function Login() {
                     <span>Retour au site principal</span>
                 </Link>
             </div>
-            <div className="admin-login-card">                
-                <h1 className="login-title">Portail Administrateur</h1>
-                <p className="admin-description">
-                    Gestion des événements, des joueurs et des résultats et affichage du trafics sur le site.                    
-                </p>
-                <form onSubmit={(e) => {e.preventDefault(); handleLogin();}}>
-                    <div className="admin-form-group">
-                        <label className="admin-label">Nom d'utilisateur
-                            <span className="required-field">*</span>
-                        </label>
-                        <input className={`admin-input ${usernameError ? "input-error" : ""}`}
-                            type="text" placeholder="Username" value={username}
-                            onChange={(e) => {setUsername(e.target.value); setUsernameError(false); setError("");}}
-                        />
-                    </div>
-                    <div className="admin-form-group">
-                        <label className="admin-label">Mot de passe
-                            <span className="required-field">*</span>
-                        </label>
-                        <input className={`admin-input ${passwordError ? "input-error" : ""}`}
-                            type="password" placeholder="Password" value={password}
-                            onChange={(e) => {setPassword(e.target.value); setPasswordError(false); setError("");}}
-                        />
-                    </div>
-                    <div className="admin-actions">
-                        <button className="admin-button" type="submit" disabled={loading}>
-                            Connexion
-                        </button>
-                        <button
-                            className="admin-button admin-button-secondary"
-                            type="button" onClick={handleReset}>
-                            Effacer
-                        </button>
-                    </div>
-                    {error && (<p className="admin-error-message">✗ {error}</p>)}                    
-                </form>
+            <div className="admin-login-content">
+                <div className="admin-login-card">                
+                    <h1 className="login-title">Portail Administrateur</h1>
+                    <p className="admin-description">
+                        Gestion des événements, des joueurs et des résultats et affichage du trafics sur le site.                    
+                    </p>
+                    <form onSubmit={(e) => {e.preventDefault(); handleLogin();}}>
+                        <div className="admin-form-group">
+                            <label className="admin-label">Nom d'utilisateur
+                                <span className="required-field">*</span>
+                            </label>
+                            <input className={`admin-input ${usernameError ? "input-error" : ""}`}
+                                type="text" placeholder="Username" value={username}
+                                onChange={(e) => {setUsername(e.target.value); setUsernameError(false); setError("");}}
+                            />
+                        </div>
+                        <div className="admin-form-group">
+                            <label className="admin-label">Mot de passe
+                                <span className="required-field">*</span>
+                            </label>
+                            <input className={`admin-input ${passwordError ? "input-error" : ""}`}
+                                type="password" placeholder="Password" value={password}
+                                onChange={(e) => {setPassword(e.target.value); setPasswordError(false); setError("");}}
+                            />
+                        </div>
+                        <div className="admin-actions">
+                            <button className="admin-button" type="submit" disabled={loading}>
+                                Connexion
+                            </button>
+                            <button
+                                className="admin-button admin-button-secondary"
+                                type="button" onClick={handleReset}>
+                                Effacer
+                            </button>
+                        </div>
+                        {error && (<p className="admin-error-message">✗ {error}</p>)}                    
+                    </form>
+                </div>
             </div>
             <div className="admin-photo-credit">
                 <BsCameraFill />
                 <span>Photo prise au Club de golf Farnham — Semaine 2</span>
             </div>
+            <Footer />
         </div>        
     );
 }

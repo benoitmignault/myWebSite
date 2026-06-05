@@ -68,8 +68,19 @@ function Standings() {
             // Une fois que la réponse est reçue, on la convertit en JSON et on doit mettre à jour l'état avec les résultats du joueur
             const data = await response.json();
             
-            // Mettre à jour l'état avec les résultats du joueur pour les afficher dans la table des détails du joueur
-            setPlayerResults(data);            
+            // Vérification de la réponse de l'API pour voir si la récupération des détails du joueur a réussi
+            if (data.success) {
+
+                // Mettre à jour l'état avec les résultats du joueur pour les afficher dans la section en dessous du joueur
+                setPlayerResults(data.playerDetails); 
+            } else {
+
+                // Si la récupération des détails du joueur a échoué, 
+                // on affiche un message d'erreur dans la console et on réinitialise les résultats du joueur à une liste vide
+                console.error("Erreur récupération détails joueur :", data.message);
+                setPlayerResults([]);
+            }
+                      
         } catch (error) {
 
             console.error("Erreur récupération détails joueur :", error);
@@ -85,13 +96,14 @@ function Standings() {
     // alors que la fonction de gestion du clic sur un joueur est faite pour gérer une action spécifique de l'utilisateur (cliquer sur un joueur) 
     // et récupérer les données détaillées de ce joueur seulement au moment où l'utilisateur clique sur lui
     useEffect(() => {
+        
         // Récupérer les informations pour afficher en gros, le classement général de la Coupe Fedex
         // Soit les données des joueurs et leurs points totaux depuis l'API et 
         // les stocker dans l'état pour les afficher dans le classement général
         fetch(`${API_BASE_URL}/standings.php`)
             .then(response => response.json())
             .then(data => {
-                setPlayers(data);
+                setPlayers(data.players);
             });
     }, []);
 

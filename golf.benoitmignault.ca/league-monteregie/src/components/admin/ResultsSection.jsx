@@ -276,29 +276,13 @@ function ResultsSection() {
         const playerName = `${selectedPlayerData.firstname} ${selectedPlayerData.lastname}`;
 
         // Variable pour stocker le score net du joueur inscrits à l'événement en cours
-        const netScore = grossScore && selectedPlayerData
-            ? Number(grossScore) - 72 - Number(selectedPlayerData.handicap_rounded)
-            : "";
-
-
-
-
-
-
-
-
-
-
+        const netScore = Number(grossScore) - 72 - Number(selectedPlayerData.handicap_rounded)
 
         // Si on passe les validations côté client, on peut alors procéder à l'appel de l'API 
         // pour ajouter le joueur à la ligue
         setLoading(true);
 
-
-        
-
         try {
-
             const response = await fetch(`${API_BASE_URL}/admin/add-result.php`,
                 {
                     method: "POST",

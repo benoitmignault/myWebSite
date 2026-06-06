@@ -261,14 +261,14 @@ function EventsPlanningSection() {
                 await loadTeamsEvent(event?.id);
                 
                 // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
-                setTimeout(() => {handleReset();}, 5000);                
+                setTimeout(() => {handleReset();}, 4000);                
             } else {
 
                 // Erreur lors de l'ajout du joueur
                 setError(data.message);
 
                 // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
-                setTimeout(() => {handleReset();}, 5000);  
+                setTimeout(() => {handleReset();}, 4000);  
             }
 
         } catch (err) {
@@ -276,7 +276,7 @@ function EventsPlanningSection() {
             console.error(err);
             setError("Une erreur est survenue lors de la tentative d'ajout du joueur.");
             // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
-            setTimeout(() => {handleReset();}, 5000);  
+            setTimeout(() => {handleReset();}, 4000);  
         } finally {
 
             setLoading(false);

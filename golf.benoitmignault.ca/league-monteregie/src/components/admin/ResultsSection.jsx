@@ -73,13 +73,34 @@ function ResultsSection() {
     const [loading, setLoading] = useState(false);
 
 
+    // Variable pour stocker les données du joueur sélectionné dans le formulaire d'insertion des résultats de la ronde du joueur, 
+    // pour pouvoir calculer son score net
+    const selectedPlayerData = registeredPlayers.find(
+        player => player.id === selectedPlayer
+    );
+
+
 
     // Variable pour stocker le score net du joueur inscrits à l'événement en cours
     const netScore = grossScore && selectedPlayerData
         ? Number(grossScore) - 72 - Number(selectedPlayerData.handicap_rounded)
         : "";
 
+    // Bout de code pour retirer le joueur sélectionné de la liste des joueurs inscrits à l'événement en cours, 
+    // après l'insertion de son résultat de ronde, pour éviter d'insérer plusieurs résultats de ronde pour le même joueur
+    setRegisteredPlayers(prev =>
+        prev.filter(player =>
+            player.id !== Number(selectedPlayer)
+        )
+    );
 
+    // Bout de code pour retirer la position du joueur sélectionné de la liste des positions des joueurs inscrits
+    //  à l'événement en cours, après l'insertion de son résultat de ronde, pour éviter d'insérer plusieurs résultats avec la même position
+    setAvailablePositions(prev =>
+        prev.filter(position =>
+            position !== Number(selectedPosition)
+        )
+    );
 
 
     // Fonction pour charger les détails de l'évenement en cours pour récupérer son id

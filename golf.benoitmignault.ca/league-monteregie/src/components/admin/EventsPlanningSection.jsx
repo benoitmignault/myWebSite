@@ -345,7 +345,7 @@ function EventsPlanningSection() {
                 <div className="admin-row">
                     <div className="admin-form-group">
                         <label className="admin-label">
-                            Ajouter un participant
+                            Ajouter un joueur
                             <span className="required-field">*</span></label>                    
                         <select className={`admin-input ${selectedPlayerError ? "input-error" : ""}`}
                             value={selectedPlayer}

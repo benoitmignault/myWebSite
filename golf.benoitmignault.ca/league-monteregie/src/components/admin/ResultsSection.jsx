@@ -35,17 +35,32 @@ function ResultsSection() {
     // État pour stocker la liste des joueurs inscrits à l'événement en cours pour pouvoir insérer les résultats de chacun des joueurs
     const [registeredPlayers, setRegisteredPlayers] = useState([]);
 
-    // ÉTat pour stocker le joueur sélectionné dans le formulaire d'insertion des résultats de la ronde du joueur
+    // ÉTat pour stocker le ID du joueur sélectionné dans le formulaire d'insertion des résultats de la ronde du joueur
     const [selectedPlayer, setSelectedPlayer] = useState("");
+
+    // Variable pour stocker les informations du joueur sélectionné
+    // À chaque fois que le selectedPlayer change, on va mettre à jour cette variable pour stocker les informations du joueur sélectionné, 
+    // notamment pour trouver son handicap arrondi, qui va être utilisé pour calculer le score net du joueur
+    const selectedPlayerData = registeredPlayers.find(
+        player => player.id === Number(selectedPlayer)
+    );
+
+    // ÉTat pour stocker le score bruts du joueur inscrits à l'événement en cours
+    // Cet état doit être avant la variable du score net, car le score net est calculé à partir du score brut et du handicap arrondi du joueur
+    const [grossScore, setGrossScore] = useState("");
+
+    // Variable pour stocker le score net du joueur inscrits à l'événement en cours, 
+    // qui est calculé à partir du score brut et du handicap arrondi du joueur
+    const displayedNetScore =
+    grossScore !== "" && selectedPlayerData
+        ? Number(grossScore) - 72 - Number(selectedPlayerData.handicap_rounded)
+        : "";
 
     // État pour stocker la liste des positions des joueurs inscrits à l'événement en cours
     const [availablePositions, setAvailablePositions] = useState([]);
 
     // État pour stocker la position du joueur sélectionné dans le formulaire d'insertion des résultats de la ronde du joueur
-    const [selectedPosition, setSelectedPosition] = useState("");
-
-    // ÉTat pour stocker le score bruts du joueur inscrits à l'événement en cours
-    const [grossScore, setGrossScore] = useState("");
+    const [selectedPosition, setSelectedPosition] = useState("");    
 
     // État pour stocker le score bruts ajusté du joueur inscrits à l'événement en cours
     const [adjustedGrossScore, setAdjustedGrossScore] = useState("");

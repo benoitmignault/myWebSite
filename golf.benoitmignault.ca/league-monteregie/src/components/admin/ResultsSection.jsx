@@ -501,11 +501,7 @@ function ResultsSection() {
                             type="number"
                             className={`admin-input ${fedexPointsError ? "input-error" : ""}`}
                             value={fedexPoints}
-                            onChange={(e) => {
-                                setFedexPoints(e.target.value);
-                                setFedexPointsError(false);
-                                setError("");
-                            }}
+                            onChange={(e) => {setFedexPoints(e.target.value); setFedexPointsError(false); setError("");}}
                         />
                     </div>
                 </div>

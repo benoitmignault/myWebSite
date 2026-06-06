@@ -59,26 +59,15 @@ function ResultsSection() {
     const [adjustedGrossScoreError, setAdjustedGrossScoreError] = useState(false);
     const [selectedPositionError, setSelectedPositionError] = useState(false);
     const [fedexPointsError, setFedexPointsError] = useState(false);
-   
 
-    
-
-     // État pour stocker les messages d'erreur en prévision de l'insertion du résultat de la ronde d'un joueur
-     const [error, setError] = useState("");
+    // État pour stocker les messages d'erreur en prévision de l'insertion du résultat de la ronde d'un joueur
+    const [error, setError] = useState("");
 
      // État pour stocker un message de succès lors de l'insertion du résultat de la ronde
     const [successMessage, setSuccessMessage] = useState("");
 
     // ÉTat pour bloquer l'ajout en double de résultats de ronde pour un joueur en attendant la réponse de l'API
     const [loading, setLoading] = useState(false);
-
-
-    
-
-    
-
-    
-
 
     // Fonction pour charger les détails de l'évenement en cours pour récupérer son id
     const loadEvent = async () => {
@@ -129,14 +118,6 @@ function ResultsSection() {
             setLoading(false);
         }        
     };
-
-
-
-
-
-
-
-
 
     // Fonction pour récupérer les joueurs inscrits à l'événement en cours et qui n'ont pas encore de résultat 
     // de ronde pour cet événement, pour pouvoir insérer les résultats de ces joueurs

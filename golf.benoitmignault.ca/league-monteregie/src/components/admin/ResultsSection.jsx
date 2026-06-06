@@ -182,6 +182,49 @@ function ResultsSection() {
         }
     }
 
+    // Fonction pour récupérer les positions déjà utilisées qu'on va éliminer de la liste des positions disponible
+    // Un nom de fonction un peu contradictoire mais au fini, on aura les positions disponibles dans le menu SELECT
+    const loadAvailablePositions = async (eventId) => {
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/admin/get-available-positions.php?id=${eventId}`,
+                {                    
+                    credentials: "include"
+                }
+            );
+                
+            // Si la réponse de l'API indique que la session est invalide, 
+            // rediriger le gestionnaire vers la page de connexion
+            if (response.status === 401) {
+
+                setError("Votre session a expiré, vous allez être redirigé vers la page de connexion.");
+                setTimeout(() => {navigate("/league-monteregie/admin");}, 3000);
+                return;
+            }
+
+            // Sinon, on a un résultat valide du retour de l'API
+            const data = await response.json();
+            if (data.success) {
+
+                // On va stocker la liste de positions disponible via le résultat de l'API, car la liste des disponibles à été traiter direct en back-end 
+                // pour éliminer les positions déjà utilisées, pour éviter d'avoir à faire ce travail en front-end
+                setAvailablePositions(data.availablePositions);
+            } else {
+
+                // Erreur lors du chargement des positions utilisées
+                setError(data.message);
+            }
+
+        } catch (err) {
+
+            console.error(err);
+            setError("Une erreur est survenue lors du chargement des joueurs inscrits à l'événement.");
+
+        } finally {
+
+            setLoading(false);
+        }
+    }
 
 
 

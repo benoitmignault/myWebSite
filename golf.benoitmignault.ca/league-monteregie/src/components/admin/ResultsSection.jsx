@@ -62,11 +62,60 @@ function ResultsSection() {
      // État pour stocker un message de succès lors de l'insertion du résultat de la ronde
     const [successMessage, setSuccessMessage] = useState("");
 
+    // ÉTat pour bloquer l'ajout en double de résultats de ronde pour un joueur en attendant la réponse de l'API
+    const [loading, setLoading] = useState(false);
 
 
-    
+
+    // Variable pour stocker le score net du joueur inscrits à l'événement en cours
+    const netScore = grossScore && selectedPlayerData
+        ? Number(grossScore) - 72 - Number(selectedPlayerData.handicap_rounded)
+        : "";
 
 
+    // Fonction pour récupérer les joueurs inscrits à l'événement en cours et qui n'ont pas encore de résultat 
+    // de ronde pour cet événement, pour pouvoir insérer les résultats de ces joueurs
+    const loadRegisteredPlayers = async (eventId) => {
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/admin/get-registered-players.php?id=${eventId}`,
+                {                    
+                    credentials: "include"
+                }
+            );
+                
+            // Si la réponse de l'API indique que la session est invalide, 
+            // rediriger le gestionnaire vers la page de connexion
+            if (response.status === 401) {
+
+                setError("Votre session a expiré, vous allez être redirigé vers la page de connexion.");
+                setTimeout(() => {navigate("/league-monteregie/admin");}, 3000);
+                return;
+            }
+
+            // Sinon, on a un résultat valide du retour de l'API
+            const data = await response.json();
+            if (data.success) {
+
+                // Stockage de la liste des joueurs inscrits à l'événement en cours pour pouvoir insérer les résultats de ces joueurs
+                // Ces joueurs seront disponible via un SELECT dans le formulaire d'insertion des résultats de la ronde du joueur
+                setRegisteredPlayers(data.players);                
+            } else {
+
+                // Erreur lors du chargement des joueurs inscrits à l'événement
+                setError(data.message);
+            }
+
+        } catch (err) {
+
+            console.error(err);
+            setError("Une erreur est survenue lors du chargement des joueurs inscrits à l'événement.");
+
+        } finally {
+
+            setLoading(false);
+        }
+    }
 
 
 

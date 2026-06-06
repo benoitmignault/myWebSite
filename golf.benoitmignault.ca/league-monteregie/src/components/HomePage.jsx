@@ -53,7 +53,7 @@ function HomePage() {
 				</Link>
 				<Link to="#" className="site-navbar-link disabled" onClick={(e) => e.preventDefault()}>
 					<FaChartLine />
-					<span>Évaluation Joueur (à venir...)</span>
+					<span>Évolution Joueur (à venir...)</span>
 				</Link>
 			</div>
 			<h1 className="homepage-title">Ligue de Golf Montérégie</h1>

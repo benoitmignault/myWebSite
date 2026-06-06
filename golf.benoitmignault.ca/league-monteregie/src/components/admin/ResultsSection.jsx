@@ -433,7 +433,7 @@ function ResultsSection() {
                             ))}
                         </select>
                         {selectedPlayerData && (
-                            <p className="admin-section-description">Handicap utilisé : {selectedPlayerData.handicap_rounded}</p>
+                            <p className="admin-section-description handicap">Handicap utilisé : {selectedPlayerData.handicap_rounded}</p>
                         )}
                     </div>
                     <div className="admin-form-group">
@@ -442,7 +442,7 @@ function ResultsSection() {
                             <span className="required-field">*</span>
                         </label>
                         <input                            
-                            className={`admin-input ${grossScoreError ? "input-error" : ""}`}
+                            className={`admin-input result ${grossScoreError ? "input-error" : ""}`}
                             type="number" value={grossScore}
                             onChange={(e) => {setGrossScore(e.target.value); setGrossScoreError(false); setError("");}}
                         />
@@ -469,11 +469,12 @@ function ResultsSection() {
                             <span className="required-field">*</span>
                         </label>
                         <input                            
-                            className={`admin-input ${adjustedGrossScoreError ? "input-error" : ""}`}
+                            className={`admin-input result ${adjustedGrossScoreError ? "input-error" : ""}`}
                             type="number" value={adjustedGrossScore}
                             onChange={(e) => {setAdjustedGrossScore(e.target.value); setAdjustedGrossScoreError(false); setError("");}}
                         />
-                    </div>                    
+                    </div> 
+                </div>                   
                 <div className="admin-row">
                     <div className="admin-form-group">
                         <label className="admin-label">

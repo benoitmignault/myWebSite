@@ -400,6 +400,8 @@ function ResultsSection() {
 
                 // Car cette fonction dépend de l'id, pas id pas de fonction 
                 await loadRegisteredPlayers(event.id);
+
+                await loadAvailablePositions(event.id);
             }                   
         };
         
@@ -407,19 +409,6 @@ function ResultsSection() {
         initializeData();
 
     }, []);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     return (
         <div className="admin-section-card">

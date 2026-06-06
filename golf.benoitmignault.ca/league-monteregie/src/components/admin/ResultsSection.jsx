@@ -226,9 +226,6 @@ function ResultsSection() {
         }
     }
 
-
-
-
     // Fonction pour ajouter le résultat de la ronde d'un joueur à un évenement
     const handleAddResult = async () => {
 
@@ -388,8 +385,7 @@ function ResultsSection() {
 
         // Remise à l'état initial du message de succès
         setSuccessMessage("");
-    }; 
-
+    };
 
     useEffect(() => {
 

@@ -35,7 +35,8 @@ if ($eventId <= 0) {
 }
 
 // Requête SQL pour afficher les joueurs inscrits à l'événement en cours mais qu'ils n'ont pas encore de résultats dans la table round_results
-$select = "SELECT p.id, p.firstname, p.lastname ";
+// Nous avons besoin de l'handicap du joueur de l'éevent en cours pour le calcul du NET Score
+$select = "SELECT p.id, p.firstname, p.lastname, ep.handicap_rounded ";
 $from = "FROM event_players ep INNER JOIN players p ON ep.player_id = p.id  ";
 $leftJoin = "LEFT JOIN round_results rr ON rr.event_id = ep.event_id AND rr.player_id = ep.player_id ";
 $where = "WHERE ep.event_id = ? AND rr.player_id IS NULL ";

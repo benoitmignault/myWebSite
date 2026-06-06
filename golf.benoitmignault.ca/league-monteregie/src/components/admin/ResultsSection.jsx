@@ -42,7 +42,7 @@ function ResultsSection() {
     const [registeredPositions, setPositions] = useState([]);
 
     // État pour stocker la position du joueur sélectionné dans le formulaire d'insertion des résultats de la ronde du joueur
-    const [position, setPosition] = useState("");
+    const [selectedPosition, setSelectedPosition] = useState("");
 
     // ÉTat pour stocker le score bruts du joueur inscrits à l'événement en cours
     const [grossScore, setGrossScore] = useState("");

@@ -70,6 +70,66 @@ function ResultsSection() {
         : "";
 
 
+
+
+    // Fonction pour charger les détails de l'évenement en cours pour récupérer son id
+    const loadEvent = async () => {
+
+        // Juste au cas ou, on va setter le loading à true pour éviter que l'utilisateur puisse cliquer plusieurs fois sur le bouton d'ajout d'un joueur à un évenement
+        setLoading(true);
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/admin/get-next-event.php`,
+                {
+                    credentials: "include"
+                }
+            );
+
+            // Si la réponse de l'API indique que la session est invalide, 
+            // rediriger le gestionnaire vers la page de connexion
+            if (response.status === 401) {
+
+                setError("Votre session a expiré, vous allez être redirigé vers la page de connexion.");
+                setTimeout(() => {navigate("/league-monteregie/admin");}, 3000);
+                return;
+            }
+
+            // Sinon, on a un résultat valide du retour de l'API
+            const data = await response.json();
+
+            if (data.success) {
+
+                // Stocker les détails du prochain évenement qui sera en cours dans l'état nextEvent
+                setCurrentEvent(data.event);
+
+                // On retourne le résultat pour pouvoir l'utiliser dans la fonction d'initialisation des données du useEffect, 
+                // pour ensuite charger la liste des joueurs disponibles pour l'ajout à cet évenement
+                return data.event;
+            } else {
+
+                // Erreur lors du chargement de l'évenement
+                setError(data.message);
+            }
+
+        } catch (err) {
+
+            console.error(err);
+            setError("Une erreur est survenue lors du chargement de l'événement.");
+
+        } finally {
+
+            setLoading(false);
+        }        
+    };
+
+
+
+
+
+
+
+
+
     // Fonction pour récupérer les joueurs inscrits à l'événement en cours et qui n'ont pas encore de résultat 
     // de ronde pour cet événement, pour pouvoir insérer les résultats de ces joueurs
     const loadRegisteredPlayers = async (eventId) => {

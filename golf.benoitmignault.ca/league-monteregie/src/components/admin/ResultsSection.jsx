@@ -39,7 +39,7 @@ function ResultsSection() {
     const [selectedPlayer, setSelectedPlayer] = useState("");
 
     // État pour stocker la liste des positions des joueurs inscrits à l'événement en cours
-    const [registeredPositions, setPositions] = useState([]);
+    const [availablePositions, setAvailablePositions] = useState([]);
 
     // État pour stocker la position du joueur sélectionné dans le formulaire d'insertion des résultats de la ronde du joueur
     const [selectedPosition, setSelectedPosition] = useState("");

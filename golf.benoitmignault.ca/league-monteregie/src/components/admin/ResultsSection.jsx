@@ -73,18 +73,7 @@ function ResultsSection() {
     const [loading, setLoading] = useState(false);
 
 
-    // Variable pour stocker les données du joueur sélectionné dans le formulaire d'insertion des résultats de la ronde du joueur, 
-    // pour pouvoir calculer son score net
-    const selectedPlayerData = registeredPlayers.find(
-        player => player.id === selectedPlayer
-    );
-
-
-
-    // Variable pour stocker le score net du joueur inscrits à l'événement en cours
-    const netScore = grossScore && selectedPlayerData
-        ? Number(grossScore) - 72 - Number(selectedPlayerData.handicap_rounded)
-        : "";
+    
 
     // Bout de code pour retirer le joueur sélectionné de la liste des joueurs inscrits à l'événement en cours, 
     // après l'insertion de son résultat de ronde, pour éviter d'insérer plusieurs résultats de ronde pour le même joueur
@@ -278,16 +267,35 @@ function ResultsSection() {
             return;
         }
 
+        // Trouver les données du joueur sélectionner pour différente utilisation dans la suite du processus d'ajout du résultat de la ronde du joueur, 
+        // notamment pour trouver son handicap arrondi, qui va être utilisé pour calculer le score net du joueur
+        const selectedPlayerData = registeredPlayers.find(player => player.id === selectedPlayer);
+        console.log("selectedPlayerData", selectedPlayerData);
+
+        // Associer le nom du joueur à une variable pour l'afficher dans le message de succès après l'ajout du joueur à l'évenement
+        const playerName = `${selectedPlayerData.firstname} ${selectedPlayerData.lastname}`;
+
+        // Variable pour stocker le score net du joueur inscrits à l'événement en cours
+        const netScore = grossScore && selectedPlayerData
+            ? Number(grossScore) - 72 - Number(selectedPlayerData.handicap_rounded)
+            : "";
+
+
+
+
+
+
+
+
+
+
+
         // Si on passe les validations côté client, on peut alors procéder à l'appel de l'API 
         // pour ajouter le joueur à la ligue
         setLoading(true);
 
-        // Trouver le nom du joueur sélectionné dans la liste des joueurs inscrits à l'événement en cours, 
-        // pour pouvoir l'afficher dans le message de succès après l'insertion du résultat de la ronde du joueur
-        const player = registeredPlayers.find(one_player => one_player.id === parseInt(selectedPlayer));
 
-        // Associer le nom du joueur à une variable pour l'afficher dans le message de succès après l'ajout du joueur à l'évenement
-        const playerName = `${player.firstname} ${player.lastname}`;
+        
 
         try {
 

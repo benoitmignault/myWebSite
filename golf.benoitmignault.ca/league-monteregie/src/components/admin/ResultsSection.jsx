@@ -291,16 +291,11 @@ function ResultsSection() {
             return;
         }
 
-        // Trouver les données du joueur sélectionner pour différente utilisation dans la suite du processus d'ajout du résultat de la ronde du joueur, 
-        // notamment pour trouver son handicap arrondi, qui va être utilisé pour calculer le score net du joueur
-        const selectedPlayerData = registeredPlayers.find(player => player.id === selectedPlayer);
-        console.log("selectedPlayerData", selectedPlayerData);
-
         // Associer le nom du joueur à une variable pour l'afficher dans le message de succès après l'ajout du joueur à l'évenement
         const playerName = `${selectedPlayerData.firstname} ${selectedPlayerData.lastname}`;
 
-        // Variable pour stocker le score net du joueur inscrits à l'événement en cours
-        const netScore = Number(grossScore) - 72 - Number(selectedPlayerData.handicap_rounded)
+        // Variable pour stocker le score net du joueur inscrits à l'événement en cours via le résultat précalculé dans displayedNetScore
+        const netScore = displayedNetScore;
 
         // Si on passe les validations côté client, on peut alors procéder à l'appel de l'API 
         // pour ajouter le joueur à la ligue

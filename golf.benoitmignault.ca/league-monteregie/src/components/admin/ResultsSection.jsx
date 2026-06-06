@@ -322,45 +322,57 @@ function ResultsSection() {
                         position: selectedPosition,
                         grossScore,
                         adjustedGrossScore,
+                        netScore,
                         fedexPoints
                     })
                 }
             );
 
-            if (response.data.success) {
+            // Si la réponse de l'API indique que la session est invalide, 
+            // rediriger le gestionnaire vers la page de connexion
+            if (response.status === 401) {
 
-                // Retire le joueur de la liste
-                setRegisteredPlayers(prev =>
-                    prev.filter(
-                        player => player.id !== Number(selectedPlayer)
-                    )
-                );
-
-                // Retire la position de la liste
-                setAvailablePositions(prev =>
-                    prev.filter(
-                        position => position !== Number(selectedPosition)
-                    )
-                );
-
-                setSuccessMessage("Résultat ajouté avec succès.");
-
-                handleReset();
+                setError("Votre session a expiré, vous allez être redirigé vers la page de connexion.");
+                setTimeout(() => {navigate("/league-monteregie/admin");}, 3000);
+                return;
             }
 
-        } catch (error) {
+            // Sinon, on a un résultat valide du retour de l'API
+            const data = await response.json();
 
-            setError("Erreur lors de l'ajout du résultat.");
+            if (data.success) {
 
+                // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
+                setSuccessMessage(`Le résultat pour le joueur ${playerName} a été ajouté à la liste des résultats de la ronde.`);
+
+                // Maintenant, on recalcul les joueurs encore disponible et les positions encore disponible pour l'ajout d'un résultat de ronde, 
+                // pour mettre à jour les menus SELECT du formulaire d'ajout d'un résultat de ronde
+                await loadRegisteredPlayers(event.id);
+
+                await loadAvailablePositions(event.id);
+
+                // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
+                setTimeout(() => {handleReset();}, 4000);    
+            } else {
+
+                // Erreur lors de l'ajout du joueur
+                setError(data.message);
+
+                // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
+                setTimeout(() => {handleReset();}, 4000);  
+            }
+
+        } catch (err) {
+
+            console.error(err);
+            setError("Une erreur est survenue lors de la tentative d'ajouter un résultat.");
+            // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
+            setTimeout(() => {handleReset();}, 4000);  
         } finally {
 
             setLoading(false);
-
         }
     };
-
-
-
     
     // Fonction pour réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
     const handleReset = () => {

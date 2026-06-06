@@ -270,6 +270,23 @@ function ResultsSection() {
 
             
 
+
+            <select
+                value={selectedPlayer}
+                onChange={(e) => setSelectedPlayer(e.target.value)}
+            >
+                <option value="">Sélectionner un joueur</option>
+
+                {registeredPlayers.map(player => (
+                    <option
+                        key={player.id}
+                        value={player.id}
+                    >
+                        {player.firstname} {player.lastname}
+                    </option>
+                ))}
+            </select>
+
         </div>
     );
 }

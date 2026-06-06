@@ -203,15 +203,9 @@ function EventsPlanningSection() {
         // Validation du champ de sélection du joueur et de l'équipe, qui sont tous les deux obligatoires
         let hasError = false;
 
-        if (!selectedPlayer) {
+        if (!selectedPlayer || team === "" || isNaN(team) || team < 1) {
 
             setSelectedPlayerError(true);
-            hasError = true;
-        }
-
-        if (team === "" || isNaN(team) || team < 1) {
-
-            setTeamError(true);
             hasError = true;
         }
 

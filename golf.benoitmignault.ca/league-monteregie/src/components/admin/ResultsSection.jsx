@@ -209,47 +209,163 @@ function ResultsSection() {
 
 
 
+    // Fonction pour ajouter le résultat de la ronde d'un joueur à un évenement
+    const handleAddResult = async () => {
+
+        // Réinitialiser les messages d'erreur avant de commencer le processus d'ajout
+        setError("");
+
+        // On commencer par gérer les erreurs de validation côté client 
+        // avant même d'envoyer la requête à l'API, pour éviter les appels inutiles à l'API et 
+        // améliorer l'expérience utilisateur.
+
+        // TODO: Changer error pour une liste de msg erreur pour pouvoir afficher plusieurs erreurs à la fois, 
+        // au lieu de n'afficher que la première erreur rencontrée.
+
+        if (!event) {
+
+            setError("Aucun événement actif.");
+            return;
+        }
+        
+        // Validation des champs du formulaire d'insertion des résultats de la ronde du joueur
+        let hasError = false;
+
+        /**
+         * Information utile : !selectedPlaye ->
+         *  selectedPlayer === ""
+            selectedPlayer === null
+            selectedPlayer === undefined
+            selectedPlayer === 0
+            selectedPlayer === false
+         */
+        if (!selectedPlayer || !selectedPosition || grossScore === "" || adjustedGrossScore === "" || fedexPoints === "") {
+            setSelectedPlayerError(true);
+            hasError = true;
+        }
+
+        if (hasError) {
+            setError("Veuillez remplir tous les champs obligatoires.");
+            return;
+        }
+
+        if (Number(grossScore) <= 0) {
+
+            setGrossScoreError(true);
+            setError("Le score brut doit être un nombre positif.");
+            return;
+        }
+
+        if (Number(adjustedGrossScore) <= 0) {
+
+            setAdjustedGrossScoreError(true);
+            setError("Le score brut ajusté doit être un nombre positif.");
+            return;
+        }
+
+        // Un joueur va toujours avoir des points FedEx même si il fini bon dernier
+        if (Number(fedexPoints) <= 0) {
+
+            setFedexPointsError(true);
+            setError("Les points FedEx doivent être un nombre positif.");
+            return;
+        }
+        
+        // Une validation improtante d'un sens logique
+        if (Number(adjustedGrossScore) > Number(grossScore)) {
+
+            setError("Le score brut ajusté ne peut pas être supérieur au score brut.");
+            return;
+        }
+
+        // Si on passe les validations côté client, on peut alors procéder à l'appel de l'API 
+        // pour ajouter le joueur à la ligue
+        setLoading(true);
+
+        // Trouver le nom du joueur sélectionné dans la liste des joueurs inscrits à l'événement en cours, 
+        // pour pouvoir l'afficher dans le message de succès après l'insertion du résultat de la ronde du joueur
+        const player = registeredPlayers.find(one_player => one_player.id === parseInt(selectedPlayer));
+
+        // Associer le nom du joueur à une variable pour l'afficher dans le message de succès après l'ajout du joueur à l'évenement
+        const playerName = `${player.firstname} ${player.lastname}`;
+
+        try {
+
+            const response = await fetch(`${API_BASE_URL}/admin/add-result.php`,
+                {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        eventId: event.id,
+                        playerId: selectedPlayer,
+                        position: selectedPosition,
+                        grossScore,
+                        adjustedGrossScore,
+                        fedexPoints
+                    })
+                }
+            );
+
+            if (response.data.success) {
+
+                // Retire le joueur de la liste
+                setRegisteredPlayers(prev =>
+                    prev.filter(
+                        player => player.id !== Number(selectedPlayer)
+                    )
+                );
+
+                // Retire la position de la liste
+                setAvailablePositions(prev =>
+                    prev.filter(
+                        position => position !== Number(selectedPosition)
+                    )
+                );
+
+                setSuccessMessage("Résultat ajouté avec succès.");
+
+                handleReset();
+            }
+
+        } catch (error) {
+
+            setError("Erreur lors de l'ajout du résultat.");
+
+        } finally {
+
+            setLoading(false);
+
+        }
+    };
+
 
 
     
-       // Fonction pour réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
-        const handleReset = () => {
+    // Fonction pour réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
+    const handleReset = () => {
 
-            // Remise à l'état initial des champs du formulaire pour ajouter un résultat de ronde d'un joueur
-            setSelectedPlayer("");
-            setGrossScore("");
-            setAdjustedGrossScore("");            
-            setSelectedPosition("");            
-            setFedexPoints("");
-            
-            
-            // Remise à l'état initial du trigger pour remettre les bordures dans leur état normal
-            setSelectedPlayerError(false);
-            setGrossScoreError(false); 
-            setAdjustedGrossScoreError(false);
-            setSelectedPositionError(false);
-            setFedexPointsError(false);
+        // Remise à l'état initial des champs du formulaire pour ajouter un résultat de ronde d'un joueur
+        setSelectedPlayer("");
+        setGrossScore("");
+        setAdjustedGrossScore("");            
+        setSelectedPosition("");            
+        setFedexPoints("");
+        
+        
+        // Remise à l'état initial du trigger pour remettre les bordures dans leur état normal
+        setSelectedPlayerError(false);
+        setGrossScoreError(false); 
+        setAdjustedGrossScoreError(false);
+        setSelectedPositionError(false);
+        setFedexPointsError(false);
 
-            // Remise à l'état initial du message d'erreur
-            setError("");
+        // Remise à l'état initial du message d'erreur
+        setError("");
 
-            // Remise à l'état initial du message de succès
-            setSuccessMessage("");
-        };    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // Remise à l'état initial du message de succès
+        setSuccessMessage("");
+    }; 
 
 
     useEffect(() => {

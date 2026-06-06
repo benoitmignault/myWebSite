@@ -53,6 +53,16 @@ function ResultsSection() {
     // État pour stocker les points Fedex du joueur inscrits à l'événement en cours
     const [fedexPoints, setFedexPoints] = useState("");
 
+    // États pour gérer les erreurs de validation des champs pour ajouter un joueur à un évenement
+    const [selectedPlayerError, setSelectedPlayerError] = useState(false);
+    const [grossScoreError, setGrossScoreError] = useState(false);
+    const [adjustedGrossScoreError, setAdjustedGrossScoreError] = useState(false);
+    const [selectedPositionError, setSelectedPositionError] = useState(false);
+    const [fedexPointsError, setFedexPointsError] = useState(false);
+   
+
+    
+
      // État pour stocker les messages d'erreur en prévision de l'insertion du résultat de la ronde d'un joueur
      const [error, setError] = useState("");
 

@@ -107,6 +107,10 @@ h1 {
     width: 70%;
 }
 
+.admin-input.players {
+    width: 100%;
+}
+
 .admin-input::placeholder {
     font-style: italic;
     font-size: 0.9rem;
@@ -115,6 +119,27 @@ h1 {
 
 input[type="number"].admin-input {
     width: 12%;
+}
+
+input[type="number"].admin-input.result {
+    width: 25%;
+}
+
+.admin-net-score {
+    width: 35%;
+    height: 44px;
+
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    margin-top: 12px;
+
+    box-sizing: border-box;
 }
 
 .input-error {
@@ -210,6 +235,14 @@ input[type="number"].admin-input {
     margin-bottom: 25px;
     color: rgba(255,255,255,0.8);
 }
+
+.admin-section-description.handicap {
+    text-align: left;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
 
 /* Ligne Prénom / Nom */
 .admin-row {

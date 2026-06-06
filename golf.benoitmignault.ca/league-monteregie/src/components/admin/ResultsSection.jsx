@@ -417,13 +417,13 @@ function ResultsSection() {
         <div className="admin-section-card">
             <h2>Section pour ajouter un résultat</h2>
             <form onSubmit={(e) => {e.preventDefault(); handleAddResult();}}>
-                <div className="admin-row"></div>
+                <div className="admin-row">
                     <div className="admin-form-group">
                         <label className="admin-label">
                             Joueur
                             <span className="required-field">*</span>
                         </label>                    
-                        <select className={`admin-input ${selectedPlayerError ? "input-error" : ""}`}
+                        <select className={`admin-input players ${selectedPlayerError ? "input-error" : ""}`}
                             value={selectedPlayer}
                             onChange={(e) => {setSelectedPlayer(e.target.value); setSelectedPlayerError(false); setError("");}}                       
                         >

@@ -329,14 +329,12 @@ function EventsPlanningSection() {
         <div className="admin-section-card">
             <h2>Section pour planifier un évenement</h2>
             <form onSubmit={(e) => {e.preventDefault(); handleAddPlayerEvent();}}>
-                <p>Voici le prochain :</p>
+                <p>Voici l'évenement en cours :</p>
                 <div className="admin-row event-summary-row">
                     { event ? (
                         <>
-                            <span>🏌️ {event?.event_name}</span>
-                            <span>•</span>
-                            <span>📍 {event?.golf_course}</span>
-                            <span>•</span>
+                            <span>🏌️ {event?.event_name}</span><span>•</span>
+                            <span>📍 {event?.golf_course}</span><span>•</span>
                             <span>📅 {event?.event_date}</span>
                         </>
                         ) : (

@@ -190,7 +190,31 @@ function ResultsSection() {
 
 
 
+    
+       // Fonction pour réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
+        const handleReset = () => {
 
+            // Remise à l'état initial des champs du formulaire pour ajouter un résultat de ronde d'un joueur
+            setSelectedPlayer("");
+            setGrossScore("");
+            setAdjustedGrossScore("");            
+            setSelectedPosition("");            
+            setFedexPoints("");
+            
+            
+            // Remise à l'état initial du trigger pour remettre les bordures dans leur état normal
+            setSelectedPlayerError(false);
+            setGrossScoreError(false); 
+            setAdjustedGrossScoreError(false);
+            setSelectedPositionError(false);
+            setFedexPointsError(false);
+
+            // Remise à l'état initial du message d'erreur
+            setError("");
+
+            // Remise à l'état initial du message de succès
+            setSuccessMessage("");
+        };    
 
 
 

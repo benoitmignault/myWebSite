@@ -197,6 +197,28 @@ function ResultsSection() {
 
 
 
+    useEffect(() => {
+
+        // Il faut utiliser une notion asynchrone pour charger les données, en raison de l'utilisation 
+        const initializeData = async () => {
+
+            // On doit d'abord charger les informations de l'évenement en cours afin d'afficher la liste des joueurs pour leur assigner leur résultat de ronde
+            const event = await loadEvent();
+
+            // Ensuite, si on a un évenement qui est en cours, on peut charger la liste des joueurs disponibles pour l'ajout à cet évenement
+            if (event) {
+
+                // Car cette fonction dépend de l'id, pas id pas de fonction 
+                await loadRegisteredPlayers(event.id);
+            }                   
+        };
+        
+        // Charger tout les éléments dans la section du tournois en gestion en cours
+        initializeData();
+
+    }, []);
+
+
 
 
 

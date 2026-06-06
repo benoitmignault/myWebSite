@@ -75,21 +75,9 @@ function ResultsSection() {
 
     
 
-    // Bout de code pour retirer le joueur sélectionné de la liste des joueurs inscrits à l'événement en cours, 
-    // après l'insertion de son résultat de ronde, pour éviter d'insérer plusieurs résultats de ronde pour le même joueur
-    setRegisteredPlayers(prev =>
-        prev.filter(player =>
-            player.id !== Number(selectedPlayer)
-        )
-    );
+    
 
-    // Bout de code pour retirer la position du joueur sélectionné de la liste des positions des joueurs inscrits
-    //  à l'événement en cours, après l'insertion de son résultat de ronde, pour éviter d'insérer plusieurs résultats avec la même position
-    setAvailablePositions(prev =>
-        prev.filter(position =>
-            position !== Number(selectedPosition)
-        )
-    );
+    
 
 
     // Fonction pour charger les détails de l'évenement en cours pour récupérer son id

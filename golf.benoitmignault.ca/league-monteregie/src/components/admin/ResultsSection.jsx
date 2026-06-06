@@ -50,9 +50,6 @@ function ResultsSection() {
     // État pour stocker le score bruts ajusté du joueur inscrits à l'événement en cours
     const [adjustedGrossScore, setAdjustedGrossScore] = useState("");
 
-    // État pour stocker le score net du joueur inscrits à l'événement en cours
-    const [netScore, setNetScore] = useState("");
-
     // État pour stocker les points Fedex du joueur inscrits à l'événement en cours
     const [fedexPoints, setFedexPoints] = useState("");
 

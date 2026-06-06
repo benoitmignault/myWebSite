@@ -30,7 +30,7 @@ function ResultsSection() {
     const navigate = useNavigate();
 
     // État pour stocker l'évent en cours pour lequel on veut insérer les résultats
-    const [currentEvent, setCurrentEvent] = useState(null);
+    const [event, setEvent] = useState(null);
 
     // État pour stocker la liste des joueurs inscrits à l'événement en cours pour pouvoir insérer les résultats de chacun des joueurs
     const [registeredPlayers, setRegisteredPlayers] = useState([]);
@@ -110,7 +110,7 @@ function ResultsSection() {
             if (data.success) {
 
                 // Stocker les détails du prochain évenement qui sera en cours dans l'état nextEvent
-                setCurrentEvent(data.event);
+                setEvent(data.event);
 
                 // On retourne le résultat pour pouvoir l'utiliser dans la fonction d'initialisation des données du useEffect, 
                 // pour ensuite charger la liste des joueurs disponibles pour l'ajout à cet évenement

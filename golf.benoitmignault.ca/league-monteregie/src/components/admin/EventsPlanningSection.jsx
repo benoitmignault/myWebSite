@@ -194,6 +194,12 @@ function EventsPlanningSection() {
         // TODO: Changer error pour une liste de msg erreur pour pouvoir afficher plusieurs erreurs à la fois, 
         // au lieu de n'afficher que la première erreur rencontrée.
 
+        if (!event) {
+
+            setError("Aucun événement actif.");
+            return;
+        }
+
         // Validation du champ de sélection du joueur et de l'équipe, qui sont tous les deux obligatoires
         let hasError = false;
 
@@ -231,7 +237,7 @@ function EventsPlanningSection() {
                     method: "POST",
                     credentials: "include",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({event_id: event?.id, player_id: selectedPlayer, team_id: team})
+                    body: JSON.stringify({event_id: event.id, player_id: selectedPlayer, team_id: team})
                 }
             );
 

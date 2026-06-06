@@ -26,6 +26,7 @@ if (!$conn) {
 // On commence par récupérer le id de event pour aller faire la requête SQL par la suite
 $eventId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+// Vérifier si l'identifiant de l'événement est valide
 if ($eventId <= 0) {
 
     http_response_code(400);

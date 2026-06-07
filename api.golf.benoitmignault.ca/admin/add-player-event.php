@@ -36,9 +36,9 @@ if (!$data) {
 }
 
 // Récupérer les données envoyées depuis le frontend
-$eventId = $data['event_id'];
-$playerId = $data['player_id'];
-$teamId = $data['team_id'];
+$eventId = $data['eventId'];
+$playerId = $data['playerId'];
+$teamId = $data['teamId'];
 
 // Validation des données
 if ($eventId <= 0 || $playerId <= 0 || $teamId <= 0) {

@@ -61,11 +61,37 @@ $adjustedGrossScore = $data['adjustedGrossScore'];
 $netScore = $data['netScore'];
 $fedexPoints = $data['fedexPoints'];
 
+// Validation des données pour s'assurer que les champs obligatoires ne sont pas vides, 
+// sauf pour le netScore qui peut être égal à 0 ou même négatif
+if (empty($eventId) || empty($playerId) || empty($position) || 
+    $grossScore === "" || $adjustedGrossScore === "" || $fedexPoints === "" || $netScore === "") {
+
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Veuillez remplir tous les champs obligatoires."]);
+    exit();
+}
+
+// Validation des données pour s'assurer que les champs numériques sont valides, on valider le scoreNet ici seulement
+if (!is_numeric($position) || !is_numeric($grossScore) || !is_numeric($adjustedGrossScore) || !is_numeric($fedexPoints) || !is_numeric($netScore)) {
+
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Les champs numériques sont invalides."]);
+    exit();
+}
+
 // Validation des données, sauf our le netScore qui peut être égal à 0 ou même négatif
 if ($eventId <= 0 || $playerId <= 0 || $position <= 0 || $grossScore <= 0 || $adjustedGrossScore <= 0 || $fedexPoints <= 0) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Informations invalides."]);
+    exit();
+}
+
+// Validation pour s'assurer que le score brut ajusté ne peut pas être supérieur au score brut
+if ($adjustedGrossScore > $grossScore) {
+
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Le score brut ajusté ne peut pas être supérieur au score brut."]);
     exit();
 }
 

@@ -239,3 +239,68 @@ if (!$stmt->execute()) {
     $conn->close();
     exit();
 }
+
+// Étape 2 - On doit recalculer la moyenne des scores bruts du joueur en question, après chaque ajout de résultat
+// Pour ce faire, on va récupérer tous les scores bruts du joueur en question dans la table round_results, 
+// faire la moyenne et faire un update de la moyenne des scores bruts dans la table players
+
+// Étape 2.1 - Extraire la moyenne des scores bruts du joueur en question à partir de la table round_results
+$select = "SELECT AVG(gross_score) AS average_score ";
+$from = "FROM round_results ";
+$where = "WHERE player_id = ?";
+$sql = $select . $from . $where;
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $playerId);
+
+// Exécuter la requête SQL pour insérer le nouveau joueur dans la base de données
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de la récupération des scores bruts du joueur pour faire la moyenne."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+
+    http_response_code(404);
+    echo json_encode(["success" => false, "message" => "Aucun score brut trouvé pour ce joueur."]);
+
+     // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+$row = $result->fetch_assoc();
+$averageScore = $row['average_score'];
+
+// On va garder une décimale pour la moyenne des scores bruts
+$averageScore = round($averageScore, 1);
+
+// Étape 2.2 - Faire un update de la moyenne des scores bruts dans la table players
+$update = "UPDATE players SET average_score = ? WHERE id = ?";
+$stmt = $conn->prepare($update);
+$stmt->bind_param("di", $averageScore, $playerId);
+
+// Exécuter la requête SQL pour faire un update de la moyenne des scores bruts dans la table players
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour de la moyenne des scores bruts du joueur."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}

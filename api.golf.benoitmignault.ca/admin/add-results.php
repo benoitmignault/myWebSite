@@ -11,10 +11,10 @@
 
 // Étape 1 - Insérer le résultat du joueur dans la table round_results
 
-// Étape 2 - De ce même joueur, on doit vérifier si on doit faire un recalcul de son handicap en fonction du nombre de rondes jouées 
-// et faire un update de son handicap dans la table players
+// Étape 2 - On doit recalculer la moyenne des scores bruts du joueur en question, après chaque ajout de résultat
 
-// Étape 3 - On doit recalculer la moyenne des scores bruts du joueur en question, après chaque ajout de résultat
+// Étape 3 - De ce même joueur, on doit vérifier si on doit faire un recalcul de son handicap en fonction du nombre de rondes jouées 
+// et faire un update de son handicap dans la table players
 
 // Étape 4 - Une fois que tous les joueurs du même événement ont leurs résultats ajoutés :
 // Étape 4.1 - On doit faire un recalcul des current_position dans la table «player_event_history»

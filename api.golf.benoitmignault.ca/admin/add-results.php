@@ -53,3 +53,110 @@ if (!$data) {
 }
 
 // Récupérer les données envoyées depuis le frontend
+$eventId = $data['eventId'];
+$playerId = $data['playerId'];
+$position = $data['position'];
+$grossScore = $data['grossScore'];
+$adjustedGrossScore = $data['adjustedGrossScore'];
+$netScore = $data['netScore'];
+$fedexPoints = $data['fedexPoints'];
+
+// Validation des données, sauf our le netScore qui peut être égal à 0 ou même négatif
+if ($eventId <= 0 || $playerId <= 0 || $position <= 0 || $grossScore <= 0 || $adjustedGrossScore <= 0 || $fedexPoints <= 0) {
+
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Informations invalides."]);
+    exit();
+}
+
+// Établir une connexion à la base de données de la ligue de golf en montérégie
+$conn = connexion_league_golf_monteregie();
+
+if (!$conn) {
+
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);
+    exit();
+}
+
+// Étape 0, on doit valider si l'event est ouvert ou pas, si ouvert, 
+// on fait la MAJ des positions actuelles vers le champ previous_position de la table players, 
+// sinon on ne fait pas la MAJ des positions vers le champ previous_position de la table players
+$select = "SELECT is_open ";
+$from = "FROM events ";
+$where = "WHERE id = ?";
+$sql = $select . $from . $where;
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $eventId);
+
+// Exécuter la requête SQL pour vérifier que l'événement existe et récupérer son statut d'ouverture et de fermeture
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de la vérification de l'événement."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+
+    http_response_code(404);
+    echo json_encode(["success" => false, "message" => "Événement introuvable."]);
+
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+// Vérification que l'événement n'est pas déjà fermé avant aller plus loin
+$row = $result->fetch_assoc();
+
+// Si l'événement est ouvert, on fait la MAJ des positions actuelles vers le champ previous_position de la table players, 
+// sinon on ne fait pas la MAJ des positions vers le champ previous_position de la table players et on passe à l'étape 1
+if ($row['is_open'] == 1) {
+
+    // Étape 0.1 - Récupérer les positions actuelles de tous les joueurs pour les mettre à jour dans le champ previous_position de la table players
+    $select = "SELECT p.id, COALESCE(SUM(r.fedex_points), 0) AS total_points ";
+    $from = "FROM players p LEFT JOIN round_results r ON p.id = r.player_id ";
+    $groupBy = "GROUP BY p.id ";
+    $orderBy = "ORDER BY total_points DESC, p.handicap_league ASC, p.firstname ASC";
+    $sql = $select . $from . $groupBy . $orderBy;
+
+    $result = $conn->query($sql);
+
+    // Vérifier si la requête a réussi
+    if (!$result) {
+
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+        $conn->close();
+        exit();
+    }
+
+    // Créationd'un tableau avec les nouvelles positions de tous les joueurs
+    $newPositions = [];
+
+    $position = 1;
+
+    while ($row = $result->fetch_assoc()) {
+
+        $newPositions[] = ["id" => $row['id'], "previous_position" => $position];
+        $position++;
+    }
+
+    // Étape 0.2
+
+
+
+
+
+
+
+}

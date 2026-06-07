@@ -151,12 +151,45 @@ if ($row['is_open'] == 1) {
         $position++;
     }
 
-    // Étape 0.2
+    // Étape 0.2 - Mettre à jour le champ previous_position de tous les joueurs 
+    // dans la table players avec les positions actuelles du classement avant entrer les résultats de la ronde en cours
+    $update = "UPDATE players SET previous_position = CASE id ";    
+    $switchCase = "";
 
+    foreach ($newPositions as $player) {
+        $switchCase .= "WHEN " . $player['id'] . " THEN " . $player['previous_position'] . " ";
+    }
 
+    $switchCase .= "END ";
 
+    // On doit faire un update de tous les joueurs dans la table players de lors positions actuels du classement général
+    $playerIds = implode(",", array_keys($newPositions));
 
+    // La condition pour faire le update de tous les joueurs dans la table players de lors positions actuels du classement général
+    $where = "WHERE id IN (" . implode(",", array_column($newPositions, 'id')) . ")";
 
+    $sql = $update . $switchCase . $where;
+    if (!$conn->query($sql)) {
 
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour des positions des joueurs."]);
+        $conn->close();
+        exit();
+    }
 
+    // Etape 0.3 - Remettre a 0 le is_open pour eviter ajouter des joueurs à un evenement qui est entrains de se faire ajouter des résultats
+    $update = "UPDATE events SET is_open = 0 WHERE id = ?";
+    $stmt = $conn->prepare($update);
+    $stmt->bind_param("i", $eventId);
+
+    if (!$stmt->execute()) {
+
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour de l'événement."]);
+        $stmt->close();
+        $conn->close();
+        exit();
+    }
 }
+
+// Etape 1 - Insérer le résultat du joueur dans la table round_results

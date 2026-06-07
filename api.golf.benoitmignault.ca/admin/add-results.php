@@ -219,3 +219,23 @@ if ($row['is_open'] == 1) {
 }
 
 // Etape 1 - Insérer le résultat du joueur dans la table round_results
+$sql = "INSERT INTO round_results (event_id, player_id, position, gross_score, gross_score_adjust, net_score, fedex_points) VALUES (?, ?, ?, ?, ?, ?, ?)";
+$stmt = $conn->prepare($sql);
+
+// Lier les paramètres à la requête préparée
+$stmt->bind_param("iiiiiii", $eventId, $playerId, $position, $grossScore, $adjustedGrossScore, $netScore, $fedexPoints);
+
+
+// Exécuter la requête SQL pour insérer le résultat du joueur dans la table round_results
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du résultat du joueur."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}

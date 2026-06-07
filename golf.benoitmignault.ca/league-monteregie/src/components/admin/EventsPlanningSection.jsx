@@ -231,7 +231,7 @@ function EventsPlanningSection() {
                     method: "POST",
                     credentials: "include",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({event_id: event.id, player_id: selectedPlayer, team_id: team})
+                    body: JSON.stringify({eventId: event.id, playerId: selectedPlayer, teamId: team})
                 }
             );
 

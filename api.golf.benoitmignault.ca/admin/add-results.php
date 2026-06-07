@@ -21,3 +21,35 @@
 // Étape 4.2 - On doit fermer l'évenement pour permettre au système de passer à l'événement suivant
 
 // Le classement général se recalcul tout seul à partir du fichier standing.php
+
+// Inclut les informations nécessaires pour CORS
+include(__DIR__ . "/../includes/cors.php");
+
+// Inclut les informations pour vérifier la session d'administrateur
+include(__DIR__ . "/auth/check-admin-session.php");
+
+// Inclut la fonction de connexion à la base de données
+include(__DIR__ . "/../includes/fct-connexion-bd.php");
+
+// S'assurer que la requête est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+
+    http_response_code(405);
+    echo json_encode(["success" => false, "message" => "Méthode non autorisée."]);
+    exit();
+}
+
+// Si on passe la validation du POST et que la session est valide, on poursuit avec la lecture des données reçues, 
+// la validation des données, la connexion à la base de données, 
+// l'insertion du joueur à l'événement dans la base de données et le retour d'une réponse JSON indiquant.
+$data = json_decode(file_get_contents("php://input"), true);
+
+// Vérifier si les données ont été reçues
+if (!$data) {
+
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Aucune donnée reçue"]);    
+    exit();
+}
+
+// Récupérer les données envoyées depuis le frontend

@@ -108,7 +108,7 @@ if (!$conn) {
 // Étape 0, on doit valider si l'event est ouvert ou pas, si ouvert, 
 // on fait la MAJ des positions actuelles vers le champ previous_position de la table players, 
 // sinon on ne fait pas la MAJ des positions vers le champ previous_position de la table players
-$select = "SELECT is_open ";
+$select = "SELECT is_open, is_updated ";
 $from = "FROM events ";
 $where = "WHERE id = ?";
 $sql = $select . $from . $where;
@@ -143,10 +143,12 @@ if ($result->num_rows === 0) {
 
 // Vérification que l'événement n'est pas déjà fermé avant aller plus loin
 $row = $result->fetch_assoc();
+$isOpen = $row['is_open'];
+$isUpdated = $row['is_updated'];
 
 // Si l'événement est ouvert, on fait la MAJ des positions actuelles vers le champ previous_position de la table players, 
 // sinon on ne fait pas la MAJ des positions vers le champ previous_position de la table players et on passe à l'étape 1
-if ($row['is_open'] == 1) {
+if ($isOpen == 1 && $isUpdated == 0) {
 
     // Étape 0.1 - Récupérer les positions actuelles de tous les joueurs pour les mettre à jour dans le champ previous_position de la table players
     $select = "SELECT p.id, COALESCE(SUM(r.fedex_points), 0) AS total_points ";

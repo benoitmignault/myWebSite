@@ -87,6 +87,7 @@ if ($result->num_rows === 0) {
     http_response_code(404);
     echo json_encode(["success" => false, "message" => "Événement introuvable."]);
 
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();
     $conn->close();
     exit();

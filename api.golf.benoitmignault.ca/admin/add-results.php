@@ -312,3 +312,108 @@ if (!$stmt->execute()) {
     exit();
 }
 
+// Étape 3 - De ce même joueur, on doit vérifier si on doit faire un recalcul de son handicap en fonction du nombre de rondes jouées 
+// et faire un update de son handicap dans la table players
+
+// On va commencer par récupérer la liste des scores brut ajusté du joueur en question trier du plus bas au plus élevé
+$select = "SELECT adjusted_gross_score ";
+$from = "FROM round_results ";
+$where = "WHERE player_id = ?";
+$orderby = "ORDER BY adjusted_gross_score ASC ";
+
+$sql = $select . $from . $where . $orderby;
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $playerId);
+
+// Exécuter la requête SQL pour récupérer la liste des scores brut ajusté du joueur en question trier du plus bas au plus élevé,
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de la récupération des scores brut ajusté du joueur pour faire le calcul du handicap."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+
+    http_response_code(404);
+    echo json_encode(["success" => false, "message" => "Aucun score brut ajusté trouvé pour ce joueur."]);
+
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+// Récupérer la liste des scores brut ajusté du joueur en question trier du plus bas au plus élevé dans un tableau
+$adjustedGrossScores = [];
+
+while ($row = $result->fetch_assoc()) {
+
+    $adjustedGrossScores[] = $row['adjusted_gross_score'];
+}
+
+// Maintenant, en fonction du nombre de scores brut ajusté du joueur en question
+$numberScoresToUse = count($adjustedGrossScores);
+
+// On va déterminer le nombre de scores brut ajusté à utiliser pour faire le calcul du handicap en fonction du nombre de rondes jouées
+if ($numberScoresToUse >= 1 && $numberScoresToUse <= 5) {
+    $bestScoresToUse = 1;
+
+} elseif ($numberScoresToUse >= 6 && $numberScoresToUse <= 8) {
+    $bestScoresToUse = 2;
+
+} elseif ($numberScoresToUse >= 9 && $numberScoresToUse <= 11) {
+    $bestScoresToUse = 3;
+
+} elseif ($numberScoresToUse >= 12 && $numberScoresToUse <= 14) {
+    $bestScoresToUse = 4;
+
+} elseif ($numberScoresToUse >= 15 && $numberScoresToUse <= 16) {
+    $bestScoresToUse = 5;
+
+} elseif ($numberScoresToUse >= 17 && $numberScoresToUse <= 18) {
+    $bestScoresToUse = 6;
+
+} elseif ($numberScoresToUse == 19) {
+    $bestScoresToUse = 7;
+
+} elseif ($numberScoresToUse >= 20) {
+    $bestScoresToUse = 8;
+}
+
+// On va prendre les $numberScoresToUse pour ensuite en extraire les meilleurs et faire le calcul du handicap et faire un update du handicap dans la table players
+$bestScores = array_slice($adjustedGrossScores, 0, $bestScoresToUse);
+
+// MAJ de l'handicap du joueur dans la table players, on va faire la moyenne des meilleurs scores brut ajusté et soustraire 72 
+// pour obtenir le handicap de la ligue de golf en montérégie
+$newHandicapLeague = round((array_sum($bestScores) / count($bestScores)) - 72, 1);
+
+// Handicap arrondi à 0 décimal pour handicap du prochain event
+$newHandicapLeagueRounded = round($newHandicapLeague, 0);
+
+// On va faire un update du handicap dans la table players
+$update = "UPDATE players SET handicap_league = ?, handicap_rounded = ? WHERE id = ?";
+$stmt = $conn->prepare($update);
+$stmt->bind_param("ddi", $newHandicapLeague, $newHandicapLeagueRounded, $playerId);
+
+// Exécuter la requête SQL pour faire un update du handicap dans la table players
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour du handicap du joueur."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}

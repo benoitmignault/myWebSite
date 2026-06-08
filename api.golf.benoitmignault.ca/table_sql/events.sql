@@ -10,6 +10,7 @@ CREATE TABLE events (
     -- Ces champs sont utilisés pour suivre l'état de l'événement
     is_open TINYINT(1) NOT NULL DEFAULT 0,
     is_closed TINYINT(1) NOT NULL DEFAULT 0,
+    is_updated TINYINT(1) NOT NULL DEFAULT 0,
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -32,7 +33,8 @@ VALUES
     'https://golfvalleedesforts.com/',
     '2026-05-10',
     0,
-    1
+    1,
+    0
 ),
 (
     'Semaine 2',
@@ -40,7 +42,8 @@ VALUES
     'https://www.farnhamgolf.com/',
     '2026-05-17',
     0,
-    1
+    1,
+    0
 ),
 (
     'Semaine 3',
@@ -48,13 +51,15 @@ VALUES
     'https://golflaseigneurie.ca/',
     '2026-05-24',
     0,
-    1
+    1,
+    0
 ),
 (
     'Semaine 4',
     'Club de golf Napierville',
     'https://golfnapierville.ca/',
     '2026-05-31',
+    0,
     0,
     0
 );

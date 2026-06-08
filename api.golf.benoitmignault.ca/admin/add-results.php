@@ -166,7 +166,7 @@ if ($row['is_open'] == 1) {
         exit();
     }
 
-    // Créationd'un tableau avec les nouvelles positions de tous les joueurs
+    // Création d'un tableau avec les nouvelles positions de tous les joueurs
     $newPositions = [];
 
     $position = 1;
@@ -189,10 +189,11 @@ if ($row['is_open'] == 1) {
     $switchCase .= "END ";
 
     // On doit faire un update de tous les joueurs dans la table players de lors positions actuels du classement général
+    // Transforme le tableau en chaine de caractères pour la clause WHERE de la requête SQL, en utilisant les id des joueurs
     $playerIds = implode(",", array_keys($newPositions));
 
     // La condition pour faire le update de tous les joueurs dans la table players de lors positions actuels du classement général
-    $where = "WHERE id IN (" . implode(",", array_column($newPositions, 'id')) . ")";
+    $where = "WHERE id IN (" . $playerIds . ")";
 
     $sql = $update . $switchCase . $where;
     if (!$conn->query($sql)) {
@@ -304,3 +305,4 @@ if (!$stmt->execute()) {
     $conn->close();
     exit();
 }
+

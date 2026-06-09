@@ -573,7 +573,9 @@ if ($totalResults == $totalPlayers) {
 
     $switchCase .= "END ";
 
-    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ current_position de la table player_event_history    
+    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ current_position de la table player_event_history
+    // array_keys , ici sera plutot 0,1,2,3... parce que le tableau $currentPositions est un tableau associatif avec comme clé l'id du joueur, 
+    // alors que le tableau $eventPlayers est un tableau indexé avec comme valeur l'id du joueur,
     $playerIds = implode(",", $eventPlayers);
 
     // La condition pour faire le update du champ current_position de la table player_event_history pour seulement les joueurs qui ont participé à l'événement en question

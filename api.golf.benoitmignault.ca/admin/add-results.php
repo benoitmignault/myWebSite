@@ -347,7 +347,7 @@ $result = $stmt->get_result();
 if ($result->num_rows === 0) {
 
     http_response_code(404);
-    echo json_encode(["success" => false, "message" => "Aucun score brut ajusté trouvé pour ce joueur."]);
+    echo json_encode(["success" => false, "message" => "Le joueur est introuvable pour faire le calcul du handicap."]);
 
     // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();

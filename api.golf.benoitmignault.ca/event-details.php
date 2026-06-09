@@ -59,7 +59,7 @@ $select = "SELECT p.firstname, p.lastname, r.gross_score, r.net_score, r.positio
 $from = "FROM events e INNER JOIN round_results r ON e.id = r.event_id
                         INNER JOIN players p ON r.player_id = p.id ";
 $where = "WHERE e.id = ? ";
-$orderBy = "ORDER BY r.position, r.handicap_used";
+$orderBy = "ORDER BY r.position";
 $sql = $select . $from . $where . $orderBy;
 
 // Exécuter la requête SQL

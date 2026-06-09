@@ -300,9 +300,9 @@ function ResultsSection() {
         // Si on passe les validations côté client, on peut alors procéder à l'appel de l'API 
         // pour ajouter le joueur à la ligue
         setLoading(true);
-
+        
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/add-result.php`,
+            const response = await fetch(`${API_BASE_URL}/admin/add-player-result.php`,
                 {
                     method: "POST",
                     credentials: "include",

@@ -213,7 +213,7 @@ if ($isOpen == 1 && $isUpdated == 0) {
     // que les positions ont été mises à jour, et ce champ sera réutiliser dans EventPlanningSection pour bloquer l'ajout de joueurs à un événement 
     // qui est entrains de se faire ajouter des résultats, et aussi pour éviter de faire la MAJ des positions vers le champ previous_position 
     // de la table players si jamais on ajoute des résultats après que l'événement soit fermé
-    $update = "UPDATE events SET isUpdated = 1 WHERE id = ?";
+    $update = "UPDATE events SET is_updated = 1 WHERE id = ?";
     $stmt = $conn->prepare($update);
     $stmt->bind_param("i", $eventId);
 

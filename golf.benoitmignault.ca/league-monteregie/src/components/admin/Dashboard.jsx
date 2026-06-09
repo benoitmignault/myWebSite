@@ -88,11 +88,11 @@ function Dashboard() {
                 </a>
             </div>
             <div className="dashboard-container">
-                <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>
+                <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>                
+                <ResultsSection />
+                <EventsPlanningSection />                
                 <PlayersSection />
                 <EventsSection />
-                <EventsPlanningSection />
-                <ResultsSection />
             </div>
             <div className="admin-photo-credit">
                 <BsCameraFill />

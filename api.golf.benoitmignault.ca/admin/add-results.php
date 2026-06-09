@@ -480,10 +480,145 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $totalPlayers = $row['total_players'];
 
-// Étape 4.1 - On doit faire un recalcul des current_position dans la table «player_event_history»
-// Étape 4.2 - On doit fermer l'évenement pour permettre au système de passer à l'événement suivant
+// Étape 4.1 - On doit faire un recalcul des 3 current_positionss dans la table «player_event_history» 
+// Soit pour : current_position, current_fedex_points, fedex_points_gained, current_handicap pour tous les joueurs de l'événement en question, 
+// et ce recalcul doit se faire à partir des données de la table round_results pour l'événement en question
 if ($totalResults == $totalPlayers) {
 
+    // Étape 4.1.1 - Commencons par «current_position»
+    // Recalcul du classement général avec les informations de la table round_results pour l'événement en question
+    $select = "SELECT p.id, COALESCE(SUM(r.fedex_points), 0) AS total_points ";
+    $from = "FROM players p LEFT JOIN round_results r ON p.id = r.player_id ";
+    $groupBy = "GROUP BY p.id ";
+    $orderBy = "ORDER BY total_points DESC, p.handicap_league ASC, p.firstname ASC";
+    $sql = $select . $from . $groupBy . $orderBy;
+
+    $result = $conn->query($sql);
+    // Vérifier si la requête a réussi
+    if (!$result) {
+
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+        $conn->close();
+        exit();
+    }
+
+    // Création d'un tableau avec les nouvelles positions de tous les joueurs + leurs points de FedEx total
+    $currentPositions  = [];
+
+    $position = 1;
+
+    while ($row = $result->fetch_assoc()) {
+
+        $currentPositions[] = ["player_id" => $row['id'], "current_position" => $position, "current_fedex_points" => $row['total_points']];
+        $position++;
+    }   
+
+    // Maintenant, on doit faire un update pour ceux qui ont participé à l'évenement en question
+    $select = "SELECT player_id ";
+    $from = "FROM player_event_history ";
+    $where = "WHERE event_id = ?";
+    $sql = $select . $from . $where;
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $eventId);
+
+    // Exécuter la requête SQL pour récupérer la liste des joueurs qui ont participé à l'événement en question
+    if (!$stmt->execute()) {
+
+        error_log($stmt->error);
+        
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de la récupération de la liste des joueurs qui ont participé à l'événement pour faire le recalcul des positions actuelles dans la table player_event_history."]); 
+        
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+        $stmt->close();
+        $conn->close();
+        exit();
+    }
+        
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) {
+
+        http_response_code(404);
+        echo json_encode(["success" => false, "message" => "Aucun joueur trouvé pour cet événement."]);
+
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+        $stmt->close();
+        $conn->close();
+        exit();
+    }
+
+    // La liste des joueurs qui ont participé à l'évenement
+    $eventPlayers = [];
+    
+    while ($row = $result->fetch_assoc()) {
+
+        $eventPlayers[] = $row["player_id"];
+    }
+
+    // Maintenant, on va faire un update du champ current_position de la table player_event_history pour tous les joueurs qui ont participé à l'événement en question
+    $update = "UPDATE player_event_history SET current_position = CASE player_id ";    
+    $switchCase = "";
+
+    // On va assigner la nouvelle position pour seulement les joueurs qui ont participé à l'événement en question
+    foreach ($eventPlayers as $playerId) {
+
+        // On récupère la position actuelle du joueur à partir du tableau des positions actuelles que nous avons créé précédemment
+        $currentPosition = $currentPositions[$playerId];
+        $switchCase .= " WHEN $playerId THEN $currentPosition";
+    }
+
+    $switchCase .= "END ";
+
+    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ current_position de la table player_event_history
+    $playerIds = implode(",", array_keys($eventPlayers));
+
+    // La condition pour faire le update du champ current_position de la table player_event_history pour seulement les joueurs qui ont participé à l'événement en question
+    $where = "WHERE event_id = $eventId AND player_id IN (" . $playerIds . ")";
+
+    $sql = $update . $switchCase . $where;
+    if (!$conn->query($sql)) {
+
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour des positions actuelles dans la table player_event_history."]);
+
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+        $conn->close();
+        exit();
+    }
+
+    // Étape 4.1.2 - Poursuivons avec «current_fedex_points»
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    // Étape 4.2
+    // Mise à jour de current_position
+
+    // Étape 4.3
+    // Mise à jour de current_fedex_points
+
+    // Étape 4.4
+    // Mise à jour de current_handicap
+
+    // Étape 4.5   
+    
 }
 
 

@@ -317,13 +317,14 @@ if (!$stmt->execute()) {
 // Étape 3 - De ce même joueur, on doit vérifier si on doit faire un recalcul de son handicap en fonction du nombre de rondes jouées 
 // et faire un update de son handicap dans la table players
 
-// On va commencer par récupérer la liste des scores brut ajusté du joueur en question trier du plus bas au plus élevé
-$select = "SELECT adjusted_gross_score ";
+// On va commencer par récupérer la liste des «scores brut ajusté» trier par event_id de manière décroissant pour le joueur en question à partir de la table round_results
+$select = "SELECT gross_score_adjust ";
 $from = "FROM round_results ";
 $where = "WHERE player_id = ?";
-$orderby = "ORDER BY adjusted_gross_score ASC ";
+$orderby = "ORDER BY event_id DESC ";
+$limit = "LIMIT 20";
 
-$sql = $select . $from . $where . $orderby;
+$sql = $select . $from . $where . $orderby . $limit;
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $playerId);
 
@@ -365,6 +366,9 @@ while ($row = $result->fetch_assoc()) {
 // Maintenant, en fonction du nombre de scores brut ajusté du joueur en question
 $numberScoresToUse = count($adjustedGrossScores);
 
+// Triage du tableau des scores brut ajusté du joueur en question du plus bas au plus élevé
+sort($adjustedGrossScores);
+
 // On va déterminer le nombre de scores brut ajusté à utiliser pour faire le calcul du handicap en fonction du nombre de rondes jouées
 if ($numberScoresToUse >= 1 && $numberScoresToUse <= 5) {
     $bestScoresToUse = 1;
@@ -387,11 +391,11 @@ if ($numberScoresToUse >= 1 && $numberScoresToUse <= 5) {
 } elseif ($numberScoresToUse == 19) {
     $bestScoresToUse = 7;
 
-} elseif ($numberScoresToUse >= 20) {
+} elseif ($numberScoresToUse == 20) {
     $bestScoresToUse = 8;
 }
 
-// On va prendre les $numberScoresToUse pour ensuite en extraire les meilleurs et faire le calcul du handicap et faire un update du handicap dans la table players
+// On va prendre les $numberScoresToUse pour ensuite en extraire les X derniers résultats les meilleurs et faire le calcul du handicap et faire un update du handicap dans la table players
 $bestScores = array_slice($adjustedGrossScores, 0, $bestScoresToUse);
 
 // MAJ de l'handicap du joueur dans la table players, on va faire la moyenne des meilleurs scores brut ajusté et soustraire 72 

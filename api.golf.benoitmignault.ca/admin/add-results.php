@@ -510,7 +510,7 @@ if ($totalResults == $totalPlayers) {
 
     while ($row = $result->fetch_assoc()) {
 
-        $currentPositions[] = ["player_id" => $row['id'], "current_position" => $position, "current_fedex_points" => $row['total_points']];
+        $currentPositions[$row['id']] = ["current_position" => $position, "current_fedex_points" => $row['total_points']];
         $position++;
     }   
 
@@ -565,7 +565,7 @@ if ($totalResults == $totalPlayers) {
     foreach ($eventPlayers as $playerId) {
 
         // On récupère la position actuelle du joueur à partir du tableau des positions actuelles que nous avons créé précédemment
-        $currentPosition = $currentPositions[$playerId];
+        $currentPosition =  $currentPositions[$playerId]['current_position'];
         $switchCase .= " WHEN $playerId THEN $currentPosition";
     }
 

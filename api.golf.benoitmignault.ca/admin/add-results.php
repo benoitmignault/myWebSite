@@ -18,9 +18,11 @@
 
 // Étape 4 - Une fois que tous les joueurs du même événement ont leurs résultats ajoutés :
 // Étape 4.1 - On doit faire un recalcul des current_position dans la table «player_event_history»
+// Étape 4.1.1 - Commencons par «current_position»
+// Étape 4.1.2 - Poursuivons avec «current_fedex_points»
+// Étape 4.1.3 - Poursuivons avec «fedex_points_gained»
+// Étape 4.1.4 - Poursuivons avec «current_handicap»
 // Étape 4.2 - On doit fermer l'évenement et remettre à 0 is_update et is_open et mettre à 1 is_closed pour permettre au système de passer à l'événement suivant
-
-// Le classement général se recalcul tout seul à partir du fichier standing.php
 
 // Inclut les informations nécessaires pour CORS
 include(__DIR__ . "/../includes/cors.php");

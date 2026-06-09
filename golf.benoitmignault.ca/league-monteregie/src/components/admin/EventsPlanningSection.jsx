@@ -251,7 +251,7 @@ function EventsPlanningSection() {
             if (data.success) {
 
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
-                setSuccessMessage(`${playerName} a été ajouté à la ligue dans l'équipe #${team}.`);
+                setSuccessMessage(`${playerName} a été ajouté à l'évenement en cours dans l'équipe #${team}.`);
 
                 // Recharger la liste des joueurs disponibles pour l'ajout à cet évenement, 
                 // pour que le joueur ajouté n'apparaisse plus dans la liste des joueurs disponibles

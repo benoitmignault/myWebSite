@@ -591,7 +591,7 @@ if ($totalResults == $totalPlayers) {
     }
 
     // Étape 4.1.2 - Poursuivons avec «current_fedex_points»
-    // On va réutiliser le tableau currentPositions contenant les points totaux d ela FeDex
+    // On va réutiliser le tableau currentPositions contenant les points totaux de la FeDex
     // Maintenant, on va faire un update du champ current_fedex_points de la table player_event_history pour tous les joueurs qui ont participé à l'événement en question
     $update = "UPDATE player_event_history SET current_fedex_points = CASE player_id ";    
     $switchCase = "";
@@ -624,7 +624,45 @@ if ($totalResults == $totalPlayers) {
     }
 
     // Étape 4.1.3 - Poursuivons avec «fedex_points_gained»
+    // On va encore réutiliser le tableau currentPositions contenant les points de FedEx gagnés pour l'événement en question
+    // Maintenant, on va faire un update du champ fedex_points_gained de la table player_event_history pour tous les joueurs qui ont participé à l'événement en question
+    $update = "UPDATE player_event_history SET fedex_points_gained = CASE player_id ";    
+    $switchCase = "";
 
+    // On va assigner les points de FedEx gagnés pour seulement les joueurs qui ont participé à l'événement en question
+    foreach ($eventPlayers as $playerId) {
+
+        // On récupère les points de FedEx gagnés du joueur à partir du tableau des positions actuelles que nous avons créé précédemment
+        // Les joueurs qui n'ont pas participé à l'événement en question vont avoir une valeur de 0 pour les points de FedEx gagnés, 
+        // mais il ne sont pas utiles pour faire le update du champ fedex_points_gained de la table player_event_history, 
+        // car on ne fait le update de ce champ que pour les joueurs qui ont participé à l'événement en question
+        $fedexPointsGained =  $currentPositions[$playerId]['fedex_points_gained'];
+        $switchCase .= " WHEN $playerId THEN $fedexPointsGained ";
+    }
+
+    $switchCase .= "END ";
+
+    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ fedex_points_gained de la table player_event_history    
+    $playerIds = implode(",", $eventPlayers);
+
+    // La condition pour faire le update du champ fedex_points_gained de la table player_event_history pour seulement les joueurs qui ont participé à l'événement en question
+    $where = "WHERE event_id = $eventId AND player_id IN (" . $playerIds . ")";
+
+    $sql = $update . $switchCase . $where;
+    if (!$conn->query($sql)) {
+
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour des points FedEx actuels dans la table player_event_history."]);
+
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+        $conn->close();
+        exit();
+    }
+
+
+    // Étape 4.1.4 - Poursuivons avec «current_handicap»
+    // On va faire un update du champ current_handicap de la table player_event_history pour tous les joueurs qui ont participé à l'événement en question, 
+    // en utilisant le handicap actuel du joueur dans la table players
 
 
 

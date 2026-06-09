@@ -568,13 +568,13 @@ if ($totalResults == $totalPlayers) {
 
         // On récupère la position actuelle du joueur à partir du tableau des positions actuelles que nous avons créé précédemment
         $currentPosition =  $currentPositions[$playerId]['current_position'];
-        $switchCase .= " WHEN $playerId THEN $currentPosition";
+        $switchCase .= " WHEN $playerId THEN $currentPosition ";
     }
 
     $switchCase .= "END ";
 
-    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ current_position de la table player_event_history
-    $playerIds = implode(",", array_keys($eventPlayers));
+    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ current_position de la table player_event_history    
+    $playerIds = implode(",", $eventPlayers);
 
     // La condition pour faire le update du champ current_position de la table player_event_history pour seulement les joueurs qui ont participé à l'événement en question
     $where = "WHERE event_id = $eventId AND player_id IN (" . $playerIds . ")";
@@ -600,14 +600,14 @@ if ($totalResults == $totalPlayers) {
     foreach ($eventPlayers as $playerId) {
 
         // On récupère la position actuelle du joueur à partir du tableau des positions actuelles que nous avons créé précédemment
-        $current_fedex_points =  $currentPositions[$playerId]['current_fedex_points'];
-        $switchCase .= " WHEN $playerId THEN $current_fedex_points";
+        $currentFedexPoints =  $currentPositions[$playerId]['current_fedex_points'];
+        $switchCase .= " WHEN $playerId THEN $currentFedexPoints ";
     }
 
     $switchCase .= "END ";
 
-    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ current_fedex_points de la table player_event_history
-    $playerIds = implode(",", array_keys($eventPlayers));
+    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ current_fedex_points de la table player_event_history    
+    $playerIds = implode(",", $eventPlayers);
 
     // La condition pour faire le update du champ current_fedex_points de la table player_event_history pour seulement les joueurs qui ont participé à l'événement en question
     $where = "WHERE event_id = $eventId AND player_id IN (" . $playerIds . ")";

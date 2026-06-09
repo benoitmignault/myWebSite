@@ -158,6 +158,7 @@ if ($isOpen == 1 && $isUpdated == 0) {
     $sql = $select . $from . $groupBy . $orderBy;
 
     $result = $conn->query($sql);
+
     // Vérifier si la requête a réussi
     if (!$result) {
 
@@ -480,15 +481,16 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $totalPlayers = $row['total_players'];
 
-// Étape 4.1 - On doit faire un recalcul des 3 current_positionss dans la table «player_event_history» 
+// Étape 4.1.0 - On doit faire un recalcul des 3 current_positionss dans la table «player_event_history» 
 // Soit pour : current_position, current_fedex_points, fedex_points_gained, current_handicap pour tous les joueurs de l'événement en question, 
 // et ce recalcul doit se faire à partir des données de la table round_results pour l'événement en question
 if ($totalResults == $totalPlayers) {
 
     // Étape 4.1.1 - Commencons par «current_position»
     // Recalcul du classement général avec les informations de la table round_results pour l'événement en question
-    $select = "SELECT p.id, COALESCE(SUM(r.fedex_points), 0) AS total_points ";
-    $from = "FROM players p LEFT JOIN round_results r ON p.id = r.player_id ";
+    $select = "SELECT p.id, COALESCE(SUM(r.fedex_points), 0) AS total_points, COALESCE(rr.fedex_points, 0) AS fedex_points_gained ";
+    $from = "FROM players p LEFT JOIN round_results r ON p.id = r.player_id
+                                LEFT JOIN round_results rr ON p.id = rr.player_id AND rr.event_id = $eventId ";
     $groupBy = "GROUP BY p.id ";
     $orderBy = "ORDER BY total_points DESC, p.handicap_league ASC, p.firstname ASC";
     $sql = $select . $from . $groupBy . $orderBy;

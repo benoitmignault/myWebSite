@@ -432,10 +432,6 @@ tbody tr:nth-child(even) {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.team-card:last-child {
-    width: 100%;
-}
-
 .teams-container .team-card h3 {
     margin-top: 0;
     margin-bottom: 15px;

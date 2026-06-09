@@ -202,6 +202,8 @@ if ($isOpen == 1 && $isUpdated == 0) {
 
         http_response_code(500);
         echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour des positions des joueurs."]);
+
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
         $conn->close();
         exit();
     }

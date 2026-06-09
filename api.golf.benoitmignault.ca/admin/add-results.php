@@ -512,7 +512,7 @@ if ($totalResults == $totalPlayers) {
 
     while ($row = $result->fetch_assoc()) {
 
-        $currentPositions[$row['id']] = ["current_position" => $position, "current_fedex_points" => $row['total_points']];
+        $currentPositions[$row['id']] = ["current_position" => $position, "current_fedex_points" => $row['total_points'], "fedex_points_gained" => $row['fedex_points_gained']];
         $position++;
     }   
 

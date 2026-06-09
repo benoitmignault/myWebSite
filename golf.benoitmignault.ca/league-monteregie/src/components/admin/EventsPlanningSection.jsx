@@ -380,25 +380,25 @@ function EventsPlanningSection() {
                     </button>
                 </div>
                 {error && <p className={`admin-error-message ${messageType}`}>✗ {error}</p>}
-                {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}
-                <div className="teams-container">
-                    <h2>Les équipes de l'évenement :</h2>
-                    {teamsEvent.length > 0 ? (
-                        teamsEvent.map(team => 
-                        (
-                            <div key={team.team_id} className="team-card">
-                                <h3>Équipe #{team.team_id} ({team.players.length})</h3>
-                                <ul>
-                                    {team.players.map(player => (<li key={player.id}>{player.firstname} {player.lastname} ({player.handicap_rounded})</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))
-                    ) : (
-                        <p>Aucune équipe disponible.</p>
-                    )}
-                </div>
+                {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}                
             </form>
+            <div className="teams-container">
+                <h2>Les équipes de l'évenement :</h2>
+                {teamsEvent.length > 0 ? (
+                    teamsEvent.map(team => 
+                    (
+                        <div key={team.team_id} className="team-card">
+                            <h3>Équipe #{team.team_id} ({team.players.length})</h3>
+                            <ul>
+                                {team.players.map(player => (<li key={player.id}>{player.firstname} {player.lastname} ({player.handicap_rounded})</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))
+                ) : (
+                    <p>Aucune équipe disponible.</p>
+                )}
+            </div>
         </div>
     );
 }

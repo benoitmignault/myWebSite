@@ -158,7 +158,6 @@ if ($isOpen == 1 && $isUpdated == 0) {
     $sql = $select . $from . $groupBy . $orderBy;
 
     $result = $conn->query($sql);
-
     // Vérifier si la requête a réussi
     if (!$result) {
 
@@ -423,3 +422,76 @@ if (!$stmt->execute()) {
     $conn->close();
     exit();
 }
+
+// Étape 4 - Une fois que tous les joueurs du même événement ont leurs résultats ajoutés :
+
+// Comparer le nombre résultats ajoutés pour l'événement en question avec le nombre de joueurs inscrits à cet événement, si les deux nombres sont égaux,
+// alors on fait le recalcul des positions actuelles dans la table «player_event_history», 
+// sinon on ne fait pas le recalcul des positions actuelles dans la table «player_event_history»
+$select = "SELECT COUNT(*) AS total_results ";
+$from = "FROM round_results ";
+$where = "WHERE event_id = ?";
+$sql = $select . $from . $where;
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $eventId);
+
+// Exécuter la requête SQL pour faire le comptage du nombre de résultats ajoutés pour l'événement en question
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors du comptage du nombre de résultats ajoutés pour l'événement."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$totalResults = $row['total_results'];
+
+$select = "SELECT COUNT(*) AS total_players ";
+$from = "FROM event_players ";
+$where = "WHERE event_id = ?";
+
+$sql = $select . $from . $where;
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $eventId);
+
+// Exécuter la requête SQL pour faire le comptage du nombre de joueurs inscrits à l'événement en question
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors du comptage du nombre de joueurs inscrits à l'événement."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$totalPlayers = $row['total_players'];
+
+// Étape 4.1 - On doit faire un recalcul des current_position dans la table «player_event_history»
+// Étape 4.2 - On doit fermer l'évenement pour permettre au système de passer à l'événement suivant
+if ($totalResults == $totalPlayers) {
+
+}
+
+
+
+
+
+
+
+
+
+
+

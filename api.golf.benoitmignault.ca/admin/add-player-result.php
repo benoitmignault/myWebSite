@@ -323,7 +323,7 @@ if (!$stmt->execute()) {
 // On va commencer par récupérer la liste des «scores brut ajusté» trier par event_id de manière décroissant pour le joueur en question à partir de la table round_results
 $select = "SELECT gross_score_adjust ";
 $from = "FROM round_results ";
-$where = "WHERE player_id = ?";
+$where = "WHERE player_id = ? ";
 $orderby = "ORDER BY event_id DESC ";
 $limit = "LIMIT 20";
 
@@ -363,7 +363,7 @@ $adjustedGrossScores = [];
 
 while ($row = $result->fetch_assoc()) {
 
-    $adjustedGrossScores[] = $row['adjusted_gross_score'];
+    $adjustedGrossScores[] = $row['gross_score_adjust'];
 }
 
 // Maintenant, en fonction du nombre de scores brut ajusté du joueur en question
@@ -667,7 +667,7 @@ if ($totalResults == $totalPlayers) {
     // On va faire un update du champ current_handicap de la table player_event_history pour tous les joueurs qui ont participé à l'événement en question, 
     // en utilisant l'handicap actuel de tous les joueurs dans la table players
     $select = "SELECT id, handicap_league ";
-    $from = "FROM players ";
+    $from = "FROM players";
     $sql = $select . $from;
     $result = $conn->query($sql);
 

@@ -716,40 +716,33 @@ if ($totalResults == $totalPlayers) {
         $conn->close();
         exit();
     }
-    
 
+    // Étape 4.2 - On doit fermer l'évenement et remettre à 0 is_update et is_open et mettre à 1 is_closed 
+    // pour permettre au système de passer à l'événement suivant
+    $update = "UPDATE events SET is_open = 0, is_updated = 0, is_closed = 1 WHERE id = ?";
+    $stmt = $conn->prepare($update);
+    $stmt->bind_param("i", $eventId);
 
+    if (!$stmt->execute()) {
 
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour de l'événement pour le fermer."]);
 
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données    
+        $stmt->close();
+        $conn->close();
+        exit();
+    }
 
+    $message = "Le dernier résultat du joueur a été ajouté avec succès, et l'événement est maintenant fermé.";
+} else {
 
-
-
-    
-
-
-
-
-
-
-
-    // Étape 4.4
-    // Mise à jour de current_handicap
-    
-    // Étape 4.5
-    // Mise à jour de fedex_points_gained
-
-       
-    
+    $message = "Le résultat du joueur a été ajouté avec succès. Il reste encore des résultats à ajouter pour cet événement.";
 }
 
+// Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+$stmt->close();
+$conn->close();
 
-
-
-
-
-
-
-
-
-
+http_response_code(201);
+echo json_encode(["success" => true, "message" => $message]);

@@ -59,6 +59,9 @@ $select = "SELECT p.firstname, p.lastname, r.gross_score, r.net_score, r.positio
 $from = "FROM events e INNER JOIN round_results r ON e.id = r.event_id
                         INNER JOIN players p ON r.player_id = p.id ";
 $where = "WHERE e.id = ? ";
+
+// 2026-06-09, correction du bug en raison de la suppression du champ «handicap_used» dans la table round_results,
+// le classement se fait maintenant uniquement à partir du position
 $orderBy = "ORDER BY r.position";
 $sql = $select . $from . $where . $orderBy;
 

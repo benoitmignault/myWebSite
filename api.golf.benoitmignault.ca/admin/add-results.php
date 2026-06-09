@@ -661,10 +661,60 @@ if ($totalResults == $totalPlayers) {
         exit();
     }
 
-
     // Étape 4.1.4 - Poursuivons avec «current_handicap»
     // On va faire un update du champ current_handicap de la table player_event_history pour tous les joueurs qui ont participé à l'événement en question, 
-    // en utilisant le handicap actuel du joueur dans la table players
+    // en utilisant l'handicap actuel de tous les joueurs dans la table players
+    $select = "SELECT id, handicap_league ";
+    $from = "FROM players ";
+    $sql = $select . $from;
+    $result = $conn->query($sql);
+
+    // Vérifier si la requête a réussi
+    if (!$result) {
+
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+        $conn->close();
+        exit();
+    }
+
+    $currentHandicaps = [];
+
+    while ($row = $result->fetch_assoc()) {
+
+        $currentHandicaps[$row['id']] = $row['handicap_league'];
+    }
+
+    // Maintenant, on peut préparer le switch cas epour update de ceux qui ont participé à l'évenement en question
+    $update = "UPDATE player_event_history SET current_handicap = CASE player_id ";
+
+    // On va assigner le handicap actuel pour seulement les joueurs qui ont participé à l'événement en question
+    foreach ($eventPlayers as $playerId) {
+        
+    // On récupère le handicap actuel du joueur à partir du tableau des handicaps actuels que nous avons créé précédemment
+        $currentHandicap =  $currentHandicaps[$playerId];
+        $switchCase .= " WHEN $playerId THEN $currentHandicap ";
+    }
+
+    $switchCase .= "END ";
+
+    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ fedex_points_gained de la table player_event_history    
+    $playerIds = implode(",", $eventPlayers);
+
+    // La condition pour faire le update du champ fedex_points_gained de la table player_event_history pour seulement les joueurs qui ont participé à l'événement en question
+    $where = "WHERE event_id = $eventId AND player_id IN (" . $playerIds . ")";
+
+    $sql = $update . $switchCase . $where;
+    if (!$conn->query($sql)) {
+
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour des handicaps actuels dans la table player_event_history."]);
+
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+        $conn->close();
+        exit();
+    }
+    
 
 
 

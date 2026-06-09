@@ -589,8 +589,39 @@ if ($totalResults == $totalPlayers) {
     }
 
     // Étape 4.1.2 - Poursuivons avec «current_fedex_points»
+    // On va réutiliser le tableau currentPositions contenant les points totaux d ela FeDex
+    // Maintenant, on va faire un update du champ current_fedex_points de la table player_event_history pour tous les joueurs qui ont participé à l'événement en question
+    $update = "UPDATE player_event_history SET current_fedex_points = CASE player_id ";    
+    $switchCase = "";
 
+    // On va assigner la nouvelle position pour seulement les joueurs qui ont participé à l'événement en question
+    foreach ($eventPlayers as $playerId) {
 
+        // On récupère la position actuelle du joueur à partir du tableau des positions actuelles que nous avons créé précédemment
+        $current_fedex_points =  $currentPositions[$playerId]['current_fedex_points'];
+        $switchCase .= " WHEN $playerId THEN $current_fedex_points";
+    }
+
+    $switchCase .= "END ";
+
+    // La liste des joueurs qui ont participé à l'évenement pour lequel on va faire le update du champ current_fedex_points de la table player_event_history
+    $playerIds = implode(",", array_keys($eventPlayers));
+
+    // La condition pour faire le update du champ current_fedex_points de la table player_event_history pour seulement les joueurs qui ont participé à l'événement en question
+    $where = "WHERE event_id = $eventId AND player_id IN (" . $playerIds . ")";
+
+    $sql = $update . $switchCase . $where;
+    if (!$conn->query($sql)) {
+
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour des points FedEx actuels dans la table player_event_history."]);
+
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+        $conn->close();
+        exit();
+    }
+
+    // Étape 4.1.3 - Poursuivons avec «fedex_points_gained»
 
 
 
@@ -608,16 +639,13 @@ if ($totalResults == $totalPlayers) {
 
 
 
-    // Étape 4.2
-    // Mise à jour de current_position
-
-    // Étape 4.3
-    // Mise à jour de current_fedex_points
-
     // Étape 4.4
     // Mise à jour de current_handicap
+    
+    // Étape 4.5
+    // Mise à jour de fedex_points_gained
 
-    // Étape 4.5   
+       
     
 }
 

@@ -169,13 +169,13 @@ if ($isOpen == 1 && $isUpdated == 0) {
 
     // Création d'un tableau avec les positions actuelles de tous les joueurs, 
     // on va utiliser ce tableau pour faire un update du champ previous_position de la table players
-    $oldPositions = [];
+    $previousPositions = [];
 
     $position = 1;
 
     while ($row = $result->fetch_assoc()) {
 
-        $oldPositions[] = ["id" => $row['id'], "previous_position" => $position];
+        $previousPositions[$row['id']] = $position;
         $position++;
     }
 
@@ -184,17 +184,17 @@ if ($isOpen == 1 && $isUpdated == 0) {
     $update = "UPDATE players SET previous_position = CASE id ";    
     $switchCase = "";
 
-    foreach ($oldPositions as $player) {
-        $switchCase .= "WHEN " . $player['id'] . " THEN " . $player['previous_position'] . " ";
+    foreach ($previousPositions as $playerId => $position) {
+        $switchCase .= " WHEN " . $playerId . " THEN " . $position . " ";
     }
 
     $switchCase .= "END ";
 
-    // On doit faire un update de tous les joueurs dans la table players de lors positions actuels du classement général
-    // Transforme le tableau en chaine de caractères pour la clause WHERE de la requête SQL, en utilisant les id des joueurs
-    $playerIds = implode(",", array_keys($oldPositions));
+    // On doit faire un update de tous les joueurs dans la table players de leur positions actuels du classement général
+    // Transforme le tableau en chaine de caractères pour la clause WHERE de la requête SQL, en utilisant les id des joueurs    
+    $playerIds = implode(",", array_keys($previousPositions));
 
-    // La condition pour faire le update de tous les joueurs dans la table players de lors positions actuels du classement général
+    // La condition pour faire le update de tous les joueurs dans la table players de leurs positions actuels du classement général
     $where = "WHERE id IN (" . $playerIds . ")";
 
     $sql = $update . $switchCase . $where;

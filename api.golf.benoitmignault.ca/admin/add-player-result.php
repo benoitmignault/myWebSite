@@ -689,10 +689,13 @@ if ($totalResults == $totalPlayers) {
     while ($row = $result->fetch_assoc()) {
 
         $currentHandicaps[$row['id']] = $row['handicap_league'];
-    }
+    }    
 
     // Maintenant, on peut préparer le switch cas epour update de ceux qui ont participé à l'évenement en question
     $update = "UPDATE player_event_history SET current_handicap = CASE player_id ";
+    
+    // 2026-06-09, j'avais oublié d'ajouter un reset de la variable
+    $switchCase = "";
 
     // On va assigner le handicap actuel pour seulement les joueurs qui ont participé à l'événement en question
     foreach ($eventPlayers as $playerId) {
@@ -711,6 +714,7 @@ if ($totalResults == $totalPlayers) {
     $where = "WHERE event_id = $eventId AND player_id IN (" . $playerIds . ")";
 
     $sql = $update . $switchCase . $where;
+
     if (!$conn->query($sql)) {
 
         http_response_code(500);

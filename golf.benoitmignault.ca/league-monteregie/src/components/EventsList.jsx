@@ -43,6 +43,14 @@ function EventsList() {
 
                 // Mettre à jour l'état avec la liste des événements reçue de l'API 
                 // pour les afficher dans la liste des événements
+
+                // RÉorganisation pour convertir des string en number pour is_closed et is_open,
+                // pour éviter les problèmes de comparaison dans le rendu conditionnel du composant
+                data.events.forEach(event => {
+                    event.is_closed = Number(event.is_closed);
+                    event.is_open = Number(event.is_open);
+                });
+
                 setEvents(data.events);
             } else {
 
@@ -144,11 +152,11 @@ function EventsList() {
 
         // Si l'évenement est fermé, on va chercher les résultats du tournoi, sinon si l'événement est ouvert,
         // on va chercher les équipes du tournoi, sinon on affiche un message que les équipes ne sont pas encore disponibles
-        if (event.is_closed === "1") {
+        if (event.is_closed === 1) {
 
             await loadEventResults(event.id);
         
-        } else if (event.is_open === "1") {
+        } else if (event.is_open === 1) {
 
             await loadEventTeams(event.id);
         } else {
@@ -191,6 +199,8 @@ function EventsList() {
         initializeData();
 
     }, []);
+
+    console.log("events =", events);
 
     return (
         <div>

@@ -174,12 +174,12 @@ if ($isOpen == 1 && $isUpdated == 0) {
     // on va utiliser ce tableau pour faire un update du champ previous_position de la table players
     $previousPositions = [];
 
-    $position = 1;
+    $oldPosition = 1;
 
     while ($row = $result->fetch_assoc()) {
 
-        $previousPositions[$row['id']] = $position;
-        $position++;
+        $previousPositions[$row['id']] = $oldPosition;
+        $oldPosition++;
     }
 
     // Étape 0.2 - Mettre à jour le champ previous_position de tous les joueurs 
@@ -189,8 +189,8 @@ if ($isOpen == 1 && $isUpdated == 0) {
 
     // 2026-06-09, découverte d'un bug, la variable proposer $playerID était associer à notre reel id joueur au debut du script
     // 
-    foreach ($previousPositions as $updatedPlayerId => $position) {
-        $switchCase .= " WHEN " . $updatedPlayerId . " THEN " . $position . " ";
+    foreach ($previousPositions as $updatedPlayerId => $oldPosition) {
+        $switchCase .= " WHEN " . $updatedPlayerId . " THEN " . $oldPosition . " ";
     }
 
     $switchCase .= "END ";

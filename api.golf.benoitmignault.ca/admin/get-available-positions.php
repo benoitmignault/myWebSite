@@ -70,8 +70,8 @@ $row = $result->fetch_assoc();
 
 if ((int)$row['totalPlayers'] === 0) {
 
-    http_response_code(404);
-    echo json_encode(["success" => false, "message" => "Aucun joueur n'est inscrit à cet événement."]);
+    http_response_code(200);
+    echo json_encode(["success" => true, "availablePositions" => []]);
     
     // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();

@@ -343,14 +343,14 @@ function ResultsSection() {
                 await loadAvailablePositions(event.id);
 
                 // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
-                //setTimeout(() => {handleReset();}, 3000);    
+                setTimeout(() => {handleReset();}, 3000);    
             } else {
 
                 // Erreur lors de l'ajout du joueur
                 setError(data.message);
 
                 // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
-                //setTimeout(() => {handleReset();}, 3000);  
+                setTimeout(() => {handleReset();}, 3000);  
             }
 
         } catch (err) {
@@ -358,7 +358,7 @@ function ResultsSection() {
             console.error(err);
             setError("Une erreur est survenue lors de la tentative d'ajouter un résultat.");
             // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
-            //setTimeout(() => {handleReset();}, 3000);  
+            setTimeout(() => {handleReset();}, 3000);  
         } finally {
 
             setLoading(false);
@@ -373,8 +373,7 @@ function ResultsSection() {
         setGrossScore("");
         setAdjustedGrossScore("");            
         setSelectedPosition("");            
-        setFedexPoints("");
-        
+        setFedexPoints("");        
         
         // Remise à l'état initial du trigger pour remettre les bordures dans leur état normal
         setSelectedPlayerError(false);

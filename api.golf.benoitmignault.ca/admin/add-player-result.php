@@ -188,7 +188,8 @@ if ($isOpen == 1 && $isUpdated == 0) {
     $switchCase = "";
 
     // 2026-06-09, découverte d'un bug, la variable proposer $playerID était associer à notre reel id joueur au debut du script
-    // 
+    // 2026-06-10, découverte d'un bug, la variable proposer $position qui était associé à notre reel position du joueur pour l'event en question au debut du script, 
+    // alors que nous avons besoin de la position actuelle du joueur dans le classement général pour faire la MAJ du champ previous_position de la table players,
     foreach ($previousPositions as $updatedPlayerId => $oldPosition) {
         $switchCase .= " WHEN " . $updatedPlayerId . " THEN " . $oldPosition . " ";
     }

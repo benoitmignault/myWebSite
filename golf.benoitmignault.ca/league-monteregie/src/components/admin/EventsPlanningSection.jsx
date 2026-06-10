@@ -328,20 +328,21 @@ function EventsPlanningSection() {
     return (
         <div className="admin-section-card">
             <h2>Section pour planifier un évenement</h2>
+            <p>Voici l'évenement en cours :</p>
+            <div className="admin-row event-summary-row">
+                { event ? (
+                    <>
+                        <span>🏌️ {event?.event_name}</span><span>•</span>
+                        <span>📍 {event?.golf_course}</span><span>•</span>
+                        <span>📅 {event?.event_date}</span>
+                    </>
+                    ) : // TODO Vérifier si ce message s'affiche bien....
+                    (
+                        <p>Aucun événement à préparer.</p>
+                    )
+                }
+            </div>
             <form onSubmit={(e) => {e.preventDefault(); handleAddPlayerEvent();}}>
-                <p>Voici l'évenement en cours :</p>
-                <div className="admin-row event-summary-row">
-                    { event ? (
-                        <>
-                            <span>🏌️ {event?.event_name}</span><span>•</span>
-                            <span>📍 {event?.golf_course}</span><span>•</span>
-                            <span>📅 {event?.event_date}</span>
-                        </>
-                        ) : (
-                            <p>Aucun événement à préparer.</p>
-                        )
-                    }
-                </div>
                 <div className="admin-row">
                     <div className="admin-form-group">
                         <label className="admin-label">
@@ -382,6 +383,11 @@ function EventsPlanningSection() {
                 {error && <p className={`admin-error-message ${messageType}`}>✗ {error}</p>}
                 {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}                
             </form>
+
+
+
+
+
             {teamsEvent.length > 0 && (
                 <div className="teams-container">
                     <h2>Les équipes de l'évènement :</h2>

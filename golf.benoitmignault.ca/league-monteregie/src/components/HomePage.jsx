@@ -55,6 +55,8 @@ function HomePage() {
 					<FaChartLine />
 					<span>Évolution Joueur (à venir...)</span>
 				</Link>
+				<a href="#sponsors" className="site-navbar-link"><span>Partenaires</span></a>
+				<a href="#mission" className="site-navbar-link"><span>Mission</span></a>
 			</div>
 			<h1 className="homepage-title">Ligue de Golf Montérégie</h1>
 			<div className="main-container">        

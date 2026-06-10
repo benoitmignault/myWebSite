@@ -187,8 +187,10 @@ if ($isOpen == 1 && $isUpdated == 0) {
     $update = "UPDATE players SET previous_position = CASE id ";    
     $switchCase = "";
 
-    foreach ($previousPositions as $playerId => $position) {
-        $switchCase .= " WHEN " . $playerId . " THEN " . $position . " ";
+    // 2026-06-09, découverte d'un bug, la variable proposer $playerID était associer à notre reel id joueur au debut du script
+    // 
+    foreach ($previousPositions as $updatedPlayerId => $position) {
+        $switchCase .= " WHEN " . $updatedPlayerId . " THEN " . $position . " ";
     }
 
     $switchCase .= "END ";

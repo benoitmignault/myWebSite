@@ -12,6 +12,8 @@ import MissionSection from "./MissionSection";
 import { BsCameraFill } from "react-icons/bs";
 import { FaArrowUp } from "react-icons/fa";
 import { API_BASE_URL } from "./../config";
+import { FaHandshake } from "react-icons/fa";
+import { FaBullseye } from "react-icons/fa";
 
 function HomePage() {
 
@@ -55,8 +57,14 @@ function HomePage() {
 					<FaChartLine />
 					<span>Évolution Joueur (à venir...)</span>
 				</Link>
-				<a href="#sponsors" className="site-navbar-link"><span>Partenaires</span></a>
-				<a href="#mission" className="site-navbar-link"><span>Mission</span></a>
+				<a href="#sponsors" className="site-navbar-link">
+					<FaHandshake />
+					<span>Partenaires</span>
+				</a>
+				<a href="#mission" className="site-navbar-link">
+					<FaBullseye />
+					<span>Mission & Contact</span>
+				</a>
 			</div>
 			<h1 className="homepage-title">Ligue de Golf Montérégie</h1>
 			<div className="main-container">        

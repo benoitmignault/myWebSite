@@ -111,6 +111,11 @@ function ResultsSection() {
 
             if (data.success) {
 
+                // RÉorganisation pour convertir des string en number pour is_updated et is_open,
+                // pour éviter les problèmes de comparaison dans le rendu conditionnel du composant
+                data.event.is_updated = Number(data.event.is_updated);
+                data.event.is_open = Number(data.event.is_open);
+                
                 // Stocker les détails du prochain évenement qui sera en cours dans l'état nextEvent
                 setEvent(data.event);
 
@@ -398,13 +403,13 @@ function ResultsSection() {
             const event = await loadEvent();
 
             // Ensuite, si on a un évenement qui est en cours, on peut charger la liste des joueurs disponibles pour l'ajout à cet évenement
-            if (event) {
+            // Ajout de la notion d eis_open pour éviter de caller ces fonctions si le nouvel event est vide équipe et de players
+            if (event && event.is_open === 1) {
 
-                // Car cette fonction dépend de l'id, pas id pas de fonction 
+                // Je confirme que ça marche si is_update est à 1
                 await loadRegisteredPlayers(event.id);
-
                 await loadAvailablePositions(event.id);
-            }                   
+            }
         };
         
         // Charger tout les éléments dans la section du tournois en gestion en cours

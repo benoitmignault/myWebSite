@@ -334,7 +334,7 @@ function ResultsSection() {
             if (data.success) {
 
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
-                setSuccessMessage(`Le résultat pour le joueur ${playerName} a été ajouté à la liste des résultats de la ronde.`);
+                setSuccessMessage(`Le résultat pour le joueur ${playerName} a été ajouté à la liste des résultats de l'événement.`);
 
                 // Maintenant, on recalcul les joueurs encore disponible et les positions encore disponible pour l'ajout d'un résultat de ronde, 
                 // pour mettre à jour les menus SELECT du formulaire d'ajout d'un résultat de ronde

@@ -38,6 +38,10 @@ body {
     padding-inline: 30px;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 h1,
 h2 {
     font-weight: 500;

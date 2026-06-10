@@ -111,19 +111,20 @@ if (!$stmt->execute()) {
 
 $result = $stmt->get_result();
 
+// 2026-06-09. découvert d'un bug, je devais extyraire la position de chaque résultat pas juste la row qui est une key/value
 $usedPositions = [];
 
 while ($row = $result->fetch_assoc()) {
 
-    // Ajouter chaque position à la liste des positions utilisées
-    $usedPositions[] = $row;
+    $usedPositions[] = (int)$row['position'];
 }
 
 // Création d'un tableau de toutes les positions possibles pour l'événement en cours, basé sur le nombre total de joueurs inscrits à l'événement
 $allPositions = range(1, $totalPlayers);
 
 // Filtrer les positions utilisées pour ne garder que les positions disponibles
-$availablePositions = array_diff($allPositions, $usedPositions);
+// On doit transformer le résultat en tableau et non Object
+$availablePositions = array_values(array_diff($allPositions, $usedPositions));
 
 http_response_code(200);
 

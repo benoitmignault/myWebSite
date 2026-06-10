@@ -162,7 +162,7 @@ function Standings() {
                                                                     <tr>
                                                                         <th>Event</th>
                                                                         <th>Position</th>
-                                                                        <th>Brut</th>
+                                                                        <th>Score Brut</th>
                                                                         <th>Net</th>
                                                                         <th>Points</th>
                                                                     </tr>

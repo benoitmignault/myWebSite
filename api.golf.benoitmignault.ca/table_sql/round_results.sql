@@ -4,6 +4,7 @@ CREATE TABLE round_results (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     event_id INT UNSIGNED NOT NULL,
     player_id INT UNSIGNED NOT NULL,
+
     gross_score INT UNSIGNED NOT NULL DEFAULT 0,
     gross_score_adjust INT UNSIGNED NOT NULL DEFAULT 0,
     net_score INT NOT NULL DEFAULT 0,
@@ -12,6 +13,11 @@ CREATE TABLE round_results (
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    UNIQUE KEY uq_round_results_event_player (event_id, player_id),
+
+    INDEX idx_round_results_event (event_id),
+    INDEX idx_round_results_player (player_id),
 
     CONSTRAINT fk_round_results_event
         FOREIGN KEY (event_id)
@@ -145,3 +151,12 @@ VALUES
 (3, 2, 112, 112, 12, 13, 190),
 -- Eric Grimard
 (3, 5, 103, 103, 14, 14, 178);
+
+
+ALTER TABLE round_results
+ADD CONSTRAINT uq_round_results_event_player
+UNIQUE (event_id, player_id);
+
+ALTER TABLE round_results
+ADD INDEX idx_round_results_event (event_id),
+ADD INDEX idx_round_results_player (player_id);

@@ -201,7 +201,7 @@ function ResultsSection() {
             // Sinon, on a un résultat valide du retour de l'API
             const data = await response.json();
             if (data.success) {
-
+                
                 // On va stocker la liste de positions disponible via le résultat de l'API, car la liste des disponibles à été traiter direct en back-end 
                 // pour éliminer les positions déjà utilisées, pour éviter d'avoir à faire ce travail en front-end
                 setAvailablePositions(data.availablePositions);
@@ -343,14 +343,14 @@ function ResultsSection() {
                 await loadAvailablePositions(event.id);
 
                 // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
-                // setTimeout(() => {handleReset();}, 4000);    
+                //setTimeout(() => {handleReset();}, 3000);    
             } else {
 
                 // Erreur lors de l'ajout du joueur
                 setError(data.message);
 
                 // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
-                // setTimeout(() => {handleReset();}, 4000);  
+                //setTimeout(() => {handleReset();}, 3000);  
             }
 
         } catch (err) {
@@ -358,7 +358,7 @@ function ResultsSection() {
             console.error(err);
             setError("Une erreur est survenue lors de la tentative d'ajouter un résultat.");
             // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
-            // setTimeout(() => {handleReset();}, 4000);  
+            //setTimeout(() => {handleReset();}, 3000);  
         } finally {
 
             setLoading(false);

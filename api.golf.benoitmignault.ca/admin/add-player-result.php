@@ -239,7 +239,6 @@ $stmt = $conn->prepare($sql);
 // Lier les paramètres à la requête préparée
 $stmt->bind_param("iiiiiii", $eventId, $playerId, $position, $grossScore, $adjustedGrossScore, $netScore, $fedexPoints);
 
-
 // Exécuter la requête SQL pour insérer le résultat du joueur dans la table round_results
 if (!$stmt->execute()) {
 
@@ -283,6 +282,7 @@ if (!$stmt->execute()) {
 
 $result = $stmt->get_result();
 
+// Parce que rendu ici, nous avons au moins un record vue qu'on a fait le insert à l'étape 1
 if ($result->num_rows === 0) {
 
     http_response_code(404);
@@ -299,6 +299,8 @@ $averageScore = $row['average_score'];
 
 // On va garder une décimale pour la moyenne des scores bruts
 $averageScore = round($averageScore, 1);
+
+
 
 // Étape 2.2 - Faire un update de la moyenne des scores bruts dans la table players
 $update = "UPDATE players SET average_score = ? WHERE id = ?";

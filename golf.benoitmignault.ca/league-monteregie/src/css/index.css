@@ -81,8 +81,6 @@ h1 {
     background: rgba(255,255,255,0.08);
 }
 
-
-
 .site-navbar-link.disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -90,13 +88,6 @@ h1 {
 
 .site-navbar-link.disabled:hover {
     transform: none;
-}
-
-
-
-/* Pour ajuster le margin-top qui ne marche pas sans classe */
-.homepage-title{
-    margin-top: 30px;
 }
 
 .main-container{

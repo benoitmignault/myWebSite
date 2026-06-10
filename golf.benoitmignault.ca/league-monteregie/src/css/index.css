@@ -105,6 +105,13 @@ h1 {
     transform: none;
 }
 
+.site-navbar-link:not(.disabled):hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateX(3px);
+
+    transition: all 0.2s ease;
+}
+
 .main-container{
     display: flex;
     gap: 30px;    

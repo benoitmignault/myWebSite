@@ -52,6 +52,19 @@ h1 {
     font-size: 48px;
 }
 
+.homepage-title {
+    width: fit-content;
+    text-align: center;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    position: relative;
+    top: -130px;
+}
+
+
+
 .site-navbar {
     display: flex;
     flex-direction: column;
@@ -135,7 +148,7 @@ h1 {
     display: flex;
     gap: 30px;
     margin-top: 40px;
-    align-items: stretch;
+    align-items: flex-start;
 }
 
 .info-container .poster-container {

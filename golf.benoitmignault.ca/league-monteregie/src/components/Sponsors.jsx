@@ -81,7 +81,7 @@ function Sponsors() {
     }
 
     return (
-        <section className="sponsors-section">
+        <section id="sponsors" className="sponsors-section">
             <h2>Partenaires officiels
                 <span className="subtitle-info">
                     (cliquez sur les logos et médias sociaux pour découvrir nos partenaires)

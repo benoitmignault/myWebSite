@@ -420,108 +420,116 @@ function ResultsSection() {
     return (
         <div className="admin-section-card">
             <h2>Section pour ajouter un résultat</h2>
-            <form onSubmit={(e) => {e.preventDefault(); handleAddResult();}}>
-                <div className="admin-row">
-                    <div className="admin-form-group">
-                        <label className="admin-label">
-                            Joueur
-                            <span className="required-field">*</span>
-                        </label>                    
-                        <select className={`admin-input players ${selectedPlayerError ? "input-error" : ""}`}
-                            value={selectedPlayer}
-                            onChange={(e) => {setSelectedPlayer(e.target.value); setSelectedPlayerError(false); setError("");}}                       
-                        >
-                            <option value="">Sélectionner un joueur</option>
-                            {registeredPlayers.map(player => (
-                                <option key={player.id} value={player.id}>{player.firstname} {player.lastname}</option>
-                            ))}
-                        </select>
-                        {selectedPlayerData && (
-                            <p className="admin-section-description handicap">Handicap utilisé : {selectedPlayerData.handicap_rounded}</p>
-                        )}
-                    </div>
-                    <div className="admin-form-group">
-                        <label className="admin-label">
-                            Score brut
-                            <span className="required-field">*</span>
-                        </label>
-                        <input                            
-                            className={`admin-input result ${grossScoreError ? "input-error" : ""}`}
-                            type="number" value={grossScore}
-                            onChange={(e) => {setGrossScore(e.target.value); setGrossScoreError(false); setError("");}}
-                        />
-                    </div>
-                    <div className="admin-form-group">
-                        <label className="admin-label">
-                            Score net
-                        </label>
-                        <div className="admin-net-score">
-                            {
-                                displayedNetScore === ""
-                                    ? ""
-                                    : displayedNetScore === 0
-                                        ? "E"
-                                        : displayedNetScore > 0
-                                            ? `+${displayedNetScore}`
-                                            : displayedNetScore
-                            }
+            {event?.is_open === 0 ? (
+                <div className="warning-message">
+                    ⚠️ Aucun événement n'est actuellement ouvert pour la saisie des résultats.
+                </div>
+            ) : (
+                <>
+                    <form onSubmit={(e) => {e.preventDefault(); handleAddResult();}}>
+                        <div className="admin-row">
+                            <div className="admin-form-group">
+                                <label className="admin-label">
+                                    Joueur
+                                    <span className="required-field">*</span>
+                                </label>                    
+                                <select className={`admin-input players ${selectedPlayerError ? "input-error" : ""}`}
+                                    value={selectedPlayer}
+                                    onChange={(e) => {setSelectedPlayer(e.target.value); setSelectedPlayerError(false); setError("");}}                       
+                                >
+                                    <option value="">Sélectionner un joueur</option>
+                                    {registeredPlayers.map(player => (
+                                        <option key={player.id} value={player.id}>{player.firstname} {player.lastname}</option>
+                                    ))}
+                                </select>
+                                {selectedPlayerData && (
+                                    <p className="admin-section-description handicap">Handicap utilisé : {selectedPlayerData.handicap_rounded}</p>
+                                )}
+                            </div>
+                            <div className="admin-form-group">
+                                <label className="admin-label">
+                                    Score brut
+                                    <span className="required-field">*</span>
+                                </label>
+                                <input                            
+                                    className={`admin-input result ${grossScoreError ? "input-error" : ""}`}
+                                    type="number" value={grossScore}
+                                    onChange={(e) => {setGrossScore(e.target.value); setGrossScoreError(false); setError("");}}
+                                />
+                            </div>
+                            <div className="admin-form-group">
+                                <label className="admin-label">
+                                    Score net
+                                </label>
+                                <div className="admin-net-score">
+                                    {
+                                        displayedNetScore === ""
+                                            ? ""
+                                            : displayedNetScore === 0
+                                                ? "E"
+                                                : displayedNetScore > 0
+                                                    ? `+${displayedNetScore}`
+                                                    : displayedNetScore
+                                    }
+                                </div>
+                            </div>
+                            <div className="admin-form-group">
+                                <label className="admin-label">
+                                    Score brut ajusté
+                                    <span className="required-field">*</span>
+                                </label>
+                                <input                            
+                                    className={`admin-input result ${adjustedGrossScoreError ? "input-error" : ""}`}
+                                    type="number" value={adjustedGrossScore}
+                                    onChange={(e) => {setAdjustedGrossScore(e.target.value); setAdjustedGrossScoreError(false); setError("");}}
+                                />
+                            </div> 
+                        </div>                   
+                        <div className="admin-row">
+                            <div className="admin-form-group">
+                                <label className="admin-label">
+                                    Position
+                                    <span className="required-field">*</span>
+                                </label>
+                                <select
+                                    className={`admin-input ${selectedPositionError ? "input-error" : ""}`}
+                                    value={selectedPosition}
+                                    onChange={(e) => {setSelectedPosition(e.target.value); setSelectedPositionError(false); setError("");}}
+                                >
+                                    <option value="">Sélectionner une position</option>
+                                    {availablePositions.map(position => (
+                                        <option key={position} value={position}>{position}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="admin-form-group">
+                                <label className="admin-label">
+                                    Points FedEx
+                                    <span className="required-field">*</span>
+                                </label>
+                                <input
+                                    type="number"
+                                    className={`admin-input ${fedexPointsError ? "input-error" : ""}`}
+                                    value={fedexPoints}
+                                    onChange={(e) => {setFedexPoints(e.target.value); setFedexPointsError(false); setError("");}}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className="admin-form-group">
-                        <label className="admin-label">
-                            Score brut ajusté
-                            <span className="required-field">*</span>
-                        </label>
-                        <input                            
-                            className={`admin-input result ${adjustedGrossScoreError ? "input-error" : ""}`}
-                            type="number" value={adjustedGrossScore}
-                            onChange={(e) => {setAdjustedGrossScore(e.target.value); setAdjustedGrossScoreError(false); setError("");}}
-                        />
-                    </div> 
-                </div>                   
-                <div className="admin-row">
-                    <div className="admin-form-group">
-                        <label className="admin-label">
-                            Position
-                            <span className="required-field">*</span>
-                        </label>
-                        <select
-                            className={`admin-input ${selectedPositionError ? "input-error" : ""}`}
-                            value={selectedPosition}
-                            onChange={(e) => {setSelectedPosition(e.target.value); setSelectedPositionError(false); setError("");}}
-                        >
-                            <option value="">Sélectionner une position</option>
-                            {availablePositions.map(position => (
-                                <option key={position} value={position}>{position}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="admin-form-group">
-                        <label className="admin-label">
-                            Points FedEx
-                            <span className="required-field">*</span>
-                        </label>
-                        <input
-                            type="number"
-                            className={`admin-input ${fedexPointsError ? "input-error" : ""}`}
-                            value={fedexPoints}
-                            onChange={(e) => {setFedexPoints(e.target.value); setFedexPointsError(false); setError("");}}
-                        />
-                    </div>
-                </div>
-                <div className="admin-actions">
-                    <button className="admin-button" type="submit" disabled={loading}>
-                        Ajouter
-                    </button>
-                    <button
-                        className="admin-button admin-button-secondary"
-                        type="button" onClick={handleReset}>
-                        Effacer
-                    </button>
-                </div>
-                {error && <p className="admin-error-message">✗ {error}</p>}
-                {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}
-            </form>
+                        <div className="admin-actions">
+                            <button className="admin-button" type="submit" disabled={loading}>
+                                Ajouter
+                            </button>
+                            <button
+                                className="admin-button admin-button-secondary"
+                                type="button" onClick={handleReset}>
+                                Effacer
+                            </button>
+                        </div>
+                        {error && <p className="admin-error-message">✗ {error}</p>}
+                        {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}
+                    </form>
+                </>
+            )}
         </div>
     );
 }

@@ -200,8 +200,6 @@ function EventsList() {
 
     }, []);
 
-    console.log("events =", events);
-
     return (
         <div>
             <h2>

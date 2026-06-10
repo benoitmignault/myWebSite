@@ -77,6 +77,11 @@ function EventsPlanningSection() {
 
             if (data.success) {
 
+                // RÉorganisation pour convertir des string en number pour is_updated et is_open,
+                // pour éviter les problèmes de comparaison dans le rendu conditionnel du composant
+                data.event.is_updated = Number(data.event.is_updated);
+                data.event.is_open = Number(data.event.is_open);
+
                 // Stocker les détails du prochain évenement qui sera en cours dans l'état nextEvent
                 setEvent(data.event);
 

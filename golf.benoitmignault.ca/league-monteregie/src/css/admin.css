@@ -17,10 +17,10 @@
 }
 
 .admin-navbar {
-    position: absolute;
-    top: 30px;
-    left: 30px;
+    position: static;
+    width: fit-content;
     padding: 10px 16px;
+    margin-top: 30px;
     background: rgba(25, 35, 65, 0.45);
     backdrop-filter: blur(8px);    
     border-radius: 10px;

@@ -24,7 +24,8 @@ if (!$conn) {
 }
 
 // Réquête pour récupérer le prochain événement à venir, trié par date d'événement ascendante et limité à 1 résultat
-$select = "SELECT id, event_name, golf_course, event_date ";
+// 2026-06-09, Ajout de la valeur de is_updated pour savoir si l'événement est en cours de MAJ par l'ajouter de résultats de ronde
+$select = "SELECT id, event_name, golf_course, event_date, is_updated ";
 $from = "FROM events ";
 $where = "WHERE is_closed = 0 ";
 $orderBy = "ORDER BY event_date ASC ";

@@ -65,8 +65,8 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
 
-    http_response_code(404);
-    echo json_encode(["success" => false, "message" => "Il n'y a pas de joueurs disponibles pour cet événement."]);
+    http_response_code(200);
+    echo json_encode(["success" => true, "players" => []]);
 
     $stmt->close();
     $conn->close();

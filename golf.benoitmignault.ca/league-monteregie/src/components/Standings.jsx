@@ -124,7 +124,7 @@ function Standings() {
                     <tr>
                         <th>Position</th>
                         <th>Joueur</th>
-                        <th>Moyenne</th>
+                        <th>Score Moyen</th>
                         <th>Handicap</th>
                         <th>Points</th>
                     </tr>

@@ -863,6 +863,11 @@ tbody tr:nth-child(even) {
         padding: 6px 4px;
     }
 
+    .results-table th.text-right,
+    .results-table td.text-right {
+        text-align: right;
+    }
+
     .results-table th:nth-child(1){
         padding: 6px 4px;
     }

@@ -161,10 +161,10 @@ function Standings() {
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Event</th>
-                                                                        <th>Position</th>
-                                                                        <th>Score Brut</th>
-                                                                        <th>Net</th>
-                                                                        <th>Points</th>
+                                                                        <th className="text-right">Position</th>
+                                                                        <th className="text-right">Score Brut</th>
+                                                                        <th className="text-right">Net</th>
+                                                                        <th className="text-right">Points</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -173,8 +173,8 @@ function Standings() {
                                                                         playerResults.map((result, index) => (
                                                                             <tr key={index}>
                                                                                 <td>{result.event_name}</td>
-                                                                                <td>{result.position}</td>
-                                                                                <td>{result.gross_score}</td>
+                                                                                <td className="text-right">{result.position}</td>
+                                                                                <td className="text-right">{result.gross_score}</td>
                                                                                 <td className={ Number(result.net_score) < 0 
                                                                                     ? "negative-score" 
                                                                                     : ( 
@@ -193,7 +193,7 @@ function Standings() {
                                                                                                 : Number(result.net_score)
                                                                                     }
                                                                                 </td>
-                                                                                <td>{result.fedex_points}</td>
+                                                                                <td className="text-right">{result.fedex_points}</td>
                                                                             </tr>
                                                                         ))
                                                                     }

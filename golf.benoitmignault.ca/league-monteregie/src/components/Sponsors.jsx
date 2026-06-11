@@ -35,7 +35,7 @@ function Sponsors() {
             name: "Toucani",
             logo: "./images/logos/toucani-bird.png",
             logoClass: "logo-plus-large",
-            website: null,
+            website: "https://toucanigolfapparel.com/",
             facebook: null,
             instagram: null
         },

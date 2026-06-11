@@ -883,6 +883,11 @@ tbody tr:nth-child(even) {
         padding: 6px 4px;
     }
 
+    .results-table th:nth-child(3),
+    .results-table td:nth-child(3) {
+        width: 80px;
+    }
+
     .results-table tbody tr:hover {
         background:
             linear-gradient(

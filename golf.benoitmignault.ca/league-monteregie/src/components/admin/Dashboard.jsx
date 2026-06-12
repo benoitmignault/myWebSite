@@ -19,8 +19,9 @@ function Dashboard() {
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
 
-    // Un état pour permettre de rafraichir ResultsSection et EventsPlanningSection après une modification dans EventsPlanningSection et ultérieurement dans ResultsSection aussi
-    const [refresh, setRefresh] = useState(false);
+    // Un état de rafraîchissement pour forcer le rechargement du formulaire de résultats mais surtout l'affichage des joueurs inscrits à l'événement en cours, 
+    // après l'ajout d'un joueur à un événement ou après la création d'un nouvel événement
+    const [eventChanged, setEventChanged] = useState(false);
 
     // Fonction pour gérer la déconnexion de l'administrateur et avec une redirection en fonction du lien qu'on a cliqué
     const handleLogout = async (redirectTo) => {
@@ -92,8 +93,8 @@ function Dashboard() {
             </div>
             <div className="dashboard-container">
                 <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>                
-                <ResultsSection refresh={refresh}/>
-                <EventsPlanningSection setRefresh={setRefresh} />                
+                <ResultsSection eventChanged={eventChanged}/>
+                <EventsPlanningSection setEventChanged={setEventChanged} />                
                 <PlayersSection />
                 <EventsSection />
             </div>

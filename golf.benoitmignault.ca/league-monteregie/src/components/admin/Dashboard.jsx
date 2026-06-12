@@ -23,6 +23,9 @@ function Dashboard() {
     // après l'ajout d'un joueur à un événement ou après la création d'un nouvel événement
     const [eventChanged, setEventChanged] = useState(false);
 
+    // Un état de rafraîchissement pour forcer le blocage du formulaire dans EventsPlanningSection quand on saisi des résultats pour un événement en cours
+    const [eventUpdated, setEventUpdated] = useState(false);
+
     // Fonction pour gérer la déconnexion de l'administrateur et avec une redirection en fonction du lien qu'on a cliqué
     const handleLogout = async (redirectTo) => {
 
@@ -93,8 +96,8 @@ function Dashboard() {
             </div>
             <div className="dashboard-container">
                 <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>                
-                <ResultsSection eventChanged={eventChanged}/>
-                <EventsPlanningSection setEventChanged={setEventChanged} />                
+                <ResultsSection eventChanged={eventChanged} setEventUpdated={setEventUpdated}/>
+                <EventsPlanningSection eventUpdated={eventUpdated} setEventChanged={setEventChanged} />                
                 <PlayersSection />
                 <EventsSection />
             </div>

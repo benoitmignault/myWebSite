@@ -168,7 +168,9 @@ function ResultsSection({eventChanged}) {
 
                 // Stockage de la liste des joueurs inscrits à l'événement en cours pour pouvoir insérer les résultats de ces joueurs
                 // Ces joueurs seront disponible via un SELECT dans le formulaire d'insertion des résultats de la ronde du joueur
-                setRegisteredPlayers(data.players);                
+                setRegisteredPlayers(data.players);   
+                
+                return data.players;
             } else {
 
                 // Erreur lors du chargement des joueurs inscrits à l'événement

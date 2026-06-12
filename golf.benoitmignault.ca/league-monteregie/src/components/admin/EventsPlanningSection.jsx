@@ -266,16 +266,19 @@ function EventsPlanningSection({ setRefresh }) {
                 
                 // Afficher la liste de joueurs inscrits à cet évenement, par groupe d'équipe
                 await loadTeamsEvent(event?.id);
+
+                // Informer Dashboard qu'un changement important vient d'avoir lieu
+                setRefresh(prev => !prev);
                 
                 // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
-                setTimeout(() => {handleReset();}, 4000);                
+                setTimeout(() => {handleReset();}, 3000);                
             } else {
 
                 // Erreur lors de l'ajout du joueur
                 setError(data.message);
 
                 // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
-                setTimeout(() => {handleReset();}, 4000);  
+                setTimeout(() => {handleReset();}, 3000);  
             }
 
         } catch (err) {

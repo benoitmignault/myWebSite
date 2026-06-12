@@ -12,10 +12,10 @@ import { API_BASE_URL } from "../../config";
  * Affiche un formulaire pour ajouter des joueurs à l'évenement en cours, et une liste des joueurs déjà inscrits à cet évenement
  * 
  * @param {function} setEventChanged - Une fonction pour permettre de rafraîchir les données de la section des résultats après une modification dans la section de planification des événements,
- * 
+ * @param {boolean} eventUpdated - Un état pour permettre de bloquer le formulaire de résultats lorsque l'événement est en cours
  * @returns 
  */
-function EventsPlanningSection({ setEventChanged }) {
+function EventsPlanningSection({ setEventChanged, eventUpdated }) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -334,7 +334,7 @@ function EventsPlanningSection({ setEventChanged }) {
         // Charger tout les éléments dans la section du tournois en gestion en cours
         initializeData();
 
-    }, []);
+    }, [eventUpdated]);
 
     return (
         <div className="admin-section-card">

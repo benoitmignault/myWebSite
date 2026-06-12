@@ -11,9 +11,11 @@ import { API_BASE_URL } from "../../config";
  * @description 
  * Affiche un formulaire pour ajouter des joueurs à l'évenement en cours, et une liste des joueurs déjà inscrits à cet évenement
  * 
+ * @param {function} setRefresh - Une fonction pour permettre de rafraîchir les données de la section des résultats après une modification dans la section de planification des événements,
+ * 
  * @returns 
  */
-function EventsPlanningSection() {
+function EventsPlanningSection({ setRefresh }) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();

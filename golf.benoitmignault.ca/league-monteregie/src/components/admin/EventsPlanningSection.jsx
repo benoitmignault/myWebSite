@@ -267,8 +267,9 @@ function EventsPlanningSection({ setRefresh }) {
                 // Afficher la liste de joueurs inscrits à cet évenement, par groupe d'équipe
                 await loadTeamsEvent(event?.id);
 
+                
                 // Informer Dashboard qu'un changement important vient d'avoir lieu
-                setRefresh(prev => !prev);
+                setRefresh(prev => !prev);                
                 
                 // Réinitialiser les champs du formulaire d'ajout d'un joueur à un évenement
                 setTimeout(() => {handleReset();}, 3000);                

@@ -398,7 +398,7 @@ function ResultsSection({refresh}) {
     };
 
     useEffect(() => {
-
+        
         // Il faut utiliser une notion asynchrone pour charger les données, en raison de l'utilisation 
         const initializeData = async () => {
 

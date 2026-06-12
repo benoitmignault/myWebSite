@@ -22,9 +22,12 @@ import { API_BASE_URL } from "../../config";
  * 19 rounds, on va prendre la moyenne des 7 meilleurs scores brut ajustés du joueur
  * 20 rounds et plus, on va prendre la moyenne des 8 meilleurs scores brut ajustés du joueur 
  * 
+ * @param {boolean} refresh - Un trigger pour permettre de rafraîchir les données de la section des résultats après une modification dans la section de planification des événements, 
+ * pour ainsi permettre d'avoir les données à jour dans la section des résultats sans avoir à faire un rafraîchissement manuel de la page
+ * 
  * @returns
  */
-function ResultsSection() {
+function ResultsSection({refresh}) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -415,7 +418,11 @@ function ResultsSection() {
         // Charger tout les éléments dans la section du tournois en gestion en cours
         initializeData();
 
-    }, []);
+        // Permet de faire la détection d'un changement dans le trigger de rafraîchissement 
+        // pour recharger les données de la section des résultats, dans la section où on ouvre un évement en ajoutant des joueurs à cet évenement, 
+        // et ainsi permettre d'avoir les données à jour dans la section des résultats sans avoir à faire un rafraîchissement manuel de la page
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [refresh]);
 
     return (
         <div className="admin-section-card">

@@ -24,10 +24,10 @@ import { API_BASE_URL } from "../../config";
  * 
  * @param {boolean} eventChanged - Un trigger pour permettre de rafraîchir les données de la section des résultats après une modification dans la section de planification des événements, 
  * pour ainsi permettre d'avoir les données à jour dans la section des résultats sans avoir à faire un rafraîchissement manuel de la page
- * 
+ * @param {boolean} setEventUpdated - Une fonction pour mettre à jour l'état de l'événement mis à jour
  * @returns
  */
-function ResultsSection({eventChanged}) {
+function ResultsSection({eventChanged, setEventUpdated}) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -346,11 +346,20 @@ function ResultsSection({eventChanged}) {
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès
                 setSuccessMessage(`Le résultat pour le joueur ${playerName} a été ajouté à la liste des résultats de l'événement.`);
 
-                // Maintenant, on recalcul les joueurs encore disponible et les positions encore disponible pour l'ajout d'un résultat de ronde, 
-                // pour mettre à jour les menus SELECT du formulaire d'ajout d'un résultat de ronde
-                await loadRegisteredPlayers(event.id);
+                const players = await loadRegisteredPlayers(event.id);
 
-                await loadAvailablePositions(event.id);
+                // Si nous arrivons à une valeur de 0 résultat, on va devoir reloader l'évent et voir que nous sommes rendu au prochain évenement, 
+                // pour ainsi afficher le message d'aucun évenement n'est ouvert pour la saisie des résultats, et cacher le formulaire d'ajout de résultat de ronde
+                if (players && players.length === 0) {
+
+                    await loadEvent(event.id);
+                } else {
+
+                    await loadAvailablePositions(event.id);                   
+                }          
+                
+                // Informer Dashboard qu'un changement important vient d'avoir lieu
+                setEventUpdated(prev => !prev);
 
                 // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
                 setTimeout(() => {handleReset();}, 3000);    

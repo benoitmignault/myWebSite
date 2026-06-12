@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { FaHouse } from "react-icons/fa6";
@@ -18,6 +18,9 @@ function Dashboard() {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
+
+    // Un état pour permettre de rafraichir ResultsSection et EventsPlanningSection après une modification dans EventsPlanningSection et ultérieurement dans ResultsSection aussi
+    const [refresh, setRefresh] = useState(false);
 
     // Fonction pour gérer la déconnexion de l'administrateur et avec une redirection en fonction du lien qu'on a cliqué
     const handleLogout = async (redirectTo) => {
@@ -89,8 +92,8 @@ function Dashboard() {
             </div>
             <div className="dashboard-container">
                 <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>                
-                <ResultsSection />
-                <EventsPlanningSection />                
+                <ResultsSection refresh={refresh}/>
+                <EventsPlanningSection setRefresh={setRefresh} />                
                 <PlayersSection />
                 <EventsSection />
             </div>

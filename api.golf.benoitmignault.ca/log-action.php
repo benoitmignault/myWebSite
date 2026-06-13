@@ -32,17 +32,22 @@ $actionType = $data['action_type'];
 $targetId = $data['target_id'];
 $targetName = $data['target_name'];
 
+// Récupérer l'adresse IP du client
+$ipAddress = $_SERVER['REMOTE_ADDR'];
+
 // Requête SQL pour insérer un nouveau log dans la table website_logs
-$sql = "INSERT INTO website_logs (log_date, action_type, target_id, target_name) VALUES (NOW(), ?, ?, ?)";
+$sql = "INSERT INTO website_logs (log_date, action_type, target_id, target_name, ip_address) VALUES (NOW(), ?, ?, ?, ?)";
 
 // Préparer la requête SQL
 $stmt = $conn->prepare($sql);
 
 // Lier les paramètres à la requête préparée
-$stmt->bind_param("sis", $actionType, $targetId, $targetName);
+$stmt->bind_param("siss", $actionType, $targetId, $targetName, $ipAddress);
 
 // Exécuter la requête SQL pour insérer le nouveau log dans la base de données
 if (!$stmt->execute()) {
+
+    error_log("LOG WEBSITE : " . $actionType . " | " . $targetName . " | " . date("Y-m-d H:i:s"));
 
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du log."]);    

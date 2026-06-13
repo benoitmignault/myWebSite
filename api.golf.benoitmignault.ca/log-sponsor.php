@@ -32,9 +32,12 @@ $sponsorId = $data['sponsor_id'];
 $sponsorName = $data['sponsor_name'];
 $mediaType = $data['media_type'];
 
+// Récupérer l'adresse IP du client
+$ipAddress = $_SERVER['REMOTE_ADDR'];
+
 // Requête SQL pour insérer un nouveau log dans la table website_logs_sponsors
-$sql = "INSERT INTO website_logs_sponsors (log_date, media_type, sponsor_id, sponsor_name) 
-            VALUES (NOW(), ?, ?, ?)";
+$sql = "INSERT INTO website_logs_sponsors (log_date, media_type, sponsor_id, sponsor_name, ip_address) 
+            VALUES (NOW(), ?, ?, ?, ?)";
 
 // Préparer la requête SQL
 $stmt = $conn->prepare($sql);
@@ -51,12 +54,12 @@ if (!$stmt) {
 }
 
 // Lier les paramètres à la requête préparée
-$stmt->bind_param("sis", $mediaType, $sponsorId, $sponsorName);
+$stmt->bind_param("siss", $mediaType, $sponsorId, $sponsorName, $ipAddress);
 
 // Exécuter la requête SQL pour insérer le nouveau log dans la base de données
 if (!$stmt->execute()) {
 
-    error_log($stmt->error);
+    error_log("LOG SPONSOR : " . $mediaType . " | " . $sponsorName . " | " . date("Y-m-d H:i:s"));
     
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du log de sponsor."]);    

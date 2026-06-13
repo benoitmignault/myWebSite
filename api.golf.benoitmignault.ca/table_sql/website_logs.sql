@@ -10,3 +10,7 @@ CREATE TABLE website_logs (
     -- Ajouter une colonne pour stocker le nom de la cible de l'action (par exemple, nom de l'utilisateur, nom de l'événement, etc.)
     target_name VARCHAR(255) NULL
 ) ENGINE=InnoDB;
+
+-- Ajouter une colonne pour stocker l'adresse IP du client
+ALTER TABLE website_logs
+ADD COLUMN ip_address VARCHAR(45) NULL AFTER target_name;

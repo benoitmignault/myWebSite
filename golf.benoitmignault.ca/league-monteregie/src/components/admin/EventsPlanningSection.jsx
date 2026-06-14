@@ -79,6 +79,13 @@ function EventsPlanningSection({ setEventChanged, eventUpdated }) {
 
             if (data.success) {
 
+                // Situation particuliere si on n'a pas d'évenement à préparer,
+                // dans ce cas on retourne null pour éviter les erreurs de rendu conditionnel du composant
+                if (!data.event) {
+                    setEvent(null);
+                    return null;
+                }
+
                 // RÉorganisation pour convertir des string en number pour is_updated et is_open,
                 // pour éviter les problèmes de comparaison dans le rendu conditionnel du composant
                 data.event.is_updated = Number(data.event.is_updated);

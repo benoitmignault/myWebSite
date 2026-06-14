@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaInfoCircle } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
 import { API_BASE_URL } from "../../config";
 
 /**
@@ -363,7 +364,8 @@ function EventsPlanningSection({ setEventChanged, eventUpdated }) {
 
                     {event.is_updated === 1 ? (
                         <div className="warning-message">
-                            ⚠️ L'événement est actuellement en cours de mise à jour des résultats. Les équipes ne peuvent plus être modifiées.
+                            <FaLock />
+                            <span>L'événement est actuellement en cours de mise à jour des résultats. Les équipes ne peuvent plus être modifiées.</span>
                         </div>
 
                     ) : (

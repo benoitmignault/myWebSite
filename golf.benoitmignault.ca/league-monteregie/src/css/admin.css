@@ -333,6 +333,11 @@ input[type="number"].admin-input.team-input {
 .warning-message {
     width: 100%;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
     margin-top: 20px;
     padding: 20px;
 
@@ -341,7 +346,6 @@ input[type="number"].admin-input.team-input {
     border-radius: 12px;
 
     color: #ffc107;
-    text-align: center;
     font-weight: 600;
 
     box-sizing: border-box;

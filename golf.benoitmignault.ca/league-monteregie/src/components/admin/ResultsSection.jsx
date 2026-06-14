@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaInfoCircle } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
 import { API_BASE_URL } from "../../config";
 
 /**
@@ -113,6 +115,13 @@ function ResultsSection({eventChanged, setEventUpdated}) {
             const data = await response.json();
 
             if (data.success) {
+
+                // Situation particuliere si on n'a pas d'évenement à préparer,
+                // dans ce cas on retourne null pour éviter les erreurs de rendu conditionnel du composant
+                if (!data.event) {
+                    setEvent(null);
+                    return null;
+                }
 
                 // RÉorganisation pour convertir des string en number pour is_updated et is_open,
                 // pour éviter les problèmes de comparaison dans le rendu conditionnel du composant

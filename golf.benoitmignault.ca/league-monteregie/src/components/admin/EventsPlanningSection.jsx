@@ -347,83 +347,86 @@ function EventsPlanningSection({ setEventChanged, eventUpdated }) {
     return (
         <div className="admin-section-card">
             <h2>Section pour planifier un évenement</h2>
-            <p>Voici l'évenement en cours :</p>
-            <div className="admin-row event-summary-row">
-                { event ? (
-                    <>
-                        <span>🏌️ {event?.event_name}</span><span>•</span>
-                        <span>📍 {event?.golf_course}</span><span>•</span>
-                        <span>📅 {event?.event_date}</span>
-                    </>
-                    ) : // TODO Vérifier si ce message s'affiche bien....
-                    (
-                        <p>Aucun événement à préparer.</p>
-                    )
-                }
-            </div>
-            {event?.is_updated === 1 ? (
+            {!event ? (
                 <div className="warning-message">
-                    ⚠️ L'événement est actuellement en cours de mise à jour des résultats. Les équipes ne peuvent plus être modifiées.
+                    <FaInfoCircle />
+                    <span>Aucun événement n'est actuellement disponible pour la préparation.</span>
                 </div>
             ) : (
                 <>
-                    <form onSubmit={(e) => {e.preventDefault(); handleAddPlayerEvent();}}>
-                        <div className="admin-row">
-                            <div className="admin-form-group">
-                                <label className="admin-label">
-                                    Ajouter un joueur
-                                    <span className="required-field">*</span></label>                    
-                                <select className={`admin-input ${selectedPlayerError ? "input-error" : ""}`}
-                                    value={selectedPlayer}
-                                    onChange={(e) => {setSelectedPlayer(e.target.value); setSelectedPlayerError(false); setError("");}}                       
-                                >
-                                    <option value="">Sélectionner un joueur</option>
-                                    {availablePlayers.map(player => (
-                                        <option key={player.id} value={player.id}>{player.firstname} {player.lastname}</option>
+                    <p>Voici l'événement en cours :</p>
+                    <div className="admin-row event-summary-row">
+                        <span>🏌️ {event.event_name}</span><span>•</span>
+                        <span>📍 {event.golf_course}</span><span>•</span>
+                        <span>📅 {event.event_date}</span>
+                    </div>  
+
+                    {event.is_updated === 1 ? (
+                        <div className="warning-message">
+                            ⚠️ L'événement est actuellement en cours de mise à jour des résultats. Les équipes ne peuvent plus être modifiées.
+                        </div>
+
+                    ) : (
+                        <>
+                            <form onSubmit={(e) => {e.preventDefault(); handleAddPlayerEvent();}}>
+                                <div className="admin-row">
+                                    <div className="admin-form-group">
+                                        <label className="admin-label">
+                                            Ajouter un joueur
+                                            <span className="required-field">*</span></label>                    
+                                        <select className={`admin-input ${selectedPlayerError ? "input-error" : ""}`}
+                                            value={selectedPlayer}
+                                            onChange={(e) => {setSelectedPlayer(e.target.value); setSelectedPlayerError(false); setError("");}}                       
+                                        >
+                                            <option value="">Sélectionner un joueur</option>
+                                            {availablePlayers.map(player => (
+                                                <option key={player.id} value={player.id}>{player.firstname} {player.lastname}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="admin-form-group">
+                                        <label className="admin-label">
+                                            Équipe
+                                            <span className="required-field">*</span>
+                                        </label>
+                                        <input 
+                                            className={`admin-input team-input ${teamError ? "input-error" : ""}`}
+                                            type="number" step="1" min="1" max="20" placeholder="Ex : #1" value={team}
+                                            onChange={(e) => {setTeam(e.target.value); setTeamError(false); setError("");}}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="admin-actions">
+                                    <button className="admin-button" type="submit" disabled={loading}>
+                                        Ajouter
+                                    </button>
+                                    <button
+                                        className="admin-button admin-button-secondary"
+                                        type="button" onClick={handleReset}>
+                                        Effacer
+                                    </button>
+                                </div>
+                                {error && <p className={`admin-error-message ${messageType}`}>✗ {error}</p>}
+                                {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}                
+                            </form>
+                            {teamsEvent.length > 0 && (
+                                <div className="teams-container">
+                                    <h2>Les équipes de l'évènement :</h2>
+                                    {teamsEvent.map(team => (
+                                        <div key={team.team_id} className="team-card">
+                                            <h3>Équipe #{team.team_id} ({team.players.length})</h3>
+                                            <ul>
+                                                {team.players.map(player => (
+                                                    <li key={player.id}>{player.firstname} {player.lastname} ({player.handicap_rounded})</li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     ))}
-                                </select>
-                            </div>
-                            <div className="admin-form-group">
-                                <label className="admin-label">
-                                    Équipe
-                                    <span className="required-field">*</span>
-                                </label>
-                                <input 
-                                    className={`admin-input team-input ${teamError ? "input-error" : ""}`}
-                                    type="number" step="1" min="1" max="20" placeholder="Ex : #1" value={team}
-                                    onChange={(e) => {setTeam(e.target.value); setTeamError(false); setError("");}}
-                                />
-                            </div>
-                        </div>
-                        <div className="admin-actions">
-                            <button className="admin-button" type="submit" disabled={loading}>
-                                Ajouter
-                            </button>
-                            <button
-                                className="admin-button admin-button-secondary"
-                                type="button" onClick={handleReset}>
-                                Effacer
-                            </button>
-                        </div>
-                        {error && <p className={`admin-error-message ${messageType}`}>✗ {error}</p>}
-                        {successMessage && <p className="admin-success-message">✓ {successMessage}</p>}                
-                    </form>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </>
-            )}
-            {teamsEvent.length > 0 && (
-                <div className="teams-container">
-                    <h2>Les équipes de l'évènement :</h2>
-                    {teamsEvent.map(team => (
-                        <div key={team.team_id} className="team-card">
-                            <h3>Équipe #{team.team_id} ({team.players.length})</h3>
-                            <ul>
-                                {team.players.map(player => (
-                                    <li key={player.id}>{player.firstname} {player.lastname} ({player.handicap_rounded})</li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-                </div>
             )}
         </div>
     );

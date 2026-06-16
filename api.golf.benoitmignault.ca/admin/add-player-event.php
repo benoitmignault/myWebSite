@@ -168,6 +168,10 @@ $history = $result->fetch_assoc();
 // de points Fedex ou de handicap enregistré dans la table player_event_history.
 if ($history) {
 
+    // 2026-06-15, la current_position est la current_position de son dernier événement, mais pour le nouvel événement auquel on l'ajoute, 
+    // cette position va devenir sa previous_position, car c'est la position qu'il avait avant de participer à ce nouvel événement. 
+    // C'est pour ça que nous allons insérer la current_position de son dernier événement dans la colonne previous_position de player_event_history 
+    // pour le nouvel événement auquel on l'ajoute.
     $previousPosition = $history["current_position"];
     $previousFedexPoints = $history["current_fedex_points"];
     $previousHandicap = $history["current_handicap"];

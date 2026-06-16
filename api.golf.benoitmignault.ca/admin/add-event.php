@@ -77,17 +77,6 @@ $sql = "INSERT INTO events (event_name, golf_course, golf_course_website, event_
 // Préparer la requête SQL pour insérer le nouvel événement dans la base de données en utilisant des requêtes préparées pour éviter les injections SQL
 $stmt = $conn->prepare($sql);
 
-if (!$stmt) {
-
-    http_response_code(500);
-
-    echo json_encode(["success" => false, "message" => "Erreur lors de la préparation de la requête."]);
-
-    $conn->close();
-    $stmt->close();
-    exit();
-}
-
 // Lier les paramètres à la requête préparée
 $stmt->bind_param("ssss", $eventName, $eventLocation, $eventWebSite, $eventDate);
 

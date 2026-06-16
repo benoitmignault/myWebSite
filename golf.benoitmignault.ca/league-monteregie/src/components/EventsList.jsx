@@ -273,7 +273,7 @@ function EventsList() {
                                                     // Afficher les résultats de l'événement en affichant la position, le nom du joueur, le score brut, le score net et les points Fedex
                                                     eventResults.map((result, index) => (
                                                         <tr key={index}>
-                                                            <td>{result.position}</td>
+                                                            <td>{getPositionDisplay(result.position)}</td>
                                                             <td className="text-name">{result.firstname}{" "}{result.lastname}</td>
                                                             <td>{result.gross_score}</td>
                                                             <td className={ 

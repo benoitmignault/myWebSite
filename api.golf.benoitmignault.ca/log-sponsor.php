@@ -28,29 +28,30 @@ if (!$data) {
 }
 
 // Récupérer les données envoyées depuis le frontend
-$actionType = $data['action_type'];
-$targetId = $data['target_id'];
-$targetName = $data['target_name'];
+$sponsorId = $data['sponsor_id'];
+$sponsorName = $data['sponsor_name'];
+$mediaType = $data['media_type'];
 
 // Récupérer l'adresse IP du client
 $ipAddress = $_SERVER['REMOTE_ADDR'];
 
-// Requête SQL pour insérer un nouveau log dans la table website_logs
-$sql = "INSERT INTO website_logs (log_date, action_type, target_id, target_name, ip_address) VALUES (NOW(), ?, ?, ?, ?)";
+// Requête SQL pour insérer un nouveau log dans la table website_logs_sponsors
+$sql = "INSERT INTO website_logs_sponsors (log_date, media_type, sponsor_id, sponsor_name, ip_address) 
+            VALUES (NOW(), ?, ?, ?, ?)";
 
 // Préparer la requête SQL
 $stmt = $conn->prepare($sql);
 
 // Lier les paramètres à la requête préparée
-$stmt->bind_param("siss", $actionType, $targetId, $targetName, $ipAddress);
+$stmt->bind_param("siss", $mediaType, $sponsorId, $sponsorName, $ipAddress);
 
 // Exécuter la requête SQL pour insérer le nouveau log dans la base de données
 if (!$stmt->execute()) {
 
-    error_log("LOG WEBSITE : " . $actionType . " | " . $targetName . " | " . date("Y-m-d H:i:s"));
-
+    error_log("LOG SPONSOR : " . $mediaType . " | " . $sponsorName . " | " . date("Y-m-d H:i:s"));
+    
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du log."]);    
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du log de sponsor."]);    
     
     // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();
@@ -63,4 +64,4 @@ $stmt->close();
 $conn->close();
 
 http_response_code(201);
-echo json_encode(["success" => true, "message" => "Log ajouté avec succès."]);
+echo json_encode(["success" => true, "message" => "Log de sponsor ajouté avec succès."]);

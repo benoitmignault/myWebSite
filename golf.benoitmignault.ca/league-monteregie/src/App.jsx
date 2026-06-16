@@ -1,69 +1,23 @@
-import { useEffect } from "react";
-import Standings from "./components/Standings";
-import EventsList from "./components/EventsList";
-import Sponsors from "./components/Sponsors";
-import PosterSection from "./components/PosterSection";
-import ContactSection from "./components/ContactSection";
-import Footer from "./components/Footer";
-import MissionSection from "./components/MissionSection";
-import { API_BASE_URL } from "./config";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// Importer les composants de page principale qui est rendu dans HomePage
+import HomePage from "./components/HomePage";
+
+// Importer les composants de la section admin
+import Login from "./components/admin/Login";
+import Dashboard from "./components/admin/Dashboard";
 
 function App() {
 
-	// Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page est chargée
-	useEffect(() => {
-		fetch(`${API_BASE_URL}/log-action.php`,
-			{ 
-				method: "POST",
-				headers: {"Content-Type": "application/json"},
-				body: JSON.stringify({
-					action_type: "page_load",
-					target_id: null,
-					target_name: "Affichage page principale"
-				})
-			}
-		);
-	}, []);
-
-	return (
-		<div>
-			<h1>Ligue de Golf Montérégie</h1>
-			<div className="main-container">        
-				<div className="sub-container">
-					<Standings />
-				</div>
-				<div className="sub-container">
-					<EventsList />
-				</div>				
-			</div>
-			<div className="sub-container">
-				<Sponsors />
-			</div>
-			<div className="info-container">
-				<div className="poster-container">
-					<PosterSection />
-				</div>
-				<div className="mission-container">
-					<MissionSection />
-				</div>
-				<div className="contact-container">
-					<ContactSection />
-				</div>
-			</div>
-			<Footer />
-			<button
-				className="scroll-top"
-				onClick={() =>
-					window.scrollTo({
-						top: 0,
-						behavior: "smooth"
-					})
-				}
-			> 
-				↑
-			</button>			
-		</div>
-	);
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/league-monteregie/" element={<HomePage />}/>
+                <Route path="/league-monteregie/admin/" element={<Login />}/>
+                <Route path="/league-monteregie/admin/dashboard" element={<Dashboard />}/>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;

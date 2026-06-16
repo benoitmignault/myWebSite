@@ -1,7 +1,7 @@
 function MissionSection() {
 
     return (
-        <div className="mission-section">
+        <div id="mission" className="mission-section">
             <h2>Notre mission</h2>
             <p className="contact-card">
                 Rassembler les passionnés de golf

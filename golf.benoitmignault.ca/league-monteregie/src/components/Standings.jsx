@@ -3,8 +3,15 @@ import React from "react";
 import { API_BASE_URL } from "../config";
 
 /**
- * Fonction composant pour afficher le classement de la Coupe Fedex de la Ligue de Golf en Montérégie
- * Affiche une table avec les joueurs, leur handicap et leurs points totaux, classés par points, handicap et prénom
+ * Composant pour afficher le classement général de la Coupe Fedex
+ * 
+ * @description Ce composant utilise useEffect pour récupérer les données du classement général 
+ * depuis l'API dès que le composant est monté, et stocke ces données dans l'état avec useState. 
+ * Il affiche ensuite une table avec les joueurs classés par points, handicap et prénom. 
+ * Lorsque l'utilisateur clique sur un joueur, une requête est envoyée à l'API pour récupérer 
+ * les résultats détaillés de ce joueur, qui sont ensuite affichés dans une table en dessous 
+ * du joueur sélectionné. Un message de chargement est affiché pendant que 
+ * les résultats détaillés sont en cours de récupération.
  * 
  * @returns 
  */
@@ -17,7 +24,10 @@ function Standings() {
     const [openPlayer, setOpenPlayer] = useState(null);
 
     // État pour stocker les résultats détaillés d'un joueur sélectionné
-    const [playerResults, setPlayerResults] = useState([]);    
+    const [playerResults, setPlayerResults] = useState([]);   
+    
+    // État pour indiquer si les résultats détaillés du joueur sont en cours de chargement
+    const [loadingPlayerHistory, setLoadingPlayerHistory] = useState(false);
 
     // Fonction pour gérer le clic sur un joueur et afficher ses résultats
     const handlePlayerClick = async (playerId) => {
@@ -47,31 +57,60 @@ function Standings() {
         // Un genre de sinon, on ouvre le joueur et on va chercher les détails de ce joueur pour les afficher
         setOpenPlayer(playerId);
 
-        // Récupérer les résultats détaillés du joueur depuis l'API mias en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état
-        //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place  
-        // const response = await fetch(`https://api.golf.benoitmignault.ca/player-details.php?id=${playerId}`);
-        const response = await fetch(`${API_BASE_URL}/player-details.php?id=${playerId}`);
+        // IMPORTANT qu'on va utiliser en bas pour faire afficher un message de chargement pendant qu'on attend la réponse de l'API pour les détails du joueur
+        setLoadingPlayerHistory(true);
 
-        // Une fois que la réponse est reçue, on la convertit en JSON et on met à jour l'état avec les résultats du joueur
-        const data = await response.json();
+        try {
+            // Récupérer les résultats détaillés du joueur depuis l'API 
+            // mais en mode asynchrone pour pouvoir attendre la réponse avant de mettre à jour l'état        
+            const response = await fetch(`${API_BASE_URL}/player-details.php?id=${playerId}`);
+            
+            // Une fois que la réponse est reçue, on la convertit en JSON et on doit mettre à jour l'état avec les résultats du joueur
+            const data = await response.json();
+            
+            // Vérification de la réponse de l'API pour voir si la récupération des détails du joueur a réussi
+            if (data.success) {
 
-        // Mettre à jour l'état avec les résultats du joueur pour les afficher dans la table des détails du joueur
-        setPlayerResults(data);
-    }    
-    
-    // On va mette useEffet en premier pour symboliser que ce useEffet est fait avant même la fonction de gestion du clic sur un joueur, 
-    // parce que ce useEffet est fait pour récupérer les données du classement général dès que le composant est monté, 
-    // alors que la fonction de gestion du clic sur un joueur est faite pour gérer une action spécifique de l'utilisateur (cliquer sur un joueur) 
-    // et récupérer les données détaillées de ce joueur seulement au moment où l'utilisateur clique sur lui
+                // Mettre à jour l'état avec les résultats du joueur pour les afficher dans la section en dessous du joueur
+                setPlayerResults(data.playerDetails); 
+            } else {
+
+                // Si la récupération des détails du joueur a échoué, 
+                // on affiche un message d'erreur dans la console et on réinitialise les résultats du joueur à une liste vide
+                console.error("Erreur récupération détails joueur :", data.message);
+                setPlayerResults([]);
+            }
+                      
+        } catch (error) {
+
+            console.error("Erreur récupération détails joueur :", error);
+            setPlayerResults([]);
+        } finally {
+
+            setLoadingPlayerHistory(false);
+        }
+    }            
+
+    // Utiliser useEffect pour récupérer les données du classement général depuis l'API dès que le composant est monté et les stocker dans l'état avec useState
+    // L'API doit retourner une liste de joueurs avec leurs informations de classement, handicap, points, etc. 
+    // qu'on peut ensuite afficher dans la table du classement général et utiliser pour afficher les détails du joueur lorsqu'on clique dessus
     useEffect(() => {
-        // Récupérer les données des joueurs et leurs points totaux depuis l'API
-        //  TODO: Remplacer l'URL par celle de votre API une fois que vous l'avez mise en place       
-        // fetch("https://api.golf.benoitmignault.ca/standings.php")
-        fetch(`${API_BASE_URL}/standings.php`)
-            .then(response => response.json())
-            .then(data => {
-                setPlayers(data);
-            });
+
+        const loadStandings = async () => {
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/standings.php`);
+                const data = await response.json();
+                setPlayers(data.players);
+
+            } catch (err) {
+
+                console.error(err);
+            }
+        };
+
+        loadStandings();
+
     }, []);
 
     // On doit utiliser React.Fractment parce que le .map retourne plusieurs éléments 
@@ -91,7 +130,7 @@ function Standings() {
                     <tr>
                         <th>Position</th>
                         <th>Joueur</th>
-                        <th>Moyenne</th>
+                        <th>Score Moyen</th>
                         <th>Handicap</th>
                         <th>Points</th>
                     </tr>
@@ -103,8 +142,8 @@ function Standings() {
                             <React.Fragment key={player.id}>
                                 <tr className="clickable-row" onClick={() => handlePlayerClick(player.id)}>
                                     <td>
-                                        {player.previous_position > index + 1 && (<span className="position-up">▲</span>)}
-                                        {player.previous_position < index + 1 && (<span className="position-down">▼</span>)}
+                                        {player.previous_position !== null && player.previous_position > index + 1 && (<span className="position-up">▲</span>)}
+                                        {player.previous_position !== null && player.previous_position < index + 1 && (<span className="position-down">▼</span>)}
                                         {index + 1}
                                     </td>
                                     <td>{player.firstname}{" "}{player.lastname}</td>
@@ -116,17 +155,22 @@ function Standings() {
                                     openPlayer === player.id && (
                                         <tr className="player-details-row">
                                             {
-                                                playerResults.length > 0
+                                                // On vérifi d'abord l'état du chargement...
+                                                loadingPlayerHistory
+                                                    ? (
+                                                        <td colSpan="5" className="upcoming-event">Chargement des résultats...</td>
+                                                    )
+                                                : playerResults.length > 0
                                                     ? (
                                                         <td colSpan="5" className="event-details-cell">
                                                             <table className="results-table">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Event</th>
-                                                                        <th>Position</th>
-                                                                        <th>Brut</th>
-                                                                        <th>Net</th>
-                                                                        <th>Points</th>
+                                                                        <th className="text-right">Position</th>
+                                                                        <th className="text-right">Score Brut</th>
+                                                                        <th className="text-right">Net</th>
+                                                                        <th className="text-right">Points</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -135,8 +179,8 @@ function Standings() {
                                                                         playerResults.map((result, index) => (
                                                                             <tr key={index}>
                                                                                 <td>{result.event_name}</td>
-                                                                                <td>{result.position}</td>
-                                                                                <td>{result.gross_score}</td>
+                                                                                <td className="text-right">{result.position}</td>
+                                                                                <td className="text-right">{result.gross_score}</td>
                                                                                 <td className={ Number(result.net_score) < 0 
                                                                                     ? "negative-score" 
                                                                                     : ( 
@@ -155,7 +199,7 @@ function Standings() {
                                                                                                 : Number(result.net_score)
                                                                                     }
                                                                                 </td>
-                                                                                <td>{result.fedex_points}</td>
+                                                                                <td className="text-right">{result.fedex_points}</td>
                                                                             </tr>
                                                                         ))
                                                                     }

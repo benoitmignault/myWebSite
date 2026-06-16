@@ -1,5 +1,7 @@
 includes/info-connexion-bd.php
 includes/info-connexion-email.php
-app/league-golf-monteregie/src/table_sql/*
 phpmailer/*
 vendor/*
+
+# Ajout du fichier de création des passwords
+api.golf.benoitmignault.ca/admin/auth/create-password-hash.php

@@ -1,0 +1,375 @@
+/**
+ * Styles pour les pages JSX dans la section Admin
+ * Login, Dashboard pour commencer
+ */
+
+.admin-login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-login-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-navbar {
+    position: static;
+    width: fit-content;
+    padding: 10px 16px;
+    margin-top: 30px;
+    background: rgba(25, 35, 65, 0.45);
+    backdrop-filter: blur(8px);    
+    border-radius: 10px;
+}
+
+.admin-navbar-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.admin-navbar-link:first-of-type {
+    margin-bottom: 10px;
+}
+
+.admin-navbar-link:not(.disabled):hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateX(3px);
+
+    transition: all 0.2s ease;
+}
+
+.admin-navbar-link:hover {
+    opacity: 0.8;
+    background: rgba(255,255,255,0.08);
+}
+
+.admin-login-card {
+    width: 50%;
+    background:
+        rgba(20,30,60,0.45);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 40px;
+}
+
+.admin-login-page h1,
+.dashboard-container h1 {
+    color: white;
+    margin-top: 0;
+}
+
+/* Override le style H1 */
+.login-title, .gestion-title {
+    margin: 0;
+}
+
+.admin-description {
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.6;
+}
+
+.admin-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 24px;
+}
+
+.admin-label {
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-weight: 600;
+    color: white;
+}
+
+.required-field {
+    color: #ef4444;
+    margin-left: 4px;
+}
+
+.admin-input {
+    width: 50%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background:
+        rgba(255,255,255,0.08);
+    color: white;
+    margin: 12px 0;
+}
+
+.admin-input.admin-website {
+    width: 70%;
+}
+
+.admin-input.players {
+    width: 100%;
+}
+
+.admin-input::placeholder {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.45);
+}
+
+input[type="number"].admin-input {
+    width: 12%;
+}
+
+input[type="number"].admin-input.result {
+    width: 25%;
+}
+
+.admin-net-score {
+    width: 35%;
+    height: 44px;
+
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    margin-top: 12px;
+
+    box-sizing: border-box;
+}
+
+.input-error {
+    border: 2px solid #ef4444;
+    box-shadow:
+        0 0 10px rgba(239,68,68,0.35);
+}
+
+.admin-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.admin-actions .admin-button {
+    flex: 1;
+}
+
+.admin-actions .admin-button {
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    background:
+        rgba(59,130,246,0.28);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.admin-actions .admin-button:hover {
+    background:
+        rgba(59,130,246,0.45);
+    transform: translateY(-1px);
+}
+
+.admin-actions .admin-button-secondary {
+    background:
+        rgba(255,255,255,0.08);
+}
+
+.admin-actions .admin-button-secondary:hover {
+    background:
+        rgba(255,255,255,0.15);
+}
+
+.admin-photo-credit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: fixed;
+    bottom: 60px;
+    right: 24px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    text-shadow:
+        0 1px 2px rgba(0,0,0,0.9),
+        0 0 4px rgba(0,0,0,0.6);
+    z-index: 5;
+}
+
+.admin-photo-credit svg {
+    font-size: 14px;
+}
+
+/* Design pour le DashBoard et leurs sous sections*/
+.dashboard-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 50px auto;
+}
+
+.admin-section-card {
+    background: rgba(25, 35, 65, 0.45);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.admin-section-card h2 {
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.admin-section-description {
+    margin-bottom: 25px;
+    color: rgba(255,255,255,0.8);
+}
+
+.admin-section-description.handicap {
+    text-align: left;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+
+/* Ligne Prénom / Nom */
+.admin-row {
+    display: flex;
+    gap: 20px;
+}
+
+.admin-row .admin-form-group {
+    flex: 1;
+}
+
+/* Messages */
+.admin-success-message {
+    margin-top: 15px;
+    padding: 12px 16px;
+    color: #86efac;
+    font-weight: 700;
+    font-size: 0.95rem;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    border-radius: 10px;
+    text-align: center;
+    box-shadow:
+        0 0 12px rgba(34, 197, 94, 0.15);
+    backdrop-filter: blur(6px);
+}
+
+.admin-error-message {
+    margin-top: 15px;
+    padding: 12px 16px;
+    color: #fca5a5;
+    font-weight: 700;
+    font-size: 0.95rem;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 10px;
+    text-align: center;
+    box-shadow:
+        0 0 12px rgba(239, 68, 68, 0.15);
+    backdrop-filter: blur(6px);
+}
+
+.admin-error-message.warning {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.15);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    box-shadow:
+        0 0 12px rgba(251, 191, 36, 0.15);
+}
+
+.react-datepicker-wrapper {
+    text-align: left;
+}
+
+.react-datepicker-wrapper input {
+    cursor: pointer;
+    width: 30%;
+}
+
+.admin-date-input.input-error { 
+    border: 1px solid #ff4d4f !important;
+    box-shadow: 0 0 10px rgba(255, 77, 79, 0.4);
+}
+
+.event-summary-row {
+    justify-content: center;
+    gap: 40px;
+    margin-top: 15px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.admin-input option {
+    color: black;
+}
+
+input[type="number"].admin-input.team-input {
+    width: 25%;
+}
+
+.warning-message {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    margin-top: 20px;
+    padding: 20px;
+
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,193,7,0.4);
+    border-radius: 12px;
+
+    color: #ffc107;
+    font-weight: 600;
+
+    box-sizing: border-box;
+}
+
+
+
+
+
+
+
+
+
+.scroll-top.dashboard {
+    bottom: 85px;
+}
+
+.scroll-top {
+    bottom: 50px;
+}
+
+.scroll-top:hover {
+    transform: translateY(-3px);
+    background:
+        rgba(59,130,246,0.35);
+}

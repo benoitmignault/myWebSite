@@ -44,7 +44,6 @@ $sql = $select . $from . $where . $orderBy;
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $eventId);
-$stmt->execute();
 
 // Vérifier si la requête a réussi
 if (!$stmt->execute()) {

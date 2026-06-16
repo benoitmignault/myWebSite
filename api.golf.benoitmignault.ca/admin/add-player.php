@@ -94,7 +94,7 @@ $sql = "INSERT INTO players (
 $stmt = $conn->prepare($sql);
 
 // Lier les paramètres à la requête préparée
-$stmt->bind_param("ssddd", $firstName, $lastName, $handicapStart, $handicapStart, $handicapRounded);
+$stmt->bind_param("ssddi", $firstName, $lastName, $handicapStart, $handicapStart, $handicapRounded);
 
 // Exécuter la requête SQL pour insérer le nouveau joueur dans la base de données
 if (!$stmt->execute()) {

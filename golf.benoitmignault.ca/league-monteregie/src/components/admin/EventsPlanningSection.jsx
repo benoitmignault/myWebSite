@@ -351,7 +351,7 @@ function EventsPlanningSection({ setEventChanged, eventUpdated }) {
             {!event ? (
                 <div className="warning-message">
                     <FaInfoCircle />
-                    <span>Aucun événement n'est actuellement disponible pour la préparation.</span>
+                    <span>Aucun événement n'est actuellement disponible pour ajouter des joueurs.</span>
                 </div>
             ) : (
                 <>

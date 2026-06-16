@@ -63,6 +63,7 @@ $select = "SELECT id, is_open, is_closed ";
 $from = "FROM events ";
 $where = "WHERE id = ?";
 $sql = $select . $from . $where;
+
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $eventId);
 
@@ -210,6 +211,9 @@ if ($history) {
 // On doit passer l'handicap arrondi pour l'évenement en cours
 $previousHandicapRouned = round($previousHandicap);
 
+// Commencer une transaction pour s'assurer que les deux insertions (dans event_players et player_event_history) soient atomiques
+$conn->begin_transaction();
+
 // Requête SQL pour insérer le joueur à l'événement dans la table event_players
 $insert = "INSERT INTO event_players (event_id, player_id, team_number, handicap_rounded) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($insert);
@@ -217,7 +221,9 @@ $stmt->bind_param("iiii", $eventId, $playerId, $teamId, $previousHandicapRouned)
 
 // Exécuter la requête SQL pour insérer le joueur à l'événement
 if (!$stmt->execute()) {
-
+    
+    // Si l'insertion du joueur à l'événement échoue, on doit faire un rollback pour annuler toute modification dans la base de données
+    $conn->rollback();
     error_log($stmt->error);
     
     http_response_code(500);
@@ -238,6 +244,8 @@ $stmt->bind_param("iiiid", $eventId, $playerId, $previousPosition, $previousFede
 // Exécuter la requête SQL pour insérer le nouveau joueur dans la base de données
 if (!$stmt->execute()) {
 
+    // Si l'insertion dans player_event_history échoue, on doit faire un rollback pour annuler l'insertion du joueur à l'événement dans event_players
+    $conn->rollback();
     error_log($stmt->error);
     
     http_response_code(500);

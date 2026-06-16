@@ -42,17 +42,6 @@ $sql = "INSERT INTO website_logs_sponsors (log_date, media_type, sponsor_id, spo
 // Préparer la requête SQL
 $stmt = $conn->prepare($sql);
 
-if (!$stmt) {
-
-    http_response_code(500);
-
-    echo json_encode(["success" => false, "message" => "Erreur lors de la préparation de la requête."]);
-    
-    $stmt->close();
-    $conn->close();
-    exit();
-}
-
 // Lier les paramètres à la requête préparée
 $stmt->bind_param("siss", $mediaType, $sponsorId, $sponsorName, $ipAddress);
 

@@ -89,22 +89,28 @@ function Standings() {
 
             setLoadingPlayerHistory(false);
         }
-    }    
-    
-    // On va mette useEffet en premier pour symboliser que ce useEffet est fait avant même la fonction de gestion du clic sur un joueur, 
-    // parce que ce useEffet est fait pour récupérer les données du classement général dès que le composant est monté, 
-    // alors que la fonction de gestion du clic sur un joueur est faite pour gérer une action spécifique de l'utilisateur (cliquer sur un joueur) 
-    // et récupérer les données détaillées de ce joueur seulement au moment où l'utilisateur clique sur lui
+    }            
+
+    // Utiliser useEffect pour récupérer les données du classement général depuis l'API dès que le composant est monté et les stocker dans l'état avec useState
+    // L'API doit retourner une liste de joueurs avec leurs informations de classement, handicap, points, etc. 
+    // qu'on peut ensuite afficher dans la table du classement général et utiliser pour afficher les détails du joueur lorsqu'on clique dessus
     useEffect(() => {
-        
-        // Récupérer les informations pour afficher en gros, le classement général de la Coupe Fedex
-        // Soit les données des joueurs et leurs points totaux depuis l'API et 
-        // les stocker dans l'état pour les afficher dans le classement général
-        fetch(`${API_BASE_URL}/standings.php`)
-            .then(response => response.json())
-            .then(data => {
+
+        const loadStandings = async () => {
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/standings.php`);
+                const data = await response.json();
                 setPlayers(data.players);
-            });
+
+            } catch (err) {
+
+                console.error(err);
+            }
+        };
+
+        loadStandings();
+
     }, []);
 
     // On doit utiliser React.Fractment parce que le .map retourne plusieurs éléments 

@@ -447,9 +447,10 @@ function ResultsSection({eventChanged, setEventUpdated}) {
     return (
         <div className="admin-section-card">
             <h2>Section pour ajouter un résultat</h2>
-            {event?.is_open === 0 ? (
+            {!event ? (
                 <div className="warning-message">
-                    ⚠️ Aucun événement n'est actuellement ouvert pour la saisie des résultats.
+                    <FaInfoCircle />
+                    <span>Aucun événement n'est actuellement ouvert pour la saisie des résultats.</span>
                 </div>
             ) : (
                 <>

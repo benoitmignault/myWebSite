@@ -62,7 +62,8 @@
     padding: 40px;
 }
 
-h1 {
+.admin-login-page h1,
+.dashboard-container h1 {
     color: white;
     margin-top: 0;
 }

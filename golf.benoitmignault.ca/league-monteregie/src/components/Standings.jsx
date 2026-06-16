@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
+import { FaTrophy } from "react-icons/fa";
 import { API_BASE_URL } from "../config";
 
 /**

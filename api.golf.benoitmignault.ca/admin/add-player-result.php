@@ -692,7 +692,7 @@ if ($totalResults == $totalPlayers) {
         $currentHandicaps[$row['id']] = $row['handicap_league'];
     }    
 
-    // Maintenant, on peut préparer le switch cas epour update de ceux qui ont participé à l'évenement en question
+    // Maintenant, on peut préparer le switch case pour update de ceux qui ont participé à l'évenement en question
     $update = "UPDATE player_event_history SET current_handicap = CASE player_id ";
     
     // 2026-06-09, j'avais oublié d'ajouter un reset de la variable

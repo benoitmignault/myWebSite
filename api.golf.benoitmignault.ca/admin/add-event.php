@@ -40,8 +40,7 @@ $eventLocation = $data['location']; // Le nom du terrain de golf où l'événeme
 $eventWebSite = $data['url']; // Le site web
 
 // Convertir la date au format YYYY-MM-DD pour s'assurer que le format est correct pour la base de données
-$eventDate = date("Y-m-d", strtotime($data['date'])); 
-
+$eventDate = date("Y-m-d", strtotime($data['date']));
 
 // Validation des données
 if (empty($eventName) || empty($eventLocation) || empty($eventWebSite) || empty($eventDate)) {

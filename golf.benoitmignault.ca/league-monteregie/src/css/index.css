@@ -282,6 +282,28 @@ tbody tr:nth-child(even) {
     margin-right: 8px;
 }
 
+.medal {
+    transition: transform 0.2s;
+    font-size: 1.3rem;
+    vertical-align: middle;
+}
+
+.gold {
+    color: #FFD700;
+}
+
+.silver {
+    color: #C0C0C0;
+}
+
+.bronze {
+    color: #CD7F32;
+}
+
+tr:hover .medal {
+    transform: scale(1.15);
+}
+
 .player-details-row {
     background:
     linear-gradient(

@@ -139,12 +139,13 @@ if ($result->num_rows === 1) {
 
         // Configurer les paramètres du cookie de session pour permettre 
         // les requêtes CORS avec fetch et inclure les cookies de session dans les requêtes fetch
+        $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
         session_set_cookie_params([
             'lifetime' => 3600, // cookie navigateur pour 1 heure
             'path' => '/',
-            'secure' => true,
+            'secure' => $isHttps,
             'httponly' => true,
-            'samesite' => 'None'
+            'samesite' => $isHttps ? 'None' : 'Lax'
         ]);
 
         // Configurer la durée de vie maximale de la session pour correspondre à celle du cookie

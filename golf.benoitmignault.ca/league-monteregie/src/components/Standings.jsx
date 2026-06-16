@@ -30,6 +30,20 @@ function Standings() {
     // État pour indiquer si les résultats détaillés du joueur sont en cours de chargement
     const [loadingPlayerHistory, setLoadingPlayerHistory] = useState(false);
 
+    // Fonction pour gérer la position et afficher une icône de médaille pour les 3 premiers joueurs du classement général
+    const getPositionDisplay = (position) => {
+        switch (position) {
+            case 1:
+            return <FaTrophy className="medal gold" />;
+            case 2:
+            return <FaTrophy className="medal silver" />;
+            case 3:
+            return <FaTrophy className="medal bronze" />;
+            default:
+            return position;
+        }
+    }
+
     // Fonction pour gérer le clic sur un joueur et afficher ses résultats
     const handlePlayerClick = async (playerId) => {
 

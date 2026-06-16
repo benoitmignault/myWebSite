@@ -14,6 +14,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { API_BASE_URL } from "./../config";
 import { FaHandshake } from "react-icons/fa";
 import { FaBullseye } from "react-icons/fa";
+import '../css/index.css'
 
 function HomePage() {
 

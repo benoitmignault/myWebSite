@@ -10,6 +10,7 @@ import EventsPlanningSection from "./EventsPlanningSection";
 import ResultsSection from "./ResultsSection";
 import { API_BASE_URL } from "../../config";
 import Footer from "../Footer";
+import '../../css/admin.css'
 
 // Composant du dashboard pour les administrateurs et les sous-administrateurs
 // Ce composant affiche les différentes sections du dashboard, 

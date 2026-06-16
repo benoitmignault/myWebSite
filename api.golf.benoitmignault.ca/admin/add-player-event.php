@@ -106,31 +106,6 @@ if ($event["is_closed"] == 1) {
     exit();
 }
 
-// Si l'event est à 0, on va pouvoir ouvrir les inscriptions pour cet event et mettre à jour le statut de l'event à ouvert dans la base de données
-if ($event["is_open"] == 0) {
-
-    // On va faire un update pour changer le statut de l'event à ouvert
-    $update = "UPDATE events SET is_open = 1 WHERE id = ?";
-    $stmt = $conn->prepare($update);
-    $stmt->bind_param("i", $eventId);
-
-    // Exécuter la requête SQL pour insérer le nouveau joueur dans la base de données
-    if (!$stmt->execute()) {
-
-        error_log($stmt->error);
-        
-        http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Erreur lors de l'ouverture des inscriptions pour cet événement."]); 
-        
-        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
-        $stmt->close();
-        $conn->close();
-        exit();
-    }    
-}
-
-// Maintenant que l'évenement est ouvert, on peut ajouter les joueurs à l'évenement
-
 // Cependant, on doit faire la validation qu'une équipe ne peut pas avoir plus de 4 joueurs
 $select = "SELECT COUNT(*) AS total_players ";
 $from = "FROM event_players ";
@@ -274,8 +249,37 @@ if (!$stmt->execute()) {
     exit();
 }
 
-// Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+// Si nous arrivons ici, ça veut dire que les deux insertions ont réussi, donc on peut faire un commit pour valider la transaction
+$conn->commit();
+
+// Fermer la connexion au résultat du insert dans la base de données
 $stmt->close();
+
+// Si les ajouts du joueur à l'événement et de son historique ont réussi, on doit vérifier si l'événement était fermé (is_open = 0) avant cet ajout,
+// car si c'est le cas, ça veut dire que c'était le premier joueur à s'inscrire pour cet événement, donc on doit ouvrir la section des résultats des inscriptions 
+// pour cet événement en mettant à jour le statut de l'événement à ouvert (is_open = 1) dans la base de données.
+if ($event["is_open"] == 0) {
+
+    // On va faire un update pour changer le statut de l'event à ouvert
+    $update = "UPDATE events SET is_open = 1 WHERE id = ?";
+    $stmt = $conn->prepare($update);
+    $stmt->bind_param("i", $eventId);
+
+    // Exécuter la requête SQL pour insérer le nouveau joueur dans la base de données
+    if (!$stmt->execute()) {
+
+        error_log($stmt->error);
+        
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Erreur lors de l'ouverture des inscriptions pour cet événement."]); 
+        
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+        $stmt->close();
+        $conn->close();
+        exit();
+    }    
+}
+
 $conn->close();
 
 http_response_code(201);

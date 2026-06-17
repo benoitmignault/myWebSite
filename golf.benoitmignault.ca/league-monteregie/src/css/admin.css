@@ -364,10 +364,6 @@ input[type="number"].admin-input.team-input {
     bottom: 85px;
 }
 
-.scroll-top {
-    bottom: 50px;
-}
-
 .scroll-top:hover {
     transform: translateY(-3px);
     background:

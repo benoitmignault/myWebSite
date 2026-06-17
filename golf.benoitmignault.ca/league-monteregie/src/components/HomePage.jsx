@@ -54,9 +54,9 @@ function HomePage() {
 					<MdAdminPanelSettings />
 					<span>Section Admin</span>
 				</Link>
-				<Link to="#" className="site-navbar-link disabled" onClick={(e) => e.preventDefault()}>
+				<Link to="/league-monteregie/statistics" className="site-navbar-link">
 					<FaChartLine />
-					<span>Évolution Joueur (à venir...)</span>
+					<span>Évolution Joueur</span>
 				</Link>
 				<a href="#sponsors" className="site-navbar-link">
 					<FaHandshake />

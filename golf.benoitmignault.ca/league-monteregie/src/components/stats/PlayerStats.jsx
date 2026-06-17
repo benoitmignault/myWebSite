@@ -4,7 +4,7 @@
 // Les données seront récupérées à partir d'une API venant de la base de données, et le composant utilisera des bibliothèques 
 // comme Chart.js ou D3.js pour visualiser les statistiques de manière attrayante et informative.
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { API_BASE_URL } from "../../config";
 import { Link } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
@@ -63,18 +63,14 @@ function PlayerStats() {
                 {/* <PlayerHistory /> */}
 
             </div>
-
-            <div className="photo-credit-wrapper">				
-				
-					<BsCameraFill />
-					<span>Photo prise au Club de golf Farnham — Semaine 2</span>
-				
-			</div>
-
-            <Footer />
-            <button className="scroll-top" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
+            <div className="photo-credit">
+                <BsCameraFill />
+                <span>Photo prise au Club de golf Farnham — Semaine 2</span>				
+			</div>            
+            <button className="scroll-top player-stats" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
 				<FaArrowUp />
 			</button>
+            <Footer />            
         </div>
     );
 }

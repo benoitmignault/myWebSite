@@ -34,11 +34,11 @@ function Standings() {
     const getPositionDisplay = (position) => {
         switch (position) {
             case 1:
-            return <FaTrophy className="medal gold" />;
+            return <FaTrophy className="trophy gold" />;
             case 2:
-            return <FaTrophy className="medal silver" />;
+            return <FaTrophy className="trophy silver" />;
             case 3:
-            return <FaTrophy className="medal bronze" />;
+            return <FaTrophy className="trophy bronze" />;
             default:
             return position;
         }

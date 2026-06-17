@@ -282,7 +282,7 @@ tbody tr:nth-child(even) {
     margin-right: 8px;
 }
 
-.medal {
+.trophy {
     transition: transform 0.2s;
     font-size: 1.3rem;
     vertical-align: middle;
@@ -300,7 +300,7 @@ tbody tr:nth-child(even) {
     color: #CD7F32;
 }
 
-tr:hover .medal {
+.clickable-row:hover .trophy {
     transform: scale(1.15);
 }
 

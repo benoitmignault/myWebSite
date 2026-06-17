@@ -5,16 +5,20 @@
 // comme Chart.js ou D3.js pour visualiser les statistiques de manière attrayante et informative.
 
 import React, { useEffect } from "react";
-import { API_BASE_URL } from "./../config";
+import { API_BASE_URL } from "../../config";
 import { Link } from "react-router-dom";
-import Footer from "./Footer";
-import '../css/stats.css'
+import { FaArrowUp } from "react-icons/fa";
+import { FaHouse } from "react-icons/fa6";
+import { BsCameraFill } from "react-icons/bs";
+import Footer from "../Footer";
+import '../../css/index.css'
+import '../../css/stats.css'
 
 function PlayerStats() {
 
 
 
-    // Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page est chargée
+    // Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page de statistiques est chargée
 	useEffect(() => {
 		fetch(`${API_BASE_URL}/log-action.php`,
 			{ 
@@ -28,9 +32,6 @@ function PlayerStats() {
 			}
 		);
 	}, []);
-
-
-
 
 	// Utiliser useEffect pour changer le titre de la page et le favicon lorsque le composant HomePage est monté
 	useEffect(() => {
@@ -46,12 +47,34 @@ function PlayerStats() {
 
 	}, []);
 
-
-
     return (
-        <div className="player-stats">
+        <div className="player-stats-page">
+            <div className="site-navbar">
+                <Link to="/league-monteregie/" className="admin-navbar-link">
+                    <FaHouse/>
+                    <span>Retour au site principal</span>
+                </Link>
+            </div>
             <h1>Statistiques des Joueurs</h1>
-            <p>Bienvenue sur la page des statistiques des joueurs de la ligue.</p>
+            <div className="player-stats-content">
+                
+                {/* <PlayerSelector /> */}
+                {/* <PlayerCharts /> */}
+                {/* <PlayerHistory /> */}
+
+            </div>
+
+            <div className="photo-credit-wrapper">				
+				
+					<BsCameraFill />
+					<span>Photo prise au Club de golf Farnham — Semaine 2</span>
+				
+			</div>
+
+            <Footer />
+            <button className="scroll-top" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
+				<FaArrowUp />
+			</button>
         </div>
     );
 }

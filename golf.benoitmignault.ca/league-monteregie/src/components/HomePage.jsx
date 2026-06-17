@@ -18,7 +18,7 @@ import '../css/index.css'
 
 function HomePage() {
 
-	// Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page est chargée
+	// Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page d'accueil est chargée
 	useEffect(() => {
 		fetch(`${API_BASE_URL}/log-action.php`,
 			{ 

@@ -180,7 +180,7 @@ function Login() {
                 <div className="admin-login-card">                
                     <h1 className="login-title">Portail Administrateur</h1>
                     <p className="admin-description">
-                        Gestion des événements, des joueurs et des résultats et affichage du trafics sur le site.                    
+                        Gestion des événements, des joueurs et des résultats.                    
                     </p>
                     <form onSubmit={(e) => {e.preventDefault(); handleLogin();}}>
                         <div className="admin-form-group">

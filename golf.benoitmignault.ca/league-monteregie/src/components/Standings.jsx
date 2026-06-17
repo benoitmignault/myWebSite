@@ -192,9 +192,9 @@ function Standings() {
                                                                     {
                                                                         // Afficher les résultats détaillés du joueur en affichant le nom de l'événement, la position, le score brut, le score net et les points Fedex
                                                                         playerResults.map((result, index) => (
-                                                                            <tr key={index}>
+                                                                            <tr className="clickable-row" key={index}>
                                                                                 <td>{result.event_name}</td>
-                                                                                <td className="text-right">{result.position}</td>
+                                                                                <td className="text-right">{getPositionDisplay(result.position)}</td>
                                                                                 <td className="text-right">{result.gross_score}</td>
                                                                                 <td className={ Number(result.net_score) < 0 
                                                                                     ? "negative-score" 

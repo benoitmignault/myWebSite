@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./components/HomePage";
 
 // Importer les composants de la page des statistiques
-import PlayerStats from "./components/PlayerStats";
+import PlayerStats from "./components/stats/PlayerStats";
 
 // Importer les composants de la section admin
 import Login from "./components/admin/Login";

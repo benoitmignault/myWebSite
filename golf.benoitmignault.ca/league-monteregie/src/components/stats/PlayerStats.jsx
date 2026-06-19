@@ -64,12 +64,12 @@ function PlayerStats() {
 				<div className="player-stats-card player-header-card">
 
 					<div className="player-selector-section">
-						<PlayerSelector setSelectedPlayerId={setSelectedPlayerId}/>
+						<PlayerSelector onPlayerChange={setSelectedPlayerId}/>
 					</div>
 					<div className="player-summary-section">
 
 						{selectedPlayerId ? (
-							<PlayerSummary selectedPlayerId={selectedPlayerId}/>
+							<PlayerSummary playerId={selectedPlayerId}/>
 						) : (
 							<p>Information sera affichée ici, une fois le joueur sélectionné.</p>
 						)}

@@ -59,7 +59,6 @@ function PlayerSelector({ setSelectedPlayerId }) {
         label: `${player.firstname} ${player.lastname}`
     }));
 
-
     // Utiliser useEffect pour charger la liste des joueurs depuis l'API lorsque le composant est monté
     useEffect(() => {
 
@@ -90,14 +89,6 @@ function PlayerSelector({ setSelectedPlayerId }) {
             />
             {error && <p className={`error-message`}>✗ {error}</p>}
         </div>
-
-
-
-
-
-
-
-
     );
 }
 

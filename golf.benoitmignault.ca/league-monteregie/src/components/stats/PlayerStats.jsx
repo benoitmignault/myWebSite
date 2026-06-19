@@ -10,6 +10,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import PlayerSelector from "./PlayerSelector";
+import PlayerSummary from "./PlayerSummary";
 import Footer from "../Footer";
 import { API_BASE_URL } from "../../config";
 import '../../css/index.css'

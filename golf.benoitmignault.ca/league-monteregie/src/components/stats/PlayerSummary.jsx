@@ -22,4 +22,4 @@ function PlayerSummary({ playerId }) {
     );
 }
 
-export default PlayerSelector;
+export default PlayerSummary;

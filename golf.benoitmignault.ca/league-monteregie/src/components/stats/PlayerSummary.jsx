@@ -82,7 +82,52 @@ function PlayerSummary({ selectedPlayerId }) {
     }, [selectedPlayerId]);
 
     return (
-        <div>           
+        <div className="player-summary">
+
+            <h2 className="player-summary-title">
+                {playerSummary?.full_name}
+            </h2>
+
+            <div className="player-stats-grid">
+
+                <div className="player-stat-card">
+                    <span className="player-stat-label">Handicap</span>
+                    <span className="player-stat-value">{playerSummary?.handicap}</span>
+                </div>
+
+                <div className="player-stat-card">
+                    <span className="player-stat-label">Moyenne</span>
+                    <span className="player-stat-value">{playerSummary?.average_score}</span>
+                </div>
+
+                <div className="player-stat-card">
+                    <span className="player-stat-label">FedEx (Position)</span>
+                    <span className="player-stat-value">#{playerSummary?.fedex_position}</span>
+                </div>
+
+                <div className="player-stat-card">
+                    <span className="player-stat-label">Points</span>
+                    <span className="player-stat-value">{playerSummary?.fedex_points}</span>
+                </div>
+            </div>
+
+            <div className="player-trophies">
+                <div className="player-trophy-card">
+                    <FaTrophy className="trophy gold" />
+                    <span className="player-trophy-count">{playerSummary?.gold_trophies}</span>
+                    <span className="player-trophy-label victories-label">Victoires</span>
+                </div>
+                <div className="player-trophy-card">
+                    <FaTrophy className="trophy silver" />
+                    <span className="player-trophy-count">{playerSummary?.silver_trophies}</span>
+                    <span className="player-trophy-label runnerup-label">2e place</span>
+                </div>
+                <div className="player-trophy-card">
+                    <FaTrophy className="trophy bronze" />
+                    <span className="player-trophy-count"> {playerSummary?.bronze_trophies}</span>
+                    <span className="player-trophy-label">3e place</span>
+                </div>
+            </div>
         </div>
     );
 }

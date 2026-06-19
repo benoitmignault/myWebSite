@@ -20,18 +20,18 @@ import { API_BASE_URL } from "../../config";
      🥈 Argent
      🥉 Bronze
  * 
- * @param {integer} playerId 
+ * @param {integer} selectedPlayerId 
  * @returns 
  */
 
-function PlayerSummary({ playerId }) {
+function PlayerSummary({ selectedPlayerId }) {
 
     const [playerSummary, setPlayerSummary] = useState(null);
 
     const [error, setError] = useState("");
 
     // Fonction pour charger les données du joueur sélectionné pour les afficher dans la section d'informations du joueur
-    const loadPlayerInfo = async (playerId) => {
+    const loadPlayerInfo = async (selectedPlayerId) => {
 
         try {
                 
@@ -40,7 +40,7 @@ function PlayerSummary({ playerId }) {
                 {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},                
-                    body: JSON.stringify({playerId: playerId})
+                    body: JSON.stringify({playerId: selectedPlayerId})
                 }
             );
 

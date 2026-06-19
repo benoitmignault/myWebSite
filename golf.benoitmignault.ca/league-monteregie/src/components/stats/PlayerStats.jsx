@@ -90,7 +90,7 @@ function PlayerStats() {
 					<div className="player-summary-section">
 
 						{selectedPlayerId ? (
-							<PlayerSummary playerId={selectedPlayerId}/>
+							<PlayerSummary selectedPlayerId={selectedPlayerId}/>
 						) : (
 							<p>Information sera affichée ici, une fois le joueur sélectionné.</p>
 						)}

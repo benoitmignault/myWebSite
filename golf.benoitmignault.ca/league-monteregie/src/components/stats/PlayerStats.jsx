@@ -58,11 +58,29 @@ function PlayerStats() {
                 </Link>
             </div>
             <h1>Statistiques des Joueurs</h1>
-            <div className="player-stats-content">                
-                <PlayerSelector setSelectedPlayerId={setSelectedPlayerId}/>
-				{/*<PlayerSummary selectedPlayerId={selectedPlayerId}/> */}
-                {/* <PlayerCharts /> */}
-                {/* <PlayerHistory /> */}
+            <div className="player-stats-content">			
+				
+				<div className="player-stats-card player-header-card">
+
+					<div className="player-selector-section">
+						<PlayerSelector setSelectedPlayerId={setSelectedPlayerId}/>
+					</div>
+					<div className="player-summary-section">
+
+						{selectedPlayerId ? (
+							<PlayerSummary selectedPlayerId={selectedPlayerId}/>
+						) : (
+							<p>Information sera affichée ici, une fois le joueur sélectionné.</p>
+						)}
+					</div>
+				</div>
+                {selectedPlayerId && (
+					<>
+						{/* <PlayerCharts selectedPlayerId={selectedPlayerId} /> */}
+
+						{/* <PlayerHistory selectedPlayerId={selectedPlayerId} /> */}
+					</>
+				)}
 
             </div>
             <div className="photo-credit">

@@ -58,9 +58,9 @@ function PlayerStats() {
                 </Link>
             </div>
             <h1>Statistiques des Joueurs</h1>
-            <div className="player-stats-content">
-                
-                {/* <PlayerSelector /> */}
+            <div className="player-stats-content">                
+                <PlayerSelector setSelectedPlayerId={setSelectedPlayerId}/>
+				{/*<PlayerSummary selectedPlayerId={selectedPlayerId}/> */}
                 {/* <PlayerCharts /> */}
                 {/* <PlayerHistory /> */}
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../config";
 
@@ -70,22 +71,17 @@ function PlayerSummary({ selectedPlayerId }) {
     // Utilisé dès le chargement du composant pour récupérer les données du joueur sélectionné,
     // et les afficher dans la section d'informations du joueur
     useEffect(() => {
-
-        // Il faut utiliser une notion asynchrone pour charger les données, en raison de l'utilisation 
-        const initializeData = async () => {
-
-            // Charger les données du joueur sélectionné pour les afficher dans la section d'informations du joueur
-            await loadPlayerInfo(playerId);                            
-        };
         
-        // Appeler la fonction d'initialisation des données pour charger les données du joueur sélectionné dès le chargement du composant
-        initializeData();
+        // Pas besoin d'utiliser les notions async et await vue que après, on ne fait rien d'autre que de mettre à jour l'état 
+        // avec les données du joueur, ou afficher un message d'erreur, et que la fonction loadPlayerInfo est déjà une fonction asynchrone 
+        // qui gère les promesses avec les await à l'intérieur, donc on peut juste appeler la fonction loadPlayerInfo 
+        // avec le selectedPlayerId pour récupérer les données du joueur sélectionné et les afficher dans la section d'informations du joueur
+        loadPlayerInfo(selectedPlayerId);
 
-    }, []);
+    }, [selectedPlayerId]);
 
     return (
-        <div>
-            {console.log(playerSummary)}
+        <div>           
         </div>
     );
 }

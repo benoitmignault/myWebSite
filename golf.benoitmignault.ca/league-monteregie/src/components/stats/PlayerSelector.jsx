@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
 import Select from "react-select";
 import { API_BASE_URL } from "../../config";
@@ -62,15 +63,9 @@ function PlayerSelector({ setSelectedPlayerId }) {
     // Utiliser useEffect pour charger la liste des joueurs depuis l'API lorsque le composant est monté
     useEffect(() => {
 
-        // Il faut utiliser une notion asynchrone pour charger les données, en raison de l'utilisation 
-        const initializeData = async () => {
-
-            // Charger la liste des joueurs pour les afficher dans le sélecteur
-            await loadAllPlayers();                            
-        };
-        
-        // Charger tout les éléments dans la section du tournois en gestion en cours
-        initializeData();
+        // Appeler la fonction de chargement des joueurs pour récupérer la liste des joueurs dès le chargement du composant
+        // Pas besoin d'utiliser les notions async et await vue que après, on ne fait rien d'autre que de mettre à jour l'état
+        loadAllPlayers();
 
     }, []);
 

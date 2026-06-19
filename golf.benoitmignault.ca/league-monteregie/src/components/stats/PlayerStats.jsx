@@ -50,6 +50,27 @@ function PlayerStats() {
 
 	}, []);
 
+
+	// Utiliser ce useEffect pour envoyer une requête à l'API de logging à chaque fois qu'un joueur
+	// sélectionné change, pour loguer l'action de consultation des statistiques d'un joueur spécifique
+	useEffect(() => {
+
+		if (!selectedPlayerId) {
+			return;
+		}
+
+		fetch(`${API_BASE_URL}/log-action.php`, {
+			method: "POST",
+			headers: {"Content-Type": "application/json"},
+			body: JSON.stringify({
+				action_type: "player_stats_view",
+				target_id: selectedPlayerId,
+				target_name: "Consultation statistiques joueur"
+			})
+		});
+
+	}, [selectedPlayerId]);
+
     return (
         <div className="player-stats-page">
             <div className="site-navbar">

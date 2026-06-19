@@ -1,7 +1,20 @@
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../config";
 
-
+/**
+ * Composant pour l'affichage de la liste des joueurs de la league en prévision 
+ * de la sélection d'un joueur pour voir ses statistiques détaillées dans le composant PlayerSummary 
+ * et les autres composants de statistiques.
+ * 
+ * Ce composant envoie une requête à l'API pour récupérer la liste de tous les joueurs de la ligue,
+ * et affiche cette liste dans un sélecteur pour que l'utilisateur puisse choisir un joueur.
+ * 
+ * Lorsqu'un joueur est sélectionné, le composant met à jour l'état selectedPlayerId dans le composant parent PlayerStats,
+ * pour que les autres composants de statistiques puissent afficher les données du joueur sélectionné.
+ * 
+ * @param {function} setSelectedPlayerId 
+ * @returns 
+ */
 function PlayerSelector({ setSelectedPlayerId }) {
 
     // État pour stocker la liste des joueurs

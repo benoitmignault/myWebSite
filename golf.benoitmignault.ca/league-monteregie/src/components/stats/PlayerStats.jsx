@@ -50,7 +50,6 @@ function PlayerStats() {
 
 	}, []);
 
-
 	// Utiliser ce useEffect pour envoyer une requête à l'API de logging à chaque fois qu'un joueur
 	// sélectionné change, pour loguer l'action de consultation des statistiques d'un joueur spécifique
 	useEffect(() => {

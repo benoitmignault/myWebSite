@@ -6,7 +6,45 @@
 
 .player-stats-content {
     flex: 1;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
+
+.player-header-card {
+    display: flex;
+    background: rgba(20,30,60,0.40);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.player-selector-section {
+    width: 40%;
+    padding: 25px;
+}
+
+.player-summary-section {
+    width: 60%;
+    padding: 25px;
+    background: rgba(255,255,255,0.02);
+    border-left: 2px solid rgba(96,165,250,0.15);
+}
+
+
+.player-stats-card {
+    background: rgba(20,30,60,0.40);
+    backdrop-filter: blur(10px);
+
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
 
 .photo-credit {
     display: flex;

@@ -85,7 +85,7 @@ function PlayerStats() {
 				<div className="player-stats-card player-header-card">
 
 					<div className="player-selector-section">
-						<PlayerSelector onPlayerChange={setSelectedPlayerId}/>
+						<PlayerSelector setSelectedPlayerId={setSelectedPlayerId}/>
 					</div>
 					<div className="player-summary-section">
 

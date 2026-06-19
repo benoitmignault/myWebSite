@@ -13,10 +13,10 @@ import { API_BASE_URL } from "../../config";
  * Lorsqu'un joueur est sélectionné, le composant met à jour l'état selectedPlayerId dans le composant parent PlayerStats,
  * pour que les autres composants de statistiques puissent afficher les données du joueur sélectionné.
  * 
- * @param {function} onPlayerChange 
+ * @param {function} setSelectedPlayerId 
  * @returns 
  */
-function PlayerSelector({ onPlayerChange }) {
+function PlayerSelector({ setSelectedPlayerId }) {
 
     // État pour stocker la liste des joueurs
     const [players, setPlayers] = useState([]);
@@ -86,7 +86,7 @@ function PlayerSelector({ onPlayerChange }) {
                 noOptionsMessage={() => "Aucun joueur trouvé"}
                 isSearchable
                 isClearable
-                onChange={(option) => onPlayerChange(option ? option.value : null)}
+                onChange={(option) => setSelectedPlayerId(option ? option.value : null)}
             />
             {error && <p className={`error-message`}>✗ {error}</p>}
         </div>

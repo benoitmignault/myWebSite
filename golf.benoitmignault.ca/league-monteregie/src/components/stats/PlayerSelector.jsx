@@ -85,6 +85,7 @@ function PlayerSelector({ onPlayerChange }) {
                 placeholder="Choisir un joueur ou rechercher..."
                 noOptionsMessage={() => "Aucun joueur trouvé"}
                 isSearchable
+                isClearable
                 onChange={(option) => onPlayerChange(option ? option.value : null)}
             />
             {error && <p className={`error-message`}>✗ {error}</p>}

@@ -4,19 +4,21 @@
 // Les données seront récupérées à partir d'une API venant de la base de données, et le composant utilisera des bibliothèques 
 // comme Chart.js ou D3.js pour visualiser les statistiques de manière attrayante et informative.
 
-import { useEffect } from "react";
-import { API_BASE_URL } from "../../config";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
+import PlayerSelector from "./PlayerSelector";
 import Footer from "../Footer";
+import { API_BASE_URL } from "../../config";
 import '../../css/index.css'
 import '../../css/stats.css'
 
 function PlayerStats() {
 
-
+	// État pour stocker le id du joueur sélectionner
+	const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 
     // Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page de statistiques est chargée
 	useEffect(() => {

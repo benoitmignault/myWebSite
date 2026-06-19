@@ -38,23 +38,31 @@ $from = "FROM players ";
 $where = "WHERE id = ?";
 $sql = $select . $from . $where;
 
-// Exécuter la requête SQL
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $playerId);
 
 // Vérifier si la requête a réussi
-if (!$result) {
+if (!$stmt->execute()) {
 
+    error_log($stmt->error);
+    
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
     $conn->close();
     exit();
 }
 
-// Vérifier si un joueur a été trouvé
+$result = $stmt->get_result();
+
 if ($result->num_rows === 0) {
 
     http_response_code(404);
     echo json_encode(["success" => false, "message" => "Joueur non trouvé."]);
+
+    $stmt->close();
     $conn->close();
     exit();
 }

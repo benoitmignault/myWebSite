@@ -13,10 +13,10 @@ import { API_BASE_URL } from "../../config";
  * Lorsqu'un joueur est sélectionné, le composant met à jour l'état selectedPlayerId dans le composant parent PlayerStats,
  * pour que les autres composants de statistiques puissent afficher les données du joueur sélectionné.
  * 
- * @param {function} setSelectedPlayerId 
+ * @param {function} onPlayerChange 
  * @returns 
  */
-function PlayerSelector({ setSelectedPlayerId }) {
+function PlayerSelector({ onPlayerChange }) {
 
     // État pour stocker la liste des joueurs
     const [players, setPlayers] = useState([]);

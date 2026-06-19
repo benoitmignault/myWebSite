@@ -18,7 +18,6 @@
     background: rgba(20,30,60,0.40);
     backdrop-filter: blur(10px);
     border-radius: 16px;
-    overflow: hidden;
 }
 
 .player-selector-section {
@@ -33,7 +32,6 @@
     border-left: 2px solid rgba(96,165,250,0.15);
 }
 
-
 .player-stats-card {
     background: rgba(20,30,60,0.40);
     backdrop-filter: blur(10px);
@@ -44,6 +42,72 @@
     box-sizing: border-box;
 }
 
+.player-select__control {
+    background: rgba(255,255,255,0.08) !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+    min-height: 50px !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+}
+
+.player-select__control:hover {
+    border-color: rgba(255,255,255,0.30) !important;
+}
+
+.player-select__value-container {
+    color: white;
+}
+
+.player-select__single-value {
+    color: white !important;
+}
+
+.player-select__input-container {
+    color: white !important;
+}
+
+.player-select__input {
+    color: white !important;
+}
+
+.player-select__placeholder {
+    color: rgba(255,255,255,0.6) !important;
+}
+
+.player-select__menu {
+    background: rgba(20,30,60,0.95) !important;
+    backdrop-filter: blur(10px);
+}
+
+.player-select__option {
+    background: transparent !important;
+    color: white !important;
+}
+
+.player-select__option--is-focused {
+    background: rgba(59,130,246,0.25) !important;
+}
+
+.player-select__option--is-selected {
+    background: rgba(59,130,246,0.50) !important;
+}
+
+.player-select__indicator {
+    color: white !important;
+}
+
+.player-select__dropdown-indicator:hover {
+    color: #60a5fa !important;
+}
+
+.player-select__menu-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.player-select__menu-list::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.20);
+    border-radius: 10px;
+}
 
 
 .photo-credit {

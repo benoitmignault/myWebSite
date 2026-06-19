@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
+import { FaTrophy } from "react-icons/fa";
 import { API_BASE_URL } from "../../config";
 
 /**

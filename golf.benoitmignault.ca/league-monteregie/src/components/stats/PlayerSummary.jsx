@@ -4,25 +4,19 @@ import { API_BASE_URL } from "../../config";
 /**
  * 
  * 
- * @param {integer} selectedPlayerId 
+ * @param {integer} playerId 
  * @returns 
  */
 
-function PlayerSelector({ selectedPlayerId }) {
+function PlayerSelector({ playerId }) {
 
+
+    console.log(playerId);
 
     return (
         <div>
-            
+            Joueur : {playerId}
         </div>
-
-
-
-
-
-
-
-
     );
 }
 

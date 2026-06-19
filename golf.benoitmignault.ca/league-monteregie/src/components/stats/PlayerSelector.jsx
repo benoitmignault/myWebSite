@@ -77,7 +77,7 @@ function PlayerSelector({ onPlayerChange }) {
 
     return (
         <div>
-            <h2>Choisissez un joueur parmi les {players.length} disponibles dans la liste ou utilisez la recherche.</h2>
+            <h2>Choisissez un joueur parmi la liste</h2>
             <Select
                 options={options}
                 className="player-select"

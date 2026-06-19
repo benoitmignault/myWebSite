@@ -87,6 +87,7 @@ function PlayerSelector({ onPlayerChange }) {
                 isSearchable
                 onChange={(option) => onPlayerChange(option ? option.value : null)}
             />
+            {error && <p className={`error-message`}>✗ {error}</p>}
         </div>
 
 

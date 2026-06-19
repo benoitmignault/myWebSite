@@ -109,6 +109,125 @@
     border-radius: 10px;
 }
 
+.player-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.player-summary-title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+}
+
+.player-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.player-stat-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 12px;
+
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.2s ease;
+}
+
+.player-stat-card:hover {
+    transform: translateY(-2px);
+
+    background: rgba(255,255,255,0.12);
+}
+
+.player-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    color: rgba(255,255,255,0.65);
+
+    margin-bottom: 8px;
+}
+
+.player-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+}
+
+.player-trophies {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+
+    margin-top: 10px;
+}
+
+.player-trophy-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    justify-content: flex-start;
+}
+
+.player-trophy-count {
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+}
+
+.player-trophy-label {
+    min-height: 22px;
+    display: flex;
+    align-items: flex-end;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+}
+
+.player-trophy-card {
+    transition: all 0.2s ease;
+}
+
+.player-trophy-card:hover {
+    transform: translateY(-2px);
+}
+
+.player-trophy-card svg {
+    transition: transform 0.2s ease;
+}
+
+.player-trophy-card:hover svg {
+    transform: scale(1.20);
+}
+
+.victories-label {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.runnerup-label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+
+
+
+
+
 .error-message {
     margin-top: 15px;
     padding: 12px 16px;
@@ -123,11 +242,6 @@
         0 0 12px rgba(239, 68, 68, 0.15);
     backdrop-filter: blur(6px);
 }
-
-
-
-
-
 
 .photo-credit {
     display: flex;

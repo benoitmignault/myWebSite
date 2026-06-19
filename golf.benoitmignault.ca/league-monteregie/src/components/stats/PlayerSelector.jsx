@@ -52,6 +52,14 @@ function PlayerSelector({ onPlayerChange }) {
         // mais on n'a pas besoin d'afficher un indicateur de chargement
     };
 
+    // Créer une variable options pour stocker les options du sélecteur, 
+    // en transformant la liste des joueurs en un format compatible avec react-select
+    const options = players.map(player => ({
+        value: player.id,
+        label: `${player.firstname} ${player.lastname}`
+    }));
+
+
     // Utiliser useEffect pour charger la liste des joueurs depuis l'API lorsque le composant est monté
     useEffect(() => {
 
@@ -69,7 +77,16 @@ function PlayerSelector({ onPlayerChange }) {
 
     return (
         <div>
-            <h2>Sélectionnez un joueur pour voir ses statistiques</h2>
+            <h2>Choisissez un joueur parmi les {players.length} disponibles dans la liste ou utilisez la recherche.</h2>
+            <Select
+                options={options}
+                className="player-select"
+                classNamePrefix="player-select"
+                placeholder="Choisir un joueur ou rechercher..."
+                noOptionsMessage={() => "Aucun joueur trouvé"}
+                isSearchable
+                onChange={(option) => onPlayerChange(option ? option.value : null)}
+            />
         </div>
 
 

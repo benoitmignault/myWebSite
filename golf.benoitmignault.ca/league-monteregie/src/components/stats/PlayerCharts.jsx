@@ -71,17 +71,17 @@ function PlayerCharts({ selectedPlayerId }) {
                         {/* TODO : Afficher les graphiques avec les données de chartData */}
                         {/* Graphique 1 */}
                         <div className="chart-card">
-                            Graphique évolution de l'handicap et de la moyenne de score
+                            Graphique de progression sur l'handicap
                         </div>
 
                         {/* Graphique 2 */}
                         <div className="chart-card">
-                            Graphique évolution du classement FedEx
+                            Graphique de progression sur le classement FedEx
                         </div>
 
                         {/* Graphique 3 */}
                         <div className="chart-card">
-                            Graphique points FedEx cumulés
+                            Graphique de progression sur les points FedEx cumulés
                         </div>
                     </>
                     

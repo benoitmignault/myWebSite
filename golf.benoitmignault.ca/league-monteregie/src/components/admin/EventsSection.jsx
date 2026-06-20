@@ -12,7 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
  * 
  * 2026-06-20, ajout de la fct setRefreshPlanning pour permettre de rafraîchir le formulaire de planification des événements après l'ajout d'un événement.
  * @param {function} setRefreshPlanning - Fonction pour déclencher le rafraîchissement du formulaire de planification des événements
- * @returns 
+ * @returns
  */
 function EventsSection({ setRefreshPlanning }) {
 

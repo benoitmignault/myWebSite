@@ -130,80 +130,82 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                 </div>
             ) : (
                 <>
-                    <div className="chart-card">
-                        <h3 className="chart-card-title">Points FedEx</h3>
-                        <div className="chart-wrapper">
-                            <ResponsiveContainer width="100%" height={350}>
-                                <LineChart data={chartData}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis
-                                        dataKey="week"
-                                        tick={{ fill: "#FFFFFF", fontSize: 14 }}
-                                    />
-                                    <YAxis
-                                        reversed
-                                        domain={[0.5, totalPlayers]}
-                                        ticks={yAxisTicks}
-                                        allowDecimals={false}
-                                        tick={{ fill: "#FFFFFF", fontSize: 14 }}
-                                    />
-                                    <Tooltip content={<CustomTooltip />} />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="position"
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>                                
-                    </div>
+                    <div className="player-charts-grid">
+                        <div className="chart-card">
+                            <h3 className="chart-card-title">Points FedEx</h3>
+                            <div className="chart-wrapper">
+                                <ResponsiveContainer width="100%" height={350}>
+                                    <LineChart data={chartData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis
+                                            dataKey="week"
+                                            tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                        />
+                                        <YAxis
+                                            reversed
+                                            domain={[0.5, totalPlayers]}
+                                            ticks={yAxisTicks}
+                                            allowDecimals={false}
+                                            tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                        />
+                                        <Tooltip content={<CustomTooltip />} />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="position"
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>                                
+                        </div>
 
-                    <div className="chart-card">
-                        <h3 className="chart-card-title">Points FedEx</h3>
-                        <div className="chart-wrapper">
-                            <ResponsiveContainer width="100%" height={350}>
-                                <LineChart data={chartData}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis
-                                        dataKey="week"
-                                        tick={{ fill: "#FFFFFF", fontSize: 14 }}
-                                    />
-                                    <YAxis
-                                        width={30}
-                                        tick={{ fill: "#FFFFFF", fontSize: 14 }}
-                                    />
-                                    <Tooltip content={<CustomTooltip />} />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="fedex_points"
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>                                
-                    </div>
-                    
-                    <div className="chart-card">
-                        <h3 className="chart-card-title">Handicap</h3>
-                        <div className="chart-wrapper">
-                            <ResponsiveContainer width="100%" height={350}>
-                                <LineChart data={chartData}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis
-                                        dataKey="week"
-                                        tick={{ fill: "#FFFFFF", fontSize: 14 }}
-                                    />
-                                    <YAxis
-                                        width={30}
-                                        tick={{ fill: "#FFFFFF", fontSize: 14 }}
-                                    />
-                                    <Tooltip content={<CustomTooltip />} />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="handicap"
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>                                
-                    </div>                
+                        <div className="chart-card">
+                            <h3 className="chart-card-title">Points FedEx</h3>
+                            <div className="chart-wrapper">
+                                <ResponsiveContainer width="100%" height={350}>
+                                    <LineChart data={chartData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis
+                                            dataKey="week"
+                                            tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                        />
+                                        <YAxis
+                                            width={30}
+                                            tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                        />
+                                        <Tooltip content={<CustomTooltip />} />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="fedex_points"
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>                                
+                        </div>
+                        
+                        <div className="chart-card">
+                            <h3 className="chart-card-title">Handicap</h3>
+                            <div className="chart-wrapper">
+                                <ResponsiveContainer width="100%" height={350}>
+                                    <LineChart data={chartData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis
+                                            dataKey="week"
+                                            tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                        />
+                                        <YAxis
+                                            width={30}
+                                            tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                        />
+                                        <Tooltip content={<CustomTooltip />} />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="handicap"
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>                                
+                        </div>
+                    </div>                             
                 </>
             )}
         </div>

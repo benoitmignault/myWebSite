@@ -231,6 +231,45 @@
     font-weight: 600;
 }
 
+.player-chart-card,
+.player-history-card {
+    margin-top: 25px;
+}
+
+.player-charts-section,
+.player-history-section {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.player-charts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.player-charts-container h2 {
+    text-align: center;
+    margin: 0;
+}
+
+.chart-card {
+    min-height: 350px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(255,255,255,0.7);
+}
+
+.chart-loading {
+    text-align: center;
+    padding: 50px;
+}
+
 
 
 

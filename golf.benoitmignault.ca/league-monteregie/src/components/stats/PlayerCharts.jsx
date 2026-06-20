@@ -66,27 +66,82 @@ function PlayerCharts({ selectedPlayerId }) {
 
     return (
         <div className="player-charts-container">
-            <h2>Évolution du joueur</h2>
+            <h2 className="charts-title">Évolution du joueur</h2>
+            <p className="charts-description">Avec son positionnement dans la Coupe FedEx, les points cumulés de cette dernière et de l'handicap au fil de la saison.</p>
             {
                 chartData.length > 0 && (
                     <>
-                        {/* TODO : Afficher les graphiques avec les données de chartData */}
-                        {/* Graphique 1 */}
-                        <div className="chart-card">
-                            Graphique de progression sur l'handicap
-                        </div>
+                        <div className="player-charts-grid">
+                            <div className="chart-card">
+                                <h3 className="chart-card-title">Classement FedEx</h3>
+                                <div className="chart-wrapper">
+                                    <ResponsiveContainer width="100%" height={350}>
+                                        <LineChart data={chartData}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis
+                                                dataKey="week"
+                                                tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                            />
+                                            <YAxis
+                                                tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                            />
+                                            <Tooltip />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="position"
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>                                
+                            </div>
 
-                        {/* Graphique 2 */}
-                        <div className="chart-card">
-                            Graphique de progression sur le classement FedEx
-                        </div>
-
-                        {/* Graphique 3 */}
-                        <div className="chart-card">
-                            Graphique de progression sur les points FedEx cumulés
-                        </div>
-                    </>
-                    
+                            <div className="chart-card">
+                                <h3 className="chart-card-title">Points FedEx</h3>
+                                <div className="chart-wrapper">
+                                    <ResponsiveContainer width="100%" height={350}>
+                                        <LineChart data={chartData}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis
+                                                dataKey="week"
+                                                tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                            />
+                                            <YAxis
+                                                tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                            />
+                                            <Tooltip />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="fedex_points"
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>                                
+                            </div>
+                            
+                            <div className="chart-card">
+                                <h3 className="chart-card-title">Handicap</h3>
+                                <div className="chart-wrapper">
+                                    <ResponsiveContainer width="100%" height={350}>
+                                        <LineChart data={chartData}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis
+                                                dataKey="week"
+                                                tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                            />
+                                            <YAxis
+                                                tick={{ fill: "#FFFFFF", fontSize: 14 }}
+                                            />
+                                            <Tooltip />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="handicap"
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>                                
+                            </div>
+                        </div>                             
+                    </>                    
                 )
             }
             {error && <p className={`error-message`}>✗ {error}</p>}

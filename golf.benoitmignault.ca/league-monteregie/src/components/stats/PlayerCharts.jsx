@@ -56,6 +56,8 @@ function PlayerCharts({ selectedPlayerId }) {
         }
     };
 
+    // Utilisé dès le chargement du composant pour récupérer les données graphiques du joueur sélectionné,
+    // et les afficher dans la section d'évolution du joueur
     useEffect(() => {
 
         loadChartData(selectedPlayerId);

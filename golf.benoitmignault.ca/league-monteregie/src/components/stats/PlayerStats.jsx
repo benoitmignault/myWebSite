@@ -21,6 +21,9 @@ function PlayerStats() {
 
 	// État pour stocker le id du joueur sélectionner
 	const [selectedPlayerId, setSelectedPlayerId] = useState(null);
+	
+    // ÉTat pour stocker le nombre de joueurs en tout dans la ligue, pour afficher le nombre total de joueurs dans la légende du graphique d'évolution du classement FedEx
+    const [totalPlayers, setTotalPlayers] = useState(0);
 
     // Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page de statistiques est chargée
 	useEffect(() => {
@@ -83,7 +86,7 @@ function PlayerStats() {
             <div className="player-stats-content">				
 				<div className="player-stats-card player-header-card">
 					<div className="player-selector-section">
-						<PlayerSelector setSelectedPlayerId={setSelectedPlayerId}/>
+						<PlayerSelector setSelectedPlayerId={setSelectedPlayerId} setTotalPlayers={setTotalPlayers} />
 					</div>
 					<div className="player-summary-section">
 						{selectedPlayerId ? (
@@ -97,15 +100,13 @@ function PlayerStats() {
 				{selectedPlayerId && (
 					<div className="player-stats-card player-chart-card">
 						<div className="player-charts-section">
-							<PlayerCharts selectedPlayerId={selectedPlayerId} />
+							<PlayerCharts selectedPlayerId={selectedPlayerId} totalPlayers={totalPlayers} />
 						</div>
 					</div>
 				)}
 
                 {selectedPlayerId && (
 					<>
-						
-
 						{/* <PlayerHistory selectedPlayerId={selectedPlayerId} /> */}
 					</>
 				)}

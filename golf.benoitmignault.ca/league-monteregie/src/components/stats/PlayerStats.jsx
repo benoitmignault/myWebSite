@@ -25,21 +25,6 @@ function PlayerStats() {
     // ÉTat pour stocker le nombre de joueurs en tout dans la ligue, pour afficher le nombre total de joueurs dans la légende du graphique d'évolution du classement FedEx
     const [totalPlayers, setTotalPlayers] = useState(0);
 
-    // Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page de statistiques est chargée
-	useEffect(() => {
-		fetch(`${API_BASE_URL}/log-action.php`,
-			{ 
-				method: "POST",
-				headers: {"Content-Type": "application/json"},
-				body: JSON.stringify({
-					action_type: "page_stats_load",
-					target_id: null,
-					target_name: "Affichage page statistiques joueurs"
-				})
-			}
-		);
-	}, []);
-
 	// Utiliser useEffect pour changer le titre de la page et le favicon lorsque le composant HomePage est monté
 	useEffect(() => {
 	
@@ -53,6 +38,21 @@ function PlayerStats() {
 		}
 
 	}, []);
+	
+    // Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page de statistiques est chargée
+	useEffect(() => {
+		fetch(`${API_BASE_URL}/log-action.php`,
+			{ 
+				method: "POST",
+				headers: {"Content-Type": "application/json"},
+				body: JSON.stringify({
+					action_type: "page_stats_load",
+					target_id: null,
+					target_name: "Affichage page statistiques joueurs"
+				})
+			}
+		);
+	}, []);	
 
 	// Utiliser ce useEffect pour envoyer une requête à l'API de logging à chaque fois qu'un joueur
 	// sélectionné change, pour loguer l'action de consultation des statistiques d'un joueur spécifique

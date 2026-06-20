@@ -31,3 +31,83 @@ if (!$data) {
 
 // Récupérer les données envoyées depuis le frontend
 $playerId = $data['playerId'];
+
+// Requête SQL pour récupérer les données nécessaires pour l'historique du joueur dans les événements qui sont fermés seulement
+select
+e.event_name, e.golf_course, e.event_date,
+(CAST(h.previous_position AS SIGNED) - CAST(h.current_position AS SIGNED)) AS position_variation,
+h.current_fedex_points, h.fedex_points_gained,
+h.current_handicap, (h.previous_handicap - h.current_handicap) AS handicap_variation
+
+from player_event_history h inner join events e on e.id = h.event_id
+
+where h.player_id = 18 and e.is_closed = 1
+$select = "SELECT e.event_name, e.golf_course, e.event_date, ";
+$select .= "(CAST(h.previous_position AS SIGNED) - CAST(h.current_position AS SIGNED)) AS position_variation, ";
+$select .= "h.current_fedex_points, h.fedex_points_gained, ";
+$select .= "h.current_handicap, (h.previous_handicap - h.current_handicap) AS handicap_variation ";
+$from = "FROM player_event_history h INNER JOIN events e ON e.id = h.event_id ";
+$where = "WHERE h.player_id = ? AND e.is_closed = 1 ";
+$orderBy = "ORDER BY h.event_id asc";
+$sql = $select . $from . $where . $orderBy;
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $playerId);
+
+// Vérifier si la requête a réussi
+if (!$stmt->execute()) {
+
+    error_log($stmt->error);
+    
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]); 
+    
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+
+    http_response_code(404);
+    echo json_encode(["success" => false, "message" => "Aucun historique trouvé pour ce joueur."]);
+
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
+// Sinon, on va parcourir les résultats et les stocker dans un tableau pour les envoyer au frontend
+$playerHistoryData = [];
+$weekNumber = 1;
+
+while ($row = $result->fetch_assoc()) {
+
+    $playerHistoryData[] = [
+        "week" => $weekNumber,
+        "event_name" => $row['event_name'],
+        "golf_course" => $row['golf_course'],
+        "event_date" => $row['event_date'],
+        "position_variation" => $row['position_variation'],
+        "current_fedex_points" => $row['current_fedex_points'],
+        "fedex_points_gained" => $row['fedex_points_gained'],
+        "current_handicap" => $row['current_handicap'],
+        "handicap_variation" => $row['handicap_variation']
+    ];
+
+    $weekNumber++;
+}
+
+
+http_response_code(200);
+
+// Fermer la connexion à la base de données
+$stmt->close();
+$conn->close();
+
+// Retourner les données au format JSON
+echo json_encode(["success" => true, "playerHistoryData" => $playerHistoryData]);
+

@@ -1,11 +1,21 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 
+
+
+/**
+ * 
+ * 
+ * @param {integer} selectedPlayerId 
+ * @returns 
+ */
 function PlayerCharts({ selectedPlayerId }) {
 
+    // État pour stocker les données des graphiques à afficher dans la section d'évolution du joueur
     const [chartData, setChartData] = useState([]);
 
-
+    // État pour stocker les messages d'erreur en prévision de l'affichage des données des graphiques
+    const [error, setError] = useState("");
 
 
 

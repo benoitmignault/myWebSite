@@ -4,6 +4,37 @@ import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContain
 import { API_BASE_URL } from "../../config";
 
 /**
+ * Cette fonction est un composant personnalisé pour afficher une info-bulle personnalisée dans les graphiques de la section d'évolution du joueur,
+ * pour afficher la valeur du point de données sur lequel l'utilisateur survole avec sa souris.
+ * 
+ * Selon ChatGPT et les informations de la documentation de Recharts, 
+ * ce composant doit recevoir les props active et payload pour fonctionner correctement avec les graphiques de Recharts.
+ * 
+ * Donc doit être en dehors du composant PlayerCharts pour être utilisé dans les graphiques de ce composant,
+ * et doit être utilisé dans les graphiques de Recharts en tant que composant personnalisé pour les info-bulles,
+ * en le passant en tant que prop content dans le composant Tooltip de Recharts.
+ * 
+ * @param {boolean} active 
+ * @param {Array} payload 
+ * @returns 
+ */
+function CustomTooltip({ active, payload }) {
+
+    // Active veut juste dire que la souris est en train de survoler un point de données du graphique, 
+    // et payload contient les données de ce point de données, comme la valeur de ce point de données, le nom de ce point de données, etc.
+    if (active && payload && payload.length) {
+
+        return (
+            <div className="custom-tooltip">
+                {payload[0].value}
+            </div>
+        );
+    }
+
+    return null;
+}
+
+/**
  * Composant pour afficher les graphiques d'évolution d'un joueur sélectionné
  * Graphique 1 : Évolution de l'handicap
  * Graphique 2 : Évolution du classement FedEx

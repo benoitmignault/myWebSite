@@ -290,13 +290,19 @@
     flex: 1;
 }
 
+.custom-tooltip {
+    background: rgba(20,30,60,0.95);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .chart-loading {
     text-align: center;
     padding: 50px;
-}
-
-.chart-container {
-    width: 100%;
 }
 
 .chart-title {

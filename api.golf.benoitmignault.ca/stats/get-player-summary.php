@@ -33,7 +33,11 @@ if (!$data) {
 $playerId = $data['playerId'];
 
 // Première requete SQL viendra récupérer les informations du joueur, comme son prénom et son nom de famille, son handicap et sa moyenne brute.
-$select = "SELECT firstname, lastname, handicap_league, average_score ";
+// 2026-06-19, ajout de la notion de 0 pour pour la moyenne brute si elle n'existe pas encore pour éviter 
+// d'avoir des valeurs nulles dans le résumé du joueur, et pour que ce soit plus explicite que 
+// le joueur n'a pas encore de moyenne brute, plutôt que d'avoir une valeur nulle qui pourrait être interprétée 
+// comme une erreur dans la récupération des données.
+$select = "SELECT firstname, lastname, handicap_league, COALESCE(average_score, 0) AS average_score ";
 $from = "FROM players ";
 $where = "WHERE id = ?";
 $sql = $select . $from . $where;
@@ -84,7 +88,8 @@ $playerInfo = [
 // Récupérer les informations du joueur
 $row = $result->fetch_assoc();
 
-// Remplir les informations du joueur dans la structure de données
+// Remplir les informations du joueur dans la structure de données sans validation vu que si on est rendu ici, 
+// c'est que le joueur existe, et que les données sont valides, sinon on aurait déjà retourné une erreur 404 ou 500.
 $playerInfo["full_name"] = $row["firstname"] . " " . $row["lastname"];
 $playerInfo["handicap"] = $row["handicap_league"];
 $playerInfo["average_score"] = $row["average_score"];
@@ -94,10 +99,14 @@ mysqli_free_result($result);
 $stmt->close();
 
 // Deuxième requete SQL viendra récupérer les trophées qu'il a remportés.
+// 2026-06-19, ici aussi o nva ajouter la notion de 0 pour les trophées si le joueur n'en a pas encore remporté, 
+// pour éviter d'avoir des valeurs nulles dans le résumé du joueur, et pour que ce soit plus explicite que 
+// le joueur n'a pas encore remporté de trophées, plutôt que d'avoir des valeurs nulles qui pourraient être interprétées 
+// comme une erreur dans la récupération des données.
 $select = "SELECT
-    SUM(CASE WHEN position = 1 THEN 1 ELSE 0 END) AS gold_trophies,
-    SUM(CASE WHEN position = 2 THEN 1 ELSE 0 END) AS silver_trophies,
-    SUM(CASE WHEN position = 3 THEN 1 ELSE 0 END) AS bronze_trophies ";
+    COALESCE(SUM(CASE WHEN position = 1 THEN 1 ELSE 0 END), 0) AS gold_trophies,
+    COALESCE(SUM(CASE WHEN position = 2 THEN 1 ELSE 0 END), 0) AS silver_trophies,
+    COALESCE(SUM(CASE WHEN position = 3 THEN 1 ELSE 0 END), 0) AS bronze_trophies ";
 
 $from = "FROM round_results ";
 $where = "WHERE player_id = ?";
@@ -122,10 +131,9 @@ if (!$stmt->execute()) {
 
 $result = $stmt->get_result();
 
-// Il ne sert à rien de vérifier si des résultats ont été trouvés, 
-// car même si le joueur n'a pas de trophées ou de points FedEx, 
-// la requête retournera quand même une ligne avec des valeurs à 0, mais surtout que rendu ici, on sait que le joueur existe, 
-// car on a vérifié ça dans la première requête SQL.
+// Si nous avons des résultats, cela signifie que le joueur a des résultats mais pas nécessairement des trophées, 
+// car même si le joueur n'a pas de trophées, la requête retournera quand même une ligne avec des valeurs à 0, 
+// mais surtout que rendu ici, on sait que le joueur existe, car on a vérifié ça dans la première requête SQL.
 
 // Récupérer les informations du joueur
 $row = $result->fetch_assoc();

@@ -82,6 +82,8 @@ function PlayerSelector({ setSelectedPlayerId, setTotalPlayers }) {
                 options={options}
                 className="player-select"
                 classNamePrefix="player-select"
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
                 placeholder="Choisir un joueur ou rechercher..."
                 noOptionsMessage={() => "Aucun joueur trouvé"}
                 isSearchable

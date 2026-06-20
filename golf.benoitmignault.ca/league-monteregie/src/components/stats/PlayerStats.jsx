@@ -11,6 +11,7 @@ import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import PlayerSelector from "./PlayerSelector";
 import PlayerSummary from "./PlayerSummary";
+import PlayerCharts from "./PlayerCharts";
 import Footer from "../Footer";
 import { API_BASE_URL } from "../../config";
 import '../../css/index.css'
@@ -79,15 +80,12 @@ function PlayerStats() {
                 </Link>
             </div>
             <h1>Statistiques des Joueurs</h1>
-            <div className="player-stats-content">			
-				
+            <div className="player-stats-content">				
 				<div className="player-stats-card player-header-card">
-
 					<div className="player-selector-section">
 						<PlayerSelector setSelectedPlayerId={setSelectedPlayerId}/>
 					</div>
 					<div className="player-summary-section">
-
 						{selectedPlayerId ? (
 							<PlayerSummary selectedPlayerId={selectedPlayerId}/>
 						) : (
@@ -95,9 +93,18 @@ function PlayerStats() {
 						)}
 					</div>
 				</div>
+
+				{selectedPlayerId && (
+					<div className="player-stats-card player-chart-card">
+						<div className="player-charts-section">
+							<PlayerCharts selectedPlayerId={selectedPlayerId} />
+						</div>
+					</div>
+				)}
+
                 {selectedPlayerId && (
 					<>
-						{/* <PlayerCharts selectedPlayerId={selectedPlayerId} /> */}
+						
 
 						{/* <PlayerHistory selectedPlayerId={selectedPlayerId} /> */}
 					</>

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from "recharts";
+import { FaInfoCircle } from "react-icons/fa";
 import { API_BASE_URL } from "../../config";
 
 /**

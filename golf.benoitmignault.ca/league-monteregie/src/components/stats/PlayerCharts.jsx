@@ -152,6 +152,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                                         <Line
                                             type="monotone"
                                             dataKey="position"
+                                            strokeWidth={3}
                                         />
                                     </LineChart>
                                 </ResponsiveContainer>
@@ -176,6 +177,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                                         <Line
                                             type="monotone"
                                             dataKey="fedex_points"
+                                            strokeWidth={3}
                                         />
                                     </LineChart>
                                 </ResponsiveContainer>
@@ -200,6 +202,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                                         <Line
                                             type="monotone"
                                             dataKey="handicap"
+                                            strokeWidth={3}
                                         />
                                     </LineChart>
                                 </ResponsiveContainer>

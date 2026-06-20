@@ -97,10 +97,10 @@ function Dashboard() {
             </div>
             <div className="dashboard-container">
                 <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>                
-                <ResultsSection eventChanged={eventChanged} setEventUpdated={setEventUpdated}/>
-                <EventsPlanningSection eventUpdated={eventUpdated} setEventChanged={setEventChanged} />                
-                <PlayersSection />
-                <EventsSection />
+                <ResultsSection eventChanged={eventChanged} setRefreshPlanning={setRefreshPlanning}/>
+                <EventsPlanningSection refreshPlanning={refreshPlanning} setEventChanged={setEventChanged} />                
+                <PlayersSection setRefreshPlanning={setRefreshPlanning}/>
+                <EventsSection setRefreshPlanning={setRefreshPlanning}/>
             </div>
             <div className="admin-photo-credit">
                 <BsCameraFill />

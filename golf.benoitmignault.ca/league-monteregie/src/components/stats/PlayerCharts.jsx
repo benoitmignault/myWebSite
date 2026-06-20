@@ -41,16 +41,36 @@ function CustomTooltip({ active, payload }) {
  * Graphique 2 : Évolution du classement FedEx
  * Graphique 3 : Évolution des points FedEx cumulés
  * 
+ * Pour se faire, ce composant envoie une requête à l'API pour récupérer les données des graphiques du joueur sélectionné,
+ * et utilise une bibliothèque de graphiques comme Recharts pour afficher ces données de manière attrayante et informative.
+ * 
+ * On va faire aussi à l'appel à la valeur de totalPlayers pour afficher le nombre total de joueurs 
+ * dans la légende du graphique d'évolution du classement FedEx, pour que les utilisateurs puissent mieux comprendre 
+ * le positionnement du joueur sélectionné dans la ligue.
+ * 
+ * Cette valeur sera calculer vis API dans le Composant PlayerSelector, et passé en prop à ce composant PlayerCharts, 
+ * pour être utilisé dans la légende du graphique d'évolution du classement FedEx.
+ * 
  * @param {integer} selectedPlayerId 
+ * @param {integer} totalPlayers
  * @returns 
  */
-function PlayerCharts({ selectedPlayerId }) {
+function PlayerCharts({ selectedPlayerId, totalPlayers }) {
 
     // État pour stocker les données des graphiques à afficher dans la section d'évolution du joueur
     const [chartData, setChartData] = useState([]);
 
     // État pour stocker les messages d'erreur en prévision de l'affichage des données des graphiques
     const [error, setError] = useState("");
+
+    // Calcul des ticks pour l'axe Y du graphique d'évolution du classement FedEx, en fonction du nombre total de joueurs dans la ligue
+    const yAxisTicks = [
+        1,
+        Math.round(totalPlayers * 0.25),
+        Math.round(totalPlayers * 0.50),
+        Math.round(totalPlayers * 0.75),
+        totalPlayers
+    ];
 
     // Fonction pour charger les données des graphiques à afficher dans la section d'évolution du joueur,
     // en envoyant une requête à l'API pour récupérer les données des graphiques du joueur sélectionné

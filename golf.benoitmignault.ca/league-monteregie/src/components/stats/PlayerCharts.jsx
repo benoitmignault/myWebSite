@@ -104,7 +104,7 @@ function PlayerCharts({ selectedPlayerId }) {
                     <>
                         <div className="player-charts-grid">
                             <div className="chart-card">
-                                <h3 className="chart-card-title">Classement FedEx</h3>
+                                <h3 className="chart-card-title">Classement FedEx (inversé)</h3>
                                 <div className="chart-wrapper">
                                     <ResponsiveContainer width="100%" height={350}>
                                         <LineChart data={chartData}>

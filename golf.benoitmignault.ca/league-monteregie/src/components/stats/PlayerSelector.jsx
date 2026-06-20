@@ -14,10 +14,14 @@ import { API_BASE_URL } from "../../config";
  * Lorsqu'un joueur est sélectionné, le composant met à jour l'état selectedPlayerId dans le composant parent PlayerStats,
  * pour que les autres composants de statistiques puissent afficher les données du joueur sélectionné.
  * 
+ * On va aussi mettre à jour la valeur du nombre total de joueurs dans la ligue dans le composant parent PlayerStats, 
+ * pour que le composant PlayerCharts puisse afficher cette information dans la légende du graphique d'évolution du classement FedEx.
+ * 
  * @param {function} setSelectedPlayerId 
+ * @param {function} setTotalPlayers
  * @returns 
  */
-function PlayerSelector({ setSelectedPlayerId }) {
+function PlayerSelector({ setSelectedPlayerId, setTotalPlayers }) {
 
     // État pour stocker la liste des joueurs
     const [players, setPlayers] = useState([]);
@@ -36,6 +40,7 @@ function PlayerSelector({ setSelectedPlayerId }) {
 
                 // Metter à jour la liste des joueurs dans l'état pour les afficher dans le sélecteur de joueurs
                 setPlayers(data.players);
+                setTotalPlayers(data.totalPlayers);
                 setError("");             
             } else {
 

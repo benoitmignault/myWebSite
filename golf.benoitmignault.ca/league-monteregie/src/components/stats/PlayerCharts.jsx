@@ -97,6 +97,9 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                 setError("");
             } else {
 
+                // Reset des données du graphique à un tableau vide pour ne pas afficher de données erronées dans les graphiques
+                setChartData([]);
+
                 // Erreur lors du chargement des données du joueur
                 setError(data.message);
             }

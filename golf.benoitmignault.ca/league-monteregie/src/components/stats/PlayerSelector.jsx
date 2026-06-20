@@ -34,8 +34,9 @@ function PlayerSelector({ setSelectedPlayerId }) {
             const data = await response.json();
             if (data.success) {
 
-                // Mettre à jour la liste des joueurs dans l'état
-                setPlayers(data.players);                
+                // Metter à jour la liste des joueurs dans l'état pour les afficher dans le sélecteur de joueurs
+                setPlayers(data.players);
+                setError("");             
             } else {
 
                 // Erreur retournée par l'API lors du chargement des joueurs

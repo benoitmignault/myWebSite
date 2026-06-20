@@ -28,8 +28,10 @@ import { API_BASE_URL } from "../../config";
 
 function PlayerSummary({ selectedPlayerId }) {
 
+    // État pour stocker les données du joueur sélectionné pour les afficher dans la section d'informations du joueur
     const [playerSummary, setPlayerSummary] = useState(null);
 
+    // État pour stocker les messages d'erreur en prévision de l'affichage des données du joueur sélectionné
     const [error, setError] = useState("");
 
     // Fonction pour charger les données du joueur sélectionné pour les afficher dans la section d'informations du joueur

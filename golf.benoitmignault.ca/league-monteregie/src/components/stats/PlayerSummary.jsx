@@ -102,7 +102,11 @@ function PlayerSummary({ selectedPlayerId }) {
 
                 <div className="player-stat-card">
                     <span className="player-stat-label">FedEx (Position)</span>
-                    <span className="player-stat-value">#{playerSummary?.fedex_position}</span>
+                    <span className="player-stat-value">
+                        {playerSummary?.fedex_position === 1
+                            ? "1er"
+                            : `${playerSummary?.fedex_position}e`}
+                    </span>
                 </div>
 
                 <div className="player-stat-card">

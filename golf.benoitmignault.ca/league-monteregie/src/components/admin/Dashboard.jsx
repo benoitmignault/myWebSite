@@ -24,7 +24,9 @@ function Dashboard() {
     // après l'ajout d'un joueur à un événement ou après la création d'un nouvel événement
     const [eventChanged, setEventChanged] = useState(false);
 
-    // Un état de rafraîchissement pour forcer le blocage du formulaire dans EventsPlanningSection quand on saisi des résultats pour un événement en cours
+    // Un état de rafraîchissement pour avertir EventsPlanningSection qu'il y a eu des changements et qui doit reloader 
+    // le composant pour afficher les changements dans la planification des événements, 
+    // comme l'ajout d'un nouvel événement ou l'ajout d'un joueur.
     const [refreshPlanning, setRefreshPlanning] = useState(false);
 
     // Fonction pour gérer la déconnexion de l'administrateur et avec une redirection en fonction du lien qu'on a cliqué

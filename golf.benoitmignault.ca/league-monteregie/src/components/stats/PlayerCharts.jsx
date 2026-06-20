@@ -114,9 +114,11 @@ function PlayerCharts({ selectedPlayerId }) {
                                                 tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                             />
                                             <YAxis
+                                                width={30}
+                                                reversed
                                                 tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                             />
-                                            <Tooltip />
+                                            <Tooltip content={<CustomTooltip />} />
                                             <Line
                                                 type="monotone"
                                                 dataKey="position"
@@ -137,9 +139,10 @@ function PlayerCharts({ selectedPlayerId }) {
                                                 tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                             />
                                             <YAxis
+                                                width={30}
                                                 tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                             />
-                                            <Tooltip />
+                                            <Tooltip content={<CustomTooltip />} />
                                             <Line
                                                 type="monotone"
                                                 dataKey="fedex_points"
@@ -160,9 +163,10 @@ function PlayerCharts({ selectedPlayerId }) {
                                                 tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                             />
                                             <YAxis
+                                                width={30}
                                                 tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                             />
-                                            <Tooltip />
+                                            <Tooltip content={<CustomTooltip />} />
                                             <Line
                                                 type="monotone"
                                                 dataKey="handicap"

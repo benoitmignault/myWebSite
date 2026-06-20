@@ -23,6 +23,8 @@
 .player-selector-section {
     width: 40%;
     padding: 25px;
+    position: relative;
+    z-index: 100;
 }
 
 .player-summary-section {

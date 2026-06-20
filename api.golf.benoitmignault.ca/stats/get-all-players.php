@@ -38,10 +38,14 @@ if (!$result) {
 // Sinon, on va parcourir les résultats de la requête pour chaque joueur
 $players = [];
 
+// Compter le nombre total de joueurs
+$totalPlayers = 0;
+
 while ($row = $result->fetch_assoc()) {
 
     // Ajouter chaque joueur et ses points totaux au tableau des joueurs
     $players[] = $row; 
+    $totalPlayers++;
 }
 
 // Fermer la connexion à la base de données
@@ -50,4 +54,4 @@ $conn->close();
 http_response_code(200);
 
 // Retourner les données au format JSON
-echo json_encode(["success" => true, "players" => $players]);
+echo json_encode(["success" => true, "players" => $players, "totalPlayers" => $totalPlayers]);

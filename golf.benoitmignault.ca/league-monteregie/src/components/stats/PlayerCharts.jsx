@@ -32,6 +32,7 @@ function PlayerCharts({ selectedPlayerId }) {
         catch(error) {
 
             console.error(error);
+            setError("Une erreur est survenue lors de la tentative de chargement des données des graphiques.");
 
         }        
     };
@@ -65,8 +66,9 @@ function PlayerCharts({ selectedPlayerId }) {
                         </div>
                     </>
                     
-                )}
-            
+                )
+            }
+            {error && <p className={`error-message`}>✗ {error}</p>}
         </div>
     );
 }

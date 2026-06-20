@@ -19,25 +19,41 @@ function PlayerCharts({ selectedPlayerId }) {
 
     // État pour stocker les messages d'erreur en prévision de l'affichage des données des graphiques
     const [error, setError] = useState("");
-
-
-
     
-
+    // Fonction pour charger les données des graphiques à afficher dans la section d'évolution du joueur,
+    // en envoyant une requête à l'API pour récupérer les données des graphiques du joueur sélectionné
     const loadChartData = async (selectedPlayerId) => {
 
         try {
-            // TODO : API
+            // Envoyer une requête à l'API pour récupérer les données du joueur sélectionné
+            const response = await fetch(`${API_BASE_URL}/stats/get-player-charts.php`,
+                {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},                
+                    body: JSON.stringify({playerId: selectedPlayerId})
+                }
+            );
 
-            setChartData([]);
+            // Sinon, on a un résultat valide du retour de l'API
+            const data = await response.json();
 
+            // Vérification de la réponse de l'API pour voir si les données du joueur ont été récupérées avec succès ou s'il y a eu une erreur
+            if (data.success) {
+
+                // Mettre à jour les données du joueur dans l'état pour les afficher dans la section d'informations du joueur
+                setChartData(data.playerChartsData);
+                setError("");
+            } else {
+
+                // Erreur lors du chargement des données du joueur
+                setError(data.message);
+            }
+
+        } catch (err) {
+
+            console.error(err);
+            setError("Une erreur est survenue lors de la tentative de chargement des données du joueur.");
         }
-        catch(error) {
-
-            console.error(error);
-            setError("Une erreur est survenue lors de la tentative de chargement des données des graphiques.");
-
-        }        
     };
 
     useEffect(() => {

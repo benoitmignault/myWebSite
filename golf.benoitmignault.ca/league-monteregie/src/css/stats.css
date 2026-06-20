@@ -32,6 +32,15 @@
     border-left: 2px solid rgba(96,165,250,0.15);
 }
 
+.player-summary-placeholder {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+}
+
 .player-stats-card {
     background: rgba(20,30,60,0.40);
     backdrop-filter: blur(10px);

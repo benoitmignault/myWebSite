@@ -91,7 +91,7 @@ function PlayerStats() {
 						{selectedPlayerId ? (
 							<PlayerSummary selectedPlayerId={selectedPlayerId}/>
 						) : (
-							<p>Information sera affichée ici, une fois le joueur sélectionné.</p>
+							<p className="player-summary-placeholder">Information sera affichée ici, une fois le joueur sélectionné.</p>
 						)}
 					</div>
 				</div>

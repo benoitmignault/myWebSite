@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 
 function PlayerCharts({ selectedPlayerId }) {
 
-    const [loading, setLoading] = useState(true);
     const [chartData, setChartData] = useState([]);
 
 

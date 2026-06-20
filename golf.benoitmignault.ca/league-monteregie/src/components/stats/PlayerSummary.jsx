@@ -56,7 +56,6 @@ function PlayerSummary({ selectedPlayerId }) {
 
                 // Mettre à jour les données du joueur dans l'état pour les afficher dans la section d'informations du joueur
                 setPlayerSummary(data.playerInfo);
-
                 setError("");
             } else {
 

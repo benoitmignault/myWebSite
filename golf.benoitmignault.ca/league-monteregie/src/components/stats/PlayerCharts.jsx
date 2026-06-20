@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
-
-
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from "recharts";
+import { API_BASE_URL } from "../../config";
 
 /**
- * 
+ * Composant pour afficher les graphiques d'évolution d'un joueur sélectionné
+ * Graphique 1 : Évolution de l'handicap
+ * Graphique 2 : Évolution du classement FedEx
+ * Graphique 3 : Évolution des points FedEx cumulés
  * 
  * @param {integer} selectedPlayerId 
  * @returns 

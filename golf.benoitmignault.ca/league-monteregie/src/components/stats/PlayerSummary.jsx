@@ -134,6 +134,7 @@ function PlayerSummary({ selectedPlayerId }) {
                     <span className="player-trophy-label">3e place</span>
                 </div>
             </div>
+             {error && <p className={`error-message`}>✗ {error}</p>}
         </div>
     );
 }

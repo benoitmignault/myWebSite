@@ -25,7 +25,7 @@ function Dashboard() {
     const [eventChanged, setEventChanged] = useState(false);
 
     // Un état de rafraîchissement pour forcer le blocage du formulaire dans EventsPlanningSection quand on saisi des résultats pour un événement en cours
-    const [eventUpdated, setEventUpdated] = useState(false);
+    const [refreshPlanning, setRefreshPlanning] = useState(false);
 
     // Fonction pour gérer la déconnexion de l'administrateur et avec une redirection en fonction du lien qu'on a cliqué
     const handleLogout = async (redirectTo) => {

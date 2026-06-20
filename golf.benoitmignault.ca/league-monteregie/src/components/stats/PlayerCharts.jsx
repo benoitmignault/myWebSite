@@ -50,7 +50,7 @@ function PlayerCharts({ selectedPlayerId }) {
 
     // État pour stocker les messages d'erreur en prévision de l'affichage des données des graphiques
     const [error, setError] = useState("");
-    
+
     // Fonction pour charger les données des graphiques à afficher dans la section d'évolution du joueur,
     // en envoyant une requête à l'API pour récupérer les données des graphiques du joueur sélectionné
     const loadChartData = async (selectedPlayerId) => {

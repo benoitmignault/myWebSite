@@ -462,3 +462,55 @@
 .scroll-top.player-stats {
     bottom: 85px;
 }
+
+@media screen and (max-width: 1100px) {
+    
+    .player-stats-content {
+        width: 100%;
+    }
+
+    .player-header-card {
+        flex-direction: column;
+    }
+
+    .player-selector-section,
+    .player-summary-section {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .player-summary-section {
+        border-left: none;
+        border-top: 2px solid rgba(96,165,250,0.15);
+    }
+
+    .player-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .charts-description {
+        max-width: 100%;
+        line-height: 1.6;
+        text-align: justify;
+    }
+
+    .player-charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .player-charts-section {
+        padding: 0;
+    }
+
+    .chart-card {
+        margin-bottom: 20px;
+    }
+
+    .chart-card:last-child {
+        margin-bottom: 0;
+    }
+
+
+
+
+}

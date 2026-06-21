@@ -12,6 +12,7 @@ import { BsCameraFill } from "react-icons/bs";
 import PlayerSelector from "./PlayerSelector";
 import PlayerSummary from "./PlayerSummary";
 import PlayerCharts from "./PlayerCharts";
+import PlayerHistory from "./PlayerHistory";
 import Footer from "../Footer";
 import { API_BASE_URL } from "../../config";
 import '../../css/index.css'
@@ -106,9 +107,11 @@ function PlayerStats() {
 				)}
 
                 {selectedPlayerId && (
-					<>
-						{/* <PlayerHistory selectedPlayerId={selectedPlayerId} /> */}
-					</>
+					<div className="player-stats-card player-history-card">
+						<div className="player-history-section">
+							<PlayerHistory selectedPlayerId={selectedPlayerId} />
+						</div>
+					</div>
 				)}
 
             </div>

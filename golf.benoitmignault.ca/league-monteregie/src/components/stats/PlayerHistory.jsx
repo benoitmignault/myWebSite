@@ -124,14 +124,14 @@ function PlayerHistory({ selectedPlayerId }) {
                                     <th>Date</th>
                                     <th>Position</th>
                                     <th>Pos. Var</th>
-                                    <th>Total Points</th>
-                                    <th>Gagnés</th>
+                                    <th>Points FedEx</th>
+                                    <th>Pts. Var</th>
                                     <th>Handicap</th>
                                     <th>Hand. Var</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {
+                                {   
                                     historyData.map((history, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>

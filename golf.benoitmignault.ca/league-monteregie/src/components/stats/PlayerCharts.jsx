@@ -195,6 +195,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                                             tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                         />
                                         <YAxis
+                                            reversed
                                             width={30}
                                             tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                         />

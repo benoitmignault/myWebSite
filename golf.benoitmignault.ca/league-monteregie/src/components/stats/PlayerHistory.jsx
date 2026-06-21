@@ -180,7 +180,7 @@ function PlayerHistory({ selectedPlayerId }) {
                                             </td>
 
                                             <td>
-                                                {history.handicap_variation}
+                                                {renderVariation(history.handicap_variation)}
                                             </td>
                                         </tr>
                                     ))

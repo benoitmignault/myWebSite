@@ -151,7 +151,7 @@ function PlayerHistory({ selectedPlayerId }) {
                                             </td>
 
                                             <td>
-                                                {history.position_variation}
+                                                {renderPositionVariation(history.position_variation)}
                                             </td>
 
                                             <td>

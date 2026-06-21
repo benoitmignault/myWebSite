@@ -82,7 +82,62 @@ function PlayerHistory({ selectedPlayerId }) {
                 <>
                     <div className="history-table-wrapper">
                         <table className="history-table">
+                            <thead>
+                                <tr>
+                                    <th># Événement</th>
+                                    <th>Club de Golf</th>
+                                    <th>Date</th>
+                                    <th>Position</th>
+                                    <th>Pos. Var</th>
+                                    <th>Total Points</th>
+                                    <th>Gagnés</th>
+                                    <th>Handicap</th>
+                                    <th>Hand. Var</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    historyData.map((history, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>
+                                                <div className="history-event-name">
+                                                    {history.event_name}
+                                                </div>
+                                                <div className="history-event-course">
+                                                    {history.golf_course}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {history.event_date}
+                                            </td>
+                                            <td>
+                                                {history.current_position}
+                                            </td>
 
+                                            <td>
+                                                {history.position_variation}
+                                            </td>
+
+                                            <td>
+                                                {history.current_fedex_points}
+                                            </td>
+
+                                            <td className="position-up">
+                                                +{history.fedex_points_gained}
+                                            </td>
+
+                                            <td>
+                                                {history.current_handicap}
+                                            </td>
+
+                                            <td>
+                                                {history.handicap_variation}
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </>

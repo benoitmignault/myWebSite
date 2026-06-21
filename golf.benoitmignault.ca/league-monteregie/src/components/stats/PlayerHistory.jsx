@@ -22,8 +22,10 @@ function PlayerHistory({ selectedPlayerId }) {
     // Fonction pour gérer les variations de position dans le classement FedEx, 
     // en affichant une flèche vers le haut pour une amélioration, une flèche vers le bas pour une détérioration, 
     // ou "Nouveau" si c'est la première apparition du joueur dans le classement
-    const renderPositionVariation = (variation) => {
+    const renderVariation = (variation) => {
 
+        // Si la variation est nulle, cela signifie que c'est la première apparition du joueur dans le classement, 
+        // donc on affiche "Nouveau"
         if (variation === null) {
             return (
                 <span className="variation-new">
@@ -150,15 +152,17 @@ function PlayerHistory({ selectedPlayerId }) {
                                             </td>
 
                                             <td>
-                                                {renderPositionVariation(history.position_variation)}
+                                                {renderVariation(history.position_variation)}
                                             </td>
 
                                             <td>
                                                 {history.current_fedex_points}
                                             </td>
 
-                                            <td className="position-up">
-                                                +{history.fedex_points_gained}
+                                            <td>
+                                                <span className="points-gained">
+                                                    +{history.fedex_points_gained}
+                                                </span>
                                             </td>
 
                                             <td>

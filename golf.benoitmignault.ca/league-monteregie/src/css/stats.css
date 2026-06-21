@@ -358,26 +358,38 @@
 }
 
 .history-table th {
-    padding: 14px;
+    padding: 16px;
     text-align: center;
-
-    color: white;
+    color: #60a5fa;
     font-weight: 700;
-
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .history-table td {
-    padding: 12px;
+    padding: 16px;
     text-align: center;
 
     color: white;
+}
 
-    border-top: 1px solid rgba(255,255,255,0.08);
+.history-table tbody tr {
+    transition:
+        background-color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
 }
 
 .history-table tbody tr:hover {
-    background: rgba(255,255,255,0.04);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,120,255,0.15),
+            rgba(255,255,255,0.03)
+        );
+
+    border-left: 4px solid #3b82f6;
+    border-right: 4px solid #3b82f6;
 }
 
 .history-event-name {

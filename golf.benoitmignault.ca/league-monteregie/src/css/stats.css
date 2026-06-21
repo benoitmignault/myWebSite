@@ -473,6 +473,11 @@
         flex-direction: column;
     }
 
+    .player-selector-section {
+        padding: 0;
+        margin-bottom: 30px;
+    }
+
     .player-selector-section,
     .player-summary-section {
         width: 100%;

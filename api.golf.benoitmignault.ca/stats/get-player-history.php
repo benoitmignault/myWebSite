@@ -33,9 +33,9 @@ if (!$data) {
 $playerId = $data['playerId'];
 
 // Requête SQL pour récupérer les données nécessaires pour l'historique du joueur dans les événements qui sont fermés seulement
-$select = "SELECT e.event_name, e.golf_course, e.event_date, ";
+$select = "SELECT e.event_name, e.golf_course, e.event_date, h.current_position, ";
 $select .= "(CAST(h.previous_position AS SIGNED) - CAST(h.current_position AS SIGNED)) AS position_variation, ";
-$select .= "h.current_fedex_points, h.fedex_points_gained, ";
+$select .= "h.current_fedex_points, h.fedex_points_gained, h.current_handicap, ";
 $select .= "h.current_handicap, (h.previous_handicap - h.current_handicap) AS handicap_variation ";
 $from = "FROM player_event_history h INNER JOIN events e ON e.id = h.event_id ";
 $where = "WHERE h.player_id = ? AND e.is_closed = 1 ";

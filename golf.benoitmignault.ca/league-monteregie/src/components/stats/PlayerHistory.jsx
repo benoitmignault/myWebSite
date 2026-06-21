@@ -34,6 +34,10 @@ function PlayerHistory({ selectedPlayerId }) {
             );
         }
 
+        // Si la variation est positive, cela signifie que le joueur a amélioré sa position dans le classement,
+        // donc on affiche une flèche vers le haut et le nombre de positions gagnées, 
+        // parce que nous avons inversé le graphique pour que les meilleures positions soient en haut, 
+        // une variation positive signifie une amélioration de la position du joueur vers le haut du graphique
         if (variation > 0) {
             return (
                 <>
@@ -43,6 +47,10 @@ function PlayerHistory({ selectedPlayerId }) {
             );
         }
 
+        // Le principe inverse pour une variation négative, cela signifie que le joueur a détérioré sa position dans le classement,
+        // donc on affiche une flèche vers le bas et le nombre de positions perdues, 
+        // parce que nous avons inversé le graphique pour que les meilleures positions soient en haut, 
+        // une variation négative signifie une détérioration de la position du joueur vers le bas du graphique
         if (variation < 0) {
             return (
                 <>
@@ -52,6 +60,8 @@ function PlayerHistory({ selectedPlayerId }) {
             );
         }
 
+        // Si la variation est nulle, cela signifie que le joueur a maintenu sa position dans le classement,
+        // donc on affiche un signe égal
         return "=";
     };
 

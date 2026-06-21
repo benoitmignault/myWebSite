@@ -73,23 +73,20 @@ if ($result->num_rows === 0) {
 
 // Sinon, on va parcourir les résultats et les stocker dans un tableau pour les envoyer au frontend
 $playerHistoryData = [];
-$weekNumber = 1;
 
 while ($row = $result->fetch_assoc()) {
 
     $playerHistoryData[] = [
-        "week" => $weekNumber,
         "event_name" => $row['event_name'],
         "golf_course" => $row['golf_course'],
         "event_date" => $row['event_date'],
+        "current_position" => $row['current_position'],
         "position_variation" => $row['position_variation'],
         "current_fedex_points" => $row['current_fedex_points'],
         "fedex_points_gained" => $row['fedex_points_gained'],
         "current_handicap" => $row['current_handicap'],
         "handicap_variation" => $row['handicap_variation']
     ];
-
-    $weekNumber++;
 }
 
 

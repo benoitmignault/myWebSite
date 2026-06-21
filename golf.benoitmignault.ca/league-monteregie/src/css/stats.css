@@ -408,9 +408,10 @@
     margin-right: 8px;
 }
 
-
-
-
+.points-gained {
+    color: white;
+    font-weight: 600;
+}
 
 .error-message {
     margin-top: 15px;

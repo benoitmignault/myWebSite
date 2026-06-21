@@ -20,6 +20,41 @@ function PlayerHistory({ selectedPlayerId }) {
     // État pour stocker les erreurs de chargement des données
     const [error, setError] = useState("");
 
+    // Fonction pour gérer les variations de position dans le classement FedEx, 
+    // en affichant une flèche vers le haut pour une amélioration, une flèche vers le bas pour une détérioration, 
+    // ou "Nouveau" si c'est la première apparition du joueur dans le classement
+    const renderPositionVariation = (variation) => {
+
+        if (variation === null) {
+            return (
+                <span className="variation-new">
+                    Nouveau
+                </span>
+            );
+        }
+
+        if (variation > 0) {
+            return (
+                <>
+                    <span className="position-up">▲</span>
+                    +{variation}
+                </>
+            );
+        }
+
+        if (variation < 0) {
+            return (
+                <>
+                    <span className="position-down">▼</span>
+                    {variation}
+                </>
+            );
+        }
+
+        return "=";
+    };
+
+
     // Fonction pour charger les données historiques du joueur à partir de l'API
     const loadPlayerHistory = async (selectedPlayerId) => {
 

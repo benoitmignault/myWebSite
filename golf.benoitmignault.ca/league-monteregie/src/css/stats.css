@@ -352,7 +352,61 @@
     font-size: 16px;
 }
 
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
+.history-table th {
+    padding: 14px;
+    text-align: center;
+
+    color: white;
+    font-weight: 700;
+
+    background: rgba(255,255,255,0.08);
+}
+
+.history-table td {
+    padding: 12px;
+    text-align: center;
+
+    color: white;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.history-table tbody tr:hover {
+    background: rgba(255,255,255,0.04);
+}
+
+.history-event-name {
+    font-weight: 700;
+    color: white;
+}
+
+.history-event-course {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.60);
+    margin-top: 2px;
+}
+
+.variation-new {
+    color: #fbbf24;
+    font-weight: 700;
+}
+
+.position-up {
+    color: #22c55e;
+    font-weight: 700;
+    margin-right: 8px;
+}
+
+.position-down {
+    color: #ef4444;
+    font-weight: 700;
+    margin-right: 8px;
+}
 
 
 

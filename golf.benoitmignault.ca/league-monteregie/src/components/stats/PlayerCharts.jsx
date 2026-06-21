@@ -142,6 +142,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                                             tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                         />
                                         <YAxis
+                                            width={40}
                                             reversed
                                             domain={[0.5, totalPlayers]}
                                             ticks={yAxisTicks}
@@ -170,7 +171,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                                             tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                         />
                                         <YAxis
-                                            width={30}
+                                            width={40}
                                             tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                         />
                                         <Tooltip content={<CustomTooltip />} />
@@ -196,7 +197,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                                         />
                                         <YAxis
                                             reversed
-                                            width={30}
+                                            width={40}
                                             tick={{ fill: "#FFFFFF", fontSize: 14 }}
                                         />
                                         <Tooltip content={<CustomTooltip />} />

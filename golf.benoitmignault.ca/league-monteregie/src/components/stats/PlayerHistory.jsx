@@ -7,7 +7,6 @@ import { API_BASE_URL } from "../../config";
 /**
  * Composant pour afficher l'historique détaillé d'un joueur, incluant l'évolution du classement FedEx, des points cumulés et du handicap après chaque événement.
  * 
- * 
  * On va utiliser le selectedPlayerId pour faire une requête à l'API et récupérer les données historiques du joueur sélectionné, puis les afficher dans un tableau ou une série de graphiques.
  * @param {integer} selectedPlayerId 
  * @returns 

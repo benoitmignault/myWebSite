@@ -519,8 +519,6 @@
         width: 100%;
         overflow-x: auto;
     }
-<<<<<<< Updated upstream
-
     .history-table {
         width: max-content;
         min-width: 100%;
@@ -533,9 +531,6 @@
     .history-table .history-event-date {
         white-space: nowrap;
     }
-
-=======
->>>>>>> Stashed changes
 
     .history-table {
         width: max-content;

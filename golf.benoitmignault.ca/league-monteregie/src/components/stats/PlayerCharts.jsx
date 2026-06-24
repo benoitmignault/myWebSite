@@ -132,7 +132,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                 <>
                     <div className="player-charts-grid">
                         <div className="chart-card">
-                            <h3 className="chart-card-title">Points FedEx</h3>
+                            <h3 className="chart-card-title">Position</h3>
                             <div className="chart-wrapper">
                                 <ResponsiveContainer width="100%" height={350}>
                                     <LineChart data={chartData}>
@@ -161,7 +161,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                         </div>
 
                         <div className="chart-card">
-                            <h3 className="chart-card-title">Points FedEx</h3>
+                            <h3 className="chart-card-title">Points</h3>
                             <div className="chart-wrapper">
                                 <ResponsiveContainer width="100%" height={350}>
                                     <LineChart data={chartData}>

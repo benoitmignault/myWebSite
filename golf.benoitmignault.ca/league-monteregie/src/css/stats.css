@@ -272,8 +272,8 @@
 
 .note-low,
 .note-good {
-    margin-right: 4px;
     color: #22c55e;
+    font-size: 16px;
     font-weight: 700;
 }
 

@@ -515,6 +515,24 @@
         margin-bottom: 0;
     }
 
+    .history-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .history-table {
+        width: max-content;
+        min-width: 100%;
+    }
+
+    .player-history-section {
+        padding: 0;
+    }
+
+    .history-table .history-event-date {
+        white-space: nowrap;
+    }
+
 
 
 

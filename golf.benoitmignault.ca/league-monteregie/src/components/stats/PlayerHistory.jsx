@@ -154,7 +154,7 @@ function PlayerHistory({ selectedPlayerId }) {
                                                     {history.golf_course}
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td className="history-event-date">
                                                 {history.event_date}
                                             </td>
                                             <td>

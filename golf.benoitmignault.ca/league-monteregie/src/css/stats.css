@@ -306,6 +306,18 @@
     color: #ffd166;
 }
 
+.player-charts-container p {
+    margin: 0;
+}
+
+.charts-note {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #60a5fa;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .player-charts-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -425,6 +437,10 @@
     font-size: 0.85rem;
     color: rgba(255,255,255,0.60);
     margin-top: 2px;
+}
+
+.history-scroll-hint {
+    display: none;
 }
 
 .variation-new {
@@ -572,5 +588,22 @@
     .player-history-card {
         margin-top: 25px;
         margin-bottom: 80px;
+    }
+
+    .history-scroll-hint {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-bottom: 15px;
+
+        color: #60a5fa;
+        font-size: 14px;
+        font-weight: 600;
+        gap: 8px;
+    }
+
+    .history-scroll-hint svg {
+        font-size: 15px;
     }
 }

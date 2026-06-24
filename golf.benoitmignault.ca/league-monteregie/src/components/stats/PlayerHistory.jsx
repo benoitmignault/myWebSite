@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 import { FaInfoCircle } from "react-icons/fa";
+import { FaArrowsAltH } from "react-icons/fa";
 import { API_BASE_URL } from "../../config";
 
 
@@ -116,9 +117,7 @@ function PlayerHistory({ selectedPlayerId }) {
     return (
         <div className="player-history-container">
             <h2 className="history-title">Historique détaillé du joueur</h2>
-            <p className="history-description">
-                Évolution du classement FedEx, des points cumulés et du handicap après chaque événement.
-            </p>
+                       
             {historyData.length === 0 ? (
                 <div className="warning-message">
                     <FaInfoCircle />
@@ -126,6 +125,13 @@ function PlayerHistory({ selectedPlayerId }) {
                 </div>
             ) : (
                 <>
+                    <p className="history-description">
+                        Évolution du classement FedEx, des points cumulés et du handicap après chaque événement.
+                    </p>
+                    <div className="history-scroll-hint">
+                        <FaArrowsAltH />
+                        <span>Faites défiler pour voir toutes les statistiques</span>
+                    </div>           
                     <div className="history-table-wrapper">
                         <table className="history-table">
                             <thead>

@@ -131,8 +131,8 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                 <>
                     <p className="charts-description">Avec son positionnement dans la Coupe FedEx, les points cumulés de cette dernière et de l'handicap au fil de la saison.</p>
                     <p className="charts-note">
-                        <span className="note-low">▼</span><span className="note-label">Classement FedEx et Handicap</span>
-                        <span className="note-separator"> • </span>
+                        <span className="note-low">▼</span> <span className="note-label">Classement FedEx et Handicap</span>
+                        <span className="note-separator">•</span>
                         <span className="note-good">▲</span> <span className="note-label">Points FedEx</span>
                     </p>
                     <div className="player-charts-grid">

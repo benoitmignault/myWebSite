@@ -544,4 +544,9 @@
     .history-table .history-event-date {
         white-space: nowrap;
     }
+
+    .player-history-card {
+        margin-top: 25px;
+        margin-bottom: 80px;
+    }
 }

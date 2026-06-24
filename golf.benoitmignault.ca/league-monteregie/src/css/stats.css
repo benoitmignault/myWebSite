@@ -263,6 +263,30 @@
     font-size: 16px;
 }
 
+.charts-note {
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.note-low,
+.note-good {
+    margin-right: 4px;
+    color: #22c55e;
+    font-weight: 700;
+}
+
+.note-separator {
+    color: rgba(255,255,255,0.5);
+    margin: 0 10px;
+}
+
+.note-label {
+    color: rgba(255,255,255,0.75);
+    font-weight: 600;
+}
+
 .warning-message {
     display: flex;
     align-items: center;

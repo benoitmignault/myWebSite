@@ -121,8 +121,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
 
     return (
         <div className="player-charts-container">
-            <h2 className="charts-title">Évolution du joueur</h2>
-            <p className="charts-description">Avec son positionnement dans la Coupe FedEx, les points cumulés de cette dernière et de l'handicap au fil de la saison.</p>
+            <h2 className="charts-title">Évolution du joueur</h2>            
             {chartData.length === 0 ? (
                 <div className="warning-message">
                     <FaInfoCircle />
@@ -130,6 +129,12 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                 </div>
             ) : (
                 <>
+                    <p className="charts-description">Avec son positionnement dans la Coupe FedEx, les points cumulés de cette dernière et de l'handicap au fil de la saison.</p>
+                    <p className="charts-note">
+                        <span className="note-low">▼</span><span className="note-label">Classement FedEx et Handicap</span>
+                        <span className="note-separator"> • </span>
+                        <span className="note-good">▲</span> <span className="note-label">Points FedEx</span>
+                    </p>
                     <div className="player-charts-grid">
                         <div className="chart-card">
                             <h3 className="chart-card-title">Position</h3>
@@ -186,7 +191,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
                         </div>
                         
                         <div className="chart-card">
-                            <h3 className="chart-card-title">Handicap</h3>
+                            <h3 className="chart-card-title">Handicap</h3>                            
                             <div className="chart-wrapper">
                                 <ResponsiveContainer width="100%" height={350}>
                                     <LineChart data={chartData}>

@@ -264,22 +264,29 @@
 }
 
 .charts-note {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
     color: white;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+}
+
+.note-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .note-low,
 .note-good {
     color: #22c55e;
-    font-size: 16px;
-    font-weight: 700;
 }
 
 .note-separator {
     color: rgba(255,255,255,0.5);
-    margin: 0 10px;
 }
 
 .note-label {
@@ -541,6 +548,15 @@
 
     .player-charts-grid {
         grid-template-columns: 1fr;
+    }
+
+    .charts-note {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .note-separator {
+        display: none;
     }
 
     .player-charts-section {

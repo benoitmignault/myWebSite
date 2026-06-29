@@ -134,7 +134,7 @@ function PlayerStats() {
             </div>
             <div className="photo-credit">
                 <BsCameraFill />
-                <span>Photo prise au Club de golf Farnham — Semaine 2</span>				
+                <span>{photoCredit}</span>				
 			</div>            
             <button className="scroll-top player-stats" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
 				<FaArrowUp />

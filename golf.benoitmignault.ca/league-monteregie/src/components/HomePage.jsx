@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { FaChartLine } from "react-icons/fa";
@@ -17,6 +17,14 @@ import { FaBullseye } from "react-icons/fa";
 import '../css/index.css'
 
 function HomePage() {
+
+	// État pour détecter si l'utilisateur est sur un appareil mobile ou non
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+	// Utiliser useEffect pour mettre à jour l'état isMobile lorsque la taille de la fenêtre change
+	const photoCredit = isMobile
+		? "Photo prise au Club de golf Parcours du Vieux Village — The Masters"
+		: "Photo prise au Club de golf Farnham — Semaine 2";
 
 	// Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page d'accueil est chargée
 	useEffect(() => {

@@ -371,6 +371,15 @@ input[type="number"].admin-input.team-input {
         gap: 20px;
     }
 
+    /* ---------- Navbar ---------- */
+    .admin-navbar {
+        margin: 20px 0 0 20px;
+    }
+
+    .admin-navbar-link:first-of-type {
+        margin-bottom: 0;
+    }
+
     .admin-section-card {
         padding: 20px;
     }
@@ -443,16 +452,11 @@ input[type="number"].admin-input.team-input {
     .warning-message {
         text-align: center;
         font-size: .95rem;
-    }
-
-    /* ---------- Navbar ---------- */
-    .admin-navbar {
-        margin: 20px auto 0;
-    }
+    }    
 
     .admin-photo-credit {
+        bottom: 55px;
         right: 12px;
-        bottom: 20px;
         font-size: 10px;
     }
 }

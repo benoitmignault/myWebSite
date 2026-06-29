@@ -20,6 +20,14 @@ import '../../css/stats.css'
 
 function PlayerStats() {
 
+	// État pour détecter si l'utilisateur est sur un appareil mobile ou non
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    // Utiliser useEffect pour mettre à jour l'état isMobile lorsque la taille de la fenêtre change
+    const photoCredit = isMobile
+        ? "Photo prise au Club de golf Parcours du Vieux Village — The Masters"
+        : "Photo prise au Club de golf Farnham — Semaine 2";
+	
 	// État pour stocker le id du joueur sélectionner
 	const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 	

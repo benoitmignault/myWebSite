@@ -53,6 +53,15 @@ function HomePage() {
 			favicon.href = "/league-monteregie/favicon/favicon-ChatGPT.png";
 		}
 
+		const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        // Nettoyage de l'événement lors du démontage du composant pour éviter les fuites de mémoire
+        return () => window.removeEventListener("resize", handleResize);
+
 	}, []);
 
 	return (

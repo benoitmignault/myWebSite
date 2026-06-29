@@ -46,6 +46,15 @@ function PlayerStats() {
 			favicon.href = "/league-monteregie/favicon/favicon-stats-players-ChatGPT.png";
 		}
 
+		const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        // Nettoyage de l'événement lors du démontage du composant pour éviter les fuites de mémoire
+        return () => window.removeEventListener("resize", handleResize);
+
 	}, []);
 	
     // Utiliser useEffect pour envoyer une requête à l'API de logging à chaque fois que la page de statistiques est chargée

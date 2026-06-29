@@ -96,7 +96,7 @@ function HomePage() {
 			<div className="photo-credit-wrapper">				
 				<div className="homepage-photo-credit">
 					<BsCameraFill />
-					<span>Photo prise au Club de golf Farnham — Semaine 2</span>
+					<span>{photoCredit}</span>	
 				</div>
 			</div>
 			<div className="sub-container">

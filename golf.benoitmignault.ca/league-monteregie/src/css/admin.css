@@ -397,7 +397,6 @@ input[type="number"].admin-input.team-input {
 
     /* ---------- Login ---------- */
     .admin-login-content {
-        padding: 20px;
         align-items: flex-start;
     }
 

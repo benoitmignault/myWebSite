@@ -514,7 +514,8 @@
     
     .player-stats-content {
         width: 100%;
-    }
+        padding-bottom: 90px;
+    }    
 
     .player-header-card {
         flex-direction: column;
@@ -632,5 +633,14 @@
 
     .history-scroll-hint svg {
         font-size: 15px;
+    }
+
+    .photo-credit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        font-size: 10px;
+        text-align: center;
     }
 }

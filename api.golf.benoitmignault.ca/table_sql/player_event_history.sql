@@ -19,6 +19,11 @@ CREATE TABLE player_event_history (
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
+    UNIQUE KEY unique_event_player (event_id, player_id),
+
+    INDEX idx_history_event (event_id),
+    INDEX idx_history_player (player_id),
+
     CONSTRAINT fk_history_event
         FOREIGN KEY (event_id)
         REFERENCES events(id)
@@ -29,12 +34,7 @@ CREATE TABLE player_event_history (
         FOREIGN KEY (player_id)
         REFERENCES players(id)
         ON DELETE CASCADE
-        ON UPDATE CASCADE,
-
-    UNIQUE KEY unique_event_player (
-        event_id,
-        player_id
-    )
+        ON UPDATE CASCADE
 
 ) ENGINE=InnoDB;
 

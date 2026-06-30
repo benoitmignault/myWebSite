@@ -3,7 +3,8 @@
 -- Une fois qu'on match le nombre, on va pouvoir faire le snapshot de l'evement et 
 -- remplir les informations de la table player_event_history pour garder une évolution des joueurs dans le temps
 CREATE TABLE event_players (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 
     event_id INT UNSIGNED NOT NULL,
     player_id INT UNSIGNED NOT NULL,
@@ -11,7 +12,26 @@ CREATE TABLE event_players (
     handicap_rounded INT NOT NULL DEFAULT 0,
     team_number TINYINT UNSIGNED NOT NULL,
 
-    UNIQUE(event_id, player_id)
+    UNIQUE KEY uq_event_players_event_player (
+        event_id,
+        player_id
+    ),
+
+    INDEX idx_event_players_event (event_id),
+    INDEX idx_event_players_player (player_id),
+
+    CONSTRAINT fk_event_players_event
+        FOREIGN KEY (event_id)
+        REFERENCES events(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    CONSTRAINT fk_event_players_player
+        FOREIGN KEY (player_id)
+        REFERENCES players(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+
 ) ENGINE=InnoDB;
 
 -- Semaine 1

@@ -2,6 +2,7 @@
 CREATE TABLE round_results (
 
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+
     event_id INT UNSIGNED NOT NULL,
     player_id INT UNSIGNED NOT NULL,
 

@@ -12,10 +12,7 @@ CREATE TABLE event_players (
     handicap_rounded INT NOT NULL DEFAULT 0,
     team_number TINYINT UNSIGNED NOT NULL,
 
-    UNIQUE KEY uq_event_players_event_player (
-        event_id,
-        player_id
-    ),
+    UNIQUE KEY uq_event_players_event_player (event_id, player_id),
 
     INDEX idx_event_players_event (event_id),
     INDEX idx_event_players_player (player_id),

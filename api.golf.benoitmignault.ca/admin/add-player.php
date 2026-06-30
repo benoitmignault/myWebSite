@@ -80,6 +80,19 @@ if (!$conn) {
     exit();
 }
 
+// Avant de faire l'insertion du nouveau joueur dans la base de données, 
+// on doit récupérer son id qui sera sa previous position pour le classement. 
+// On peut le faire en récupérant le plus grand id de la table players et en ajoutant 1 à ce nombre. 
+// Cela garantira que le nouveau joueur sera ajouté à la fin du classement, 
+// car il n'a pas encore de position dans la ligue.
+$sql = "SELECT COUNT(*) AS total FROM players";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+
+// 2026-06-30, ajout d'une variable en fonction du ID rnedu qui sera la position du joueur dans le classement à sa création. 
+// On ajoute 1 au total des joueurs pour obtenir la position du nouveau joueur.
+$previousPosition = $row['total'] + 1;
+
 $sql = "INSERT INTO players (
             firstname,
             lastname,
@@ -88,13 +101,13 @@ $sql = "INSERT INTO players (
             handicap_league,
             handicap_rounded,
             previous_position
-        ) VALUES (?, ?, NULL, ?, ?, ?, NULL)";
+        ) VALUES (?, ?, NULL, ?, ?, ?, ?)";
 
 // Préparer la requête SQL pour insérer un nouveau joueur dans la table players
 $stmt = $conn->prepare($sql);
 
 // Lier les paramètres à la requête préparée
-$stmt->bind_param("ssddi", $firstName, $lastName, $handicapStart, $handicapStart, $handicapRounded);
+$stmt->bind_param("ssddii", $firstName, $lastName, $handicapStart, $handicapStart, $handicapRounded, $previousPosition);
 
 // Exécuter la requête SQL pour insérer le nouveau joueur dans la base de données
 if (!$stmt->execute()) {

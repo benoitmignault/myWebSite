@@ -6,28 +6,30 @@ CREATE TABLE player_event_history (
     event_id INT UNSIGNED NOT NULL,
     player_id INT UNSIGNED NOT NULL,
 
-    previous_position INT UNSIGNED DEFAULT NULL, -- la position du joueur avant l'événement
-    current_position INT UNSIGNED NOT NULL DEFAULT 0, -- la position du joueur après l'événement
+    previous_position INT UNSIGNED DEFAULT NULL,
+    current_position INT UNSIGNED NOT NULL DEFAULT 0,
 
-    previous_fedex_points INT UNSIGNED DEFAULT 0, -- les points totaux avant l'événement
-    current_fedex_points INT UNSIGNED NOT NULL DEFAULT 0, -- les points totaux après l'événement
+    previous_fedex_points INT UNSIGNED DEFAULT 0,
+    current_fedex_points INT UNSIGNED NOT NULL DEFAULT 0,
 
-    fedex_points_gained INT UNSIGNED NOT NULL DEFAULT 0, -- les points gagnés lors de l'événement
+    fedex_points_gained INT UNSIGNED NOT NULL DEFAULT 0,
 
-    previous_handicap DECIMAL(4,1) DEFAULT NULL, -- le handicap du joueur avant l'événement
-    current_handicap DECIMAL(4,1) NOT NULL DEFAULT 0.0, -- le handicap du joueur après l'événement
+    previous_handicap DECIMAL(4,1) DEFAULT NULL,
+    current_handicap DECIMAL(4,1) NOT NULL DEFAULT 0.0,
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_history_event
         FOREIGN KEY (event_id)
         REFERENCES events(id)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 
     CONSTRAINT fk_history_player
         FOREIGN KEY (player_id)
         REFERENCES players(id)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 
     UNIQUE KEY unique_event_player (
         event_id,

@@ -23,12 +23,14 @@ CREATE TABLE round_results (
     CONSTRAINT fk_round_results_event
         FOREIGN KEY (event_id)
         REFERENCES events(id)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 
     CONSTRAINT fk_round_results_player
         FOREIGN KEY (player_id)
         REFERENCES players(id)
         ON DELETE CASCADE
+        ON UPDATE CASCADE
 
 ) ENGINE=InnoDB;
 

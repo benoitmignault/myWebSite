@@ -35,9 +35,6 @@
     font-size: 1rem;
     font-weight: 600;
     transition: opacity 0.2s ease;
-}
-
-.admin-navbar-link:first-of-type {
     margin-bottom: 10px;
 }
 
@@ -197,9 +194,9 @@ input[type="number"].admin-input.result {
 
 .admin-photo-credit {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 8px;
-    position: fixed;
     bottom: 60px;
     right: 24px;
     font-size: 11px;
@@ -352,14 +349,6 @@ input[type="number"].admin-input.team-input {
     box-sizing: border-box;
 }
 
-
-
-
-
-
-
-
-
 .scroll-top.dashboard {
     bottom: 85px;
 }
@@ -368,4 +357,119 @@ input[type="number"].admin-input.team-input {
     transform: translateY(-3px);
     background:
         rgba(59,130,246,0.35);
+}
+
+@media screen and (max-width: 768px) {
+
+    /* ---------- Général ---------- */
+    .dashboard-container {
+        margin: 30px auto;
+        gap: 20px;
+        padding-bottom: 65px;
+    }
+
+    /* ---------- Navbar ---------- */
+    .admin-navbar {
+        margin: 20px 0 0 20px;
+    }    
+
+    .admin-section-card {
+        padding: 20px;
+    }
+
+    .gestion-title,
+    .login-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .admin-description {
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    /* ---------- Login ---------- */
+    .admin-login-content {
+        align-items: flex-start;
+    }
+
+    .admin-login-card {
+        width: 100%;
+        max-width: 420px;
+        padding: 30px 25px;
+        margin-top: 20px;
+    }
+
+    .admin-input,
+    .admin-input.admin-website {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    input[type="number"].admin-input,
+    input[type="number"].admin-input.result,
+    input[type="number"].admin-input.team-input {
+        width: 100%;
+    }
+
+    .admin-net-score {
+        width: 100%;
+    }
+
+    .admin-actions {
+        flex-direction: column;
+    }
+
+    .admin-actions .admin-button {
+        width: 100%;
+    }
+
+    /* ---------- Dashboard ---------- */
+    .admin-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .event-summary-row {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .react-datepicker-wrapper,
+    .react-datepicker-wrapper input {
+        width: 100%;
+    }
+
+    .warning-message {
+        text-align: center;
+        font-size: .95rem;
+    }    
+
+    .admin-photo-credit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+
+        margin-top: 20px;
+        margin-bottom: 10px;
+
+        font-size: 11px;
+        color: rgba(255,255,255,0.55);
+
+        text-shadow:
+            0 1px 2px rgba(0,0,0,0.9),
+            0 0 4px rgba(0,0,0,0.6);
+    }   
+
+    .scroll-top.dashboard {
+        position: fixed;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .site-footer {       
+        margin-top: 0;
+    }
 }

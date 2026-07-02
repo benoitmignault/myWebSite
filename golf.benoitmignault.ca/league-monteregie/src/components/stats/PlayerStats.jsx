@@ -20,6 +20,14 @@ import '../../css/stats.css'
 
 function PlayerStats() {
 
+	// État pour détecter si l'utilisateur est sur un appareil mobile ou non
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    // Utiliser useEffect pour mettre à jour l'état isMobile lorsque la taille de la fenêtre change
+    const photoCredit = isMobile
+        ? "Photo prise au Club de golf Parcours du Vieux Village — The Masters"
+        : "Photo prise au Club de golf Farnham — Semaine 2";
+	
 	// État pour stocker le id du joueur sélectionner
 	const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 	
@@ -37,6 +45,15 @@ function PlayerStats() {
 		if (favicon) {
 			favicon.href = "/league-monteregie/favicon/favicon-stats-players-ChatGPT.png";
 		}
+
+		const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        // Nettoyage de l'événement lors du démontage du composant pour éviter les fuites de mémoire
+        return () => window.removeEventListener("resize", handleResize);
 
 	}, []);
 	
@@ -83,7 +100,7 @@ function PlayerStats() {
                     <span>Retour au site principal</span>
                 </Link>
             </div>
-            <h1>Statistiques des Joueurs</h1>
+            <h1 className="homepage-title">Statistiques des Joueurs</h1>
             <div className="player-stats-content">				
 				<div className="player-stats-card player-header-card">
 					<div className="player-selector-section">
@@ -114,14 +131,14 @@ function PlayerStats() {
 					</div>
 				)}
 
-            </div>
-            <div className="photo-credit">
-                <BsCameraFill />
-                <span>Photo prise au Club de golf Farnham — Semaine 2</span>				
-			</div>            
+            </div>                        
             <button className="scroll-top player-stats" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
 				<FaArrowUp />
 			</button>
+			<div className="player-stat-photo-credit">
+                <BsCameraFill />
+                <span>{photoCredit}</span>				
+			</div>
             <Footer />            
         </div>
     );

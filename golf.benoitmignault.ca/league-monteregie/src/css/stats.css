@@ -238,6 +238,10 @@
     margin-top: 25px;
 }
 
+.player-history-card{
+    margin-bottom: 25px;
+}
+
 .player-charts-section,
 .player-history-section {
     width: 100%;
@@ -487,34 +491,33 @@
     backdrop-filter: blur(6px);
 }
 
-.photo-credit {
+.player-stat-photo-credit {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 8px;
-    position: fixed;
-    bottom: 60px;
-    right: 24px;
+    margin-top: 20px;
     font-size: 11px;
     color: rgba(255,255,255,0.55);
     text-shadow:
         0 1px 2px rgba(0,0,0,0.9),
         0 0 4px rgba(0,0,0,0.6);
-    z-index: 5;
 }
 
-.photo-credit svg {
+.player-stat-photo-credit svg {
     font-size: 14px;
 }
 
 .scroll-top.player-stats {
-    bottom: 85px;
+    bottom: 80px;
 }
 
 @media screen and (max-width: 1100px) {
     
     .player-stats-content {
         width: 100%;
-    }
+        padding-bottom: 90px;
+    }    
 
     .player-header-card {
         flex-direction: column;
@@ -632,5 +635,19 @@
 
     .history-scroll-hint svg {
         font-size: 15px;
+    }
+
+    .player-stat-photo-credit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        font-size: 10px;
+        margin-top: 0;
+        text-align: center;
+    }
+
+    .scroll-top.player-stats {
+        bottom: 90px;
     }
 }

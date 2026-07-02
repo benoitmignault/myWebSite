@@ -16,6 +16,14 @@ import Footer from "../Footer";
  */
 function Login() {    
 
+    // État pour détecter si l'utilisateur est sur un appareil mobile ou non
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    // Utiliser useEffect pour mettre à jour l'état isMobile lorsque la taille de la fenêtre change
+    const photoCredit = isMobile
+        ? "Photo prise au Club de golf Parcours du Vieux Village — The Masters"
+        : "Photo prise au Club de golf Farnham — Semaine 2";
+
     // États pour stocker le username du formulaire de connexion
     const [username, setUsername] = useState("");
 
@@ -162,9 +170,19 @@ function Login() {
         const favicon = document.getElementById("dynamic-favicon");
         
         // On doit partir de /league-monteregie car c'est la vraie racine du projet
+        // FavIcone de la page
         if (favicon) {
 			favicon.href = "/league-monteregie/favicon/favicon-admin-ChatGPT.png";
 		}
+
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        // Nettoyage de l'événement lors du démontage du composant pour éviter les fuites de mémoire
+        return () => window.removeEventListener("resize", handleResize);
 
     }, []);
 
@@ -217,7 +235,7 @@ function Login() {
             </div>
             <div className="admin-photo-credit">
                 <BsCameraFill />
-                <span>Photo prise au Club de golf Farnham — Semaine 2</span>
+                <span>{photoCredit}</span>
             </div>
             <Footer />
         </div>        

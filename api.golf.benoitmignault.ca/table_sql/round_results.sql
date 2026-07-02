@@ -2,6 +2,7 @@
 CREATE TABLE round_results (
 
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+
     event_id INT UNSIGNED NOT NULL,
     player_id INT UNSIGNED NOT NULL,
 
@@ -22,12 +23,14 @@ CREATE TABLE round_results (
     CONSTRAINT fk_round_results_event
         FOREIGN KEY (event_id)
         REFERENCES events(id)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 
     CONSTRAINT fk_round_results_player
         FOREIGN KEY (player_id)
         REFERENCES players(id)
         ON DELETE CASCADE
+        ON UPDATE CASCADE
 
 ) ENGINE=InnoDB;
 

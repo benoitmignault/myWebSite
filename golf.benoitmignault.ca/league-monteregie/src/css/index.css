@@ -87,6 +87,10 @@ h1 {
     transition: opacity 0.2s ease;
 }
 
+.site-navbar-link:last-of-type {
+    margin-bottom: 10px;
+}
+
 .site-navbar-link:hover {
     opacity: 0.8;
     background: rgba(255,255,255,0.08);
@@ -120,7 +124,6 @@ h1 {
     justify-content: flex-end;
     margin-top: 6px;
     margin-bottom: 20px;
-    padding-right: 15px;
 }
 
 .background-photo-credit {
@@ -707,7 +710,7 @@ tbody tr:nth-child(even) {
 }
 
 .site-footer {
-    margin-top: 30px;
+    margin-top: 10px;
     text-align: center;
     color:
         rgba(255,255,255,0.55);
@@ -723,6 +726,7 @@ tbody tr:nth-child(even) {
     right: 30px;
     width: 55px;
     height: 55px;
+    bottom: 95px;
     border: none;
     border-radius: 50%;
     background:

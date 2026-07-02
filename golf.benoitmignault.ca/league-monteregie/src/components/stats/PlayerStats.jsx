@@ -100,7 +100,7 @@ function PlayerStats() {
                     <span>Retour au site principal</span>
                 </Link>
             </div>
-            <h1>Statistiques des Joueurs</h1>
+            <h1 className="homepage-title">Statistiques des Joueurs</h1>
             <div className="player-stats-content">				
 				<div className="player-stats-card player-header-card">
 					<div className="player-selector-section">

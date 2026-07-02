@@ -368,6 +368,7 @@ input[type="number"].admin-input.team-input {
     .dashboard-container {
         margin: 30px auto;
         gap: 20px;
+        padding-bottom: 65px;
     }
 
     /* ---------- Navbar ---------- */
@@ -459,7 +460,7 @@ input[type="number"].admin-input.team-input {
         gap: 8px;
 
         margin-top: 20px;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
 
         font-size: 11px;
         color: rgba(255,255,255,0.55);

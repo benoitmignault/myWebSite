@@ -865,6 +865,10 @@ tbody tr:nth-child(even) {
         font-size: 0.9rem;
     }
 
+    td:nth-child(1){
+        padding-right: 14px;
+    }
+
     th:nth-child(3),
     td:nth-child(3) {
         width: 55px;

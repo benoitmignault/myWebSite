@@ -173,10 +173,10 @@ function PlayerHistory({ selectedPlayerId }) {
                                             <td>{index + 1}</td>
                                             <td>
                                                 <div className="history-event-name">
-                                                    {history.event_name}
+                                                    {formatTextWithParentheses(history.event_name)}
                                                 </div>
                                                 <div className="history-event-course">
-                                                    {history.golf_course}
+                                                    {formatTextWithParentheses(history.golf_course)}
                                                 </div>
                                             </td>
                                             <td className="history-event-date">

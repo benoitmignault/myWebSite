@@ -9,9 +9,11 @@ import { API_BASE_URL } from "../../config";
  * @description 
  * Affiche un formulaire pour ajouter un joueur à la ligue
  * 
+ * 2026-06-20, ajout de la fct setRefreshPlanning pour permettre de rafraîchir le formulaire de planification des événements après l'ajout d'un joueur.
+ * @param {function} setRefreshPlanning - Fonction pour déclencher le rafraîchissement du formulaire de planification des événements
  * @returns 
  */
-function PlayersSection() {
+function PlayersSection({ setRefreshPlanning }) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -135,6 +137,9 @@ function PlayersSection() {
 
                 // Affichage d'un message de succès pour informer l'administrateur que le joueur a été ajouté avec succès                
                 setSuccessMessage(`${firstName} ${lastName} a été ajouté à la ligue.`);
+
+                // Informer Dashboard qu'un changement important vient d'avoir lieu
+                setRefreshPlanning(prev => !prev);
 
                 // Effacer le message de succès après 3 secondes et les informations du joueur après 3 secondes
                 setTimeout(() => {handleReset();}, 3000);   

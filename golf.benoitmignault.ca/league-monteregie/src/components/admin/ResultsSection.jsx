@@ -29,7 +29,7 @@ import { API_BASE_URL } from "../../config";
  * @param {boolean} setEventUpdated - Une fonction pour mettre à jour l'état de l'événement mis à jour
  * @returns
  */
-function ResultsSection({eventChanged, setEventUpdated}) {
+function ResultsSection({eventChanged, setRefreshPlanning}) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -368,7 +368,7 @@ function ResultsSection({eventChanged, setEventUpdated}) {
                 }          
                 
                 // Informer Dashboard qu'un changement important vient d'avoir lieu
-                setEventUpdated(prev => !prev);
+                setRefreshPlanning(prev => !prev);
 
                 // Réinitialiser les champs du formulaire pour ajouter un résultat de ronde d'un joueur et les messages d'erreur associés
                 setTimeout(() => {handleReset();}, 3000);    

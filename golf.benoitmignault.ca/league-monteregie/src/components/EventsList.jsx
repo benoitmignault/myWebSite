@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaTrophy } from "react-icons/fa";
 import { API_BASE_URL } from "../config";
 
 /**
@@ -187,6 +188,20 @@ function EventsList() {
         return;
     }
 
+    // Fonction pour gérer la position et afficher une icône de médaille pour les 3 premiers joueurs du classement général
+    const getPositionDisplay = (position) => {
+        switch (position) {
+            case 1:
+            return <FaTrophy className="trophy gold" />;
+            case 2:
+            return <FaTrophy className="trophy silver" />;
+            case 3:
+            return <FaTrophy className="trophy bronze" />;
+            default:
+            return position;
+        }
+    }
+
     useEffect(() => {
 
         const initializeData = async () => {
@@ -256,8 +271,8 @@ function EventsList() {
                                                 {   
                                                     // Afficher les résultats de l'événement en affichant la position, le nom du joueur, le score brut, le score net et les points Fedex
                                                     eventResults.map((result, index) => (
-                                                        <tr key={index}>
-                                                            <td>{result.position}</td>
+                                                        <tr className="clickable-row" key={index}>
+                                                            <td>{getPositionDisplay(result.position)}</td>
                                                             <td className="text-name">{result.firstname}{" "}{result.lastname}</td>
                                                             <td>{result.gross_score}</td>
                                                             <td className={ 

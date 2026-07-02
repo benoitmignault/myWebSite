@@ -10,9 +10,11 @@ import "react-datepicker/dist/react-datepicker.css";
  * @description 
  * Affiche un formulaire pour ajouter un événement à la ligue
  * 
- * @returns 
+ * 2026-06-20, ajout de la fct setRefreshPlanning pour permettre de rafraîchir le formulaire de planification des événements après l'ajout d'un événement.
+ * @param {function} setRefreshPlanning - Fonction pour déclencher le rafraîchissement du formulaire de planification des événements
+ * @returns
  */
-function EventsSection() {
+function EventsSection({ setRefreshPlanning }) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -120,6 +122,9 @@ function EventsSection() {
 
                 // Affichage d'un message de succès pour informer l'administrateur que l'événement a été ajouté avec succès
                 setSuccessMessage(`${eventName} a été ajouté au calendrier.`);
+
+                // Informer Dashboard qu'un changement important vient d'avoir lieu
+                setRefreshPlanning(prev => !prev);
 
                 // Effacer le message de succès après 3 secondes et les informations de l'événement après 3 secondes
                 setTimeout(() => {handleReset();}, 3000);                

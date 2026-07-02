@@ -10,11 +10,20 @@ import EventsPlanningSection from "./EventsPlanningSection";
 import ResultsSection from "./ResultsSection";
 import { API_BASE_URL } from "../../config";
 import Footer from "../Footer";
+import '../../css/admin.css'
 
 // Composant du dashboard pour les administrateurs et les sous-administrateurs
 // Ce composant affiche les différentes sections du dashboard, 
 // comme la gestion des joueurs, des événements et des résultats.
 function Dashboard() {
+
+    // État pour détecter si l'utilisateur est sur un appareil mobile ou non
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+	// Utiliser useEffect pour mettre à jour l'état isMobile lorsque la taille de la fenêtre change
+	const photoCredit = isMobile
+		? "Photo prise au Club de golf Parcours du Vieux Village — The Masters"
+		: "Photo prise au Club de golf Farnham — Semaine 2";
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -23,8 +32,10 @@ function Dashboard() {
     // après l'ajout d'un joueur à un événement ou après la création d'un nouvel événement
     const [eventChanged, setEventChanged] = useState(false);
 
-    // Un état de rafraîchissement pour forcer le blocage du formulaire dans EventsPlanningSection quand on saisi des résultats pour un événement en cours
-    const [eventUpdated, setEventUpdated] = useState(false);
+    // Un état de rafraîchissement pour avertir EventsPlanningSection qu'il y a eu des changements et qui doit reloader 
+    // le composant pour afficher les changements dans la planification des événements, 
+    // comme l'ajout d'un nouvel événement ou l'ajout d'un joueur.
+    const [refreshPlanning, setRefreshPlanning] = useState(false);
 
     // Fonction pour gérer la déconnexion de l'administrateur et avec une redirection en fonction du lien qu'on a cliqué
     const handleLogout = async (redirectTo) => {
@@ -77,6 +88,20 @@ function Dashboard() {
 
     }, [navigate]);
 
+    // Utiliser useEffect pour Gestion du mode mobile
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        // Valeur initiale
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {window.removeEventListener("resize", handleResize);};
+    }, []);
+
     return (
         <div>
             <div className="admin-navbar">
@@ -96,18 +121,18 @@ function Dashboard() {
             </div>
             <div className="dashboard-container">
                 <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>                
-                <ResultsSection eventChanged={eventChanged} setEventUpdated={setEventUpdated}/>
-                <EventsPlanningSection eventUpdated={eventUpdated} setEventChanged={setEventChanged} />                
-                <PlayersSection />
-                <EventsSection />
-            </div>
-            <div className="admin-photo-credit">
-                <BsCameraFill />
-                <span>Photo prise au Club de golf Farnham — Semaine 2</span>
-            </div>
+                <ResultsSection eventChanged={eventChanged} setRefreshPlanning={setRefreshPlanning}/>
+                <EventsPlanningSection refreshPlanning={refreshPlanning} setEventChanged={setEventChanged} />                
+                <PlayersSection setRefreshPlanning={setRefreshPlanning}/>
+                <EventsSection setRefreshPlanning={setRefreshPlanning}/>
+            </div>            
             <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
                 <FaArrowUp />
             </button>
+            <div className="admin-photo-credit">
+                <BsCameraFill />
+                <span>{photoCredit}</span>
+            </div>
             <Footer />
         </div>
     );

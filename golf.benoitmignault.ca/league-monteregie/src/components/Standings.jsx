@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
+import { FaTrophy } from "react-icons/fa";
 import { API_BASE_URL } from "../config";
 
 /**
@@ -28,6 +29,20 @@ function Standings() {
     
     // État pour indiquer si les résultats détaillés du joueur sont en cours de chargement
     const [loadingPlayerHistory, setLoadingPlayerHistory] = useState(false);
+
+    // Fonction pour gérer la position et afficher une icône de médaille pour les 3 premiers joueurs du classement général
+    const getPositionDisplay = (position) => {
+        switch (position) {
+            case 1:
+            return <FaTrophy className="trophy gold" />;
+            case 2:
+            return <FaTrophy className="trophy silver" />;
+            case 3:
+            return <FaTrophy className="trophy bronze" />;
+            default:
+            return position;
+        }
+    }
 
     // Fonction pour gérer le clic sur un joueur et afficher ses résultats
     const handlePlayerClick = async (playerId) => {
@@ -144,7 +159,7 @@ function Standings() {
                                     <td>
                                         {player.previous_position !== null && player.previous_position > index + 1 && (<span className="position-up">▲</span>)}
                                         {player.previous_position !== null && player.previous_position < index + 1 && (<span className="position-down">▼</span>)}
-                                        {index + 1}
+                                        {getPositionDisplay(index + 1)}
                                     </td>
                                     <td>{player.firstname}{" "}{player.lastname}</td>
                                     <td>{player.average_score}</td>
@@ -177,9 +192,9 @@ function Standings() {
                                                                     {
                                                                         // Afficher les résultats détaillés du joueur en affichant le nom de l'événement, la position, le score brut, le score net et les points Fedex
                                                                         playerResults.map((result, index) => (
-                                                                            <tr key={index}>
+                                                                            <tr className="clickable-row" key={index}>
                                                                                 <td>{result.event_name}</td>
-                                                                                <td className="text-right">{result.position}</td>
+                                                                                <td className="text-right">{getPositionDisplay(result.position)}</td>
                                                                                 <td className="text-right">{result.gross_score}</td>
                                                                                 <td className={ Number(result.net_score) < 0 
                                                                                     ? "negative-score" 

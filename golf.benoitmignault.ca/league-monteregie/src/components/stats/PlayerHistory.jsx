@@ -112,10 +112,12 @@ function PlayerHistory({ selectedPlayerId }) {
 
         const index = text.indexOf("(");
 
+        // Si le texte ne contient pas de parenthèses, on retourne le texte tel quel
         if (index === -1) {
             return text;
         }
 
+        // sinon, on retourne le texte avant les parenthèses sur une ligne et le texte entre parenthèses sur une nouvelle ligne
         return (
             <>
                 {text.substring(0, index).trim()}
@@ -185,25 +187,20 @@ function PlayerHistory({ selectedPlayerId }) {
                                             <td>
                                                 {history.current_position}
                                             </td>
-
                                             <td>
                                                 {renderVariation(history.position_variation)}
                                             </td>
-
                                             <td>
                                                 {history.current_fedex_points}
                                             </td>
-
                                             <td>
                                                 <span className="points-gained">
                                                     +{history.fedex_points_gained}
                                                 </span>
                                             </td>
-
                                             <td>
                                                 {history.current_handicap}
                                             </td>
-
                                             <td>
                                                 {renderVariation(history.handicap_variation)}
                                             </td>

@@ -80,13 +80,22 @@ if (!$conn) {
     exit();
 }
 
-// Avant de faire l'insertion du nouveau joueur dans la base de données, 
-// on doit récupérer son id qui sera sa previous position pour le classement. 
-// On peut le faire en récupérant le plus grand id de la table players et en ajoutant 1 à ce nombre. 
-// Cela garantira que le nouveau joueur sera ajouté à la fin du classement, 
-// car il n'a pas encore de position dans la ligue.
+// Avant de faire l'insertion du nouveau joueur dans la base de données,
+// on doit calculer sa previous_position pour le classement.
+// On le fait en récupérant le nombre total de joueurs existants (COUNT(*)) et en ajoutant 1.
+// Cela place le nouveau joueur à la fin du classement car il n'a pas encore de résultats/position
 $sql = "SELECT COUNT(*) AS total FROM players";
 $result = $conn->query($sql);
+
+if ($result === false) {
+
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erreur lors de la récupération du nombre de joueurs."]);
+    $conn->close();
+
+    exit();
+}
+
 $row = $result->fetch_assoc();
 
 // 2026-06-30, ajout d'une variable en fonction du ID rnedu qui sera la position du joueur dans le classement à sa création. 

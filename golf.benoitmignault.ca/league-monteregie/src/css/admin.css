@@ -35,9 +35,6 @@
     font-size: 1rem;
     font-weight: 600;
     transition: opacity 0.2s ease;
-}
-
-.admin-navbar-link:first-of-type {
     margin-bottom: 10px;
 }
 
@@ -197,9 +194,9 @@ input[type="number"].admin-input.result {
 
 .admin-photo-credit {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 8px;
-    position: fixed;
     bottom: 60px;
     right: 24px;
     font-size: 11px;
@@ -374,11 +371,7 @@ input[type="number"].admin-input.team-input {
     /* ---------- Navbar ---------- */
     .admin-navbar {
         margin: 20px 0 0 20px;
-    }
-
-    .admin-navbar-link:first-of-type {
-        margin-bottom: 0;
-    }
+    }    
 
     .admin-section-card {
         padding: 20px;
@@ -476,8 +469,7 @@ input[type="number"].admin-input.team-input {
         z-index: 1000;
     }
 
-    .site-footer {
-        padding-bottom: 20px;
+    .site-footer {       
         margin-top: 0;
     }
 

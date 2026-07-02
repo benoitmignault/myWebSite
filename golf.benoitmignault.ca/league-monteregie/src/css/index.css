@@ -432,6 +432,14 @@ tbody tr:nth-child(even) {
     margin-top: 20px;
 }
 
+.teams-container .team-card:last-child:nth-child(even) {
+    width: 100%;
+}
+
+.teams-container .team-card:last-child:nth-child(odd) {
+    width: 100%;
+}
+
 .teams-container h2 {
     width: 100%;
     text-align: center;

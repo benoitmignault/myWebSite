@@ -901,8 +901,8 @@ tbody tr:nth-child(even) {
         padding: 6px 4px;
     }
 
-    .results-table td:first-child,
-    .results-table th:first-child {
+    .results-table td.event-column,
+    .results-table th.event-column {
         width: 130px;
         white-space: normal;
         word-break: normal;

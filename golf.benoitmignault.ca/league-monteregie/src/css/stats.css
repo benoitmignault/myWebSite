@@ -567,6 +567,10 @@
         font-weight: 600;
     }
 
+    .chart-card {
+        padding-left: 0;
+    }
+
     .note-item {
         display: flex;
         align-items: center;

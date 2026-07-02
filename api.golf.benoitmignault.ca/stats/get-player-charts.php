@@ -25,12 +25,21 @@ $data = json_decode(file_get_contents("php://input"), true);
 if (!$data) {
 
     http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Aucune donnée reçue"]);    
+    echo json_encode(["success" => false, "message" => "Aucune donnée reçue"]);
+    $conn->close();
     exit();
 }
 
 // Récupérer les données envoyées depuis le frontend
-$playerId = $data['playerId'];
+if (!isset($data['playerId']) || !is_numeric($data['playerId'])) {
+
+     http_response_code(400);
+     echo json_encode(["success" => false, "message" => "playerId manquant ou invalide."]);
+     $conn->close();
+     exit();
+ }
+
+ $playerId = (int) $data['playerId'];
 
 // Requête SQL pour récupérer les données nécessaires pour les graphiques du joueur
 $select = "SELECT current_position, current_fedex_points, current_handicap, event_id ";

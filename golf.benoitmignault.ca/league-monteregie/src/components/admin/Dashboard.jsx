@@ -17,6 +17,14 @@ import '../../css/admin.css'
 // comme la gestion des joueurs, des événements et des résultats.
 function Dashboard() {
 
+    // État pour détecter si l'utilisateur est sur un appareil mobile ou non
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+	// Utiliser useEffect pour mettre à jour l'état isMobile lorsque la taille de la fenêtre change
+	const photoCredit = isMobile
+		? "Photo prise au Club de golf Parcours du Vieux Village — The Masters"
+		: "Photo prise au Club de golf Farnham — Semaine 2";
+
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
 
@@ -72,6 +80,16 @@ function Dashboard() {
             if (favicon) {
                 favicon.href = "/league-monteregie/favicon/favicon-admin-ChatGPT.png";
             }
+
+            const handleResize = () => {
+                setIsMobile(window.innerWidth <= 768);
+            };
+
+            window.addEventListener("resize", handleResize);
+
+            // Nettoyage de l'événement lors du démontage du composant pour éviter les fuites de mémoire
+            return () => window.removeEventListener("resize", handleResize);
+
         })        
         .catch(() => {
             // Si la session n'est pas valide, rediriger l'utilisateur vers la page de connexion
@@ -106,7 +124,7 @@ function Dashboard() {
             </div>
             <div className="admin-photo-credit">
                 <BsCameraFill />
-                <span>Photo prise au Club de golf Farnham — Semaine 2</span>
+                <span>{photoCredit}</span>
             </div>
             <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
                 <FaArrowUp />

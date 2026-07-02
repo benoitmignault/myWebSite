@@ -453,9 +453,22 @@ input[type="number"].admin-input.team-input {
         font-size: .95rem;
     }    
 
-    .admin-photo-credit {
-        bottom: 55px;
-        right: 12px;
-        font-size: 10px;
+    .admin-photo-credit {        
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 40px;
+    }   
+
+    .scroll-top.dashboard {
+        position: fixed;
+        right: 20px;
+        z-index: 1000;
     }
+
+    .site-footer {
+        padding-bottom: 20px;
+    }
+
+
 }

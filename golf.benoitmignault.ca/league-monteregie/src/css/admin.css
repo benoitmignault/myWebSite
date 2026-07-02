@@ -463,8 +463,8 @@ input[type="number"].admin-input.team-input {
 
     .scroll-top.dashboard {
         position: fixed;
-        right: 20px;
-        z-index: 1000;
+        right: 20px;        
+        bottom: 35px;
     }
 
     .site-footer {       

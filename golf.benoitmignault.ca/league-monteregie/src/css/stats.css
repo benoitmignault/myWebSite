@@ -517,7 +517,11 @@
     .player-stats-content {
         width: 100%;
         padding-bottom: 90px;
-    }    
+    }
+
+    .player-stats-card:nth-of-type(2) {
+        padding: 0;
+    }  
 
     .player-header-card {
         flex-direction: column;
@@ -547,6 +551,7 @@
         max-width: 100%;
         line-height: 1.6;
         text-align: justify;
+        padding: 0 20px;
     }
 
     .player-charts-grid {

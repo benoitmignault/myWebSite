@@ -118,7 +118,7 @@ h1 {
     display: flex;
     justify-content: flex-end;
     margin-top: 6px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding-right: 15px;
 }
 
@@ -877,7 +877,6 @@ tbody tr:nth-child(even) {
     }
 
     .results-table {
-
         width: 100%;
         table-layout: fixed;
     }
@@ -904,8 +903,10 @@ tbody tr:nth-child(even) {
 
     .results-table td:first-child,
     .results-table th:first-child {
-        white-space: nowrap;
-        width: 80px;
+        width: 130px;
+        white-space: normal;
+        word-break: normal;
+        overflow-wrap: break-word;
     }
 
     .results-table th:nth-child(3),

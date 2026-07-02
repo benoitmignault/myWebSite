@@ -366,7 +366,6 @@ input[type="number"].admin-input.team-input {
 
     /* ---------- Général ---------- */
     .dashboard-container {
-        width: 94%;
         margin: 30px auto;
         gap: 20px;
     }
@@ -453,7 +452,7 @@ input[type="number"].admin-input.team-input {
         font-size: .95rem;
     }    
 
-    .admin-photo-credit {        
+    .admin-photo-credit {
         position: fixed;
         left: 50%;
         transform: translateX(-50%);

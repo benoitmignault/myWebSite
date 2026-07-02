@@ -1,8 +1,7 @@
-// Ce fichier aura comme utilité de présenter les statistiques des joueurs de la ligue. 
-// Il sera accessible via un lien dans la barre de navigation et affichera des graphiques et 
-// des tableaux pour montrer les performances des joueurs au fil du temps. 
-// Les données seront récupérées à partir d'une API venant de la base de données, et le composant utilisera des bibliothèques 
-// comme Chart.js ou D3.js pour visualiser les statistiques de manière attrayante et informative.
+// Ce fichier présente les statistiques des joueurs de la ligue.
+// Il est accessible via un lien dans la barre de navigation et affiche des graphiques et
+// des tableaux pour montrer les performances des joueurs au fil du temps.
+// Les données sont récupérées via l'API, et les graphiques sont rendus avec Recharts.
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";

@@ -726,10 +726,10 @@ tbody tr:nth-child(even) {
 
 .scroll-top {
     position: fixed;
+    bottom: 30px;
     right: 30px;
     width: 55px;
     height: 55px;
-    bottom: 95px;
     border: none;
     border-radius: 50%;
     background:
@@ -877,14 +877,14 @@ tbody tr:nth-child(even) {
     }
 
     .results-table {
+
         width: 100%;
         table-layout: fixed;
     }
 
     .results-table td:nth-child(1) {
-        padding: 10px 4px;
+        padding: 6px 4px;
         font-size: 0.8rem;
-        line-height: 1.35;
     }
 
     .results-table th:nth-child(2),
@@ -904,9 +904,8 @@ tbody tr:nth-child(even) {
 
     .results-table td:first-child,
     .results-table th:first-child {
-        width: 110px;
-        white-space: normal;
-        word-break: break-word;
+        white-space: nowrap;
+        width: 80px;
     }
 
     .results-table th:nth-child(3),

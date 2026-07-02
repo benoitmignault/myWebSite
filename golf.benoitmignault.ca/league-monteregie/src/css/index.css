@@ -952,6 +952,7 @@ tbody tr:nth-child(even) {
         width: 100%;
         box-sizing: border-box;
         padding-right: 5px;
+        margin-bottom: 10px;
     }
 
     .homepage-photo-credit {

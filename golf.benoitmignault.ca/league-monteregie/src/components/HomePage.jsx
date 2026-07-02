@@ -112,11 +112,11 @@ function HomePage() {
 				<div className="contact-container">
 					<ContactSection />
 				</div>
-			</div>
-			<Footer />
+			</div>			
 			<button className="scroll-top" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
 				<FaArrowUp />
-			</button>			
+			</button>
+			<Footer />			
 		</div>
 	);
 }

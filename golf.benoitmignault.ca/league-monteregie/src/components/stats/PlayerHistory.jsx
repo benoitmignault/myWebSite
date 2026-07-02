@@ -106,6 +106,25 @@ function PlayerHistory({ selectedPlayerId }) {
         }
     };
 
+    // Fonction pour formater le texte avec des parenthèses, 
+    // en affichant le texte avant les parenthèses sur une ligne et le texte entre parenthèses sur une nouvelle ligne
+    const formatTextWithParentheses = (text) => {
+
+        const index = text.indexOf("(");
+
+        if (index === -1) {
+            return text;
+        }
+
+        return (
+            <>
+                {text.substring(0, index).trim()}
+                <br />
+                {text.substring(index)}
+            </>
+        );
+    };
+
     // Utilisé dès le chargement du composant pour récupérer les données historiques du joueur sélectionné,
     // et les afficher dans la section d'évolution du joueur
     useEffect(() => {

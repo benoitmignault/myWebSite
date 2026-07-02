@@ -422,6 +422,10 @@ tbody tr:nth-child(even) {
     padding-left: 24px;
 }
 
+.results-table .score-column br {
+    display: none;
+}
+
 .teams-container {
     display: flex;
     flex-wrap: wrap;
@@ -895,6 +899,10 @@ tbody tr:nth-child(even) {
     .results-table th.text-right,
     .results-table td.text-right {
         text-align: right;
+    }
+
+    .results-table .score-column br {
+        display: inline;
     }
 
     .results-table th:nth-child(1){

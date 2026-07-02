@@ -726,7 +726,8 @@ tbody tr:nth-child(even) {
 
 .scroll-top {
     position: fixed;
-    bottom: 30px;
+    bottom: 30px;    
+    margin-bottom: 60px;
     right: 30px;
     width: 55px;
     height: 55px;

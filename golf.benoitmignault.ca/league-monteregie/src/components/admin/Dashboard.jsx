@@ -80,16 +80,6 @@ function Dashboard() {
             if (favicon) {
                 favicon.href = "/league-monteregie/favicon/favicon-admin-ChatGPT.png";
             }
-
-            const handleResize = () => {
-                setIsMobile(window.innerWidth <= 768);
-            };
-
-            window.addEventListener("resize", handleResize);
-
-            // Nettoyage de l'événement lors du démontage du composant pour éviter les fuites de mémoire
-            return () => window.removeEventListener("resize", handleResize);
-
         })        
         .catch(() => {
             // Si la session n'est pas valide, rediriger l'utilisateur vers la page de connexion
@@ -97,6 +87,20 @@ function Dashboard() {
         });
 
     }, [navigate]);
+
+    // Utiliser useEffect pour Gestion du mode mobile
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        // Valeur initiale
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {window.removeEventListener("resize", handleResize);};
+    }, []);
 
     return (
         <div>

@@ -181,7 +181,7 @@ function Standings() {
                                                             <table className="results-table">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>Event</th>
+                                                                        <th className="event-column">Event</th>
                                                                         <th className="text-right">Position</th>
                                                                         <th className="text-right">Score Brut</th>
                                                                         <th className="text-right">Net</th>
@@ -193,7 +193,7 @@ function Standings() {
                                                                         // Afficher les résultats détaillés du joueur en affichant le nom de l'événement, la position, le score brut, le score net et les points Fedex
                                                                         playerResults.map((result, index) => (
                                                                             <tr className="clickable-row" key={index}>
-                                                                                <td>{result.event_name}</td>
+                                                                                <td className="event-column">{result.event_name}</td>
                                                                                 <td className="text-right">{getPositionDisplay(result.position)}</td>
                                                                                 <td className="text-right">{result.gross_score}</td>
                                                                                 <td className={ Number(result.net_score) < 0 

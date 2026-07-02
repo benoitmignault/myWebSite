@@ -121,14 +121,14 @@ function Dashboard() {
                 <EventsPlanningSection refreshPlanning={refreshPlanning} setEventChanged={setEventChanged} />                
                 <PlayersSection setRefreshPlanning={setRefreshPlanning}/>
                 <EventsSection setRefreshPlanning={setRefreshPlanning}/>
-            </div>
+            </div>            
+            <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
+                <FaArrowUp />
+            </button>
             <div className="admin-photo-credit">
                 <BsCameraFill />
                 <span>{photoCredit}</span>
             </div>
-            <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
-                <FaArrowUp />
-            </button>
             <Footer />
         </div>
     );

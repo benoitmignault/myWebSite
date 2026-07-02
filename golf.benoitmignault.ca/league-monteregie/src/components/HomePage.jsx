@@ -92,13 +92,7 @@ function HomePage() {
 				<div className="sub-container">
 					<EventsList />
 				</div>						
-			</div>
-			<div className="photo-credit-wrapper">				
-				<div className="homepage-photo-credit">
-					<BsCameraFill />
-					<span>{photoCredit}</span>	
-				</div>
-			</div>
+			</div>			
 			<div className="sub-container">
 				<Sponsors />
 			</div>
@@ -116,6 +110,12 @@ function HomePage() {
 			<button className="scroll-top" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
 				<FaArrowUp />
 			</button>
+			<div className="photo-credit-wrapper">				
+				<div className="homepage-photo-credit">
+					<BsCameraFill />
+					<span>{photoCredit}</span>	
+				</div>
+			</div>
 			<Footer />			
 		</div>
 	);

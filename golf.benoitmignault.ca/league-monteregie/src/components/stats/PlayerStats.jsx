@@ -131,14 +131,14 @@ function PlayerStats() {
 					</div>
 				)}
 
-            </div>
-            <div className="photo-credit">
-                <BsCameraFill />
-                <span>{photoCredit}</span>				
-			</div>            
+            </div>                        
             <button className="scroll-top player-stats" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
 				<FaArrowUp />
 			</button>
+			<div className="player-stat-photo-credit">
+                <BsCameraFill />
+                <span>{photoCredit}</span>				
+			</div>
             <Footer />            
         </div>
     );

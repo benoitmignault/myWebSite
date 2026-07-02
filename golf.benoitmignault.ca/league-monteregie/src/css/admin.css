@@ -215,7 +215,8 @@ input[type="number"].admin-input.result {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    margin: 50px auto;
+    margin: auto;
+    margin-bottom: 30px;
 }
 
 .admin-section-card {

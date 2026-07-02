@@ -55,17 +55,19 @@ function PlayerSummary({ selectedPlayerId }) {
             if (data.success) {
 
                 // Mettre à jour les données du joueur dans l'état pour les afficher dans la section d'informations du joueur
-                setPlayerSummary(data.playerInfo);
+                setPlayerSummary(data.playerInfo);                
                 setError("");
             } else {
 
                 // Erreur lors du chargement des données du joueur
+                setPlayerSummary(null);
                 setError(data.message);
             }
 
         } catch (err) {
 
             console.error(err);
+            setPlayerSummary(null);
             setError("Une erreur est survenue lors de la tentative de chargement des données du joueur.");
         }
     };

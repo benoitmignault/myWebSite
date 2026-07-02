@@ -238,6 +238,10 @@
     margin-top: 25px;
 }
 
+.player-history-card{
+    margin-bottom: 25px;
+}
+
 .player-charts-section,
 .player-history-section {
     width: 100%;

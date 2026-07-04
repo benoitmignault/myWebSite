@@ -107,7 +107,7 @@ function PlayerStats() {
     return (
         <div className="player-stats-page">
             <div className="site-navbar">
-                <Link to="/league-monteregie/" className="admin-navbar-link">
+                <Link to="/league-monteregie/" className="site-navbar-link">
                     <FaHouse/>
                     <span>Retour au site principal</span>
                 </Link>

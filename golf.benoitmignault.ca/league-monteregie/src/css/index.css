@@ -19,7 +19,7 @@ body {
             rgba(5,10,25,0.50),
             rgba(5,10,25,0.60)
         ),
-        url("/league-monteregie/images/backgrounds/version-web.jpg");
+        url("/images/backgrounds/version-web.jpg");
 
     background-size: cover;
     background-position: center;
@@ -817,7 +817,7 @@ tbody tr:nth-child(even) {
             rgba(5,10,25,0.50),
             rgba(5,10,25,0.60)
             ),
-            url("/league-monteregie/images/backgrounds/version-mobile.jpg");
+            url("/images/backgrounds/version-mobile.jpg");
 
         background-size: cover;
         background-position: center;

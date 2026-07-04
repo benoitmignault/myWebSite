@@ -62,7 +62,7 @@ function PlayerStats() {
 
 		// On doit partir de /league-monteregie car c'est la vraie racine du projet
 		if (favicon) {
-			favicon.href = "/league-monteregie/favicon/favicon-stats-players-ChatGPT.png";
+			favicon.href = `${import.meta.env.BASE_URL}favicon/favicon-stats-players-ChatGPT.png`;
 		}
 
 		const handleResize = () => {

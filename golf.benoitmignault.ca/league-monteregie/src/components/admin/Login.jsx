@@ -173,7 +173,7 @@ function Login() {
         // On doit partir de /league-monteregie car c'est la vraie racine du projet
         // FavIcone de la page
         if (favicon) {
-			favicon.href = "/league-monteregie/favicon/favicon-admin-ChatGPT.png";
+			favicon.href = `${import.meta.env.BASE_URL}favicon/favicon-admin-ChatGPT.png`;
 		}
 
         const handleResize = () => {

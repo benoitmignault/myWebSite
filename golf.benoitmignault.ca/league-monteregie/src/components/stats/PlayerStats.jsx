@@ -3,6 +3,19 @@
 // des tableaux pour montrer les performances des joueurs au fil du temps.
 // Les données sont récupérées via l'API, et les graphiques sont rendus avec Recharts.
 
+/**
+ * PlayerStats.jsx
+ *
+ * Composant React qui affiche les statistiques d'un joueur sélectionné de la ligue.
+ * Il permet à l'utilisateur de sélectionner un joueur et d'afficher ses statistiques sous forme de graphiques et de tableaux.
+ * 
+ * Il est accessible via un lien dans la barre de navigation et affiche des graphiques et
+ * des tableaux pour montrer les performances des joueurs au fil du temps.
+ * Les données sont récupérées via l'API, et les graphiques sont rendus avec Recharts.
+ * 
+ * On va utiliser ici aussi lazy loading pour charger les composants PlayerSummary, 
+ * PlayerCharts et PlayerHistory seulement quand ils sont nécessaires, pour améliorer les performances de l'application.
+ */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";

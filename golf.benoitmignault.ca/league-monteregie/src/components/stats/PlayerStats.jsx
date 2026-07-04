@@ -17,18 +17,25 @@
  * PlayerCharts et PlayerHistory seulement quand ils sont nécessaires, pour améliorer les performances de l'application.
  */
 import { useState, useEffect } from "react";
+import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import PlayerSelector from "./PlayerSelector";
-import PlayerSummary from "./PlayerSummary";
-import PlayerCharts from "./PlayerCharts";
-import PlayerHistory from "./PlayerHistory";
 import Footer from "../Footer";
+
 import { API_BASE_URL } from "../../config";
 import '../../css/index.css'
 import '../../css/stats.css'
+
+// Composant pour afficher les statistiques graphique d'un joueur sélectionné et non via la notion de lazy loading, 
+// car il y a un lag de 1 à 2 secondes pour le chargement des graphiques, donc on préfère les charger directement 
+// pour une meilleure expérience utilisateur.
+import PlayerCharts from "./PlayerCharts";
+
+const PlayerSummary = lazy(() => import("./PlayerSummary"));
+const PlayerHistory = lazy(() => import("./PlayerHistory"));
 
 function PlayerStats() {
 

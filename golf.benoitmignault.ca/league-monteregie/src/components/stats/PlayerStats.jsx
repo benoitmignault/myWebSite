@@ -127,7 +127,9 @@ function PlayerStats() {
 					</div>
 					<div className="player-summary-section">
 						{selectedPlayerId ? (
-							<PlayerSummary selectedPlayerId={selectedPlayerId}/>
+							<Suspense fallback={<p>Chargement du résumé...</p>}>
+								<PlayerSummary selectedPlayerId={selectedPlayerId}/>
+							</Suspense>
 						) : (
 							<p className="player-summary-placeholder">Information sera affichée ici, une fois le joueur sélectionné.</p>
 						)}
@@ -136,8 +138,11 @@ function PlayerStats() {
 
 				{selectedPlayerId && (
 					<div className="player-stats-card player-chart-card">
-						<div className="player-charts-section">
-							<PlayerCharts selectedPlayerId={selectedPlayerId} totalPlayers={totalPlayers} />
+						<div className="player-charts-section">							
+							<PlayerCharts
+								selectedPlayerId={selectedPlayerId}
+								totalPlayers={totalPlayers}
+							/>							
 						</div>
 					</div>
 				)}
@@ -145,7 +150,9 @@ function PlayerStats() {
                 {selectedPlayerId && (
 					<div className="player-stats-card player-history-card">
 						<div className="player-history-section">
-							<PlayerHistory selectedPlayerId={selectedPlayerId} />
+							<Suspense fallback={<p>Chargement de l'historique...</p>}>
+								<PlayerHistory selectedPlayerId={selectedPlayerId} />
+							</Suspense>
 						</div>
 					</div>
 				)}

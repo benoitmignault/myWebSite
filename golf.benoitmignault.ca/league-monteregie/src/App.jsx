@@ -1,25 +1,42 @@
+/**
+ * App.jsx
+ *
+ * Composant principal de l'application React qui gère la navigation entre les différentes pages de l'application.
+ * Utilise React Router pour définir les routes et les composants correspondants.
+ * 
+ * À partir du 4 juillet, on va dire à React de charger seulement les routes demandées (lazy loading) pour améliorer les performances de l'application.
+ * On utilise React.Suspense pour afficher un fallback (chargement) pendant que le composant est en cours de chargement.
+ * 
+ * Les routes définies sont :
+ * - /league-monteregie/ : Page d'accueil (HomePage)
+ * - /league-monteregie/statistics : Page des statistiques des joueurs (PlayerStats)
+ * - /league-monteregie/admin/ : Page de connexion pour l'administration (Login)
+ * - /league-monteregie/admin/dashboard : Tableau de bord de l'administration (Dashboard)
+ */
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
-// Importer les composants de page principale qui est rendu dans HomePage
+// Chargement immédiat
 import HomePage from "./components/HomePage";
 
-// Importer les composants de la page des statistiques
-import PlayerStats from "./components/stats/PlayerStats";
+// Chargement à la demande
+const PlayerStats = lazy(() => import("./components/stats/PlayerStats"));
+const Login = lazy(() => import("./components/admin/Login"));
+const Dashboard = lazy(() => import("./components/admin/Dashboard"));
 
-// Importer les composants de la section admin
-import Login from "./components/admin/Login";
-import Dashboard from "./components/admin/Dashboard";
 
 function App() {
 
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/league-monteregie/" element={<HomePage />}/>
-                <Route path="/league-monteregie/statistics" element={<PlayerStats />}/>
-                <Route path="/league-monteregie/admin/" element={<Login />}/>
-                <Route path="/league-monteregie/admin/dashboard" element={<Dashboard />}/>
-            </Routes>
+            <Suspense fallback={<div>Chargement...</div>}>
+                <Routes>
+                    <Route path="/league-monteregie/" element={<HomePage />}/>
+                    <Route path="/league-monteregie/statistics" element={<PlayerStats />}/>
+                    <Route path="/league-monteregie/admin/" element={<Login />}/>
+                    <Route path="/league-monteregie/admin/dashboard" element={<Dashboard />}/>
+                </Routes>
+            </Suspense>            
         </BrowserRouter>
     );
 }

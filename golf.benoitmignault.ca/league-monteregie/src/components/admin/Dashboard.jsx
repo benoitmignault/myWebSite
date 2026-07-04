@@ -78,7 +78,7 @@ function Dashboard() {
             const favicon = document.getElementById("dynamic-favicon");
 
             if (favicon) {
-                favicon.href = "/league-monteregie/favicon/favicon-admin-ChatGPT.png";
+                favicon.href = `${import.meta.env.BASE_URL}favicon/favicon-admin-ChatGPT.png`;
             }
         })        
         .catch(() => {

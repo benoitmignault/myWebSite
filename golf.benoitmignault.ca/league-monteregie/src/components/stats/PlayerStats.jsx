@@ -3,19 +3,39 @@
 // des tableaux pour montrer les performances des joueurs au fil du temps.
 // Les données sont récupérées via l'API, et les graphiques sont rendus avec Recharts.
 
+/**
+ * PlayerStats.jsx
+ *
+ * Composant React qui affiche les statistiques d'un joueur sélectionné de la ligue.
+ * Il permet à l'utilisateur de sélectionner un joueur et d'afficher ses statistiques sous forme de graphiques et de tableaux.
+ * 
+ * Il est accessible via un lien dans la barre de navigation et affiche des graphiques et
+ * des tableaux pour montrer les performances des joueurs au fil du temps.
+ * Les données sont récupérées via l'API, et les graphiques sont rendus avec Recharts.
+ * 
+ * On va utiliser ici aussi lazy loading pour charger les composants PlayerSummary, 
+ * PlayerCharts et PlayerHistory seulement quand ils sont nécessaires, pour améliorer les performances de l'application.
+ */
 import { useState, useEffect } from "react";
+import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import PlayerSelector from "./PlayerSelector";
-import PlayerSummary from "./PlayerSummary";
-import PlayerCharts from "./PlayerCharts";
-import PlayerHistory from "./PlayerHistory";
 import Footer from "../Footer";
+
 import { API_BASE_URL } from "../../config";
 import '../../css/index.css'
 import '../../css/stats.css'
+
+// Composant pour afficher les statistiques graphique d'un joueur sélectionné et non via la notion de lazy loading, 
+// car il y a un lag de 1 à 2 secondes pour le chargement des graphiques, donc on préfère les charger directement 
+// pour une meilleure expérience utilisateur.
+import PlayerCharts from "./PlayerCharts";
+
+const PlayerSummary = lazy(() => import("./PlayerSummary"));
+const PlayerHistory = lazy(() => import("./PlayerHistory"));
 
 function PlayerStats() {
 
@@ -42,7 +62,7 @@ function PlayerStats() {
 
 		// On doit partir de /league-monteregie car c'est la vraie racine du projet
 		if (favicon) {
-			favicon.href = "/league-monteregie/favicon/favicon-stats-players-ChatGPT.png";
+			favicon.href = `${import.meta.env.BASE_URL}favicon/favicon-stats-players-ChatGPT.png`;
 		}
 
 		const handleResize = () => {
@@ -94,7 +114,7 @@ function PlayerStats() {
     return (
         <div className="player-stats-page">
             <div className="site-navbar">
-                <Link to="/league-monteregie/" className="admin-navbar-link">
+                <Link to="/league-monteregie/" className="site-navbar-link">
                     <FaHouse/>
                     <span>Retour au site principal</span>
                 </Link>
@@ -107,7 +127,9 @@ function PlayerStats() {
 					</div>
 					<div className="player-summary-section">
 						{selectedPlayerId ? (
-							<PlayerSummary selectedPlayerId={selectedPlayerId}/>
+							<Suspense fallback={<p>Chargement du résumé...</p>}>
+								<PlayerSummary selectedPlayerId={selectedPlayerId}/>
+							</Suspense>
 						) : (
 							<p className="player-summary-placeholder">Information sera affichée ici, une fois le joueur sélectionné.</p>
 						)}
@@ -116,8 +138,11 @@ function PlayerStats() {
 
 				{selectedPlayerId && (
 					<div className="player-stats-card player-chart-card">
-						<div className="player-charts-section">
-							<PlayerCharts selectedPlayerId={selectedPlayerId} totalPlayers={totalPlayers} />
+						<div className="player-charts-section">							
+							<PlayerCharts
+								selectedPlayerId={selectedPlayerId}
+								totalPlayers={totalPlayers}
+							/>							
 						</div>
 					</div>
 				)}
@@ -125,7 +150,9 @@ function PlayerStats() {
                 {selectedPlayerId && (
 					<div className="player-stats-card player-history-card">
 						<div className="player-history-section">
-							<PlayerHistory selectedPlayerId={selectedPlayerId} />
+							<Suspense fallback={<p>Chargement de l'historique...</p>}>
+								<PlayerHistory selectedPlayerId={selectedPlayerId} />
+							</Suspense>
 						</div>
 					</div>
 				)}

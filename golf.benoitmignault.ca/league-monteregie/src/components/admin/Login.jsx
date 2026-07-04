@@ -4,6 +4,7 @@ import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import { API_BASE_URL } from "../../config";
 import Footer from "../Footer";
+import '../../css/admin.css'
 
 /**
  * Composant de connexion pour les administrateurs et les sous-administrateurs
@@ -172,7 +173,7 @@ function Login() {
         // On doit partir de /league-monteregie car c'est la vraie racine du projet
         // FavIcone de la page
         if (favicon) {
-			favicon.href = "/league-monteregie/favicon/favicon-admin-ChatGPT.png";
+			favicon.href = `${import.meta.env.BASE_URL}favicon/favicon-admin-ChatGPT.png`;
 		}
 
         const handleResize = () => {

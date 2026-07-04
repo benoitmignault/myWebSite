@@ -4,7 +4,7 @@
  * Composant principal de l'application React qui gère la navigation entre les différentes pages de l'application.
  * Utilise React Router pour définir les routes et les composants correspondants.
  * 
- * À partir du 4 juillet, on va dire à React de charger seulement les routes demandées (lazy loading) pour améliorer les performances de l'application.
+ * Charge les composants de route à la demande (lazy loading) pour améliorer les performances et le temps de chargement initial.
  * On utilise React.Suspense pour afficher un fallback (chargement) pendant que le composant est en cours de chargement.
  * 
  * Les routes définies sont :

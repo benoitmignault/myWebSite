@@ -4,6 +4,7 @@ import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import { API_BASE_URL } from "../../config";
 import Footer from "../Footer";
+import '../../css/admin.css'
 
 /**
  * Composant de connexion pour les administrateurs et les sous-administrateurs

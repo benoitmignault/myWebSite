@@ -20,6 +20,7 @@ import { lazy, Suspense } from "react";
 import HomePage from "./components/HomePage";
 
 // Chargement à la demande
+const ExcludeStats = lazy(() => import("./components/ExcludeStats"));
 const PlayerStats = lazy(() => import("./components/stats/PlayerStats"));
 const Login = lazy(() => import("./components/admin/Login"));
 const Dashboard = lazy(() => import("./components/admin/Dashboard"));
@@ -31,6 +32,7 @@ function App() {
         <BrowserRouter>
             <Suspense fallback={<div>Chargement...</div>}>
                 <Routes>
+                    <Route path="/league-monteregie/exclude-stats" element={<ExcludeStats />} />
                     <Route path="/league-monteregie/" element={<HomePage />}/>
                     <Route path="/league-monteregie/statistics" element={<PlayerStats />}/>
                     <Route path="/league-monteregie/admin/" element={<Login />}/>

@@ -30,6 +30,8 @@ if ($eventId <= 0) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Identifiant de l'événement invalide."]);
+    
+    // Fermer la connexion à la base de données
     $conn->close();
     exit();
 }
@@ -65,6 +67,7 @@ if ($result->num_rows === 0) {
 
     echo json_encode(["success" => true, "teams" => [], "message" => "Il n'y a pas d'équipes d'inscrites pour cet événement, donc aucun joueur n'est associé."]);
 
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();
     $conn->close();
     exit();
@@ -102,11 +105,11 @@ while ($row = $result->fetch_assoc()) {
 
 $teams = array_values($teams);
 
-// Fermer la connexion à la base de données
-$stmt->close();
-$conn->close();
-
 http_response_code(200);
 
 // Retourner les données au format JSON
 echo json_encode(["success" => true, "teams" => $teams]);
+
+// Fermer la connexion à la base de données
+$stmt->close();
+$conn->close();

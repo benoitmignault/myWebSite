@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
     http_response_code(405);
     echo json_encode(["success" => false, "message" => "Méthode non autorisée."]);
+    
     exit();
 }
 
@@ -31,6 +32,7 @@ if (!$data) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Aucune donnée reçue"]);    
+    
     exit();
 }
 
@@ -68,6 +70,7 @@ if (!$conn) {
 
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);
+    
     exit();
 }
 
@@ -93,9 +96,9 @@ if (!$stmt->execute()) {
     exit();
 }
 
+http_response_code(201);
+echo json_encode(["success" => true, "message" => "L'événement a été ajouté avec succès."]);
+
 // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
 $stmt->close();
 $conn->close();
-
-http_response_code(201);
-echo json_encode(["success" => true, "message" => "L'événement a été ajouté avec succès."]);

@@ -24,6 +24,7 @@ import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import PlayerSelector from "./PlayerSelector";
 import Footer from "../Footer";
+import { shouldExcludeStats } from "../../utils/logging";
 
 import { API_BASE_URL } from "../../config";
 import '../../css/index.css'
@@ -85,7 +86,10 @@ function PlayerStats() {
 				body: JSON.stringify({
 					action_type: "page_stats_load",
 					target_id: null,
-					target_name: "Affichage page statistiques joueurs"
+					target_name: "Affichage page statistiques joueurs",
+
+					// Vérifier si la variable locale "exclude_stats" est défini dans le navigateur
+					exclude_stats: shouldExcludeStats()
 				})
 			}
 		);
@@ -105,7 +109,10 @@ function PlayerStats() {
 			body: JSON.stringify({
 				action_type: "player_stats_view",
 				target_id: selectedPlayerId,
-				target_name: "Consultation statistiques joueur"
+				target_name: "Consultation statistiques joueur",
+				
+				// Vérifier si la variable locale "exclude_stats" est défini dans le navigateur
+				exclude_stats: shouldExcludeStats()
 			})
 		});
 

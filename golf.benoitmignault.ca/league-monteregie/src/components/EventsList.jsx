@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaTrophy } from "react-icons/fa";
 import { API_BASE_URL } from "../config";
+import { shouldExcludeStats } from "../utils/logging";
 
 /**
  * Fonction composant pour afficher la liste des événements de la Ligue de Golf en Montérégie
@@ -178,7 +179,10 @@ function EventsList() {
                 body: JSON.stringify({
                     action_type: "event_click",
                     target_id: event.id,
-                    target_name: "Affichage détails événement"
+                    target_name: "Affichage détails événement",
+
+                    // Vérifier si la variable locale "exclude_stats" est défini dans le navigateur
+					exclude_stats: shouldExcludeStats()
                 })
             }
         );

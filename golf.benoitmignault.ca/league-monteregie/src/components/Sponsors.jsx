@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "../config";
+import { shouldExcludeStats } from "../utils/logging";
 
 function Sponsors() {
 
@@ -74,7 +75,10 @@ function Sponsors() {
                     // (clic sur le site web vs clic sur les médias sociaux)
                     sponsor_id: sponsor.id, 
                     sponsor_name: sponsor.name,
-                    media_type: mediaType
+                    media_type: mediaType,
+
+                    // Vérifier si la variable locale "exclude_stats" est défini dans le navigateur
+					exclude_stats: shouldExcludeStats()
                 })
             }
         );

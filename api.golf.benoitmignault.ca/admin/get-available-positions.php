@@ -19,6 +19,7 @@ if (!$conn) {
 
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);
+    
     exit();
 }
 
@@ -30,6 +31,8 @@ if ($eventId <= 0) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Identifiant de l'événement invalide."]);
+    
+    // Fermer la connexion à la base de données
     $conn->close();
     exit();
 }
@@ -126,9 +129,9 @@ $availablePositions = array_values(array_diff($allPositions, $usedPositions));
 
 http_response_code(200);
 
+// Retourner les données au format JSON
+echo json_encode(["success" => true, "availablePositions" => $availablePositions]);
+
 // Fermer la connexion à la base de données
 $stmt->close();
 $conn->close();
-
-// Retourner les données au format JSON
-echo json_encode(["success" => true, "availablePositions" => $availablePositions]);

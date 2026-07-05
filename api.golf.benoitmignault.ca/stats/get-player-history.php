@@ -26,6 +26,8 @@ if (!$data) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Aucune donnée reçue"]); 
+    
+    // Fermer la connexion à la base de données
     $conn->close();  
     exit();
 }
@@ -35,6 +37,8 @@ if (!$data) {
 
      http_response_code(400);
      echo json_encode(["success" => false, "message" => "playerId manquant ou invalide."]);
+     
+     // Fermer la connexion à la base de données
      $conn->close();
      exit();
  }
@@ -75,6 +79,7 @@ if ($result->num_rows === 0) {
     http_response_code(404);
     echo json_encode(["success" => false, "message" => "Aucun historique trouvé pour ce joueur."]);
 
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();
     $conn->close();
     exit();
@@ -98,13 +103,11 @@ while ($row = $result->fetch_assoc()) {
     ];
 }
 
-
 http_response_code(200);
-
-// Fermer la connexion à la base de données
-$stmt->close();
-$conn->close();
 
 // Retourner les données au format JSON
 echo json_encode(["success" => true, "playerHistoryData" => $playerHistoryData]);
 
+// Fermer la connexion à la base de données
+$stmt->close();
+$conn->close();

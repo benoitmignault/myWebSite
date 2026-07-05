@@ -14,6 +14,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { API_BASE_URL } from "./../config";
 import { FaHandshake } from "react-icons/fa";
 import { FaBullseye } from "react-icons/fa";
+import { shouldExcludeStats } from "../utils/logging";
 import '../css/index.css'
 
 function HomePage() {
@@ -35,7 +36,10 @@ function HomePage() {
 				body: JSON.stringify({
 					action_type: "page_load",
 					target_id: null,
-					target_name: "Affichage page principale"
+					target_name: "Affichage page principale",
+
+					// Vérifier si la variable locale "exclude_stats" est défini dans le navigateur
+					exclude_stats: shouldExcludeStats()
 				})
 			}
 		);

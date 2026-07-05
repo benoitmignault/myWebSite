@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
     http_response_code(405);
     echo json_encode(["success" => false, "message" => "Méthode non autorisée."]);
+    
     exit();
 }
 
@@ -32,6 +33,7 @@ if (!$data) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Aucune donnée reçue"]);    
+    
     exit();
 }
 
@@ -45,6 +47,7 @@ if ($eventId <= 0 || $playerId <= 0 || $teamId <= 0) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Informations invalides."]);
+    
     exit();
 }
 
@@ -55,6 +58,7 @@ if (!$conn) {
 
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);
+    
     exit();
 }
 
@@ -102,6 +106,7 @@ if ($event["is_closed"] == 1) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Cet événement est déjà fermé."]);
 
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();
     $conn->close();
     exit();
@@ -140,6 +145,7 @@ if ($playerCount >= 4) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Cette équipe a déjà 4 joueurs."]);
 
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();
     $conn->close();
     exit();
@@ -289,10 +295,14 @@ if ($event["is_open"] == 0) {
         $stmt->close();
         $conn->close();
         exit();
-    }    
+    }
+    
+    // Fermer la connexion au résultat du insert dans la base de données
+    $stmt->close();
 }
-
-$conn->close();
 
 http_response_code(201);
 echo json_encode(["success" => true, "message" => "Le joueur a été ajouté à l'événement avec succès et son historique a été mis à jour."]);
+
+// Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
+$conn->close();

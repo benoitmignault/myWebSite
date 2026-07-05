@@ -29,6 +29,7 @@ if ($eventId <= 0) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Identifiant de l'événement invalide."]);
+
     $conn->close();
     exit();
 }
@@ -44,6 +45,7 @@ if ($result->num_rows === 0) {
     http_response_code(404);
     echo json_encode(["success" => false, "message" => "Événement introuvable."]);
 
+    // Fermer les connexions
     $stmt->close();
     $conn->close();
     exit();

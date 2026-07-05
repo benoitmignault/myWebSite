@@ -29,7 +29,8 @@ if (!$data) {
 
 // Déterminer si on doit ignorer les statistiques : on ignore si le champ JSON "exclude_stats" est présent et vaut true.
 if (isset($data["exclude_stats"]) && $data["exclude_stats"] === true) {
-    
+
+    $conn->close();
     http_response_code(200);
     echo json_encode(["success" => true, "message" => "Statistiques exclues."]);
     exit();

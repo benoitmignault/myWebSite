@@ -29,6 +29,8 @@ if ($playerId <= 0) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Identifiant du joueur invalide."]);
+    
+    // Fermer la connexion à la base de données
     $conn->close();
     exit();
 }
@@ -45,6 +47,7 @@ if ($result->num_rows === 0) {
     http_response_code(404);
     echo json_encode(["success" => false, "message" => "Joueur introuvable."]);
 
+    // Fermer la connexion à la base de données
     $stmt->close();
     $conn->close();
     exit();
@@ -63,8 +66,9 @@ $stmt = $conn->prepare($sql);
 if (!$stmt) {
 
     http_response_code(500);
-
     echo json_encode(["success" => false, "message" => "Erreur lors de la préparation de la requête."]);
+    
+    // Fermer la connexion à la base de données
     $conn->close();
     exit();
 }
@@ -74,11 +78,10 @@ $stmt->bind_param("i", $playerId);
 if (!$stmt->execute()) {
 
     error_log($stmt->error);
-
     http_response_code(500);
-
     echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
 
+    // Fermer la connexion à la base de données
     $stmt->close();
     $conn->close();
     exit();
@@ -93,11 +96,11 @@ while ($row = $result->fetch_assoc()) {
     $playerDetails[] = $row;
 }
 
-// Fermer la connexion à la base de données et le résultat de la requête SQL
-$stmt->close();
-$conn->close();
-
 http_response_code(200);
 
 // Retourner les données au format JSON
 echo json_encode(["success" => true, "playerDetails" => $playerDetails]);
+
+// Fermer la connexion à la base de données et le résultat de la requête SQL
+$stmt->close();
+$conn->close();

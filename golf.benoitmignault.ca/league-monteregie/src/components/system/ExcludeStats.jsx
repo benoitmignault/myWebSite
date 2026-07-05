@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { excludeStats } from "../../utils/logging";
-import '../../css/index.css'
+import "../../css/index.css";
 
 /**
  * Ce composant est utilisé pour exclure les statistiques de l'utilisateur en enregistrant l'indicateur "exclude_stats" dans le localStorage.

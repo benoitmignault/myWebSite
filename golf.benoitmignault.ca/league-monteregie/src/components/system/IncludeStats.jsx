@@ -4,9 +4,9 @@ import { includeStats } from "../../utils/logging";
 import '../../css/index.css'
 
 /**
- * Ce composant est utilisé pour inclure les statistiques de l'utilisateur en définissant un cookie "exclude_stats" à false.
- * 
- * @returns 
+ * Ce composant est utilisé pour réinclure les statistiques de l'utilisateur en supprimant l'indicateur "exclude_stats" du localStorage.
+ *
+ * @returns {JSX.Element}
  */
 function IncludeStats() {    
 

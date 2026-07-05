@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { includeStats } from "../../utils/logging";
-import '../../css/index.css'
+import "../../css/index.css";
 
 /**
  * Ce composant est utilisé pour réinclure les statistiques de l'utilisateur en supprimant l'indicateur "exclude_stats" du localStorage.

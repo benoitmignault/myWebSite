@@ -34,6 +34,7 @@ function App() {
             <Suspense fallback={<div>Chargement...</div>}>
                 <Routes>
                     <Route path="/league-monteregie/exclude-stats" element={<ExcludeStats />} />
+                    <Route path="/league-monteregie/include-stats" element={<IncludeStats />} />
                     <Route path="/league-monteregie/" element={<HomePage />}/>
                     <Route path="/league-monteregie/statistics" element={<PlayerStats />}/>
                     <Route path="/league-monteregie/admin/" element={<Login />}/>

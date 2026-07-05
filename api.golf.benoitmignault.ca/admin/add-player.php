@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
     http_response_code(405);
     echo json_encode(["success" => false, "message" => "Méthode non autorisée."]);
+    
     exit();
 }
 
@@ -31,6 +32,7 @@ if (!$data) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Aucune donnée reçue"]);    
+    
     exit();
 }
 
@@ -44,6 +46,7 @@ if (empty($firstName) || empty($lastName)) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Veuillez remplir les champs prénom et nom."]);    
+    
     exit();
 }
 
@@ -52,6 +55,7 @@ if (preg_match('/\s/', $firstName) || preg_match('/\s/', $lastName)) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Le prénom et le nom ne doivent pas contenir d'espaces."]);    
+    
     exit();
 }
 
@@ -60,6 +64,7 @@ if (!is_numeric($handicapStart)) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Le handicap doit être un nombre."]);    
+    
     exit();
 }
 
@@ -91,8 +96,9 @@ if ($result === false) {
 
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur lors de la récupération du nombre de joueurs."]);
+    
+    // Fermer la connexion à la base de données
     $conn->close();
-
     exit();
 }
 
@@ -132,9 +138,9 @@ if (!$stmt->execute()) {
     exit();
 }
 
+http_response_code(201);
+echo json_encode(["success" => true, "message" => "Joueur ajouté avec succès."]);
+
 // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
 $stmt->close();
 $conn->close();
-
-http_response_code(201);
-echo json_encode(["success" => true, "message" => "Joueur ajouté avec succès."]);

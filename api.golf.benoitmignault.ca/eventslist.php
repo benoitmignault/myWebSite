@@ -33,6 +33,8 @@ if (!$result) {
 
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+    
+    // Fermer la connexion à la base de données
     $conn->close();
     exit();
 }
@@ -47,10 +49,10 @@ while ($row = $result->fetch_assoc()) {
     $events[] = $row; 
 }
 
-// Fermer la connexion à la base de données
-$conn->close();
-
 http_response_code(200);
 
 // Retourner les données au format JSON
 echo json_encode(["success" => true, "events" => $events]);
+
+// Fermer la connexion à la base de données
+$conn->close();

@@ -20,7 +20,8 @@ import { lazy, Suspense } from "react";
 import HomePage from "./components/HomePage";
 
 // Chargement à la demande
-const ExcludeStats = lazy(() => import("./components/ExcludeStats"));
+const ExcludeStats = lazy(() => import("./components/system/ExcludeStats"));
+const IncludeStats = lazy(() => import("./components/system/IncludeStats"));
 const PlayerStats = lazy(() => import("./components/stats/PlayerStats"));
 const Login = lazy(() => import("./components/admin/Login"));
 const Dashboard = lazy(() => import("./components/admin/Dashboard"));

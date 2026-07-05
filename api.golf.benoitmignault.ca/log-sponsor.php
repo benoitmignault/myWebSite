@@ -50,8 +50,7 @@ $mediaType = $data['media_type'];
 $ipAddress = $_SERVER['REMOTE_ADDR'];
 
 // Requête SQL pour insérer un nouveau log dans la table website_logs_sponsors
-$sql = "INSERT INTO website_logs_sponsors (log_date, media_type, sponsor_id, sponsor_name, ip_address) 
-            VALUES (NOW(), ?, ?, ?, ?)";
+$sql = "INSERT INTO website_logs_sponsors (log_date, media_type, sponsor_id, sponsor_name, ip_address) VALUES (NOW(), ?, ?, ?, ?)";
 
 // Préparer la requête SQL
 $stmt = $conn->prepare($sql);

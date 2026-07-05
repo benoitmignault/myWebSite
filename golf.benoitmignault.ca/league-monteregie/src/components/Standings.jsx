@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { FaTrophy } from "react-icons/fa";
 import { API_BASE_URL } from "../config";
+import { shouldExcludeStats } from "../utils/logging";
 
 /**
  * Composant pour afficher le classement général de la Coupe Fedex
@@ -64,7 +65,10 @@ function Standings() {
                 body: JSON.stringify({
                     action_type: "player_click",
                     target_id: playerId,
-                    target_name: "Affichage détails joueur"
+                    target_name: "Affichage détails joueur",
+
+                    // Vérifier si la variable locale "exclude_stats" est défini dans le navigateur
+                    exclude_stats: shouldExcludeStats()
                 })
             }
         );

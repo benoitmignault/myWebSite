@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
     http_response_code(405);
     echo json_encode(["success" => false, "message" => "Méthode non autorisée."]);
+    
     exit();
 }
 
@@ -51,6 +52,7 @@ if (!$data) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Aucune donnée reçue"]);    
+    
     exit();
 }
 
@@ -70,6 +72,7 @@ if (empty($eventId) || empty($playerId) || empty($position) ||
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Veuillez remplir tous les champs obligatoires."]);
+    
     exit();
 }
 
@@ -78,6 +81,7 @@ if (!is_numeric($position) || !is_numeric($grossScore) || !is_numeric($adjustedG
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Les champs numériques sont invalides."]);
+    
     exit();
 }
 
@@ -86,6 +90,7 @@ if ($eventId <= 0 || $playerId <= 0 || $position <= 0 || $grossScore <= 0 || $ad
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Informations invalides."]);
+    
     exit();
 }
 
@@ -94,6 +99,7 @@ if ($adjustedGrossScore > $grossScore) {
 
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Le score brut ajusté ne peut pas être supérieur au score brut."]);
+    
     exit();
 }
 
@@ -104,6 +110,7 @@ if (!$conn) {
 
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur de connexion à la base de données."]);
+    
     exit();
 }
 
@@ -138,6 +145,7 @@ if ($result->num_rows === 0) {
     http_response_code(404);
     echo json_encode(["success" => false, "message" => "Événement introuvable."]);
 
+    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
     $stmt->close();
     $conn->close();
     exit();
@@ -166,6 +174,8 @@ if ($isOpen == 1 && $isUpdated == 0) {
 
         http_response_code(500);
         echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+        
+        // Fermer la connexion à la base de données
         $conn->close();
         exit();
     }
@@ -227,6 +237,8 @@ if ($isOpen == 1 && $isUpdated == 0) {
 
         http_response_code(500);
         echo json_encode(["success" => false, "message" => "Erreur lors de la mise à jour de l'événement."]);
+        
+        // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
         $stmt->close();
         $conn->close();
         exit();
@@ -300,8 +312,6 @@ $averageScore = $row['average_score'];
 
 // On va garder une décimale pour la moyenne des scores bruts
 $averageScore = round($averageScore, 1);
-
-
 
 // Étape 2.2 - Faire un update de la moyenne des scores bruts dans la table players
 $update = "UPDATE players SET average_score = ? WHERE id = ?";
@@ -681,6 +691,8 @@ if ($totalResults == $totalPlayers) {
 
         http_response_code(500);
         echo json_encode(["success" => false, "message" => "Erreur lors de l'exécution de la requête."]);
+        
+        // Fermer la connexion à la base de données
         $conn->close();
         exit();
     }
@@ -749,9 +761,9 @@ if ($totalResults == $totalPlayers) {
     $message = "Le résultat du joueur a été ajouté avec succès. Il reste encore des résultats à ajouter pour cet événement.";
 }
 
+http_response_code(201);
+echo json_encode(["success" => true, "message" => $message]);
+
 // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
 $stmt->close();
 $conn->close();
-
-http_response_code(201);
-echo json_encode(["success" => true, "message" => $message]);

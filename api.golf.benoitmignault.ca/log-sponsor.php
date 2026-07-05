@@ -21,21 +21,25 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 // Vérifier si les données ont été reçues
 if (!$data) {
-
+    
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Aucune donnée reçue."]);
+
+    // Fermer la connexion à la base de données
+    $conn->close();
     exit();
 }
 
 // Déterminer si on doit ignorer les statistiques : on ignore si le champ JSON "exclude_stats" est présent et vaut true.
 if (isset($data["exclude_stats"]) && $data["exclude_stats"] === true) {
-
-    $conn->close();
+    
     http_response_code(200);
     echo json_encode(["success" => true, "message" => "Statistiques exclues."]);
+
+    // Fermer la connexion à la base de données
+    $conn->close();
     exit();
 }
-
 
 // Récupérer les données envoyées depuis le frontend
 $sponsorId = $data['sponsor_id'];
@@ -69,9 +73,9 @@ if (!$stmt->execute()) {
     exit();
 }
 
+http_response_code(201);
+echo json_encode(["success" => true, "message" => "Log de sponsor ajouté avec succès."]);
+
 // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
 $stmt->close();
 $conn->close();
-
-http_response_code(201);
-echo json_encode(["success" => true, "message" => "Log de sponsor ajouté avec succès."]);

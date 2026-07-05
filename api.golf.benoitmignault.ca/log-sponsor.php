@@ -27,6 +27,15 @@ if (!$data) {
     exit();
 }
 
+// C'est ici, qu'on détermine si on doit ignorer les statistiques ou pas. On va ignorer les statistiques si le cookie "exclude_stats" est présent et a la valeur "true"
+if (isset($data["exclude_stats"]) && $data["exclude_stats"] === true) {
+    
+    http_response_code(200);
+    echo json_encode(["success" => true, "message" => "Statistiques exclues."]);
+    exit();
+}
+
+
 // Récupérer les données envoyées depuis le frontend
 $sponsorId = $data['sponsor_id'];
 $sponsorName = $data['sponsor_name'];

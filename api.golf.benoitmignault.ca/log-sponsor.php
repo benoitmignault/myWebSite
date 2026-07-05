@@ -27,7 +27,7 @@ if (!$data) {
     exit();
 }
 
-// C'est ici, qu'on détermine si on doit ignorer les statistiques ou pas. On va ignorer les statistiques si le cookie "exclude_stats" est présent et a la valeur "true"
+// Déterminer si on doit ignorer les statistiques : on ignore si le champ JSON "exclude_stats" est présent et vaut true.
 if (isset($data["exclude_stats"]) && $data["exclude_stats"] === true) {
     
     http_response_code(200);

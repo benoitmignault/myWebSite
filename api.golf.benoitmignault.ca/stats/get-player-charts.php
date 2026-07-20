@@ -49,7 +49,7 @@ if (!isset($data['playerId']) || !is_numeric($data['playerId'])) {
 $select = "SELECT current_position, current_fedex_points, current_handicap, event_id ";
 $from = "FROM player_event_history h INNER JOIN events e ON h.event_id = e.id ";
 $where = "WHERE h.player_id = ? AND e.is_open = 0 ";
-$orderBy = "ORDER BY h.event_id asc";
+$orderBy = "ORDER BY e.event_date asc";
 $sql = $select . $from . $where . $orderBy;
 
 $stmt = $conn->prepare($sql);

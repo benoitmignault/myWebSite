@@ -52,7 +52,7 @@ $select .= "h.current_fedex_points, h.fedex_points_gained, ";
 $select .= "h.current_handicap, (h.previous_handicap - h.current_handicap) AS handicap_variation ";
 $from = "FROM player_event_history h INNER JOIN events e ON e.id = h.event_id ";
 $where = "WHERE h.player_id = ? AND e.is_closed = 1 ";
-$orderBy = "ORDER BY h.event_id asc";
+$orderBy = "ORDER BY e.event_date asc";
 $sql = $select . $from . $where . $orderBy;
 
 $stmt = $conn->prepare($sql);

@@ -115,7 +115,7 @@ function Dashboard() {
 
                 <a
                     href="#" className="admin-navbar-link"
-                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/statistics"); }}
+                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/analytics"); }}
                 >
                     <LuChartColumnIncreasing />
                     <span>Activité du site</span>

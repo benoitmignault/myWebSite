@@ -4,7 +4,7 @@
 // Les données sont récupérées via l'API, et les graphiques sont rendus avec Recharts.
 
 /**
- * PlayerStats.jsx
+ * Index.jsx
  *
  * Composant React qui affiche les statistiques d'un joueur sélectionné de la ligue.
  * Il permet à l'utilisateur de sélectionner un joueur et d'afficher ses statistiques sous forme de graphiques et de tableaux.
@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
-import PlayerSelector from "./PlayerSelector";
+import Selector from "./Selector";
 import Footer from "../Footer";
 import { shouldExcludeStats } from "../../utils/logging";
 
@@ -33,12 +33,12 @@ import '../../css/stats.css'
 // Composant pour afficher les statistiques graphique d'un joueur sélectionné et non via la notion de lazy loading, 
 // car il y a un lag de 1 à 2 secondes pour le chargement des graphiques, donc on préfère les charger directement 
 // pour une meilleure expérience utilisateur.
-import PlayerCharts from "./PlayerCharts";
+import Charts from "./Charts";
 
-const PlayerSummary = lazy(() => import("./PlayerSummary"));
-const PlayerHistory = lazy(() => import("./PlayerHistory"));
+const Summary = lazy(() => import("./Summary"));
+const History = lazy(() => import("./History"));
 
-function PlayerStats() {
+function PlayerEvolution() {
 
 	// État pour détecter si l'utilisateur est sur un appareil mobile ou non
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -130,12 +130,12 @@ function PlayerStats() {
             <div className="player-stats-content">				
 				<div className="player-stats-card player-header-card">
 					<div className="player-selector-section">
-						<PlayerSelector setSelectedPlayerId={setSelectedPlayerId} setTotalPlayers={setTotalPlayers} />
+						<Selector setSelectedPlayerId={setSelectedPlayerId} setTotalPlayers={setTotalPlayers} />
 					</div>
 					<div className="player-summary-section">
 						{selectedPlayerId ? (
 							<Suspense fallback={<p>Chargement du résumé...</p>}>
-								<PlayerSummary selectedPlayerId={selectedPlayerId}/>
+								<Summary selectedPlayerId={selectedPlayerId}/>
 							</Suspense>
 						) : (
 							<p className="player-summary-placeholder">Information sera affichée ici, une fois le joueur sélectionné.</p>
@@ -146,7 +146,7 @@ function PlayerStats() {
 				{selectedPlayerId && (
 					<div className="player-stats-card player-chart-card">
 						<div className="player-charts-section">							
-							<PlayerCharts
+							<Charts
 								selectedPlayerId={selectedPlayerId}
 								totalPlayers={totalPlayers}
 							/>							
@@ -158,7 +158,7 @@ function PlayerStats() {
 					<div className="player-stats-card player-history-card">
 						<div className="player-history-section">
 							<Suspense fallback={<p>Chargement de l'historique...</p>}>
-								<PlayerHistory selectedPlayerId={selectedPlayerId} />
+								<History selectedPlayerId={selectedPlayerId} />
 							</Suspense>
 						</div>
 					</div>
@@ -177,4 +177,4 @@ function PlayerStats() {
     );
 }
 
-export default PlayerStats;
+export default PlayerEvolution;

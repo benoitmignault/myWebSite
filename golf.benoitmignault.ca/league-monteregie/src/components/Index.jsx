@@ -11,13 +11,13 @@ import Footer from "./Footer";
 import MissionSection from "./MissionSection";
 import { BsCameraFill } from "react-icons/bs";
 import { FaArrowUp } from "react-icons/fa";
-import { API_BASE_URL } from "./../config";
+import { API_BASE_URL } from "../config";
 import { FaHandshake } from "react-icons/fa";
 import { FaBullseye } from "react-icons/fa";
 import { shouldExcludeStats } from "../utils/logging";
 import '../css/index.css'
 
-function HomePage() {
+function Index() {
 
 	// État pour détecter si l'utilisateur est sur un appareil mobile ou non
 	const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -75,7 +75,7 @@ function HomePage() {
 					<MdAdminPanelSettings />
 					<span>Section Admin</span>
 				</Link>
-				<Link to="/league-monteregie/statistics" className="site-navbar-link">
+				<Link to="/league-monteregie/player-evolution" className="site-navbar-link">
 					<FaChartLine />
 					<span>Évolution Joueur</span>
 				</Link>
@@ -125,4 +125,4 @@ function HomePage() {
 	);
 }
 
-export default HomePage;
+export default Index;

@@ -4,6 +4,7 @@ import { MdLogout } from "react-icons/md";
 import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import { FaArrowUp } from "react-icons/fa";
+import { LuChartColumnIncreasing } from "react-icons/lu";
 import PlayersSection from "./PlayersSection";
 import EventsSection from "./EventsSection";
 import EventsPlanningSection from "./EventsPlanningSection";
@@ -110,6 +111,14 @@ function Dashboard() {
                 >
                     <FaHouse />
                     <span>Retour au site principal</span>
+                </a>
+
+                <a
+                    href="#" className="admin-navbar-link"
+                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/statistics"); }}
+                >
+                    <LuChartColumnIncreasing />
+                    <span>Activité du site</span>
                 </a>
 
                 <a href="#" className="admin-navbar-link"

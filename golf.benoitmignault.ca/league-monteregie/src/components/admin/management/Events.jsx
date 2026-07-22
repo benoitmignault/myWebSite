@@ -96,7 +96,7 @@ function Events({ setRefreshPlanning }) {
         setLoading(true);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/add-event.php`, 
+            const response = await fetch(`${API_BASE_URL}/admin/management/events/add-event.php`, 
                 {
                     method: "POST",
                     credentials: "include",

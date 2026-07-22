@@ -111,7 +111,7 @@ function Players({ setRefreshPlanning }) {
         try {
 
             // Appel de l'API pour ajouter un joueur à la ligue
-            const response = await fetch(`${API_BASE_URL}/admin/add-player.php`, 
+            const response = await fetch(`${API_BASE_URL}/admin/management/players/add-player.php`, 
                 {
                     method: "POST",
                     credentials: "include",

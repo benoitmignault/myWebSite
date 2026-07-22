@@ -12,7 +12,7 @@ import { API_BASE_URL } from "../../config";
  * @param {integer} selectedPlayerId 
  * @returns 
  */
-function PlayerHistory({ selectedPlayerId }) {
+function History({ selectedPlayerId }) {
 
     // État pour stocker les données historiques du joueur
     const [historyData, setHistoryData] = useState([]);
@@ -66,14 +66,13 @@ function PlayerHistory({ selectedPlayerId }) {
         return "=";
     };
 
-
     // Fonction pour charger les données historiques du joueur à partir de l'API
     const loadPlayerHistory = async (selectedPlayerId) => {
 
         try {
 
             // Envoyer une requête à l'API pour récupérer les données du joueur sélectionné
-            const response = await fetch(`${API_BASE_URL}/stats/get-player-history.php`,
+            const response = await fetch(`${API_BASE_URL}/player-evolution/get-player-history.php`,
                 {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},                
@@ -216,4 +215,4 @@ function PlayerHistory({ selectedPlayerId }) {
     );
 }
 
-export default PlayerHistory;
+export default History;

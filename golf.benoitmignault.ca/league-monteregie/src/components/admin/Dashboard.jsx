@@ -5,10 +5,10 @@ import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import { FaArrowUp } from "react-icons/fa";
 import { LuChartColumnIncreasing } from "react-icons/lu";
-import PlayersSection from "./PlayersSection";
-import EventsSection from "./EventsSection";
-import EventsPlanningSection from "./EventsPlanningSection";
-import ResultsSection from "./ResultsSection";
+import Players from "./management/Players";
+import Events from "./management/Events";
+import EventPlanning from "./management/EventPlanning";
+import ResultsEvent from "./management/ResultsEvent";
 import { API_BASE_URL } from "../../config";
 import Footer from "../Footer";
 import '../../css/admin.css'
@@ -130,10 +130,10 @@ function Dashboard() {
             </div>
             <div className="dashboard-container">
                 <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>                
-                <ResultsSection eventChanged={eventChanged} setRefreshPlanning={setRefreshPlanning}/>
-                <EventsPlanningSection refreshPlanning={refreshPlanning} setEventChanged={setEventChanged} />                
-                <PlayersSection setRefreshPlanning={setRefreshPlanning}/>
-                <EventsSection setRefreshPlanning={setRefreshPlanning}/>
+                <ResultsEvent eventChanged={eventChanged} setRefreshPlanning={setRefreshPlanning}/>
+                <EventPlanning refreshPlanning={refreshPlanning} setEventChanged={setEventChanged} />                
+                <Players setRefreshPlanning={setRefreshPlanning}/>
+                <Events setRefreshPlanning={setRefreshPlanning}/>
             </div>            
             <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
                 <FaArrowUp />

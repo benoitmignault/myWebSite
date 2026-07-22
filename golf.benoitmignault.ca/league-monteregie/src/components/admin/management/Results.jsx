@@ -29,7 +29,7 @@ import { API_BASE_URL } from "../../../config";
  * @param {boolean} setEventUpdated - Une fonction pour mettre à jour l'état de l'événement mis à jour
  * @returns
  */
-function ResultsEvent({eventChanged, setRefreshPlanning}) {
+function Results({eventChanged, setRefreshPlanning}) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -96,7 +96,7 @@ function ResultsEvent({eventChanged, setRefreshPlanning}) {
         setLoading(true);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/get-next-event.php`,
+            const response = await fetch(`${API_BASE_URL}/admin/management/events/get-next-event.php`,
                 {
                     credentials: "include"
                 }
@@ -156,7 +156,7 @@ function ResultsEvent({eventChanged, setRefreshPlanning}) {
     const loadRegisteredPlayers = async (eventId) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/get-registered-players.php?id=${eventId}`,
+            const response = await fetch(`${API_BASE_URL}/admin/management/results/get-registered-players.php?id=${eventId}`,
                 {                    
                     credentials: "include"
                 }
@@ -202,7 +202,7 @@ function ResultsEvent({eventChanged, setRefreshPlanning}) {
     const loadAvailablePositions = async (eventId) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/get-available-positions.php?id=${eventId}`,
+            const response = await fetch(`${API_BASE_URL}/admin/management/registration/get-used-positions.php?id=${eventId}`,
                 {                    
                     credentials: "include"
                 }
@@ -321,7 +321,7 @@ function ResultsEvent({eventChanged, setRefreshPlanning}) {
         setLoading(true);
         
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/add-player-result.php`,
+            const response = await fetch(`${API_BASE_URL}/admin/management/results/add-player-result.php`,
                 {
                     method: "POST",
                     credentials: "include",
@@ -571,4 +571,4 @@ function ResultsEvent({eventChanged, setRefreshPlanning}) {
     );
 }
 
-export default ResultsEvent;
+export default Results;

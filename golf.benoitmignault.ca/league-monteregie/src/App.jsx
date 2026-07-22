@@ -17,14 +17,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
 // Chargement immédiat
-import HomePage from "./components/HomePage";
+import Index from "./components/Index";
 
 // Chargement à la demande
-const ExcludeStats = lazy(() => import("./components/system/ExcludeStats"));
-const IncludeStats = lazy(() => import("./components/system/IncludeStats"));
-const PlayerStats = lazy(() => import("./components/stats/PlayerStats"));
+const ExcludeAnalytics = lazy(() => import("./components/settings/ExcludeAnalytics"));
+const IncludeAnalytics = lazy(() => import("./components/settings/IncludeAnalytics"));
+const PlayerEvolution = lazy(() => import("./components/player-evolution/Index"));
 const Login = lazy(() => import("./components/admin/Login"));
 const Dashboard = lazy(() => import("./components/admin/Dashboard"));
+const Analytics = lazy(() => import("./components/admin/Trafic"));
 
 
 function App() {
@@ -33,12 +34,13 @@ function App() {
         <BrowserRouter>
             <Suspense fallback={<div>Chargement...</div>}>
                 <Routes>
-                    <Route path="/league-monteregie/exclude-stats" element={<ExcludeStats />} />
-                    <Route path="/league-monteregie/include-stats" element={<IncludeStats />} />
-                    <Route path="/league-monteregie/" element={<HomePage />}/>
-                    <Route path="/league-monteregie/statistics" element={<PlayerStats />}/>
+                    <Route path="/league-monteregie/exclude-analytics" element={<ExcludeAnalytics />} />
+                    <Route path="/league-monteregie/include-analytics" element={<IncludeAnalytics />} />
+                    <Route path="/league-monteregie/" element={<Index />}/>
+                    <Route path="/league-monteregie/player-evolution" element={<PlayerEvolution />}/>
                     <Route path="/league-monteregie/admin/" element={<Login />}/>
                     <Route path="/league-monteregie/admin/dashboard" element={<Dashboard />}/>
+                    <Route path="/league-monteregie/admin/analytics" element={<Analytics />}/>
                 </Routes>
             </Suspense>            
         </BrowserRouter>

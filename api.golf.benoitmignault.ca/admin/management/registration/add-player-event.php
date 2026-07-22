@@ -6,13 +6,13 @@
 // le handicap en prévision du tournoi à venir.
 
 // Inclut les informations nécessaires pour CORS
-include(__DIR__ . "/../includes/cors.php");
+include(__DIR__ . "/../../../includes/cors.php");
 
 // Inclut les informations pour vérifier la session d'administrateur
-include(__DIR__ . "/auth/check-admin-session.php");
+include(__DIR__ . "/../../auth/check-admin-session.php");
 
 // Inclut la fonction de connexion à la base de données
-include(__DIR__ . "/../includes/fct-connexion-bd.php");
+include(__DIR__ . "/../../../includes/fct-connexion-bd.php");
 
 // S'assurer que la requête est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

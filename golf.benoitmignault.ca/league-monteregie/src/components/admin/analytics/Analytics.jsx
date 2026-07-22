@@ -1,7 +1,7 @@
 // import { useNavigate } from "react-router-dom";
 
-import Footer from "../Footer";
-import '../../css/admin.css'
+import Footer from "../../Footer";
+import '../../../css/admin.css'
 
 const Trafic = () => {
 

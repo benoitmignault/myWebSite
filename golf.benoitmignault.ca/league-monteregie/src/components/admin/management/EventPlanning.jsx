@@ -243,7 +243,7 @@ function EventPlanning({ setEventChanged, refreshPlanning }) {
         const playerName = `${player.firstname} ${player.lastname}`;
 
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/add-player-event.php`,
+            const response = await fetch(`${API_BASE_URL}/admin/management/registration/add-player-event.php`,
                 {
                     method: "POST",
                     credentials: "include",

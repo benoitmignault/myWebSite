@@ -4,13 +4,13 @@
 // qu'ils n'ont pas encore de résultats dans la table round_results pour les afficher dans la liste déroulante d'ajout de résultats à un événement.
 
 // Inclut les informations nécessaires pour CORS
-include(__DIR__ . "/../includes/cors.php");
+include(__DIR__ . "/../../../includes/cors.php");
 
 // Inclut les informations pour vérifier la session d'administrateur
-include(__DIR__ . "/auth/check-admin-session.php");
+include(__DIR__ . "/../../auth/check-admin-session.php");
 
 // Inclut la fonction de connexion à la base de données
-include(__DIR__ . "/../includes/fct-connexion-bd.php");
+include(__DIR__ . "/../../../includes/fct-connexion-bd.php");
 
 // Établir une connexion à la base de données de la ligue de golf en montérégie
 $conn = connexion_league_golf_monteregie();

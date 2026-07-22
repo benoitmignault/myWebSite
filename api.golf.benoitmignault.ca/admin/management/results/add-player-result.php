@@ -25,13 +25,13 @@
 // Étape 4.2 - On doit fermer l'évenement et remettre à 0 is_update et is_open et mettre à 1 is_closed pour permettre au système de passer à l'événement suivant
 
 // Inclut les informations nécessaires pour CORS
-include(__DIR__ . "/../includes/cors.php");
+include(__DIR__ . "/../../../includes/cors.php");
 
 // Inclut les informations pour vérifier la session d'administrateur
-include(__DIR__ . "/auth/check-admin-session.php");
+include(__DIR__ . "/../../auth/check-admin-session.php");
 
 // Inclut la fonction de connexion à la base de données
-include(__DIR__ . "/../includes/fct-connexion-bd.php");
+include(__DIR__ . "/../../../includes/fct-connexion-bd.php");
 
 // S'assurer que la requête est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

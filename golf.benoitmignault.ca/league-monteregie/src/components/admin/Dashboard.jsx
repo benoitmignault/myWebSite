@@ -8,7 +8,7 @@ import { LuChartColumnIncreasing } from "react-icons/lu";
 import Players from "./management/Players";
 import Events from "./management/Events";
 import EventPlanning from "./management/EventPlanning";
-import ResultsEvent from "./management/ResultsEvent";
+import Results from "./management/Results";
 import { API_BASE_URL } from "../../config";
 import Footer from "../Footer";
 import '../../css/admin.css'
@@ -130,7 +130,7 @@ function Dashboard() {
             </div>
             <div className="dashboard-container">
                 <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>                
-                <ResultsEvent eventChanged={eventChanged} setRefreshPlanning={setRefreshPlanning}/>
+                <Results eventChanged={eventChanged} setRefreshPlanning={setRefreshPlanning}/>
                 <EventPlanning refreshPlanning={refreshPlanning} setEventChanged={setEventChanged} />                
                 <Players setRefreshPlanning={setRefreshPlanning}/>
                 <Events setRefreshPlanning={setRefreshPlanning}/>

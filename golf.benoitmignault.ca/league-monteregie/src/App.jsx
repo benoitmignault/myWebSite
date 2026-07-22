@@ -22,10 +22,10 @@ import Index from "./components/Index";
 // Chargement à la demande
 const ExcludeAnalytics = lazy(() => import("./components/settings/ExcludeAnalytics"));
 const IncludeAnalytics = lazy(() => import("./components/settings/IncludeAnalytics"));
-const PlayerEvolution = lazy(() => import("./components/player-evolution/Index"));
+const PlayerEvolution = lazy(() => import("./components/player-evolution/PlayerEvolution"));
 const Login = lazy(() => import("./components/admin/Login"));
 const Dashboard = lazy(() => import("./components/admin/Dashboard"));
-const Analytics = lazy(() => import("./components/admin/Trafic"));
+const Analytics = lazy(() => import("./components/admin/analytics/Analytics"));
 
 
 function App() {

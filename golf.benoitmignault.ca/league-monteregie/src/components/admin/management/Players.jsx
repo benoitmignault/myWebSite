@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from "../../../config";
 
 
 /**
@@ -13,7 +13,7 @@ import { API_BASE_URL } from "../../config";
  * @param {function} setRefreshPlanning - Fonction pour déclencher le rafraîchissement du formulaire de planification des événements
  * @returns 
  */
-function PlayersSection({ setRefreshPlanning }) {
+function Players({ setRefreshPlanning }) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -235,4 +235,4 @@ function PlayersSection({ setRefreshPlanning }) {
     );
 }
 
-export default PlayersSection;
+export default Players;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from "../../../config";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -14,7 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
  * @param {function} setRefreshPlanning - Fonction pour déclencher le rafraîchissement du formulaire de planification des événements
  * @returns
  */
-function EventsSection({ setRefreshPlanning }) {
+function Events({ setRefreshPlanning }) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -232,4 +232,4 @@ function EventsSection({ setRefreshPlanning }) {
     );
 }
 
-export default EventsSection;
+export default Events;

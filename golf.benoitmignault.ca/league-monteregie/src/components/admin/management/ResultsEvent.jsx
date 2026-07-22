@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaInfoCircle } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from "../../../config";
 
 /**
  * Composant de gestion des résultats de la ligue. Va servir à insérer dans la table «round_results» les résultats de chaque ronde.
@@ -29,7 +29,7 @@ import { API_BASE_URL } from "../../config";
  * @param {boolean} setEventUpdated - Une fonction pour mettre à jour l'état de l'événement mis à jour
  * @returns
  */
-function ResultsSection({eventChanged, setRefreshPlanning}) {
+function ResultsEvent({eventChanged, setRefreshPlanning}) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -571,4 +571,4 @@ function ResultsSection({eventChanged, setRefreshPlanning}) {
     );
 }
 
-export default ResultsSection;
+export default ResultsEvent;

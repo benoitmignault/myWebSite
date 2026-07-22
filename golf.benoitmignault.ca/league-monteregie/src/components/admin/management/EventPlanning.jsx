@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaInfoCircle } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from "../../../config";
 
 /**
  * Composant de gestion pour le prochain évenement qui sera en cours à l'aide de l'ajout de joueurs, ce qui va rendre l'évenement ouvert et en cours, 
@@ -17,7 +17,7 @@ import { API_BASE_URL } from "../../config";
  * @param {boolean} refreshPlanning - Un état pour permettre de bloquer le formulaire de résultats lorsque l'événement est en cours
  * @returns 
  */
-function EventsPlanningSection({ setEventChanged, refreshPlanning }) {
+function EventPlanning({ setEventChanged, refreshPlanning }) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide
     const navigate = useNavigate();
@@ -433,4 +433,4 @@ function EventsPlanningSection({ setEventChanged, refreshPlanning }) {
     );
 }
 
-export default EventsPlanningSection;
+export default EventPlanning;

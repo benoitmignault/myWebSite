@@ -26,7 +26,7 @@ import { API_BASE_URL } from "../../config";
  * @returns 
  */
 
-function PlayerSummary({ selectedPlayerId }) {
+function Summary({ selectedPlayerId }) {
 
     // État pour stocker les données du joueur sélectionné pour les afficher dans la section d'informations du joueur
     const [playerSummary, setPlayerSummary] = useState(null);
@@ -40,7 +40,7 @@ function PlayerSummary({ selectedPlayerId }) {
         try {
                 
             // Envoyer une requête à l'API pour récupérer les données du joueur sélectionné
-            const response = await fetch(`${API_BASE_URL}/stats/get-player-summary.php`,
+            const response = await fetch(`${API_BASE_URL}/player-evolution/get-player-summary.php`,
                 {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},                
@@ -140,4 +140,4 @@ function PlayerSummary({ selectedPlayerId }) {
     );
 }
 
-export default PlayerSummary;
+export default Summary;

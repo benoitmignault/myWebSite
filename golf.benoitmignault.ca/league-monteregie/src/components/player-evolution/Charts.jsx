@@ -55,7 +55,7 @@ function CustomTooltip({ active, payload }) {
  * @param {integer} totalPlayers
  * @returns 
  */
-function PlayerCharts({ selectedPlayerId, totalPlayers }) {
+function Charts({ selectedPlayerId, totalPlayers }) {
 
     // État pour stocker les données des graphiques à afficher dans la section d'évolution du joueur
     const [chartData, setChartData] = useState([]);
@@ -78,7 +78,7 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
 
         try {
             // Envoyer une requête à l'API pour récupérer les données du joueur sélectionné
-            const response = await fetch(`${API_BASE_URL}/stats/get-player-charts.php`,
+            const response = await fetch(`${API_BASE_URL}/player-evolution/get-player-charts.php`,
                 {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},                
@@ -228,4 +228,4 @@ function PlayerCharts({ selectedPlayerId, totalPlayers }) {
     );
 }
 
-export default PlayerCharts;
+export default Charts;

@@ -21,7 +21,7 @@ import { API_BASE_URL } from "../../config";
  * @param {function} setTotalPlayers
  * @returns 
  */
-function PlayerSelector({ setSelectedPlayerId, setTotalPlayers }) {
+function Selector({ setSelectedPlayerId, setTotalPlayers }) {
 
     // État pour stocker la liste des joueurs
     const [players, setPlayers] = useState([]);
@@ -33,7 +33,7 @@ function PlayerSelector({ setSelectedPlayerId, setTotalPlayers }) {
     const loadAllPlayers = async () => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/stats/get-all-players.php`);
+            const response = await fetch(`${API_BASE_URL}/player-evolution/get-all-players.php`);
             
             const data = await response.json();
             if (data.success) {
@@ -73,6 +73,7 @@ function PlayerSelector({ setSelectedPlayerId, setTotalPlayers }) {
         // Pas besoin d'utiliser les notions async et await vue que après, on ne fait rien d'autre que de mettre à jour l'état
         loadAllPlayers();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -95,4 +96,4 @@ function PlayerSelector({ setSelectedPlayerId, setTotalPlayers }) {
     );
 }
 
-export default PlayerSelector;
+export default Selector;

@@ -62,7 +62,7 @@ function EventPlanning({ setEventChanged, refreshPlanning }) {
         setLoading(true);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/get-next-event.php`,
+            const response = await fetch(`${API_BASE_URL}/admin/management/events/get-next-event.php`,
                 {
                     credentials: "include"
                 }
@@ -121,7 +121,7 @@ function EventPlanning({ setEventChanged, refreshPlanning }) {
     const loadAvailablePlayers = async (eventId) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/get-available-players.php?id=${eventId}`,
+            const response = await fetch(`${API_BASE_URL}/admin/management/registration/get-available-players.php?id=${eventId}`,
                 {                    
                     credentials: "include"
                 }

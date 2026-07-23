@@ -112,7 +112,7 @@ if (!$stmt->execute()) {
 
 $result = $stmt->get_result();
 
-// 2026-06-09. découvert d'un bug, je devais extyraire la position de chaque résultat pas juste la row qui est une key/value
+// 2026-06-09. découvert d'un bug, je devais extraire la position de chaque résultat pas juste la row qui est une key/value
 $usedPositions = [];
 
 while ($row = $result->fetch_assoc()) {

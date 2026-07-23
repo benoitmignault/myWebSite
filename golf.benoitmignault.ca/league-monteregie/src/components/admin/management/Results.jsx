@@ -198,11 +198,11 @@ function Results({eventChanged, setRefreshPlanning}) {
     }
 
     // Fonction pour récupérer les positions déjà utilisées qu'on va éliminer de la liste des positions disponible
-    // Un nom de fonction un peu contradictoire mais au fini, on aura les positions disponibles dans le menu SELECT
+    // Un nom de fonction un peu contradictoire mais au final, on aura les positions disponibles dans le menu SELECT
     const loadAvailablePositions = async (eventId) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/management/registration/get-used-positions.php?id=${eventId}`,
+            const response = await fetch(`${API_BASE_URL}/admin/management/results/get-available-positions.php?id=${eventId}`,
                 {                    
                     credentials: "include"
                 }

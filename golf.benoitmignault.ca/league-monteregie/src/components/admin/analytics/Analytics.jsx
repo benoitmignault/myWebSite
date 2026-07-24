@@ -3,7 +3,7 @@
 import Footer from "../../Footer";
 import '../../../css/admin.css'
 
-const Trafic = () => {
+function Trafic() {
 
     // const navigate = useNavigate();
 

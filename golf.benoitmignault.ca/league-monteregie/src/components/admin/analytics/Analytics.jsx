@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useState } from "react-router-dom";
 import { useEffect } from "react";
 import { FaHouse } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
@@ -96,9 +96,8 @@ function Trafic() {
             </div>
             <div className="dashboard-container">
 
-                <h1 className="gestion-title">
-                    Activité du site
-                </h1>
+                <h1 className="gestion-title">Activité du site</h1>
+                <PeriodSelector selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} />
 
                 {/* 0 - Sélection de la période */}
 

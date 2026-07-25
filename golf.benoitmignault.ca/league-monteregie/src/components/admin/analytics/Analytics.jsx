@@ -12,6 +12,8 @@ function Trafic() {
 
     const navigate = useNavigate();
 
+    // Un état pour gérer la période sélectionnée pour l'affichage des statistiques du site
+    const [selectedPeriod, setSelectedPeriod] = useState("all");
 
 
     // Fonction pour gérer la déconnexion de l'administrateur et avec une redirection en fonction du lien qu'on a cliqué

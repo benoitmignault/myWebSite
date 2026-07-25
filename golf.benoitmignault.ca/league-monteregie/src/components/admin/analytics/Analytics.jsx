@@ -52,7 +52,6 @@ function Trafic() {
         }
     };
 
-
     // Avant de loader la page de statisitéques du site, on doit vérifier que l'administrateur est bien connecté
     // en vérifiant la session avec l'API check-session.php.
     useEffect(() => {

@@ -18,7 +18,7 @@ import "../../../css/analytics.css";
  * 
  * @returns {JSX.Element} - Le composant Analytics.
  */
-function Trafic() {
+function Analytics() {
 
     const navigate = useNavigate();
 
@@ -169,4 +169,4 @@ function Trafic() {
     );
 };
 
-export default Trafic;
+export default Analytics;

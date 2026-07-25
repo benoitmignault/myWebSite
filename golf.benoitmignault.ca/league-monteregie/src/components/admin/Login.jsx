@@ -165,7 +165,7 @@ function Login() {
     useEffect(() => {
 
         // Changement du titre de la page lorsque le composant de connexion est monté
-        document.title = "Admin Login - Golf Montérégie";
+        document.title = "Gestion - Golf Montérégie";
 
         // Changement du favicon de la page pour le logo de ChatGPT lorsque le composant de connexion est monté
         const favicon = document.getElementById("dynamic-favicon");

@@ -50,7 +50,7 @@ function Trafic() {
             }
 
             // Changement du titre de la page lorsque le composant du dashboard est monté
-            document.title = "Activité du site";
+            document.title = "Analyse site - Golf Montérégie";
 
             // Changement du favicon de la page pour le dashboard
             const favicon = document.getElementById("dynamic-favicon");

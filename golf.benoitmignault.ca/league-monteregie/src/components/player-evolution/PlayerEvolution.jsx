@@ -58,7 +58,7 @@ function PlayerEvolution() {
 	useEffect(() => {
 	
 		// Reset du titre de la page HomePage lorsque le composant est monté
-		document.title = "Statistiques des Joueurs - Golf Montérégie";	
+		document.title = "Évolution des Joueurs";	
 		const favicon = document.getElementById("dynamic-favicon");
 
 		// On doit partir de /league-monteregie car c'est la vraie racine du projet

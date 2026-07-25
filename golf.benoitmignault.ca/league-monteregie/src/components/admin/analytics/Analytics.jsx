@@ -112,6 +112,21 @@ function Trafic() {
                 {/* 2.2 Répartition par média */}
                 {/* 2.3 Classement */}
 
+                {
+                /* 
+                <SiteSummary period={selectedPeriod} />
+
+                <SiteTop10 period={selectedPeriod} />
+
+                <SiteUniqueVisitors period={selectedPeriod} />
+
+                <SponsorsSummary period={selectedPeriod} />
+
+                <SponsorsMedia period={selectedPeriod} />
+
+                <SponsorsRanking period={selectedPeriod} />     
+                 */
+                }
             </div>
 
             <Footer />

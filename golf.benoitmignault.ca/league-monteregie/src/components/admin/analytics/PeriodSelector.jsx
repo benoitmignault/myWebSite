@@ -1,10 +1,13 @@
+import { LuCalendarRange } from "react-icons/lu";
 
-
-
-
-
-
-
+// Définition des options de période disponibles pour le menu déroulant
+const PERIOD_OPTIONS = [
+    { value: "all", label: "Depuis le début" },
+    { value: "today", label: "Aujourd'hui" },
+    { value: "7", label: "7 derniers jours" },
+    { value: "30", label: "30 derniers jours" },
+    { value: "90", label: "90 derniers jours" }
+];
 
 /**
  * Composant pour permettre à l'utilisateur de sélectionner une période pour filtrer les données.

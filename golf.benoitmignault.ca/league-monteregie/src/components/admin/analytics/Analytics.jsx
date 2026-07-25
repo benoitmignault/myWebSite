@@ -87,16 +87,23 @@ function Trafic() {
 
     }, [navigate]);
 
+    // Utiliser useEffect pour Gestion du mode mobile
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        // Valeur initiale
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {window.removeEventListener("resize", handleResize);};
+    }, []);
+
     return (
         <div>
             <div className="admin-navbar">
-                <a href="#" className="admin-navbar-link"
-                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/dashboard");}}
-                >
-                    <MdAdminPanelSettings />
-                    <span>Retour à la section admin</span>
-                </a>
-
                 <a href="#" className="admin-navbar-link"
                     onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/");}}
                 >
@@ -104,6 +111,12 @@ function Trafic() {
                     <span>Retour au site principal</span>
                 </a>
 
+                <a href="#" className="admin-navbar-link"
+                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/dashboard");}}
+                >
+                    <MdAdminPanelSettings />
+                    <span>Retour à la section admin</span>
+                </a>
                 <a href="#" className="admin-navbar-link"
                     onClick={(e) => {e.preventDefault(); handleLogout("/league-monteregie/admin/");}}
                 >

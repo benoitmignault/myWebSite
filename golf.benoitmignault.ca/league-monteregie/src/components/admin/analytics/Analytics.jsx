@@ -1,13 +1,23 @@
-import { useNavigate, useState } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaHouse } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
+import { FaArrowUp } from "react-icons/fa";
+import { BsCameraFill } from "react-icons/bs";
 import { MdAdminPanelSettings } from "react-icons/md";
+import PeriodSelector from "./PeriodSelector";
 
 import { API_BASE_URL } from "../../../config";
 import Footer from "../../Footer";
 import '../../../css/admin.css'
+import "../../../css/analytics.css";
 
+/**
+ * Composant pour afficher les statistiques d'activité du site web et des partenaires,
+ * avec la possibilité de sélectionner une période pour filtrer les données.
+ * 
+ * @returns 
+ */
 function Trafic() {
 
     const navigate = useNavigate();
@@ -15,6 +25,13 @@ function Trafic() {
     // Un état pour gérer la période sélectionnée pour l'affichage des statistiques du site
     const [selectedPeriod, setSelectedPeriod] = useState("all");
 
+    // État pour détecter si l'utilisateur est sur un appareil mobile ou non
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+	// Utiliser useEffect pour mettre à jour l'état isMobile lorsque la taille de la fenêtre change
+	const photoCredit = isMobile
+		? "Photo prise au Club de golf Parcours du Vieux Village — The Masters"
+		: "Photo prise au Club de golf Farnham — Semaine 2";
 
     // Fonction pour gérer la déconnexion de l'administrateur et avec une redirection en fonction du lien qu'on a cliqué
     const handleLogout = async (redirectTo) => {

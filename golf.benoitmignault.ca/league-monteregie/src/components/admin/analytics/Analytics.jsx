@@ -16,7 +16,7 @@ import "../../../css/analytics.css";
  * Composant pour afficher les statistiques d'activité du site web et des partenaires,
  * avec la possibilité de sélectionner une période pour filtrer les données.
  * 
- * @returns 
+ * @returns {JSX.Element} - Le composant Analytics.
  */
 function Trafic() {
 

@@ -56,7 +56,9 @@ function Trafic() {
             const favicon = document.getElementById("dynamic-favicon");
 
             if (favicon) {
-                favicon.href = `${import.meta.env.BASE_URL}favicon/favicon-admin-ChatGPT.png`;
+                
+                // https://pngtree.com/freepng/log-file-document-icon_4229177.html
+                favicon.href = `${import.meta.env.BASE_URL}favicon/favicon-log-activites.png`;
             }
         })        
         .catch(() => {

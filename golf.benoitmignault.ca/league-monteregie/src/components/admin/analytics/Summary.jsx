@@ -40,7 +40,7 @@ function Summary({ selectedPeriod }) {
             const data = await response.json();
 
             if (data.success) {
-
+                
                 // Mettre à jour l'état avec les données de résumé reçues de l'API
                 setSummary(data.summary); 
             } else {

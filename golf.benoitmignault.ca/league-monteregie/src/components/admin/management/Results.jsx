@@ -173,6 +173,7 @@ function Results({eventChanged, setRefreshPlanning}) {
 
             // Sinon, on a un résultat valide du retour de l'API
             const data = await response.json();
+            
             if (data.success) {
 
                 // Stockage de la liste des joueurs inscrits à l'événement en cours pour pouvoir insérer les résultats de ces joueurs

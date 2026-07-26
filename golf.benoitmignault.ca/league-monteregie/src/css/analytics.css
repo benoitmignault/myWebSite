@@ -43,3 +43,76 @@
     font-size: .95rem;
     cursor: pointer;
 }
+
+.summary-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.summary-card {
+    flex: 1;
+    background: rgba(30, 45, 80, 0.55);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.summary-card h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 25px 0;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.summary-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.summary-stat {
+    flex: 1;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 12px;
+    min-height: 140px;   /* au lieu de 180-200px */
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: .2s;
+}
+
+.summary-stat:hover{
+    transform:translateY(-3px);
+}
+
+.summary-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    margin: 10px 0;
+}
+
+.summary-label {
+    color: rgba(255,255,255,.85);
+    font-size: 1rem;
+    opacity: .8;
+    text-align: center;
+}
+
+.summary-title-icon {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+.summary-icon {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}

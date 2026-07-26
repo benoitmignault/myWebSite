@@ -41,7 +41,7 @@ function Summary({ selectedPeriod }) {
             const data = await response.json();
 
             if (data.success) {
-                
+
                 // Mettre à jour l'état avec les données de résumé reçues de l'API
                 setSummary(data.summary); 
             } else {
@@ -86,21 +86,23 @@ function Summary({ selectedPeriod }) {
     return (
         <div className="summary-container">
             <div className="summary-card">
-                <h2>🏠 Accueil</h2>
+                <h2>
+                    <LuHouse className="summary-title-icon" />
+                    Accueil
+                </h2>
                 <div className="summary-stats">
-
                     <div className="summary-stat">
-                        <span className="summary-icon">👁️</span>
+                        <LuEye className="summary-icon" />
                         <span className="summary-value">{summary.pageLoad}</span>
                         <span className="summary-label">Visites</span>
                     </div>
                     <div className="summary-stat">
-                        <span className="summary-icon">👤</span>
+                        <LuUser className="summary-icon" />
                         <span className="summary-value">{summary.playerClick}</span>
-                        <span className="summary-label">Clics sur les joueurs</span>
+                        <span className="summary-label">Joueurs consultés</span>
                     </div>
                     <div className="summary-stat">
-                        <span className="summary-icon">🏌️</span>
+                        <LuCalendarDays className="summary-icon" />
                         <span className="summary-value">{summary.eventClick}</span>
                         <span className="summary-label">Événements consultés</span>
                     </div>
@@ -108,15 +110,18 @@ function Summary({ selectedPeriod }) {
             </div>
 
             <div className="summary-card">
-                <h2>📈 Évolution des joueurs</h2>
+                <h2>
+                    <LuChartLine className="summary-title-icon" />
+                    Évolution des joueurs
+                </h2>
                 <div className="summary-stats">
                     <div className="summary-stat">
-                        <span className="summary-icon">👁️</span>
+                        <LuEye className="summary-icon" />
                         <span className="summary-value">{summary.pageStatsLoad}</span>
                         <span className="summary-label">Visites</span>
                     </div>
                     <div className="summary-stat">
-                        <span className="summary-icon">👤</span>
+                        <LuUser className="summary-icon" />
                         <span className="summary-value">{summary.playerStatsView}</span>
                         <span className="summary-label">Joueurs consultés</span>
                     </div>

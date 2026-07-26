@@ -3,7 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { LuHouse, LuEye, LuUser, LuCalendarDays, LuChartLine } from "react-icons/lu";
 import { API_BASE_URL } from "../../../config";
 
-
+/**
+ * Composant pour afficher un résumé des statistiques d'activité du site web et de la page d'évolution des joueurs, 
+ * en fonction de la période sélectionnée.
+ * 
+ * @description
+ * Ce composant récupère les données de résumé depuis l'API en fonction de la période sélectionnée 
+ * et les affiche sous forme de cartes avec des statistiques clés.
+ * 
+ * @param {string} selectedPeriod - La période actuellement sélectionnée pour filtrer les données.
+ * @returns {JSX.Element} - Le composant Summary.
+ */
 function Summary({ selectedPeriod }) {
 
     // Utilisation de useNavigate pour rediriger l'utilisateur vers le bon lien en cas de session invalide

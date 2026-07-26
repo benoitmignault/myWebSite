@@ -25,10 +25,10 @@ if (!$conn) {
 $period = isset($_GET['period']) ? $_GET['period'] : 'all';
 
 // Requête SQL pour récupérer le résumé des statistiques d'activité du site web et des partenaires
-$select = "SELECT target_name, count(*) as number ";
+$select = "SELECT action_type, count(*) as number ";
 $from = "FROM website_logs ";
 $where = "";
-$groupBy = "GROUP BY target_name";
+$groupBy = "GROUP BY action_type";
 
 // Initialiser la variable $date à null
 $date = null;

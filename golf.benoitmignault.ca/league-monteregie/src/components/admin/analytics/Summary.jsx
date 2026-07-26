@@ -72,18 +72,57 @@ function Summary({ selectedPeriod }) {
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedPeriod]);
-        
-
-
-
+    
+    // Si les données de résumé ne sont pas encore chargées, afficher un message de chargement
+    if (!summary) {
+        return (
+            <div className="summary-loading">
+                Chargement du sommaire...
+            </div>
+        );
+    }
 
     return (
+        <div className="summary-container">
+            <div className="summary-card">
+                <h2>🏠 Accueil</h2>
+                <div className="summary-stats">
 
-        <></>
+                    <div className="summary-stat">
+                        <span className="summary-icon">👁️</span>
+                        <span className="summary-value">{summary.pageLoad}</span>
+                        <span className="summary-label">Visites</span>
+                    </div>
+                    <div className="summary-stat">
+                        <span className="summary-icon">👤</span>
+                        <span className="summary-value">{summary.playerClick}</span>
+                        <span className="summary-label">Clics sur les joueurs</span>
+                    </div>
+                    <div className="summary-stat">
+                        <span className="summary-icon">🏌️</span>
+                        <span className="summary-value">{summary.eventClick}</span>
+                        <span className="summary-label">Événements consultés</span>
+                    </div>
+                </div>
+            </div>
 
+            <div className="summary-card">
+                <h2>📈 Évolution des joueurs</h2>
+                <div className="summary-stats">
+                    <div className="summary-stat">
+                        <span className="summary-icon">👁️</span>
+                        <span className="summary-value">{summary.pageStatsLoad}</span>
+                        <span className="summary-label">Visites</span>
+                    </div>
+                    <div className="summary-stat">
+                        <span className="summary-icon">👤</span>
+                        <span className="summary-value">{summary.playerStatsView}</span>
+                        <span className="summary-label">Joueurs consultés</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
-
-
 };
 
 export default Summary;

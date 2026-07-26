@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LuHouse, LuEye, LuUser, LuCalendarDays, LuChartLine } from "react-icons/lu";
+import { LuHouse, LuEye, LuUser, LuCalendarDays, LuChartLine, LuTriangleAlert } from "react-icons/lu";
 import { API_BASE_URL } from "../../../config";
 
 /**
@@ -81,20 +81,25 @@ function Summary({ selectedPeriod }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedPeriod]);
     
-    // Si les données de résumé ne sont pas encore chargées, afficher un message de chargement
-    if (!summary) {
+    // Si une erreur est survenue lors du chargement des données, afficher le message d'erreur
+    if (error) {
         return (
-            <div className="summary-loading">
-                Chargement du sommaire...
+            <div className="summary-error-container">
+                <div className="summary-error">
+                    <LuTriangleAlert className="summary-error-icon" />
+                    <p>{error}</p>
+                </div>
             </div>
         );
     }
 
-    if (error) {
+    // Si les données de résumé ne sont pas encore chargées, afficher un message de chargement
+    if (!summary) {
         return (
-            <div className="summary-error">
-                <p>⚠️ Impossible de charger le sommaire.</p>
-                <p>{error}</p>
+            <div className="summary-loading-container">
+                <div className="summary-loading">
+                    Chargement...
+                </div>
             </div>
         );
     }

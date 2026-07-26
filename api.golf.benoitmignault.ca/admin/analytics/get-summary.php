@@ -102,15 +102,41 @@ if ($result->num_rows === 0) {
     exit();
 }
 
-$summaryData = [];
+// Initialiser le tableau des données de résumé avec les valeurs par défaut
+$summaryData = [
+    "pageLoad" => 0,
+    "pageStatsLoad" => 0,
+    "playerClick" => 0,
+    "eventClick" => 0,    
+    "playerStatsView" => 0
+];
 
-while ($row = $result->fetch_assoc()) {
-    
-    // Ajouter chaque ligne de données au tableau des données de résumé
-    $summaryData[] = [
-        "target_name" => $row['target_name'],
-        "number" => intval($row['number'])
-    ];
+while ($row = $result->fetch_assoc()) {    
+
+    switch ($row["action_type"]) {
+
+        // La page principale du site web a été chargée 
+        case "page_load":
+            $summaryData["pageLoad"] = (int)$row["number"];
+            break;
+
+        // La page des statistiques des joueurs a été chargée
+        case "page_stats_load":
+            $summaryData["pageStatsLoad"] = (int)$row["number"];
+            break;
+
+        case "player_click":
+            $summaryData["playerClick"] = (int)$row["number"];
+            break;
+
+        case "event_click":
+            $summaryData["eventClick"] = (int)$row["number"];
+            break;
+
+        case "player_stats_view":
+            $summaryData["playerStatsView"] = (int)$row["number"];
+            break;
+    }
 }
 
 http_response_code(200);

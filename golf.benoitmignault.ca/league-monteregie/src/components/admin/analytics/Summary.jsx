@@ -25,9 +25,6 @@ function Summary({ selectedPeriod }) {
     // État pour stocker les messages d'erreur
     const [error, setError] = useState("");
 
-
-
-
     // Fonction pour charger les données de résumé depuis l'API en fonction de la période sélectionnée
     const loadSummaryData = async () => {
 
@@ -89,6 +86,15 @@ function Summary({ selectedPeriod }) {
         return (
             <div className="summary-loading">
                 Chargement du sommaire...
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="summary-error">
+                <p>⚠️ Impossible de charger le sommaire.</p>
+                <p>{error}</p>
             </div>
         );
     }

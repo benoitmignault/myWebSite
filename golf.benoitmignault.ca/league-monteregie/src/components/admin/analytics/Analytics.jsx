@@ -6,6 +6,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { BsCameraFill } from "react-icons/bs";
 import { MdAdminPanelSettings } from "react-icons/md";
 import PeriodSelector from "./PeriodSelector";
+import Summary from "./Summary";
 
 import { API_BASE_URL } from "../../../config";
 import Footer from "../../Footer";
@@ -128,7 +129,7 @@ function Analytics() {
                 <h1 className="gestion-title">Activité du site</h1>
                 <PeriodSelector selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} />
 
-                {/* 0 - Sélection de la période */}
+                <Summary selectedPeriod={selectedPeriod} />
 
                 {/* 1 - Site Web */}
                 {/* 1.1 Sommaire */}

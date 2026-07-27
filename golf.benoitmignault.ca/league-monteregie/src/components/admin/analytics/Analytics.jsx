@@ -131,8 +131,7 @@ function Analytics() {
 
                 <Summary selectedPeriod={selectedPeriod} />
 
-                {/* 1 - Site Web */}
-                {/* 1.1 Sommaire */}
+                
                 {/* 1.2 Top 10 */}
                 {/* 1.3 Visiteurs uniques */}
 

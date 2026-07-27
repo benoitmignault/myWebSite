@@ -71,7 +71,8 @@ $stmt = $conn->prepare($sql);
 
 // Si la période sélectionnée n'est pas "all", on doit lier le paramètre de date à la requête SQL
 if ($period !== 'all') {    
-        // Préparer la requête SQL vue qu'il y a une condition
+    
+    // Préparer la requête SQL vue qu'il y a une condition
     $stmt->bind_param("s", $date);
 }
 

@@ -157,9 +157,11 @@ if ($playerCount >= 4) {
 // dans la table player_event_history sous la notion de previous_position, previous_fedex_points,
 //  previous_handicap pour garder un historique de l'évolution du joueur au fil des événements
 $select = "SELECT current_position, current_fedex_points, current_handicap ";
-$from = "FROM player_event_history ";
-$where = "WHERE player_id = ? ";
-$orderBy = "ORDER BY event_id DESC ";
+$from = "FROM player_event_history p inner join events e on p.event_id = e.id ";
+$where = "WHERE p.player_id = ? ";
+
+// Bug, en raison d'un décalage d'evenement, on doit utiliser la date et non le id en cas de report d'event
+$orderBy = "ORDER BY e.event_date DESC ";
 $limit = "LIMIT 1";
 $sql = $select . $from . $where . $orderBy . $limit;
 

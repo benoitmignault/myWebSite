@@ -155,7 +155,7 @@ if ($playerCount >= 4) {
 
 // On va récupérer current_position, current_fedex_points, current_handicap pour aller les insérer 
 // dans la table player_event_history sous la notion de previous_position, previous_fedex_points,
-//  previous_handicap pour garder un historique de l'évolution du joueur au fil des événements
+// previous_handicap pour garder un historique de l'évolution du joueur au fil des événements
 $select = "SELECT current_position, current_fedex_points, current_handicap ";
 $from = "FROM player_event_history p inner join events e on p.event_id = e.id ";
 $where = "WHERE p.player_id = ? ";

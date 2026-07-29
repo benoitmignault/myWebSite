@@ -413,7 +413,7 @@ if ($numberScoresToUse >= 1 && $numberScoresToUse <= 5) {
     $bestScoresToUse = 8;
 }
 
-// On va prendre les $numberScoresToUse pour ensuite en extraire les X derniers résultats les meilleurs et faire le calcul du handicap et faire un update du handicap dans la table players
+// On va prendre les $bestScoresToUse pour ensuite en extraire les X derniers résultats les meilleurs et faire le calcul du handicap et faire un update du handicap dans la table players
 $bestScores = array_slice($adjustedGrossScores, 0, $bestScoresToUse);
 
 // MAJ de l'handicap du joueur dans la table players, on va faire la moyenne des meilleurs scores brut ajusté et soustraire 72 

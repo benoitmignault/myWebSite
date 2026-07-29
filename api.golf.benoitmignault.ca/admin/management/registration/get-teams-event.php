@@ -6,11 +6,14 @@
 // Comme ce fichier est sous admin, on va devoir vérifier la session d'administrateur avant de faire quoi que ce soit, 
 // pour s'assurer que seul un administrateur peut accéder à cette information.
 
+// Mais aussi sur la page principale du site web pour afficher les équipes et les joueurs associés à un évenement en cours, 
+// pour les afficher dans la section d'un évenement en cours.
+
 // Inclut les informations nécessaires pour CORS
-include(__DIR__ . "/includes/cors.php");
+include(__DIR__ . "/../../../includes/cors.php");
 
 // Inclut la fonction de connexion à la base de données
-include(__DIR__ . "/includes/fct-connexion-bd.php");
+include(__DIR__ . "/../../../includes/fct-connexion-bd.php");
 
 // Établir une connexion à la base de données de la ligue de golf en montérégie
 $conn = connexion_league_golf_monteregie();

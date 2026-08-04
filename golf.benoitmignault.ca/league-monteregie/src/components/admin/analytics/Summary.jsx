@@ -28,6 +28,10 @@ function Summary({ selectedPeriod }) {
     // Fonction pour charger les données de résumé depuis l'API en fonction de la période sélectionnée
     const loadSummaryData = async () => {
 
+        // Réinitialiser l'état d'erreur avant de charger les données
+        setError("");
+        setSummary(null);
+
         try {
             const response = await fetch(`${API_BASE_URL}/admin/analytics/get-summary.php?period=${selectedPeriod}`,                
                 {

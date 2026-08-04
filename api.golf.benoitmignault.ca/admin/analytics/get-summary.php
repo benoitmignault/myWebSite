@@ -92,17 +92,7 @@ if (!$stmt->execute()) {
 
 $result = $stmt->get_result();
 
-if ($result->num_rows === 0) {
-
-    http_response_code(404);
-    echo json_encode(["success" => false, "message" => "Aucune donnée de résumé disponible pour la période sélectionnée."]);
-
-    // Fermer la connexion au résultat du insert dans la base de données et la connexion à la base de données
-    $stmt->close();
-    $conn->close();
-    exit();
-}
-
+// 2026-08-04, Déplacement du moment où on créé les données de retour
 // Initialiser le tableau des données de résumé avec les valeurs par défaut
 $summaryData = [
     "pageLoad" => 0,

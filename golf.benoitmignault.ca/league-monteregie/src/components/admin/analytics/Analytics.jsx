@@ -142,8 +142,6 @@ function Analytics() {
 
                 {
                 /* 
-                <SiteSummary period={selectedPeriod} />
-
                 <SiteTop10 period={selectedPeriod} />
 
                 <SiteUniqueVisitors period={selectedPeriod} />

@@ -7,6 +7,9 @@ import { BsCameraFill } from "react-icons/bs";
 import { MdAdminPanelSettings } from "react-icons/md";
 import PeriodSelector from "./PeriodSelector";
 import Summary from "./Summary";
+import TopPlayers from "./TopPlayers";
+import TopEvents from "./TopEvents";
+import TopPlayerStats from "./TopPlayerStats";
 
 import { API_BASE_URL } from "../../../config";
 import Footer from "../../Footer";
@@ -130,7 +133,11 @@ function Analytics() {
                 <PeriodSelector selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} />
 
                 <Summary selectedPeriod={selectedPeriod} />
-
+                <div className="analytics-top10">
+                    <TopPlayers selectedPeriod={selectedPeriod} />
+                    <TopEvents selectedPeriod={selectedPeriod} />
+                    <TopPlayerStats selectedPeriod={selectedPeriod} />
+                </div>
                 
                 {/* 1.2 Top 10 */}
                 {/* 1.3 Visiteurs uniques */}

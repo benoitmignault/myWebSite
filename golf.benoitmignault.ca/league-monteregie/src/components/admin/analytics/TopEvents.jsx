@@ -90,7 +90,7 @@ function TopEvents({ selectedPeriod }) {
     // Si une erreur est survenue lors du chargement des données, afficher le message d'erreur
     if (error) {
         return (
-            <div className="topplayers-error">
+            <div className="topevents-error">
                 <LuTriangleAlert />
                 <p>{error}</p>
             </div>

@@ -25,7 +25,7 @@ if (!$conn) {
 $period = isset($_GET['period']) ? $_GET['period'] : 'all';
 
 // Requête SQL pour récupérer les 10 événements les plus consultés sur le site web
-$select = "SELECT e.event_name, count(*) as clicks ";
+$select = "SELECT e.golf_course, count(*) as clicks ";
 $from = "FROM events e LEFT JOIN website_logs wl ON e.id = wl.target_id ";
 $where = "WHERE wl.action_type = 'event_click' ";
 $groupBy = "GROUP BY wl.target_id ";
@@ -101,7 +101,7 @@ $topEvents = [];
 while ($row = $result->fetch_assoc()) {
 
     $topEvents[] = [
-        "event_name" => $row["event_name"],
+        "golf_course" => $row["golf_course"],
         "clicks" => (int) $row["clicks"]
     ];
 }

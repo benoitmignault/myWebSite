@@ -118,8 +118,11 @@ function TopEvents({ selectedPeriod }) {
     }
 
     return (
-        <div className="topevents-container">
-            <h2>Événements les plus consultés</h2>
+        <>
+            <h3>
+                <LuCalendarDays className="summary-icon" />
+                Événements les plus consultés
+            </h3>
             <table className="topevents-table">
                 <thead>
                     <tr>
@@ -132,13 +135,13 @@ function TopEvents({ selectedPeriod }) {
                     {events.map((event, index) => (
                         <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{event.event_name}</td>
+                            <td>{event.golf_course}</td>
                             <td>{event.clicks}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>
+        </>
     );
 }
 

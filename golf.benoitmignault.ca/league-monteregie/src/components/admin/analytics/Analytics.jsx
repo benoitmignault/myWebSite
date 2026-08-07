@@ -5,6 +5,7 @@ import { MdLogout } from "react-icons/md";
 import { FaArrowUp } from "react-icons/fa";
 import { BsCameraFill } from "react-icons/bs";
 import { MdAdminPanelSettings } from "react-icons/md";
+import { LuTrophy, LuHouse, LuChartLine } from "react-icons/lu";
 import PeriodSelector from "./PeriodSelector";
 import Summary from "./Summary";
 import TopPlayers from "./TopPlayers";
@@ -133,10 +134,27 @@ function Analytics() {
                 <PeriodSelector selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} />
 
                 <Summary selectedPeriod={selectedPeriod} />
-                <div className="analytics-top10">
-                    <TopPlayers selectedPeriod={selectedPeriod} />
-                    <TopEvents selectedPeriod={selectedPeriod} />
-                    <TopPlayerStats selectedPeriod={selectedPeriod} />
+
+                <div className="top10-container">
+                    <h2>
+                        <LuTrophy />
+                        Top 10 des consultations
+                    </h2>                    
+                    <div className="top10-section">
+                        <h3>
+                            <LuHouse />
+                            Page d'accueil
+                        </h3>
+                        <TopPlayers selectedPeriod={selectedPeriod} />
+                        <TopEvents selectedPeriod={selectedPeriod} />
+                    </div>
+                    <div className="top10-section">
+                        <h3>
+                            <LuChartLine />
+                            Évolution des joueurs
+                        </h3>
+                        <TopPlayerStats selectedPeriod={selectedPeriod} />
+                    </div>                    
                 </div>                
                 
                 {/* 1.3 Visiteurs uniques */}

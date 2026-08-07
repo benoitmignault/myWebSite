@@ -68,10 +68,7 @@ function TopPlayers({ selectedPeriod }) {
         } catch (err) {
 
             console.error(err);
-
-            setError(
-                "Une erreur est survenue lors du chargement des joueurs les plus consultés."
-            );
+            setError("Une erreur est survenue lors du chargement des joueurs les plus consultés.");
         };
     };
 

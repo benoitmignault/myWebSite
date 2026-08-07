@@ -56,7 +56,7 @@ function TopPlayers({ selectedPeriod }) {
             if (data.success) {
 
                 // Mettre à jour l'état avec les joueurs les plus consultés reçus de l'API
-                setPlayers(data.players);
+                setPlayers(data.top_players);
 
             } else {
 

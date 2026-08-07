@@ -120,7 +120,7 @@ function TopPlayerStats({ selectedPeriod }) {
     return (
         <>  
             <h3>Joueurs les plus consultés</h3>          
-            <table>
+            <table className="top10-table">
                 <thead>
                     <tr>
                         <th>Position</th>

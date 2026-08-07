@@ -120,7 +120,7 @@ function TopEvents({ selectedPeriod }) {
     return (
         <>
             <h3>Événements consultés</h3>
-            <table className="topevents-table">
+            <table className="top10-table">
                 <thead>
                     <tr>
                         <th>Position</th>

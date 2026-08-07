@@ -118,8 +118,11 @@ function TopPlayerStats({ selectedPeriod }) {
     }
 
     return (
-        <div className="topplayers-container">
-            <h2>Joueurs les plus consultés</h2>
+        <>
+            <h3>
+                <LuUser className="summary-icon" />
+                Évolutions des joueurs les plus consultées
+            </h3>
             <table>
                 <thead>
                     <tr>
@@ -138,7 +141,7 @@ function TopPlayerStats({ selectedPeriod }) {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </>
     );
 
 }

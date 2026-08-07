@@ -9,7 +9,7 @@ import PeriodSelector from "./PeriodSelector";
 import Summary from "./Summary";
 import TopPlayers from "./TopPlayers";
 import TopEvents from "./TopEvents";
-//import TopPlayerStats from "./TopPlayerStats";
+import TopPlayerStats from "./TopPlayerStats";
 
 import { API_BASE_URL } from "../../../config";
 import Footer from "../../Footer";
@@ -136,7 +136,7 @@ function Analytics() {
                 <div className="analytics-top10">
                     <TopPlayers selectedPeriod={selectedPeriod} />
                     <TopEvents selectedPeriod={selectedPeriod} />
-                    {/* <TopPlayerStats selectedPeriod={selectedPeriod} /> */}
+                    <TopPlayerStats selectedPeriod={selectedPeriod} />
                 </div>                
                 
                 {/* 1.3 Visiteurs uniques */}

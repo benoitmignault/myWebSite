@@ -101,29 +101,38 @@ function TopEvents({ selectedPeriod }) {
     if (!events) {
         return (
             <div className="topevents-loading">
-                Chargement...
+                <LuLoaderCircle />
+                <p>Chargement...</p>
+            </div>
+        );
+    }
+
+    // Si les données sont chargées mais qu'il n'y a aucun événement, afficher un message indiquant qu'aucun événement n'a été consulté
+    if (events.length === 0) {
+        return (
+            <div className="topevents-empty">
+                <LuInfo />
+                <p>Aucun événement n'a été consulté durant cette période.</p>
             </div>
         );
     }
 
     return (
         <div className="topevents-container">
-            <h2>
-                Événements les plus consultés
-            </h2>
+            <h2>Événements les plus consultés</h2>
             <table className="topevents-table">
                 <thead>
                     <tr>
                         <th>Position</th>
-                        <th>Nom</th>
-                        <th>Nombre de consultations</th>
+                        <th>Événement</th>
+                        <th>Nb clicks</th>
                     </tr>
                 </thead>
                 <tbody>
                     {events.map((event, index) => (
                         <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{event.name}</td>
+                            <td>{event.event_name}</td>
                             <td>{event.clicks}</td>
                         </tr>
                     ))}

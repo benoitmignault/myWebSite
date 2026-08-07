@@ -8,7 +8,7 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import PeriodSelector from "./PeriodSelector";
 import Summary from "./Summary";
 import TopPlayers from "./TopPlayers";
-//import TopEvents from "./TopEvents";
+import TopEvents from "./TopEvents";
 //import TopPlayerStats from "./TopPlayerStats";
 
 import { API_BASE_URL } from "../../../config";
@@ -135,7 +135,7 @@ function Analytics() {
                 <Summary selectedPeriod={selectedPeriod} />
                 <div className="analytics-top10">
                     <TopPlayers selectedPeriod={selectedPeriod} />
-                    {/* <TopEvents selectedPeriod={selectedPeriod} /> */}
+                    <TopEvents selectedPeriod={selectedPeriod} />
                     {/* <TopPlayerStats selectedPeriod={selectedPeriod} /> */}
                 </div>                
                 

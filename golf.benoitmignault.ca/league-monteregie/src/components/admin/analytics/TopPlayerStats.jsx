@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LuLoaderCircle, LuTriangleAlert, LuInfo, LuUser } from "react-icons/lu";
+import { LuLoaderCircle, LuTriangleAlert, LuInfo } from "react-icons/lu";
 import { API_BASE_URL } from "../../../config";
 
 /**
@@ -118,11 +118,8 @@ function TopPlayerStats({ selectedPeriod }) {
     }
 
     return (
-        <>
-            <h3>
-                <LuUser className="summary-icon" />
-                Évolutions des joueurs les plus consultées
-            </h3>
+        <>  
+            <h3>Joueurs les plus consultés</h3>          
             <table>
                 <thead>
                     <tr>

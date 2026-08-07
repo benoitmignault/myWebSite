@@ -147,6 +147,7 @@ function Analytics() {
                                 Accueil
                             </h3>
                             <TopPlayers selectedPeriod={selectedPeriod} />
+                            <div className="top10-divider"></div>
                             <TopEvents selectedPeriod={selectedPeriod} />
                         </div>
                         <div className="top10-section">

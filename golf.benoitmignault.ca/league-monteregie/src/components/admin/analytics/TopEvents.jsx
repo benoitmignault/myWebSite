@@ -127,7 +127,7 @@ function TopEvents({ selectedPeriod }) {
                 <thead>
                     <tr>
                         <th>Position</th>
-                        <th>Événement</th>
+                        <th>Club de Golf</th>
                         <th>Nb clicks</th>
                     </tr>
                 </thead>

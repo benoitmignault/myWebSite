@@ -100,8 +100,9 @@ $topEvents = [];
 // Parcourir les résultats de la requête SQL et les stocker dans le tableau $topEvents
 while ($row = $result->fetch_assoc()) {
 
-    $topEvents[] = [
-        "golf_course" => $row["golf_course"],
+    // Extraction de seulement le nom du club de golf sans les (...)
+    $topEvents[] = [                   
+        "golf_course" => trim(preg_replace('/\s*\(.*\)$/', '', $row["golf_course"])),
         "clicks" => (int) $row["clicks"]
     ];
 }

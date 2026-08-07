@@ -139,22 +139,24 @@ function Analytics() {
                     <h2>
                         <LuTrophy />
                         Top 10 des consultations
-                    </h2>                    
-                    <div className="top10-section">
-                        <h3>
-                            <LuHouse />
-                            Page d'accueil
-                        </h3>
-                        <TopPlayers selectedPeriod={selectedPeriod} />
-                        <TopEvents selectedPeriod={selectedPeriod} />
-                    </div>
-                    <div className="top10-section">
-                        <h3>
-                            <LuChartLine />
-                            Évolution des joueurs
-                        </h3>
-                        <TopPlayerStats selectedPeriod={selectedPeriod} />
-                    </div>                    
+                    </h2>
+                    <div className="top10-content">
+                        <div className="top10-section">
+                            <h3>
+                                <LuHouse />
+                                Accueil
+                            </h3>
+                            <TopPlayers selectedPeriod={selectedPeriod} />
+                            <TopEvents selectedPeriod={selectedPeriod} />
+                        </div>
+                        <div className="top10-section">
+                            <h3>
+                                <LuChartLine />
+                                Évolution des joueurs
+                            </h3>
+                            <TopPlayerStats selectedPeriod={selectedPeriod} />
+                        </div>
+                    </div>             
                 </div>                
                 
                 {/* 1.3 Visiteurs uniques */}

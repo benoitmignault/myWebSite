@@ -224,10 +224,60 @@
     font-weight: 600;
 }
 
+.top10-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
 
+.top10-table th {
+    padding: 14px 18px;
+    text-align: left;
+    color: #6ea8ff;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+}
 
+.top10-table td {
+    padding: 14px 18px;
+    color: white;
+}
 
+/* Position */
+.top10-table th:first-child,
+.top10-table td:first-child {
+    text-align: center;
+    width: 80px;
+}
 
+/* Joueur / Événement */
+.top10-table th:nth-child(2),
+.top10-table td:nth-child(2) {
+    text-align: left;
+}
+
+/* Nombre de clics */
+.top10-table th:last-child,
+.top10-table td:last-child {
+    text-align: right;
+    width: 100px;
+}
+
+.top10-table tbody tr {
+    transition: .2s;
+}
+
+.top10-table tbody tr:hover {
+    background: rgba(45,85,180,.18);
+}
+
+.top10-table tbody tr:hover td:first-child {
+    border-left: 3px solid #4b8cff;
+}
+
+.top10-table tbody tr:hover td:last-child {
+    border-right: 3px solid #4b8cff;
+}
 
 
 

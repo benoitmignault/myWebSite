@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LuTriangleAlert } from "react-icons/lu";
+import { LuLoaderCircle, LuTriangleAlert, LuInfo } from "react-icons/lu";
 import { API_BASE_URL } from "../../../config";
 
 /**
@@ -101,22 +101,31 @@ function TopPlayers({ selectedPeriod }) {
     if (!players) {
         return (
             <div className="topplayers-loading">
-                Chargement...
+              <LuLoaderCircle />
+              <p>Chargement...</p>
+            </div>
+        );
+    }
+
+    //  Si les données sont chargées mais qu'il n'y a aucun joueur, afficher un message indiquant qu'aucun joueur n'a été consulté
+    if (players.length === 0) {
+        return (
+            <div className="topplayers-empty">
+                <LuInfo />
+                <p>Aucun joueur n'a été consulté durant cette période.</p>
             </div>
         );
     }
 
     return (
         <div className="topplayers-container">
-            <h2>
-                Joueurs les plus consultés
-            </h2>
-            <table className="topplayers-table">
+            <h2>Joueurs les plus consultés</h2>
+            <table>
                 <thead>
                     <tr>
                         <th>Position</th>
-                        <th>Nom</th>
-                        <th>Nombre de consultations</th>
+                        <th>Joueur</th>
+                        <th>Nb clicks</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LuLoaderCircle, LuTriangleAlert, LuInfo, LuCalendarDays } from "react-icons/lu";
+import { LuLoaderCircle, LuTriangleAlert, LuInfo } from "react-icons/lu";
 import { API_BASE_URL } from "../../../config";
 
 /**
@@ -119,10 +119,7 @@ function TopEvents({ selectedPeriod }) {
 
     return (
         <>
-            <h3>
-                <LuCalendarDays className="summary-icon" />
-                Événements les plus consultés
-            </h3>
+            <h3>Événements consultés</h3>
             <table className="topevents-table">
                 <thead>
                     <tr>

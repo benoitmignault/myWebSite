@@ -33,7 +33,6 @@ function TopPlayers({ selectedPeriod }) {
         setPlayers(null);
 
         try {
-
             const response = await fetch(
                 `${API_BASE_URL}/admin/analytics/get-top-players.php?period=${selectedPeriod}`,
                 {

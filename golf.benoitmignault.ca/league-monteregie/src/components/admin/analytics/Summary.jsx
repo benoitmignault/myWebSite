@@ -132,6 +132,18 @@ function Summary({ selectedPeriod }) {
                         <span className="summary-label">Événements consultés</span>
                     </div>
                 </div>
+                <div className="summary-unique">
+                    <div>
+                        <LuUsers />
+                        <span>{summary.pageLoadUnique}</span>
+                        <span>visiteurs uniques</span>
+                    </div>
+                    {selectedPeriod === "all" && (
+                        <span className="summary-unique-note">
+                            depuis le 13 juin 2026
+                        </span>
+                    )}
+                </div>              
             </div>
 
             <div className="summary-card">
@@ -150,6 +162,18 @@ function Summary({ selectedPeriod }) {
                         <span className="summary-value">{summary.playerStatsView}</span>
                         <span className="summary-label">Joueurs consultés</span>
                     </div>
+                </div>
+                <div className="summary-unique">
+                    <div>
+                        <LuUsers />
+                        <span>{summary.pageLoadStatsUnique}</span>
+                        <span>visiteurs uniques</span>
+                    </div>
+                    {selectedPeriod === "all" && (
+                        <span className="summary-unique-note">
+                            depuis le 13 juin 2026
+                        </span>
+                    )}
                 </div>
             </div>
         </div>

@@ -25,8 +25,8 @@ const IncludeAnalytics = lazy(() => import("./components/settings/IncludeAnalyti
 const PlayerEvolution = lazy(() => import("./components/player-evolution/PlayerEvolution"));
 const Login = lazy(() => import("./components/admin/Login"));
 const Dashboard = lazy(() => import("./components/admin/Dashboard"));
-const Analytics = lazy(() => import("./components/admin/analytics/Analytics"));
-
+const TrafficAnalytics = lazy(() => import("./components/admin/analytics/traffic/TrafficAnalytics"));
+const SponsorAnalytics = lazy(() => import("./components/admin/analytics/sponsors/SponsorAnalytics"));
 
 function App() {
 
@@ -40,7 +40,8 @@ function App() {
                     <Route path="/league-monteregie/player-evolution" element={<PlayerEvolution />}/>
                     <Route path="/league-monteregie/admin/" element={<Login />}/>
                     <Route path="/league-monteregie/admin/dashboard" element={<Dashboard />}/>
-                    <Route path="/league-monteregie/admin/analytics" element={<Analytics />}/>
+                    <Route path="/league-monteregie/admin/analytics/traffic" element={<TrafficAnalytics />}/>
+                    <Route path="/league-monteregie/admin/analytics/sponsor" element={<SponsorAnalytics />}/>                    
                 </Routes>
             </Suspense>            
         </BrowserRouter>

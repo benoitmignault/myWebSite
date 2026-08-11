@@ -112,7 +112,7 @@ function TopPlayerStats({ selectedPeriod }) {
         return (
             <div className="topplayers-empty">
                 <LuInfo />
-                <p>Aucun joueur n'a été consulté durant cette période.</p>
+                <p>Aucun joueur n'a été consulté pour son évolution durant cette période.</p>
             </div>
         );
     }

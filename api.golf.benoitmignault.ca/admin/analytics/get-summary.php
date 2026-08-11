@@ -41,7 +41,7 @@ $date = null;
 
 // Si la période sélectionnée n'est pas "all", 
 // on ajoute une condition WHERE pour filtrer les données selon la période
-if ($period !== 'all') {   
+if ($period !== 'all') {
     
     // Ajustement du timezone à l'heure de Montréal pour la date de début de la période sélectionnée
     date_default_timezone_set('America/Montreal');
@@ -81,8 +81,8 @@ $sql = $select . $from . $where . $groupBy;
 $stmt = $conn->prepare($sql);
 
 // Si la période sélectionnée n'est pas "all", on doit lier le paramètre de date à la requête SQL
-if ($period !== 'all') {    
-    
+if ($period !== 'all') {
+
     // Préparer la requête SQL vue qu'il y a une condition
     $stmt->bind_param("s", $date);
 }

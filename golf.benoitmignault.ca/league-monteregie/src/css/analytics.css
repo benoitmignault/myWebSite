@@ -169,27 +169,39 @@
 }
 
 .summary-unique {
-    margin-top: 18px;
+    margin-top: 20px;
+    padding-top: 14px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 0.9rem;
+    border-top: 2px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
 }
 
-.summary-unique-note {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.55);
+.summary-unique > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.summary-unique > div span:first-of-type {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
 }
 
 .summary-unique svg {
-    width: 18px;
-    height: 18px;
+    width: 21px;
+    height: 21px;
 }
 
-
+.summary-unique-note {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
 
 .top10-container {
     display: flex;

@@ -166,7 +166,7 @@ function Summary({ selectedPeriod }) {
                 <div className="summary-unique">
                     <div>
                         <LuUsers />
-                        <span>{summary.pageLoadStatsUnique}</span>
+                        <span>{summary.pageStatsLoadUnique}</span>
                         <span>visiteurs uniques</span>
                     </div>
                     {selectedPeriod === "all" && (

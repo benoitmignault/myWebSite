@@ -99,7 +99,10 @@ $summaryData = [
     "pageStatsLoad" => 0,
     "playerClick" => 0,
     "eventClick" => 0,    
-    "playerStatsView" => 0
+    "playerStatsView" => 0,
+    // Ajout des valeurs uniques pour le chargement des pages
+    "pageLoadUnique" => 0,
+    "pageStatsLoadUnique" => 0
 ];
 
 while ($row = $result->fetch_assoc()) {    

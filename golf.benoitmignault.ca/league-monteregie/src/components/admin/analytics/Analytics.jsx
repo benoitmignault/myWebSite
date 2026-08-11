@@ -168,8 +168,7 @@ function Analytics() {
                 {/* 2.3 Classement */}
 
                 {
-                /* 
-                <SiteTop10 period={selectedPeriod} />
+                /*               
 
                 <SiteUniqueVisitors period={selectedPeriod} />
 

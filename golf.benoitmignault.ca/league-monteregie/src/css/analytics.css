@@ -168,6 +168,29 @@
     margin: 8px 0;
 }
 
+.summary-unique {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9rem;
+}
+
+.summary-unique-note {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.summary-unique svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+
 .top10-container {
     display: flex;
     flex-direction: column;

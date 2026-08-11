@@ -6,16 +6,16 @@ import { FaArrowUp } from "react-icons/fa";
 import { BsCameraFill } from "react-icons/bs";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { LuTrophy, LuHouse, LuChartLine } from "react-icons/lu";
-import PeriodSelector from "./PeriodSelector";
+import PeriodSelector from "../PeriodSelector";
 import Summary from "./Summary";
 import TopPlayers from "./TopPlayers";
 import TopEvents from "./TopEvents";
 import TopPlayerStats from "./TopPlayerStats";
 
-import { API_BASE_URL } from "../../../config";
-import Footer from "../../Footer";
-import '../../../css/admin.css'
-import "../../../css/analytics.css";
+import { API_BASE_URL } from "../../../../config";
+import Footer from "../../../Footer";
+import '../../../../css/admin.css';
+import "../../../../css/analytics.css";
 
 /**
  * Composant pour afficher les statistiques d'activité du site web et des partenaires,
@@ -132,7 +132,6 @@ function Analytics() {
 
                 <h1 className="gestion-title">Activité du site</h1>
                 <PeriodSelector selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} />
-
                 <Summary selectedPeriod={selectedPeriod} />
 
                 <div className="top10-container">
@@ -158,27 +157,7 @@ function Analytics() {
                             <TopPlayerStats selectedPeriod={selectedPeriod} />
                         </div>
                     </div>             
-                </div>                
-                
-                {/* 1.3 Visiteurs uniques */}
-
-                {/* 2 - Partenaires */}
-                {/* 2.1 Sommaire */}
-                {/* 2.2 Répartition par média */}
-                {/* 2.3 Classement */}
-
-                {
-                /*               
-
-                <SiteUniqueVisitors period={selectedPeriod} />
-
-                <SponsorsSummary period={selectedPeriod} />
-
-                <SponsorsMedia period={selectedPeriod} />
-
-                <SponsorsRanking period={selectedPeriod} />     
-                 */
-                }
+                </div>
             </div>
             <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
                 <FaArrowUp />
@@ -188,7 +167,6 @@ function Analytics() {
                 <span>{photoCredit}</span>
             </div>
             <Footer />
-
         </div>
     );
 };

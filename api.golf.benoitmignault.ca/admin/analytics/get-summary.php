@@ -62,6 +62,21 @@ if ($period !== 'all') {
 
     // On met à jour la condition WHERE à la requête SQL pour filtrer les données selon la période sélectionnée
     $where .= "WHERE log_date >= ? ";
+
+} else {
+    
+    // Si la période sélectionnée est "all", on doit mettre la condition de la date plus grande que le 12 juin 2026
+    $where = "WHERE log_date >= '2026-06-13 00:00:00' ";
+
+    // Ici, on va réorganiser le SELECT pour compter les visiteurs uniques pour le chargement des pages et le chargement des statistiques des joueurs
+    $select = "SELECT 
+                    action_type, 
+                    COUNT(*) AS number, 
+                    COUNT(DISTINCT CASE
+                        WHEN action_type IN ('page_load', 'page_stats_load')
+                            AND log_date >= '2026-06-13 00:00:00'
+                        THEN ip_address
+                    END) AS unique_number ";
 }
 
 // Préparer la requête SQL, car ici, nous savons qu'il peut y avoir une condition WHERE selon la période sélectionnée. 

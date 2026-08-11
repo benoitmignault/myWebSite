@@ -123,29 +123,25 @@ while ($row = $result->fetch_assoc()) {
         // La page principale du site web a été chargée 
         case "page_load":
             $summaryData["pageLoad"] = (int)$row["number"];
-            if (isset($row["unique_number"])) {
-                $summaryData["pageLoadUnique"] = (int)$row["unique_number"];
-            }
+            $summaryData["pageLoadUnique"] = (int) $row["unique_number"];
             break;
 
         // La page des statistiques des joueurs a été chargée
         case "page_stats_load":
             $summaryData["pageStatsLoad"] = (int)$row["number"];
-            if (isset($row["unique_number"])) {
-                $summaryData["pageStatsLoadUnique"] = (int)$row["unique_number"];
-            }
+            $summaryData["pageStatsLoadUnique"] = (int) $row["unique_number"];
             break;
 
         case "player_click":
-            $summaryData["playerClick"] = (int)$row["number"];
+            $summaryData["playerClick"] = (int) $row["number"];
             break;
 
         case "event_click":
-            $summaryData["eventClick"] = (int)$row["number"];
+            $summaryData["eventClick"] = (int) $row["number"];
             break;
 
         case "player_stats_view":
-            $summaryData["playerStatsView"] = (int)$row["number"];
+            $summaryData["playerStatsView"] = (int) $row["number"];
             break;
     }
 }

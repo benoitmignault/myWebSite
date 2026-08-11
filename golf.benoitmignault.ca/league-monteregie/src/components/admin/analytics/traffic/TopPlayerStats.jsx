@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LuLoaderCircle, LuTriangleAlert, LuInfo } from "react-icons/lu";
-import { API_BASE_URL } from "../../../config";
+import { API_BASE_URL } from "../../../../config";
 
 /**
  * Composant pour afficher les joueurs les plus consultés de la section évolution des joueurs sur le site web

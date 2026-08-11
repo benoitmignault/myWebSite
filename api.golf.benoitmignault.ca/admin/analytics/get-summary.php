@@ -25,7 +25,13 @@ if (!$conn) {
 $period = isset($_GET['period']) ? $_GET['period'] : 'all';
 
 // Requête SQL pour récupérer le résumé des statistiques d'activité du site web et des partenaires
-$select = "SELECT action_type, count(*) as number ";
+$select = "SELECT 
+                action_type, 
+                COUNT(*) AS number, 
+                COUNT(DISTINCT CASE
+                    WHEN action_type IN ('page_load', 'page_stats_load')
+                    THEN ip_address
+                END) AS unique_number ";
 $from = "FROM website_logs ";
 $where = "";
 $groupBy = "GROUP BY action_type";

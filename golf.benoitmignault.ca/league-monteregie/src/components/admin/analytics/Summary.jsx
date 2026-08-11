@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LuHouse, LuEye, LuUser, LuCalendarDays, LuChartLine, LuTriangleAlert } from "react-icons/lu";
+import { LuHouse, LuEye, LuUser, LuUsers, LuCalendarDays, LuChartLine, LuTriangleAlert } from "react-icons/lu";
 import { API_BASE_URL } from "../../../config";
 
 /**

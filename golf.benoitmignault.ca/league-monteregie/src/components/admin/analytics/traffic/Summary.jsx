@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LuHouse, LuEye, LuUser, LuUsers, LuCalendarDays, LuChartLine, LuTriangleAlert } from "react-icons/lu";
-import { API_BASE_URL } from "../../../config";
+import { API_BASE_URL } from "../../../../config";
 
 /**
  * Composant pour afficher un résumé des statistiques d'activité du site web et de la page d'évolution des joueurs, 

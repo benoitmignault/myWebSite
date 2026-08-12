@@ -145,7 +145,7 @@ function TrafficAnalytics() {
                         <div className="top10-section">
                             <h3>
                                 <LuHouse />
-                                Accueil
+                                Classement de la Coupe Fedex
                             </h3>
                             <TopPlayers selectedPeriod={selectedPeriod} />
                             <div className="top10-divider"></div>

@@ -113,7 +113,7 @@ function Summary({ selectedPeriod }) {
             <div className="summary-card">
                 <h2>
                     <LuHouse className="summary-title-icon" />
-                    Accueil
+                    Classement de la Coupe Fedex
                 </h2>
                 <div className="summary-stats">
                     <div className="summary-stat">

@@ -105,7 +105,7 @@ function SponsorAnalytics() {
     }, []);
 
     return (
-        <div>
+        <div className="sponsor-page">
             <div className="admin-navbar">
                 <a href="#" className="admin-navbar-link"
                     onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/"); }}

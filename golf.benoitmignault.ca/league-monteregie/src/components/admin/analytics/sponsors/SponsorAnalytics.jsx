@@ -7,7 +7,7 @@ import { BsCameraFill } from "react-icons/bs";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { LuTrophy, LuHouse, LuChartLine, LuChartColumnIncreasing } from "react-icons/lu";
 import PeriodSelector from "../PeriodSelector";
-
+import Summary from "./Summary";
 
 
 import { API_BASE_URL } from "../../../../config";
@@ -132,6 +132,7 @@ function SponsorAnalytics() {
 
                 <h1 className="gestion-title">Activité des partenaires</h1>
                 <PeriodSelector selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} />
+                <Summary selectedPeriod={selectedPeriod} />
 
 
 

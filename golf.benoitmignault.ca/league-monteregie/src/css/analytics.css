@@ -395,6 +395,86 @@
     font-size: 0.95rem;
 }
 
+.sponsor-summary {
+    width: 100%;
+    max-width: 700px;
+    margin: 30px auto 0;
+    padding: 25px;
+    background: rgba(30, 45, 80, 0.55);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sponsor-summary-stat {
+    width: 100%;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 12px;
+    color: white;
+}
+
+.sponsor-summary-stat svg {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.sponsor-summary-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    margin: 5px 0 8px;
+}
+
+.sponsor-summary-label {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+    text-align: center;
+}
+
+.sponsor-summary-unique {
+    width: 100%;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 2px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.sponsor-summary-unique > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.sponsor-summary-unique svg {
+    width: 20px;
+    height: 20px;
+}
+
+.sponsor-summary-unique-note {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+
+
+
+
+
 
 
 

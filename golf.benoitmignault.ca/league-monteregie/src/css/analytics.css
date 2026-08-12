@@ -325,15 +325,18 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: rgba(255, 255, 255, 0.75);
     gap: 12px;
+    color: white;
+    background: rgba(255, 193, 7, 0.08);
+    border: 1px solid rgba(255, 193, 7, 0.45);
+    border-radius: 12px;
 }
 
 .topplayers-empty svg,
 .topevents-empty svg {
     width: 22px;
     height: 22px;
-    color: rgba(255, 255, 255, 0.75);
+    color: #ffc107;
 }
 
 .topplayers-empty p,

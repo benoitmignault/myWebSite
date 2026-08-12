@@ -130,7 +130,8 @@ function SponsorAnalytics() {
             </div>
             <div className="dashboard-container">
 
-
+                <h1 className="gestion-title">Activité des partenaires</h1>
+                <PeriodSelector selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} />
 
 
 

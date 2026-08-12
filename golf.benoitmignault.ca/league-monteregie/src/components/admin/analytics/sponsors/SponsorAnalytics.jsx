@@ -137,11 +137,16 @@ function SponsorAnalytics() {
 
 
 
-
-
                 
             </div>
-
+            <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
+                <FaArrowUp />
+            </button>
+            <div className="admin-photo-credit">
+                <BsCameraFill />
+                <span>{photoCredit}</span>
+            </div>
+            <Footer />
 
 
         </div>

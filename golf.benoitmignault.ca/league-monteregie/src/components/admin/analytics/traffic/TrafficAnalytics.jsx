@@ -23,7 +23,7 @@ import "../../../../css/analytics.css";
  * 
  * @returns {JSX.Element} - Le composant Analytics.
  */
-function Analytics() {
+function TrafficAnalytics() {
 
     const navigate = useNavigate();
 
@@ -171,4 +171,4 @@ function Analytics() {
     );
 };
 
-export default Analytics;
+export default TrafficAnalytics;

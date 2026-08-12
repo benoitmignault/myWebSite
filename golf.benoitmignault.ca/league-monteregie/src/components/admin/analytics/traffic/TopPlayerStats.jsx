@@ -34,7 +34,7 @@ function TopPlayerStats({ selectedPeriod }) {
 
         try {
             const response = await fetch(
-                `${API_BASE_URL}/admin/analytics/get-top-players-stats.php?period=${selectedPeriod}`,
+                `${API_BASE_URL}/admin/analytics/traffic/get-top-players-stats.php?period=${selectedPeriod}`,
                 {
                     credentials: "include"
                 }

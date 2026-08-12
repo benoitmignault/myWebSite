@@ -33,7 +33,7 @@ function Summary({ selectedPeriod }) {
         setSummary(null);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/analytics/get-summary.php?period=${selectedPeriod}`,                
+            const response = await fetch(`${API_BASE_URL}/admin/analytics/traffic/get-summary.php?period=${selectedPeriod}`,                
                 {
                     credentials: "include"
                 }

@@ -345,6 +345,21 @@
     font-size: 0.95rem;
 }
 
+.sponsor-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sponsor-page .dashboard-container {
+    flex: 1;
+}
+
+
+
+
+
+
 .sponsor-error-container {
     display: flex;
     justify-content: center;

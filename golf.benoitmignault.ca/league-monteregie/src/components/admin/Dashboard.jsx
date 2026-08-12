@@ -107,33 +107,27 @@ function Dashboard() {
         <div>
             <div className="admin-navbar">
                 <a href="#" className="admin-navbar-link"
-                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/");}}
+                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/"); }}
                 >
-                    <FaHouse />
-                    <span>Retour au site principal</span>
-                </a>
-
-                <a
-                    href="#" className="admin-navbar-link"
-                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/analytics/traffic"); }}
-                >
-                    <LuChartColumnIncreasing />
-                    <span>Activité du site</span>
-                </a>
-
-                <a
-                    href="#" className="admin-navbar-link"
-                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/analytics/sponsor"); }}
-                >
-                    <LuChartColumnIncreasing />
-                    <span>Activité des partenaires</span>
+                    <FaHouse /><span>Retour au site principal</span>
                 </a>
 
                 <a href="#" className="admin-navbar-link"
-                    onClick={(e) => {e.preventDefault(); handleLogout("/league-monteregie/admin/");}}
+                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/analytics/traffic"); }}
                 >
-                    <MdLogout />
-                    <span>Déconnexion</span>
+                    <LuChartColumnIncreasing /><span>Activité du site</span>
+                </a>
+
+                <a href="#" className="admin-navbar-link"
+                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/analytics/sponsor"); }}
+                >
+                    <LuChartColumnIncreasing /><span>Activité des partenaires</span>
+                </a>
+
+                <a href="#" className="admin-navbar-link"
+                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/admin/"); }}
+                >
+                    <MdLogout /><span>Déconnexion</span>
                 </a>
             </div>
             <div className="dashboard-container">

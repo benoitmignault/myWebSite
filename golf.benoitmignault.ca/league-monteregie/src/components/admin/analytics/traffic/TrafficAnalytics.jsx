@@ -109,23 +109,25 @@ function TrafficAnalytics() {
         <div>
             <div className="admin-navbar">
                 <a href="#" className="admin-navbar-link"
-                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/");}}
+                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/"); }}
                 >
-                    <FaHouse />
-                    <span>Retour au site principal</span>
-                </a>
-
-                <a href="#" className="admin-navbar-link"
-                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/dashboard");}}
-                >
-                    <MdAdminPanelSettings />
-                    <span>Retour à la section admin</span>
+                    <FaHouse /><span>Retour au site principal</span>
                 </a>
                 <a href="#" className="admin-navbar-link"
-                    onClick={(e) => {e.preventDefault(); handleLogout("/league-monteregie/admin/");}}
+                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/analytics/sponsor"); }}
                 >
-                    <MdLogout />
-                    <span>Déconnexion</span>
+                    <LuChartColumnIncreasing /><span>Activité des partenaires</span>
+                </a>
+                
+                <a href="#" className="admin-navbar-link"
+                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/dashboard"); }}
+                >
+                    <MdAdminPanelSettings /><span>Retour à la section admin</span>
+                </a>
+                <a href="#" className="admin-navbar-link"
+                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/admin/"); }}
+                >
+                    <MdLogout /><span>Déconnexion</span>
                 </a>
             </div>
             <div className="dashboard-container">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LuHouse, LuEye, LuUser, LuMousePointerClick, LuUsers, LuCalendarDays, LuChartLine, LuTriangleAlert } from "react-icons/lu";
+import { LuEye, LuUsers, LuTriangleAlert } from "react-icons/lu";
 import { API_BASE_URL } from "../../../../config";
 
 /**
@@ -111,7 +111,7 @@ function Summary({ selectedPeriod }) {
     return (
         <div className="sponsor-summary">
             <div className="sponsor-summary-stat">
-                <LuMousePointerClick />
+                <LuEye />
                 <span className="sponsor-summary-value">{summary.sponsorClicks}</span>
                 <span className="sponsor-summary-label">Visites</span>
             </div>

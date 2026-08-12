@@ -57,7 +57,7 @@ function TrafficAnalytics() {
         }
     };
 
-    // Avant de loader la page de statisitéques du site, on doit vérifier que l'administrateur est bien connecté
+    // Avant de loader la page de statistiques du site, on doit vérifier que l'administrateur est bien connecté
     // en vérifiant la session avec l'API check-session.php.
     useEffect(() => {
         fetch(`${API_BASE_URL}/admin/auth/check-session.php`, {credentials: "include"})

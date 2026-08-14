@@ -465,7 +465,46 @@
     color: rgba(255, 255, 255, 0.55);
 }
 
+.sponsor-media-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
 
+.sponsor-media-table th {
+    padding: 14px 18px;
+    text-align: left;
+    color: #6ea8ff;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.sponsor-media-table td {
+    padding: 14px 18px;
+    color: white;
+}
+
+.sponsor-media-table th:last-child,
+.sponsor-media-table td:last-child {
+    text-align: right;
+    width: 100px;
+}
+
+.sponsor-media-table tbody tr {
+    transition: .2s;
+}
+
+.sponsor-media-table tbody tr:hover {
+    background: rgba(45,85,180,.18);
+}
+
+.sponsor-media-table tbody tr:hover td:first-child {
+    border-left: 3px solid #4b8cff;
+}
+
+.sponsor-media-table tbody tr:hover td:last-child {
+    border-right: 3px solid #4b8cff;
+}
 
 
 

@@ -465,18 +465,32 @@
     color: rgba(255, 255, 255, 0.55);
 }
 
+.sponsor-media {
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto 0;
+}
+
 .sponsor-media-table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
+
+    background: rgba(70, 100, 150, 0.18);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 .sponsor-media-table th {
     padding: 14px 18px;
-    text-align: left;
+
     color: #6ea8ff;
     font-weight: 600;
-    border-bottom: 1px solid rgba(255,255,255,.12);
+    text-align: left;
+
+    background: rgba(80, 110, 160, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .sponsor-media-table td {
@@ -484,18 +498,100 @@
     color: white;
 }
 
-.sponsor-media-table th:last-child,
-.sponsor-media-table td:last-child {
-    text-align: right;
-    width: 100px;
+/* Position */
+.sponsor-media-table th:first-child,
+.sponsor-media-table td:first-child {
+    width: 80px;
+    text-align: center;
 }
 
+/* Nb clics */
+.sponsor-media-table th:last-child,
+.sponsor-media-table td:last-child {
+    width: 100px;
+    text-align: right;
+}
+
+/* Lignes */
 .sponsor-media-table tbody tr {
     transition: .2s;
 }
 
+.sponsor-media-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+/* Hover */
 .sponsor-media-table tbody tr:hover {
-    background: rgba(45,85,180,.18);
+    background: rgba(45, 85, 180, 0.18);
+}
+
+.sponsor-media-table tbody tr:hover td:first-child {
+    border-left: 3px solid #4b8cff;
+}
+
+.sponsor-media-table tbody tr:hover td:last-child {
+    border-right: 3px solid #4b8cff;
+}
+
+.sponsor-media-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    background: rgba(70, 100, 150, 0.18);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.sponsor-media-table th {
+    padding: 14px 18px;
+
+    color: #6ea8ff;
+    font-weight: 600;
+    text-align: left;
+
+    background: rgba(80, 110, 160, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sponsor-media-table td {
+    padding: 14px 18px;
+    color: white;
+}
+
+.sponsor-media-table th,
+.sponsor-media-table td {
+    color: white;
+}
+
+/* Position */
+.sponsor-media-table th:first-child,
+.sponsor-media-table td:first-child {
+    width: 80px;
+    text-align: center;
+}
+
+/* Nb clics */
+.sponsor-media-table th:last-child,
+.sponsor-media-table td:last-child {
+    width: 100px;
+    text-align: right;
+}
+
+/* Lignes */
+.sponsor-media-table tbody tr {
+    transition: .2s;
+}
+
+.sponsor-media-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+/* Hover */
+.sponsor-media-table tbody tr:hover {
+    background: rgba(45, 85, 180, 0.18);
 }
 
 .sponsor-media-table tbody tr:hover td:first-child {

@@ -147,18 +147,7 @@ function SponsorAnalytics() {
                 <span>{photoCredit}</span>
             </div>
             <Footer />
-
-
         </div>
-
-
-
-
-
-
-
-
-
     );
 };
 

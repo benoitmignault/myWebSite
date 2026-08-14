@@ -76,7 +76,7 @@ function Media({ selectedPeriod }) {
         // Il faut utiliser une notion asynchrone pour charger les données, en raison de l'utilisation 
         const initializeData = async () => {
 
-            // Elle appelle la fonction loadSummaryData pour récupérer les données de résumé depuis l'API
+            // Elle appelle la fonction loadMediaData pour récupérer les données de résumé depuis l'API
             await loadMediaData();
         };
 
@@ -114,16 +114,18 @@ function Media({ selectedPeriod }) {
             <table className="sponsor-media-table">
                 <thead>
                     <tr>
+                        <th>Position</th>
                         <th>Média</th>
                         <th>Nb clics</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {media.map((item, index) => (
+                    {media.map((oneMedia, index) => (
                         <tr key={index}>
-                            <td>{item.mediaType}</td>
-                            <td>{item.clicks}</td>
+                            <td>{index + 1}</td>
+                            <td>{oneMedia.mediaType}</td>
+                            <td>{oneMedia.clicks}</td>
                         </tr>
                     ))}
                 </tbody>

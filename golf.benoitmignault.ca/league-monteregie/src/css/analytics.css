@@ -466,9 +466,18 @@
 }
 
 .sponsor-media {
-    width: 90%;
-    max-width: 1000px;
+    width: 100%;
+    max-width: 700px;
     margin: 30px auto 0;
+    padding: 25px;
+
+    background: rgba(30, 45, 80, 0.55);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .sponsor-media-table {
@@ -532,17 +541,6 @@
 
 .sponsor-media-table tbody tr:hover td:last-child {
     border-right: 3px solid #4b8cff;
-}
-
-.sponsor-media-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-
-    background: rgba(70, 100, 150, 0.18);
-    backdrop-filter: blur(8px);
-    border-radius: 12px;
-    overflow: hidden;
 }
 
 .sponsor-media-table th {

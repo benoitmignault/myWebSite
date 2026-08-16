@@ -507,6 +507,11 @@
     color: white;
 }
 
+.sponsor-media-table th,
+.sponsor-media-table td {
+    padding: 14px 25px;
+}
+
 /* Position */
 .sponsor-media-table th:first-child,
 .sponsor-media-table td:first-child {
@@ -556,11 +561,6 @@
 
 .sponsor-media-table td {
     padding: 14px 18px;
-    color: white;
-}
-
-.sponsor-media-table th,
-.sponsor-media-table td {
     color: white;
 }
 

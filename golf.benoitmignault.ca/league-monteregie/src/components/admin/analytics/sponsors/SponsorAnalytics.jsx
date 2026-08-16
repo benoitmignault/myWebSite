@@ -5,7 +5,7 @@ import { MdLogout } from "react-icons/md";
 import { FaArrowUp } from "react-icons/fa";
 import { BsCameraFill } from "react-icons/bs";
 import { MdAdminPanelSettings } from "react-icons/md";
-import { LuTrophy, LuHouse, LuChartLine, LuChartColumnIncreasing } from "react-icons/lu";
+import { LuChartColumnIncreasing } from "react-icons/lu";
 import PeriodSelector from "../PeriodSelector";
 import Summary from "./Summary";
 import Media from "./Media";

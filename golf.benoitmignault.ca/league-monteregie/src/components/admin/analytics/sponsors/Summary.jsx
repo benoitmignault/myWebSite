@@ -110,6 +110,9 @@ function Summary({ selectedPeriod }) {
 
     return (
         <div className="sponsor-summary">
+            <h2 className="sponsor-section-subtitle">
+                Résumé de l'activité
+            </h2>
             <div className="sponsor-summary-stat">
                 <LuEye />
                 <span className="sponsor-summary-value">{summary.sponsorClicks}</span>

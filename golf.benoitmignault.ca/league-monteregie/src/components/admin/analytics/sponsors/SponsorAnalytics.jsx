@@ -9,7 +9,7 @@ import { LuChartColumnIncreasing } from "react-icons/lu";
 import PeriodSelector from "../PeriodSelector";
 import Summary from "./Summary";
 import Media from "./Media";
-
+import TopSponsors from "./TopSponsors";
 
 import { API_BASE_URL } from "../../../../config";
 import Footer from "../../../Footer";

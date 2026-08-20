@@ -31,7 +31,6 @@ $where = "";
 $groupBy = "GROUP BY media_type ";
 $order = "ORDER BY clicks DESC";
 
-
 // Initialiser la variable $date à null
 $date = null;
 
@@ -124,18 +123,9 @@ while ($row = $result->fetch_assoc()) {
 
 // On transforme le tableau associatif en tableau d'objets pour l'envoyer au front-end
 $summaryMedia = [
-    [
-        "mediaType" => "website",
-        "clicks" => $summaryMedia['website']
-    ],
-    [
-        "mediaType" => "facebook",
-        "clicks" => $summaryMedia['facebook']
-    ],
-    [
-        "mediaType" => "instagram",
-        "clicks" => $summaryMedia['instagram']
-    ]
+    ["mediaType" => "website", "clicks" => $summaryMedia['website']],
+    ["mediaType" => "facebook","clicks" => $summaryMedia['facebook']],
+    ["mediaType" => "instagram","clicks" => $summaryMedia['instagram']]
 ];
 
 http_response_code(200);

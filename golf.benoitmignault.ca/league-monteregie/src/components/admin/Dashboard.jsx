@@ -4,10 +4,11 @@ import { MdLogout } from "react-icons/md";
 import { FaHouse } from "react-icons/fa6";
 import { BsCameraFill } from "react-icons/bs";
 import { FaArrowUp } from "react-icons/fa";
-import PlayersSection from "./PlayersSection";
-import EventsSection from "./EventsSection";
-import EventsPlanningSection from "./EventsPlanningSection";
-import ResultsSection from "./ResultsSection";
+import { LuChartColumnIncreasing } from "react-icons/lu";
+import Players from "./management/Players";
+import Events from "./management/Events";
+import EventPlanning from "./management/EventPlanning";
+import Results from "./management/Results";
 import { API_BASE_URL } from "../../config";
 import Footer from "../Footer";
 import '../../css/admin.css'
@@ -106,25 +107,35 @@ function Dashboard() {
         <div>
             <div className="admin-navbar">
                 <a href="#" className="admin-navbar-link"
-                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/");}}
+                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/"); }}
                 >
-                    <FaHouse />
-                    <span>Retour au site principal</span>
+                    <FaHouse /><span>Retour au site principal</span>
                 </a>
 
                 <a href="#" className="admin-navbar-link"
-                    onClick={(e) => {e.preventDefault(); handleLogout("/league-monteregie/admin/");}}
+                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/analytics/traffic"); }}
                 >
-                    <MdLogout />
-                    <span>Déconnexion</span>
+                    <LuChartColumnIncreasing /><span>Activité du site</span>
+                </a>
+
+                <a href="#" className="admin-navbar-link"
+                    onClick={(e) => { e.preventDefault(); navigate("/league-monteregie/admin/analytics/sponsor"); }}
+                >
+                    <LuChartColumnIncreasing /><span>Activité des partenaires</span>
+                </a>
+
+                <a href="#" className="admin-navbar-link"
+                    onClick={(e) => { e.preventDefault(); handleLogout("/league-monteregie/admin/"); }}
+                >
+                    <MdLogout /><span>Déconnexion</span>
                 </a>
             </div>
             <div className="dashboard-container">
                 <h1 className="gestion-title">Gestion de la Ligue de Golf Montérégie</h1>                
-                <ResultsSection eventChanged={eventChanged} setRefreshPlanning={setRefreshPlanning}/>
-                <EventsPlanningSection refreshPlanning={refreshPlanning} setEventChanged={setEventChanged} />                
-                <PlayersSection setRefreshPlanning={setRefreshPlanning}/>
-                <EventsSection setRefreshPlanning={setRefreshPlanning}/>
+                <Results eventChanged={eventChanged} setRefreshPlanning={setRefreshPlanning}/>
+                <EventPlanning refreshPlanning={refreshPlanning} setEventChanged={setEventChanged} />                
+                <Players setRefreshPlanning={setRefreshPlanning}/>
+                <Events setRefreshPlanning={setRefreshPlanning}/>
             </div>            
             <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
                 <FaArrowUp />

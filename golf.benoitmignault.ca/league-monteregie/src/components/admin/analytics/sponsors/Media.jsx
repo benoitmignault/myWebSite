@@ -122,7 +122,6 @@ function Media({ selectedPeriod }) {
                         <th>Nb clics</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     {media.map((oneMedia, index) => (
                         <tr key={index}>

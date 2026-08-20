@@ -634,24 +634,30 @@
 
     .sponsor-section,
     .sponsor-summary,
-    .sponsor-table {
-        width: 100%;
-        max-width: 100%;
+    .top-sponsors-table {
         box-sizing: border-box;
     }
 
-    .sponsor-table th,
-    .sponsor-table td {
+    .top-sponsors-table th,
+    .top-sponsors-table td {
         padding: 14px 10px;
     }
 
-    .sponsor-table th:first-child,
-    .sponsor-table td:first-child {
+    /* Position */
+    .top-sponsors-table th:first-child,
+    .top-sponsors-table td:first-child {
+        width: 25%;
+    }
+
+    /* Partenaire : prend tout l'espace disponible */
+    .top-sponsors-table th:nth-child(2),
+    .top-sponsors-table td:nth-child(2) {
         width: auto;
     }
 
-    .sponsor-table th:last-child,
-    .sponsor-table td:last-child {
-        width: auto;
-    }
+    /* Nb clics */
+    .top-sponsors-table th:last-child,
+    .top-sponsors-table td:last-child {
+        width: 25%;
+    }    
 }

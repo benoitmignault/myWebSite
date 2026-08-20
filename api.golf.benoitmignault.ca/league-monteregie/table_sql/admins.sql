@@ -41,9 +41,8 @@ CREATE TABLE `admins` (
 -- Déchargement des données de la table `admins`
 --
 
-INSERT INTO `admins` (`id`, `username`, `password_hash`, `role`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 'benoit_admin', '$2y$10$IK1QDuJ/n3zDFW2NKWa3WOOvPzCwunxTXR9OYIjpP2t.Tsg.LILe.', 'admin', '2026-08-18 20:18:10', '2026-06-04 04:55:29', '2026-08-18 20:18:10'),
-(2, 'nicolas_admin', '$2y$10$4EMbfL9qhBtzTcxYQ74sr.lIdnQuCIlIGfp7.1CIbUWCN6dFknaGa', 'admin', NULL, '2026-06-04 04:55:29', '2026-06-04 04:55:29');
+-- Données supprimées : ne pas versionner de comptes administrateurs réels.
+-- (Conserver uniquement la structure de table et créer les comptes via un script/seeder hors dépôt)
 
 --
 -- Index pour les tables déchargées

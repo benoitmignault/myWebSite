@@ -110,7 +110,10 @@ function Media({ selectedPeriod }) {
     }
 
     return (
-        <div className="sponsor-media">
+        <div className="sponsor-section sponsor-media">
+            <h2 className="sponsor-section-subtitle">
+                Répartition par média
+            </h2>
             <table className="sponsor-media-table">
                 <thead>
                     <tr>

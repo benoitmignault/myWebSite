@@ -130,16 +130,13 @@ function SponsorAnalytics() {
                 </a>
             </div>
             <div className="dashboard-container">
-
-                <h1 className="gestion-title">Activité des partenaires</h1>
+                <h1 className="sponsor-section-title">
+                    Activité des partenaires
+                </h1>
                 <PeriodSelector selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} />
                 <Summary selectedPeriod={selectedPeriod} />
                 <Media selectedPeriod={selectedPeriod} />
-
-
-
-
-                
+                <TopSponsors selectedPeriod={selectedPeriod} />
             </div>
             <button className="scroll-top dashboard" onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}> 
                 <FaArrowUp />

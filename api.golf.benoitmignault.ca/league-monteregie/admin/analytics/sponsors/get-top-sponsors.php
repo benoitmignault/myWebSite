@@ -101,7 +101,6 @@ $topSponsors = [
     ["sponsor_name" => "Station GO", "clicks" => 0],
     ["sponsor_name" => "Golf en Montérégie", "clicks" => 0],
     ["sponsor_name" => "Toucani", "clicks" => 0],
-    ["sponsor_name" => "FlexiGolf", "clicks" => 0],
     ["sponsor_name" => "Mr Tee", "clicks" => 0]
 ];
 

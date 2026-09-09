@@ -48,15 +48,6 @@ function Sponsors() {
             website: null,
             facebook: null,
             instagram: null
-        },
-        {
-            id: 6,
-            name: "FlexiGolf",
-            logo: "./images/logos/flexi-golf.png",
-            logoClass: "logo-plus-gros",
-            website: "https://flexigolf.ca/",
-            facebook: "https://www.facebook.com/FlexiGolfQc",
-            instagram: "https://www.instagram.com/flexigolf/"
         }
     ];
 
